@@ -1,6 +1,6 @@
 # Jiggle
 
-**This project is barely started. Come back another day.**
+**This project is barely started. Please come back another day.**
 
 A combination of [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) and [WebGL](https://github.com/djalbat/Easy).
 
