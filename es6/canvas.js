@@ -1,5 +1,7 @@
 'use strict';
 
+const mat4 = require('gl-mat4');
+
 const domUtilities = require('./utilities/dom');
 
 const { domElementFromSelector } = domUtilities;
@@ -30,6 +32,10 @@ class Canvas {
     const domElement = domElementFromSelector(selector),
           context = domElement.getContext('webgl');
 
+    if (!context) {
+      throw new Error(`Unable to initialise WebGL.`);
+    }
+
     this.context = context;
 
     this.domElement = domElement;
@@ -39,17 +45,73 @@ class Canvas {
     return this.context;
   }
   
-  getClientWidth() { return this.domElement.clientWidth; }
+  render(buffer, shaderProgram, projection, modelView) {
+    const projectionMatrix = projection.getMatrix(),
+          modelViewMatrix = modelView.getMatrix(),
+          vertexPositionAttributeLocation = this.getAttributeLocation(shaderProgram, 'aVertexPosition'),
+          projectionMatrixUniformLocation = this.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
+          modelViewMatrixUniformLocation = this.getUniformLocation(shaderProgram, 'uModelViewMatrix');
+
+    this.enableDepthTesting();
+    this.enableDepthFunction();
+
+    this.clearColour();
+    this.clearDepth();
+    this.clearColourBuffer();
+    this.clearDepthBuffer();
+
+    this.bindBuffer(vertexPositionAttributeLocation, buffer);
+    
+    this.useProgram(shaderProgram);
+
+    this.applyMatrix(projectionMatrixUniformLocation, projectionMatrix);
+    this.applyMatrix(modelViewMatrixUniformLocation, modelViewMatrix);
+  }
+
+  applyMatrix(uniformLocation, matrix) {
+    this.context.uniformMatrix4fv(uniformLocation, false, matrix);
+  }
   
-  getClientHeight() { return this.domElement.clientHeight; }
-  
+  draw() {
+    const offset = 0,
+          vertexCount = 4;
+    
+    this.context.drawArrays(this.context.TRIANGLE_STRIP, offset, vertexCount);
+  }
+
+  bindBuffer(vertexPositionAttributeLocation, buffer) {
+    const numComponents = 2,
+          type = this.context.FLOAT,
+          normalize = false,
+          stride = 0,
+          offset = 0;
+
+    this.context.bindBuffer(this.context.ARRAY_BUFFER, buffer);
+    this.context.vertexAttribPointer(vertexPositionAttributeLocation, numComponents, type, normalize, stride, offset);
+    this.context.enableVertexAttribArray(vertexPositionAttributeLocation);
+  }
+
+  getUniformLocation(program, name) { return this.context.getUniformLocation(program, name); }
+
+  getAttributeLocation(program, name) { return this.context.getAttribLocation(program, name); }
+
+  clearColour(red = defaultRed, green = defaultGreen, blue = defaultBlue, alpha = defaultAlpha) { this.context.clearColor(red, green, blue, alpha); }
+
+  clearDepth(depth = defaultDepth) { this.context.clearDepth(depth); }
+
+  enableDepthTesting() { this.context.enable(this.context.DEPTH_TEST); }
+
+  enableDepthFunction() { this.context.depthFunc(this.context.LEQUAL); }
+
+  useProgram(program) { this.context.useProgram(program); }
+
   clearDepthBuffer() { this.context.clear(this.context.DEPTH_BUFFER_BIT); }
 
   clearColourBuffer() { this.context.clear(this.context.COLOR_BUFFER_BIT); }
 
-  clearColour(red = defaultRed, green = defaultGreen, blue = defaultBlue, alpha = defaultAlpha) { this.context.clearColor(red, green, blue, alpha); }
-  
-  clearDepth(depth = defaultDepth) { this.context.clearDepth(depth); }
+  getClientWidth() { return this.domElement.clientWidth; }
+
+  getClientHeight() { return this.domElement.clientHeight; }
 
   createShader(type, shaderSource) {
     const shader = this.context.createShader(type);
@@ -106,56 +168,15 @@ class Canvas {
     const ARRAY_BUFFER_TYPE = this.context.ARRAY_BUFFER, ///
           STATIC_DRAW = this.context.STATIC_DRAW,
           buffer = this.context.createBuffer(),
-          verticesFloat32Array = new Float32Array(data);
+          float32DataArray = new Float32Array(data);
 
     this.context.bindBuffer(ARRAY_BUFFER_TYPE, buffer);
 
-    this.context.bufferData(ARRAY_BUFFER_TYPE, verticesFloat32Array, STATIC_DRAW);
-    
+    this.context.bufferData(ARRAY_BUFFER_TYPE, float32DataArray, STATIC_DRAW);
+
     return buffer;
-  }
-  
-  enableDepthTesting() { this.context.enable(this.context.DEPTH_TEST); }
-  
-  enableDepthFunction() { this.context.depthFunc(this.context.LEQUAL); }
-
-  getProgramUniformLocation(program, name) { return this.context.getUniformLocation(program, name); }
-
-  getProgramAttributeLocation(program, name) { return this.context.getAttribLocation(program, name); }
-  
-  useProgram(program) { this.context.useProgram(program); }
-  
-  usePerspective(location, perspective) { 
-    const flag = false, ///
-          matrix = perspective.getMatrix();
-    
-    this.context.uniformMatrix4fv(location, flag, matrix); 
-  }
-
-  useModelView(location, modelView) {
-    const flag = false, ///
-          matrix = modelView.getMatrix();
-
-    this.context.uniformMatrix4fv(location, flag, matrix);
-  }
-
-  useBuffer(location, buffer) {
-    const numComponents = 2,
-          type = this.context.FLOAT,  ///
-          normalize = false,
-          stride = 0,
-          offset = 0;
-
-    this.context.bindBuffer(this.context.ARRAY_BUFFER, buffer);
-
-    this.context.vertexAttribPointer(location, numComponents, type, normalize, stride, offset);
-
-    this.context.enableVertexAttribArray(location);
-  }
-
-  render(offset, vertexCount) {
-    this.context.drawArrays(this.context.TRIANGLE_STRIP, offset, vertexCount);
   }
 }
 
 module.exports = Canvas;
+

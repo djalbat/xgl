@@ -6,11 +6,11 @@ const defaultFieldOfView = 45 * Math.PI / 180,
       defaultZNear = 0.1,
       defaultZFar = 100.0;
 
-class Perspective {
+class Projection {
   constructor(clientWidth, clientHeight, fieldOfView = defaultFieldOfView, zNear = defaultZNear, zFar = defaultZFar) {
-    this.matrix = mat4.create();
-    
     const aspectRatio = clientWidth / clientHeight;
+
+    this.matrix = mat4.create();
 
     mat4.perspective(this.matrix, fieldOfView, aspectRatio, zNear, zFar);
   }
@@ -20,4 +20,4 @@ class Perspective {
   }
 }
 
-module.exports = Perspective;
+module.exports = Projection;

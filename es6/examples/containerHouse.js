@@ -2,7 +2,7 @@
 
 const Canvas = require('../canvas'),
       ModelView = require('../modelView'),
-      Perspective = require('../perspective');
+      Perspective = require('../projection');
 
 const containerHouse = () => {
   const canvas = new Canvas(),
