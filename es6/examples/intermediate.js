@@ -71,34 +71,20 @@ const intermediate = () => {
   const image = new Image();
 
   image.onload = function() {
-    const gl = canvas.getContext();
+    const target = canvas.TEXTURE0_TARGET,
+          uSamplerUniformLocationIntegerValue = 0,
+          uSamplerUniformLocation = canvas.getUniformLocation(shaderProgram, 'uSampler');
 
-    const texture = gl.createTexture();
+    canvas.createTexture(image);
 
-    gl.bindTexture(gl.TEXTURE_2D, texture);
+    canvas.activateTexture(target);
 
-    const internalFormat = gl.RGBA;
-    const level = 0;
-    const srcFormat = gl.RGBA;
-    const srcType = gl.UNSIGNED_BYTE;
-
-    gl.texImage2D(gl.TEXTURE_2D, level, internalFormat, srcFormat, srcType, image);
-
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-
-    gl.activeTexture(gl.TEXTURE0);
-
-    gl.bindTexture(gl.TEXTURE_2D, texture);
-
-    gl.uniform1i(canvas.getUniformLocation(shaderProgram, 'uSampler'), 0);
+    canvas.setUniformLocationIntegerValue(uSamplerUniformLocation, uSamplerUniformLocationIntegerValue);
 
     requestAnimationFrame(render);
-
   };
 
-  image.src = 'texture/cubetexture.png';
+  image.src = 'texture/bricks.jpg';
 
   function render(time) {
     if (initialTime === null) {
@@ -122,35 +108,35 @@ module.exports = intermediate;
 
 function createAndBindVertexPositionBuffer(canvas, shaderProgram) {
   const vertexPositionData = [
+          -1.0, -1.0, +1.0,
+          +1.0, -1.0, +1.0,
           +1.0, +1.0, +1.0,
           -1.0, +1.0, +1.0,
-          +1.0, -1.0, +1.0,
-          -1.0, -1.0, +1.0,
 
-          +1.0, +1.0, -1.0,
-          -1.0, +1.0, -1.0,
-          +1.0, -1.0, -1.0,
           -1.0, -1.0, -1.0,
-
-          +1.0, +1.0, +1.0,
-          +1.0, -1.0, +1.0,
+          -1.0, +1.0, -1.0,
           +1.0, +1.0, -1.0,
           +1.0, -1.0, -1.0,
 
-          -1.0, +1.0, +1.0,
-          -1.0, -1.0, +1.0,
           -1.0, +1.0, -1.0,
+          -1.0, +1.0, +1.0,
+          +1.0, +1.0, +1.0,
+          +1.0, +1.0, -1.0,
+
           -1.0, -1.0, -1.0,
-
-          +1.0, +1.0, +1.0,
-          -1.0, +1.0, +1.0,
-          +1.0, +1.0, -1.0,
-          -1.0, +1.0, -1.0,
-
+          +1.0, -1.0, -1.0,
           +1.0, -1.0, +1.0,
           -1.0, -1.0, +1.0,
+
           +1.0, -1.0, -1.0,
-          -1.0, -1.0, -1.0
+          +1.0, +1.0, -1.0,
+          +1.0, +1.0, +1.0,
+          +1.0, -1.0, +1.0,
+
+          -1.0, -1.0, -1.0,
+          -1.0, -1.0, +1.0,
+          -1.0, +1.0, +1.0,
+          -1.0, +1.0, -1.0
         ],
         vertexPositionBuffer = canvas.createBuffer(vertexPositionData),
         vertexPositionAttributeLocation = canvas.getAttributeLocation(shaderProgram, 'aVertexPosition'),
@@ -244,18 +230,23 @@ function createAndBindTextureCoordinateBuffer(canvas, shaderProgram) {
 
 function createVertexIndexElementBuffer(canvas) {
   const vertexIndexData = [
-          0,  1,  2,
-          1,  2,  3,
-          4,  5,  6,
-          5,  6,  7,
-          8,  9, 10,
-          9, 10, 11,
+           0,  1,  2,
+           0,  2,  3,
+
+           4,  5,  6,
+           4,  6,  7,
+
+           8,  9, 10,
+           8, 10, 11,
+
           12, 13, 14,
-          13, 14, 15,
+          12, 14, 15,
+
           16, 17, 18,
-          17, 18, 19,
+          16, 18, 19,
+
           20, 21, 22,
-          21, 22, 23
+          20, 22, 23
         ],
         vertexIndexElementBuffer = canvas.createElementBuffer(vertexIndexData),
         vertexIndexDataLength = vertexIndexData.length,

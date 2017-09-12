@@ -47,6 +47,7 @@ class Canvas {
     this.FRAGMENT_SHADER_TYPE = this.context.FRAGMENT_SHADER; ///
     this.COLOR_BUFFER_BIT_MASK = this.context.COLOR_BUFFER_BIT; ///
     this.DEPTH_BUFFER_BIT_MASK = this.context.DEPTH_BUFFER_BIT; ///
+    this.TEXTURE0_TARGET = this.context.TEXTURE0; ///
     this.TEXTURE_2D_TARGET = this.context.TEXTURE_2D; ///
     this.ARRAY_BUFFER_TARGET = this.context.ARRAY_BUFFER;  ///
     this.ELEMENT_ARRAY_BUFFER_TARGET = this.context.ELEMENT_ARRAY_BUFFER;  ///
@@ -63,6 +64,8 @@ class Canvas {
   getUniformLocation(program, name) { return this.context.getUniformLocation(program, name); }
 
   getAttributeLocation(program, name) { return this.context.getAttribLocation(program, name); }
+  
+  setUniformLocationIntegerValue(uniformLocation, integerValue) { this.context.uniform1i(uniformLocation, integerValue); }
 
   useProgram(program) { this.context.useProgram(program); }
   
