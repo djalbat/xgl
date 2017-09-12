@@ -6,7 +6,7 @@ const defaultXOffset = +0.0,
       defaultYOffset = +0.0,
       defaultZOffset = -6.0;
 
-class ModelView {
+class Position {
   constructor(xOffset = defaultXOffset, yOffset = defaultYOffset, zOffset = defaultZOffset) {
     this.matrix = mat4.create();
 
@@ -24,4 +24,4 @@ class ModelView {
   }
 }
 
-module.exports = ModelView;
+module.exports = Position;

@@ -1,8 +1,8 @@
 'use strict';
 
 const Canvas = require('../canvas'),
-      ModelView = require('../modelView'),
-      Perspective = require('../projection');
+      ModelView = require('../position'),
+      Perspective = require('../perspective');
 
 const containerHouse = () => {
   const canvas = new Canvas(),

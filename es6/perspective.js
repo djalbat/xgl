@@ -6,7 +6,7 @@ const defaultFieldOfView = 45 * Math.PI / 180,
       defaultZNear = 0.1,
       defaultZFar = 100.0;
 
-class Projection {
+class Perspective {
   constructor(clientWidth, clientHeight, fieldOfView = defaultFieldOfView, zNear = defaultZNear, zFar = defaultZFar) {
     const aspectRatio = clientWidth / clientHeight;
 
@@ -20,4 +20,4 @@ class Projection {
   }
 }
 
-module.exports = Projection;
+module.exports = Perspective;

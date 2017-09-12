@@ -6,6 +6,7 @@ const domUtilities = require('./utilities/dom'),
       bufferMixin = require('./mixin/buffer'),
       shaderMixin = require('./mixin/shader'),
       colourMixin = require('./mixin/colour'),
+      matrixMixin = require('./mixin/matrix'),
       depthMixin = require('./mixin/depth');
 
 const { domElementFromSelector } = domUtilities;
@@ -56,36 +57,24 @@ class Canvas {
 
   useProgram(program) { this.context.useProgram(program); }
 
-  render(shaderProgram, projection, modelView, elapsedTime) {
-    const projectionMatrix = projection.getMatrix(),
-          modelViewMatrix = modelView.getMatrix(),
-          projectionMatrixUniformLocation = this.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
-          modelViewMatrixUniformLocation = this.getUniformLocation(shaderProgram, 'uModelViewMatrix');
+  render(rotation, position, perspective, shaderProgram) {
+    const rotationMatrix = rotation.getMatrix(),
+          positionMatrix = position.getMatrix(),
+          perspectiveMatrix = perspective.getMatrix(),
+          rotationMatrixUniformLocation = this.getUniformLocation(shaderProgram, 'uRotationMatrix'),
+          positionMatrixUniformLocation = this.getUniformLocation(shaderProgram, 'uPositionMatrix'),
+          perspectiveMatrixUniformLocation = this.getUniformLocation(shaderProgram, 'uPerspectiveMatrix');
 
-    this.clearColour();
     this.clearDepth();
-    this.clearColourBuffer();
+    this.clearColour();
     this.clearDepthBuffer();
+    this.clearColourBuffer();
 
-    const rotation = elapsedTime / 1000;
-
-    const rotatedModelViewMatrix = mat4.clone(modelViewMatrix),
-          xAxisVectorArray = [1, 0, 0],
-          yAxisVectorArray = [0, 1, 0];
-
-    mat4.rotate(rotatedModelViewMatrix, rotatedModelViewMatrix, rotation, xAxisVectorArray);
-    mat4.rotate(rotatedModelViewMatrix, rotatedModelViewMatrix, rotation, yAxisVectorArray);
-
-    this.applyMatrix(projectionMatrixUniformLocation, projectionMatrix);
-    this.applyMatrix(modelViewMatrixUniformLocation, rotatedModelViewMatrix);
+    this.applyMatrix(rotationMatrixUniformLocation, rotationMatrix);
+    this.applyMatrix(positionMatrixUniformLocation, positionMatrix);
+    this.applyMatrix(perspectiveMatrixUniformLocation, perspectiveMatrix);
   }
 
-  applyMatrix(uniformLocation, matrix) {
-    const transpose = false;  ///
-
-    this.context.uniformMatrix4fv(uniformLocation, transpose, matrix);
-  }
-  
   drawElements(count, offset = defaultOffset) {
     const mode = this.TRIANGLES_MODE,
           type = this.UNSIGNED_SHORT_TYPE;
@@ -97,6 +86,7 @@ class Canvas {
 Object.assign(Canvas.prototype, bufferMixin);
 Object.assign(Canvas.prototype, shaderMixin);
 Object.assign(Canvas.prototype, colourMixin);
+Object.assign(Canvas.prototype, matrixMixin);
 Object.assign(Canvas.prototype, depthMixin);
 
 module.exports = Canvas;

@@ -1,8 +1,9 @@
 'use strict';
 
 const Canvas = require('../canvas'),
-      ModelView = require('../modelView'),
-      Projection = require('../projection');
+      Rotation = require('../rotation'),
+      Position = require('../position'),
+      Perspective = require('../perspective');
 
 const intermediate = () => {
   const canvas = new Canvas(),
@@ -16,13 +17,14 @@ const intermediate = () => {
           attribute vec4 aVertexPosition;
           attribute vec4 aVertexColour;
           
-          uniform mat4 uModelViewMatrix;
-          uniform mat4 uProjectionMatrix;
+          uniform mat4 uRotationMatrix;
+          uniform mat4 uPositionMatrix;
+          uniform mat4 uPerspectiveMatrix;
           
           varying lowp vec4 vColour;
       
           void main() {
-            gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+            gl_Position = uPerspectiveMatrix* uPositionMatrix * uRotationMatrix * aVertexPosition;
             vColour = aVertexColour;
           }
         `,
@@ -36,8 +38,8 @@ const intermediate = () => {
         shaderProgram = canvas.createShaderProgram(vertexShaderSource, fragmentShaderSource),
         clientWidth = canvas.getClientWidth(),
         clientHeight = canvas.getClientHeight(),
-        projection = new Projection(clientWidth, clientHeight),
-        modelView = new ModelView();
+        position = new Position(),
+        perspective = new Perspective(clientWidth, clientHeight);
 
   createAndBindVertexPositionBuffer(canvas, shaderProgram);
 
@@ -57,9 +59,12 @@ const intermediate = () => {
       initialTime = time;
     }
 
-    const elapsedTime = time - initialTime;
+    const elapsedTime = time - initialTime,
+          xAngle = elapsedTime / 1000,
+          yAngle = elapsedTime / 1000,
+          rotation = new Rotation(xAngle, yAngle);
 
-    canvas.render(shaderProgram, projection, modelView, elapsedTime);
+    canvas.render(rotation, position, perspective, shaderProgram);
 
     canvas.drawElements(count);
 
