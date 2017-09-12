@@ -1,6 +1,7 @@
 'use strict';
 
 const Canvas = require('../canvas'),
+      Normal = require('../normal'),
       Rotation = require('../rotation'),
       Position = require('../position'),
       Perspective = require('../perspective');
@@ -17,19 +18,31 @@ const intermediate = () => {
   
           attribute vec4 aVertexPosition;
           attribute vec4 aVertexColour;
+          attribute vec3 aVertexNormal;
           attribute vec2 aTextureCoordinate;
           
+          uniform mat4 uNormalMatrix;
           uniform mat4 uRotationMatrix;
           uniform mat4 uPositionMatrix;
           uniform mat4 uPerspectiveMatrix;
           
           varying lowp vec4 vColour;
           varying highp vec2 vTextureCoordinate;
-      
+          varying highp vec3 vLighting;
+          
           void main() {
             gl_Position = uPerspectiveMatrix * uPositionMatrix * uRotationMatrix * aVertexPosition;
             vColour = aVertexColour;
             vTextureCoordinate = aTextureCoordinate;
+            
+            highp vec3 ambientLight = vec3(0.3, 0.3, 0.3);
+            highp vec3 directionalLightColour = vec3(1, 1, 1);
+            highp vec3 directionalVector = normalize(vec3(0.85, 0.8, 0.75));
+            
+            highp vec4 transformedNormal = uNormalMatrix * vec4(aVertexNormal, 1.0);            
+            highp float directional = max(dot(transformedNormal.xyz, directionalVector), 0.0);
+            
+            vLighting = ambientLight + (directionalLightColour * directional);
           }
           
         `,
@@ -37,26 +50,34 @@ const intermediate = () => {
         
           varying lowp vec4 vColour;
           varying highp vec2 vTextureCoordinate;
+          varying highp vec3 vLighting;
           
           uniform sampler2D uSampler;
 
           void main() {
+            highp vec4 texelColour = texture2D(uSampler, vTextureCoordinate);
+            
             // gl_FragColor = vColour;
-            gl_FragColor = texture2D(uSampler, vTextureCoordinate);
+            // gl_FragColor = texture2D(uSampler, vTextureCoordinate);
+            
+            gl_FragColor = vec4(texelColour.rgb * vLighting, texelColour.a);
           }
           
         `,
         shaderProgram = canvas.createShaderProgram(vertexShaderSource, fragmentShaderSource),
         clientWidth = canvas.getClientWidth(),
         clientHeight = canvas.getClientHeight(),
-        position = new Position(),
-        perspective = new Perspective(clientWidth, clientHeight);
+        zCoordinate = -5, ///
+        position = Position.fromZCoordinate(zCoordinate),
+        perspective = Perspective.fromClientWidthAndClientHeight(clientWidth, clientHeight);
 
   createAndBindVertexPositionBuffer(canvas, shaderProgram);
 
   // createAndBindVertexColourBuffer(canvas, shaderProgram);
 
   createAndBindTextureCoordinateBuffer(canvas, shaderProgram);
+  
+  createAndBindVertexNormalBuffer(canvas, shaderProgram);
 
   const count = createVertexIndexElementBuffer(canvas);
 
@@ -93,9 +114,10 @@ const intermediate = () => {
     const elapsedTime = time - initialTime,
           xAngle = elapsedTime / 1000,
           yAngle = elapsedTime / 1000,
-          rotation = new Rotation(xAngle, yAngle);
+          rotation = Rotation.fromXAngleAndYAngle(xAngle, yAngle),
+          normal = Normal.fromRotation(rotation);
 
-    canvas.render(rotation, position, perspective, shaderProgram);
+    canvas.render(normal, rotation, position, perspective, shaderProgram);
 
     canvas.drawElements(count);
 
@@ -225,6 +247,45 @@ function createAndBindTextureCoordinateBuffer(canvas, shaderProgram) {
         textureCoordinateComponents = 2;
 
   canvas.bindBuffer(textureCoordinateBuffer, textureCoordinateAttributeLocation, textureCoordinateComponents);
+}
+
+function createAndBindVertexNormalBuffer(canvas, shaderProgram) {
+  const vertexNormalData = [
+           0.0,  0.0, +1.0,
+           0.0,  0.0, +1.0,
+           0.0,  0.0, +1.0,
+           0.0,  0.0, +1.0,
+
+           0.0,  0.0, -1.0,
+           0.0,  0.0, -1.0,
+           0.0,  0.0, -1.0,
+           0.0,  0.0, -1.0,
+
+           0.0, +1.0,  0.0,
+           0.0, +1.0,  0.0,
+           0.0, +1.0,  0.0,
+           0.0, +1.0,  0.0,
+
+           0.0, -1.0,  0.0,
+           0.0, -1.0,  0.0,
+           0.0, -1.0,  0.0,
+           0.0, -1.0,  0.0,
+
+          +1.0,  0.0,  0.0,
+          +1.0,  0.0,  0.0,
+          +1.0,  0.0,  0.0,
+          +1.0,  0.0,  0.0,
+
+          -1.0,  0.0,  0.0,
+          -1.0,  0.0,  0.0,
+          -1.0,  0.0,  0.0,
+          -1.0,  0.0,  0.0
+        ],
+        vertexNormalBuffer = canvas.createBuffer(vertexNormalData),
+        vertexNormalAttributeLocation = canvas.getAttributeLocation(shaderProgram, 'aVertexNormal'),
+        vertexNormalComponents = 3;
+
+  canvas.bindBuffer(vertexNormalBuffer, vertexNormalAttributeLocation, vertexNormalComponents);
 }
 
 function createVertexIndexElementBuffer(canvas) {

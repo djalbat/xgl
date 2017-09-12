@@ -1,7 +1,5 @@
 'use strict';
 
-const mat4 = require('gl-mat4');  ///
-
 const domUtilities = require('./utilities/dom'),
       textureMixin = require('./mixin/texture'),
       bufferMixin = require('./mixin/buffer'),
@@ -69,10 +67,12 @@ class Canvas {
 
   useProgram(program) { this.context.useProgram(program); }
   
-  render(rotation, position, perspective, shaderProgram) {
-    const rotationMatrix = rotation.getMatrix(),
+  render(normal, rotation, position, perspective, shaderProgram) {
+    const normalMatrix = normal.getMatrix(),
+          rotationMatrix = rotation.getMatrix(),
           positionMatrix = position.getMatrix(),
           perspectiveMatrix = perspective.getMatrix(),
+          normalMatrixUniformLocation = this.getUniformLocation(shaderProgram, 'uNormalMatrix'),
           rotationMatrixUniformLocation = this.getUniformLocation(shaderProgram, 'uRotationMatrix'),
           positionMatrixUniformLocation = this.getUniformLocation(shaderProgram, 'uPositionMatrix'),
           perspectiveMatrixUniformLocation = this.getUniformLocation(shaderProgram, 'uPerspectiveMatrix');
@@ -82,6 +82,7 @@ class Canvas {
     this.clearDepthBuffer();
     this.clearColourBuffer();
 
+    this.applyMatrix(normalMatrixUniformLocation, normalMatrix);
     this.applyMatrix(rotationMatrixUniformLocation, rotationMatrix);
     this.applyMatrix(positionMatrixUniformLocation, positionMatrix);
     this.applyMatrix(perspectiveMatrixUniformLocation, perspectiveMatrix);

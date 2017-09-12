@@ -7,16 +7,26 @@ const defaultFieldOfView = 45 * Math.PI / 180,
       defaultZFar = 100.0;
 
 class Perspective {
-  constructor(clientWidth, clientHeight, fieldOfView = defaultFieldOfView, zNear = defaultZNear, zFar = defaultZFar) {
-    const aspectRatio = clientWidth / clientHeight;
-
-    this.matrix = mat4.create();
-
-    mat4.perspective(this.matrix, fieldOfView, aspectRatio, zNear, zFar);
+  constructor(matrix) {
+    this.matrix = matrix;
   }
   
   getMatrix() {
     return this.matrix;
+  }
+
+  static fromClientWidthAndClientHeight(clientWidth, clientHeight) {
+    const aspectRatio = clientWidth / clientHeight,
+          fieldOfView = defaultFieldOfView,
+          zNear = defaultZNear,
+          zFar = defaultZFar,
+          matrix = mat4.create();
+
+    mat4.perspective(matrix, fieldOfView, aspectRatio, zNear, zFar);
+
+    const perspective = new Perspective(matrix);
+
+    return perspective;
   }
 }
 

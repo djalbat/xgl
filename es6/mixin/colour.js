@@ -1,11 +1,11 @@
 'use strict';
 
-const defaultRed = 0.0,
-      defaultBlue = 0.0,
-      defaultGreen = 0.0,
-      defaultAlpha = 1.0;
+const defaultR = 0.0,
+      defaultG = 0.0,
+      defaultB = 0.0,
+      defaultA = 1.0;
 
-function clearColour(red = defaultRed, green = defaultGreen, blue = defaultBlue, alpha = defaultAlpha) { this.context.clearColor(red, green, blue, alpha); }
+function clearColour(r = defaultR, g = defaultG, b = defaultB, a = defaultA) { this.context.clearColor(r, g, b, a); }
 
 function clearColourBuffer() {
   const mask = this.COLOR_BUFFER_BIT_MASK;
