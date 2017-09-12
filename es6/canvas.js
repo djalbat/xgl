@@ -56,7 +56,7 @@ class Canvas {
   getAttributeLocation(program, name) { return this.context.getAttribLocation(program, name); }
 
   useProgram(program) { this.context.useProgram(program); }
-
+  
   render(rotation, position, perspective, shaderProgram) {
     const rotationMatrix = rotation.getMatrix(),
           positionMatrix = position.getMatrix(),

@@ -82,8 +82,29 @@ function createAndBindVertexPositionBuffer(canvas, shaderProgram) {
           -1.0, +1.0, +1.0,
           +1.0, -1.0, +1.0,
           -1.0, -1.0, +1.0,
+
           +1.0, +1.0, -1.0,
           -1.0, +1.0, -1.0,
+          +1.0, -1.0, -1.0,
+          -1.0, -1.0, -1.0,
+
+          +1.0, +1.0, +1.0,
+          +1.0, -1.0, +1.0,
+          +1.0, +1.0, -1.0,
+          +1.0, -1.0, -1.0,
+
+          -1.0, +1.0, +1.0,
+          -1.0, -1.0, +1.0,
+          -1.0, +1.0, -1.0,
+          -1.0, -1.0, -1.0,
+
+          +1.0, +1.0, +1.0,
+          -1.0, +1.0, +1.0,
+          +1.0, +1.0, -1.0,
+          -1.0, +1.0, -1.0,
+
+          +1.0, -1.0, +1.0,
+          -1.0, -1.0, +1.0,
           +1.0, -1.0, -1.0,
           -1.0, -1.0, -1.0
         ],
@@ -105,10 +126,31 @@ function createAndBindVertexColourBuffer(canvas, shaderProgram) {
           1.0,  0.0,  0.0,  1.0,
           1.0,  0.0,  0.0,  1.0,
           1.0,  0.0,  0.0,  1.0,
+
+          0.0,  1.0,  1.0,  1.0,
+          0.0,  1.0,  1.0,  1.0,
+          0.0,  1.0,  1.0,  1.0,
+          0.0,  1.0,  1.0,  1.0,
+
           0.0,  1.0,  0.0,  1.0,
           0.0,  1.0,  0.0,  1.0,
           0.0,  1.0,  0.0,  1.0,
-          0.0,  1.0,  0.0,  1.0
+          0.0,  1.0,  0.0,  1.0,
+
+          1.0,  0.0,  1.0,  1.0,
+          1.0,  0.0,  1.0,  1.0,
+          1.0,  0.0,  1.0,  1.0,
+          1.0,  0.0,  1.0,  1.0,
+
+          0.0,  0.0,  1.0,  1.0,
+          0.0,  0.0,  1.0,  1.0,
+          0.0,  0.0,  1.0,  1.0,
+          0.0,  0.0,  1.0,  1.0,
+
+          1.0,  1.0,  0.0,  1.0,
+          1.0,  1.0,  0.0,  1.0,
+          1.0,  1.0,  0.0,  1.0,
+          1.0,  1.0,  0.0,  1.0
         ],
         vertexColourBuffer = canvas.createBuffer(vertexColourData),
         vertexColourAttributeLocation = canvas.getAttributeLocation(shaderProgram, 'aVertexColour'),
@@ -119,10 +161,18 @@ function createAndBindVertexColourBuffer(canvas, shaderProgram) {
 
 function createVertexIndexElementBuffer(canvas) {
   const vertexIndexData = [
-          0, 1, 2,
-          1, 2, 3,
-          4, 5, 6,
-          5, 6, 7
+           0,  1,  2,
+           1,  2,  3,
+           4,  5,  6,
+           5,  6,  7,
+           8,  9, 10,
+           9, 10, 11,
+          12, 13, 14,
+          13, 14, 15,
+          16, 17, 18,
+          17, 18, 19,
+          20, 21, 22,
+          21, 22, 23
         ],
         vertexIndexElementBuffer = canvas.createElementBuffer(vertexIndexData),
         vertexIndexDataLength = vertexIndexData.length,
