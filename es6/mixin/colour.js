@@ -7,7 +7,11 @@ const defaultRed = 0.0,
 
 function clearColour(red = defaultRed, green = defaultGreen, blue = defaultBlue, alpha = defaultAlpha) { this.context.clearColor(red, green, blue, alpha); }
 
-function clearColourBuffer() { this.context.clear(this.context.COLOR_BUFFER_BIT); }
+function clearColourBuffer() {
+  const mask = this.COLOR_BUFFER_BIT_MASK;
+
+  this.context.clear(mask);
+}
 
 const colourMixin = {
   clearColour: clearColour,

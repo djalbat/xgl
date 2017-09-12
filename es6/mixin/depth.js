@@ -4,11 +4,23 @@ const defaultDepth = 1.0;
 
 function clearDepth(depth = defaultDepth) { this.context.clearDepth(depth); }
 
-function clearDepthBuffer() { this.context.clear(this.context.DEPTH_BUFFER_BIT); }
+function clearDepthBuffer() {
+  const mask = this.DEPTH_BUFFER_BIT_MASK;
 
-function enableDepthTesting() { this.context.enable(this.context.DEPTH_TEST); }
+  this.context.clear(mask);
+}
 
-function enableDepthFunction() { this.context.depthFunc(this.context.LEQUAL); }
+function enableDepthTesting() {
+  const cap = this.DEPTH_TEST_CAP;
+
+  this.context.enable(cap);
+}
+
+function enableDepthFunction() {
+  const func = this.LEQUAL_FUNCTION;
+  
+  this.context.depthFunc(func); 
+}
 
 const depthMixin = {
   clearDepth: clearDepth,

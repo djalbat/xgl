@@ -1,13 +1,14 @@
 'use strict';
 
 function createShader(type, shaderSource) {
-  const shader = this.context.createShader(type);
+  const shader = this.context.createShader(type),
+        pname = this.COMPILE_STATUS_PNAME;
 
   this.context.shaderSource(shader, shaderSource);
 
   this.context.compileShader(shader);
 
-  const compileStatus = this.context.getShaderParameter(shader, this.context.COMPILE_STATUS);
+  const compileStatus = this.context.getShaderParameter(shader, pname);
 
   if (!compileStatus) {
     throw new Error(`Unable to create the shader.`);
@@ -17,15 +18,15 @@ function createShader(type, shaderSource) {
 }
 
 function createVertexShader(vertexShaderSource) {
-  const VERTEX_SHADER_TYPE = this.context.VERTEX_SHADER,  ///
-        vertexShader = this.createShader(VERTEX_SHADER_TYPE, vertexShaderSource);
+  const type = this.VERTEX_SHADER_TYPE,
+        vertexShader = this.createShader(type, vertexShaderSource);
 
   return vertexShader;
 }
 
 function createFragmentShader(fragmentShaderSource) {
-  const FRAGMENT_SHADER_TYPE = this.context.FRAGMENT_SHADER,  ///
-        vertexShader = this.createShader(FRAGMENT_SHADER_TYPE, fragmentShaderSource);
+  const type = this.FRAGMENT_SHADER_TYPE,
+        vertexShader = this.createShader(type, fragmentShaderSource);
 
   return vertexShader;
 }
@@ -33,14 +34,15 @@ function createFragmentShader(fragmentShaderSource) {
 function createShaderProgram(vertexShaderSource, fragmentShaderSource) {
   const shaderProgram = this.context.createProgram(),
         vertexShader = this.createVertexShader(vertexShaderSource),
-        fragmentShader = this.createFragmentShader(fragmentShaderSource);
+        fragmentShader = this.createFragmentShader(fragmentShaderSource),
+        pname = this.LINK_STATUS_PNAME;
 
   this.context.attachShader(shaderProgram, vertexShader);
   this.context.attachShader(shaderProgram, fragmentShader);
 
   this.context.linkProgram(shaderProgram);
 
-  const linkStatus = this.context.getProgramParameter(shaderProgram, this.context.LINK_STATUS);
+  const linkStatus = this.context.getProgramParameter(shaderProgram, pname);
 
   if (!linkStatus) {
     const message = this.context.getProgramInfoLog(shaderProgram);  ///

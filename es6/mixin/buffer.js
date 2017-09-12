@@ -1,25 +1,26 @@
 'use strict';
 
 function createBuffer(data) {
-  const ARRAY_BUFFER_TYPE = this.context.ARRAY_BUFFER, ///
-        STATIC_DRAW = this.context.STATIC_DRAW,
+  const target = this.ARRAY_BUFFER_TARGET,
         buffer = this.context.createBuffer(),
-        float32DataArray = new Float32Array(data);
+        float32DataArray = new Float32Array(data),
+        usage = this.STATIC_DRAW_USAGE;
 
-  this.context.bindBuffer(ARRAY_BUFFER_TYPE, buffer);
+  this.context.bindBuffer(target, buffer);
 
-  this.context.bufferData(ARRAY_BUFFER_TYPE, float32DataArray, STATIC_DRAW);
+  this.context.bufferData(target, float32DataArray, usage);
 
   return buffer;
 }
 
 function bindBuffer(buffer, attributeLocation, components) {
-  const type = this.context.FLOAT,
+  const target = this.ARRAY_BUFFER_TARGET,
+        type = this.FLOAT_TYPE,
         normalize = false,
         stride = 0,
         offset = 0;
 
-  this.context.bindBuffer(this.context.ARRAY_BUFFER, buffer);
+  this.context.bindBuffer(target, buffer);
 
   this.context.vertexAttribPointer(attributeLocation, components, type, normalize, stride, offset);
   

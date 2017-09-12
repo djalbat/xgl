@@ -22,6 +22,18 @@ class Canvas {
     this.context = context;
 
     this.domElement = domElement;
+
+    this.DEPTH_TEST_CAP = this.context.DEPTH_TEST;  ///
+    this.LEQUAL_FUNCTION = this.context.LEQUAL; ///
+    this.STATIC_DRAW_USAGE = this.context.STATIC_DRAW; ///
+    this.ARRAY_BUFFER_TARGET = this.context.ARRAY_BUFFER;  ///
+    this.FLOAT_TYPE = this.context.FLOAT;  ///
+    this.VERTEX_SHADER_TYPE = this.context.VERTEX_SHADER; ///
+    this.FRAGMENT_SHADER_TYPE = this.context.FRAGMENT_SHADER; ///
+    this.LINK_STATUS_PNAME = this.context.LINK_STATUS;  ///
+    this.COMPILE_STATUS_PNAME = this.context.COMPILE_STATUS;  ///
+    this.COLOR_BUFFER_BIT_MASK = this.context.COLOR_BUFFER_BIT; ///
+    this.DEPTH_BUFFER_BIT_MASK = this.context.DEPTH_BUFFER_BIT; ///
   }
 
   getContext() {
