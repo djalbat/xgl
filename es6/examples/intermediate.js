@@ -13,27 +13,39 @@ const intermediate = () => {
     return;
   }
 
+  // attribute vec4 aVertexColour;
+  // varying lowp vec4 vColour;
+  // vColour = aVertexColour;
+
+  // varying lowp vec4 vColour;
+
   const vertexShaderSource = `
+  
           attribute vec4 aVertexPosition;
-          attribute vec4 aVertexColour;
+          attribute vec2 aTextureCoordinate;
           
           uniform mat4 uRotationMatrix;
           uniform mat4 uPositionMatrix;
           uniform mat4 uPerspectiveMatrix;
           
-          varying lowp vec4 vColour;
+          varying highp vec2 vTextureCoordinate;
       
           void main() {
-            gl_Position = uPerspectiveMatrix* uPositionMatrix * uRotationMatrix * aVertexPosition;
-            vColour = aVertexColour;
+            gl_Position = uPerspectiveMatrix * uPositionMatrix * uRotationMatrix * aVertexPosition;
+            vTextureCoordinate = aTextureCoordinate;
           }
+          
         `,
         fragmentShaderSource = `
-          varying lowp vec4 vColour;
+        
+          varying highp vec2 vTextureCoordinate;
+          
+          uniform sampler2D uSampler;
 
           void main() {
-            gl_FragColor = vColour;
+            gl_FragColor = texture2D(uSampler, vTextureCoordinate);
           }
+          
         `,
         shaderProgram = canvas.createShaderProgram(vertexShaderSource, fragmentShaderSource),
         clientWidth = canvas.getClientWidth(),
@@ -43,7 +55,9 @@ const intermediate = () => {
 
   createAndBindVertexPositionBuffer(canvas, shaderProgram);
 
-  createAndBindVertexColourBuffer(canvas, shaderProgram);
+  // createAndBindVertexColourBuffer(canvas, shaderProgram);
+
+  createAndBindTextureCoordinateBuffer(canvas, shaderProgram);
 
   const count = createVertexIndexElementBuffer(canvas);
 
@@ -57,11 +71,34 @@ const intermediate = () => {
   const image = new Image();
 
   image.onload = function() {
-    canvas.createTexture(image);
+    const gl = canvas.getContext();
+
+    const texture = gl.createTexture();
+
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+
+    const internalFormat = gl.RGBA;
+    const level = 0;
+    const srcFormat = gl.RGBA;
+    const srcType = gl.UNSIGNED_BYTE;
+
+    gl.texImage2D(gl.TEXTURE_2D, level, internalFormat, srcFormat, srcType, image);
+
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+
+    gl.activeTexture(gl.TEXTURE0);
+
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+
+    gl.uniform1i(canvas.getUniformLocation(shaderProgram, 'uSampler'), 0);
+
+    requestAnimationFrame(render);
 
   };
 
-  image.src = 'texture/brick.jpg';
+  image.src = 'texture/cubetexture.png';
 
   function render(time) {
     if (initialTime === null) {
@@ -79,8 +116,6 @@ const intermediate = () => {
 
     requestAnimationFrame(render);
   }
-
-  requestAnimationFrame(render);
 };
 
 module.exports = intermediate;
@@ -168,14 +203,53 @@ function createAndBindVertexColourBuffer(canvas, shaderProgram) {
   canvas.bindBuffer(vertexColourBuffer, vertexColourAttributeLocation, vertexColourComponents);
 }
 
+function createAndBindTextureCoordinateBuffer(canvas, shaderProgram) {
+  const textureCoordinateData = [
+          0.0,  0.0,
+          1.0,  0.0,
+          1.0,  1.0,
+          0.0,  1.0,
+
+          0.0,  0.0,
+          1.0,  0.0,
+          1.0,  1.0,
+          0.0,  1.0,
+
+          0.0,  0.0,
+          1.0,  0.0,
+          1.0,  1.0,
+          0.0,  1.0,
+
+          0.0,  0.0,
+          1.0,  0.0,
+          1.0,  1.0,
+          0.0,  1.0,
+
+          0.0,  0.0,
+          1.0,  0.0,
+          1.0,  1.0,
+          0.0,  1.0,
+
+          0.0,  0.0,
+          1.0,  0.0,
+          1.0,  1.0,
+          0.0,  1.0
+        ],
+        textureCoordinateBuffer = canvas.createBuffer(textureCoordinateData),
+        textureCoordinateAttributeLocation = canvas.getAttributeLocation(shaderProgram, 'aTextureCoordinate'),
+        textureCoordinateComponents = 2;
+
+  canvas.bindBuffer(textureCoordinateBuffer, textureCoordinateAttributeLocation, textureCoordinateComponents);
+}
+
 function createVertexIndexElementBuffer(canvas) {
   const vertexIndexData = [
-           0,  1,  2,
-           1,  2,  3,
-           4,  5,  6,
-           5,  6,  7,
-           8,  9, 10,
-           9, 10, 11,
+          0,  1,  2,
+          1,  2,  3,
+          4,  5,  6,
+          5,  6,  7,
+          8,  9, 10,
+          9, 10, 11,
           12, 13, 14,
           13, 14, 15,
           16, 17, 18,
