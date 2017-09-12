@@ -13,6 +13,20 @@ function createBuffer(data) {
   return buffer;
 }
 
+function bindBuffer(buffer, attributeLocation, components) {
+  const target = this.ARRAY_BUFFER_TARGET,
+        type = this.FLOAT_TYPE,
+        normalize = false,
+        stride = 0,
+        offset = 0;
+
+  this.context.bindBuffer(target, buffer);
+
+  this.context.vertexAttribPointer(attributeLocation, components, type, normalize, stride, offset);
+
+  this.context.enableVertexAttribArray(attributeLocation);
+}
+
 function createElementBuffer(data) {
   const target = this.ELEMENT_ARRAY_BUFFER_TARGET,
         elementBuffer = this.context.createBuffer(),
@@ -26,20 +40,6 @@ function createElementBuffer(data) {
   return elementBuffer;
 }
 
-function bindBuffer(buffer, attributeLocation, components) {
-  const target = this.ARRAY_BUFFER_TARGET,
-        type = this.FLOAT_TYPE,
-        normalize = false,
-        stride = 0,
-        offset = 0;
-
-  this.context.bindBuffer(target, buffer);
-
-  this.context.vertexAttribPointer(attributeLocation, components, type, normalize, stride, offset);
-  
-  this.context.enableVertexAttribArray(attributeLocation);
-}
-
 function bindElementBuffer(elementBuffer) {
   const target = this.ELEMENT_ARRAY_BUFFER_TARGET;
 
@@ -48,8 +48,8 @@ function bindElementBuffer(elementBuffer) {
 
 const bufferMixin = {
   createBuffer: createBuffer,
-  createElementBuffer: createElementBuffer,
   bindBuffer: bindBuffer,
+  createElementBuffer: createElementBuffer,
   bindElementBuffer: bindElementBuffer
 };
 

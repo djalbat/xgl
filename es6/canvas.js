@@ -62,9 +62,6 @@ class Canvas {
           projectionMatrixUniformLocation = this.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
           modelViewMatrixUniformLocation = this.getUniformLocation(shaderProgram, 'uModelViewMatrix');
 
-    this.enableDepthTesting();
-    this.enableDepthFunction();
-
     this.clearColour();
     this.clearDepth();
     this.clearColourBuffer();
@@ -72,26 +69,24 @@ class Canvas {
 
     const rotation = elapsedTime / 1000;
 
-    const rotatedModelViewMatrix = mat4.create();
+    const rotatedModelViewMatrix = mat4.clone(modelViewMatrix),
+          xAxisVectorArray = [1, 0, 0],
+          yAxisVectorArray = [0, 1, 0];
 
-    mat4.rotate(rotatedModelViewMatrix,
-                modelViewMatrix,
-                rotation,
-                [0, 0, 1]);
+    mat4.rotate(rotatedModelViewMatrix, rotatedModelViewMatrix, rotation, xAxisVectorArray);
+    mat4.rotate(rotatedModelViewMatrix, rotatedModelViewMatrix, rotation, yAxisVectorArray);
 
     this.applyMatrix(projectionMatrixUniformLocation, projectionMatrix);
     this.applyMatrix(modelViewMatrixUniformLocation, rotatedModelViewMatrix);
   }
 
   applyMatrix(uniformLocation, matrix) {
-    this.context.uniformMatrix4fv(uniformLocation, false, matrix);
+    const transpose = false;  ///
+
+    this.context.uniformMatrix4fv(uniformLocation, transpose, matrix);
   }
   
-  draw(count, offset = defaultOffset) {
-    // this.context.drawArrays(this.context.TRIANGLE_STRIP, offset, count);
-
-    count = 3;  ///
-
+  drawElements(count, offset = defaultOffset) {
     const mode = this.TRIANGLES_MODE,
           type = this.UNSIGNED_SHORT_TYPE;
 

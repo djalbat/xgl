@@ -39,13 +39,16 @@ const intermediate = () => {
         projection = new Projection(clientWidth, clientHeight),
         modelView = new ModelView();
 
-  const count = createAndBindVertexPositionBuffer(canvas, shaderProgram);
+  createAndBindVertexPositionBuffer(canvas, shaderProgram);
 
   createAndBindVertexColourBuffer(canvas, shaderProgram);
 
-  createVertexIndexElementBuffer(canvas);
+  const count = createVertexIndexElementBuffer(canvas);
 
   canvas.useProgram(shaderProgram);
+
+  canvas.enableDepthTesting();
+  canvas.enableDepthFunction();
 
   let initialTime = null;
 
@@ -58,9 +61,9 @@ const intermediate = () => {
 
     canvas.render(shaderProgram, projection, modelView, elapsedTime);
 
-    canvas.draw(count);
+    canvas.drawElements(count);
 
-///    requestAnimationFrame(render);
+    requestAnimationFrame(render);
   }
 
   requestAnimationFrame(render);
@@ -72,7 +75,12 @@ function createAndBindVertexPositionBuffer(canvas, shaderProgram) {
   const vertexPositionData = [
           +1.0, +1.0, +1.0,
           -1.0, +1.0, +1.0,
-          +1.0, -1.0, +1.0
+          +1.0, -1.0, +1.0,
+          -1.0, -1.0, +1.0,
+          +1.0, +1.0, -1.0,
+          -1.0, +1.0, -1.0,
+          +1.0, -1.0, -1.0,
+          -1.0, -1.0, -1.0
         ],
         vertexPositionBuffer = canvas.createBuffer(vertexPositionData),
         vertexPositionAttributeLocation = canvas.getAttributeLocation(shaderProgram, 'aVertexPosition'),
@@ -90,7 +98,12 @@ function createAndBindVertexColourBuffer(canvas, shaderProgram) {
   const vertexColourData = [
           1.0,  0.0,  0.0,  1.0,
           1.0,  0.0,  0.0,  1.0,
-          1.0,  0.0,  0.0,  1.0
+          1.0,  0.0,  0.0,  1.0,
+          1.0,  0.0,  0.0,  1.0,
+          0.0,  1.0,  0.0,  1.0,
+          0.0,  1.0,  0.0,  1.0,
+          0.0,  1.0,  0.0,  1.0,
+          0.0,  1.0,  0.0,  1.0
         ],
         vertexColourBuffer = canvas.createBuffer(vertexColourData),
         vertexColourAttributeLocation = canvas.getAttributeLocation(shaderProgram, 'aVertexColour'),
@@ -101,9 +114,16 @@ function createAndBindVertexColourBuffer(canvas, shaderProgram) {
 
 function createVertexIndexElementBuffer(canvas) {
   const vertexIndexData = [
-          0, 1, 2
+          0, 1, 2,
+          1, 2, 3,
+          4, 5, 6,
+          5, 6, 7
         ],
-        vertexIndexElementBuffer = canvas.createElementBuffer(vertexIndexData);
+        vertexIndexElementBuffer = canvas.createElementBuffer(vertexIndexData),
+        vertexIndexDataLength = vertexIndexData.length,
+        count = vertexIndexDataLength;  ///
 
   canvas.bindElementBuffer(vertexIndexElementBuffer);
+
+  return count;
 }
