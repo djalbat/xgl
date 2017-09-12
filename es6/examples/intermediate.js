@@ -13,36 +13,35 @@ const intermediate = () => {
     return;
   }
 
-  // attribute vec4 aVertexColour;
-  // varying lowp vec4 vColour;
-  // vColour = aVertexColour;
-
-  // varying lowp vec4 vColour;
-
   const vertexShaderSource = `
   
           attribute vec4 aVertexPosition;
+          attribute vec4 aVertexColour;
           attribute vec2 aTextureCoordinate;
           
           uniform mat4 uRotationMatrix;
           uniform mat4 uPositionMatrix;
           uniform mat4 uPerspectiveMatrix;
           
+          varying lowp vec4 vColour;
           varying highp vec2 vTextureCoordinate;
       
           void main() {
             gl_Position = uPerspectiveMatrix * uPositionMatrix * uRotationMatrix * aVertexPosition;
+            vColour = aVertexColour;
             vTextureCoordinate = aTextureCoordinate;
           }
           
         `,
         fragmentShaderSource = `
         
+          varying lowp vec4 vColour;
           varying highp vec2 vTextureCoordinate;
           
           uniform sampler2D uSampler;
 
           void main() {
+            // gl_FragColor = vColour;
             gl_FragColor = texture2D(uSampler, vTextureCoordinate);
           }
           
