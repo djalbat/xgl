@@ -8,8 +8,7 @@ const domUtilities = require('./utilities/dom'),
 
 const { domElementFromSelector } = domUtilities;
 
-const defaultDepth = 1.0,
-      defaultOffset = 0;
+const defaultOffset = 0;
 
 class Canvas {
   constructor(selector = 'canvas') {
@@ -17,7 +16,7 @@ class Canvas {
           context = domElement.getContext('webgl');
 
     if (!context) {
-      throw new Error(`Unable to initialise WebGL.`);
+      throw new Error(`Unable to initialise the context.`);
     }
 
     this.context = context;

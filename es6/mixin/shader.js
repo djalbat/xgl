@@ -45,7 +45,7 @@ function createShaderProgram(vertexShaderSource, fragmentShaderSource) {
   if (!linkStatus) {
     const message = this.context.getProgramInfoLog(shaderProgram);  ///
 
-    throw new Error(`Unable to create the shader program, '${message}'`);
+    throw new Error(`Unable to create the shader program, '${message}'.`);
   }
 
   return shaderProgram;

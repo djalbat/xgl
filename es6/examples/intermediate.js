@@ -12,38 +12,36 @@ const intermediate = () => {
     return;
   }
 
-  const positionData = [
-          +1.0, +1.0,
-          -1.0, +1.0,
-          +1.0, -1.0,
-          -1.0, -1.0
-        ],
-        vertexShaderSource = `
+  const vertexShaderSource = `
           attribute vec4 aVertexPosition;
-      
+          attribute vec4 aVertexColour;
+          
           uniform mat4 uModelViewMatrix;
           uniform mat4 uProjectionMatrix;
+          
+          varying lowp vec4 vColour;
       
           void main() {
             gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+            vColour = aVertexColour;
           }
         `,
         fragmentShaderSource = `
+          varying lowp vec4 vColour;
+
           void main() {
-            gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+            gl_FragColor = vColour;
           }
         `,
-        vertexPositionComponents = 2,
-        vertexCount = 4,  ///
-        vertexPositionBuffer = canvas.createBuffer(positionData),
+        shaderProgram = canvas.createShaderProgram(vertexShaderSource, fragmentShaderSource),
         clientWidth = canvas.getClientWidth(),
         clientHeight = canvas.getClientHeight(),
-        shaderProgram = canvas.createShaderProgram(vertexShaderSource, fragmentShaderSource),
-        vertexPositionAttributeLocation = canvas.getAttributeLocation(shaderProgram, 'aVertexPosition'),
         projection = new Projection(clientWidth, clientHeight),
         modelView = new ModelView();
 
-  canvas.bindBuffer(vertexPositionBuffer, vertexPositionAttributeLocation, vertexPositionComponents);
+  const vertexCount = createAndBindVertexPositionBuffer(canvas, shaderProgram);
+
+  createAndBindVertexColourBuffer(canvas, shaderProgram);
 
   canvas.render(shaderProgram, projection, modelView);
 
@@ -51,3 +49,36 @@ const intermediate = () => {
 };
 
 module.exports = intermediate;
+
+function createAndBindVertexPositionBuffer(canvas, shaderProgram) {
+  const vertexPositionData = [
+          +1.0, +1.0,
+          -1.0, +1.0,
+          +1.0, -1.0,
+          -1.0, -1.0
+        ],
+        vertexPositionBuffer = canvas.createBuffer(vertexPositionData),
+        vertexPositionAttributeLocation = canvas.getAttributeLocation(shaderProgram, 'aVertexPosition'),
+        vertexPositionComponents = 2;
+
+  canvas.bindBuffer(vertexPositionBuffer, vertexPositionAttributeLocation, vertexPositionComponents);
+
+  const vertexPositionDataLength = vertexPositionData.length,
+        vertexCount = vertexPositionDataLength / vertexPositionComponents;
+
+  return vertexCount;
+}
+
+function createAndBindVertexColourBuffer(canvas, shaderProgram) {
+  const vertexColourData = [
+          1.0,  1.0,  1.0,  1.0,
+          1.0,  0.0,  0.0,  1.0,
+          0.0,  1.0,  0.0,  1.0,
+          0.0,  0.0,  1.0,  1.0
+        ],
+        vertexColourBuffer = canvas.createBuffer(vertexColourData),
+        vertexColourAttributeLocation = canvas.getAttributeLocation(shaderProgram, 'aVertexColour'),
+        vertexColourComponents = 4;
+
+  canvas.bindBuffer(vertexColourBuffer, vertexColourAttributeLocation, vertexColourComponents);
+}
