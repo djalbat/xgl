@@ -26,16 +26,20 @@ class Canvas {
     this.domElement = domElement;
 
     this.FLOAT_TYPE = this.context.FLOAT;  ///
+    this.TRIANGLES_MODE = this.context.TRIANGLES;  ///
     this.DEPTH_TEST_CAP = this.context.DEPTH_TEST;  ///
     this.LEQUAL_FUNCTION = this.context.LEQUAL; ///
     this.STATIC_DRAW_USAGE = this.context.STATIC_DRAW; ///
     this.LINK_STATUS_PNAME = this.context.LINK_STATUS;  ///
     this.VERTEX_SHADER_TYPE = this.context.VERTEX_SHADER; ///
     this.ARRAY_BUFFER_TARGET = this.context.ARRAY_BUFFER;  ///
+    this.UNSIGNED_SHORT_TYPE = this.context.UNSIGNED_SHORT;  ///
+    this.TRIANGLE_STRIP_MODE = this.context.TRIANGLE_STRIP;  ///
     this.COMPILE_STATUS_PNAME = this.context.COMPILE_STATUS;  ///
     this.FRAGMENT_SHADER_TYPE = this.context.FRAGMENT_SHADER; ///
     this.COLOR_BUFFER_BIT_MASK = this.context.COLOR_BUFFER_BIT; ///
     this.DEPTH_BUFFER_BIT_MASK = this.context.DEPTH_BUFFER_BIT; ///
+    this.ELEMENT_ARRAY_BUFFER_TARGET = this.context.ELEMENT_ARRAY_BUFFER;  ///
   }
 
   getContext() {
@@ -83,8 +87,15 @@ class Canvas {
     this.context.uniformMatrix4fv(uniformLocation, false, matrix);
   }
   
-  draw(vertexCount, offset = defaultOffset) {
-    this.context.drawArrays(this.context.TRIANGLE_STRIP, offset, vertexCount);
+  draw(count, offset = defaultOffset) {
+    // this.context.drawArrays(this.context.TRIANGLE_STRIP, offset, count);
+
+    count = 3;  ///
+
+    const mode = this.TRIANGLES_MODE,
+          type = this.UNSIGNED_SHORT_TYPE;
+
+    this.context.drawElements(mode, count, type, offset)
   }
 }
 
