@@ -54,6 +54,15 @@ const intermediate = () => {
 
   let initialTime = null;
 
+  const image = new Image();
+
+  image.onload = function() {
+    canvas.createTexture(image);
+
+  };
+
+  image.src = 'texture/brick.jpg';
+
   function render(time) {
     if (initialTime === null) {
       initialTime = time;
