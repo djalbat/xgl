@@ -43,9 +43,25 @@ const intermediate = () => {
 
   createAndBindVertexColourBuffer(canvas, shaderProgram);
 
-  canvas.render(shaderProgram, projection, modelView);
+  canvas.useProgram(shaderProgram);
 
-  canvas.draw(vertexCount);
+  let initialTime = null;
+
+  function render(time) {
+    if (initialTime === null) {
+      initialTime = time;
+    }
+
+    const elapsedTime = time - initialTime;
+
+    canvas.render(shaderProgram, projection, modelView, elapsedTime);
+
+    canvas.draw(vertexCount);
+
+    requestAnimationFrame(render);
+  }
+
+  requestAnimationFrame(render);
 };
 
 module.exports = intermediate;

@@ -1,6 +1,6 @@
 'use strict';
 
-const mat4 = require('gl-mat4');
+const mat4 = require('gl-mat4');  ///
 
 const defaultFieldOfView = 45 * Math.PI / 180,
       defaultZNear = 0.1,
