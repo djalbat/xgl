@@ -1,8 +1,9 @@
 'use strict';
 
 function createShader(type, shaderSource) {
-  const shader = this.context.createShader(type),
-        pname = this.COMPILE_STATUS_PNAME;
+  const { COMPILE_STATUS } = this.context,
+        pname = COMPILE_STATUS,
+        shader = this.context.createShader(type);
 
   this.context.shaderSource(shader, shaderSource);
 
@@ -18,24 +19,27 @@ function createShader(type, shaderSource) {
 }
 
 function createVertexShader(vertexShaderSource) {
-  const type = this.VERTEX_SHADER_TYPE,
+  const { VERTEX_SHADER } = this.context,
+        type = VERTEX_SHADER,
         vertexShader = this.createShader(type, vertexShaderSource);
 
   return vertexShader;
 }
 
 function createFragmentShader(fragmentShaderSource) {
-  const type = this.FRAGMENT_SHADER_TYPE,
+  const { FRAGMENT_SHADER } = this.context,
+        type = FRAGMENT_SHADER,
         vertexShader = this.createShader(type, fragmentShaderSource);
 
   return vertexShader;
 }
 
 function createShaderProgram(vertexShaderSource, fragmentShaderSource) {
-  const shaderProgram = this.context.createProgram(),
+  const { LINK_STATUS } = this.context,
+        pname = LINK_STATUS,
+        shaderProgram = this.context.createProgram(),
         vertexShader = this.createVertexShader(vertexShaderSource),
-        fragmentShader = this.createFragmentShader(fragmentShaderSource),
-        pname = this.LINK_STATUS_PNAME;
+        fragmentShader = this.createFragmentShader(fragmentShaderSource);
 
   this.context.attachShader(shaderProgram, vertexShader);
   this.context.attachShader(shaderProgram, fragmentShader);

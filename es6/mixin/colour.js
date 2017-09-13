@@ -8,7 +8,8 @@ const defaultR = 0.0,
 function clearColour(r = defaultR, g = defaultG, b = defaultB, a = defaultA) { this.context.clearColor(r, g, b, a); }
 
 function clearColourBuffer() {
-  const mask = this.COLOR_BUFFER_BIT_MASK;
+  const { COLOR_BUFFER_BIT } = this.context,
+        mask = COLOR_BUFFER_BIT;
 
   this.context.clear(mask);
 }

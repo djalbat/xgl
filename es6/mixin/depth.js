@@ -5,19 +5,22 @@ const defaultDepth = 1.0;
 function clearDepth(depth = defaultDepth) { this.context.clearDepth(depth); }
 
 function clearDepthBuffer() {
-  const mask = this.DEPTH_BUFFER_BIT_MASK;
+  const { DEPTH_BUFFER_BIT } = this.context,
+        mask = DEPTH_BUFFER_BIT;
 
   this.context.clear(mask);
 }
 
 function enableDepthTesting() {
-  const cap = this.DEPTH_TEST_CAP;
+  const { DEPTH_TEST } = this.context,
+        cap = DEPTH_TEST;
 
   this.context.enable(cap);
 }
 
 function enableDepthFunction() {
-  const func = this.LEQUAL_FUNCTION;
+  const { LEQUAL } = this.context,
+        func = LEQUAL;
   
   this.context.depthFunc(func); 
 }

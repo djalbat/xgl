@@ -91,7 +91,9 @@ const intermediate = () => {
   const image = new Image();
 
   image.onload = function() {
-    const target = canvas.TEXTURE0_TARGET,
+    const context = canvas.getContext(),
+          { TEXTURE0 } = context,
+          target = TEXTURE0,
           uSamplerUniformLocationIntegerValue = 0,
           uSamplerUniformLocation = canvas.getUniformLocation(shaderProgram, 'uSampler');
 

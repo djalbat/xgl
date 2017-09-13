@@ -1,10 +1,11 @@
 'use strict';
 
 function createBuffer(data) {
-  const target = this.ARRAY_BUFFER_TARGET,
+  const { ARRAY_BUFFER, STATIC_DRAW } = this.context,
+        target = ARRAY_BUFFER,
+        usage = STATIC_DRAW,
         buffer = this.context.createBuffer(),
-        float32Array = new Float32Array(data),
-        usage = this.STATIC_DRAW_USAGE;
+        float32Array = new Float32Array(data);
 
   this.context.bindBuffer(target, buffer);
 
@@ -14,8 +15,9 @@ function createBuffer(data) {
 }
 
 function bindBuffer(buffer, attributeLocation, components) {
-  const target = this.ARRAY_BUFFER_TARGET,
-        type = this.FLOAT_TYPE,
+  const { ARRAY_BUFFER, FLOAT } = this.context,
+        target = ARRAY_BUFFER,
+        type = FLOAT,
         normalize = false,
         stride = 0,
         offset = 0;
@@ -28,10 +30,11 @@ function bindBuffer(buffer, attributeLocation, components) {
 }
 
 function createElementBuffer(data) {
-  const target = this.ELEMENT_ARRAY_BUFFER_TARGET,
+  const { ELEMENT_ARRAY_BUFFER, STATIC_DRAW } = this.context,
+        target = ELEMENT_ARRAY_BUFFER,
+        usage = STATIC_DRAW,
         elementBuffer = this.context.createBuffer(),
-        uint16Array = new Uint16Array(data),
-        usage = this.STATIC_DRAW_USAGE;
+        uint16Array = new Uint16Array(data);
 
   this.context.bindBuffer(target, elementBuffer);
 
@@ -41,7 +44,8 @@ function createElementBuffer(data) {
 }
 
 function bindElementBuffer(elementBuffer) {
-  const target = this.ELEMENT_ARRAY_BUFFER_TARGET;
+  const { ELEMENT_ARRAY_BUFFER } = this.context,
+        target = ELEMENT_ARRAY_BUFFER;
 
   this.context.bindBuffer(target, elementBuffer);
 }
