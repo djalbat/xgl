@@ -3,7 +3,6 @@
 const domUtilities = require('./utilities/dom'),
       textureMixin = require('./mixin/texture'),
       bufferMixin = require('./mixin/buffer'),
-      shaderMixin = require('./mixin/shader'),
       colourMixin = require('./mixin/colour'),
       matrixMixin = require('./mixin/matrix'),
       depthMixin = require('./mixin/depth');
@@ -74,7 +73,6 @@ class Canvas {
 
 Object.assign(Canvas.prototype, textureMixin);
 Object.assign(Canvas.prototype, bufferMixin);
-Object.assign(Canvas.prototype, shaderMixin);
 Object.assign(Canvas.prototype, colourMixin);
 Object.assign(Canvas.prototype, matrixMixin);
 Object.assign(Canvas.prototype, depthMixin);
