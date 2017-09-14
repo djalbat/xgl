@@ -16,9 +16,9 @@ const intermediate = () => {
     return;
   }
 
-  const textureShader = TextureShader.fromNothing(context),
-        /*colourShader = ColourShader.fromNothing(context),*/
-        shader = textureShader,  ///
+  const /*textureShader = TextureShader.fromNothing(context),*/
+        colourShader = ColourShader.fromNothing(context),
+        shader = colourShader,  ///
         shaderProgram = shader.getProgram(),
         clientWidth = canvas.getClientWidth(),
         clientHeight = canvas.getClientHeight(),
