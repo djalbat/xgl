@@ -1,11 +1,12 @@
 'use strict';
 
 const Canvas = require('../canvas'),
-      Shader = require('../shader'),
       Normal = require('../normal'),
       Rotation = require('../rotation'),
       Position = require('../position'),
-      Perspective = require('../perspective');
+      Perspective = require('../perspective'),
+      ColourShader = require('../shader/colour'),
+      TextureShader = require('../shader/texture');
 
 const intermediate = () => {
   const canvas = new Canvas(),
@@ -15,24 +16,24 @@ const intermediate = () => {
     return;
   }
 
-  const shaderProgram = Shader.createShaderProgram(context),
+  const colourShaderProgram = ColourShader.createShaderProgram(context),
         clientWidth = canvas.getClientWidth(),
         clientHeight = canvas.getClientHeight(),
         zCoordinate = -5, ///
         position = Position.fromZCoordinate(zCoordinate),
         perspective = Perspective.fromClientWidthAndClientHeight(clientWidth, clientHeight);
 
-  createAndBindVertexPositionBuffer(canvas, shaderProgram);
+  createAndBindVertexPositionBuffer(canvas, colourShaderProgram);
 
-  // createAndBindVertexColourBuffer(canvas, shaderProgram);
+  createAndBindVertexColourBuffer(canvas, colourShaderProgram);
 
-  createAndBindTextureCoordinateBuffer(canvas, shaderProgram);
+  //createAndBindTextureCoordinateBuffer(canvas, colourShaderProgram);
   
-  createAndBindVertexNormalBuffer(canvas, shaderProgram);
+  //createAndBindVertexNormalBuffer(canvas, colourShaderProgram);
 
   const count = createVertexIndexElementBuffer(canvas);
 
-  canvas.useProgram(shaderProgram);
+  canvas.useProgram(colourShaderProgram);
 
   canvas.enableDepthTesting();
   canvas.enableDepthFunction();
@@ -46,7 +47,7 @@ const intermediate = () => {
           { TEXTURE0 } = context,
           target = TEXTURE0,
           uSamplerUniformLocationIntegerValue = 0,
-          uSamplerUniformLocation = canvas.getUniformLocation(shaderProgram, 'uSampler');
+          uSamplerUniformLocation = canvas.getUniformLocation(colourShaderProgram, 'uSampler');
 
     canvas.createTexture(image);
 
@@ -70,7 +71,7 @@ const intermediate = () => {
           rotation = Rotation.fromXAngleAndYAngle(xAngle, yAngle),
           normal = Normal.fromRotation(rotation);
 
-    canvas.render(normal, rotation, position, perspective, shaderProgram);
+    canvas.render(normal, rotation, position, perspective, colourShaderProgram);
 
     canvas.drawElements(count);
 

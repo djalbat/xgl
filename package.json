@@ -1,7 +1,7 @@
 {
   "name": "jiggle",
   "author": "James Smith",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "license": "MIT",
   "homepage": "https://github.com/djalbat/Jiggle",
   "description": "A combination of JSX and WebGL.",
@@ -10,6 +10,7 @@
     "url": "https://github.com/djalbat/Jiggle"
   },
   "dependencies": {
+    "express": "^4.15.4",
     "gl-mat4": "^1.1.4"
   },
   "devDependencies": {

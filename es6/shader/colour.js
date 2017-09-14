@@ -1,57 +1,39 @@
 'use strict';
 
-const vertexShaderSource = `
+const normalMatrixName = 'uNormalMatrix',
+      rotationMatrixName = 'uRotationMatrix',
+      positionMatrixName = 'uPositionMatrix',
+      perspectiveMatrixName = 'uPerspectiveMatrix',
+      vertexShaderSource = `
     
         attribute vec4 aVertexPosition;
         attribute vec4 aVertexColour;
-        attribute vec3 aVertexNormal;
-        attribute vec2 aTextureCoordinate;
         
-        uniform mat4 uNormalMatrix;
-        uniform mat4 uRotationMatrix;
-        uniform mat4 uPositionMatrix;
-        uniform mat4 uPerspectiveMatrix;
+        uniform mat4 ${normalMatrixName};
+        uniform mat4 ${rotationMatrixName};
+        uniform mat4 ${positionMatrixName};
+        uniform mat4 ${perspectiveMatrixName};
         
         varying lowp vec4 vColour;
-        varying highp vec2 vTextureCoordinate;
-        varying highp vec3 vLighting;
         
         void main() {
-          gl_Position = uPerspectiveMatrix * uPositionMatrix * uRotationMatrix * aVertexPosition;
-          vColour = aVertexColour;
-          vTextureCoordinate = aTextureCoordinate;
-          
-          highp vec3 ambientLight = vec3(0.3, 0.3, 0.3);
-          highp vec3 directionalLightColour = vec3(1, 1, 1);
-          highp vec3 directionalVector = normalize(vec3(0.85, 0.8, 0.75));
-          
-          highp vec4 transformedNormal = uNormalMatrix * vec4(aVertexNormal, 1.0);            
-          highp float directional = max(dot(transformedNormal.xyz, directionalVector), 0.0);
-          
-          vLighting = ambientLight + (directionalLightColour * directional);
+          gl_Position = ${perspectiveMatrixName} * ${positionMatrixName} * ${rotationMatrixName} * aVertexPosition;
+
+          vColour = aVertexColour;          
         }
         
       `,
       fragmentShaderSource = `
         
         varying lowp vec4 vColour;
-        varying highp vec2 vTextureCoordinate;
-        varying highp vec3 vLighting;
-        
-        uniform sampler2D uSampler;
   
         void main() {
-          highp vec4 texelColour = texture2D(uSampler, vTextureCoordinate);
-          
-          // gl_FragColor = vColour;
-          // gl_FragColor = texture2D(uSampler, vTextureCoordinate);
-          
-          gl_FragColor = vec4(texelColour.rgb * vLighting, texelColour.a);
+          gl_FragColor = vColour;
         }
         
       `;
   
-class Shader {
+class ColourShader {
   static createShaderProgram(context) {
     const { LINK_STATUS } = context,
           pname = LINK_STATUS,
@@ -69,19 +51,23 @@ class Shader {
     if (!linkStatus) {
       const message = context.getProgramInfoLog(shaderProgram);  ///
   
-      throw new Error(`Unable to create the shader program, '${message}'.`);
+      throw new Error(`Unable to create the colour shader program, '${message}'.`);
     }
   
     return shaderProgram;
   }
 }
 
-Object.assign(Shader, {
+Object.assign(ColourShader, {
   vertexShaderSource: vertexShaderSource,
-  fragmentShaderSource: fragmentShaderSource
+  fragmentShaderSource: fragmentShaderSource,
+  normalMatrixName: normalMatrixName,
+  rotationMatrixName: rotationMatrixName,
+  positionMatrixName: positionMatrixName,
+  perspectiveMatrixName: perspectiveMatrixName
 });
 
-module.exports = Shader;
+module.exports = ColourShader;
 
 function createVertexShader(context) {
   const { VERTEX_SHADER } = context,
