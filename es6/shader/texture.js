@@ -7,7 +7,6 @@ const normalMatrixName = 'uNormalMatrix',
       vertexShaderSource = `
     
         attribute vec4 aVertexPosition;
-        attribute vec4 aVertexColour;
         attribute vec3 aVertexNormal;
         attribute vec2 aTextureCoordinate;
         

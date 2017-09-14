@@ -16,24 +16,27 @@ const intermediate = () => {
     return;
   }
 
-  const colourShaderProgram = ColourShader.createShaderProgram(context),
+  const /*textureShaderProgram = TextureShader.createShaderProgram(context),*/
+        colourShaderProgram = ColourShader.createShaderProgram(context),
+        /*shaderProgram = textureShaderProgram,*/
+        shaderProgram = colourShaderProgram,
         clientWidth = canvas.getClientWidth(),
         clientHeight = canvas.getClientHeight(),
         zCoordinate = -5, ///
         position = Position.fromZCoordinate(zCoordinate),
         perspective = Perspective.fromClientWidthAndClientHeight(clientWidth, clientHeight);
 
-  createAndBindVertexPositionBuffer(canvas, colourShaderProgram);
+  createAndBindVertexPositionBuffer(canvas, shaderProgram);
 
-  createAndBindVertexColourBuffer(canvas, colourShaderProgram);
+  createAndBindVertexColourBuffer(canvas, shaderProgram);
 
-  //createAndBindTextureCoordinateBuffer(canvas, colourShaderProgram);
+  createAndBindTextureCoordinateBuffer(canvas, shaderProgram);
   
-  //createAndBindVertexNormalBuffer(canvas, colourShaderProgram);
+  createAndBindVertexNormalBuffer(canvas, shaderProgram);
 
   const count = createVertexIndexElementBuffer(canvas);
 
-  canvas.useProgram(colourShaderProgram);
+  canvas.useProgram(shaderProgram);
 
   canvas.enableDepthTesting();
   canvas.enableDepthFunction();
@@ -47,7 +50,7 @@ const intermediate = () => {
           { TEXTURE0 } = context,
           target = TEXTURE0,
           uSamplerUniformLocationIntegerValue = 0,
-          uSamplerUniformLocation = canvas.getUniformLocation(colourShaderProgram, 'uSampler');
+          uSamplerUniformLocation = canvas.getUniformLocation(shaderProgram, 'uSampler');
 
     canvas.createTexture(image);
 
@@ -71,7 +74,7 @@ const intermediate = () => {
           rotation = Rotation.fromXAngleAndYAngle(xAngle, yAngle),
           normal = Normal.fromRotation(rotation);
 
-    canvas.render(normal, rotation, position, perspective, colourShaderProgram);
+    canvas.render(normal, rotation, position, perspective, shaderProgram);
 
     canvas.drawElements(count);
 

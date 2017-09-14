@@ -8,16 +8,27 @@ const normalMatrixName = 'uNormalMatrix',
     
         attribute vec4 aVertexPosition;
         attribute vec4 aVertexColour;
-        
+        attribute vec3 aVertexNormal;
+
         uniform mat4 ${normalMatrixName};
         uniform mat4 ${rotationMatrixName};
         uniform mat4 ${positionMatrixName};
         uniform mat4 ${perspectiveMatrixName};
         
         varying lowp vec4 vColour;
+        varying highp vec3 vLighting;
         
         void main() {
           gl_Position = ${perspectiveMatrixName} * ${positionMatrixName} * ${rotationMatrixName} * aVertexPosition;
+
+          highp vec3 ambientLight = vec3(0.3, 0.3, 0.3);
+          highp vec3 directionalLightColour = vec3(1, 1, 1);
+          highp vec3 directionalVector = normalize(vec3(0.85, 0.8, 0.75));
+          
+          highp vec4 transformedNormal = ${normalMatrixName} * vec4(aVertexNormal, 1.0);            
+          highp float directional = max(dot(transformedNormal.xyz, directionalVector), 0.0);
+          
+          vLighting = ambientLight + (directionalLightColour * directional);
 
           vColour = aVertexColour;          
         }
@@ -26,9 +37,10 @@ const normalMatrixName = 'uNormalMatrix',
       fragmentShaderSource = `
         
         varying lowp vec4 vColour;
+        varying highp vec3 vLighting;
   
         void main() {
-          gl_FragColor = vColour;
+          gl_FragColor = vec4(vColour.rgb * vLighting, vColour.a);
         }
         
       `;
