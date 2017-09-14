@@ -16,10 +16,10 @@ const intermediate = () => {
     return;
   }
 
-  const /*textureShaderProgram = TextureShader.createShaderProgram(context),*/
-        colourShaderProgram = ColourShader.createShaderProgram(context),
-        /*shaderProgram = textureShaderProgram,*/
-        shaderProgram = colourShaderProgram,
+  const textureShader = TextureShader.fromNothing(context),
+        /*colourShader = ColourShader.fromNothing(context),*/
+        shader = textureShader,  ///
+        shaderProgram = shader.getProgram(),
         clientWidth = canvas.getClientWidth(),
         clientHeight = canvas.getClientHeight(),
         zCoordinate = -5, ///
@@ -74,7 +74,7 @@ const intermediate = () => {
           rotation = Rotation.fromXAngleAndYAngle(xAngle, yAngle),
           normal = Normal.fromRotation(rotation);
 
-    canvas.render(normal, rotation, position, perspective, shaderProgram);
+    canvas.render(normal, rotation, position, perspective, shader);
 
     canvas.drawElements(count);
 

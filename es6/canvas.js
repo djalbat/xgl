@@ -41,11 +41,12 @@ class Canvas {
 
   useProgram(program) { this.context.useProgram(program); }
   
-  render(normal, rotation, position, perspective, shaderProgram) {
+  render(normal, rotation, position, perspective, shader) {
     const normalMatrix = normal.getMatrix(),
           rotationMatrix = rotation.getMatrix(),
           positionMatrix = position.getMatrix(),
           perspectiveMatrix = perspective.getMatrix(),
+          shaderProgram = shader.getProgram(),
           normalMatrixUniformLocation = this.getUniformLocation(shaderProgram, 'uNormalMatrix'),
           rotationMatrixUniformLocation = this.getUniformLocation(shaderProgram, 'uRotationMatrix'),
           positionMatrixUniformLocation = this.getUniformLocation(shaderProgram, 'uPositionMatrix'),
