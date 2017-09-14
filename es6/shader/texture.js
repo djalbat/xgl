@@ -8,6 +8,7 @@ const normalMatrixName = 'uNormalMatrix',
     
         attribute vec4 aVertexPosition;
         attribute vec3 aVertexNormal;
+        
         attribute vec2 aTextureCoordinate;
         
         uniform mat4 ${normalMatrixName};
@@ -15,11 +16,14 @@ const normalMatrixName = 'uNormalMatrix',
         uniform mat4 ${positionMatrixName};
         uniform mat4 ${perspectiveMatrixName};
         
+        
         varying highp vec2 vTextureCoordinate;
         varying highp vec3 vLighting;
         
         void main() {
           gl_Position = ${perspectiveMatrixName} * ${positionMatrixName} * ${rotationMatrixName} * aVertexPosition;
+          
+          
           vTextureCoordinate = aTextureCoordinate;
           
           highp vec3 ambientLight = vec3(0.3, 0.3, 0.3);
@@ -35,15 +39,18 @@ const normalMatrixName = 'uNormalMatrix',
       `,
       fragmentShaderSource = `
         
-        varying highp vec2 vTextureCoordinate;
-        varying highp vec3 vLighting;
         
+        varying highp vec2 vTextureCoordinate;
+        
+        varying highp vec3 vLighting;
+                   
         uniform sampler2D uSampler;
-  
+
         void main() {
           highp vec4 texelColour = texture2D(uSampler, vTextureCoordinate);
           
           gl_FragColor = vec4(texelColour.rgb * vLighting, texelColour.a);
+          
         }
         
       `;

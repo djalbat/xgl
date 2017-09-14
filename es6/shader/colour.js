@@ -7,8 +7,9 @@ const normalMatrixName = 'uNormalMatrix',
       vertexShaderSource = `
     
         attribute vec4 aVertexPosition;
-        attribute vec4 aVertexColour;
         attribute vec3 aVertexNormal;
+        attribute vec4 aVertexColour;
+
 
         uniform mat4 ${normalMatrixName};
         uniform mat4 ${rotationMatrixName};
@@ -16,11 +17,12 @@ const normalMatrixName = 'uNormalMatrix',
         uniform mat4 ${perspectiveMatrixName};
         
         varying lowp vec4 vColour;
+        
         varying highp vec3 vLighting;
         
-        void main() {
-          gl_Position = ${perspectiveMatrixName} * ${positionMatrixName} * ${rotationMatrixName} * aVertexPosition;
-
+        highp vec3 calculateLighting() {
+          highp vec3 lighting;
+        
           highp vec3 ambientLight = vec3(0.3, 0.3, 0.3);
           highp vec3 directionalLightColour = vec3(1, 1, 1);
           highp vec3 directionalVector = normalize(vec3(0.85, 0.8, 0.75));
@@ -28,18 +30,41 @@ const normalMatrixName = 'uNormalMatrix',
           highp vec4 transformedNormal = ${normalMatrixName} * vec4(aVertexNormal, 1.0);            
           highp float directional = max(dot(transformedNormal.xyz, directionalVector), 0.0);
           
-          vLighting = ambientLight + (directionalLightColour * directional);
+          lighting = ambientLight + (directionalLightColour * directional);
+          
+          return lighting;
+        }
+        
+        vec4 calculatePosition() {
+          vec4 position;
+          
+          position = ${perspectiveMatrixName} * ${positionMatrixName} * ${rotationMatrixName} * aVertexPosition;
+          
+          return position;
+        }
+        
+        void main() {
+          gl_Position = calculatePosition();
 
           vColour = aVertexColour;          
+          
+          vLighting = calculateLighting();
         }
         
       `,
       fragmentShaderSource = `
         
         varying lowp vec4 vColour;
+        
+        
         varying highp vec3 vLighting;
   
+  
+  
         void main() {
+  
+  
+  
           gl_FragColor = vec4(vColour.rgb * vLighting, vColour.a);
         }
         
@@ -109,6 +134,8 @@ function createShader(type, shaderSource, context) {
   const compileStatus = context.getShaderParameter(shader, pname);
 
   if (!compileStatus) {
+    const shaderInfoLog = context.getShaderInfoLog(shader);
+
     throw new Error(`Unable to create the shader.`);
   }
 
