@@ -42,7 +42,16 @@ const vertexShaderSource = `
       `;
 
 class TextureShader extends Shader {
-  static fromNothing(context) { return Shader.fromVertexShaderSourceAndFragmentShaderSource(TextureShader, vertexShaderSource, fragmentShaderSource, context); }
+  static fromNothing(canvas) { return Shader.fromVertexShaderSourceAndFragmentShaderSource(TextureShader, vertexShaderSource, fragmentShaderSource, canvas); }
+
+  createAndBindTextureCoordinateBuffer(data, canvas) {
+    const program = this.getProgram(),
+          textureCoordinateBuffer = canvas.createBuffer(data),
+          textureCoordinateAttributeLocation = canvas.getAttributeLocation(program, 'aTextureCoordinate'),
+          textureCoordinateComponents = 2;
+
+    canvas.bindBuffer(textureCoordinateBuffer, textureCoordinateAttributeLocation, textureCoordinateComponents);
+  }
 }
 
 module.exports = TextureShader;

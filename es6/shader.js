@@ -53,8 +53,30 @@ class Shader {
     return this.program;
   }
 
-  static fromVertexShaderSourceAndFragmentShaderSource(Class, vertexShaderSource, fragmentShaderSource, context) {
-    const { LINK_STATUS } = context,
+  createAndBindVertexPositionBuffer(data, canvas) {
+    const vertexPositionBuffer = canvas.createBuffer(data),
+          vertexPositionAttributeLocation = canvas.getAttributeLocation(this.program, 'aVertexPosition'),
+          vertexPositionComponents = 3;
+
+    canvas.bindBuffer(vertexPositionBuffer, vertexPositionAttributeLocation, vertexPositionComponents);
+
+    const dataLength = data.length,
+          count = dataLength / vertexPositionComponents;
+
+    return count;
+  }
+
+  createAndBindVertexNormalBuffer(data, canvas) {
+    const vertexNormalBuffer = canvas.createBuffer(data),
+          vertexNormalAttributeLocation = canvas.getAttributeLocation(this.program, 'aVertexNormal'),
+          vertexNormalComponents = 3;
+
+    canvas.bindBuffer(vertexNormalBuffer, vertexNormalAttributeLocation, vertexNormalComponents);
+  }
+
+  static fromVertexShaderSourceAndFragmentShaderSource(Class, vertexShaderSource, fragmentShaderSource, canvas) {
+    const context = canvas.getContext(),
+          { LINK_STATUS } = context,
           pname = LINK_STATUS,
           program = context.createProgram(),
           vertexShader = createVertexShader(vertexShaderSource, context),

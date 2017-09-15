@@ -38,7 +38,18 @@ const vertexShaderSource = `
       `;
   
 class ColourShader extends Shader {
-  static fromNothing(context) { return Shader.fromVertexShaderSourceAndFragmentShaderSource(ColourShader, vertexShaderSource, fragmentShaderSource, context); }
+  static fromNothing(canvas) { return Shader.fromVertexShaderSourceAndFragmentShaderSource(ColourShader, vertexShaderSource, fragmentShaderSource, canvas); }
+
+  createAndBindVertexColourBuffer(data, canvas) {
+    const program = this.getProgram(),
+          vertexColourBuffer = canvas.createBuffer(data),
+          vertexColourAttributeLocation = canvas.getAttributeLocation(program, 'aVertexColour'),
+          vertexColourComponents = 4;
+
+    canvas.bindBuffer(vertexColourBuffer, vertexColourAttributeLocation, vertexColourComponents);
+  }
+
+
 }
 
 module.exports = ColourShader;

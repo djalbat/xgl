@@ -8,6 +8,131 @@ const Canvas = require('../canvas'),
       ColourShader = require('../shader/colour'),
       TextureShader = require('../shader/texture');
 
+const vertexColourData = [
+        1.0,  0.0,  0.0,  1.0,
+        1.0,  0.0,  0.0,  1.0,
+        1.0,  0.0,  0.0,  1.0,
+        1.0,  0.0,  0.0,  1.0,
+
+        0.0,  1.0,  1.0,  1.0,
+        0.0,  1.0,  1.0,  1.0,
+        0.0,  1.0,  1.0,  1.0,
+        0.0,  1.0,  1.0,  1.0,
+
+        0.0,  1.0,  0.0,  1.0,
+        0.0,  1.0,  0.0,  1.0,
+        0.0,  1.0,  0.0,  1.0,
+        0.0,  1.0,  0.0,  1.0,
+
+        1.0,  0.0,  1.0,  1.0,
+        1.0,  0.0,  1.0,  1.0,
+        1.0,  0.0,  1.0,  1.0,
+        1.0,  0.0,  1.0,  1.0,
+
+        0.0,  0.0,  1.0,  1.0,
+        0.0,  0.0,  1.0,  1.0,
+        0.0,  0.0,  1.0,  1.0,
+        0.0,  0.0,  1.0,  1.0,
+
+        1.0,  1.0,  0.0,  1.0,
+        1.0,  1.0,  0.0,  1.0,
+        1.0,  1.0,  0.0,  1.0,
+        1.0,  1.0,  0.0,  1.0
+      ],
+      textureCoordinateData = [
+        0.0,  0.0,
+        1.0,  0.0,
+        1.0,  1.0,
+        0.0,  1.0,
+
+        0.0,  0.0,
+        1.0,  0.0,
+        1.0,  1.0,
+        0.0,  1.0,
+
+        0.0,  0.0,
+        1.0,  0.0,
+        1.0,  1.0,
+        0.0,  1.0,
+
+        0.0,  0.0,
+        1.0,  0.0,
+        1.0,  1.0,
+        0.0,  1.0,
+
+        0.0,  0.0,
+        1.0,  0.0,
+        1.0,  1.0,
+        0.0,  1.0,
+
+        0.0,  0.0,
+        1.0,  0.0,
+        1.0,  1.0,
+        0.0,  1.0
+      ],
+      vertexPositionData = [
+        -1.0, -1.0, +1.0,
+        +1.0, -1.0, +1.0,
+        +1.0, +1.0, +1.0,
+        -1.0, +1.0, +1.0,
+
+        -1.0, -1.0, -1.0,
+        -1.0, +1.0, -1.0,
+        +1.0, +1.0, -1.0,
+        +1.0, -1.0, -1.0,
+
+        -1.0, +1.0, -1.0,
+        -1.0, +1.0, +1.0,
+        +1.0, +1.0, +1.0,
+        +1.0, +1.0, -1.0,
+
+        -1.0, -1.0, -1.0,
+        +1.0, -1.0, -1.0,
+        +1.0, -1.0, +1.0,
+        -1.0, -1.0, +1.0,
+
+        +1.0, -1.0, -1.0,
+        +1.0, +1.0, -1.0,
+        +1.0, +1.0, +1.0,
+        +1.0, -1.0, +1.0,
+
+        -1.0, -1.0, -1.0,
+        -1.0, -1.0, +1.0,
+        -1.0, +1.0, +1.0,
+        -1.0, +1.0, -1.0
+      ],
+      vertexNormalData = [
+        0.0,  0.0, +1.0,
+        0.0,  0.0, +1.0,
+        0.0,  0.0, +1.0,
+        0.0,  0.0, +1.0,
+
+        0.0,  0.0, -1.0,
+        0.0,  0.0, -1.0,
+        0.0,  0.0, -1.0,
+        0.0,  0.0, -1.0,
+
+        0.0, +1.0,  0.0,
+        0.0, +1.0,  0.0,
+        0.0, +1.0,  0.0,
+        0.0, +1.0,  0.0,
+
+        0.0, -1.0,  0.0,
+        0.0, -1.0,  0.0,
+        0.0, -1.0,  0.0,
+        0.0, -1.0,  0.0,
+
+        +1.0,  0.0,  0.0,
+        +1.0,  0.0,  0.0,
+        +1.0,  0.0,  0.0,
+        +1.0,  0.0,  0.0,
+
+        -1.0,  0.0,  0.0,
+        -1.0,  0.0,  0.0,
+        -1.0,  0.0,  0.0,
+        -1.0,  0.0,  0.0
+      ];
+
 const intermediate = () => {
   const canvas = new Canvas(),
         context = canvas.getContext();
@@ -16,8 +141,8 @@ const intermediate = () => {
     return;
   }
 
-  const /*textureShader = TextureShader.fromNothing(context),*/
-        colourShader = ColourShader.fromNothing(context),
+  const /*textureShader = TextureShader.fromNothing(canvas),*/
+        colourShader = ColourShader.fromNothing(canvas),
         shader = colourShader,  ///
         shaderProgram = shader.getProgram(),
         clientWidth = canvas.getClientWidth(),
@@ -26,13 +151,13 @@ const intermediate = () => {
         position = Position.fromZCoordinate(zCoordinate),
         perspective = Perspective.fromClientWidthAndClientHeight(clientWidth, clientHeight);
 
-  createAndBindVertexPositionBuffer(canvas, shaderProgram);
+  colourShader.createAndBindVertexPositionBuffer(vertexPositionData, canvas);
 
-  createAndBindVertexColourBuffer(canvas, shaderProgram);
+  colourShader.createAndBindVertexColourBuffer(vertexColourData, canvas);
 
-  createAndBindTextureCoordinateBuffer(canvas, shaderProgram);
+  //textureShader.createAndBindTextureCoordinateBuffer(textureCoordinateData, canvas);
   
-  createAndBindVertexNormalBuffer(canvas, shaderProgram);
+  colourShader.createAndBindVertexNormalBuffer(vertexNormalData, canvas);
 
   const count = createVertexIndexElementBuffer(canvas);
 
@@ -83,167 +208,6 @@ const intermediate = () => {
 };
 
 module.exports = intermediate;
-
-function createAndBindVertexPositionBuffer(canvas, shaderProgram) {
-  const vertexPositionData = [
-          -1.0, -1.0, +1.0,
-          +1.0, -1.0, +1.0,
-          +1.0, +1.0, +1.0,
-          -1.0, +1.0, +1.0,
-
-          -1.0, -1.0, -1.0,
-          -1.0, +1.0, -1.0,
-          +1.0, +1.0, -1.0,
-          +1.0, -1.0, -1.0,
-
-          -1.0, +1.0, -1.0,
-          -1.0, +1.0, +1.0,
-          +1.0, +1.0, +1.0,
-          +1.0, +1.0, -1.0,
-
-          -1.0, -1.0, -1.0,
-          +1.0, -1.0, -1.0,
-          +1.0, -1.0, +1.0,
-          -1.0, -1.0, +1.0,
-
-          +1.0, -1.0, -1.0,
-          +1.0, +1.0, -1.0,
-          +1.0, +1.0, +1.0,
-          +1.0, -1.0, +1.0,
-
-          -1.0, -1.0, -1.0,
-          -1.0, -1.0, +1.0,
-          -1.0, +1.0, +1.0,
-          -1.0, +1.0, -1.0
-        ],
-        vertexPositionBuffer = canvas.createBuffer(vertexPositionData),
-        vertexPositionAttributeLocation = canvas.getAttributeLocation(shaderProgram, 'aVertexPosition'),
-        vertexPositionComponents = 3;
-
-  canvas.bindBuffer(vertexPositionBuffer, vertexPositionAttributeLocation, vertexPositionComponents);
-
-  const vertexPositionDataLength = vertexPositionData.length,
-        count = vertexPositionDataLength / vertexPositionComponents;
-
-  return count;
-}
-
-function createAndBindVertexColourBuffer(canvas, shaderProgram) {
-  const vertexColourData = [
-          1.0,  0.0,  0.0,  1.0,
-          1.0,  0.0,  0.0,  1.0,
-          1.0,  0.0,  0.0,  1.0,
-          1.0,  0.0,  0.0,  1.0,
-
-          0.0,  1.0,  1.0,  1.0,
-          0.0,  1.0,  1.0,  1.0,
-          0.0,  1.0,  1.0,  1.0,
-          0.0,  1.0,  1.0,  1.0,
-
-          0.0,  1.0,  0.0,  1.0,
-          0.0,  1.0,  0.0,  1.0,
-          0.0,  1.0,  0.0,  1.0,
-          0.0,  1.0,  0.0,  1.0,
-
-          1.0,  0.0,  1.0,  1.0,
-          1.0,  0.0,  1.0,  1.0,
-          1.0,  0.0,  1.0,  1.0,
-          1.0,  0.0,  1.0,  1.0,
-
-          0.0,  0.0,  1.0,  1.0,
-          0.0,  0.0,  1.0,  1.0,
-          0.0,  0.0,  1.0,  1.0,
-          0.0,  0.0,  1.0,  1.0,
-
-          1.0,  1.0,  0.0,  1.0,
-          1.0,  1.0,  0.0,  1.0,
-          1.0,  1.0,  0.0,  1.0,
-          1.0,  1.0,  0.0,  1.0
-        ],
-        vertexColourBuffer = canvas.createBuffer(vertexColourData),
-        vertexColourAttributeLocation = canvas.getAttributeLocation(shaderProgram, 'aVertexColour'),
-        vertexColourComponents = 4;
-
-  canvas.bindBuffer(vertexColourBuffer, vertexColourAttributeLocation, vertexColourComponents);
-}
-
-function createAndBindTextureCoordinateBuffer(canvas, shaderProgram) {
-  const textureCoordinateData = [
-          0.0,  0.0,
-          1.0,  0.0,
-          1.0,  1.0,
-          0.0,  1.0,
-
-          0.0,  0.0,
-          1.0,  0.0,
-          1.0,  1.0,
-          0.0,  1.0,
-
-          0.0,  0.0,
-          1.0,  0.0,
-          1.0,  1.0,
-          0.0,  1.0,
-
-          0.0,  0.0,
-          1.0,  0.0,
-          1.0,  1.0,
-          0.0,  1.0,
-
-          0.0,  0.0,
-          1.0,  0.0,
-          1.0,  1.0,
-          0.0,  1.0,
-
-          0.0,  0.0,
-          1.0,  0.0,
-          1.0,  1.0,
-          0.0,  1.0
-        ],
-        textureCoordinateBuffer = canvas.createBuffer(textureCoordinateData),
-        textureCoordinateAttributeLocation = canvas.getAttributeLocation(shaderProgram, 'aTextureCoordinate'),
-        textureCoordinateComponents = 2;
-
-  canvas.bindBuffer(textureCoordinateBuffer, textureCoordinateAttributeLocation, textureCoordinateComponents);
-}
-
-function createAndBindVertexNormalBuffer(canvas, shaderProgram) {
-  const vertexNormalData = [
-           0.0,  0.0, +1.0,
-           0.0,  0.0, +1.0,
-           0.0,  0.0, +1.0,
-           0.0,  0.0, +1.0,
-
-           0.0,  0.0, -1.0,
-           0.0,  0.0, -1.0,
-           0.0,  0.0, -1.0,
-           0.0,  0.0, -1.0,
-
-           0.0, +1.0,  0.0,
-           0.0, +1.0,  0.0,
-           0.0, +1.0,  0.0,
-           0.0, +1.0,  0.0,
-
-           0.0, -1.0,  0.0,
-           0.0, -1.0,  0.0,
-           0.0, -1.0,  0.0,
-           0.0, -1.0,  0.0,
-
-          +1.0,  0.0,  0.0,
-          +1.0,  0.0,  0.0,
-          +1.0,  0.0,  0.0,
-          +1.0,  0.0,  0.0,
-
-          -1.0,  0.0,  0.0,
-          -1.0,  0.0,  0.0,
-          -1.0,  0.0,  0.0,
-          -1.0,  0.0,  0.0
-        ],
-        vertexNormalBuffer = canvas.createBuffer(vertexNormalData),
-        vertexNormalAttributeLocation = canvas.getAttributeLocation(shaderProgram, 'aVertexNormal'),
-        vertexNormalComponents = 3;
-
-  canvas.bindBuffer(vertexNormalBuffer, vertexNormalAttributeLocation, vertexNormalComponents);
-}
 
 function createVertexIndexElementBuffer(canvas) {
   const vertexIndexData = [
