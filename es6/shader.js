@@ -53,21 +53,21 @@ class Shader {
     return this.program;
   }
 
-  createAndBindVertexPositionBuffer(data, canvas) {
-    const vertexPositionBuffer = canvas.createBuffer(data),
+  createAndBindVertexPositionBuffer(vertexPositionData, canvas) {
+    const vertexPositionBuffer = canvas.createBuffer(vertexPositionData),
           vertexPositionAttributeLocation = canvas.getAttributeLocation(this.program, 'aVertexPosition'),
           vertexPositionComponents = 3;
 
     canvas.bindBuffer(vertexPositionBuffer, vertexPositionAttributeLocation, vertexPositionComponents);
 
-    const dataLength = data.length,
-          count = dataLength / vertexPositionComponents;
+    const vertexPositionDataLength = vertexPositionData.length,
+          count = vertexPositionDataLength / vertexPositionComponents;
 
     return count;
   }
 
-  createAndBindVertexNormalBuffer(data, canvas) {
-    const vertexNormalBuffer = canvas.createBuffer(data),
+  createAndBindVertexNormalBuffer(vertexNormalData, canvas) {
+    const vertexNormalBuffer = canvas.createBuffer(vertexNormalData),
           vertexNormalAttributeLocation = canvas.getAttributeLocation(this.program, 'aVertexNormal'),
           vertexNormalComponents = 3;
 

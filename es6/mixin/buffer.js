@@ -1,5 +1,36 @@
 'use strict';
 
+function createAndBindElementBuffer(vertexIndexData) {
+  const vertexIndexElementBuffer = this.createElementBuffer(vertexIndexData),
+        vertexIndexDataLength = vertexIndexData.length,
+        count = vertexIndexDataLength;  ///
+
+  this.bindElementBuffer(vertexIndexElementBuffer);
+
+  return count;
+}
+
+function createElementBuffer(data) {
+  const { ELEMENT_ARRAY_BUFFER, STATIC_DRAW } = this.context,
+        target = ELEMENT_ARRAY_BUFFER,
+        usage = STATIC_DRAW,
+        elementBuffer = this.context.createBuffer(),
+        uint16Array = new Uint16Array(data);
+
+  this.context.bindBuffer(target, elementBuffer);
+
+  this.context.bufferData(target, uint16Array, usage);
+
+  return elementBuffer;
+}
+
+function bindElementBuffer(elementBuffer) {
+  const { ELEMENT_ARRAY_BUFFER } = this.context,
+        target = ELEMENT_ARRAY_BUFFER;
+
+  this.context.bindBuffer(target, elementBuffer);
+}
+
 function createBuffer(data) {
   const { ARRAY_BUFFER, STATIC_DRAW } = this.context,
         target = ARRAY_BUFFER,
@@ -29,32 +60,12 @@ function bindBuffer(buffer, attributeLocation, components) {
   this.context.enableVertexAttribArray(attributeLocation);
 }
 
-function createElementBuffer(data) {
-  const { ELEMENT_ARRAY_BUFFER, STATIC_DRAW } = this.context,
-        target = ELEMENT_ARRAY_BUFFER,
-        usage = STATIC_DRAW,
-        elementBuffer = this.context.createBuffer(),
-        uint16Array = new Uint16Array(data);
-
-  this.context.bindBuffer(target, elementBuffer);
-
-  this.context.bufferData(target, uint16Array, usage);
-
-  return elementBuffer;
-}
-
-function bindElementBuffer(elementBuffer) {
-  const { ELEMENT_ARRAY_BUFFER } = this.context,
-        target = ELEMENT_ARRAY_BUFFER;
-
-  this.context.bindBuffer(target, elementBuffer);
-}
-
 const bufferMixin = {
-  createBuffer: createBuffer,
-  bindBuffer: bindBuffer,
+  createAndBindElementBuffer: createAndBindElementBuffer,
   createElementBuffer: createElementBuffer,
-  bindElementBuffer: bindElementBuffer
+  bindElementBuffer: bindElementBuffer,
+  createBuffer: createBuffer,
+  bindBuffer: bindBuffer
 };
 
 module.exports = bufferMixin;

@@ -131,6 +131,25 @@ const vertexColourData = [
         -1.0,  0.0,  0.0,
         -1.0,  0.0,  0.0,
         -1.0,  0.0,  0.0
+      ],
+      vertexIndexData = [
+        0,  1,  2,
+        0,  2,  3,
+
+        4,  5,  6,
+        4,  6,  7,
+
+        8,  9, 10,
+        8, 10, 11,
+
+        12, 13, 14,
+        12, 14, 15,
+
+        16, 17, 18,
+        16, 18, 19,
+
+        20, 21, 22,
+        20, 22, 23
       ];
 
 const intermediate = () => {
@@ -141,9 +160,9 @@ const intermediate = () => {
     return;
   }
 
-  const /*textureShader = TextureShader.fromNothing(canvas),*/
-        colourShader = ColourShader.fromNothing(canvas),
-        shader = colourShader,  ///
+  const textureShader = TextureShader.fromNothing(canvas),
+        /*colourShader = ColourShader.fromNothing(canvas),*/
+        shader = textureShader,  ///
         shaderProgram = shader.getProgram(),
         clientWidth = canvas.getClientWidth(),
         clientHeight = canvas.getClientHeight(),
@@ -151,15 +170,15 @@ const intermediate = () => {
         position = Position.fromZCoordinate(zCoordinate),
         perspective = Perspective.fromClientWidthAndClientHeight(clientWidth, clientHeight);
 
-  colourShader.createAndBindVertexPositionBuffer(vertexPositionData, canvas);
+  textureShader.createAndBindVertexPositionBuffer(vertexPositionData, canvas);
 
-  colourShader.createAndBindVertexColourBuffer(vertexColourData, canvas);
+  //colourShader.createAndBindVertexColourBuffer(vertexColourData, canvas);
 
-  //textureShader.createAndBindTextureCoordinateBuffer(textureCoordinateData, canvas);
+  textureShader.createAndBindTextureCoordinateBuffer(textureCoordinateData, canvas);
   
-  colourShader.createAndBindVertexNormalBuffer(vertexNormalData, canvas);
+  textureShader.createAndBindVertexNormalBuffer(vertexNormalData, canvas);
 
-  const count = createVertexIndexElementBuffer(canvas);
+  const count = canvas.createAndBindElementBuffer(vertexIndexData);
 
   canvas.useProgram(shaderProgram);
 
@@ -209,31 +228,3 @@ const intermediate = () => {
 
 module.exports = intermediate;
 
-function createVertexIndexElementBuffer(canvas) {
-  const vertexIndexData = [
-           0,  1,  2,
-           0,  2,  3,
-
-           4,  5,  6,
-           4,  6,  7,
-
-           8,  9, 10,
-           8, 10, 11,
-
-          12, 13, 14,
-          12, 14, 15,
-
-          16, 17, 18,
-          16, 18, 19,
-
-          20, 21, 22,
-          20, 22, 23
-        ],
-        vertexIndexElementBuffer = canvas.createElementBuffer(vertexIndexData),
-        vertexIndexDataLength = vertexIndexData.length,
-        count = vertexIndexDataLength;  ///
-
-  canvas.bindElementBuffer(vertexIndexElementBuffer);
-
-  return count;
-}

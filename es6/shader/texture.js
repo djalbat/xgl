@@ -44,9 +44,9 @@ const vertexShaderSource = `
 class TextureShader extends Shader {
   static fromNothing(canvas) { return Shader.fromVertexShaderSourceAndFragmentShaderSource(TextureShader, vertexShaderSource, fragmentShaderSource, canvas); }
 
-  createAndBindTextureCoordinateBuffer(data, canvas) {
+  createAndBindTextureCoordinateBuffer(vertexCoordinateData, canvas) {
     const program = this.getProgram(),
-          textureCoordinateBuffer = canvas.createBuffer(data),
+          textureCoordinateBuffer = canvas.createBuffer(vertexCoordinateData),
           textureCoordinateAttributeLocation = canvas.getAttributeLocation(program, 'aTextureCoordinate'),
           textureCoordinateComponents = 2;
 

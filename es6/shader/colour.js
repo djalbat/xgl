@@ -40,9 +40,9 @@ const vertexShaderSource = `
 class ColourShader extends Shader {
   static fromNothing(canvas) { return Shader.fromVertexShaderSourceAndFragmentShaderSource(ColourShader, vertexShaderSource, fragmentShaderSource, canvas); }
 
-  createAndBindVertexColourBuffer(data, canvas) {
+  createAndBindVertexColourBuffer(vertexColourData, canvas) {
     const program = this.getProgram(),
-          vertexColourBuffer = canvas.createBuffer(data),
+          vertexColourBuffer = canvas.createBuffer(vertexColourData),
           vertexColourAttributeLocation = canvas.getAttributeLocation(program, 'aVertexColour'),
           vertexColourComponents = 4;
 
