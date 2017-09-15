@@ -8,79 +8,60 @@ const Canvas = require('../canvas'),
       colourCube = require('./intermediate/colourCube'),
       textureCube = require('./intermediate/textureCube');
 
-const vertexIndexData = [
-        0,  1,  2,
-        0,  2,  3,
-
-        4,  5,  6,
-        4,  6,  7,
-
-        8,  9, 10,
-        8, 10, 11,
-
-        12, 13, 14,
-        12, 14, 15,
-
-        16, 17, 18,
-        16, 18, 19,
-
-        20, 21, 22,
-        20, 22, 23
-      ];
-
-const canvas = new Canvas(),
-      clientWidth = canvas.getClientWidth(),
-      clientHeight = canvas.getClientHeight(),
-      zCoordinate = -5, ///
-      position = Position.fromZCoordinate(zCoordinate),
-      perspective = Perspective.fromClientWidthAndClientHeight(clientWidth, clientHeight),
-      count = canvas.createAndBindElementBuffer(vertexIndexData);
-
-canvas.enableDepthTesting();
-canvas.enableDepthFunction();
-
 const intermediate = () => {
-  const context = canvas.getContext();
+  const canvas = new Canvas(),
+        context = canvas.getContext();
 
   if (!context) {
     return;
   }
 
-  const imageURL = 'texture/bricks.jpg';
+  const callback = (count, shader) => {
+    canvas.useShader(shader);
 
-  textureCube(imageURL, canvas, function(textureShader) {
-    shader = textureShader; ///
+    canvas.enableDepthTesting();
+    canvas.enableDepthFunction();
+
+    const render = createRender(canvas, count, shader);
 
     requestAnimationFrame(render);
-  });
+  };
 
-  // const colourShader = colourCube(canvas);
+  // const imageURL = 'texture/bricks.jpg';
   //
-  // shader = colourShader;  ///
-  //
-  // requestAnimationFrame(render);
+  // textureCube(imageURL, canvas, callback);
+
+  colourCube(canvas, callback);
 };
 
-let initialTime = null;
+const createRender = (canvas, count, shader) => {
+  let initialTime = null;
 
-let shader;
+  const clientWidth = canvas.getClientWidth(),
+        clientHeight = canvas.getClientHeight(),
+        zCoordinate = -5, ///
+        position = Position.fromZCoordinate(zCoordinate),
+        perspective = Perspective.fromClientWidthAndClientHeight(clientWidth, clientHeight);
 
-const render = (time) => {
-  if (initialTime === null) {
-    initialTime = time;
-  }
+  const render = (time) => {
+    if (initialTime === null) {
+      initialTime = time;
+    }
 
-  const elapsedTime = time - initialTime,
-        xAngle = elapsedTime / 1000,
-        yAngle = elapsedTime / 1000,
-        rotation = Rotation.fromXAngleAndYAngle(xAngle, yAngle),
-        normal = Normal.fromRotation(rotation);
+    const elapsedTime = time - initialTime,
+          xAngle = elapsedTime / 1000,
+          yAngle = elapsedTime / 1000,
+          rotation = Rotation.fromXAngleAndYAngle(xAngle, yAngle),
+          normal = Normal.fromRotation(rotation);
 
-  canvas.render(normal, rotation, position, perspective, shader);
+    canvas.render(normal, rotation, position, perspective, shader);
 
-  canvas.drawElements(count);
+    canvas.drawElements(count);
 
-  requestAnimationFrame(render);
+    requestAnimationFrame(render);
+  };
+
+  return render;
 };
 
 module.exports = intermediate;
