@@ -39,7 +39,11 @@ class Canvas {
   
   setUniformLocationIntegerValue(uniformLocation, integerValue) { this.context.uniform1i(uniformLocation, integerValue); }
 
-  useProgram(program) { this.context.useProgram(program); }
+  useShader(shader) {
+    const shaderProgram = shader.getProgram();
+
+    this.context.useProgram(shaderProgram);
+  }
   
   render(normal, rotation, position, perspective, shader) {
     const normalMatrix = normal.getMatrix(),

@@ -5,134 +5,10 @@ const Canvas = require('../canvas'),
       Rotation = require('../rotation'),
       Position = require('../position'),
       Perspective = require('../perspective'),
-      ColourShader = require('../shader/colour'),
-      TextureShader = require('../shader/texture');
+      colourCube = require('./intermediate/colourCube'),
+      textureCube = require('./intermediate/textureCube');
 
-const vertexColourData = [
-        1.0,  0.0,  0.0,  1.0,
-        1.0,  0.0,  0.0,  1.0,
-        1.0,  0.0,  0.0,  1.0,
-        1.0,  0.0,  0.0,  1.0,
-
-        0.0,  1.0,  1.0,  1.0,
-        0.0,  1.0,  1.0,  1.0,
-        0.0,  1.0,  1.0,  1.0,
-        0.0,  1.0,  1.0,  1.0,
-
-        0.0,  1.0,  0.0,  1.0,
-        0.0,  1.0,  0.0,  1.0,
-        0.0,  1.0,  0.0,  1.0,
-        0.0,  1.0,  0.0,  1.0,
-
-        1.0,  0.0,  1.0,  1.0,
-        1.0,  0.0,  1.0,  1.0,
-        1.0,  0.0,  1.0,  1.0,
-        1.0,  0.0,  1.0,  1.0,
-
-        0.0,  0.0,  1.0,  1.0,
-        0.0,  0.0,  1.0,  1.0,
-        0.0,  0.0,  1.0,  1.0,
-        0.0,  0.0,  1.0,  1.0,
-
-        1.0,  1.0,  0.0,  1.0,
-        1.0,  1.0,  0.0,  1.0,
-        1.0,  1.0,  0.0,  1.0,
-        1.0,  1.0,  0.0,  1.0
-      ],
-      textureCoordinateData = [
-        0.0,  0.0,
-        1.0,  0.0,
-        1.0,  1.0,
-        0.0,  1.0,
-
-        0.0,  0.0,
-        1.0,  0.0,
-        1.0,  1.0,
-        0.0,  1.0,
-
-        0.0,  0.0,
-        1.0,  0.0,
-        1.0,  1.0,
-        0.0,  1.0,
-
-        0.0,  0.0,
-        1.0,  0.0,
-        1.0,  1.0,
-        0.0,  1.0,
-
-        0.0,  0.0,
-        1.0,  0.0,
-        1.0,  1.0,
-        0.0,  1.0,
-
-        0.0,  0.0,
-        1.0,  0.0,
-        1.0,  1.0,
-        0.0,  1.0
-      ],
-      vertexPositionData = [
-        -1.0, -1.0, +1.0,
-        +1.0, -1.0, +1.0,
-        +1.0, +1.0, +1.0,
-        -1.0, +1.0, +1.0,
-
-        -1.0, -1.0, -1.0,
-        -1.0, +1.0, -1.0,
-        +1.0, +1.0, -1.0,
-        +1.0, -1.0, -1.0,
-
-        -1.0, +1.0, -1.0,
-        -1.0, +1.0, +1.0,
-        +1.0, +1.0, +1.0,
-        +1.0, +1.0, -1.0,
-
-        -1.0, -1.0, -1.0,
-        +1.0, -1.0, -1.0,
-        +1.0, -1.0, +1.0,
-        -1.0, -1.0, +1.0,
-
-        +1.0, -1.0, -1.0,
-        +1.0, +1.0, -1.0,
-        +1.0, +1.0, +1.0,
-        +1.0, -1.0, +1.0,
-
-        -1.0, -1.0, -1.0,
-        -1.0, -1.0, +1.0,
-        -1.0, +1.0, +1.0,
-        -1.0, +1.0, -1.0
-      ],
-      vertexNormalData = [
-        0.0,  0.0, +1.0,
-        0.0,  0.0, +1.0,
-        0.0,  0.0, +1.0,
-        0.0,  0.0, +1.0,
-
-        0.0,  0.0, -1.0,
-        0.0,  0.0, -1.0,
-        0.0,  0.0, -1.0,
-        0.0,  0.0, -1.0,
-
-        0.0, +1.0,  0.0,
-        0.0, +1.0,  0.0,
-        0.0, +1.0,  0.0,
-        0.0, +1.0,  0.0,
-
-        0.0, -1.0,  0.0,
-        0.0, -1.0,  0.0,
-        0.0, -1.0,  0.0,
-        0.0, -1.0,  0.0,
-
-        +1.0,  0.0,  0.0,
-        +1.0,  0.0,  0.0,
-        +1.0,  0.0,  0.0,
-        +1.0,  0.0,  0.0,
-
-        -1.0,  0.0,  0.0,
-        -1.0,  0.0,  0.0,
-        -1.0,  0.0,  0.0,
-        -1.0,  0.0,  0.0
-      ],
-      vertexIndexData = [
+const vertexIndexData = [
         0,  1,  2,
         0,  2,  3,
 
@@ -152,79 +28,59 @@ const vertexColourData = [
         20, 22, 23
       ];
 
+const canvas = new Canvas(),
+      clientWidth = canvas.getClientWidth(),
+      clientHeight = canvas.getClientHeight(),
+      zCoordinate = -5, ///
+      position = Position.fromZCoordinate(zCoordinate),
+      perspective = Perspective.fromClientWidthAndClientHeight(clientWidth, clientHeight),
+      count = canvas.createAndBindElementBuffer(vertexIndexData);
+
+canvas.enableDepthTesting();
+canvas.enableDepthFunction();
+
 const intermediate = () => {
-  const canvas = new Canvas(),
-        context = canvas.getContext();
+  const context = canvas.getContext();
 
   if (!context) {
     return;
   }
 
-  const textureShader = TextureShader.fromNothing(canvas),
-        /*colourShader = ColourShader.fromNothing(canvas),*/
-        shader = textureShader,  ///
-        shaderProgram = shader.getProgram(),
-        clientWidth = canvas.getClientWidth(),
-        clientHeight = canvas.getClientHeight(),
-        zCoordinate = -5, ///
-        position = Position.fromZCoordinate(zCoordinate),
-        perspective = Perspective.fromClientWidthAndClientHeight(clientWidth, clientHeight);
+  const imageURL = 'texture/bricks.jpg';
 
-  textureShader.createAndBindVertexPositionBuffer(vertexPositionData, canvas);
-
-  //colourShader.createAndBindVertexColourBuffer(vertexColourData, canvas);
-
-  textureShader.createAndBindTextureCoordinateBuffer(textureCoordinateData, canvas);
-  
-  textureShader.createAndBindVertexNormalBuffer(vertexNormalData, canvas);
-
-  const count = canvas.createAndBindElementBuffer(vertexIndexData);
-
-  canvas.useProgram(shaderProgram);
-
-  canvas.enableDepthTesting();
-  canvas.enableDepthFunction();
-
-  let initialTime = null;
-
-  const image = new Image();
-
-  image.onload = function() {
-    const context = canvas.getContext(),
-          { TEXTURE0 } = context,
-          target = TEXTURE0,
-          uSamplerUniformLocationIntegerValue = 0,
-          uSamplerUniformLocation = canvas.getUniformLocation(shaderProgram, 'uSampler');
-
-    canvas.createTexture(image);
-
-    canvas.activateTexture(target);
-
-    canvas.setUniformLocationIntegerValue(uSamplerUniformLocation, uSamplerUniformLocationIntegerValue);
+  textureCube(imageURL, canvas, function(textureShader) {
+    shader = textureShader; ///
 
     requestAnimationFrame(render);
-  };
+  });
 
-  image.src = 'texture/bricks.jpg';
+  // const colourShader = colourCube(canvas);
+  //
+  // shader = colourShader;  ///
+  //
+  // requestAnimationFrame(render);
+};
 
-  function render(time) {
-    if (initialTime === null) {
-      initialTime = time;
-    }
+let initialTime = null;
 
-    const elapsedTime = time - initialTime,
-          xAngle = elapsedTime / 1000,
-          yAngle = elapsedTime / 1000,
-          rotation = Rotation.fromXAngleAndYAngle(xAngle, yAngle),
-          normal = Normal.fromRotation(rotation);
+let shader;
 
-    canvas.render(normal, rotation, position, perspective, shader);
-
-    canvas.drawElements(count);
-
-    requestAnimationFrame(render);
+const render = (time) => {
+  if (initialTime === null) {
+    initialTime = time;
   }
+
+  const elapsedTime = time - initialTime,
+        xAngle = elapsedTime / 1000,
+        yAngle = elapsedTime / 1000,
+        rotation = Rotation.fromXAngleAndYAngle(xAngle, yAngle),
+        normal = Normal.fromRotation(rotation);
+
+  canvas.render(normal, rotation, position, perspective, shader);
+
+  canvas.drawElements(count);
+
+  requestAnimationFrame(render);
 };
 
 module.exports = intermediate;
-
