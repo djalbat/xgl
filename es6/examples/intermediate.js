@@ -1,5 +1,7 @@
 'use strict';
 
+const necessary = require('necessary');
+
 const Canvas = require('../canvas'),
       Normal = require('../normal'),
       Rotation = require('../rotation'),
@@ -8,35 +10,40 @@ const Canvas = require('../canvas'),
       colourCube = require('./intermediate/colourCube'),
       textureCube = require('./intermediate/textureCube');
 
-const intermediate = () => {
+const { asynchronousUtilities } = necessary,
+      { repeatedly } = asynchronousUtilities;
+
+function intermediate() {
   const canvas = new Canvas(),
-        context = canvas.getContext();
+        imageSources = [
+          'texture/bricks.jpg'
+        ],
+        imageSourcesLength = imageSources.length,
+        callback = loadImageCallback,
+        length = imageSourcesLength,  ///
+        context = {
+          imageSources: imageSources,
+          images: []
+        };
 
-  if (!context) {
-    return;
-  }
+  repeatedly(callback, length, function() {
+    const { images } = context,
+          image = images[0];
 
-  const callback = (count, shader) => {
-    canvas.enableDepthTesting();
-    canvas.enableDepthFunction();
+    textureCube(image, canvas, function(count, shader) {
+      canvas.enableDepthTesting();
+      canvas.enableDepthFunction();
 
-    const render = createRender(canvas, count, shader);
+      const render = createRender(canvas, count, shader);
 
-    requestAnimationFrame(render);
-  };
-  
-  const image = new Image();
-  
-  image.onload = function() {
-    textureCube(image, canvas, callback);
-  };
-  
-  image.src = 'texture/bricks.jpg';
+      requestAnimationFrame(render);
+    });
+  }, context);
 
   // colourCube(canvas, callback);
-};
+}
 
-const createRender = (canvas, count, shader) => {
+function createRender(canvas, count, shader) {
   let initialTime = null;
 
   const clientWidth = canvas.getClientWidth(),
@@ -64,6 +71,18 @@ const createRender = (canvas, count, shader) => {
   };
 
   return render;
-};
+}
 
 module.exports = intermediate;
+
+function loadImageCallback(next, done, context, index) {
+  const { imageSources, images } = context,
+        imageSource = imageSources[index],
+        image = new Image();
+
+  images[index] = image;
+
+  image.onload = next;
+
+  image.src = imageSource;  ///
+}
