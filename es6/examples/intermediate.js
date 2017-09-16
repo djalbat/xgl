@@ -17,8 +17,6 @@ const intermediate = () => {
   }
 
   const callback = (count, shader) => {
-    canvas.useShader(shader);
-
     canvas.enableDepthTesting();
     canvas.enableDepthFunction();
 
@@ -26,12 +24,16 @@ const intermediate = () => {
 
     requestAnimationFrame(render);
   };
+  
+  const image = new Image();
+  
+  image.onload = function() {
+    textureCube(image, canvas, callback);
+  };
+  
+  image.src = 'texture/bricks.jpg';
 
-  // const imageURL = 'texture/bricks.jpg';
-  //
-  // textureCube(imageURL, canvas, callback);
-
-  colourCube(canvas, callback);
+  // colourCube(canvas, callback);
 };
 
 const createRender = (canvas, count, shader) => {

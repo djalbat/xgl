@@ -53,27 +53,19 @@ class TextureShader extends Shader {
     canvas.bindBuffer(textureCoordinateBuffer, textureCoordinateAttributeLocation, textureCoordinateComponents);
   }
 
-  createAndActivateTexture(imageURL, canvas, done) {
-    const image = new Image();
+  createAndActivateTexture(image, canvas, done) {
+    const context = canvas.getContext(),
+          program = this.getProgram(),
+          { TEXTURE0 } = context,
+          target = TEXTURE0,
+          uSamplerUniformLocationIntegerValue = 0,
+          uSamplerUniformLocation = canvas.getUniformLocation(program, 'uSampler');
 
-    image.onload = function() {
-      const context = canvas.getContext(),
-            program = this.getProgram(),
-            { TEXTURE0 } = context,
-            target = TEXTURE0,
-            uSamplerUniformLocationIntegerValue = 0,
-            uSamplerUniformLocation = canvas.getUniformLocation(program, 'uSampler');
+    canvas.createTexture(image);
 
-      canvas.createTexture(image);
+    canvas.activateTexture(target);
 
-      canvas.activateTexture(target);
-
-      canvas.setUniformLocationIntegerValue(uSamplerUniformLocation, uSamplerUniformLocationIntegerValue);
-
-      done();
-    }.bind(this);
-
-    image.src = imageURL; ///
+    canvas.setUniformLocationIntegerValue(uSamplerUniformLocation, uSamplerUniformLocationIntegerValue);
   }
 }
 

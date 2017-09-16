@@ -115,7 +115,7 @@ const textureCoordinateData = [
         20, 22, 23
       ];
 
-const textureCube = (imageURL, canvas, callback) => {
+const textureCube = (image, canvas, callback) => {
   const textureShader = TextureShader.fromNothing(canvas);
 
   textureShader.createAndBindVertexPositionBuffer(vertexPositionData, canvas);
@@ -124,12 +124,14 @@ const textureCube = (imageURL, canvas, callback) => {
 
   textureShader.createAndBindVertexNormalBuffer(vertexNormalData, canvas);
 
-  textureShader.createAndActivateTexture(imageURL, canvas, function() {
-    const count = canvas.createAndBindElementBuffer(vertexIndexData),
-          shader = textureShader; ///
+  const count = canvas.createAndBindElementBuffer(vertexIndexData),
+        shader = textureShader; ///
+  
+  canvas.useShader(shader);
 
-    callback(count, shader);
-  });
+  textureShader.createAndActivateTexture(image, canvas);
+
+  callback(count, shader);
 };
 
 module.exports = textureCube;

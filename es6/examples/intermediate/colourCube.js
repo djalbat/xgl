@@ -127,9 +127,9 @@ const colourCube = (canvas, callback) => {
   const count = canvas.createAndBindElementBuffer(vertexIndexData),
         shader = colourShader;  ///
 
-  callback(count, shader);
+  canvas.useShader(shader);
 
-  return colourShader;
+  callback(count, shader);
 };
 
 module.exports = colourCube;
