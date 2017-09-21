@@ -82,7 +82,7 @@ function createRender(canvas, count, shader) {
           rotation = Rotation.fromNothing(),
           normal = Normal.fromRotation(rotation);
 
-    canvas.render(normal, rotation, position, perspective, shader);
+    canvas.render(shader, normal, rotation, position, perspective);
 
     canvas.drawElements(count);
 

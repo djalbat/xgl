@@ -42,21 +42,33 @@ const normalMatrixName = 'uNormalMatrix',
       `;
 
 class Shader {
-  constructor(program) {
+  constructor(program, normalMatrixUniformLocation, rotationMatrixUniformLocation, positionMatrixUniformLocation, perspectiveMatrixUniformLocation) {
     this.program = program;
+    this.normalMatrixUniformLocation = normalMatrixUniformLocation;
+    this.rotationMatrixUniformLocation = rotationMatrixUniformLocation;
+    this.positionMatrixUniformLocation = positionMatrixUniformLocation;
+    this.perspectiveMatrixUniformLocation = perspectiveMatrixUniformLocation;
   }
 
   getProgram() {
     return this.program;
   }
 
-  getNormalMatrixUniformLocation(canvas) { return canvas.getUniformLocation(this.program, normalMatrixName); }
+  getNormalMatrixUniformLocation() {
+    return this.normalMatrixUniformLocation;
+  }
 
-  getRotationMatrixUniformLocation(canvas) { return canvas.getUniformLocation(this.program, rotationMatrixName ); }
+  getRotationMatrixUniformLocation() {
+    return this.rotationMatrixUniformLocation;
+  }
 
-  getPositionMatrixUniformLocation(canvas) { return canvas.getUniformLocation(this.program, positionMatrixName ); }
+  getPositionMatrixUniformLocation() {
+    return this.positionMatrixUniformLocation;
+  }
 
-  getPerspectiveMatrixUniformLocation(canvas) { return canvas.getUniformLocation(this.program, perspectiveMatrixName ); }
+  getPerspectiveMatrixUniformLocation() {
+    return this.perspectiveMatrixUniformLocation;
+  }
 
   createAndBindVertexPositionBuffer(vertexPositionData, canvas) {
     const vertexPositionBuffer = canvas.createBuffer(vertexPositionData),
@@ -100,7 +112,11 @@ class Shader {
       throw new Error(`Unable to create the colour shader program, '${message}'.`);
     }
 
-    const shader = new Class(program);
+    const normalMatrixUniformLocation = canvas.getUniformLocation(program, normalMatrixName),
+          rotationMatrixUniformLocation = canvas.getUniformLocation(program, rotationMatrixName),
+          positionMatrixUniformLocation = canvas.getUniformLocation(program, positionMatrixName),
+          perspectiveMatrixUniformLocation = canvas.getUniformLocation(program, perspectiveMatrixName),
+          shader = new Class(program, normalMatrixUniformLocation, rotationMatrixUniformLocation, positionMatrixUniformLocation, perspectiveMatrixUniformLocation);
   
     return shader;
   }

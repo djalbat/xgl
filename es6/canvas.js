@@ -45,15 +45,15 @@ class Canvas {
     this.context.useProgram(shaderProgram);
   }
   
-  render(normal, rotation, position, perspective, shader) {
+  render(shader, normal, rotation, position, perspective) {
     const normalMatrix = normal.getMatrix(),
           rotationMatrix = rotation.getMatrix(),
           positionMatrix = position.getMatrix(),
           perspectiveMatrix = perspective.getMatrix(),
-          normalMatrixUniformLocation = shader.getNormalMatrixUniformLocation(this),
-          rotationMatrixUniformLocation = shader.getRotationMatrixUniformLocation(this),
-          positionMatrixUniformLocation = shader.getPositionMatrixUniformLocation(this),
-          perspectiveMatrixUniformLocation = shader.getPerspectiveMatrixUniformLocation(this);
+          normalMatrixUniformLocation = shader.getNormalMatrixUniformLocation(),
+          rotationMatrixUniformLocation = shader.getRotationMatrixUniformLocation(),
+          positionMatrixUniformLocation = shader.getPositionMatrixUniformLocation(),
+          perspectiveMatrixUniformLocation = shader.getPerspectiveMatrixUniformLocation();
 
     this.clearDepth();
     this.clearColour();
