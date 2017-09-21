@@ -4,8 +4,12 @@ const Shader = require('../shader');
 
 const { calculateLightingSource, calculatePositionSource } = Shader;
 
+const vertexColourAttributeName = 'aVertexColour';
+
 const vertexShaderSource = `
     
+        attribute vec4 ${vertexColourAttributeName};
+
         ${calculateLightingSource}
       
         ${calculatePositionSource}
@@ -14,14 +18,12 @@ const vertexShaderSource = `
         
         varying lowp vec4 vColour;
         
-        attribute vec4 aVertexColour;
-
         void main() {
           vLighting = calculateLighting();
 
           gl_Position = calculatePosition();
 
-          vColour = aVertexColour;                    
+          vColour = ${vertexColourAttributeName};                    
         }
         
       `,
@@ -43,7 +45,7 @@ class ColourShader extends Shader {
   createAndBindVertexColourBuffer(vertexColourData, canvas) {
     const program = this.getProgram(),
           vertexColourBuffer = canvas.createBuffer(vertexColourData),
-          vertexColourAttributeLocation = canvas.getAttributeLocation(program, 'aVertexColour'),
+          vertexColourAttributeLocation = canvas.getAttributeLocation(program, vertexColourAttributeName),
           vertexColourComponents = 4;
 
     canvas.bindBuffer(vertexColourBuffer, vertexColourAttributeLocation, vertexColourComponents);

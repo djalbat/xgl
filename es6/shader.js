@@ -4,18 +4,20 @@ const normalMatrixName = 'uNormalMatrix',
       rotationMatrixName = 'uRotationMatrix',
       positionMatrixName = 'uPositionMatrix',
       perspectiveMatrixName = 'uPerspectiveMatrix',
+      vertexPositionAttributeName = 'aVertexPosition',
+      vertexNormalAttributeName = 'aVertexNormal',
       calculateLightingSource = `
 
-        attribute vec3 aVertexNormal;
-
         uniform mat4 ${normalMatrixName};
+
+        attribute vec3 ${vertexNormalAttributeName};
 
         vec3 ambientLight = vec3(0.3, 0.3, 0.3),
              directionalLightColour = vec3(1, 1, 1),
              directionalVector = normalize(vec3(0.85, 0.8, 0.75));
           
         vec3 calculateLighting() {
-          vec4 transformedNormal = ${normalMatrixName} * vec4(aVertexNormal, 1.0);            
+          vec4 transformedNormal = ${normalMatrixName} * vec4(${vertexNormalAttributeName}, 1.0);            
 
           float directional = max(dot(transformedNormal.xyz, directionalVector), 0.0);
           
@@ -27,14 +29,14 @@ const normalMatrixName = 'uNormalMatrix',
       `,
       calculatePositionSource = `
 
-        attribute vec4 aVertexPosition;
-
         uniform mat4 ${rotationMatrixName},
                      ${positionMatrixName},
                      ${perspectiveMatrixName};
         
+        attribute vec4 ${vertexPositionAttributeName};
+
         vec4 calculatePosition() {
-          vec4 position = ${perspectiveMatrixName} * ${positionMatrixName} * ${rotationMatrixName} * aVertexPosition;
+          vec4 position = ${perspectiveMatrixName} * ${positionMatrixName} * ${rotationMatrixName} * ${vertexPositionAttributeName};
           
           return position;
         }
@@ -72,7 +74,7 @@ class Shader {
 
   createAndBindVertexPositionBuffer(vertexPositionData, canvas) {
     const vertexPositionBuffer = canvas.createBuffer(vertexPositionData),
-          vertexPositionAttributeLocation = canvas.getAttributeLocation(this.program, 'aVertexPosition'),
+          vertexPositionAttributeLocation = canvas.getAttributeLocation(this.program, vertexPositionAttributeName),
           vertexPositionComponents = 3;
 
     canvas.bindBuffer(vertexPositionBuffer, vertexPositionAttributeLocation, vertexPositionComponents);
@@ -85,7 +87,7 @@ class Shader {
 
   createAndBindVertexNormalBuffer(vertexNormalData, canvas) {
     const vertexNormalBuffer = canvas.createBuffer(vertexNormalData),
-          vertexNormalAttributeLocation = canvas.getAttributeLocation(this.program, 'aVertexNormal'),
+          vertexNormalAttributeLocation = canvas.getAttributeLocation(this.program, vertexNormalAttributeName),
           vertexNormalComponents = 3;
 
     canvas.bindBuffer(vertexNormalBuffer, vertexNormalAttributeLocation, vertexNormalComponents);

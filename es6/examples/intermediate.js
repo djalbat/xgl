@@ -7,8 +7,8 @@ const Canvas = require('../canvas'),
       Rotation = require('../rotation'),
       Position = require('../position'),
       Perspective = require('../perspective'),
-      colourCube = require('./intermediate/colourCube'),
-      textureCube = require('./intermediate/textureCube');
+      colourCube = require('./intermediate/cube/colour'),
+      textureCube = require('./intermediate/cube/texture');
 
 const { arrayUtilities, asynchronousUtilities } = necessary,
       { first } = arrayUtilities,
@@ -20,25 +20,25 @@ function intermediate() {
   canvas.enableDepthTesting();
   canvas.enableDepthFunction();
 
-  // loadImages(function(images) {
-  //   const firstImage = first(images),
-  //         offsetPosition = [+1, 0, 0],
-  //         image = firstImage; ///
-  //
-  //   textureCube(offsetPosition, image, canvas, function(count, shader) {
-  //     const render = createRender(canvas, count, shader);
-  //
-  //     requestAnimationFrame(render);
-  //   });
-  // });
+  loadImages(function(images) {
+    const firstImage = first(images),
+          offsetPosition = [+1, 0, 0],
+          image = firstImage; ///
 
-  const offsetPosition = [-1, 0, 0];
+    textureCube(offsetPosition, image, canvas, function(count, shader) {
+      const render = createRender(canvas, count, shader);
 
-  colourCube(offsetPosition, canvas, function(count, shader) {
-    const render = createRender(canvas, count, shader);
-
-    requestAnimationFrame(render);
+      requestAnimationFrame(render);
+    });
   });
+
+  // const offsetPosition = [-1, 0, 0];
+  //
+  // colourCube(offsetPosition, canvas, function(count, shader) {
+  //   const render = createRender(canvas, count, shader);
+  //
+  //   requestAnimationFrame(render);
+  // });
 }
 
 module.exports = intermediate;

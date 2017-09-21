@@ -1,8 +1,8 @@
 'use strict';
 
-const vec3 = require('../../vec3'),
-      ColourShader = require('../../shader/colour'),
-      arrayUtilities = require('../../utilities/array');
+const vec3 = require('../../../vec3'),
+      ColourShader = require('../../../shader/colour'),
+      arrayUtilities = require('../../../utilities/array');
 
 const { divide, flatten } = arrayUtilities;
 

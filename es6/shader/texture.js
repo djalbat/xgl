@@ -4,15 +4,18 @@ const Shader = require('../shader');
 
 const { calculateLightingSource, calculatePositionSource } = Shader;
 
+const samplerName = 'uSampler',
+      textureCoordinateAttributeName = 'aTextureCoordinate';
+
 const vertexShaderSource = `
+        
+        attribute vec2 ${textureCoordinateAttributeName};
         
         ${calculateLightingSource}
       
         ${calculatePositionSource}
 
         varying highp vec3 vLighting;
-        
-        attribute vec2 aTextureCoordinate;
         
         varying highp vec2 vTextureCoordinate;
         
@@ -21,20 +24,20 @@ const vertexShaderSource = `
 
           gl_Position = calculatePosition();
                     
-          vTextureCoordinate = aTextureCoordinate;
+          vTextureCoordinate = ${textureCoordinateAttributeName};
         }
         
       `,
       fragmentShaderSource = `
         
-        varying highp vec2 vTextureCoordinate;
-        
+        uniform sampler2D ${samplerName};
+
         varying highp vec3 vLighting;
                    
-        uniform sampler2D uSampler;
-
+        varying highp vec2 vTextureCoordinate;
+        
         void main() {
-          highp vec4 texelColour = texture2D(uSampler, vTextureCoordinate);
+          highp vec4 texelColour = texture2D(${samplerName}, vTextureCoordinate);
           
           gl_FragColor = vec4(texelColour.rgb * vLighting, texelColour.a);  
         }
@@ -47,7 +50,7 @@ class TextureShader extends Shader {
   createAndBindTextureCoordinateBuffer(vertexCoordinateData, canvas) {
     const program = this.getProgram(),
           textureCoordinateBuffer = canvas.createBuffer(vertexCoordinateData),
-          textureCoordinateAttributeLocation = canvas.getAttributeLocation(program, 'aTextureCoordinate'),
+          textureCoordinateAttributeLocation = canvas.getAttributeLocation(program, textureCoordinateAttributeName),
           textureCoordinateComponents = 2;
 
     canvas.bindBuffer(textureCoordinateBuffer, textureCoordinateAttributeLocation, textureCoordinateComponents);
@@ -59,7 +62,7 @@ class TextureShader extends Shader {
           { TEXTURE0 } = context,
           target = TEXTURE0,
           uSamplerUniformLocationIntegerValue = 0,
-          uSamplerUniformLocation = canvas.getUniformLocation(program, 'uSampler');
+          uSamplerUniformLocation = canvas.getUniformLocation(program, samplerName);
 
     canvas.createTexture(image);
 
