@@ -135,12 +135,9 @@ const colourCube = (offsetPosition, canvas, callback) => {
 
   colourShader.createAndBindVertexNormalBuffer(vertexNormalData, canvas);
 
-  const count = canvas.createAndBindElementBuffer(vertexIndexData),
-        shader = colourShader;  ///
+  const count = canvas.createAndBindElementBuffer(vertexIndexData);
 
-  canvas.useShader(shader);
-
-  callback(count, shader);
+  callback(count, colourShader);
 };
 
 module.exports = colourCube;

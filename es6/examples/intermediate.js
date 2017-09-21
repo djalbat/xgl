@@ -20,28 +20,36 @@ function intermediate() {
   canvas.enableDepthTesting();
   canvas.enableDepthFunction();
 
+  createColourCube(canvas, function(count, colourShader) {
+    createTextureCube(canvas, function(count, textureShader) {
+      canvas.useShader(textureShader);
+
+      textureShader.activateTexture(canvas);
+
+      const render = createRender(canvas, count, textureShader);
+
+      requestAnimationFrame(render);
+    });
+  });
+}
+
+module.exports = intermediate;
+
+function createColourCube(canvas, callback) {
+  const offsetPosition = [-1, 0, 0];
+
+  colourCube(offsetPosition, canvas, callback);
+}
+
+function createTextureCube(canvas, callback) {
   loadImages(function(images) {
     const firstImage = first(images),
           offsetPosition = [+1, 0, 0],
           image = firstImage; ///
 
-    textureCube(offsetPosition, image, canvas, function(count, shader) {
-      const render = createRender(canvas, count, shader);
-
-      requestAnimationFrame(render);
-    });
+    textureCube(offsetPosition, image, canvas, callback);
   });
-
-  // const offsetPosition = [-1, 0, 0];
-  //
-  // colourCube(offsetPosition, canvas, function(count, shader) {
-  //   const render = createRender(canvas, count, shader);
-  //
-  //   requestAnimationFrame(render);
-  // });
 }
-
-module.exports = intermediate;
 
 function loadImages(callback) {
   const imageSources = [

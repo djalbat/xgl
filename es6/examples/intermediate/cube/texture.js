@@ -135,14 +135,11 @@ const textureCube = (offsetPosition, image, canvas, callback) => {
 
   textureShader.createAndBindVertexNormalBuffer(vertexNormalData, canvas);
 
-  const count = canvas.createAndBindElementBuffer(vertexIndexData),
-        shader = textureShader; ///
-  
-  canvas.useShader(shader);
+  textureShader.createTexture(image, canvas);
 
-  textureShader.createAndActivateTexture(image, canvas);
+  const count = canvas.createAndBindElementBuffer(vertexIndexData);
 
-  callback(count, shader);
+  callback(count, textureShader);
 };
 
 module.exports = textureCube;
