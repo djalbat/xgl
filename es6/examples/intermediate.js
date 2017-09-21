@@ -10,37 +10,52 @@ const Canvas = require('../canvas'),
       colourCube = require('./intermediate/colourCube'),
       textureCube = require('./intermediate/textureCube');
 
-const { asynchronousUtilities } = necessary,
+const { arrayUtilities, asynchronousUtilities } = necessary,
+      { first } = arrayUtilities,
       { repeatedly } = asynchronousUtilities;
 
 function intermediate() {
-  const canvas = new Canvas(),
-        imageSources = [
+  const canvas = new Canvas();
+
+  canvas.enableDepthTesting();
+  canvas.enableDepthFunction();
+
+  // loadImages(function(images) {
+  //   const firstImage = first(images),
+  //         image = firstImage; ///
+  //
+  //   textureCube(image, canvas, function(count, shader) {
+  //     const render = createRender(canvas, count, shader);
+  //
+  //     requestAnimationFrame(render);
+  //   });
+  // });
+
+  colourCube(canvas, function(count, shader) {
+    const render = createRender(canvas, count, shader);
+
+    requestAnimationFrame(render);
+  });
+}
+
+module.exports = intermediate;
+
+function loadImages(callback) {
+  const imageSources = [
           'texture/bricks.jpg'
         ],
-        imageSourcesLength = imageSources.length,
-        callback = loadImageCallback,
-        length = imageSourcesLength,  ///
+        images = [],
         context = {
           imageSources: imageSources,
-          images: []
-        };
+          images: images
+        },
+        length = imageSources.length; ///
 
-  repeatedly(callback, length, function() {
-    const { images } = context,
-          image = images[0];
+  repeatedly(loadImageCallback, length, function() {
+    const { images } = context;
 
-    textureCube(image, canvas, function(count, shader) {
-      canvas.enableDepthTesting();
-      canvas.enableDepthFunction();
-
-      const render = createRender(canvas, count, shader);
-
-      requestAnimationFrame(render);
-    });
+    callback(images)
   }, context);
-
-  // colourCube(canvas, callback);
 }
 
 function createRender(canvas, count, shader) {
@@ -73,8 +88,6 @@ function createRender(canvas, count, shader) {
   return render;
 }
 
-module.exports = intermediate;
-
 function loadImageCallback(next, done, context, index) {
   const { imageSources, images } = context,
         imageSource = imageSources[index],
@@ -82,7 +95,7 @@ function loadImageCallback(next, done, context, index) {
 
   images[index] = image;
 
-  image.onload = next;
+  image.onload = next;  ///
 
   image.src = imageSource;  ///
 }
