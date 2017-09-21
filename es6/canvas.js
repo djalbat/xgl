@@ -50,11 +50,10 @@ class Canvas {
           rotationMatrix = rotation.getMatrix(),
           positionMatrix = position.getMatrix(),
           perspectiveMatrix = perspective.getMatrix(),
-          shaderProgram = shader.getProgram(),
-          normalMatrixUniformLocation = this.getUniformLocation(shaderProgram, 'uNormalMatrix'),
-          rotationMatrixUniformLocation = this.getUniformLocation(shaderProgram, 'uRotationMatrix'),
-          positionMatrixUniformLocation = this.getUniformLocation(shaderProgram, 'uPositionMatrix'),
-          perspectiveMatrixUniformLocation = this.getUniformLocation(shaderProgram, 'uPerspectiveMatrix');
+          normalMatrixUniformLocation = shader.getNormalMatrixUniformLocation(this),
+          rotationMatrixUniformLocation = shader.getRotationMatrixUniformLocation(this),
+          positionMatrixUniformLocation = shader.getPositionMatrixUniformLocation(this),
+          perspectiveMatrixUniformLocation = shader.getPerspectiveMatrixUniformLocation(this);
 
     this.clearDepth();
     this.clearColour();

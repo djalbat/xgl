@@ -48,8 +48,6 @@ class ColourShader extends Shader {
 
     canvas.bindBuffer(vertexColourBuffer, vertexColourAttributeLocation, vertexColourComponents);
   }
-
-
 }
 
 module.exports = ColourShader;
