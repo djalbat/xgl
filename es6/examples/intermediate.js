@@ -31,7 +31,9 @@ function intermediate() {
   //   });
   // });
 
-  colourCube(canvas, function(count, shader) {
+  const position = [-1, 0, 0];
+
+  colourCube(position, canvas, function(count, shader) {
     const render = createRender(canvas, count, shader);
 
     requestAnimationFrame(render);
@@ -63,7 +65,7 @@ function createRender(canvas, count, shader) {
 
   const clientWidth = canvas.getClientWidth(),
         clientHeight = canvas.getClientHeight(),
-        zCoordinate = -5, ///
+        zCoordinate = -10, ///
         position = Position.fromZCoordinate(zCoordinate),
         perspective = Perspective.fromClientWidthAndClientHeight(clientWidth, clientHeight);
 
@@ -73,9 +75,10 @@ function createRender(canvas, count, shader) {
     }
 
     const elapsedTime = time - initialTime,
-          xAngle = elapsedTime / 1000,
-          yAngle = elapsedTime / 1000,
-          rotation = Rotation.fromXAngleAndYAngle(xAngle, yAngle),
+          // xAngle = elapsedTime / 1000,
+          // yAngle = elapsedTime / 1000,
+          // rotation = Rotation.fromXAngleAndYAngle(xAngle, yAngle),
+          rotation = Rotation.fromNothing(),
           normal = Normal.fromRotation(rotation);
 
     canvas.render(normal, rotation, position, perspective, shader);

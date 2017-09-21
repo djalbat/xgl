@@ -1,6 +1,10 @@
 'use strict';
 
-const ColourShader = require('../../shader/colour');
+const vec3 = require('../../vec3'),
+      ColourShader = require('../../shader/colour'),
+      arrayUtilities = require('../../utilities/array');
+
+const { divide, flatten } = arrayUtilities;
 
 const vertexColourData = [
         1.0,  0.0,  0.0,  1.0,
@@ -115,10 +119,17 @@ const vertexColourData = [
         20, 22, 23
       ];
 
-const colourCube = (canvas, callback) => {
-  const colourShader = ColourShader.fromNothing(canvas);
+const colourCube = (offsetPosition, canvas, callback) => {
+  const colourShader = ColourShader.fromNothing(canvas),
+        vertexPositions = divide(vertexPositionData, 3),  ///
+        offsetVertexPositions = vertexPositions.map(function(vertexPosition) {
+          const offsetVertexPosition = vec3.add(vertexPosition, offsetPosition);
 
-  colourShader.createAndBindVertexPositionBuffer(vertexPositionData, canvas);
+          return offsetVertexPosition;
+        }),
+        offsetVertexPositionData = flatten(offsetVertexPositions);
+
+  colourShader.createAndBindVertexPositionBuffer(offsetVertexPositionData, canvas);
 
   colourShader.createAndBindVertexColourBuffer(vertexColourData, canvas);
 
