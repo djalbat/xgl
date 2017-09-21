@@ -1,6 +1,10 @@
 'use strict';
 
-const TextureShader = require('../../shader/texture');
+const vec3 = require('../../vec3'),
+      TextureShader = require('../../shader/texture'),
+      arrayUtilities = require('../../utilities/array');
+
+const { divide, flatten } = arrayUtilities;
 
 const textureCoordinateData = [
         0.0,  0.0,
@@ -115,10 +119,17 @@ const textureCoordinateData = [
         20, 22, 23
       ];
 
-const textureCube = (image, canvas, callback) => {
-  const textureShader = TextureShader.fromNothing(canvas);
+const textureCube = (offsetPosition, image, canvas, callback) => {
+  const textureShader = TextureShader.fromNothing(canvas),
+        vertexPositions = divide(vertexPositionData, 3),  ///
+        offsetVertexPositions = vertexPositions.map(function(vertexPosition) {
+          const offsetVertexPosition = vec3.add(vertexPosition, offsetPosition);
 
-  textureShader.createAndBindVertexPositionBuffer(vertexPositionData, canvas);
+          return offsetVertexPosition;
+        }),
+        offsetVertexPositionData = flatten(offsetVertexPositions);
+
+  textureShader.createAndBindVertexPositionBuffer(offsetVertexPositionData, canvas);
 
   textureShader.createAndBindTextureCoordinateBuffer(textureCoordinateData, canvas);
 

@@ -22,18 +22,19 @@ function intermediate() {
 
   // loadImages(function(images) {
   //   const firstImage = first(images),
+  //         offsetPosition = [+1, 0, 0],
   //         image = firstImage; ///
   //
-  //   textureCube(image, canvas, function(count, shader) {
+  //   textureCube(offsetPosition, image, canvas, function(count, shader) {
   //     const render = createRender(canvas, count, shader);
   //
   //     requestAnimationFrame(render);
   //   });
   // });
 
-  const position = [-1, 0, 0];
+  const offsetPosition = [-1, 0, 0];
 
-  colourCube(position, canvas, function(count, shader) {
+  colourCube(offsetPosition, canvas, function(count, shader) {
     const render = createRender(canvas, count, shader);
 
     requestAnimationFrame(render);
