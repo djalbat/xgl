@@ -9,8 +9,8 @@ const Canvas = require('../canvas'),
       Perspective = require('../perspective'),
       ColourShader = require('../shader/colour'),
       TextureShader = require('../shader/texture'),
-      colourCube = require('./intermediate/cube/colour'),
-      textureCube = require('./intermediate/cube/texture');
+      ColourCube = require('./intermediate/cube/colour'),
+      TextureCube = require('./intermediate/cube/texture');
 
 const { arrayUtilities, asynchronousUtilities } = necessary,
       { first } = arrayUtilities,
@@ -24,36 +24,32 @@ function intermediate() {
   canvas.enableDepthTesting();
   canvas.enableDepthFunction();
 
-  createTextureCube(textureShader, canvas, function(count) {
-    const shader = textureShader;  ///
+  createColourCube(colourShader, canvas, function(colourCube) {
+    createTextureCube(textureShader, canvas, function(textureCube) {
+      const render = createRender(canvas, colourCube, colourShader, textureCube, textureShader);
 
-    canvas.useShader(shader);
-
-    shader.activateTexture(canvas);
-
-    const render = createRender(canvas, count, shader);
-
-    requestAnimationFrame(render);
+      requestAnimationFrame(render);
+    });
   });
 }
 
 module.exports = intermediate;
 
 function createColourCube(colourShader, canvas, callback) {
-  const offsetPosition = [-1, 0, 0],
-        count = colourCube(offsetPosition, colourShader, canvas);
+  const offsetPosition = [-2, 0, 0],
+        colourCube = ColourCube.fromOffsetPosition(offsetPosition, colourShader, canvas);
 
-  callback(count);
+  callback(colourCube);
 }
 
 function createTextureCube(textureShader, canvas, callback) {
   loadImages(function(images) {
     const firstImage = first(images),
-          offsetPosition = [+1, 0, 0],
+          offsetPosition = [+2, 0, 0],
           image = firstImage,
-          count = textureCube(offsetPosition, image, textureShader, canvas);
+          textureCube = TextureCube.fromOffsetPositionAndImage(offsetPosition, image, textureShader, canvas);
 
-    callback(count);
+    callback(textureCube);
   });
 }
 
@@ -75,14 +71,16 @@ function loadImages(callback) {
   }, context);
 }
 
-function createRender(canvas, count, shader) {
+function createRender(canvas, colourCube, colourShader, textureCube, textureShader) {
   let initialTime = null;
 
   const clientWidth = canvas.getClientWidth(),
         clientHeight = canvas.getClientHeight(),
         zCoordinate = -10, ///
         position = Position.fromZCoordinate(zCoordinate),
-        perspective = Perspective.fromClientWidthAndClientHeight(clientWidth, clientHeight);
+        perspective = Perspective.fromClientWidthAndClientHeight(clientWidth, clientHeight),
+        colourCubeCount = colourCube.getCount(),
+        textureCubeCount = textureCube.getCount();
 
   const render = (time) => {
     if (initialTime === null) {
@@ -90,15 +88,40 @@ function createRender(canvas, count, shader) {
     }
 
     const elapsedTime = time - initialTime,
-          // xAngle = elapsedTime / 1000,
-          // yAngle = elapsedTime / 1000,
-          // rotation = Rotation.fromXAngleAndYAngle(xAngle, yAngle),
-          rotation = Rotation.fromNothing(),
+          xAngle = elapsedTime / 573,
+          yAngle = elapsedTime / 892,
+          rotation = Rotation.fromXAngleAndYAngle(xAngle, yAngle),
           normal = Normal.fromRotation(rotation);
 
-    canvas.render(shader, normal, rotation, position, perspective);
+    canvas.clear();
 
-    canvas.drawElements(count);
+
+
+    colourCube.bind(colourShader, canvas);
+
+    canvas.useShader(colourShader);
+
+    colourShader.activateTexture(canvas);
+
+    canvas.render(colourShader, normal, rotation, position, perspective);
+
+    canvas.drawElements(colourCubeCount);
+
+
+
+
+    textureCube.bind(textureShader, canvas);
+
+    canvas.useShader(textureShader);
+
+    textureShader.activateTexture(canvas);
+
+    canvas.render(textureShader, normal, rotation, position, perspective);
+
+    canvas.drawElements(textureCubeCount);
+
+
+
 
     requestAnimationFrame(render);
   };

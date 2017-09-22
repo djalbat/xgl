@@ -118,27 +118,45 @@ const vertexColourData = [
         20, 22, 23
       ];
 
-const colourCube = (offsetPosition, colourShader, canvas) => {
-  const vertexPositions = divide(vertexPositionData, 3),  ///
-        offsetVertexPositions = vertexPositions.map(function(vertexPosition) {
-          const offsetVertexPosition = vec3.add(vertexPosition, offsetPosition);
+class ColourCube {
+  constructor(vertexPositionBuffer, vertexNormalBuffer, vertexColourBuffer, count) {
+    this.vertexPositionBuffer = vertexPositionBuffer;
+    this.vertexNormalBuffer = vertexNormalBuffer;
+    this.vertexColourBuffer = vertexColourBuffer;
+    this.count = count;
+  }
 
-          return offsetVertexPosition;
-        }),
-        offsetVertexPositionData = flatten(offsetVertexPositions);
+  getCount() {
+    return this.count;
+  }
 
-  const vertexPositionBuffer = colourShader.createVertexPositionBuffer(offsetVertexPositionData, canvas),
-        vertexColourBuffer = colourShader.createVertexColourBuffer(vertexColourData, canvas),
-        vertexNormalBuffer = colourShader.createVertexNormalBuffer(vertexNormalData, canvas),
-        count = canvas.createAndBindElementBuffer(vertexIndexData);
+  bind(colourShader, canvas) {
+    colourShader.bindVertexPositionBuffer(this.vertexPositionBuffer, canvas);
 
-  colourShader.bindVertexPositionBuffer(vertexPositionBuffer, canvas);
+    colourShader.bindVertexNormalBuffer(this.vertexNormalBuffer, canvas);
 
-  colourShader.bindVertexColourBuffer(vertexColourBuffer, canvas);
+    colourShader.bindVertexColourBuffer(this.vertexColourBuffer, canvas);
+  }
 
-  colourShader.bindVertexNormalBuffer(vertexNormalBuffer, canvas);
+  static fromOffsetPosition(offsetPosition, colourShader, canvas) {
+    const vertexPositions = divide(vertexPositionData, 3),  ///
+          offsetVertexPositions = vertexPositions.map(function(vertexPosition) {
+            const offsetVertexPosition = vec3.add(vertexPosition, offsetPosition);
 
-  return count;
-};
+            return offsetVertexPosition;
+          }),
+          offsetVertexPositionData = flatten(offsetVertexPositions);
 
-module.exports = colourCube;
+
+
+    const vertexPositionBuffer = colourShader.createVertexPositionBuffer(offsetVertexPositionData, canvas),
+          vertexNormalBuffer = colourShader.createVertexNormalBuffer(vertexNormalData, canvas),
+          vertexColourBuffer = colourShader.createVertexColourBuffer(vertexColourData, canvas),
+          count = canvas.createAndBindElementBuffer(vertexIndexData),
+          colourCube = new ColourCube(vertexPositionBuffer, vertexNormalBuffer, vertexColourBuffer, count);
+
+    return colourCube;
+  }
+}
+
+module.exports = ColourCube;

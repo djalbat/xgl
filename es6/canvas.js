@@ -44,6 +44,13 @@ class Canvas {
 
     this.context.useProgram(shaderProgram);
   }
+
+  clear() {
+    this.clearDepth();
+    this.clearColour();
+    this.clearDepthBuffer();
+    this.clearColourBuffer();
+  }
   
   render(shader, normal, rotation, position, perspective) {
     const normalMatrix = normal.getMatrix(),
@@ -54,11 +61,6 @@ class Canvas {
           rotationMatrixUniformLocation = shader.getRotationMatrixUniformLocation(),
           positionMatrixUniformLocation = shader.getPositionMatrixUniformLocation(),
           perspectiveMatrixUniformLocation = shader.getPerspectiveMatrixUniformLocation();
-
-    this.clearDepth();
-    this.clearColour();
-    this.clearDepthBuffer();
-    this.clearColourBuffer();
 
     this.applyMatrix(normalMatrixUniformLocation, normalMatrix);
     this.applyMatrix(rotationMatrixUniformLocation, rotationMatrix);
