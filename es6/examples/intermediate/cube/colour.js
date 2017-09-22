@@ -129,11 +129,17 @@ const colourCube = (offsetPosition, canvas, callback) => {
         }),
         offsetVertexPositionData = flatten(offsetVertexPositions);
 
-  colourShader.createAndBindVertexPositionBuffer(offsetVertexPositionData, canvas);
+  const vertexPositionBuffer = colourShader.createVertexPositionBuffer(offsetVertexPositionData, canvas);
 
-  colourShader.createAndBindVertexColourBuffer(vertexColourData, canvas);
+  colourShader.bindVertexPositionBuffer(vertexPositionBuffer, canvas);
 
-  colourShader.createAndBindVertexNormalBuffer(vertexNormalData, canvas);
+  const vertexColourBuffer = colourShader.createVertexColourBuffer(vertexColourData, canvas);
+
+  colourShader.bindVertexColourBuffer(vertexColourBuffer, canvas);
+
+  const vertexNormalBuffer = colourShader.createVertexNormalBuffer(vertexNormalData, canvas);
+
+  colourShader.bindVertexNormalBuffer(vertexNormalBuffer, canvas);
 
   const count = canvas.createAndBindElementBuffer(vertexIndexData);
 

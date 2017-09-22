@@ -129,11 +129,17 @@ const textureCube = (offsetPosition, image, canvas, callback) => {
         }),
         offsetVertexPositionData = flatten(offsetVertexPositions);
 
-  textureShader.createAndBindVertexPositionBuffer(offsetVertexPositionData, canvas);
+  const vertexPositionBuffer = textureShader.createVertexPositionBuffer(offsetVertexPositionData, canvas);
 
-  textureShader.createAndBindTextureCoordinateBuffer(textureCoordinateData, canvas);
+  textureShader.bindVertexPositionBuffer(vertexPositionBuffer, canvas);
 
-  textureShader.createAndBindVertexNormalBuffer(vertexNormalData, canvas);
+  const textureCoordinateBuffer = textureShader.createTextureCoordinateBuffer(textureCoordinateData, canvas);
+
+  textureShader.bindTextureCoordinateBuffer(textureCoordinateBuffer, canvas);
+
+  const vertexNormalBuffer = textureShader.createVertexNormalBuffer(vertexNormalData, canvas);
+
+  textureShader.bindVertexNormalBuffer(vertexNormalBuffer, canvas);
 
   textureShader.createTexture(image, canvas);
 

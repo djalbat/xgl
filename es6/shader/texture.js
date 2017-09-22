@@ -45,14 +45,19 @@ const vertexShaderSource = `
       `;
 
 class TextureShader extends Shader {
-  constructor(program, normalMatrixUniformLocation, rotationMatrixUniformLocation, positionMatrixUniformLocation, perspectiveMatrixUniformLocation, vertexPositionAttributeLocation, vertexNormalAttributeLocation, textureCoordinateAttributeLocation) {
+  constructor(program, normalMatrixUniformLocation, rotationMatrixUniformLocation, positionMatrixUniformLocation, perspectiveMatrixUniformLocation, vertexPositionAttributeLocation, vertexNormalAttributeLocation, textureCoordinateAttributeLocation, samplerUniformLocation) {
     super(program, normalMatrixUniformLocation, rotationMatrixUniformLocation, positionMatrixUniformLocation, perspectiveMatrixUniformLocation, vertexPositionAttributeLocation, vertexNormalAttributeLocation);
 
     this.textureCoordinateAttributeLocation = textureCoordinateAttributeLocation;
+    this.samplerUniformLocation = samplerUniformLocation;
   }
 
   getTextureCoordinateAttributeLocation() {
     return this.textureCoordinateAttributeLocation;
+  }
+
+  getSamplerUniformLocation() {
+    return this.samplerUniformLocation;
   }
 
   static fromNothing(canvas) {
@@ -66,14 +71,20 @@ class TextureShader extends Shader {
     context.linkProgram(program);
 
     const textureCoordinateAttributeLocation = canvas.getAttributeLocation(program, textureCoordinateAttributeName),
-          textureShader = Shader.fromProgram(TextureShader, program, canvas, textureCoordinateAttributeLocation);
+          samplerUniformLocation = canvas.getUniformLocation(program, samplerName),
+          textureShader = Shader.fromProgram(TextureShader, program, canvas, textureCoordinateAttributeLocation, samplerUniformLocation);
 
     return textureShader;
   }
 
-  createAndBindTextureCoordinateBuffer(vertexCoordinateData, canvas) {
-    const textureCoordinateBuffer = canvas.createBuffer(vertexCoordinateData),
-          textureCoordinateComponents = 2;
+  createTextureCoordinateBuffer(vertexCoordinateData, canvas) {
+    const textureCoordinateBuffer = canvas.createBuffer(vertexCoordinateData);
+
+    return textureCoordinateBuffer;
+  }
+
+  bindTextureCoordinateBuffer(textureCoordinateBuffer, canvas) {
+    const textureCoordinateComponents = 2;
 
     canvas.bindBuffer(textureCoordinateBuffer, this.textureCoordinateAttributeLocation, textureCoordinateComponents);
   }
@@ -84,15 +95,13 @@ class TextureShader extends Shader {
 
   activateTexture(canvas) {
     const context = canvas.getContext(),
-          program = this.getProgram(),
           { TEXTURE0 } = context,
           target = TEXTURE0,
-          uSamplerUniformLocationIntegerValue = 0,
-          uSamplerUniformLocation = canvas.getUniformLocation(program, samplerName);
+          uSamplerUniformLocationIntegerValue = 0;
 
     canvas.activateTexture(target);
 
-    canvas.setUniformLocationIntegerValue(uSamplerUniformLocation, uSamplerUniformLocationIntegerValue);
+    canvas.setUniformLocationIntegerValue(this.samplerUniformLocation, uSamplerUniformLocationIntegerValue);
   }
 }
 

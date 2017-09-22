@@ -52,9 +52,9 @@ class ColourShader extends Shader {
 
   static fromNothing(canvas) {
     const context = canvas.getContext(),
-        program = context.createProgram(),
-        vertexShader = Shader.createVertexShader(vertexShaderSource, context),
-        fragmentShader = Shader.createFragmentShader(fragmentShaderSource, context);
+          program = context.createProgram(),
+          vertexShader = Shader.createVertexShader(vertexShaderSource, context),
+          fragmentShader = Shader.createFragmentShader(fragmentShaderSource, context);
 
     context.attachShader(program, vertexShader);
     context.attachShader(program, fragmentShader);
@@ -66,9 +66,14 @@ class ColourShader extends Shader {
     return colourShader;
   }
 
-  createAndBindVertexColourBuffer(vertexColourData, canvas) {
-    const vertexColourBuffer = canvas.createBuffer(vertexColourData),
-          vertexColourComponents = 4;
+  createVertexColourBuffer(vertexColourData, canvas) {
+    const vertexColourBuffer = canvas.createBuffer(vertexColourData);
+
+    return vertexColourBuffer;
+  }
+
+  bindVertexColourBuffer(vertexColourBuffer, canvas) {
+    const vertexColourComponents = 4;
 
     canvas.bindBuffer(vertexColourBuffer, this.vertexColourAttributeLocation, vertexColourComponents);
   }
