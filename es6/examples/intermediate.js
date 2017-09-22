@@ -20,16 +20,14 @@ function intermediate() {
   canvas.enableDepthTesting();
   canvas.enableDepthFunction();
 
-  createColourCube(canvas, function(count, colourShader) {
-    createTextureCube(canvas, function(count, textureShader) {
-      canvas.useShader(textureShader);
+  createTextureCube(canvas, function(count, shader) {
+    canvas.useShader(shader);
 
-      textureShader.activateTexture(canvas);
+    shader.activateTexture(canvas);
 
-      const render = createRender(canvas, count, textureShader);
+    const render = createRender(canvas, count, shader);
 
-      requestAnimationFrame(render);
-    });
+    requestAnimationFrame(render);
   });
 }
 

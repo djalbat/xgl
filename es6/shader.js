@@ -44,12 +44,14 @@ const normalMatrixName = 'uNormalMatrix',
       `;
 
 class Shader {
-  constructor(program, normalMatrixUniformLocation, rotationMatrixUniformLocation, positionMatrixUniformLocation, perspectiveMatrixUniformLocation) {
+  constructor(program, normalMatrixUniformLocation, rotationMatrixUniformLocation, positionMatrixUniformLocation, perspectiveMatrixUniformLocation, vertexPositionAttributeLocation, vertexNormalAttributeLocation) {
     this.program = program;
     this.normalMatrixUniformLocation = normalMatrixUniformLocation;
     this.rotationMatrixUniformLocation = rotationMatrixUniformLocation;
     this.positionMatrixUniformLocation = positionMatrixUniformLocation;
     this.perspectiveMatrixUniformLocation = perspectiveMatrixUniformLocation;
+    this.vertexPositionAttributeLocation = vertexPositionAttributeLocation;
+    this.vertexNormalAttributeLocation = vertexNormalAttributeLocation;
   }
 
   getProgram() {
@@ -72,12 +74,19 @@ class Shader {
     return this.perspectiveMatrixUniformLocation;
   }
 
+  getVertexPositionAttributeLocation() {
+    return this.vertexPositionAttributeLocation;
+  }
+
+  getVertexNormalAttributeLocation() {
+    return this.vertexNormalAttributeLocation;
+  }
+
   createAndBindVertexPositionBuffer(vertexPositionData, canvas) {
     const vertexPositionBuffer = canvas.createBuffer(vertexPositionData),
-          vertexPositionAttributeLocation = canvas.getAttributeLocation(this.program, vertexPositionAttributeName),
           vertexPositionComponents = 3;
 
-    canvas.bindBuffer(vertexPositionBuffer, vertexPositionAttributeLocation, vertexPositionComponents);
+    canvas.bindBuffer(vertexPositionBuffer, this.vertexPositionAttributeLocation, vertexPositionComponents);
 
     const vertexPositionDataLength = vertexPositionData.length,
           count = vertexPositionDataLength / vertexPositionComponents;
@@ -87,39 +96,36 @@ class Shader {
 
   createAndBindVertexNormalBuffer(vertexNormalData, canvas) {
     const vertexNormalBuffer = canvas.createBuffer(vertexNormalData),
-          vertexNormalAttributeLocation = canvas.getAttributeLocation(this.program, vertexNormalAttributeName),
           vertexNormalComponents = 3;
 
-    canvas.bindBuffer(vertexNormalBuffer, vertexNormalAttributeLocation, vertexNormalComponents);
+    canvas.bindBuffer(vertexNormalBuffer, this.vertexNormalAttributeLocation, vertexNormalComponents);
   }
 
-  static fromVertexShaderSourceAndFragmentShaderSource(Class, vertexShaderSource, fragmentShaderSource, canvas) {
-    const context = canvas.getContext(),
-          { LINK_STATUS } = context,
-          pname = LINK_STATUS,
-          program = context.createProgram(),
-          vertexShader = createVertexShader(vertexShaderSource, context),
-          fragmentShader = createFragmentShader(fragmentShaderSource, context);
-  
-    context.attachShader(program, vertexShader);
-    context.attachShader(program, fragmentShader);
-  
-    context.linkProgram(program);
-  
-    const linkStatus = context.getProgramParameter(program, pname);
-  
-    if (!linkStatus) {
-      const message = context.getProgramInfoLog(program);  ///
-  
-      throw new Error(`Unable to create the colour shader program, '${message}'.`);
-    }
+  static createVertexShader(vertexShaderSource, context) {
+    const { VERTEX_SHADER } = context,
+        type = VERTEX_SHADER,
+        vertexShader = createShader(type, vertexShaderSource, context);
 
+    return vertexShader;
+  }
+
+  static createFragmentShader(fragmentShaderSource, context) {
+    const { FRAGMENT_SHADER } = context,
+        type = FRAGMENT_SHADER,
+        vertexShader = createShader(type, fragmentShaderSource, context);
+
+    return vertexShader;
+  }
+
+  static fromProgram(Class, program, canvas, ...remainingArguments) {
     const normalMatrixUniformLocation = canvas.getUniformLocation(program, normalMatrixName),
           rotationMatrixUniformLocation = canvas.getUniformLocation(program, rotationMatrixName),
           positionMatrixUniformLocation = canvas.getUniformLocation(program, positionMatrixName),
           perspectiveMatrixUniformLocation = canvas.getUniformLocation(program, perspectiveMatrixName),
-          shader = new Class(program, normalMatrixUniformLocation, rotationMatrixUniformLocation, positionMatrixUniformLocation, perspectiveMatrixUniformLocation);
-  
+          vertexPositionAttributeLocation = canvas.getAttributeLocation(program, vertexPositionAttributeName),
+          vertexNormalAttributeLocation = canvas.getAttributeLocation(program, vertexNormalAttributeName),
+          shader = new Class(program, normalMatrixUniformLocation, rotationMatrixUniformLocation, positionMatrixUniformLocation, perspectiveMatrixUniformLocation, vertexPositionAttributeLocation, vertexNormalAttributeLocation, ...remainingArguments);
+
     return shader;
   }
 }
@@ -130,22 +136,6 @@ Object.assign(Shader, {
 });
 
 module.exports = Shader;
-
-function createVertexShader(vertexShaderSource, context) {
-  const { VERTEX_SHADER } = context,
-        type = VERTEX_SHADER,
-        vertexShader = createShader(type, vertexShaderSource, context);
-
-  return vertexShader;
-}
-
-function createFragmentShader(fragmentShaderSource, context) {
-  const { FRAGMENT_SHADER } = context,
-        type = FRAGMENT_SHADER,
-        vertexShader = createShader(type, fragmentShaderSource, context);
-
-  return vertexShader;
-}
 
 function createShader(type, shaderSource, context) {
   const { COMPILE_STATUS } = context,

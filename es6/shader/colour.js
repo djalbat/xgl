@@ -40,15 +40,37 @@ const vertexShaderSource = `
       `;
   
 class ColourShader extends Shader {
-  static fromNothing(canvas) { return Shader.fromVertexShaderSourceAndFragmentShaderSource(ColourShader, vertexShaderSource, fragmentShaderSource, canvas); }
+  constructor(program, normalMatrixUniformLocation, rotationMatrixUniformLocation, positionMatrixUniformLocation, perspectiveMatrixUniformLocation, vertexPositionAttributeLocation, vertexNormalAttributeLocation, vertexColourAttributeLocation) {
+    super(program, normalMatrixUniformLocation, rotationMatrixUniformLocation, positionMatrixUniformLocation, perspectiveMatrixUniformLocation, vertexPositionAttributeLocation, vertexNormalAttributeLocation);
+
+    this.vertexColourAttributeLocation = vertexColourAttributeLocation;
+  }
+
+  getVertexColourAttributeLocation() {
+    return this.vertexColourAttributeLocation;
+  }
+
+  static fromNothing(canvas) {
+    const context = canvas.getContext(),
+        program = context.createProgram(),
+        vertexShader = Shader.createVertexShader(vertexShaderSource, context),
+        fragmentShader = Shader.createFragmentShader(fragmentShaderSource, context);
+
+    context.attachShader(program, vertexShader);
+    context.attachShader(program, fragmentShader);
+    context.linkProgram(program);
+
+    const vertexColourAttributeLocation = canvas.getAttributeLocation(program, vertexColourAttributeName),
+          colourShader = Shader.fromProgram(ColourShader, program, canvas, vertexColourAttributeLocation);
+
+    return colourShader;
+  }
 
   createAndBindVertexColourBuffer(vertexColourData, canvas) {
-    const program = this.getProgram(),
-          vertexColourBuffer = canvas.createBuffer(vertexColourData),
-          vertexColourAttributeLocation = canvas.getAttributeLocation(program, vertexColourAttributeName),
+    const vertexColourBuffer = canvas.createBuffer(vertexColourData),
           vertexColourComponents = 4;
 
-    canvas.bindBuffer(vertexColourBuffer, vertexColourAttributeLocation, vertexColourComponents);
+    canvas.bindBuffer(vertexColourBuffer, this.vertexColourAttributeLocation, vertexColourComponents);
   }
 
   activateTexture(canvas) {}  ///

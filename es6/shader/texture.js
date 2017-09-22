@@ -45,15 +45,37 @@ const vertexShaderSource = `
       `;
 
 class TextureShader extends Shader {
-  static fromNothing(canvas) { return Shader.fromVertexShaderSourceAndFragmentShaderSource(TextureShader, vertexShaderSource, fragmentShaderSource, canvas); }
+  constructor(program, normalMatrixUniformLocation, rotationMatrixUniformLocation, positionMatrixUniformLocation, perspectiveMatrixUniformLocation, vertexPositionAttributeLocation, vertexNormalAttributeLocation, textureCoordinateAttributeLocation) {
+    super(program, normalMatrixUniformLocation, rotationMatrixUniformLocation, positionMatrixUniformLocation, perspectiveMatrixUniformLocation, vertexPositionAttributeLocation, vertexNormalAttributeLocation);
+
+    this.textureCoordinateAttributeLocation = textureCoordinateAttributeLocation;
+  }
+
+  getTextureCoordinateAttributeLocation() {
+    return this.textureCoordinateAttributeLocation;
+  }
+
+  static fromNothing(canvas) {
+    const context = canvas.getContext(),
+          program = context.createProgram(),
+          vertexShader = Shader.createVertexShader(vertexShaderSource, context),
+          fragmentShader = Shader.createFragmentShader(fragmentShaderSource, context);
+
+    context.attachShader(program, vertexShader);
+    context.attachShader(program, fragmentShader);
+    context.linkProgram(program);
+
+    const textureCoordinateAttributeLocation = canvas.getAttributeLocation(program, textureCoordinateAttributeName),
+          textureShader = Shader.fromProgram(TextureShader, program, canvas, textureCoordinateAttributeLocation);
+
+    return textureShader;
+  }
 
   createAndBindTextureCoordinateBuffer(vertexCoordinateData, canvas) {
-    const program = this.getProgram(),
-          textureCoordinateBuffer = canvas.createBuffer(vertexCoordinateData),
-          textureCoordinateAttributeLocation = canvas.getAttributeLocation(program, textureCoordinateAttributeName),
+    const textureCoordinateBuffer = canvas.createBuffer(vertexCoordinateData),
           textureCoordinateComponents = 2;
 
-    canvas.bindBuffer(textureCoordinateBuffer, textureCoordinateAttributeLocation, textureCoordinateComponents);
+    canvas.bindBuffer(textureCoordinateBuffer, this.textureCoordinateAttributeLocation, textureCoordinateComponents);
   }
 
   createTexture(image, canvas) {
