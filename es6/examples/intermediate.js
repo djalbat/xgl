@@ -24,7 +24,9 @@ function intermediate() {
   canvas.enableDepthTesting();
   canvas.enableDepthFunction();
 
-  createColourCube(colourShader, canvas, function(count, shader) {
+  createTextureCube(textureShader, canvas, function(count) {
+    const shader = textureShader;  ///
+
     canvas.useShader(shader);
 
     shader.activateTexture(canvas);
@@ -38,18 +40,20 @@ function intermediate() {
 module.exports = intermediate;
 
 function createColourCube(colourShader, canvas, callback) {
-  const offsetPosition = [-1, 0, 0];
+  const offsetPosition = [-1, 0, 0],
+        count = colourCube(offsetPosition, colourShader, canvas);
 
-  colourCube(offsetPosition, colourShader, canvas, callback);
+  callback(count);
 }
 
 function createTextureCube(textureShader, canvas, callback) {
   loadImages(function(images) {
     const firstImage = first(images),
           offsetPosition = [+1, 0, 0],
-          image = firstImage; ///
+          image = firstImage,
+          count = textureCube(offsetPosition, image, textureShader, canvas);
 
-    textureCube(offsetPosition, image, textureShader, canvas, callback);
+    callback(count);
   });
 }
 

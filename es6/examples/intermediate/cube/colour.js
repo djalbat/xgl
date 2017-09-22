@@ -118,7 +118,7 @@ const vertexColourData = [
         20, 22, 23
       ];
 
-const colourCube = (offsetPosition, colourShader, canvas, callback) => {
+const colourCube = (offsetPosition, colourShader, canvas) => {
   const vertexPositions = divide(vertexPositionData, 3),  ///
         offsetVertexPositions = vertexPositions.map(function(vertexPosition) {
           const offsetVertexPosition = vec3.add(vertexPosition, offsetPosition);
@@ -138,7 +138,7 @@ const colourCube = (offsetPosition, colourShader, canvas, callback) => {
 
   colourShader.bindVertexNormalBuffer(vertexNormalBuffer, canvas);
 
-  callback(count, colourShader);
+  return count;
 };
 
 module.exports = colourCube;

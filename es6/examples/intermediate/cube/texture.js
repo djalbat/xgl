@@ -118,7 +118,7 @@ const textureCoordinateData = [
         20, 22, 23
       ];
 
-const textureCube = (offsetPosition, image, textureShader, canvas, callback) => {
+const textureCube = (offsetPosition, image, textureShader, canvas) => {
   const vertexPositions = divide(vertexPositionData, 3),  ///
         offsetVertexPositions = vertexPositions.map(function(vertexPosition) {
           const offsetVertexPosition = vec3.add(vertexPosition, offsetPosition);
@@ -127,12 +127,12 @@ const textureCube = (offsetPosition, image, textureShader, canvas, callback) => 
         }),
         offsetVertexPositionData = flatten(offsetVertexPositions);
 
-  textureShader.createTexture(image, canvas);
-
   const vertexPositionBuffer = textureShader.createVertexPositionBuffer(offsetVertexPositionData, canvas),
         textureCoordinateBuffer = textureShader.createTextureCoordinateBuffer(textureCoordinateData, canvas),
         vertexNormalBuffer = textureShader.createVertexNormalBuffer(vertexNormalData, canvas),
         count = canvas.createAndBindElementBuffer(vertexIndexData);
+
+  textureShader.createTexture(image, canvas);
 
   textureShader.bindVertexPositionBuffer(vertexPositionBuffer, canvas);
 
@@ -140,7 +140,7 @@ const textureCube = (offsetPosition, image, textureShader, canvas, callback) => 
 
   textureShader.bindVertexNormalBuffer(vertexNormalBuffer, canvas);
 
-  callback(count, textureShader);
+  return count;
 };
 
 module.exports = textureCube;
