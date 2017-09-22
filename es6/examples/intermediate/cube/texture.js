@@ -1,7 +1,6 @@
 'use strict';
 
 const vec3 = require('../../../vec3'),
-      TextureShader = require('../../../shader/texture'),
       arrayUtilities = require('../../../utilities/array');
 
 const { divide, flatten } = arrayUtilities;
@@ -119,9 +118,8 @@ const textureCoordinateData = [
         20, 22, 23
       ];
 
-const textureCube = (offsetPosition, image, canvas, callback) => {
-  const textureShader = TextureShader.fromNothing(canvas),
-        vertexPositions = divide(vertexPositionData, 3),  ///
+const textureCube = (offsetPosition, image, textureShader, canvas, callback) => {
+  const vertexPositions = divide(vertexPositionData, 3),  ///
         offsetVertexPositions = vertexPositions.map(function(vertexPosition) {
           const offsetVertexPosition = vec3.add(vertexPosition, offsetPosition);
 
@@ -129,21 +127,18 @@ const textureCube = (offsetPosition, image, canvas, callback) => {
         }),
         offsetVertexPositionData = flatten(offsetVertexPositions);
 
-  const vertexPositionBuffer = textureShader.createVertexPositionBuffer(offsetVertexPositionData, canvas);
+  textureShader.createTexture(image, canvas);
+
+  const vertexPositionBuffer = textureShader.createVertexPositionBuffer(offsetVertexPositionData, canvas),
+        textureCoordinateBuffer = textureShader.createTextureCoordinateBuffer(textureCoordinateData, canvas),
+        vertexNormalBuffer = textureShader.createVertexNormalBuffer(vertexNormalData, canvas),
+        count = canvas.createAndBindElementBuffer(vertexIndexData);
 
   textureShader.bindVertexPositionBuffer(vertexPositionBuffer, canvas);
 
-  const textureCoordinateBuffer = textureShader.createTextureCoordinateBuffer(textureCoordinateData, canvas);
-
   textureShader.bindTextureCoordinateBuffer(textureCoordinateBuffer, canvas);
 
-  const vertexNormalBuffer = textureShader.createVertexNormalBuffer(vertexNormalData, canvas);
-
   textureShader.bindVertexNormalBuffer(vertexNormalBuffer, canvas);
-
-  textureShader.createTexture(image, canvas);
-
-  const count = canvas.createAndBindElementBuffer(vertexIndexData);
 
   callback(count, textureShader);
 };

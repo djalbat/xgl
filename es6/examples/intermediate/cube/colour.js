@@ -1,7 +1,6 @@
 'use strict';
 
 const vec3 = require('../../../vec3'),
-      ColourShader = require('../../../shader/colour'),
       arrayUtilities = require('../../../utilities/array');
 
 const { divide, flatten } = arrayUtilities;
@@ -119,9 +118,8 @@ const vertexColourData = [
         20, 22, 23
       ];
 
-const colourCube = (offsetPosition, canvas, callback) => {
-  const colourShader = ColourShader.fromNothing(canvas),
-        vertexPositions = divide(vertexPositionData, 3),  ///
+const colourCube = (offsetPosition, colourShader, canvas, callback) => {
+  const vertexPositions = divide(vertexPositionData, 3),  ///
         offsetVertexPositions = vertexPositions.map(function(vertexPosition) {
           const offsetVertexPosition = vec3.add(vertexPosition, offsetPosition);
 
@@ -129,19 +127,16 @@ const colourCube = (offsetPosition, canvas, callback) => {
         }),
         offsetVertexPositionData = flatten(offsetVertexPositions);
 
-  const vertexPositionBuffer = colourShader.createVertexPositionBuffer(offsetVertexPositionData, canvas);
+  const vertexPositionBuffer = colourShader.createVertexPositionBuffer(offsetVertexPositionData, canvas),
+        vertexColourBuffer = colourShader.createVertexColourBuffer(vertexColourData, canvas),
+        vertexNormalBuffer = colourShader.createVertexNormalBuffer(vertexNormalData, canvas),
+        count = canvas.createAndBindElementBuffer(vertexIndexData);
 
   colourShader.bindVertexPositionBuffer(vertexPositionBuffer, canvas);
 
-  const vertexColourBuffer = colourShader.createVertexColourBuffer(vertexColourData, canvas);
-
   colourShader.bindVertexColourBuffer(vertexColourBuffer, canvas);
 
-  const vertexNormalBuffer = colourShader.createVertexNormalBuffer(vertexNormalData, canvas);
-
   colourShader.bindVertexNormalBuffer(vertexNormalBuffer, canvas);
-
-  const count = canvas.createAndBindElementBuffer(vertexIndexData);
 
   callback(count, colourShader);
 };

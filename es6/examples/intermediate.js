@@ -7,6 +7,8 @@ const Canvas = require('../canvas'),
       Rotation = require('../rotation'),
       Position = require('../position'),
       Perspective = require('../perspective'),
+      ColourShader = require('../shader/colour'),
+      TextureShader = require('../shader/texture'),
       colourCube = require('./intermediate/cube/colour'),
       textureCube = require('./intermediate/cube/texture');
 
@@ -15,12 +17,14 @@ const { arrayUtilities, asynchronousUtilities } = necessary,
       { repeatedly } = asynchronousUtilities;
 
 function intermediate() {
-  const canvas = new Canvas();
+  const canvas = new Canvas(),
+        colourShader = ColourShader.fromNothing(canvas),
+        textureShader = TextureShader.fromNothing(canvas);
 
   canvas.enableDepthTesting();
   canvas.enableDepthFunction();
 
-  createTextureCube(canvas, function(count, shader) {
+  createColourCube(colourShader, canvas, function(count, shader) {
     canvas.useShader(shader);
 
     shader.activateTexture(canvas);
@@ -33,19 +37,19 @@ function intermediate() {
 
 module.exports = intermediate;
 
-function createColourCube(canvas, callback) {
+function createColourCube(colourShader, canvas, callback) {
   const offsetPosition = [-1, 0, 0];
 
-  colourCube(offsetPosition, canvas, callback);
+  colourCube(offsetPosition, colourShader, canvas, callback);
 }
 
-function createTextureCube(canvas, callback) {
+function createTextureCube(textureShader, canvas, callback) {
   loadImages(function(images) {
     const firstImage = first(images),
           offsetPosition = [+1, 0, 0],
           image = firstImage; ///
 
-    textureCube(offsetPosition, image, canvas, callback);
+    textureCube(offsetPosition, image, textureShader, canvas, callback);
   });
 }
 

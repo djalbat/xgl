@@ -88,12 +88,6 @@ class Shader {
     return vertexPositionBuffer;
   }
 
-  bindVertexPositionBuffer(vertexPositionBuffer, canvas) {
-    const vertexPositionComponents = 3;
-
-    canvas.bindBuffer(vertexPositionBuffer, this.vertexPositionAttributeLocation, vertexPositionComponents);
-  }
-
   createVertexNormalBuffer(vertexNormalData, canvas) {
     const vertexNormalBuffer = canvas.createBuffer(vertexNormalData);
 
@@ -104,6 +98,12 @@ class Shader {
     const vertexNormalComponents = 3;
 
     canvas.bindBuffer(vertexNormalBuffer, this.vertexNormalAttributeLocation, vertexNormalComponents);
+  }
+
+  bindVertexPositionBuffer(vertexPositionBuffer, canvas) {
+    const vertexPositionComponents = 3;
+
+    canvas.bindBuffer(vertexPositionBuffer, this.vertexPositionAttributeLocation, vertexPositionComponents);
   }
 
   static createVertexShader(vertexShaderSource, context) {
