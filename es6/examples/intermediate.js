@@ -9,12 +9,13 @@ const Canvas = require('../canvas'),
       Perspective = require('../perspective'),
       ColourShader = require('../shader/colour'),
       TextureShader = require('../shader/texture'),
+      imagesUtilities = require('../utilities/images'),
       ColourCube = require('./intermediate/cube/colour'),
       TextureCube = require('./intermediate/cube/texture');
 
-const { arrayUtilities, asynchronousUtilities } = necessary,
-      { first } = arrayUtilities,
-      { repeatedly } = asynchronousUtilities;
+const { arrayUtilities } = necessary,
+      { preload } = imagesUtilities,
+      { first } = arrayUtilities;
 
 function intermediate() {
   const canvas = new Canvas(),
@@ -43,32 +44,18 @@ function createColourCube(colourShader, canvas, callback) {
 }
 
 function createTextureCube(textureShader, canvas, callback) {
-  loadImages(function(images) {
+  const sources = [
+          'texture/bricks.jpg'
+        ];
+
+  preload(sources, function(images) {
     const firstImage = first(images),
           offsetPosition = [+2, 0, 0],
-          image = firstImage,
+          image = firstImage, ///
           textureCube = TextureCube.fromOffsetPositionAndImage(offsetPosition, image, textureShader, canvas);
 
     callback(textureCube);
   });
-}
-
-function loadImages(callback) {
-  const imageSources = [
-          'texture/bricks.jpg'
-        ],
-        images = [],
-        context = {
-          imageSources: imageSources,
-          images: images
-        },
-        length = imageSources.length; ///
-
-  repeatedly(loadImageCallback, length, function() {
-    const { images } = context;
-
-    callback(images)
-  }, context);
 }
 
 function createRender(canvas, colourCube, colourShader, textureCube, textureShader) {
@@ -127,16 +114,4 @@ function createRender(canvas, colourCube, colourShader, textureCube, textureShad
   };
 
   return render;
-}
-
-function loadImageCallback(next, done, context, index) {
-  const { imageSources, images } = context,
-        imageSource = imageSources[index],
-        image = new Image();
-
-  images[index] = image;
-
-  image.onload = next;  ///
-
-  image.src = imageSource;  ///
 }
