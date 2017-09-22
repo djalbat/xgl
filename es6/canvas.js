@@ -39,6 +39,8 @@ class Canvas {
   
   setUniformLocationIntegerValue(uniformLocation, integerValue) { this.context.uniform1i(uniformLocation, integerValue); }
 
+  createProgram() { return this.context.createProgram(); }
+
   useShader(shader) {
     const shaderProgram = shader.getProgram();
 

@@ -75,14 +75,10 @@ function createRender(canvas, colourCube, colourShader, textureCube, textureShad
     }
 
     const elapsedTime = time - initialTime,
-          xAngle = elapsedTime / 573,
-          yAngle = elapsedTime / 892,
-          rotation = Rotation.fromXAngleAndYAngle(xAngle, yAngle),
+          rotation = Rotation.fromNothing(),
           normal = Normal.fromRotation(rotation);
 
     canvas.clear();
-
-
 
     colourCube.bind(colourShader, canvas);
 
@@ -94,9 +90,6 @@ function createRender(canvas, colourCube, colourShader, textureCube, textureShad
 
     canvas.drawElements(colourCubeCount);
 
-
-
-
     textureCube.bind(textureShader, canvas);
 
     canvas.useShader(textureShader);
@@ -106,9 +99,6 @@ function createRender(canvas, colourCube, colourShader, textureCube, textureShad
     canvas.render(textureShader, normal, rotation, position, perspective);
 
     canvas.drawElements(textureCubeCount);
-
-
-
 
     requestAnimationFrame(render);
   };

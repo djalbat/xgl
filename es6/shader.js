@@ -106,18 +106,20 @@ class Shader {
     canvas.bindBuffer(vertexPositionBuffer, this.vertexPositionAttributeLocation, vertexPositionComponents);
   }
 
-  static createVertexShader(vertexShaderSource, context) {
-    const { VERTEX_SHADER } = context,
-        type = VERTEX_SHADER,
-        vertexShader = createShader(type, vertexShaderSource, context);
+  static createVertexShader(vertexShaderSource, canvas) {
+    const context = canvas.getContext(),
+          { VERTEX_SHADER } = context,
+          type = VERTEX_SHADER,
+          vertexShader = createShader(type, vertexShaderSource, context);
 
     return vertexShader;
   }
 
-  static createFragmentShader(fragmentShaderSource, context) {
-    const { FRAGMENT_SHADER } = context,
-        type = FRAGMENT_SHADER,
-        vertexShader = createShader(type, fragmentShaderSource, context);
+  static createFragmentShader(fragmentShaderSource, canvas) {
+    const context = canvas.getContext(),
+          { FRAGMENT_SHADER } = context,
+          type = FRAGMENT_SHADER,
+          vertexShader = createShader(type, fragmentShaderSource, context);
 
     return vertexShader;
   }
