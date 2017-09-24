@@ -14,9 +14,7 @@ function clearColourBuffer() {
   this.context.clear(mask);
 }
 
-const colourMixin = {
+module.exports = {
   clearColour: clearColour,
   clearColourBuffer: clearColourBuffer
 };
-
-module.exports = colourMixin;

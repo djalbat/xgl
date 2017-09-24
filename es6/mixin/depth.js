@@ -25,11 +25,9 @@ function enableDepthFunction() {
   this.context.depthFunc(func); 
 }
 
-const depthMixin = {
+module.exports = {
   clearDepth: clearDepth,
   clearDepthBuffer: clearDepthBuffer,
   enableDepthTesting: enableDepthTesting,
   enableDepthFunction: enableDepthFunction
 };
-
-module.exports = depthMixin;

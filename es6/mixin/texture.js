@@ -20,9 +20,7 @@ function createTexture(image) {
 
 function activateTexture(target) { this.context.activeTexture(target); }
 
-const textureMixin = {
+module.exports = {
   createTexture: createTexture,
   activateTexture: activateTexture
 };
-
-module.exports = textureMixin;

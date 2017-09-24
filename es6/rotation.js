@@ -42,6 +42,13 @@ class Rotation {
     return rotation;
   }
 
+  static fromXAngleAndZAngle(xAngle, zAngle) {
+    const yAngle = defaultYAngle,
+          rotation = Rotation.fromXAngleYAngleAndZAngle(xAngle, yAngle, zAngle);
+
+    return rotation;
+  }
+
   static fromXAngleYAngleAndZAngle(xAngle, yAngle, zAngle) {
     const matrix = mat4.create();
 

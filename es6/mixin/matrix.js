@@ -6,8 +6,6 @@ function applyMatrix(uniformLocation, matrix) {
   this.context.uniformMatrix4fv(uniformLocation, transpose, matrix);
 }
 
-const bufferMixin = {
+module.exports = {
   applyMatrix: applyMatrix
 };
-
-module.exports = bufferMixin;

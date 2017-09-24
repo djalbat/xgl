@@ -2,11 +2,13 @@
 
 const necessary = require('necessary');
 
-const Canvas = require('../canvas'),
+const angles = require('../angles'),
+      Canvas = require('../canvas'),
       Normal = require('../normal'),
       Rotation = require('../rotation'),
       Position = require('../position'),
       Perspective = require('../perspective'),
+      MouseEvents = require('../mouseEvents'),
       ColourShader = require('../shader/colour'),
       TextureShader = require('../shader/texture'),
       imagesUtilities = require('../utilities/images'),
@@ -17,19 +19,28 @@ const { arrayUtilities } = necessary,
       { preload } = imagesUtilities,
       { first } = arrayUtilities;
 
+let render;
+
 function intermediate() {
   const canvas = new Canvas(),
         colourShader = ColourShader.fromNothing(canvas),
         textureShader = TextureShader.fromNothing(canvas);
+
+  const mouseEvents = new MouseEvents(canvas);
+
+  mouseEvents.addMouseUpEventHandler(mouseUpEventHandler);
+  mouseEvents.addMouseDownEventHandler(mouseDownEventHandler);
+  mouseEvents.addMouseMoveEventHandler(mouseMoveEventHandler);
+  mouseEvents.addMouseWheelEventHandler(mouseWheelEventHandler);
 
   canvas.enableDepthTesting();
   canvas.enableDepthFunction();
 
   createColourCube(colourShader, canvas, function(colourCube) {
     createTextureCube(textureShader, canvas, function(textureCube) {
-      const render = createRender(canvas, colourCube, colourShader, textureCube, textureShader);
+      render = createRender(canvas, colourCube, colourShader, textureCube, textureShader);
 
-      requestAnimationFrame(render);
+      render();
     });
   });
 }
@@ -59,8 +70,6 @@ function createTextureCube(textureShader, canvas, callback) {
 }
 
 function createRender(canvas, colourCube, colourShader, textureCube, textureShader) {
-  let initialTime = null;
-
   const clientWidth = canvas.getClientWidth(),
         clientHeight = canvas.getClientHeight(),
         zCoordinate = -10, ///
@@ -69,13 +78,12 @@ function createRender(canvas, colourCube, colourShader, textureCube, textureShad
         colourCubeCount = colourCube.getCount(),
         textureCubeCount = textureCube.getCount();
 
-  const render = (time) => {
-    if (initialTime === null) {
-      initialTime = time;
-    }
-
-    const elapsedTime = time - initialTime,
-          rotation = Rotation.fromNothing(),
+  const render = () => {
+    const xAxisAngle = angles.getXAxisAngle(),
+          yAxisAngle = angles.getYAxisAngle(),
+          xAngle = xAxisAngle,  ///
+          zAngle = yAxisAngle, ///
+          rotation = Rotation.fromXAngleAndZAngle(xAngle, zAngle),
           normal = Normal.fromRotation(rotation);
 
     canvas.clear();
@@ -104,4 +112,24 @@ function createRender(canvas, colourCube, colourShader, textureCube, textureShad
   };
 
   return render;
+}
+
+function mouseUpEventHandler(mouseCoordinates) {
+  angles.mouseUpEventHandler(mouseCoordinates);
+}
+
+function mouseDownEventHandler(mouseCoordinates) {
+  angles.mouseDownEventHandler(mouseCoordinates);
+}
+
+function mouseMoveEventHandler(mouseCoordinates) {
+  angles.mouseMoveEventHandler(mouseCoordinates);
+
+  // render();
+}
+
+function mouseWheelEventHandler(delta) {
+  // zoom.mouseWheelEventHandler(delta);
+
+  // render();
 }

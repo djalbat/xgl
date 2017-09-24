@@ -60,12 +60,10 @@ function bindBuffer(buffer, attributeLocation, components) {
   this.context.enableVertexAttribArray(attributeLocation);
 }
 
-const bufferMixin = {
+module.exports = {
   createAndBindElementBuffer: createAndBindElementBuffer,
   createElementBuffer: createElementBuffer,
   bindElementBuffer: bindElementBuffer,
   createBuffer: createBuffer,
   bindBuffer: bindBuffer
 };
-
-module.exports = bufferMixin;

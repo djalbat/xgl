@@ -5,7 +5,8 @@ const domUtilities = require('./utilities/dom'),
       bufferMixin = require('./mixin/buffer'),
       colourMixin = require('./mixin/colour'),
       matrixMixin = require('./mixin/matrix'),
-      depthMixin = require('./mixin/depth');
+      depthMixin = require('./mixin/depth'),
+      mouseMixin = require('./mixin/mouse');
 
 const { domElementFromSelector } = domUtilities;
 
@@ -27,6 +28,10 @@ class Canvas {
 
   getContext() {
     return this.context;
+  }
+
+  getDOMElement() {
+    return this.domElement;
   }
 
   getClientWidth() { return this.domElement.clientWidth; }
@@ -84,5 +89,6 @@ Object.assign(Canvas.prototype, bufferMixin);
 Object.assign(Canvas.prototype, colourMixin);
 Object.assign(Canvas.prototype, matrixMixin);
 Object.assign(Canvas.prototype, depthMixin);
+Object.assign(Canvas.prototype, mouseMixin);
 
 module.exports = Canvas;
