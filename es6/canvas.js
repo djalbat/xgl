@@ -34,6 +34,10 @@ class Canvas {
     return this.domElement;
   }
 
+  getWidth() { return this.domElement.width; }
+
+  getHeight() { return this.domElement.height; }
+
   getClientWidth() { return this.domElement.clientWidth; }
 
   getClientHeight() { return this.domElement.clientHeight; }
@@ -41,7 +45,19 @@ class Canvas {
   getUniformLocation(program, name) { return this.context.getUniformLocation(program, name); }
 
   getAttributeLocation(program, name) { return this.context.getAttribLocation(program, name); }
-  
+
+  setWidth(width) { this.domElement.setAttribute('width', width); }
+
+  setHeight(height) { this.domElement.setAttribute('height', height); }
+
+  setViewport(x, y, width, height) { this.context.viewport(x, y, width, height); }
+
+  resize(width, height) {
+    this.setWidth(width);
+    this.setHeight(height);
+    this.setViewport(0, 0, width, height);
+  }
+
   setUniformLocationIntegerValue(uniformLocation, integerValue) { this.context.uniform1i(uniformLocation, integerValue); }
 
   createProgram() { return this.context.createProgram(); }

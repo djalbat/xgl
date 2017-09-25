@@ -20,7 +20,7 @@ const { arrayUtilities } = necessary,
       { preload } = imagesUtilities,
       { first } = arrayUtilities;
 
-let render;
+let render, resize;
 
 function intermediate() {
   const canvas = new Canvas(),
@@ -37,9 +37,15 @@ function intermediate() {
   canvas.enableDepthTesting();
   canvas.enableDepthFunction();
 
+
   createColourCube(colourShader, canvas, function(colourCube) {
     createTextureCube(textureShader, canvas, function(textureCube) {
       render = createRender(canvas, colourCube, colourShader, textureCube, textureShader);
+      resize = createResize(canvas);
+
+      window.onresize = resize;
+
+      resize();
 
       render();
     });
@@ -71,10 +77,7 @@ function createTextureCube(textureShader, canvas, callback) {
 }
 
 function createRender(canvas, colourCube, colourShader, textureCube, textureShader) {
-  const clientWidth = canvas.getClientWidth(),
-        clientHeight = canvas.getClientHeight(),
-        perspective = Perspective.fromClientWidthAndClientHeight(clientWidth, clientHeight),
-        colourCubeCount = colourCube.getCount(),
+  const colourCubeCount = colourCube.getCount(),
         textureCubeCount = textureCube.getCount();
 
   const render = () => {
@@ -84,8 +87,11 @@ function createRender(canvas, colourCube, colourShader, textureCube, textureShad
           xAngle = xAxisAngle,  ///
           zAngle = yAxisAngle, ///
           zCoordinate = -Math.max(10, distance), ///
-          position = Position.fromZCoordinate(zCoordinate),
+          width = canvas.getWidth(),
+          height = canvas.getHeight(),
+          perspective = Perspective.fromWidthAndHeight(width, height),
           rotation = Rotation.fromXAngleAndZAngle(xAngle, zAngle),
+          position = Position.fromZCoordinate(zCoordinate),
           normal = Normal.fromRotation(rotation);
 
     canvas.clear();
@@ -112,6 +118,19 @@ function createRender(canvas, colourCube, colourShader, textureCube, textureShad
   };
 
   return render;
+}
+
+function createResize(canvas) {
+  const resize = () => {
+    const clientWidth = canvas.getClientWidth(),
+          clientHeight = canvas.getClientHeight(),
+          width = clientWidth,  ///
+          height = clientHeight;  ///
+
+    canvas.resize(width, height);
+  };
+
+  return resize;
 }
 
 function mouseUpEventHandler(mouseCoordinates) {

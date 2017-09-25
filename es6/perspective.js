@@ -15,8 +15,8 @@ class Perspective {
     return this.matrix;
   }
 
-  static fromClientWidthAndClientHeight(clientWidth, clientHeight) {
-    const aspectRatio = clientWidth / clientHeight,
+  static fromWidthAndHeight(width, height) {
+    const aspectRatio = width / height,
           fieldOfView = defaultFieldOfView,
           zNear = defaultZNear,
           zFar = defaultZFar,
