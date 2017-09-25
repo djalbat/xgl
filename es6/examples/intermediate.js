@@ -3,6 +3,7 @@
 const necessary = require('necessary');
 
 const angles = require('../angles'),
+      zoom = require('../zoom'),
       Canvas = require('../canvas'),
       Normal = require('../normal'),
       Rotation = require('../rotation'),
@@ -72,8 +73,6 @@ function createTextureCube(textureShader, canvas, callback) {
 function createRender(canvas, colourCube, colourShader, textureCube, textureShader) {
   const clientWidth = canvas.getClientWidth(),
         clientHeight = canvas.getClientHeight(),
-        zCoordinate = -10, ///
-        position = Position.fromZCoordinate(zCoordinate),
         perspective = Perspective.fromClientWidthAndClientHeight(clientWidth, clientHeight),
         colourCubeCount = colourCube.getCount(),
         textureCubeCount = textureCube.getCount();
@@ -81,8 +80,11 @@ function createRender(canvas, colourCube, colourShader, textureCube, textureShad
   const render = () => {
     const xAxisAngle = angles.getXAxisAngle(),
           yAxisAngle = angles.getYAxisAngle(),
+          distance = zoom.getDistance(),
           xAngle = xAxisAngle,  ///
           zAngle = yAxisAngle, ///
+          zCoordinate = -Math.max(10, distance), ///
+          position = Position.fromZCoordinate(zCoordinate),
           rotation = Rotation.fromXAngleAndZAngle(xAngle, zAngle),
           normal = Normal.fromRotation(rotation);
 
@@ -107,8 +109,6 @@ function createRender(canvas, colourCube, colourShader, textureCube, textureShad
     canvas.render(textureShader, normal, rotation, position, perspective);
 
     canvas.drawElements(textureCubeCount);
-
-    requestAnimationFrame(render);
   };
 
   return render;
@@ -125,11 +125,15 @@ function mouseDownEventHandler(mouseCoordinates) {
 function mouseMoveEventHandler(mouseCoordinates) {
   angles.mouseMoveEventHandler(mouseCoordinates);
 
-  // render();
+  if (render) {
+    render();
+  }
 }
 
 function mouseWheelEventHandler(delta) {
-  // zoom.mouseWheelEventHandler(delta);
+  zoom.mouseWheelEventHandler(delta);
 
-  // render();
+  if (render) {
+    render();
+  }
 }
