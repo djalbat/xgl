@@ -1,19 +1,38 @@
 'use strict';
 
+const necessary = require('necessary');
+
 const angles = require('../../angles'),
       zoom = require('../../zoom'),
       Normal = require('../../normal'),
       Rotation = require('../../rotation'),
       Position = require('../../position'),
-      Perspective = require('../../perspective');
+      Perspective = require('../../perspective'),
+      MouseEvents = require('../../mouseEvents');
+
+const { arrayUtilities } = necessary,
+      { first, second } = arrayUtilities;
 
 class App {
-  constructor(canvas, colourCube, colourShader, textureCube, textureShader) {
-    this.canvas = canvas;
-    this.colourCube = colourCube;
+  constructor(cubes, colourShader, textureShader, canvas) {
+    this.cubes = cubes;
     this.colourShader = colourShader;
-    this.textureCube = textureCube;
     this.textureShader = textureShader;
+    this.canvas = canvas;
+  }
+
+  addMouseEventHandlers() {
+    const mouseEvents = MouseEvents.fromNothing(this.canvas),
+          mouseUpEventHandler = this.mouseUpEventHandler.bind(this),
+          mouseDownEventHandler = this.mouseDownEventHandler.bind(this),
+          mouseMoveEventHandler = this.mouseMoveEventHandler.bind(this),
+          mouseWheelEventHandler = this.mouseWheelEventHandler.bind(this);
+
+    mouseEvents.addMouseUpEventHandler(mouseUpEventHandler);
+    mouseEvents.addMouseDownEventHandler(mouseDownEventHandler);
+    mouseEvents.addMouseMoveEventHandler(mouseMoveEventHandler);
+    mouseEvents.addMouseWheelEventHandler(mouseWheelEventHandler);
+
   }
 
   mouseUpEventHandler(mouseCoordinates) {
@@ -48,8 +67,12 @@ class App {
   }
 
   render() {
-    const colourCubeCount = this.colourCube.getCount(),
-          textureCubeCount = this.textureCube.getCount(),
+    const firstCube = first(this.cubes),
+          secondCube = second(this.cubes),
+          colourCube = firstCube, ///
+          textureCube = secondCube, ///
+          colourCubeCount = colourCube.getCount(),
+          textureCubeCount = textureCube.getCount(),
           xAxisAngle = angles.getXAxisAngle(),
           yAxisAngle = angles.getYAxisAngle(),
           distance = zoom.getDistance(),
@@ -65,7 +88,7 @@ class App {
 
     this.canvas.clear();
 
-    this.colourCube.bind(this.colourShader, this.canvas);
+    colourCube.bind(this.colourShader, this.canvas);
 
     this.canvas.useShader(this.colourShader);
 
@@ -75,7 +98,7 @@ class App {
 
     this.canvas.drawElements(colourCubeCount);
 
-    this.textureCube.bind(this.textureShader, this.canvas);
+    textureCube.bind(this.textureShader, this.canvas);
 
     this.canvas.useShader(this.textureShader);
 
