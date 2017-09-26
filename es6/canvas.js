@@ -52,12 +52,6 @@ class Canvas {
 
   setViewport(x, y, width, height) { this.context.viewport(x, y, width, height); }
 
-  resize(width, height) {
-    this.setWidth(width);
-    this.setHeight(height);
-    this.setViewport(0, 0, width, height);
-  }
-
   setUniformLocationIntegerValue(uniformLocation, integerValue) { this.context.uniform1i(uniformLocation, integerValue); }
 
   createProgram() { return this.context.createProgram(); }
@@ -74,7 +68,13 @@ class Canvas {
     this.clearDepthBuffer();
     this.clearColourBuffer();
   }
-  
+
+  resize(width, height) {
+    this.setWidth(width);
+    this.setHeight(height);
+    this.setViewport(0, 0, width, height);
+  }
+
   render(shader, normal, rotation, position, perspective) {
     const normalMatrix = normal.getMatrix(),
           rotationMatrix = rotation.getMatrix(),

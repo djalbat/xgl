@@ -79,6 +79,12 @@ class MouseEvents {
 
     mouseEventHandlers.push(mouseEventHandler);
   }
+
+  static fromNothing(canvas) {
+    const mouseEvents = new MouseEvents(canvas);
+
+    return mouseEvents;
+  }
 }
 
 module.exports = MouseEvents;
