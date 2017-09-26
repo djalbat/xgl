@@ -8,13 +8,14 @@ const Canvas = require('../canvas'),
 
 const { create } = cubes;
 
-function intermediate() {
-  const canvas = new Canvas(),
-        colourShader = ColourShader.fromNothing(canvas),
-        textureShader = TextureShader.fromNothing(canvas);
+const canvas = new Canvas();
 
-  canvas.enableDepthTesting();
-  canvas.enableDepthFunction();
+canvas.enableDepthTesting();
+canvas.enableDepthFunction();
+
+function intermediate() {
+  const colourShader = ColourShader.fromNothing(canvas),
+        textureShader = TextureShader.fromNothing(canvas);
 
   create(colourShader, textureShader, canvas, function(cubes) {
     const app = new App(cubes, colourShader, textureShader, canvas);

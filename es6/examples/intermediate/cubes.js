@@ -6,37 +6,46 @@ const ColourCube = require('./cube/colour'),
       TextureCube = require('./cube/texture'),
       imagesUtilities = require('../../utilities/images');
 
-const { arrayUtilities } = necessary,
+const { arrayUtilities, asynchronousUtilities } = necessary,
+      { sequence } = asynchronousUtilities,
       { preload } = imagesUtilities,
       { first } = arrayUtilities;
 
 function create(colourShader, textureShader, canvas, callback) {
-  const cubes = [];
+  const cubes = [],
+        callbacks = [
+          createColourCubeCallback,
+          createTextureCubeCallback
+        ],
+        context = {
+          colourShader: colourShader,
+          textureShader: textureShader,
+          canvas: canvas,
+          cubes: cubes
+        };
 
-  createColourCube(colourShader, canvas, function(colourCube) {
-    cubes.push(colourCube);
-
-    createTextureCube(textureShader, canvas, function(textureCube) {
-      cubes.push(textureCube);
-
-      callback(cubes);
-    });
-  });
+  sequence(callbacks, function() {
+    callback(cubes);
+  }, context);
 }
 
 module.exports = {
   create: create
 };
 
-function createColourCube(colourShader, canvas, callback) {
-  const offsetPosition = [-2, 0, 0],
+function createColourCubeCallback(next, done, context) {
+  const { cubes, colourShader, canvas } = context,
+        offsetPosition = [-2, 0, 0],
         colourCube = ColourCube.fromOffsetPosition(offsetPosition, colourShader, canvas);
 
-  callback(colourCube);
+  cubes.push(colourCube);
+
+  next();
 }
 
-function createTextureCube(textureShader, canvas, callback) {
-  const sources = [
+function createTextureCubeCallback(next, done, context) {
+  const { cubes, textureShader, canvas } = context,
+        sources = [
           'texture/bricks.jpg'
         ];
 
@@ -46,6 +55,8 @@ function createTextureCube(textureShader, canvas, callback) {
           image = firstImage, ///
           textureCube = TextureCube.fromOffsetPositionAndImage(offsetPosition, image, textureShader, canvas);
 
-    callback(textureCube);
+    cubes.push(textureCube);
+
+    next();
   });
 }

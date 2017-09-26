@@ -67,13 +67,7 @@ class App {
   }
 
   render() {
-    const firstCube = first(this.cubes),
-          secondCube = second(this.cubes),
-          colourCube = firstCube, ///
-          textureCube = secondCube, ///
-          colourCubeCount = colourCube.getCount(),
-          textureCubeCount = textureCube.getCount(),
-          xAxisAngle = angles.getXAxisAngle(),
+    const xAxisAngle = angles.getXAxisAngle(),
           yAxisAngle = angles.getYAxisAngle(),
           distance = zoom.getDistance(),
           width = this.canvas.getWidth(),
@@ -85,6 +79,17 @@ class App {
           rotation = Rotation.fromXAngleAndZAngle(xAngle, zAngle),
           position = Position.fromZCoordinate(zCoordinate),
           normal = Normal.fromRotation(rotation);
+
+    this.drawElements(normal, rotation, position, perspective);
+  }
+
+  drawElements(normal, rotation, position, perspective) {
+    const firstCube = first(this.cubes),
+          secondCube = second(this.cubes),
+          colourCube = firstCube, ///
+          textureCube = secondCube, ///
+          colourCubeCount = colourCube.getCount(),
+          textureCubeCount = textureCube.getCount();
 
     this.canvas.clear();
 
@@ -111,4 +116,3 @@ class App {
 }
 
 module.exports = App;
-
