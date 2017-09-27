@@ -1,7 +1,5 @@
 'use strict';
 
-const necessary = require('necessary');
-
 const angles = require('../../angles'),
       zoom = require('../../zoom'),
       Normal = require('../../normal'),
@@ -9,9 +7,6 @@ const angles = require('../../angles'),
       Position = require('../../position'),
       Perspective = require('../../perspective'),
       MouseEvents = require('../../mouseEvents');
-
-const { arrayUtilities } = necessary,
-      { first, second } = arrayUtilities;
 
 class App {
   constructor(colourShader, textureShader, canvas) {
@@ -83,9 +78,6 @@ class App {
   }
 
   drawElements(normal, rotation, position, perspective) {
-    const colourCount = this.colourShader.getCount(), ///
-          textureCount = this.textureShader.getCount(); ///
-
     this.canvas.clear();
 
     this.canvas.useShader(this.colourShader);
