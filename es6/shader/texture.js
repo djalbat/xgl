@@ -48,31 +48,8 @@ class TextureShader extends Shader {
   constructor(program, canvas) {
     super(program, canvas);
 
-    this.textureCoordinateAttributeLocation = canvas.getAttributeLocation(program, textureCoordinateAttributeName);
     this.samplerUniformLocation = canvas.getUniformLocation(program, samplerName);
-  }
-
-  getTextureCoordinateAttributeLocation() {
-    return this.textureCoordinateAttributeLocation;
-  }
-
-  getSamplerUniformLocation() {
-    return this.samplerUniformLocation;
-  }
-
-  static fromNothing(canvas) {
-    const context = canvas.getContext(),
-          program = canvas.createProgram(),
-          vertexShader = Shader.createVertexShader(vertexShaderSource, canvas),
-          fragmentShader = Shader.createFragmentShader(fragmentShaderSource, canvas);
-
-    context.attachShader(program, vertexShader);
-    context.attachShader(program, fragmentShader);
-    context.linkProgram(program);
-
-    const textureShader = Shader.fromProgram(TextureShader, program, canvas);
-
-    return textureShader;
+    this.textureCoordinateAttributeLocation = canvas.getAttributeLocation(program, textureCoordinateAttributeName);
   }
 
   createTextureCoordinateBuffer(vertexCoordinateData, canvas) {
@@ -104,6 +81,21 @@ class TextureShader extends Shader {
     canvas.activateTexture(target);
 
     canvas.setUniformLocationIntegerValue(this.samplerUniformLocation, uSamplerUniformLocationIntegerValue);
+  }
+
+  static fromNothing(canvas) {
+    const context = canvas.getContext(),
+          program = canvas.createProgram(),
+          vertexShader = Shader.createVertexShader(vertexShaderSource, canvas),
+          fragmentShader = Shader.createFragmentShader(fragmentShaderSource, canvas);
+
+    context.attachShader(program, vertexShader);
+    context.attachShader(program, fragmentShader);
+    context.linkProgram(program);
+
+    const textureShader = Shader.fromProgram(TextureShader, program, canvas);
+
+    return textureShader;
   }
 }
 

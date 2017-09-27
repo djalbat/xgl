@@ -46,25 +46,6 @@ class ColourShader extends Shader {
     this.vertexColourAttributeLocation = canvas.getAttributeLocation(program, vertexColourAttributeName);
   }
 
-  getVertexColourAttributeLocation() {
-    return this.vertexColourAttributeLocation;
-  }
-
-  static fromNothing(canvas) {
-    const context = canvas.getContext(),
-          program = canvas.createProgram(),
-          vertexShader = Shader.createVertexShader(vertexShaderSource, canvas),
-          fragmentShader = Shader.createFragmentShader(fragmentShaderSource, canvas);
-
-    context.attachShader(program, vertexShader);
-    context.attachShader(program, fragmentShader);
-    context.linkProgram(program);
-
-    const colourShader = Shader.fromProgram(ColourShader, program, canvas);
-
-    return colourShader;
-  }
-
   createVertexColourBuffer(vertexColourData, canvas) {
     this.vertexColourBuffer = canvas.createBuffer(vertexColourData);
   }
@@ -82,6 +63,21 @@ class ColourShader extends Shader {
   }
 
   activateTexture(canvas) {}  ///
+
+  static fromNothing(canvas) {
+    const context = canvas.getContext(),
+          program = canvas.createProgram(),
+          vertexShader = Shader.createVertexShader(vertexShaderSource, canvas),
+          fragmentShader = Shader.createFragmentShader(fragmentShaderSource, canvas);
+
+    context.attachShader(program, vertexShader);
+    context.attachShader(program, fragmentShader);
+    context.linkProgram(program);
+
+    const colourShader = Shader.fromProgram(ColourShader, program, canvas);
+
+    return colourShader;
+  }
 }
 
 module.exports = ColourShader;

@@ -74,14 +74,6 @@ class Shader {
     return this.perspectiveMatrixUniformLocation;
   }
 
-  getVertexPositionAttributeLocation() {
-    return this.vertexPositionAttributeLocation;
-  }
-
-  getVertexNormalAttributeLocation() {
-    return this.vertexNormalAttributeLocation;
-  }
-
   createVertexPositionBuffer(vertexPositionData, canvas) {
     this.vertexPositionBuffer = canvas.createBuffer(vertexPositionData);
   }
