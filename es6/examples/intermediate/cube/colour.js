@@ -119,15 +119,7 @@ const vertexColourData = [
       ];
 
 class ColourCube {
-  constructor(count) {
-    this.count = count;
-  }
-
-  getCount() {
-    return this.count;
-  }
-
-  static fromOffsetPosition(offsetPosition, colourShader, canvas) {
+  static getOffsetVertexPositionData(offsetPosition) {
     const vertexPositions = divide(vertexPositionData, 3),  ///
           offsetVertexPositions = vertexPositions.map(function(vertexPosition) {
             const offsetVertexPosition = vec3.add(vertexPosition, offsetPosition);
@@ -136,14 +128,19 @@ class ColourCube {
           }),
           offsetVertexPositionData = flatten(offsetVertexPositions);
 
-    colourShader.createVertexPositionBuffer(offsetVertexPositionData, canvas);
-    colourShader.createVertexNormalBuffer(vertexNormalData, canvas);
-    colourShader.createVertexColourBuffer(vertexColourData, canvas);
+    return offsetVertexPositionData;
+  }
 
-    const count = canvas.createAndBindElementBuffer(vertexIndexData),
-          colourCube = new ColourCube(count);
+  static getVertexNormalData() {
+    return vertexNormalData;
+  }
 
-    return colourCube;
+  static getVertexColourData() {
+    return vertexColourData;
+  }
+
+  static getVertexIndexData() {
+    return vertexIndexData;
   }
 }
 

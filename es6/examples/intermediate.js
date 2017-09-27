@@ -17,8 +17,8 @@ function intermediate() {
   const colourShader = ColourShader.fromNothing(canvas),
         textureShader = TextureShader.fromNothing(canvas);
 
-  create(colourShader, textureShader, canvas, function(cubes) {
-    const app = new App(cubes, colourShader, textureShader, canvas);
+  create(colourShader, textureShader, canvas, function(counts) {
+    const app = new App(counts, colourShader, textureShader, canvas);
 
     window.onresize = function() {
       app.resize();

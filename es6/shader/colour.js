@@ -70,6 +70,12 @@ class ColourShader extends Shader {
     this.vertexColourBuffer = canvas.createBuffer(vertexColourData);
   }
 
+  bind(canvas) {
+    this.bindVertexColourBuffer(canvas);
+
+    super.bind(canvas);
+  }
+
   bindVertexColourBuffer(canvas) {
     const vertexColourComponents = 4;
 

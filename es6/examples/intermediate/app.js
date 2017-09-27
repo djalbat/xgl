@@ -14,8 +14,8 @@ const { arrayUtilities } = necessary,
       { first, second } = arrayUtilities;
 
 class App {
-  constructor(cubes, colourShader, textureShader, canvas) {
-    this.cubes = cubes;
+  constructor(counts, colourShader, textureShader, canvas) {
+    this.counts = counts;
     this.colourShader = colourShader;
     this.textureShader = textureShader;
     this.canvas = canvas;
@@ -84,18 +84,14 @@ class App {
   }
 
   drawElements(normal, rotation, position, perspective) {
-    const firstCube = first(this.cubes),
-          secondCube = second(this.cubes),
-          colourCube = firstCube, ///
-          textureCube = secondCube, ///
-          colourCubeCount = colourCube.getCount(),
-          textureCubeCount = textureCube.getCount();
+    const firstCount = first(this.counts),
+          secondCount = second(this.counts),
+          colourCount = firstCount, ///
+          textureCount = secondCount; ///
 
     this.canvas.clear();
 
-    this.colourShader.bindVertexPositionBuffer(this.canvas);
-    this.colourShader.bindVertexNormalBuffer(this.canvas);
-    this.colourShader.bindVertexColourBuffer(this.canvas);
+    this.colourShader.bind(this.canvas);
 
     this.canvas.useShader(this.colourShader);
 
@@ -103,11 +99,9 @@ class App {
 
     this.canvas.render(this.colourShader, normal, rotation, position, perspective);
 
-    this.canvas.drawElements(colourCubeCount);
+    this.canvas.drawElements(colourCount);
 
-    this.textureShader.bindVertexPositionBuffer(this.canvas);
-    this.textureShader.bindVertexNormalBuffer(this.canvas);
-    this.textureShader.bindTextureCoordinateBuffer(this.canvas);
+    this.textureShader.bind(this.canvas);
 
     this.canvas.useShader(this.textureShader);
 
@@ -115,7 +109,7 @@ class App {
 
     this.canvas.render(this.textureShader, normal, rotation, position, perspective);
 
-    this.canvas.drawElements(textureCubeCount);
+    this.canvas.drawElements(textureCount);
   }
 }
 

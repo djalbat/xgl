@@ -81,6 +81,12 @@ class TextureShader extends Shader {
     this.textureCoordinateBuffer = canvas.createBuffer(vertexCoordinateData);
   }
 
+  bind(canvas) {
+    this.bindTextureCoordinateBuffer(canvas);
+
+    super.bind(canvas);
+  }
+
   bindTextureCoordinateBuffer(canvas) {
     const textureCoordinateComponents = 2;
 

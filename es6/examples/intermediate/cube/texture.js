@@ -119,15 +119,7 @@ const textureCoordinateData = [
       ];
 
 class TextureCube {
-  constructor(count) {
-    this.count = count;
-  }
-
-  getCount() {
-    return this.count;
-  }
-
-  static fromOffsetPositionAndImage(offsetPosition, image, textureShader, canvas) {
+  static getOffsetVertexPositionData(offsetPosition) {
     const vertexPositions = divide(vertexPositionData, 3),  ///
           offsetVertexPositions = vertexPositions.map(function(vertexPosition) {
             const offsetVertexPosition = vec3.add(vertexPosition, offsetPosition);
@@ -136,16 +128,19 @@ class TextureCube {
           }),
           offsetVertexPositionData = flatten(offsetVertexPositions);
 
-    textureShader.createTexture(image, canvas);
+    return offsetVertexPositionData;
+  }
 
-    textureShader.createVertexPositionBuffer(offsetVertexPositionData, canvas);
-    textureShader.createVertexNormalBuffer(vertexNormalData, canvas);
-    textureShader.createTextureCoordinateBuffer(textureCoordinateData, canvas);
+  static getVertexNormalData() {
+    return vertexNormalData;
+  }
 
-    const count = canvas.createAndBindElementBuffer(vertexIndexData),
-          textureCube = new TextureCube(count);
+  static getTextureCoordinateData() {
+    return textureCoordinateData;
+  }
 
-    return textureCube;
+  static getVertexIndexData() {
+    return vertexIndexData;
   }
 }
 

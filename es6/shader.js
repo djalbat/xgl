@@ -90,6 +90,11 @@ class Shader {
     this.vertexNormalBuffer = canvas.createBuffer(vertexNormalData);
   }
 
+  bind(canvas) {
+    this.bindVertexNormalBuffer(canvas);
+    this.bindVertexPositionBuffer(canvas);
+  }
+
   bindVertexNormalBuffer(canvas) {
     const vertexNormalComponents = 3;
 
