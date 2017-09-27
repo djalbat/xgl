@@ -119,23 +119,12 @@ const vertexColourData = [
       ];
 
 class ColourCube {
-  constructor(vertexPositionBuffer, vertexNormalBuffer, vertexColourBuffer, count) {
-    this.vertexPositionBuffer = vertexPositionBuffer;
-    this.vertexNormalBuffer = vertexNormalBuffer;
-    this.vertexColourBuffer = vertexColourBuffer;
+  constructor(count) {
     this.count = count;
   }
 
   getCount() {
     return this.count;
-  }
-
-  bind(colourShader, canvas) {
-    colourShader.bindVertexPositionBuffer(this.vertexPositionBuffer, canvas);
-
-    colourShader.bindVertexNormalBuffer(this.vertexNormalBuffer, canvas);
-
-    colourShader.bindVertexColourBuffer(this.vertexColourBuffer, canvas);
   }
 
   static fromOffsetPosition(offsetPosition, colourShader, canvas) {
@@ -147,13 +136,12 @@ class ColourCube {
           }),
           offsetVertexPositionData = flatten(offsetVertexPositions);
 
+    colourShader.createVertexPositionBuffer(offsetVertexPositionData, canvas);
+    colourShader.createVertexNormalBuffer(vertexNormalData, canvas);
+    colourShader.createVertexColourBuffer(vertexColourData, canvas);
 
-
-    const vertexPositionBuffer = colourShader.createVertexPositionBuffer(offsetVertexPositionData, canvas),
-          vertexNormalBuffer = colourShader.createVertexNormalBuffer(vertexNormalData, canvas),
-          vertexColourBuffer = colourShader.createVertexColourBuffer(vertexColourData, canvas),
-          count = canvas.createAndBindElementBuffer(vertexIndexData),
-          colourCube = new ColourCube(vertexPositionBuffer, vertexNormalBuffer, vertexColourBuffer, count);
+    const count = canvas.createAndBindElementBuffer(vertexIndexData),
+          colourCube = new ColourCube(count);
 
     return colourCube;
   }

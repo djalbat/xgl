@@ -78,15 +78,13 @@ class TextureShader extends Shader {
   }
 
   createTextureCoordinateBuffer(vertexCoordinateData, canvas) {
-    const textureCoordinateBuffer = canvas.createBuffer(vertexCoordinateData);
-
-    return textureCoordinateBuffer;
+    this.textureCoordinateBuffer = canvas.createBuffer(vertexCoordinateData);
   }
 
-  bindTextureCoordinateBuffer(textureCoordinateBuffer, canvas) {
+  bindTextureCoordinateBuffer(canvas) {
     const textureCoordinateComponents = 2;
 
-    canvas.bindBuffer(textureCoordinateBuffer, this.textureCoordinateAttributeLocation, textureCoordinateComponents);
+    canvas.bindBuffer(this.textureCoordinateBuffer, this.textureCoordinateAttributeLocation, textureCoordinateComponents);
   }
 
   createTexture(image, canvas) {

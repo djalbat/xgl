@@ -67,15 +67,13 @@ class ColourShader extends Shader {
   }
 
   createVertexColourBuffer(vertexColourData, canvas) {
-    const vertexColourBuffer = canvas.createBuffer(vertexColourData);
-
-    return vertexColourBuffer;
+    this.vertexColourBuffer = canvas.createBuffer(vertexColourData);
   }
 
-  bindVertexColourBuffer(vertexColourBuffer, canvas) {
+  bindVertexColourBuffer(canvas) {
     const vertexColourComponents = 4;
 
-    canvas.bindBuffer(vertexColourBuffer, this.vertexColourAttributeLocation, vertexColourComponents);
+    canvas.bindBuffer(this.vertexColourBuffer, this.vertexColourAttributeLocation, vertexColourComponents);
   }
 
   activateTexture(canvas) {}  ///

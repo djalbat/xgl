@@ -93,7 +93,9 @@ class App {
 
     this.canvas.clear();
 
-    colourCube.bind(this.colourShader, this.canvas);
+    this.colourShader.bindVertexPositionBuffer(this.canvas);
+    this.colourShader.bindVertexNormalBuffer(this.canvas);
+    this.colourShader.bindVertexColourBuffer(this.canvas);
 
     this.canvas.useShader(this.colourShader);
 
@@ -103,7 +105,9 @@ class App {
 
     this.canvas.drawElements(colourCubeCount);
 
-    textureCube.bind(this.textureShader, this.canvas);
+    this.textureShader.bindVertexPositionBuffer(this.canvas);
+    this.textureShader.bindVertexNormalBuffer(this.canvas);
+    this.textureShader.bindTextureCoordinateBuffer(this.canvas);
 
     this.canvas.useShader(this.textureShader);
 

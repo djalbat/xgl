@@ -119,23 +119,12 @@ const textureCoordinateData = [
       ];
 
 class TextureCube {
-  constructor(vertexPositionBuffer, vertexNormalBuffer, textureCoordinateBuffer, count) {
-    this.vertexPositionBuffer = vertexPositionBuffer;
-    this.vertexNormalBuffer = vertexNormalBuffer;
-    this.textureCoordinateBuffer = textureCoordinateBuffer;
+  constructor(count) {
     this.count = count;
   }
 
   getCount() {
     return this.count;
-  }
-
-  bind(textureShader, canvas) {
-    textureShader.bindVertexPositionBuffer(this.vertexPositionBuffer, canvas);
-
-    textureShader.bindVertexNormalBuffer(this.vertexNormalBuffer, canvas);
-
-    textureShader.bindTextureCoordinateBuffer(this.textureCoordinateBuffer, canvas);
   }
 
   static fromOffsetPositionAndImage(offsetPosition, image, textureShader, canvas) {
@@ -149,11 +138,12 @@ class TextureCube {
 
     textureShader.createTexture(image, canvas);
 
-    const vertexPositionBuffer = textureShader.createVertexPositionBuffer(offsetVertexPositionData, canvas),
-          vertexNormalBuffer = textureShader.createVertexNormalBuffer(vertexNormalData, canvas),
-          textureCoordinateBuffer = textureShader.createTextureCoordinateBuffer(textureCoordinateData, canvas),
-          count = canvas.createAndBindElementBuffer(vertexIndexData),
-          textureCube = new TextureCube(vertexPositionBuffer, vertexNormalBuffer, textureCoordinateBuffer, count);
+    textureShader.createVertexPositionBuffer(offsetVertexPositionData, canvas);
+    textureShader.createVertexNormalBuffer(vertexNormalData, canvas);
+    textureShader.createTextureCoordinateBuffer(textureCoordinateData, canvas);
+
+    const count = canvas.createAndBindElementBuffer(vertexIndexData),
+          textureCube = new TextureCube(count);
 
     return textureCube;
   }
