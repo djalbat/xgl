@@ -89,6 +89,10 @@ class Canvas {
     this.applyMatrix(rotationMatrixUniformLocation, rotationMatrix);
     this.applyMatrix(positionMatrixUniformLocation, positionMatrix);
     this.applyMatrix(perspectiveMatrixUniformLocation, perspectiveMatrix);
+
+    const count = shader.getCount();
+
+    this.drawElements(count);
   }
 
   drawElements(count, offset = defaultOffset) {

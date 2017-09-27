@@ -11,22 +11,18 @@ const { arrayUtilities, asynchronousUtilities } = necessary,
       { preload } = imagesUtilities,
       { first } = arrayUtilities;
 
-function create(colourShader, textureShader, canvas, callback) {
-  const counts = [],
-        callbacks = [
+function create(colourShader, textureShader, canvas, done) {
+  const callbacks = [
           createColourCubeCallback,
           createTextureCubeCallback
         ],
         context = {
           colourShader: colourShader,
           textureShader: textureShader,
-          canvas: canvas,
-          counts: counts
+          canvas: canvas
         };
 
-  sequence(callbacks, function() {
-    callback(counts);
-  }, context);
+  sequence(callbacks, done, context);
 }
 
 module.exports = {
@@ -34,7 +30,7 @@ module.exports = {
 };
 
 function createColourCubeCallback(next, done, context) {
-  const { counts, colourShader, canvas } = context,
+  const { colourShader, canvas } = context,
         offsetPosition = [-2, 0, 0];
 
   const offsetVertexPositionData = ColourCube.getOffsetVertexPositionData(offsetPosition),
@@ -48,13 +44,13 @@ function createColourCubeCallback(next, done, context) {
 
   const count = canvas.createAndBindElementBuffer(vertexIndexData);
 
-  counts.push(count);  ///
+  colourShader.setCount(count);
 
   next();
 }
 
 function createTextureCubeCallback(next, done, context) {
-  const { counts, textureShader, canvas } = context,
+  const { textureShader, canvas } = context,
         sources = [
           'texture/bricks.jpg'
         ];
@@ -77,7 +73,7 @@ function createTextureCubeCallback(next, done, context) {
 
     const count = canvas.createAndBindElementBuffer(vertexIndexData);
 
-    counts.push(count);  ///
+    textureShader.setCount(count);
 
     next();
   });

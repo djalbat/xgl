@@ -54,6 +54,10 @@ class Shader {
     this.vertexNormalAttributeLocation = canvas.getAttributeLocation(program, vertexNormalAttributeName);
   }
 
+  getCount() {
+    return this.count;
+  }
+
   getProgram() {
     return this.program;
   }
@@ -97,6 +101,10 @@ class Shader {
     const vertexPositionComponents = 3;
 
     canvas.bindBuffer(this.vertexPositionBuffer, this.vertexPositionAttributeLocation, vertexPositionComponents);
+  }
+
+  setCount(count) {
+    this.count = count;
   }
 
   static createVertexShader(vertexShaderSource, canvas) {

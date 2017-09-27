@@ -14,8 +14,7 @@ const { arrayUtilities } = necessary,
       { first, second } = arrayUtilities;
 
 class App {
-  constructor(counts, colourShader, textureShader, canvas) {
-    this.counts = counts;
+  constructor(colourShader, textureShader, canvas) {
     this.colourShader = colourShader;
     this.textureShader = textureShader;
     this.canvas = canvas;
@@ -84,10 +83,8 @@ class App {
   }
 
   drawElements(normal, rotation, position, perspective) {
-    const firstCount = first(this.counts),
-          secondCount = second(this.counts),
-          colourCount = firstCount, ///
-          textureCount = secondCount; ///
+    const colourCount = this.colourShader.getCount(), ///
+          textureCount = this.textureShader.getCount(); ///
 
     this.canvas.clear();
 
@@ -99,8 +96,6 @@ class App {
 
     this.canvas.render(this.colourShader, normal, rotation, position, perspective);
 
-    this.canvas.drawElements(colourCount);
-
     this.canvas.useShader(this.textureShader);
 
     this.textureShader.bind(this.canvas);
@@ -108,8 +103,6 @@ class App {
     this.textureShader.activateTexture(this.canvas);
 
     this.canvas.render(this.textureShader, normal, rotation, position, perspective);
-
-    this.canvas.drawElements(textureCount);
   }
 }
 
