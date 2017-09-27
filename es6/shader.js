@@ -44,14 +44,14 @@ const normalMatrixName = 'uNormalMatrix',
       `;
 
 class Shader {
-  constructor(program, normalMatrixUniformLocation, rotationMatrixUniformLocation, positionMatrixUniformLocation, perspectiveMatrixUniformLocation, vertexPositionAttributeLocation, vertexNormalAttributeLocation) {
+  constructor(program, canvas) {
     this.program = program;
-    this.normalMatrixUniformLocation = normalMatrixUniformLocation;
-    this.rotationMatrixUniformLocation = rotationMatrixUniformLocation;
-    this.positionMatrixUniformLocation = positionMatrixUniformLocation;
-    this.perspectiveMatrixUniformLocation = perspectiveMatrixUniformLocation;
-    this.vertexPositionAttributeLocation = vertexPositionAttributeLocation;
-    this.vertexNormalAttributeLocation = vertexNormalAttributeLocation;
+    this.normalMatrixUniformLocation = canvas.getUniformLocation(program, normalMatrixName);
+    this.rotationMatrixUniformLocation = canvas.getUniformLocation(program, rotationMatrixName);
+    this.positionMatrixUniformLocation = canvas.getUniformLocation(program, positionMatrixName);
+    this.perspectiveMatrixUniformLocation = canvas.getUniformLocation(program, perspectiveMatrixName);
+    this.vertexPositionAttributeLocation = canvas.getAttributeLocation(program, vertexPositionAttributeName);
+    this.vertexNormalAttributeLocation = canvas.getAttributeLocation(program, vertexNormalAttributeName);
   }
 
   getProgram() {
@@ -125,14 +125,8 @@ class Shader {
     return vertexShader;
   }
 
-  static fromProgram(Class, program, canvas, ...remainingArguments) {
-    const normalMatrixUniformLocation = canvas.getUniformLocation(program, normalMatrixName),
-          rotationMatrixUniformLocation = canvas.getUniformLocation(program, rotationMatrixName),
-          positionMatrixUniformLocation = canvas.getUniformLocation(program, positionMatrixName),
-          perspectiveMatrixUniformLocation = canvas.getUniformLocation(program, perspectiveMatrixName),
-          vertexPositionAttributeLocation = canvas.getAttributeLocation(program, vertexPositionAttributeName),
-          vertexNormalAttributeLocation = canvas.getAttributeLocation(program, vertexNormalAttributeName),
-          shader = new Class(program, normalMatrixUniformLocation, rotationMatrixUniformLocation, positionMatrixUniformLocation, perspectiveMatrixUniformLocation, vertexPositionAttributeLocation, vertexNormalAttributeLocation, ...remainingArguments);
+  static fromProgram(Class, program, canvas) {
+    const shader = new Class(program, canvas);
 
     return shader;
   }

@@ -40,10 +40,10 @@ const vertexShaderSource = `
       `;
   
 class ColourShader extends Shader {
-  constructor(program, normalMatrixUniformLocation, rotationMatrixUniformLocation, positionMatrixUniformLocation, perspectiveMatrixUniformLocation, vertexPositionAttributeLocation, vertexNormalAttributeLocation, vertexColourAttributeLocation) {
-    super(program, normalMatrixUniformLocation, rotationMatrixUniformLocation, positionMatrixUniformLocation, perspectiveMatrixUniformLocation, vertexPositionAttributeLocation, vertexNormalAttributeLocation);
+  constructor(program, canvas) {
+    super(program, canvas);
 
-    this.vertexColourAttributeLocation = vertexColourAttributeLocation;
+    this.vertexColourAttributeLocation = canvas.getAttributeLocation(program, vertexColourAttributeName);
   }
 
   getVertexColourAttributeLocation() {
@@ -60,8 +60,7 @@ class ColourShader extends Shader {
     context.attachShader(program, fragmentShader);
     context.linkProgram(program);
 
-    const vertexColourAttributeLocation = canvas.getAttributeLocation(program, vertexColourAttributeName),
-          colourShader = Shader.fromProgram(ColourShader, program, canvas, vertexColourAttributeLocation);
+    const colourShader = Shader.fromProgram(ColourShader, program, canvas);
 
     return colourShader;
   }

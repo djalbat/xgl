@@ -91,9 +91,9 @@ class App {
 
     this.canvas.clear();
 
-    this.colourShader.bind(this.canvas);
-
     this.canvas.useShader(this.colourShader);
+
+    this.colourShader.bind(this.canvas);
 
     this.colourShader.activateTexture(this.canvas);
 
@@ -101,9 +101,9 @@ class App {
 
     this.canvas.drawElements(colourCount);
 
-    this.textureShader.bind(this.canvas);
-
     this.canvas.useShader(this.textureShader);
+
+    this.textureShader.bind(this.canvas);
 
     this.textureShader.activateTexture(this.canvas);
 

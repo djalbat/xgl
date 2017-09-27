@@ -45,11 +45,11 @@ const vertexShaderSource = `
       `;
 
 class TextureShader extends Shader {
-  constructor(program, normalMatrixUniformLocation, rotationMatrixUniformLocation, positionMatrixUniformLocation, perspectiveMatrixUniformLocation, vertexPositionAttributeLocation, vertexNormalAttributeLocation, textureCoordinateAttributeLocation, samplerUniformLocation) {
-    super(program, normalMatrixUniformLocation, rotationMatrixUniformLocation, positionMatrixUniformLocation, perspectiveMatrixUniformLocation, vertexPositionAttributeLocation, vertexNormalAttributeLocation);
+  constructor(program, canvas) {
+    super(program, canvas);
 
-    this.textureCoordinateAttributeLocation = textureCoordinateAttributeLocation;
-    this.samplerUniformLocation = samplerUniformLocation;
+    this.textureCoordinateAttributeLocation = canvas.getAttributeLocation(program, textureCoordinateAttributeName);
+    this.samplerUniformLocation = canvas.getUniformLocation(program, samplerName);
   }
 
   getTextureCoordinateAttributeLocation() {
@@ -70,9 +70,7 @@ class TextureShader extends Shader {
     context.attachShader(program, fragmentShader);
     context.linkProgram(program);
 
-    const textureCoordinateAttributeLocation = canvas.getAttributeLocation(program, textureCoordinateAttributeName),
-          samplerUniformLocation = canvas.getUniformLocation(program, samplerName),
-          textureShader = Shader.fromProgram(TextureShader, program, canvas, textureCoordinateAttributeLocation, samplerUniformLocation);
+    const textureShader = Shader.fromProgram(TextureShader, program, canvas);
 
     return textureShader;
   }
