@@ -56,8 +56,11 @@ class TextureShader extends Shader {
     this.textureCoordinateAttributeLocation = canvas.getAttributeLocation(program, textureCoordinateAttributeName);
   }
 
-  createBuffers(offsetVertexPositionData, vertexNormalData, textureCoordinateData, canvas) {
-    this.createVertexPositionBuffer(offsetVertexPositionData, canvas);
+  createBuffers(textureCoordinateData, canvas) {
+    const vertexPositionData = this.getVertexPositionData(),
+          vertexNormalData = this.getVertexNormalData();
+
+    this.createVertexPositionBuffer(vertexPositionData, canvas);
     this.createVertexNormalBuffer(vertexNormalData, canvas);
     this.createTextureCoordinateBuffer(textureCoordinateData, canvas);
 

@@ -59,6 +59,8 @@ class Shader {
     this.vertexPositionAttributeLocation = canvas.getAttributeLocation(program, vertexPositionAttributeName);
     this.vertexNormalAttributeLocation = canvas.getAttributeLocation(program, vertexNormalAttributeName);
 
+    this.vertexPositionData = [];
+    this.vertexNormalData = [];
     this.vertexIndexData = [];
   }
 
@@ -86,8 +88,24 @@ class Shader {
     return this.perspectiveMatrixUniformLocation;
   }
 
+  getVertexPositionData() {
+    return this.vertexPositionData;
+  }
+
+  getVertexNormalData() {
+    return this.vertexNormalData;
+  }
+
   getVertexIndexData() {
     return this.vertexIndexData;
+  }
+
+  addVertexPositionData(vertexPositionData) {
+    add(this.vertexPositionData, vertexPositionData);
+  }
+
+  addVertexNormalData(vertexNormalData) {
+    add(this.vertexNormalData, vertexNormalData);
   }
 
   addVertexIndexData(vertexIndexData) {

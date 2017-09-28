@@ -50,8 +50,11 @@ class ColourShader extends Shader {
     this.vertexColourAttributeLocation = canvas.getAttributeLocation(program, vertexColourAttributeName);
   }
 
-  createBuffers(offsetVertexPositionData, vertexNormalData, vertexColourData, canvas) {
-    this.createVertexPositionBuffer(offsetVertexPositionData, canvas);
+  createBuffers(vertexColourData, canvas) {
+    const vertexPositionData = this.getVertexPositionData(),
+          vertexNormalData = this.getVertexNormalData();
+
+    this.createVertexPositionBuffer(vertexPositionData, canvas);
     this.createVertexNormalBuffer(vertexNormalData, canvas);
     this.createVertexColourBuffer(vertexColourData, canvas);
 
