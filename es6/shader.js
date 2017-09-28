@@ -107,8 +107,6 @@ class Shader {
     this.createVertexPositionBuffer(canvas);
     this.createVertexNormalBuffer(canvas);
     this.createVertexIndexElementBuffer(canvas);
-
-    this.bindVertexIndexElementBuffer(canvas);
   }
 
   createVertexPositionBuffer(canvas) {
@@ -123,9 +121,10 @@ class Shader {
     this.vertexIndexElementBuffer = canvas.createElementBuffer(this.vertexIndexData);
   }
 
-  bind(canvas) {
+  bindBuffers(canvas) {
     this.bindVertexNormalBuffer(canvas);
     this.bindVertexPositionBuffer(canvas);
+    this.bindVertexIndexElementBuffer(canvas);
   }
 
   bindVertexNormalBuffer(canvas) {
@@ -142,10 +141,6 @@ class Shader {
 
   bindVertexIndexElementBuffer(canvas) {
     canvas.bindElementBuffer(this.vertexIndexElementBuffer);
-  }
-
-  setCount(count) {
-    this.count = count;
   }
 
   static createVertexShader(vertexShaderSource, canvas) {

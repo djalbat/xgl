@@ -82,7 +82,7 @@ class App {
 
     this.canvas.useShader(this.colourShader);
 
-    this.colourShader.bind(this.canvas);
+    this.colourShader.bindBuffers(this.canvas);
 
     this.colourShader.activateTexture(this.canvas);
 
@@ -90,7 +90,7 @@ class App {
 
     this.canvas.useShader(this.textureShader);
 
-    this.textureShader.bind(this.canvas);
+    this.textureShader.bindBuffers(this.canvas);
 
     this.textureShader.activateTexture(this.canvas);
 

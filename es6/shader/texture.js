@@ -72,10 +72,10 @@ class TextureShader extends Shader {
     this.textureCoordinateBuffer = canvas.createBuffer(this.textureCoordinateData);
   }
 
-  bind(canvas) {
+  bindBuffers(canvas) {
     this.bindTextureCoordinateBuffer(canvas);
 
-    super.bind(canvas);
+    super.bindBuffers(canvas);
   }
 
   bindTextureCoordinateBuffer(canvas) {
