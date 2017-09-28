@@ -56,12 +56,13 @@ class TextureShader extends Shader {
     this.textureCoordinateAttributeLocation = canvas.getAttributeLocation(program, textureCoordinateAttributeName);
   }
 
-  createBuffers(offsetVertexPositionData, vertexNormalData, textureCoordinateData, vertexIndexData, canvas) {
+  createBuffers(offsetVertexPositionData, vertexNormalData, textureCoordinateData, canvas) {
     this.createVertexPositionBuffer(offsetVertexPositionData, canvas);
     this.createVertexNormalBuffer(vertexNormalData, canvas);
     this.createTextureCoordinateBuffer(textureCoordinateData, canvas);
 
-    const count = canvas.createAndBindElementBuffer(vertexIndexData);
+    const vertexIndexData = this.getVertexIndexData(),
+          count = canvas.createAndBindElementBuffer(vertexIndexData);
 
     this.setCount(count);
   }

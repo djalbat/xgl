@@ -58,6 +58,8 @@ class Shader {
     this.perspectiveMatrixUniformLocation = canvas.getUniformLocation(program, perspectiveMatrixName);
     this.vertexPositionAttributeLocation = canvas.getAttributeLocation(program, vertexPositionAttributeName);
     this.vertexNormalAttributeLocation = canvas.getAttributeLocation(program, vertexNormalAttributeName);
+
+    this.vertexIndexData = [];
   }
 
   getCount() {
@@ -82,6 +84,14 @@ class Shader {
 
   getPerspectiveMatrixUniformLocation() {
     return this.perspectiveMatrixUniformLocation;
+  }
+
+  getVertexIndexData() {
+    return this.vertexIndexData;
+  }
+
+  addVertexIndexData(vertexIndexData) {
+    add(this.vertexIndexData, vertexIndexData);
   }
 
   createVertexPositionBuffer(vertexPositionData, canvas) {
