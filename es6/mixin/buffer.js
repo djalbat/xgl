@@ -1,15 +1,5 @@
 'use strict';
 
-function createAndBindElementBuffer(vertexIndexData) {
-  const vertexIndexElementBuffer = this.createElementBuffer(vertexIndexData),
-        vertexIndexDataLength = vertexIndexData.length,
-        count = vertexIndexDataLength;  ///
-
-  this.bindElementBuffer(vertexIndexElementBuffer);
-
-  return count;
-}
-
 function createElementBuffer(data) {
   const { ELEMENT_ARRAY_BUFFER, STATIC_DRAW } = this.context,
         target = ELEMENT_ARRAY_BUFFER,
@@ -61,7 +51,6 @@ function bindBuffer(buffer, attributeLocation, components) {
 }
 
 module.exports = {
-  createAndBindElementBuffer: createAndBindElementBuffer,
   createElementBuffer: createElementBuffer,
   bindElementBuffer: bindElementBuffer,
   createBuffer: createBuffer,

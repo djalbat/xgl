@@ -57,13 +57,13 @@ class ColourShader extends Shader {
   }
 
   createBuffers(canvas) {
-    this.createVertexColourBuffer(this.vertexColourData, canvas);
+    this.createVertexColourBuffer(canvas);
 
     super.createBuffers(canvas);
   }
 
-  createVertexColourBuffer(vertexColourData, canvas) {
-    this.vertexColourBuffer = canvas.createBuffer(vertexColourData);
+  createVertexColourBuffer(canvas) {
+    this.vertexColourBuffer = canvas.createBuffer(this.vertexColourData);
   }
 
   bind(canvas) {

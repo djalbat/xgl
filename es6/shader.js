@@ -64,10 +64,6 @@ class Shader {
     this.vertexIndexData = [];
   }
 
-  getCount() {
-    return this.count;
-  }
-
   getProgram() {
     return this.program;
   }
@@ -88,6 +84,13 @@ class Shader {
     return this.perspectiveMatrixUniformLocation;
   }
 
+  getCount() {
+    const vertexIndexDataLength = this.vertexIndexData.length,
+          count = vertexIndexDataLength;  ///
+
+    return count;
+  }
+
   addVertexPositionData(vertexPositionData) {
     add(this.vertexPositionData, vertexPositionData);
   }
@@ -101,18 +104,23 @@ class Shader {
   }
 
   createBuffers(canvas) {
-    this.createVertexPositionBuffer(this.vertexPositionData, canvas);
-    this.createVertexNormalBuffer(this.vertexNormalData, canvas);
+    this.createVertexPositionBuffer(canvas);
+    this.createVertexNormalBuffer(canvas);
+    this.createVertexIndexElementBuffer(canvas);
 
-    this.count = canvas.createAndBindElementBuffer(this.vertexIndexData);
+    this.bindVertexIndexElementBuffer(canvas);
   }
 
-  createVertexPositionBuffer(vertexPositionData, canvas) {
-    this.vertexPositionBuffer = canvas.createBuffer(vertexPositionData);
+  createVertexPositionBuffer(canvas) {
+    this.vertexPositionBuffer = canvas.createBuffer(this.vertexPositionData);
   }
 
-  createVertexNormalBuffer(vertexNormalData, canvas) {
-    this.vertexNormalBuffer = canvas.createBuffer(vertexNormalData);
+  createVertexNormalBuffer(canvas) {
+    this.vertexNormalBuffer = canvas.createBuffer(this.vertexNormalData);
+  }
+
+  createVertexIndexElementBuffer(canvas) {
+    this.vertexIndexElementBuffer = canvas.createElementBuffer(this.vertexIndexData);
   }
 
   bind(canvas) {
@@ -130,6 +138,10 @@ class Shader {
     const vertexPositionComponents = 3;
 
     canvas.bindBuffer(this.vertexPositionBuffer, this.vertexPositionAttributeLocation, vertexPositionComponents);
+  }
+
+  bindVertexIndexElementBuffer(canvas) {
+    canvas.bindElementBuffer(this.vertexIndexElementBuffer);
   }
 
   setCount(count) {
