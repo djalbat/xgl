@@ -88,18 +88,6 @@ class Shader {
     return this.perspectiveMatrixUniformLocation;
   }
 
-  getVertexPositionData() {
-    return this.vertexPositionData;
-  }
-
-  getVertexNormalData() {
-    return this.vertexNormalData;
-  }
-
-  getVertexIndexData() {
-    return this.vertexIndexData;
-  }
-
   addVertexPositionData(vertexPositionData) {
     add(this.vertexPositionData, vertexPositionData);
   }
@@ -110,6 +98,13 @@ class Shader {
 
   addVertexIndexData(vertexIndexData) {
     add(this.vertexIndexData, vertexIndexData);
+  }
+
+  createBuffers(canvas) {
+    this.createVertexPositionBuffer(this.vertexPositionData, canvas);
+    this.createVertexNormalBuffer(this.vertexNormalData, canvas);
+
+    this.count = canvas.createAndBindElementBuffer(this.vertexIndexData);
   }
 
   createVertexPositionBuffer(vertexPositionData, canvas) {

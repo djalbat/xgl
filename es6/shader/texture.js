@@ -57,17 +57,9 @@ class TextureShader extends Shader {
   }
 
   createBuffers(textureCoordinateData, canvas) {
-    const vertexPositionData = this.getVertexPositionData(),
-          vertexNormalData = this.getVertexNormalData();
-
-    this.createVertexPositionBuffer(vertexPositionData, canvas);
-    this.createVertexNormalBuffer(vertexNormalData, canvas);
     this.createTextureCoordinateBuffer(textureCoordinateData, canvas);
 
-    const vertexIndexData = this.getVertexIndexData(),
-          count = canvas.createAndBindElementBuffer(vertexIndexData);
-
-    this.setCount(count);
+    super.createBuffers(canvas);
   }
 
   createTextureCoordinateBuffer(vertexCoordinateData, canvas) {
