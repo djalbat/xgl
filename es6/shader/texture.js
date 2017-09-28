@@ -54,10 +54,16 @@ class TextureShader extends Shader {
 
     this.samplerUniformLocation = canvas.getUniformLocation(program, samplerName);
     this.textureCoordinateAttributeLocation = canvas.getAttributeLocation(program, textureCoordinateAttributeName);
+
+    this.textureCoordinateData = [];
   }
 
-  createBuffers(textureCoordinateData, canvas) {
-    this.createTextureCoordinateBuffer(textureCoordinateData, canvas);
+  addTextureCoordinateData(textureCoordinateData) {
+    add(this.textureCoordinateData, textureCoordinateData);
+  }
+
+  createBuffers(canvas) {
+    this.createTextureCoordinateBuffer(this.textureCoordinateData, canvas);
 
     super.createBuffers(canvas);
   }

@@ -43,8 +43,6 @@ function createColourCubeCallback(next, done, context) {
   colourShader.addVertexIndexData(vertexIndexData);
   colourShader.addVertexColourData(vertexColourData);
 
-  colourShader.createBuffers(canvas);
-
   next();
 }
 
@@ -61,14 +59,13 @@ function createTextureCubeCallback(next, done, context) {
 
     const vertexPositionData = TextureCube.getVertexPositionData(offsetPosition),
           vertexNormalData = TextureCube.getVertexNormalData(),
-          textureCoordinateData = TextureCube.getTextureCoordinateData(),
-          vertexIndexData = TextureCube.getVertexIndexData();
+          vertexIndexData = TextureCube.getVertexIndexData(),
+          textureCoordinateData = TextureCube.getTextureCoordinateData();
 
     textureShader.addVertexPositionData(vertexPositionData);
     textureShader.addVertexNormalData(vertexNormalData);
     textureShader.addVertexIndexData(vertexIndexData);
-
-    textureShader.createBuffers(textureCoordinateData, canvas);
+    textureShader.addTextureCoordinateData(textureCoordinateData);
 
     textureShader.createTexture(image, canvas);
 

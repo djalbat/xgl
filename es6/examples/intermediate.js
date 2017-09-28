@@ -18,6 +18,9 @@ function intermediate() {
         textureShader = TextureShader.fromNothing(canvas);
 
   create(colourShader, textureShader, canvas, function() {
+    colourShader.createBuffers(canvas);
+    textureShader.createBuffers(canvas);
+
     const app = new App(colourShader, textureShader, canvas);
 
     window.onresize = function() {
