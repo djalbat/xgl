@@ -35,14 +35,15 @@ function createColourCubeCallback(next, done, context) {
 
   const vertexPositionData = ColourCube.getVertexPositionData(offsetPosition),
         vertexNormalData = ColourCube.getVertexNormalData(),
-        vertexColourData = ColourCube.getVertexColourData(),
-        vertexIndexData = ColourCube.getVertexIndexData();
+        vertexIndexData = ColourCube.getVertexIndexData(),
+        vertexColourData = ColourCube.getVertexColourData();
 
   colourShader.addVertexPositionData(vertexPositionData);
   colourShader.addVertexNormalData(vertexNormalData);
   colourShader.addVertexIndexData(vertexIndexData);
+  colourShader.addVertexColourData(vertexColourData);
 
-  colourShader.createBuffers(vertexColourData, canvas);
+  colourShader.createBuffers(canvas);
 
   next();
 }
