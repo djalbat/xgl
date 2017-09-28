@@ -100,6 +100,12 @@ class Shader {
   }
 
   addVertexIndexData(vertexIndexData) {
+    const offset = Math.max(-1, ...this.vertexIndexData) + 1; ///
+
+    vertexIndexData = vertexIndexData.map(function(vertexIndex) {
+      return vertexIndex + offset;
+    });
+
     add(this.vertexIndexData, vertexIndexData);
   }
 

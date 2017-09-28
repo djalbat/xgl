@@ -13,7 +13,8 @@ const { arrayUtilities, asynchronousUtilities } = necessary,
 
 function create(colourShader, textureShader, canvas, done) {
   const callbacks = [
-          createColourCubeCallback,
+          createFirstColourCubeCallback,
+          createSecondColourCubeCallback,
           createTextureCubeCallback
         ],
         context = {
@@ -29,9 +30,26 @@ module.exports = {
   create: create
 };
 
-function createColourCubeCallback(next, done, context) {
-  const { colourShader, canvas } = context,
-        offsetPosition = [-2, 0, 0];
+function createFirstColourCubeCallback(next, done, context) {
+  const { colourShader } = context,
+        offsetPosition = [0, +2, +2];
+
+  const vertexPositionData = ColourCube.getVertexPositionData(offsetPosition),
+        vertexNormalData = ColourCube.getVertexNormalData(),
+        vertexIndexData = ColourCube.getVertexIndexData(),
+        vertexColourData = ColourCube.getVertexColourData();
+
+  colourShader.addVertexPositionData(vertexPositionData);
+  colourShader.addVertexNormalData(vertexNormalData);
+  colourShader.addVertexIndexData(vertexIndexData);
+  colourShader.addVertexColourData(vertexColourData);
+
+  next();
+}
+
+function createSecondColourCubeCallback(next, done, context) {
+  const { colourShader } = context,
+        offsetPosition = [0, -2, -2];
 
   const vertexPositionData = ColourCube.getVertexPositionData(offsetPosition),
         vertexNormalData = ColourCube.getVertexNormalData(),
