@@ -119,16 +119,16 @@ const textureCoordinateData = [
       ];
 
 class TextureCube {
-  static getOffsetVertexPositionData(offsetPosition) {
-    const vertexPositions = divide(vertexPositionData, 3),  ///
-          offsetVertexPositions = vertexPositions.map(function(vertexPosition) {
-            const offsetVertexPosition = vec3.add(vertexPosition, offsetPosition);
+  static getVertexPositionData(offsetPosition) {
+    let vertexPositions = divide(vertexPositionData, 3);  ///
 
-            return offsetVertexPosition;
-          }),
-          offsetVertexPositionData = flatten(offsetVertexPositions);
+    vertexPositions = vertexPositions.map(function(vertexPosition) {
+      const offsetVertexPosition = vec3.add(vertexPosition, offsetPosition);
 
-    return offsetVertexPositionData;
+      return offsetVertexPosition;
+    });
+
+    return flatten(vertexPositions);
   }
 
   static getVertexNormalData() {
