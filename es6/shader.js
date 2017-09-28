@@ -1,5 +1,11 @@
 'use strict';
 
+const necessary = require('necessary');
+
+const { arrayUtilities } = necessary,
+      { merge } = arrayUtilities,
+      add = merge;  ///
+
 const normalMatrixName = 'uNormalMatrix',
       rotationMatrixName = 'uRotationMatrix',
       positionMatrixName = 'uPositionMatrix',

@@ -1,12 +1,16 @@
 'use strict';
 
+const necessary = require('necessary');
+
 const Shader = require('../shader');
 
-const { calculateLightingSource, calculatePositionSource } = Shader;
+const { calculateLightingSource, calculatePositionSource } = Shader,
+      { arrayUtilities } = necessary,
+      { merge } = arrayUtilities,
+      add = merge;  ///
 
-const vertexColourAttributeName = 'aVertexColour';
-
-const vertexShaderSource = `
+const vertexColourAttributeName = 'aVertexColour',
+      vertexShaderSource = `
     
         attribute vec4 ${vertexColourAttributeName};
 

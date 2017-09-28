@@ -1,13 +1,17 @@
 'use strict';
 
+const necessary = require('necessary');
+
 const Shader = require('../shader');
 
-const { calculateLightingSource, calculatePositionSource } = Shader;
+const { calculateLightingSource, calculatePositionSource } = Shader,
+      { arrayUtilities } = necessary,
+      { merge } = arrayUtilities,
+      add = merge;  ///
 
 const samplerName = 'uSampler',
-      textureCoordinateAttributeName = 'aTextureCoordinate';
-
-const vertexShaderSource = `
+      textureCoordinateAttributeName = 'aTextureCoordinate',
+      vertexShaderSource = `
         
         attribute vec2 ${textureCoordinateAttributeName};
         
