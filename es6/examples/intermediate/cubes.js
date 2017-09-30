@@ -6,10 +6,9 @@ const ColourCube = require('./cube/colour'),
       TextureCube = require('./cube/texture'),
       imagesUtilities = require('../../utilities/images');
 
-const { arrayUtilities, asynchronousUtilities } = necessary,
+const { asynchronousUtilities } = necessary,
       { sequence } = asynchronousUtilities,
-      { preload } = imagesUtilities,
-      { first, second, third } = arrayUtilities;
+      { preloadImages, createImageMap } = imagesUtilities;
 
 function create(colourShader, textureShader, canvas, done) {
   const sources = [
@@ -18,16 +17,16 @@ function create(colourShader, textureShader, canvas, done) {
     'texture/grass.jpg'
   ];
 
-  preload(sources, function(images) {
-    const callbacks = [
-            createFirstColourCubeCallback,
-            createSecondColourCubeCallback,
+  preloadImages(sources, function(images) {
+    const imageMap = createImageMap(images),
+          callbacks = [
+            createColourCubeCallback,
             createTextureCubeCallback
           ],
           context = {
             colourShader: colourShader,
             textureShader: textureShader,
-            images: images,
+            imageMap: imageMap,
             canvas: canvas
           };
 
@@ -39,7 +38,7 @@ module.exports = {
   create: create
 };
 
-function createFirstColourCubeCallback(next, done, context) {
+function createColourCubeCallback(next, done, context) {
   const { colourShader } = context,
         offsetPosition = [+2, +2, +2];
 
@@ -56,30 +55,9 @@ function createFirstColourCubeCallback(next, done, context) {
   next();
 }
 
-function createSecondColourCubeCallback(next, done, context) {
-  const { colourShader } = context,
-        offsetPosition = [-2, -2, -2];
-
-  const vertexPositionData = ColourCube.getVertexPositionData(offsetPosition),
-        vertexNormalData = ColourCube.getVertexNormalData(),
-        vertexIndexData = ColourCube.getVertexIndexData(),
-        vertexColourData = ColourCube.getVertexColourData();
-
-  colourShader.addVertexPositionData(vertexPositionData);
-  colourShader.addVertexNormalData(vertexNormalData);
-  colourShader.addVertexIndexData(vertexIndexData);
-  colourShader.addVertexColourData(vertexColourData);
-
-  next();
-}
-
 function createTextureCubeCallback(next, done, context) {
-  const { textureShader, images, canvas } = context,
-        firstImage = first(images),
-        secondImage = second(images),
-        thirdImage = third(images),
-        offsetPosition = [0, 0, 0],
-        image = firstImage; ///
+  const { textureShader, imageMap, canvas } = context,
+        offsetPosition = [0, 0, 0];
 
   const vertexPositionData = TextureCube.getVertexPositionData(offsetPosition),
         vertexNormalData = TextureCube.getVertexNormalData(),
@@ -91,7 +69,7 @@ function createTextureCubeCallback(next, done, context) {
   textureShader.addVertexIndexData(vertexIndexData);
   textureShader.addTextureCoordinateData(textureCoordinateData);
 
-  textureShader.createTexture(image, canvas);
+  textureShader.createTexture(imageMap, canvas);
 
   next();
 }

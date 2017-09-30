@@ -2,10 +2,11 @@
 
 const necessary = require('necessary');
 
-const { asynchronousUtilities } = necessary,
-      { repeatedly } = asynchronousUtilities;
+const { arrayUtilities, asynchronousUtilities } = necessary,
+      { repeatedly } = asynchronousUtilities,
+      { first } = arrayUtilities;
 
-function preload(sources, callback) {
+function preloadImages(sources, callback) {
   const images = [],
         length = sources.length; ///
 
@@ -29,6 +30,14 @@ function preload(sources, callback) {
   }
 }
 
+function createImageMap(images) {
+  const firstImage = first(images),
+        imageMap = firstImage;  ///
+
+  return imageMap;
+}
+
 module.exports = {
-  preload: preload
+  preloadImages: preloadImages,
+  createImageMap: createImageMap
 };
