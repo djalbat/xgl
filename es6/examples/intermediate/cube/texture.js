@@ -126,6 +126,19 @@ class TextureCube {
   static getVertexIndexData() {
     return vertexIndexData;
   }
+
+  static createElement(colourShader, textureShader) {
+    const offsetPosition = [+2, +2, +2],
+          vertexPositionData = TextureCube.getVertexPositionData(offsetPosition),
+          vertexNormalData = TextureCube.getVertexNormalData(),
+          vertexIndexData = TextureCube.getVertexIndexData(),
+          textureCoordinateData = TextureCube.getTextureCoordinateData();
+
+    textureShader.addVertexPositionData(vertexPositionData);
+    textureShader.addVertexNormalData(vertexNormalData);
+    textureShader.addVertexIndexData(vertexIndexData);
+    textureShader.addTextureCoordinateData(textureCoordinateData);
+  }
 }
 
 module.exports = TextureCube;

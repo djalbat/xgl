@@ -56,8 +56,6 @@ class App {
           height = clientHeight;  ///
 
     this.canvas.resize(width, height);
-
-    console.log(height)
   }
 
   render() {

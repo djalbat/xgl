@@ -142,6 +142,19 @@ class ColourCube {
   static getVertexIndexData() {
     return vertexIndexData;
   }
+  
+  static createElement(colourShader, textureShader) {
+    const offsetPosition = [0, 0, 0],
+          vertexPositionData = ColourCube.getVertexPositionData(offsetPosition),
+          vertexNormalData = ColourCube.getVertexNormalData(),
+          vertexIndexData = ColourCube.getVertexIndexData(),
+          vertexColourData = ColourCube.getVertexColourData();
+
+    colourShader.addVertexPositionData(vertexPositionData);
+    colourShader.addVertexNormalData(vertexNormalData);
+    colourShader.addVertexIndexData(vertexIndexData);
+    colourShader.addVertexColourData(vertexColourData);
+  }
 }
 
 module.exports = ColourCube;
