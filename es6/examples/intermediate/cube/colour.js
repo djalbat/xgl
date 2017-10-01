@@ -1,6 +1,7 @@
 'use strict';
 
 const vec3 = require('../../../vec3'),
+      Element = require('../../../element'),
       arrayUtilities = require('../../../utilities/array');
 
 const { divide, flatten } = arrayUtilities;
@@ -118,43 +119,58 @@ const vertexColourData = [
         20, 22, 23
       ];
 
-class ColourCube {
-  static getVertexPositionData(offsetPosition) {
-    let vertexPositions = divide(vertexPositionData, 3);  ///
-
-    vertexPositions = vertexPositions.map(function(vertexPosition) {
-      const offsetVertexPosition = vec3.add(vertexPosition, offsetPosition);
-
-      return offsetVertexPosition;
-    });
-
-    return flatten(vertexPositions);
-  }
-
-  static getVertexNormalData() {
-    return vertexNormalData;
-  }
-
-  static getVertexColourData() {
-    return vertexColourData;
-  }
-
-  static getVertexIndexData() {
-    return vertexIndexData;
+class ColourCube extends Element {
+  constructor(vertexPositionData, vertexNormalData, vertexIndexData, vertexColourData) {
+    super();
+    
+    this.vertexPositionData = vertexPositionData;
+    this.vertexNormalData = vertexNormalData;
+    this.vertexIndexData = vertexIndexData;
+    this.vertexColourData = vertexColourData;    
   }
   
-  static createElement(colourShader, textureShader) {
-    const offsetPosition = [0, 0, 0],
-          vertexPositionData = ColourCube.getVertexPositionData(offsetPosition),
-          vertexNormalData = ColourCube.getVertexNormalData(),
-          vertexIndexData = ColourCube.getVertexIndexData(),
-          vertexColourData = ColourCube.getVertexColourData();
+  getVertexPositionData() {
+    return this.vertexPositionData;
+  }
 
-    colourShader.addVertexPositionData(vertexPositionData);
-    colourShader.addVertexNormalData(vertexNormalData);
-    colourShader.addVertexIndexData(vertexIndexData);
-    colourShader.addVertexColourData(vertexColourData);
+  getVertexNormalData() {
+    return this.vertexNormalData;
+  }
+
+  getVertexColourData() {
+    return this.vertexColourData;
+  }
+
+  getVertexIndexData() {
+    return this.vertexIndexData;
+  }
+  
+  createElement(colourShader, textureShader) {
+    colourShader.addVertexPositionData(this.vertexPositionData);
+    colourShader.addVertexNormalData(this.vertexNormalData);
+    colourShader.addVertexIndexData(this.vertexIndexData);
+    colourShader.addVertexColourData(this.vertexColourData);
+  }
+
+  static fromProperties(properties) {
+    const { offsetPosition } = properties,
+          vertexPositionData = vertexPositionDataFromOffsetPosition(offsetPosition),
+          colourCube = new ColourCube(vertexPositionData, vertexNormalData, vertexIndexData, vertexColourData);
+    
+    return colourCube;
   }
 }
 
 module.exports = ColourCube;
+
+function vertexPositionDataFromOffsetPosition(offsetPosition) {
+  let vertexPositions = divide(vertexPositionData, 3);  ///
+
+  vertexPositions = vertexPositions.map(function(vertexPosition) {
+    const offsetVertexPosition = vec3.add(vertexPosition, offsetPosition);
+
+    return offsetVertexPosition;
+  });
+
+  return flatten(vertexPositions);
+}

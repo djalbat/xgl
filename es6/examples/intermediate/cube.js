@@ -1,27 +1,12 @@
 'use strict';
 
-const vec3 = require('../../../vec3'),
-      Element = require('../../../element'),
-      arrayUtilities = require('../../../utilities/array');
+const vec3 = require('../../vec3'),
+      Element = require('../../element'),
+      arrayUtilities = require('../../utilities/array');
 
 const { divide, flatten } = arrayUtilities;
 
-const { imageMapJSON } = runtimeConfiguration,
-      textureNames = [
-        'ivy.jpg',
-        'steel.jpg',
-        'grass.jpg',
-        'bricks.jpg',
-        'carpet.jpg',
-        'concrete.jpg'
-      ],
-      textureCoordinates = textureNames.reduce(function(textureCoordinates, textureName) {
-        textureCoordinates = textureCoordinates.concat(imageMapJSON[textureName]);
-
-        return textureCoordinates;
-      }, []),
-      textureCoordinateData = flatten(textureCoordinates),
-      vertexPositionData = [
+const vertexPositionData = [
         -1.0, -1.0, +1.0,
         +1.0, -1.0, +1.0,
         +1.0, +1.0, +1.0,
@@ -103,16 +88,15 @@ const { imageMapJSON } = runtimeConfiguration,
         20, 22, 23
       ];
 
-class TextureCube extends Element{
-  constructor(vertexPositionData, vertexNormalData, vertexIndexData, textureCoordinateData) {
+class Cube extends Element {
+  constructor(vertexPositionData, vertexNormalData, vertexIndexData) {
     super();
     
     this.vertexPositionData = vertexPositionData;
     this.vertexNormalData = vertexNormalData;
     this.vertexIndexData = vertexIndexData;
-    this.textureCoordinateData = textureCoordinateData;
   }
-
+  
   getVertexPositionData() {
     return this.vertexPositionData;
   }
@@ -124,28 +108,23 @@ class TextureCube extends Element{
   getVertexIndexData() {
     return this.vertexIndexData;
   }
-
-  getTextureCoordinateData() {
-    return this.textureCoordinateData;
-  }
-
-  createElement(colourShader, textureShader) {
-    textureShader.addVertexPositionData(this.vertexPositionData);
-    textureShader.addVertexNormalData(this.vertexNormalData);
-    textureShader.addVertexIndexData(this.vertexIndexData);
-    textureShader.addTextureCoordinateData(this.textureCoordinateData);
-  }
   
-  static fromProperties(properties) {
+  createElement(colourShader, textureShader) {
+    colourShader.addVertexPositionData(this.vertexPositionData);
+    colourShader.addVertexNormalData(this.vertexNormalData);
+    colourShader.addVertexIndexData(this.vertexIndexData);
+  }
+
+  static fromProperties(Class, properties, ...remainingArguments) {
     const { offsetPosition } = properties,
           vertexPositionData = vertexPositionDataFromOffsetPosition(offsetPosition),
-          textureCube = new TextureCube(vertexPositionData, vertexNormalData, vertexIndexData, textureCoordinateData);
-
-    return textureCube;
+          colourCube = new Cube(vertexPositionData, vertexNormalData, vertexIndexData, ...remainingArguments);
+    
+    return colourCube;
   }
 }
 
-module.exports = TextureCube;
+module.exports = Cube;
 
 function vertexPositionDataFromOffsetPosition(offsetPosition) {
   let vertexPositions = divide(vertexPositionData, 3);  ///

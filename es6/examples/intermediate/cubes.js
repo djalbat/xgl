@@ -2,7 +2,8 @@
 
 const necessary = require('necessary');
 
-const ColourCube = require('./cube/colour'),
+const React = require('../../react'),
+      ColourCube = require('./cube/colour'),
       TextureCube = require('./cube/texture'),
       imageUtilities = require('../../utilities/image');
 
@@ -38,7 +39,10 @@ module.exports = {
 function createColourCubeCallback(next, done, context) {
   const { colourShader, textureShader } = context;
 
-  ColourCube.createElement(colourShader, textureShader);
+  const offsetPosition = [0, 0, 0],
+        colourCube = <ColourCube offsetPosition={offsetPosition} />;
+
+  colourCube.createElement(colourShader, textureShader);
 
   next();
 }
@@ -46,7 +50,10 @@ function createColourCubeCallback(next, done, context) {
 function createTextureCubeCallback(next, done, context) {
   const { colourShader, textureShader } = context;
 
-  TextureCube.createElement(colourShader, textureShader);
+  const offsetPosition = [+2, +2, +2],
+        textureCube = <TextureCube offsetPosition={offsetPosition} />;
+
+  textureCube.createElement(colourShader, textureShader);
 
   next();
 }
