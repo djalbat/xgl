@@ -4,29 +4,27 @@ const necessary = require('necessary');
 
 const ColourCube = require('./cube/colour'),
       TextureCube = require('./cube/texture'),
-      imagesUtilities = require('../../utilities/images');
+      imageUtilities = require('../../utilities/image');
 
-const { asynchronousUtilities } = necessary,
+const { arrayUtilities, asynchronousUtilities } = necessary,
       { sequence } = asynchronousUtilities,
-      { preloadImages, createImageMap } = imagesUtilities;
+      { first } = arrayUtilities,
+      { preloadImages } = imageUtilities;
 
 function create(colourShader, textureShader, canvas, done) {
   const sources = [
-    'texture/concrete.jpg',
-    'texture/bricks.jpg',
-    'texture/grass.jpg'
+    'image/bricks.jpg'
   ];
 
   preloadImages(sources, function(images) {
-    const imageMap = createImageMap(images),
-          callbacks = [
+    const callbacks = [
             createColourCubeCallback,
             createTextureCubeCallback
           ],
           context = {
             colourShader: colourShader,
             textureShader: textureShader,
-            imageMap: imageMap,
+            images: images,
             canvas: canvas
           };
 
@@ -56,7 +54,9 @@ function createColourCubeCallback(next, done, context) {
 }
 
 function createTextureCubeCallback(next, done, context) {
-  const { textureShader, imageMap, canvas } = context,
+  const { textureShader, images, canvas } = context,
+        firstImage = first(images),
+        image = firstImage, ///
         offsetPosition = [0, 0, 0];
 
   const vertexPositionData = TextureCube.getVertexPositionData(offsetPosition),
@@ -69,7 +69,7 @@ function createTextureCubeCallback(next, done, context) {
   textureShader.addVertexIndexData(vertexIndexData);
   textureShader.addTextureCoordinateData(textureCoordinateData);
 
-  textureShader.createTexture(imageMap, canvas);
+  textureShader.createTexture(image, canvas);
 
   next();
 }

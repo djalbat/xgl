@@ -1,7 +1,7 @@
 {
   "name": "jiggle",
   "author": "James Smith",
-  "version": "0.0.72",
+  "version": "0.0.73",
   "license": "MIT",
   "homepage": "https://github.com/djalbat/Jiggle",
   "description": "A combination of JSX and WebGL.",
@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "express": "^4.15.4",
-    "gl-mat4": "^1.1.4"
+    "gl-mat4": "^1.1.4",
+    "minimist": "^1.2.0"
   },
   "devDependencies": {
     "babel": "^6.5.2",
@@ -27,8 +28,8 @@
     "clean": "rm -rf ./lib",
     "babel": "babel ./es6 --presets=es2015,react --plugins transform-react-jsx --out-dir=./lib",
     "babel-debug": "babel ./es6 --presets=es2015,react --plugins transform-react-jsx --source-maps inline --out-dir=./lib",
-    "browserify": "browserify ./lib/examples.js --standalone examples > ./examples/script/examples.js",
-    "browserify-debug": "browserify ./lib/examples.js --standalone examples --debug > ./examples/script/examples.js",
+    "browserify": "browserify ./lib/examples.js --standalone examples > ./public/script/examples.js",
+    "browserify-debug": "browserify ./lib/examples.js --standalone examples --debug > ./public/script/examples.js",
     "build": "npm run clean && npm run babel && npm run browserify",
     "build-debug": "npm run babel-debug && npm run browserify-debug",
     "watch": "npm run build && chokidar './index.js' './es6/**/*.js' -c 'npm run build'",
