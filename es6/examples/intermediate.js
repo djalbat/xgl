@@ -7,11 +7,11 @@ const React = require('../react'),
 
 function intermediate() {
   example(function() {
-    const colourCube = <ColourCube offsetPosition={[0, 0, 0]} />,
-          textureCube = <TextureCube offsetPosition={[+2, +2, +2]} />,
-          elements = [  ///
-            colourCube,
-            textureCube
+    const elements = [
+        
+            <ColourCube offsetPosition={[0, 0, 0]} />,
+            <TextureCube offsetPosition={[+2, +2, +2]} />
+        
           ];
     
     return elements;
