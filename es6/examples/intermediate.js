@@ -9,8 +9,8 @@ function intermediate() {
   example(function() {
     const elements = [
         
-            <ColourCuboid offsetPosition={[0, 0, 0]} />,
-            <TextureCuboid offsetPosition={[+2, +2, +2]} imageName="bricks.jpg" />
+            <ColourCuboid offset={[0, 0, 0]} />,
+            <TextureCuboid offset={[+2, +2, +2]} imageName="bricks.jpg" />
         
           ];
     

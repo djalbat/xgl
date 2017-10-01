@@ -110,8 +110,8 @@ class Cuboid extends Element {
   }
   
   static fromProperties(Class, properties, ...remainingArguments) {
-    const { offsetPosition } = properties,
-          vertexPositionData = vertexPositionDataFromOffsetPosition(offsetPosition);
+    const { height, width, depth, offset } = properties,
+          vertexPositionData = vertexPositionDataFromHeightWidthDepthAndOffset(height, width, depth, offset);
     
     return new Class(vertexPositionData, vertexNormalData, vertexIndexData, ...remainingArguments);
   }
@@ -119,11 +119,11 @@ class Cuboid extends Element {
 
 module.exports = Cuboid;
 
-function vertexPositionDataFromOffsetPosition(offsetPosition) {
+function vertexPositionDataFromHeightWidthDepthAndOffset(height, width, depth, offset) {
   let vertexPositions = divide(vertexPositionData, 3);  ///
 
   vertexPositions = vertexPositions.map(function(vertexPosition) {
-    const offsetVertexPosition = vec3.add(vertexPosition, offsetPosition);
+    const offsetVertexPosition = vec3.add(vertexPosition, offset);
 
     return offsetVertexPosition;
   });

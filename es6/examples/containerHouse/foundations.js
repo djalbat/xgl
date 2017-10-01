@@ -6,7 +6,7 @@ const React = require('../../react'),
 const foundations = (properties) => {
   return (
 
-    <TextureCuboid offsetPosition={[0, 0, 0]} imageName="concrete.jpg" />
+    <TextureCuboid offset={[0, 0, 0]} imageName="concrete.jpg" width={48} height={1} depth={32} />
       
   );
 };
