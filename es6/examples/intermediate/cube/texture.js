@@ -1,12 +1,11 @@
 'use strict';
 
 const Cube = require('../cube'),
-      arrayUtilities = require('../../../utilities/array');
+      imageMap = require('../../../imageMap');
 
-const { flatten } = arrayUtilities;
+const { textureCoordinateDataFromImageNames } = imageMap;
 
-const { imageMapJSON } = runtimeConfiguration,
-      textureNames = [
+const imageNames = [
         'ivy.jpg',
         'steel.jpg',
         'grass.jpg',
@@ -14,12 +13,7 @@ const { imageMapJSON } = runtimeConfiguration,
         'carpet.jpg',
         'concrete.jpg'
       ],
-      textureCoordinates = textureNames.reduce(function(textureCoordinates, textureName) {
-        textureCoordinates = textureCoordinates.concat(imageMapJSON[textureName]);
-
-        return textureCoordinates;
-      }, []),
-      textureCoordinateData = flatten(textureCoordinates);
+      textureCoordinateData = textureCoordinateDataFromImageNames(imageNames);
 
 class TextureCube extends Cube {
   constructor(vertexPositionData, vertexNormalData, vertexIndexData, textureCoordinateData) {
@@ -47,3 +41,4 @@ class TextureCube extends Cube {
 }
 
 module.exports = TextureCube;
+
