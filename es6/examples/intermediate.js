@@ -1,39 +1,26 @@
 'use strict';
 
-const Canvas = require('../canvas'),
-      App = require('./intermediate/app'),
+const Scene = require('../scene'),
+      Canvas = require('../canvas'),
       cubes = require('./intermediate/cubes'),
       ColourShader = require('../shader/colour'),
       TextureShader = require('../shader/texture');
 
 const { create } = cubes;
 
-const canvas = new Canvas();
-
-canvas.enableDepthTesting();
-canvas.enableDepthFunction();
-
 function intermediate() {
-  const colourShader = ColourShader.fromNothing(canvas),
+  const canvas = new Canvas(),
+        colourShader = ColourShader.fromNothing(canvas),
         textureShader = TextureShader.fromNothing(canvas);
 
   create(colourShader, textureShader, canvas, function() {
+    canvas.enableDepthTesting();
+    canvas.enableDepthFunction();
+
     colourShader.createBuffers(canvas);
     textureShader.createBuffers(canvas);
 
-    const app = new App(colourShader, textureShader, canvas);
-
-    window.onresize = function() {
-      app.resize();
-
-      app.render(colourShader, textureShader);
-    };
-
-    app.resize();
-
-    app.render(colourShader, textureShader);
-
-    app.addMouseEventHandlers();
+    Scene.fromCanvasAndShaders(canvas, colourShader, textureShader);
   });
 }
 

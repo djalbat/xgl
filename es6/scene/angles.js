@@ -1,6 +1,6 @@
 'use strict';
 
-const AngleCoordinates = require('./coordinates2D'),
+const AngleCoordinates = require('./coordinates2D'),  ///
       MouseCoordinates = require('./mouseCoordinates');
 
 const INITIAL_MOUSE_COORDINATES = new MouseCoordinates(0, 0),

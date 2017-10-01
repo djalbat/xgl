@@ -1,18 +1,18 @@
 'use strict';
 
-const angles = require('../../angles'),
-      zoom = require('../../zoom'),
-      Normal = require('../../normal'),
-      Rotation = require('../../rotation'),
-      Position = require('../../position'),
-      Perspective = require('../../perspective'),
-      MouseEvents = require('../../mouseEvents');
+const zoom = require('./scene/zoom'),
+      angles = require('./scene/angles'),
+      Normal = require('./scene/normal'),
+      Rotation = require('./scene/rotation'),
+      Position = require('./scene/position'),
+      Perspective = require('./scene/perspective'),
+      MouseEvents = require('./scene/mouseEvents');
 
-class App {
-  constructor(colourShader, textureShader, canvas) {
+class Scene {
+  constructor(canvas, colourShader, textureShader) {
+    this.canvas = canvas;
     this.colourShader = colourShader;
     this.textureShader = textureShader;
-    this.canvas = canvas;
   }
 
   addMouseEventHandlers() {
@@ -94,6 +94,22 @@ class App {
 
     this.canvas.render(this.textureShader, normal, rotation, position, perspective);
   }
+
+  static fromCanvasAndShaders(canvas, colourShader, textureShader) {
+    const scene = new Scene(canvas, colourShader, textureShader);
+
+    window.onresize = function() {
+      scene.resize();
+
+      scene.render(colourShader, textureShader);
+    };
+
+    scene.resize();
+
+    scene.render(colourShader, textureShader);
+
+    scene.addMouseEventHandlers();
+  }
 }
 
-module.exports = App;
+module.exports = Scene;

@@ -1,9 +1,9 @@
 'use strict';
 
 const Cube = require('../cube'),
-      imageMap = require('../../../imageMap');
+      imageMapUtilities = require('../../../utilities/imageMap');
 
-const { textureCoordinateDataFromImageNames } = imageMap;
+const { textureCoordinateDataFromImageNames } = imageMapUtilities;
 
 const imageNames = [
         'ivy.jpg',
