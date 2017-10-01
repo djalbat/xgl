@@ -7,9 +7,10 @@ const { fileSystemUtilities } = necessary,
       { readFile } = fileSystemUtilities;
 
 class RuntimeConfiguration {
-  constructor(port, host, publicDirectoryPath) {
+  constructor(port, host, imageDirectoryPath, publicDirectoryPath) {
     this.port = port;
     this.host = host;
+    this.imageDirectoryPath = imageDirectoryPath;
     this.publicDirectoryPath = publicDirectoryPath;
   }
   
@@ -21,6 +22,10 @@ class RuntimeConfiguration {
     return this.host;
   }
   
+  getImageDirectoryPath() {
+    return this.imageDirectoryPath;
+  }
+  
   getPublicDirectoryPath() {
     return this.publicDirectoryPath;
   }
@@ -28,8 +33,9 @@ class RuntimeConfiguration {
   static fromActiveBuildJSON(activeBuildJSON) {
     const port = activeBuildJSON["port"],
           host = activeBuildJSON["host"],
+          imageDirectoryPath = activeBuildJSON["imageDirectoryPath"],
           publicDirectoryPath = activeBuildJSON["publicDirectoryPath"],
-          runtimeConfiguration = new RuntimeConfiguration(port, host, publicDirectoryPath);
+          runtimeConfiguration = new RuntimeConfiguration(port, host, imageDirectoryPath, publicDirectoryPath);
 
     return runtimeConfiguration;
   }

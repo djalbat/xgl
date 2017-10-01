@@ -1,9 +1,11 @@
 'use strict';
 
-const INDEX_PAGE_PATH = '/',
+const IMAGE_MAP_PATH = '/imageMap',
+      INDEX_PAGE_PATH = '/',
       INTERMEDIATE_PAGE_PATH = '/intermediate';
 
 module.exports = {
+  IMAGE_MAP_PATH: IMAGE_MAP_PATH,
   INDEX_PAGE_PATH: INDEX_PAGE_PATH,
   INTERMEDIATE_PAGE_PATH: INTERMEDIATE_PAGE_PATH
 };

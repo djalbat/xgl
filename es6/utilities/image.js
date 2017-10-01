@@ -9,20 +9,7 @@ function preloadImages(sources, callback) {
   const images = [],
         length = sources.length; ///
 
-  repeatedly(
-    function(next, done, context, index) {
-      const source = sources[index],
-            image = new Image();
-
-      images[index] = image;
-
-      image.onload = next;  ///
-
-      image.src = source;  ///
-    },
-    length,
-    done
-  );
+  repeatedly(preloadImageCallback, length, done );
 
   function done() {
     callback(images);
@@ -32,3 +19,14 @@ function preloadImages(sources, callback) {
 module.exports = {
   preloadImages: preloadImages
 };
+
+function preloadImageCallback(next, done, context, index) {
+  const source = sources[index],
+       image = new Image();
+
+  images[index] = image;
+
+  image.onload = next;  ///
+
+  image.src = source;  ///
+}
