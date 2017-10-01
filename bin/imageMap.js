@@ -11,14 +11,13 @@ const { fileSystemUtilities, asynchronousUtilities } = necessary,
       { whilst } = asynchronousUtilities,
       { IMAGE_SIZE } = constants;
 
-const imageDirectoryPath = runtimeConfiguration.getImageDirectoryPath();
+const imageDirectoryPath = runtimeConfiguration.getImageDirectoryPath(),
+      paths = readDirectory(imageDirectoryPath),
+      pathsLength = paths.length,
+      size = Math.ceil(Math.sqrt(pathsLength)); ///
 
 class imageMap {
   static respond(response) {
-    const paths = readDirectory(imageDirectoryPath),
-          pathsLength = paths.length,
-          size = Math.ceil(Math.sqrt(pathsLength)); ///
-
     createImageMap(size, function(buffer) {
       const context = {
         size: size,
@@ -32,6 +31,22 @@ class imageMap {
         sharp(buffer).pipe(response);
       }, context);
     });
+  }
+  
+  static json() {
+    const json = paths.reduce(function(json, path, index) {
+            const top = (index / size) / size,
+                  left = (index % size) / size;
+            
+            json[path] = {
+              top: top,
+              left: left
+            };
+            
+            return json;
+          }, {});    
+    
+    return json;
   }
 }
 
