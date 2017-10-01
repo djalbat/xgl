@@ -6,9 +6,8 @@ const ColourCube = require('./cube/colour'),
       TextureCube = require('./cube/texture'),
       imageUtilities = require('../../utilities/image');
 
-const { arrayUtilities, asynchronousUtilities } = necessary,
+const { asynchronousUtilities } = necessary,
       { sequence } = asynchronousUtilities,
-      { first } = arrayUtilities,
       { preloadImage } = imageUtilities;
 
 function create(colourShader, textureShader, canvas, done) {

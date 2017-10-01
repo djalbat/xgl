@@ -5,46 +5,21 @@ const vec3 = require('../../../vec3'),
 
 const { divide, flatten } = arrayUtilities;
 
-const textureNames = [
-  'ivy.jpg',
-  'steel.jpg',
-  'grass.jpg',
-  'bricks.jpg',
-  'carpet.jpg',
-  'concrete.jpg'
-];
-
-const textureCoordinateData = [
-        0.0,  0.0,
-        1.0,  0.0,
-        1.0,  1.0,
-        0.0,  1.0,
-
-        0.0,  0.0,
-        1.0,  0.0,
-        1.0,  1.0,
-        0.0,  1.0,
-
-        0.0,  0.0,
-        1.0,  0.0,
-        1.0,  1.0,
-        0.0,  1.0,
-
-        0.0,  0.0,
-        1.0,  0.0,
-        1.0,  1.0,
-        0.0,  1.0,
-
-        0.0,  0.0,
-        1.0,  0.0,
-        1.0,  1.0,
-        0.0,  1.0,
-
-        0.0,  0.0,
-        1.0,  0.0,
-        1.0,  1.0,
-        0.0,  1.0
+const { imageMapJSON } = runtimeConfiguration,
+      textureNames = [
+        'ivy.jpg',
+        'steel.jpg',
+        'grass.jpg',
+        'bricks.jpg',
+        'carpet.jpg',
+        'concrete.jpg'
       ],
+      textureCoordinates = textureNames.reduce(function(textureCoordinates, textureName) {
+        textureCoordinates = textureCoordinates.concat(imageMapJSON[textureName]);
+
+        return textureCoordinates;
+      }, []),
+      textureCoordinateData = flatten(textureCoordinates),
       vertexPositionData = [
         -1.0, -1.0, +1.0,
         +1.0, -1.0, +1.0,
@@ -154,3 +129,38 @@ class TextureCube {
 }
 
 module.exports = TextureCube;
+
+/*
+ textureCoordinateData = [
+ 0.0,  0.0,
+ 1.0,  0.0,
+ 1.0,  1.0,
+ 0.0,  1.0,
+
+ 0.0,  0.0,
+ 1.0,  0.0,
+ 1.0,  1.0,
+ 0.0,  1.0,
+
+ 0.0,  0.0,
+ 1.0,  0.0,
+ 1.0,  1.0,
+ 0.0,  1.0,
+
+ 0.0,  0.0,
+ 1.0,  0.0,
+ 1.0,  1.0,
+ 0.0,  1.0,
+
+ 0.0,  0.0,
+ 1.0,  0.0,
+ 1.0,  1.0,
+ 0.0,  1.0,
+
+ 0.0,  0.0,
+ 1.0,  0.0,
+ 1.0,  1.0,
+ 0.0,  1.0
+ ],
+
+ */
