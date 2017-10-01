@@ -26,7 +26,7 @@ class TextureCube extends Cube {
     return this.textureCoordinateData;
   }
 
-  createElement(colourShader, textureShader) {
+  create(colourShader, textureShader) {
     const vertexPositionData = this.getVertexPositionData(),
           vertexNormalData = this.getVertexNormalData(),
           vertexIndexData = this.getVertexIndexData();

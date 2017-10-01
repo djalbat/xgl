@@ -45,7 +45,7 @@ class ColourCube extends Cube {
     return this.vertexColourData;
   }
 
-  createElement(colourShader, textureShader) {
+  create(colourShader, textureShader) {
     const vertexPositionData = this.getVertexPositionData(),
           vertexNormalData = this.getVertexNormalData(),
           vertexIndexData = this.getVertexIndexData();

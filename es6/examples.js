@@ -1,5 +1,6 @@
 'use strict';
 
 module.exports = {
-  intermediate: require('./examples/intermediate')
+  intermediate: require('./examples/intermediate'),
+  containerHouse: require('./examples/containerHouse')
 };

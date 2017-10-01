@@ -5,9 +5,10 @@ const express = require('express');
 const constants = require('./constants'),
       imageMap = require('./imageMap'),
       indexPage = require('./page/index'),
-      intermediatePage = require('./page/intermediate') ;
+      intermediatePage = require('./page/intermediate'),
+      containerHousePage = require('./page/containerHouse');
 
-const { IMAGE_MAP_PATH, INDEX_PAGE_PATH, INTERMEDIATE_PAGE_PATH } = constants;
+const { IMAGE_MAP_PATH, INDEX_PAGE_PATH, INTERMEDIATE_PAGE_PATH, CONTAINER_HOUSE_PAGE_PATH } = constants;
 
 class routes {
   static router() {
@@ -29,6 +30,14 @@ class routes {
 
     router.get(INTERMEDIATE_PAGE_PATH, function(request, response, next) {
       const html = intermediatePage.html();
+
+      response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+
+      response.end(html);
+    });
+
+    router.get(CONTAINER_HOUSE_PAGE_PATH, function(request, response, next) {
+      const html = containerHousePage.html();
 
       response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
 
