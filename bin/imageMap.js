@@ -12,16 +12,16 @@ const { fileSystemUtilities, asynchronousUtilities } = necessary,
       { IMAGE_SIZE } = constants;
 
 const imageDirectoryPath = runtimeConfiguration.getImageDirectoryPath(),
-      paths = readDirectory(imageDirectoryPath),
-      pathsLength = paths.length,
-      size = Math.ceil(Math.sqrt(pathsLength)); ///
+      names = readDirectory(imageDirectoryPath),
+      namesLength = names.length,
+      size = Math.ceil(Math.sqrt(namesLength)); ///
 
 class imageMap {
   static respond(response) {
     createImageMap(size, function(buffer) {
       const context = {
         size: size,
-        paths: paths,
+        names: names,
         buffer: buffer
       };
       
@@ -34,7 +34,7 @@ class imageMap {
   }
   
   static json() {
-    const json = paths.reduce(function(json, path, index) {
+    const json = names.reduce(function(json, name, index) {
             const top = Math.floor(index / size) / size,
                   left = (index % size) / size,
                   right = left + (1 / size),
@@ -46,7 +46,7 @@ class imageMap {
                     [left, bottom]
                   ];
             
-            json[path] = coordinates;
+            json[name] = coordinates;
             
             return json;
           }, {});    
@@ -79,9 +79,9 @@ function createImageMap(size, callback) {
 }
 
 function overlayWithImageCallback(next, done, context, index) {
-  const { size, paths, buffer } = context,
-        pathsLength = paths.length,
-        lastIndex = pathsLength - 1;
+  const { size, names, buffer } = context,
+        namesLength = names.length,
+        lastIndex = namesLength - 1;
 
   if (index > lastIndex) {
     done();
@@ -89,10 +89,10 @@ function overlayWithImageCallback(next, done, context, index) {
     return;
   }
   
-  const path = paths[index],
-        absolutePath = `${imageDirectoryPath}/${path}`;
+  const name = names[index],
+        path = `${imageDirectoryPath}/${name}`;
 
-  resizeImage(absolutePath, function(resizedImageBuffer) {
+  resizeImage(path, function(resizedImageBuffer) {
     const top = Math.floor(index / size) * IMAGE_SIZE,
           left = (index % size) * IMAGE_SIZE,
           options = {
@@ -111,11 +111,11 @@ function overlayWithImageCallback(next, done, context, index) {
   });
 }
 
-function resizeImage(absolutePath, callback) {
+function resizeImage(path, callback) {
   const width = IMAGE_SIZE, ///
         height = IMAGE_SIZE;  ///
   
-  sharp(absolutePath)
+  sharp(path)
     .resize(width, height)
     .toBuffer()
     .then(function(buffer) {

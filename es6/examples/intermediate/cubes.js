@@ -9,24 +9,24 @@ const ColourCube = require('./cube/colour'),
 const { arrayUtilities, asynchronousUtilities } = necessary,
       { sequence } = asynchronousUtilities,
       { first } = arrayUtilities,
-      { preloadImages } = imageUtilities;
+      { preloadImage } = imageUtilities;
 
 function create(colourShader, textureShader, canvas, done) {
-  const sources = [
-    'image/bricks.jpg'
+  const source = [
+    'imageMap'
   ];
 
-  preloadImages(sources, function(images) {
+  preloadImage(source, function(image) {
     const callbacks = [
             createColourCubeCallback,
             createTextureCubeCallback
           ],
           context = {
             colourShader: colourShader,
-            textureShader: textureShader,
-            images: images,
-            canvas: canvas
+            textureShader: textureShader
           };
+
+    textureShader.createTexture(image, canvas);
 
     sequence(callbacks, done, context);
   });
@@ -54,9 +54,7 @@ function createColourCubeCallback(next, done, context) {
 }
 
 function createTextureCubeCallback(next, done, context) {
-  const { textureShader, images, canvas } = context,
-        firstImage = first(images),
-        image = firstImage, ///
+  const { textureShader, canvas } = context,
         offsetPosition = [0, 0, 0];
 
   const vertexPositionData = TextureCube.getVertexPositionData(offsetPosition),
@@ -68,8 +66,6 @@ function createTextureCubeCallback(next, done, context) {
   textureShader.addVertexNormalData(vertexNormalData);
   textureShader.addVertexIndexData(vertexIndexData);
   textureShader.addTextureCoordinateData(textureCoordinateData);
-
-  textureShader.createTexture(image, canvas);
 
   next();
 }

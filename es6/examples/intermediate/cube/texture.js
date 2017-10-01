@@ -5,6 +5,15 @@ const vec3 = require('../../../vec3'),
 
 const { divide, flatten } = arrayUtilities;
 
+const textureNames = [
+  'ivy.jpg',
+  'steel.jpg',
+  'grass.jpg',
+  'bricks.jpg',
+  'carpet.jpg',
+  'concrete.jpg'
+];
+
 const textureCoordinateData = [
         0.0,  0.0,
         1.0,  0.0,
