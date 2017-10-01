@@ -47,7 +47,9 @@ const normalMatrixName = 'uNormalMatrix',
           return position;
         }
         
-      `;
+      `,
+      vertexPositionComponents = 3,
+      vertexNormalComponents = 3;
 
 class Shader {
   constructor(program, canvas) {
@@ -62,6 +64,14 @@ class Shader {
     this.vertexPositionData = [];
     this.vertexNormalData = [];
     this.vertexIndexData = [];
+    this.maximumVertexIndex = -1; ///
+  }
+
+  getCount() {
+    const vertexIndexDataLength = this.vertexIndexData.length,
+          count = vertexIndexDataLength;  ///
+
+    return count;
   }
 
   getProgram() {
@@ -84,13 +94,6 @@ class Shader {
     return this.perspectiveMatrixUniformLocation;
   }
 
-  getCount() {
-    const vertexIndexDataLength = this.vertexIndexData.length,
-          count = vertexIndexDataLength;  ///
-
-    return count;
-  }
-
   addVertexPositionData(vertexPositionData) {
     add(this.vertexPositionData, vertexPositionData);
   }
@@ -100,19 +103,27 @@ class Shader {
   }
 
   addVertexIndexData(vertexIndexData) {
-    const offset = Math.max(-1, ...this.vertexIndexData) + 1; ///
+    const offset = this.maximumVertexIndex + 1;
 
     vertexIndexData = vertexIndexData.map(function(vertexIndex) {
       return vertexIndex + offset;
     });
 
     add(this.vertexIndexData, vertexIndexData);
+
+    this.maximumVertexIndex = Math.max(this.maximumVertexIndex, ...vertexIndexData);
   }
 
   createBuffers(canvas) {
     this.createVertexPositionBuffer(canvas);
     this.createVertexNormalBuffer(canvas);
     this.createVertexIndexElementBuffer(canvas);
+  }
+
+  bindBuffers(canvas) {
+    this.bindVertexNormalBuffer(canvas);
+    this.bindVertexPositionBuffer(canvas);
+    this.bindVertexIndexElementBuffer(canvas);
   }
 
   createVertexPositionBuffer(canvas) {
@@ -127,62 +138,49 @@ class Shader {
     this.vertexIndexElementBuffer = canvas.createElementBuffer(this.vertexIndexData);
   }
 
-  bindBuffers(canvas) {
-    this.bindVertexNormalBuffer(canvas);
-    this.bindVertexPositionBuffer(canvas);
-    this.bindVertexIndexElementBuffer(canvas);
-  }
-
   bindVertexNormalBuffer(canvas) {
-    const vertexNormalComponents = 3;
-
     canvas.bindBuffer(this.vertexNormalBuffer, this.vertexNormalAttributeLocation, vertexNormalComponents);
   }
 
   bindVertexPositionBuffer(canvas) {
-    const vertexPositionComponents = 3;
-
     canvas.bindBuffer(this.vertexPositionBuffer, this.vertexPositionAttributeLocation, vertexPositionComponents);
   }
 
   bindVertexIndexElementBuffer(canvas) {
     canvas.bindElementBuffer(this.vertexIndexElementBuffer);
   }
+}
 
-  static createVertexShader(vertexShaderSource, canvas) {
-    const context = canvas.getContext(),
-          { VERTEX_SHADER } = context,
-          type = VERTEX_SHADER,
-          vertexShader = createShader(type, vertexShaderSource, context);
+function createVertexShader(vertexShaderSource, canvas) {
+  const context = canvas.getContext(),
+      { VERTEX_SHADER } = context,
+      type = VERTEX_SHADER,
+      vertexShader = createShader(type, vertexShaderSource, canvas);
 
-    return vertexShader;
-  }
+  return vertexShader;
+}
 
-  static createFragmentShader(fragmentShaderSource, canvas) {
-    const context = canvas.getContext(),
-          { FRAGMENT_SHADER } = context,
-          type = FRAGMENT_SHADER,
-          vertexShader = createShader(type, fragmentShaderSource, context);
+function createFragmentShader(fragmentShaderSource, canvas) {
+  const context = canvas.getContext(),
+      { FRAGMENT_SHADER } = context,
+      type = FRAGMENT_SHADER,
+      vertexShader = createShader(type, fragmentShaderSource, canvas);
 
-    return vertexShader;
-  }
-
-  static fromProgram(Class, program, canvas) {
-    const shader = new Class(program, canvas);
-
-    return shader;
-  }
+  return vertexShader;
 }
 
 Object.assign(Shader, {
+  createVertexShader: createVertexShader,
+  createFragmentShader: createFragmentShader,
   calculateLightingSource: calculateLightingSource,
   calculatePositionSource: calculatePositionSource
 });
 
 module.exports = Shader;
 
-function createShader(type, shaderSource, context) {
-  const { COMPILE_STATUS } = context,
+function createShader(type, shaderSource, canvas) {
+  const context = canvas.getContext(),
+        { COMPILE_STATUS } = context,
         pname = COMPILE_STATUS,
         shader = context.createShader(type);
 
@@ -193,8 +191,6 @@ function createShader(type, shaderSource, context) {
   const compileStatus = context.getShaderParameter(shader, pname);
 
   if (!compileStatus) {
-    const shaderInfoLog = context.getShaderInfoLog(shader);
-
     throw new Error(`Unable to create the shader.`);
   }
 

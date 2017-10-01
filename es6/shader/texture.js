@@ -4,7 +4,7 @@ const necessary = require('necessary');
 
 const Shader = require('../shader');
 
-const { calculateLightingSource, calculatePositionSource } = Shader,
+const { createVertexShader, createFragmentShader, calculateLightingSource, calculatePositionSource } = Shader,
       { arrayUtilities } = necessary,
       { merge } = arrayUtilities,
       add = merge;  ///
@@ -100,18 +100,11 @@ class TextureShader extends Shader {
   }
 
   static fromNothing(canvas) {
-    const context = canvas.getContext(),
-          program = canvas.createProgram(),
-          vertexShader = Shader.createVertexShader(vertexShaderSource, canvas),
-          fragmentShader = Shader.createFragmentShader(fragmentShaderSource, canvas);
+    const vertexShader = createVertexShader(vertexShaderSource, canvas),
+          fragmentShader = createFragmentShader(fragmentShaderSource, canvas),
+          colourShader = canvas.createShader(TextureShader, vertexShader, fragmentShader);
 
-    context.attachShader(program, vertexShader);
-    context.attachShader(program, fragmentShader);
-    context.linkProgram(program);
-
-    const textureShader = Shader.fromProgram(TextureShader, program, canvas);
-
-    return textureShader;
+    return colourShader;
   }
 }
 

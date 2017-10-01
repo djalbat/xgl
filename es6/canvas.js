@@ -2,8 +2,9 @@
 
 const domUtilities = require('./utilities/dom'),
       textureMixin = require('./mixin/texture'),
-      bufferMixin = require('./mixin/buffer'),
       colourMixin = require('./mixin/colour'),
+      shaderMixin = require('./mixin/shader'),
+      bufferMixin = require('./mixin/buffer'),
       matrixMixin = require('./mixin/matrix'),
       depthMixin = require('./mixin/depth'),
       mouseMixin = require('./mixin/mouse');
@@ -22,7 +23,7 @@ class Canvas {
     }
 
     this.context = context;
-
+    
     this.domElement = domElement;
   }
 
@@ -53,14 +54,6 @@ class Canvas {
   setViewport(x, y, width, height) { this.context.viewport(x, y, width, height); }
 
   setUniformLocationIntegerValue(uniformLocation, integerValue) { this.context.uniform1i(uniformLocation, integerValue); }
-
-  createProgram() { return this.context.createProgram(); }
-
-  useShader(shader) {
-    const shaderProgram = shader.getProgram();
-
-    this.context.useProgram(shaderProgram);
-  }
 
   clear() {
     this.clearDepth();
@@ -105,8 +98,9 @@ class Canvas {
 }
 
 Object.assign(Canvas.prototype, textureMixin);
-Object.assign(Canvas.prototype, bufferMixin);
 Object.assign(Canvas.prototype, colourMixin);
+Object.assign(Canvas.prototype, shaderMixin);
+Object.assign(Canvas.prototype, bufferMixin);
 Object.assign(Canvas.prototype, matrixMixin);
 Object.assign(Canvas.prototype, depthMixin);
 Object.assign(Canvas.prototype, mouseMixin);

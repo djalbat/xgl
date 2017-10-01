@@ -4,8 +4,8 @@ function createElementBuffer(data) {
   const { ELEMENT_ARRAY_BUFFER, STATIC_DRAW } = this.context,
         target = ELEMENT_ARRAY_BUFFER,
         usage = STATIC_DRAW,
-        elementBuffer = this.context.createBuffer(),
-        uint16Array = new Uint16Array(data);
+        uint16Array = new Uint16Array(data),
+        elementBuffer = this.context.createBuffer();
 
   this.context.bindBuffer(target, elementBuffer);
 
