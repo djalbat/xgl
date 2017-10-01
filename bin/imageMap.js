@@ -35,13 +35,18 @@ class imageMap {
   
   static json() {
     const json = paths.reduce(function(json, path, index) {
-            const top = (index / size) / size,
-                  left = (index % size) / size;
+            const top = Math.floor(index / size) / size,
+                  left = (index % size) / size,
+                  right = left + (1 / size),
+                  bottom = top + (1 / size),
+                  coordinates = [
+                    [left, top],
+                    [right, top],
+                    [right, bottom],
+                    [left, bottom]
+                  ];
             
-            json[path] = {
-              top: top,
-              left: left
-            };
+            json[path] = coordinates;
             
             return json;
           }, {});    
