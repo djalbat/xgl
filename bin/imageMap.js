@@ -3,28 +3,30 @@
 const sharp = require('sharp'),
       necessary = require('necessary');
 
-const runtimeConfiguration = require('./runtimeConfiguration');
+const constants = require('./constants'),
+      runtimeConfiguration = require('./runtimeConfiguration');
 
-const { asynchronousUtilities } = necessary,
-      { whilst } = asynchronousUtilities;
+const { fileSystemUtilities, asynchronousUtilities } = necessary,
+      { readDirectory } = fileSystemUtilities,
+      { whilst } = asynchronousUtilities,
+      { IMAGE_SIZE } = constants;
 
-const imageDirectoryPath = runtimeConfiguration.getImageDirectoryPath(),
-      grassImagePath = `${imageDirectoryPath}/grass.jpg`,
-      concreteImagePath = `${imageDirectoryPath}/concrete.jpg`,
-      paths = [
-        grassImagePath,
-        concreteImagePath
-      ];
+const imageDirectoryPath = runtimeConfiguration.getImageDirectoryPath();
 
 class imageMap {
   static respond(response) {
-    createImageMap(function(buffer) {
+    const paths = readDirectory(imageDirectoryPath),
+          pathsLength = paths.length,
+          size = Math.ceil(Math.sqrt(pathsLength)); ///
+
+    createImageMap(size, function(buffer) {
       const context = {
+        size: size,
         paths: paths,
         buffer: buffer
       };
-
-      whilst(overlayImageCallback, function() {
+      
+      whilst(overlayWithImageCallback, function() {
         const { buffer } = context;
 
         sharp(buffer).pipe(response);
@@ -35,51 +37,70 @@ class imageMap {
 
 module.exports = imageMap;
 
-function createImageMap(callback) {
-  const width = 512,
-        height = 512,
+function createImageMap(size, callback) {
+  const width = IMAGE_SIZE * size,  ///
+        height = IMAGE_SIZE * size, ///
         channels = 4,
-        background = { r: 255, g: 255, b: 255, alpha: 255 },
+        background = { r: 255, g: 255, b: 255, alpha: 0 },
         options = {
           width: width,
           height: height,
           channels: channels,
           background: background
-          };
+        },
+        imageMap = sharp({
+          create: options ///
+        });
 
-  sharp({
-    create: options ///
-  })
-  .png()
-  .toBuffer()
-  .then(callback);
+  imageMap
+    .png()
+    .toBuffer()
+    .then(callback);
 }
 
-function overlayImageCallback(next, done, context, index) {
-  const { buffer, paths } = context,
+function overlayWithImageCallback(next, done, context, index) {
+  const { size, paths, buffer } = context,
         pathsLength = paths.length,
         lastIndex = pathsLength - 1;
 
   if (index > lastIndex) {
     done();
-
+    
     return;
   }
+  
+  const path = paths[index],
+        absolutePath = `${imageDirectoryPath}/${path}`;
 
-  const top = 0,
-        left = index * 256, ///
-        options = {
-          top: top,
-          left: left
-        },
-        path = paths[index];
+  resizeImage(absolutePath, function(resizedImageBuffer) {
+    const top = Math.floor(index / size) * IMAGE_SIZE,
+          left = (index % size) * IMAGE_SIZE,
+          options = {
+            top: top,
+            left: left
+          };
 
-  sharp(buffer)
-  .overlayWith(path, options)
-  .toBuffer()
-  .then(function(buffer) {
-    context.buffer = buffer;  ///
+    sharp(buffer)
+      .overlayWith(resizedImageBuffer, options)
+      .toBuffer()
+      .then(function(buffer) {
+        context.buffer = buffer;  ///
 
-    next();
+        next();
+      });
   });
+}
+
+function resizeImage(absolutePath, callback) {
+  const width = IMAGE_SIZE, ///
+        height = IMAGE_SIZE;  ///
+  
+  sharp(absolutePath)
+    .resize(width, height)
+    .toBuffer()
+    .then(function(buffer) {
+      const resizedImageBuffer = buffer; ///
+      
+      callback(resizedImageBuffer);
+    });
 }
