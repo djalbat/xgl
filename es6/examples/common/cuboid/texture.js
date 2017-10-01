@@ -1,21 +1,11 @@
 'use strict';
 
-const Cube = require('../cube'),
+const Cuboid = require('../cuboid'),
       imageMapUtilities = require('../../../utilities/imageMap');
 
-const { textureCoordinateDataFromImageNames } = imageMapUtilities;
+const { textureCoordinateDataFromImageName } = imageMapUtilities;
 
-const imageNames = [
-        'ivy.jpg',
-        'steel.jpg',
-        'grass.jpg',
-        'bricks.jpg',
-        'carpet.jpg',
-        'concrete.jpg'
-      ],
-      textureCoordinateData = textureCoordinateDataFromImageNames(imageNames);
-
-class TextureCube extends Cube {
+class TextureCuboid extends Cuboid {
   constructor(vertexPositionData, vertexNormalData, vertexIndexData, textureCoordinateData) {
     super(vertexPositionData, vertexNormalData, vertexIndexData);
     
@@ -37,8 +27,13 @@ class TextureCube extends Cube {
     textureShader.addTextureCoordinateData(this.textureCoordinateData);
   }
   
-  static fromProperties(properties) { return Cube.fromProperties(TextureCube, properties, textureCoordinateData); }
+  static fromProperties(properties) {
+    const { imageName } = properties,
+          textureCoordinateData = textureCoordinateDataFromImageName(imageName),
+          textureCuboid = Cuboid.fromProperties(TextureCuboid, properties, textureCoordinateData);
+
+    return textureCuboid;
+  }
 }
 
-module.exports = TextureCube;
-
+module.exports = TextureCuboid;

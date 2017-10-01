@@ -1,12 +1,12 @@
 'use strict';
 
 const React = require('../../react'),
-      ColourCube = require('../intermediate/cube/colour');
+      TextureCuboid = require('../common/cuboid/texture');
 
 const foundations = (properties) => {
   return (
 
-    <ColourCube offsetPosition={[0, 0, 0]} />
+    <TextureCuboid offsetPosition={[0, 0, 0]} imageName="concrete.jpg" />
       
   );
 };

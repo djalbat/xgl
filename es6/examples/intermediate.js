@@ -2,15 +2,15 @@
 
 const React = require('../react'),
       example = require('../example'),      
-      ColourCube = require('./intermediate/cube/colour'),
-      TextureCube = require('./intermediate/cube/texture');
+      ColourCuboid = require('./common/cuboid/colour'),
+      TextureCuboid = require('./common/cuboid/texture');
 
 function intermediate() {
   example(function() {
     const elements = [
         
-            <ColourCube offsetPosition={[0, 0, 0]} />,
-            <TextureCube offsetPosition={[+2, +2, +2]} />
+            <ColourCuboid offsetPosition={[0, 0, 0]} />,
+            <TextureCuboid offsetPosition={[+2, +2, +2]} imageName="bricks.jpg" />
         
           ];
     

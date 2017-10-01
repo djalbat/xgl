@@ -1,6 +1,6 @@
 'use strict';
 
-const Cube = require('../cube');
+const Cuboid = require('../cuboid');
 
 const vertexColourData = [
         1.0,  0.0,  0.0,  1.0,
@@ -34,7 +34,7 @@ const vertexColourData = [
         1.0,  1.0,  0.0,  1.0
       ];
 
-class ColourCube extends Cube {
+class ColourCuboid extends Cuboid {
   constructor(vertexPositionData, vertexNormalData, vertexIndexData, vertexColourData) {
     super(vertexPositionData, vertexNormalData, vertexIndexData);
     
@@ -56,7 +56,7 @@ class ColourCube extends Cube {
     colourShader.addVertexColourData(this.vertexColourData);
   }
 
-  static fromProperties(properties) { return Cube.fromProperties(ColourCube, properties, vertexColourData); }
+  static fromProperties(properties) { return Cuboid.fromProperties(ColourCuboid, properties, vertexColourData); }
 }
 
-module.exports = ColourCube;
+module.exports = ColourCuboid;

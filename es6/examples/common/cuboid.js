@@ -88,7 +88,7 @@ const vertexPositionData = [
 
 const { divide, flatten } = arrayUtilities;
 
-class Cube extends Element {
+class Cuboid extends Element {
   constructor(vertexPositionData, vertexNormalData, vertexIndexData) {
     super();
     
@@ -117,7 +117,7 @@ class Cube extends Element {
   }
 }
 
-module.exports = Cube;
+module.exports = Cuboid;
 
 function vertexPositionDataFromOffsetPosition(offsetPosition) {
   let vertexPositions = divide(vertexPositionData, 3);  ///

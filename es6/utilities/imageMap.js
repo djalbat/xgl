@@ -17,6 +17,20 @@ function preloadImageMap(canvas, textureShader, done) {
   });
 }
 
+function textureCoordinateDataFromImageName(imageName) {
+  const imageNames = [
+          imageName,
+          imageName,
+          imageName,
+          imageName,
+          imageName,
+          imageName
+        ],
+        textureCoordinateData = textureCoordinateDataFromImageNames(imageNames);
+  
+  return textureCoordinateData;
+}
+
 function textureCoordinateDataFromImageNames(imageNames) {
   const textureCoordinates = imageNames.reduce(function(textureCoordinates, textureName) {
           textureCoordinates = textureCoordinates.concat(imageMapJSON[textureName]);
@@ -30,5 +44,6 @@ function textureCoordinateDataFromImageNames(imageNames) {
 
 module.exports = {
   preloadImageMap: preloadImageMap,
+  textureCoordinateDataFromImageName: textureCoordinateDataFromImageName,
   textureCoordinateDataFromImageNames: textureCoordinateDataFromImageNames  
 };
