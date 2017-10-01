@@ -1,19 +1,28 @@
 'use strict';
 
-const Scene = require('../scene'),
+const React = require('../react'),
+      Scene = require('../scene'),
       Canvas = require('../canvas'),
-      cubes = require('./intermediate/cubes'),
       ColourShader = require('../shader/colour'),
-      TextureShader = require('../shader/texture');
+      TextureShader = require('../shader/texture'),
+      ColourCube = require('./intermediate/cube/colour'),
+      TextureCube = require('./intermediate/cube/texture'),
+      imageMapUtilities = require('../utilities/imageMap');
 
-const { create } = cubes;
+const { preloadImageMap } = imageMapUtilities;
 
 function intermediate() {
   const canvas = new Canvas(),
         colourShader = ColourShader.fromNothing(canvas),
         textureShader = TextureShader.fromNothing(canvas);
 
-  create(colourShader, textureShader, canvas, function() {
+  preloadImageMap(canvas, textureShader, function() {
+    const colourCube = <ColourCube offsetPosition={[0, 0, 0]} />,
+          textureCube = <TextureCube offsetPosition={[+2, +2, +2]} />;
+
+    colourCube.createElement(colourShader, textureShader);
+    textureCube.createElement(colourShader, textureShader);
+    
     canvas.enableDepthTesting();
     canvas.enableDepthFunction();
 
