@@ -7,7 +7,8 @@ const React = require('../react'),
       FirstFloor = require('./containerHouse/floor/first'),
       ThirdFloor = require('./containerHouse/floor/third'),
       SecondFloor = require('./containerHouse/floor/second'),
-      Foundations = require('./containerHouse/foundations');
+      Foundations = require('./containerHouse/foundations'),
+      MainBalcony = require('./containerHouse/balcony/main');
 
 const { flatten } = arrayUtilities;
 
@@ -18,6 +19,7 @@ function containerHouse() {
     <FirstFloor />,
     <SecondFloor />,
     <ThirdFloor />,
+    <MainBalcony />,
     <Frame />,
 
   ]));

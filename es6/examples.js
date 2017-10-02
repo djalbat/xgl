@@ -1,6 +1,6 @@
 'use strict';
 
 module.exports = {
-  intermediate: require('./examples/intermediate'),
+  shapes: require('./examples/shapes'),
   containerHouse: require('./examples/containerHouse')
 };

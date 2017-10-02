@@ -8,7 +8,7 @@ const React = require('../react'),
 
 const { flatten } = arrayUtilities;
 
-function intermediate() {
+function shapes() {
   example(() => flatten([
 
     <ColourCuboid offset={[0, 0, 0]} width={1} depth={1} height={1} colour={[1, 0, 0, 1]} />,
@@ -17,4 +17,4 @@ function intermediate() {
   ]));
 }
 
-module.exports = intermediate;
+module.exports = shapes;
