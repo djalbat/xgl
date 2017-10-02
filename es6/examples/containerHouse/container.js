@@ -8,7 +8,7 @@ const Container = (properties) => {
 
   return (
 
-    <ColourCuboid colour={[255, 255, 255, 0]} offset={offset} width={width} depth={8.5} height={9.5} />
+    <ColourCuboid colour={[1, 1, 1, 1]} offset={offset} width={width} depth={8} height={9.5} />
       
   );
 };
