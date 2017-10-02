@@ -18,9 +18,8 @@ const imageDirectoryPath = runtimeConfiguration.getImageDirectoryPath(),
 
 class imageMap {
   static respond(response) {
-    createImageMap(size, function(buffer) {
+    createImageMap(function(buffer) {
       const context = {
-        size: size,
         names: names,
         buffer: buffer
       };
@@ -34,12 +33,30 @@ class imageMap {
   }
   
   static json() {
-    const json = names.reduce(function(json, name, index) {
-            const top = Math.floor(index / size) / size,
-                  left = (index % size) / size,
-                  right = left + (1 / size),
-                  bottom = top + (1 / size),
-                  coordinates = [
+    const width = IMAGE_SIZE * size,  ///
+          height = IMAGE_SIZE * size, ///
+          json = names.reduce(function(json, name, index) {
+            let top = Math.floor(index / size) / size,
+                left = (index % size) / size,
+                right = left + (1 / size),
+                bottom = top + (1 / size);
+
+            top = top * height;
+            left = left * width;
+            right = right * width;
+            bottom = bottom * height;
+
+            top = top + 8;
+            left = left + 8;
+            right = right - 8;
+            bottom = bottom - 8;
+
+            top = top / height;
+            left = left / width;
+            right = right / width;
+            bottom = bottom / height;
+
+            const coordinates = [
                     [left, top],
                     [right, top],
                     [right, bottom],
@@ -57,7 +74,7 @@ class imageMap {
 
 module.exports = imageMap;
 
-function createImageMap(size, callback) {
+function createImageMap(callback) {
   const width = IMAGE_SIZE * size,  ///
         height = IMAGE_SIZE * size, ///
         channels = 4,
@@ -79,7 +96,7 @@ function createImageMap(size, callback) {
 }
 
 function overlayWithImageCallback(next, done, context, index) {
-  const { size, names, buffer } = context,
+  const { names, buffer } = context,
         namesLength = names.length,
         lastIndex = namesLength - 1;
 
