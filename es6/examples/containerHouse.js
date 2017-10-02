@@ -2,14 +2,19 @@
 
 const React = require('../react'),
       example = require('../example'),
-      Foundations = require('./containerHouse/foundations');
+      Frame = require('./containerHouse/frame'),
+      Foundations = require('./containerHouse/foundations'),
+      arrayUtilities = require('../utilities/array');
+
+const { flatten } = arrayUtilities;
 
 function containerHouse() {
-  example(() =>
+  example(() => flatten([
 
-    <Foundations />
+    <Foundations />,
+    <Frame />
 
-  );
+  ]));
 }
 
 module.exports = containerHouse;
