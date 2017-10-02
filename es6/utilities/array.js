@@ -24,16 +24,23 @@ function divide(data, divisor) {
 }
 
 function flatten(arrays) {
-  const data = arrays.reduce(function(data, array) {
-    data = data.concat(array);
-
-    return data;
+  const elements = arrays.reduce(function(elements, array) {
+    return elements.concat(array);
   }, []);
 
-  return data;
+  return elements;
+}
+
+function guarantee(arrayOrElement) {
+  const elements = (arrayOrElement instanceof Array) ?
+                      arrayOrElement :
+                       [arrayOrElement];
+
+  return elements;
 }
 
 module.exports = Object.assign(arrayUtilities, {
   divide: divide,
-  flatten: flatten
+  flatten: flatten,
+  guarantee: guarantee
 });

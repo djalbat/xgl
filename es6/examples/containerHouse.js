@@ -5,15 +5,11 @@ const React = require('../react'),
       Foundations = require('./containerHouse/foundations');
 
 function containerHouse() {
-  example(function() {
-    const elements = [
+  example(() =>
 
-            <Foundations />
-        
-          ];
+    <Foundations />
 
-    return elements;
-  });
+  );
 }
 
 module.exports = containerHouse;

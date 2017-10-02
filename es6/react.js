@@ -3,10 +3,10 @@
 const Element = require('./element'),
       arrayUtilities = require('./utilities/array');
 
-const { flatten } = arrayUtilities;
+const { flatten, guarantee } = arrayUtilities;
 
 function createElement(firstArgument, properties, ...childElements) {
-  let element = null;
+  let elementOrElements;
 
   if (firstArgument !== undefined) {
     flatten(childElements);
@@ -20,15 +20,17 @@ function createElement(firstArgument, properties, ...childElements) {
     } else if (isSubclassOf(firstArgument, Element)) {
       const Class = firstArgument;  ///
 
-      element = Class.fromProperties(properties);
+      elementOrElements = Class.fromProperties(properties);
     } else if (typeof firstArgument === 'function') {
       const elementFunction = firstArgument;  ///
 
-      element = elementFunction(properties);
+      elementOrElements = elementFunction(properties);
     }
   }
 
-  return element;
+  const elements = flatten(guarantee(elementOrElements));
+
+  return elements;
 }
 
 const React = {

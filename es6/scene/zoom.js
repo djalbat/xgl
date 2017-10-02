@@ -1,6 +1,6 @@
 'use strict';
 
-const INITIAL_DISTANCE = 50;
+const INITIAL_DISTANCE = 100;
     
 class Zoom {
   constructor(distance) {

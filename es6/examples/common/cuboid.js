@@ -5,86 +5,92 @@ const vec3 = require('../../vec3'),
       arrayUtilities = require('../../utilities/array');
 
 const vertexPositionData = [
-      -1.0, -1.0, +1.0,
-      +1.0, -1.0, +1.0,
-      +1.0, +1.0, +1.0,
-      -1.0, +1.0, +1.0,
 
-      -1.0, -1.0, -1.0,
-      -1.0, +1.0, -1.0,
-      +1.0, +1.0, -1.0,
-      +1.0, -1.0, -1.0,
+        0.0, 0.0, 1.0,
+        1.0, 0.0, 1.0,
+        1.0, 1.0, 1.0,
+        0.0, 1.0, 1.0,
 
-      -1.0, +1.0, -1.0,
-      -1.0, +1.0, +1.0,
-      +1.0, +1.0, +1.0,
-      +1.0, +1.0, -1.0,
+        0.0, 0.0, 0.0,
+        0.0, 1.0, 0.0,
+        1.0, 1.0, 0.0,
+        1.0, 0.0, 0.0,
 
-      -1.0, -1.0, -1.0,
-      +1.0, -1.0, -1.0,
-      +1.0, -1.0, +1.0,
-      -1.0, -1.0, +1.0,
+        0.0, 1.0, 0.0,
+        0.0, 1.0, 1.0,
+        1.0, 1.0, 1.0,
+        1.0, 1.0, 0.0,
 
-      +1.0, -1.0, -1.0,
-      +1.0, +1.0, -1.0,
-      +1.0, +1.0, +1.0,
-      +1.0, -1.0, +1.0,
+        0.0, 0.0, 0.0,
+        1.0, 0.0, 0.0,
+        1.0, 0.0, 1.0,
+        0.0, 0.0, 1.0,
 
-      -1.0, -1.0, -1.0,
-      -1.0, -1.0, +1.0,
-      -1.0, +1.0, +1.0,
-      -1.0, +1.0, -1.0
-    ],
+        1.0, 0.0, 0.0,
+        1.0, 1.0, 0.0,
+        1.0, 1.0, 1.0,
+        1.0, 0.0, 1.0,
+
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 1.0,
+        0.0, 1.0, 1.0,
+        0.0, 1.0, 0.0,
+
+      ],
       vertexNormalData = [
-      0.0,  0.0, +1.0,
-      0.0,  0.0, +1.0,
-      0.0,  0.0, +1.0,
-      0.0,  0.0, +1.0,
 
-      0.0,  0.0, -1.0,
-      0.0,  0.0, -1.0,
-      0.0,  0.0, -1.0,
-      0.0,  0.0, -1.0,
+        0.0,  0.0, +1.0,
+        0.0,  0.0, +1.0,
+        0.0,  0.0, +1.0,
+        0.0,  0.0, +1.0,
 
-      0.0, +1.0,  0.0,
-      0.0, +1.0,  0.0,
-      0.0, +1.0,  0.0,
-      0.0, +1.0,  0.0,
+        0.0,  0.0, -1.0,
+        0.0,  0.0, -1.0,
+        0.0,  0.0, -1.0,
+        0.0,  0.0, -1.0,
 
-      0.0, -1.0,  0.0,
-      0.0, -1.0,  0.0,
-      0.0, -1.0,  0.0,
-      0.0, -1.0,  0.0,
+        0.0, +1.0,  0.0,
+        0.0, +1.0,  0.0,
+        0.0, +1.0,  0.0,
+        0.0, +1.0,  0.0,
 
-      +1.0,  0.0,  0.0,
-      +1.0,  0.0,  0.0,
-      +1.0,  0.0,  0.0,
-      +1.0,  0.0,  0.0,
+        0.0, -1.0,  0.0,
+        0.0, -1.0,  0.0,
+        0.0, -1.0,  0.0,
+        0.0, -1.0,  0.0,
 
-      -1.0,  0.0,  0.0,
-      -1.0,  0.0,  0.0,
-      -1.0,  0.0,  0.0,
-      -1.0,  0.0,  0.0
-    ],
+        +1.0,  0.0,  0.0,
+        +1.0,  0.0,  0.0,
+        +1.0,  0.0,  0.0,
+        +1.0,  0.0,  0.0,
+
+        -1.0,  0.0,  0.0,
+        -1.0,  0.0,  0.0,
+        -1.0,  0.0,  0.0,
+        -1.0,  0.0,  0.0,
+
+      ],
       vertexIndexData = [
-      0,  1,  2,
-      0,  2,  3,
 
-      4,  5,  6,
-      4,  6,  7,
+        0,  1,  2,
+        0,  2,  3,
 
-      8,  9, 10,
-      8, 10, 11,
+        4,  5,  6,
+        4,  6,  7,
 
-      12, 13, 14,
-      12, 14, 15,
+        8,  9, 10,
+        8, 10, 11,
 
-      16, 17, 18,
-      16, 18, 19,
+        12, 13, 14,
+        12, 14, 15,
 
-      20, 21, 22,
-      20, 22, 23
-    ];
+        16, 17, 18,
+        16, 18, 19,
+
+        20, 21, 22,
+        20, 22, 23,
+
+      ];
 
 const { divide, flatten } = arrayUtilities;
 
@@ -110,8 +116,8 @@ class Cuboid extends Element {
   }
   
   static fromProperties(Class, properties, ...remainingArguments) {
-    const { height, width, depth, offset } = properties,
-          vertexPositionData = vertexPositionDataFromHeightWidthDepthAndOffset(height, width, depth, offset);
+    const { width, depth, height, offset } = properties,
+          vertexPositionData = vertexPositionDataFromHeightWidthDepthAndOffset(width, depth, height, offset);
     
     return new Class(vertexPositionData, vertexNormalData, vertexIndexData, ...remainingArguments);
   }
@@ -119,13 +125,14 @@ class Cuboid extends Element {
 
 module.exports = Cuboid;
 
-function vertexPositionDataFromHeightWidthDepthAndOffset(height, width, depth, offset) {
+function vertexPositionDataFromHeightWidthDepthAndOffset(width, depth, height, offset) {
   let vertexPositions = divide(vertexPositionData, 3);  ///
 
   vertexPositions = vertexPositions.map(function(vertexPosition) {
-    const offsetVertexPosition = vec3.add(vertexPosition, offset);
+    vertexPosition = vec3.multiply(vertexPosition, [width, depth, height]) ;
+    vertexPosition = vec3.add(vertexPosition, offset);
 
-    return offsetVertexPosition;
+    return vertexPosition;
   });
 
   return flatten(vertexPositions);

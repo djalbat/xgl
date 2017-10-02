@@ -1,14 +1,15 @@
 'use strict';
 
 const React = require('../../react'),
-      TextureCuboid = require('../common/cuboid/texture');
+      ConcreteSlab = require('./concreteSlab');
 
-const foundations = (properties) => {
-  return (
+const Foundations = (properties) => {
+  return ([
 
-    <TextureCuboid offset={[0, 0, 0]} imageName="concrete.jpg" width={48} height={1} depth={32} />
-      
-  );
+    <ConcreteSlab offset={[36, 0, -1]} width={12} depth={32} height={1} />,
+    <ConcreteSlab offset={[0, 0, -1]} width={24} depth={32} height={1} />
+
+  ]);
 };
 
-module.exports = foundations;
+module.exports = Foundations;

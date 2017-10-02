@@ -143,8 +143,7 @@ class Shader {
   }
 
   bindVertexPositionBuffer(canvas) {
-    canvas.bindBuffer(this.vertexPositionBuffer, this.vertexPositionAttributeLocation, vertexPositionComponents);
-  }
+    canvas.bindBuffer(this.vertexPositionBuffer, this.vertexPositionAttributeLocation, vertexPositionComponents);4}
 
   bindVertexIndexElementBuffer(canvas) {
     canvas.bindElementBuffer(this.vertexIndexElementBuffer);

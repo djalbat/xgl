@@ -3,8 +3,8 @@
 const mat4 = require('gl-mat4');  ///
 
 const defaultFieldOfView = 45 * Math.PI / 180,
-      defaultZNear = 0.1,
-      defaultZFar = 100.0;
+      defaultZNear = 1,
+      defaultZFar = 1000.0;
 
 class Perspective {
   constructor(matrix) {
