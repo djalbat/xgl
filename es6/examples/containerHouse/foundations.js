@@ -5,8 +5,8 @@ const React = require('../../react'),
 
 const Foundations = (properties) => [
 
-  <ConcreteSlab offset={[36, 0, -1]} width={12} depth={32} height={1} />,
-  <ConcreteSlab offset={[0, 0, -1]} width={24} depth={32} height={1} />,
+  <ConcreteSlab offset={[ 0, 0, -1]} width={12} depth={32} height={1} />,
+  <ConcreteSlab offset={[24, 0, -1]} width={24} depth={32} height={1} />,
 
 ];
 

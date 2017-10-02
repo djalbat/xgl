@@ -2,38 +2,6 @@
 
 const Cuboid = require('../cuboid');
 
-const vertexColourData = [
-        1.0,  0.0,  0.0,  1.0,
-        1.0,  0.0,  0.0,  1.0,
-        1.0,  0.0,  0.0,  1.0,
-        1.0,  0.0,  0.0,  1.0,
-
-        0.0,  1.0,  1.0,  1.0,
-        0.0,  1.0,  1.0,  1.0,
-        0.0,  1.0,  1.0,  1.0,
-        0.0,  1.0,  1.0,  1.0,
-
-        0.0,  1.0,  0.0,  1.0,
-        0.0,  1.0,  0.0,  1.0,
-        0.0,  1.0,  0.0,  1.0,
-        0.0,  1.0,  0.0,  1.0,
-
-        1.0,  0.0,  1.0,  1.0,
-        1.0,  0.0,  1.0,  1.0,
-        1.0,  0.0,  1.0,  1.0,
-        1.0,  0.0,  1.0,  1.0,
-
-        0.0,  0.0,  1.0,  1.0,
-        0.0,  0.0,  1.0,  1.0,
-        0.0,  0.0,  1.0,  1.0,
-        0.0,  0.0,  1.0,  1.0,
-
-        1.0,  1.0,  0.0,  1.0,
-        1.0,  1.0,  0.0,  1.0,
-        1.0,  1.0,  0.0,  1.0,
-        1.0,  1.0,  0.0,  1.0
-      ];
-
 class ColourCuboid extends Cuboid {
   constructor(vertexPositionData, vertexNormalData, vertexIndexData, vertexColourData) {
     super(vertexPositionData, vertexNormalData, vertexIndexData);
@@ -56,7 +24,23 @@ class ColourCuboid extends Cuboid {
     colourShader.addVertexColourData(this.vertexColourData);
   }
 
-  static fromProperties(properties) { return Cuboid.fromProperties(ColourCuboid, properties, vertexColourData); }
+  static fromProperties(properties) {
+    const { colour } = properties,
+          vertexColourData = vertexColourDataFromColour(colour),
+          colourCuboid = Cuboid.fromProperties(ColourCuboid, properties, vertexColourData);
+
+    return colourCuboid;
+  }
 }
 
 module.exports = ColourCuboid;
+
+function vertexColourDataFromColour(colour) {
+  let vertexColourData = [];
+
+  for (let index = 0; index < 24; index++) {
+    vertexColourData = vertexColourData.concat(colour);
+  }
+
+  return vertexColourData;
+}
