@@ -5,7 +5,7 @@ const vertexUtilities = require('../../utilities/vertex');
 const { calculateVertexIndexData, calculateVertexNormalData} = vertexUtilities;
 
 const initialVertexPositionData = [
-
+/*
         0.0, 0.0, 1.0, 1,
         1.0, 0.0, 1.0, 1,
         1.0, 1.0, 1.0, 1,
@@ -35,7 +35,7 @@ const initialVertexPositionData = [
         0.0, 0.0, 1.0, 1,
         0.0, 1.0, 1.0, 1,
         0.0, 1.0, 0.0, 1,
-
+*/
       ],
       vertexIndexData = calculateVertexIndexData(initialVertexPositionData),
       vertexNormalData = calculateVertexNormalData(initialVertexPositionData);

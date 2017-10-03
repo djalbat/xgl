@@ -23,8 +23,10 @@ function calculateVertexPositionData(initialVertexPositionData, width, depth, he
   vertexPositions = vertexPositions.map(function(vertexPosition) {
     return vertexPosition.slice(0, 3);
   });
+  
+  const vertexPositionData = flatten(vertexPositions); 
 
-  return flatten(vertexPositions);
+  return vertexPositionData;
 }
 
 function calculateVertexNormalData(initialVertexPositionData) {
@@ -48,8 +50,10 @@ function calculateVertexNormalData(initialVertexPositionData) {
       vertexNormalVectors.push(vertexNormalVector);
     }
   });
+  
+  const vertexNormalData = flatten(vertexNormalVectors); 
 
-  return flatten(vertexNormalVectors);
+  return vertexNormalData;
 }
 
 function calculateVertexIndexData(initialVertexPositionData) {

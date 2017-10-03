@@ -93,14 +93,14 @@ class Scene extends Element {
     this.colourShader.activateTexture(this.canvas);
 
     this.canvas.render(this.colourShader, offset, rotation, position, perspective, normal);
-
-    this.canvas.useShader(this.textureShader);
-
-    this.textureShader.bindBuffers(this.canvas);
-
-    this.textureShader.activateTexture(this.canvas);
-
-    this.canvas.render(this.textureShader, offset, rotation, position, perspective, normal);
+    
+    // this.canvas.useShader(this.textureShader);
+    //
+    // this.textureShader.bindBuffers(this.canvas);
+    //
+    // this.textureShader.activateTexture(this.canvas);
+    //
+    // this.canvas.render(this.textureShader, offset, rotation, position, perspective, normal);
   }
 
   static fromProperties(properties) {
@@ -126,11 +126,11 @@ class Scene extends Element {
 
     window.onresize = function() {
       scene.resize();
-      scene.render(colourShader, textureShader);
+      scene.render();
     };
 
     scene.resize();
-    scene.render(colourShader, textureShader);
+    scene.render();
 
     scene.addMouseEventHandlers();
 
