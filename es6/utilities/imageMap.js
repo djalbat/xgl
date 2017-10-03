@@ -7,14 +7,10 @@ const { flatten } = arrayUtilities,
       { preloadImage } = imageUtilities,
       { imageMapJSON } = runtimeConfiguration;
 
-function preloadImageMap(canvas, textureShader, done) {
+function preloadImageMap(callback) {
   const source = 'imageMap';  ///
 
-  preloadImage(source, function(image) {
-    textureShader.createTexture(image, canvas);
-
-    done();
-  });
+  preloadImage(source, callback);
 }
 
 function textureCoordinateDataFromImageName(imageName) {

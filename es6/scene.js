@@ -1,19 +1,37 @@
 'use strict';
 
-const zoom = require('./scene/zoom'),
+const Element = require('./element'),
+      Canvas = require('./canvas'),
+      zoom = require('./scene/zoom'),
       angles = require('./scene/angles'),
       Offset = require('./scene/offset'),
       Normal = require('./scene/normal'),
       Rotation = require('./scene/rotation'),
       Position = require('./scene/position'),
       Perspective = require('./scene/perspective'),
+      ColourShader = require('./shader/colour'),
+      TextureShader = require('./shader/texture'),
       MouseEvents = require('./scene/mouseEvents');
 
-class Scene {
+class Scene extends Element {
   constructor(canvas, colourShader, textureShader) {
+    super();
+    
     this.canvas = canvas;
     this.colourShader = colourShader;
     this.textureShader = textureShader;
+  }
+  
+  getCanvas() {
+    return this.canvas;
+  }
+  
+  getColourShader() {
+    return this.colourShader;
+  }
+  
+  getTextureShader() {
+    return this.textureShader;
   }
 
   addMouseEventHandlers() {
@@ -99,20 +117,35 @@ class Scene {
     this.canvas.render(this.textureShader, offset, rotation, position, perspective, normal);
   }
 
-  static fromCanvasAndShaders(canvas, colourShader, textureShader) {
-    const scene = new Scene(canvas, colourShader, textureShader);
+  static fromProperties(properties) {
+    const { childElements, imageMap } = properties,
+          canvas = new Canvas(),
+          colourShader = ColourShader.fromNothing(canvas),
+          textureShader = TextureShader.fromNothing(canvas),
+          scene = new Scene(canvas, colourShader, textureShader);
+
+    childElements.forEach(function(childElement) {
+      childElement.create(colourShader, textureShader);
+    });
+
+    textureShader.createTexture(imageMap, canvas);
+    textureShader.createBuffers(canvas);
+    colourShader.createBuffers(canvas);
+
+    canvas.enableDepthTesting();
+    canvas.enableDepthFunction();
 
     window.onresize = function() {
       scene.resize();
-
       scene.render(colourShader, textureShader);
     };
 
     scene.resize();
-
     scene.render(colourShader, textureShader);
 
     scene.addMouseEventHandlers();
+
+    return scene;
   }
 }
 

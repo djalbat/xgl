@@ -9,7 +9,7 @@ function createElement(firstArgument, properties, ...childElements) {
   let elementOrElements;
 
   if (firstArgument !== undefined) {
-    flatten(childElements);
+    childElements = flatten(childElements);
 
     properties = Object.assign({
       childElements: childElements

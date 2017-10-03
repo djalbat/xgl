@@ -1,6 +1,5 @@
 'use strict';
 
-class Element {
-}
+class Element {}
 
 module.exports = Element;

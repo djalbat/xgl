@@ -1,30 +1,35 @@
 'use strict';
 
 const React = require('../react'),
-      example = require('../example'),
-      arrayUtilities = require('../utilities/array'),
+      Scene = require('../scene'),
       Frame = require('./containerHouse/frame'),
       FirstFloor = require('./containerHouse/floor/first'),
       ThirdFloor = require('./containerHouse/floor/third'),
       SecondFloor = require('./containerHouse/floor/second'),
       Foundations = require('./containerHouse/foundations'),
       MainBalcony = require('./containerHouse/balcony/main'),
-      BedroomBalcony = require('./containerHouse/balcony/bedroom');
+      BedroomBalcony = require('./containerHouse/balcony/bedroom'),
+      imageMapUtilities = require('../utilities/imageMap');
 
-const { flatten } = arrayUtilities;
+const { preloadImageMap } = imageMapUtilities;
 
-function containerHouse() {
-  example(() => flatten([
+const containerHouse = () => {
 
-    <Foundations />,
-    <FirstFloor />,
-    <SecondFloor />,
-    <ThirdFloor />,
-    <MainBalcony />,
-    <BedroomBalcony />,
-    <Frame />,
+  preloadImageMap((imageMap) => {
+    return (
 
-  ]));
-}
+        <Scene imageMap={imageMap}>
+          <Foundations />
+          <FirstFloor />
+          <SecondFloor />
+          <ThirdFloor />
+          <MainBalcony />
+          <BedroomBalcony />
+          <Frame />
+        </Scene>
+
+    );
+  });
+};
 
 module.exports = containerHouse;
