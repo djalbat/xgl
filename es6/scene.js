@@ -71,8 +71,8 @@ class Scene extends Element {
           height = this.canvas.getHeight(),
           xAngle = xAxisAngle,  ///
           zAngle = yAxisAngle, ///
-          xCoordinate = 0,  ///-18,
-          yCoordinate = 0,  ///-16,
+          xCoordinate = -18,
+          yCoordinate = -16,
           zCoordinate = -Math.max(10, distance), ///
           offset = Offset.fromXCoordinateAndYCoordinate(xCoordinate, yCoordinate),
           rotation = Rotation.fromXAngleAndZAngle(xAngle, zAngle),
@@ -93,14 +93,14 @@ class Scene extends Element {
     this.colourShader.activateTexture(this.canvas);
 
     this.canvas.render(this.colourShader, offset, rotation, position, perspective, normal);
-    
-    // this.canvas.useShader(this.textureShader);
-    //
-    // this.textureShader.bindBuffers(this.canvas);
-    //
-    // this.textureShader.activateTexture(this.canvas);
-    //
-    // this.canvas.render(this.textureShader, offset, rotation, position, perspective, normal);
+
+    this.canvas.useShader(this.textureShader);
+
+    this.textureShader.bindBuffers(this.canvas);
+
+    this.textureShader.activateTexture(this.canvas);
+
+    this.canvas.render(this.textureShader, offset, rotation, position, perspective, normal);
   }
 
   static fromProperties(properties) {
