@@ -52,9 +52,29 @@ function calculateVertexNormalData(initialVertexPositionData) {
   return flatten(vertexNormalVectors);
 }
 
+function calculateVertexIndexData(initialVertexPositionData) {
+  const vertexIndexData = [],
+        initialVertexPositionDataLength = initialVertexPositionData.length,
+        facesLength = initialVertexPositionDataLength / 16;
+
+  for (let index = 0; index < facesLength; index++) {
+    const offset = index * 4;
+
+    vertexIndexData.push(offset + 0);
+    vertexIndexData.push(offset + 1);
+    vertexIndexData.push(offset + 2);
+    vertexIndexData.push(offset + 0);
+    vertexIndexData.push(offset + 2);
+    vertexIndexData.push(offset + 3);
+  }
+
+  return vertexIndexData;
+}
+
 module.exports = {
   calculateVertexPositionData: calculateVertexPositionData,
-  calculateVertexNormalData: calculateVertexNormalData
+  calculateVertexNormalData: calculateVertexNormalData,
+  calculateVertexIndexData: calculateVertexIndexData
 };
 
 function subtract(vec1, vec2) {
