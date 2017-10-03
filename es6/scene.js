@@ -2,6 +2,7 @@
 
 const zoom = require('./scene/zoom'),
       angles = require('./scene/angles'),
+      Offset = require('./scene/offset'),
       Normal = require('./scene/normal'),
       Rotation = require('./scene/rotation'),
       Position = require('./scene/position'),
@@ -66,18 +67,19 @@ class Scene {
           height = this.canvas.getHeight(),
           xAngle = xAxisAngle,  ///
           zAngle = yAxisAngle, ///
-          xCoordinate = -24,
-          yCoordinate = 0,
+          xCoordinate = -18,
+          yCoordinate = -16,
           zCoordinate = -Math.max(10, distance), ///
-          perspective = Perspective.fromWidthAndHeight(width, height),
+          offset = Offset.fromXCoordinateAndYCoordinate(xCoordinate, yCoordinate),
           rotation = Rotation.fromXAngleAndZAngle(xAngle, zAngle),
-          position = Position.fromCoordinates(xCoordinate, yCoordinate, zCoordinate),
+          position = Position.fromZCoordinate(zCoordinate),
+          perspective = Perspective.fromWidthAndHeight(width, height),
           normal = Normal.fromRotation(rotation);
 
-    this.drawElements(normal, rotation, position, perspective);
+    this.drawElements(offset, rotation, position, perspective, normal);
   }
 
-  drawElements(normal, rotation, position, perspective) {
+  drawElements(offset, rotation, position, perspective, normal) {
     this.canvas.clear();
 
     this.canvas.useShader(this.colourShader);
@@ -86,7 +88,7 @@ class Scene {
 
     this.colourShader.activateTexture(this.canvas);
 
-    this.canvas.render(this.colourShader, normal, rotation, position, perspective);
+    this.canvas.render(this.colourShader, offset, rotation, position, perspective, normal);
 
     this.canvas.useShader(this.textureShader);
 
@@ -94,7 +96,7 @@ class Scene {
 
     this.textureShader.activateTexture(this.canvas);
 
-    this.canvas.render(this.textureShader, normal, rotation, position, perspective);
+    this.canvas.render(this.textureShader, offset, rotation, position, perspective, normal);
   }
 
   static fromCanvasAndShaders(canvas, colourShader, textureShader) {

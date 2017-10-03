@@ -20,11 +20,10 @@ class Perspective {
           fieldOfView = defaultFieldOfView,
           zNear = defaultZNear,
           zFar = defaultZFar,
-          matrix = mat4.create();
+          matrix = mat4.create(),
+          perspective = new Perspective(matrix);
 
     mat4.perspective(matrix, fieldOfView, aspectRatio, zNear, zFar);
-
-    const perspective = new Perspective(matrix);
 
     return perspective;
   }

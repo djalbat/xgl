@@ -6,10 +6,11 @@ const { arrayUtilities } = necessary,
       { merge } = arrayUtilities,
       add = merge;  ///
 
-const normalMatrixName = 'uNormalMatrix',
+const offsetMatrixName = 'uOffsetMatrix',
       rotationMatrixName = 'uRotationMatrix',
       positionMatrixName = 'uPositionMatrix',
       perspectiveMatrixName = 'uPerspectiveMatrix',
+      normalMatrixName = 'uNormalMatrix',
       vertexPositionAttributeName = 'aVertexPosition',
       vertexNormalAttributeName = 'aVertexNormal',
       calculateLightingSource = `
@@ -35,14 +36,15 @@ const normalMatrixName = 'uNormalMatrix',
       `,
       calculatePositionSource = `
 
-        uniform mat4 ${rotationMatrixName},
+        uniform mat4 ${offsetMatrixName},
+                     ${rotationMatrixName},
                      ${positionMatrixName},
                      ${perspectiveMatrixName};
         
         attribute vec4 ${vertexPositionAttributeName};
 
         vec4 calculatePosition() {
-          vec4 position = ${perspectiveMatrixName} * ${positionMatrixName} * ${rotationMatrixName} * ${vertexPositionAttributeName};
+          vec4 position = ${perspectiveMatrixName} * ${positionMatrixName} * ${rotationMatrixName} * ${offsetMatrixName} * ${vertexPositionAttributeName};
           
           return position;
         }
@@ -54,10 +56,12 @@ const normalMatrixName = 'uNormalMatrix',
 class Shader {
   constructor(program, canvas) {
     this.program = program;
-    this.normalMatrixUniformLocation = canvas.getUniformLocation(program, normalMatrixName);
+    this.offsetMatrixUniformLocation = canvas.getUniformLocation(program, offsetMatrixName);
     this.rotationMatrixUniformLocation = canvas.getUniformLocation(program, rotationMatrixName);
     this.positionMatrixUniformLocation = canvas.getUniformLocation(program, positionMatrixName);
     this.perspectiveMatrixUniformLocation = canvas.getUniformLocation(program, perspectiveMatrixName);
+    this.normalMatrixUniformLocation = canvas.getUniformLocation(program, normalMatrixName);
+
     this.vertexPositionAttributeLocation = canvas.getAttributeLocation(program, vertexPositionAttributeName);
     this.vertexNormalAttributeLocation = canvas.getAttributeLocation(program, vertexNormalAttributeName);
 
@@ -78,8 +82,8 @@ class Shader {
     return this.program;
   }
 
-  getNormalMatrixUniformLocation() {
-    return this.normalMatrixUniformLocation;
+  getOffsetMatrixUniformLocation() {
+    return this.offsetMatrixUniformLocation;
   }
 
   getRotationMatrixUniformLocation() {
@@ -92,6 +96,10 @@ class Shader {
 
   getPerspectiveMatrixUniformLocation() {
     return this.perspectiveMatrixUniformLocation;
+  }
+
+  getNormalMatrixUniformLocation() {
+    return this.normalMatrixUniformLocation;
   }
 
   addVertexPositionData(vertexPositionData) {
@@ -152,18 +160,18 @@ class Shader {
 
 function createVertexShader(vertexShaderSource, canvas) {
   const context = canvas.getContext(),
-      { VERTEX_SHADER } = context,
-      type = VERTEX_SHADER,
-      vertexShader = createShader(type, vertexShaderSource, canvas);
+        { VERTEX_SHADER } = context,
+        type = VERTEX_SHADER,
+        vertexShader = createShader(type, vertexShaderSource, canvas);
 
   return vertexShader;
 }
 
 function createFragmentShader(fragmentShaderSource, canvas) {
   const context = canvas.getContext(),
-      { FRAGMENT_SHADER } = context,
-      type = FRAGMENT_SHADER,
-      vertexShader = createShader(type, fragmentShaderSource, canvas);
+        { FRAGMENT_SHADER } = context,
+        type = FRAGMENT_SHADER,
+        vertexShader = createShader(type, fragmentShaderSource, canvas);
 
   return vertexShader;
 }
