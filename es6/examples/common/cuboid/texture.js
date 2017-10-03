@@ -1,39 +1,35 @@
 'use strict';
 
-const Cuboid = require('../cuboid'),
+const cuboid = require('../cuboid'),
+      TextureElement = require('../../../element/texture'),
       imageMapUtilities = require('../../../utilities/imageMap');
 
-const { textureCoordinateDataFromImageName } = imageMapUtilities;
+const { textureCoordinateDataFromImageNames } = imageMapUtilities,
+      { vertexIndexData, vertexNormalData, calculateVertexPositionData } = cuboid;
 
-class TextureCuboid extends Cuboid {
-  constructor(vertexPositionData, vertexNormalData, vertexIndexData, textureCoordinateData) {
-    super(vertexPositionData, vertexNormalData, vertexIndexData);
-    
-    this.textureCoordinateData = textureCoordinateData;
-  }
-
-  getTextureCoordinateData() {
-    return this.textureCoordinateData;
-  }
-
-  create(colourShader, textureShader) {
-    const vertexPositionData = this.getVertexPositionData(),
-          vertexNormalData = this.getVertexNormalData(),
-          vertexIndexData = this.getVertexIndexData();
-
-    textureShader.addVertexPositionData(vertexPositionData);
-    textureShader.addVertexNormalData(vertexNormalData);
-    textureShader.addVertexIndexData(vertexIndexData);
-    textureShader.addTextureCoordinateData(this.textureCoordinateData);
-  }
-  
+class TextureCuboid extends TextureElement {
   static fromProperties(properties) {
-    const { imageName } = properties,
-          textureCoordinateData = textureCoordinateDataFromImageName(imageName),
-          textureCuboid = Cuboid.fromProperties(TextureCuboid, properties, textureCoordinateData);
+    const { width, depth, height, offset, imageName } = properties,
+          textureCoordinateData = calculateTextureCoordinateData(imageName),
+          vertexPositionData = calculateVertexPositionData(width, depth, height, offset),
+          textureCuboid = TextureElement.fromProperties(TextureCuboid, properties, vertexPositionData, vertexNormalData, vertexIndexData, textureCoordinateData);
 
     return textureCuboid;
   }
 }
 
 module.exports = TextureCuboid;
+
+function calculateTextureCoordinateData(imageName) {
+  const imageNames = [
+        imageName,
+        imageName,
+        imageName,
+        imageName,
+        imageName,
+        imageName
+      ],
+      textureCoordinateData = textureCoordinateDataFromImageNames(imageNames);
+
+  return textureCoordinateData;
+}

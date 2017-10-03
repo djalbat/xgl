@@ -1,33 +1,16 @@
 'use strict';
 
-const Cuboid = require('../cuboid');
+const cuboid = require('../cuboid'),
+      ColourElement = require('../../../element/colour');
 
-class ColourCuboid extends Cuboid {
-  constructor(vertexPositionData, vertexNormalData, vertexIndexData, vertexColourData) {
-    super(vertexPositionData, vertexNormalData, vertexIndexData);
-    
-    this.vertexColourData = vertexColourData;    
-  }
-  
-  getVertexColourData() {
-    return this.vertexColourData;
-  }
+const { vertexIndexData, vertexNormalData, calculateVertexPositionData } = cuboid;
 
-  create(colourShader, textureShader) {
-    const vertexPositionData = this.getVertexPositionData(),
-          vertexNormalData = this.getVertexNormalData(),
-          vertexIndexData = this.getVertexIndexData();
-    
-    colourShader.addVertexPositionData(vertexPositionData);
-    colourShader.addVertexNormalData(vertexNormalData);
-    colourShader.addVertexIndexData(vertexIndexData);
-    colourShader.addVertexColourData(this.vertexColourData);
-  }
-
+class ColourCuboid extends ColourElement {
   static fromProperties(properties) {
-    const { colour } = properties,
-          vertexColourData = vertexColourDataFromColour(colour),
-          colourCuboid = Cuboid.fromProperties(ColourCuboid, properties, vertexColourData);
+    const { width, depth, height, offset, colour } = properties,
+          vertexColourData = calculateVertexColourData(colour),
+          vertexPositionData = calculateVertexPositionData(width, depth, height, offset),
+          colourCuboid = ColourElement.fromProperties(ColourCuboid, properties, vertexPositionData, vertexNormalData, vertexIndexData, vertexColourData);
 
     return colourCuboid;
   }
@@ -35,7 +18,7 @@ class ColourCuboid extends Cuboid {
 
 module.exports = ColourCuboid;
 
-function vertexColourDataFromColour(colour) {
+function calculateVertexColourData(colour) {
   let vertexColourData = [];
 
   for (let index = 0; index < 24; index++) {

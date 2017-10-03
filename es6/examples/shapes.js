@@ -15,9 +15,8 @@ const shapes = () => {
   preloadImageMap((imageMap) =>
 
     <Scene imageMap={imageMap}>
-      <TextureCuboid offset={[ +1, +1, +1 ]} width={1} depth={1} height={1} imageName="bricks.jpg" />
-      <ColourCuboid offset={[ -1, -1, -1 ]} width={1} depth={1} height={1} colour={[ 1, 0, 0, 1 ]} />
-      <ColourCylinder offset={[ 0, 0, 0 ]} width={1} depth={1} height={1} colour={[ 0, 1, 0, 1 ]} />
+      <TextureCuboid offset={[ +1, +1, +1 ]} width={3} depth={2} height={1} imageName="bricks.jpg" />
+      <ColourCuboid offset={[ -1, -1, -1 ]} width={1} depth={2} height={3} colour={[ 1, 0, 0, 1 ]} />
     </Scene>
 
   );

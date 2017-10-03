@@ -1,7 +1,6 @@
 'use strict';
 
 const vec3 = require('../../vec3'),
-      Element = require('../../element'),
       arrayUtilities = require('../../utilities/array');
 
 const vertexPositionData = [
@@ -94,38 +93,7 @@ const vertexPositionData = [
 
 const { divide, flatten } = arrayUtilities;
 
-class Cuboid extends Element {
-  constructor(vertexPositionData, vertexNormalData, vertexIndexData) {
-    super();
-    
-    this.vertexPositionData = vertexPositionData;
-    this.vertexNormalData = vertexNormalData;
-    this.vertexIndexData = vertexIndexData;
-  }
-
-  getVertexPositionData() {
-    return this.vertexPositionData;
-  }
-
-  getVertexNormalData() {
-    return this.vertexNormalData;
-  }
-
-  getVertexIndexData() {
-    return this.vertexIndexData;
-  }
-  
-  static fromProperties(Class, properties, ...remainingArguments) {
-    const { width, depth, height, offset } = properties,
-          vertexPositionData = vertexPositionDataFromHeightWidthDepthAndOffset(width, depth, height, offset);
-    
-    return new Class(vertexPositionData, vertexNormalData, vertexIndexData, ...remainingArguments);
-  }
-}
-
-module.exports = Cuboid;
-
-function vertexPositionDataFromHeightWidthDepthAndOffset(width, depth, height, offset) {
+function calculateVertexPositionData(width, depth, height, offset) {
   let vertexPositions = divide(vertexPositionData, 3);  ///
 
   vertexPositions = vertexPositions.map(function(vertexPosition) {
@@ -137,3 +105,9 @@ function vertexPositionDataFromHeightWidthDepthAndOffset(width, depth, height, o
 
   return flatten(vertexPositions);
 }
+
+module.exports = {
+  vertexNormalData: vertexNormalData,
+  vertexIndexData: vertexIndexData,
+  calculateVertexPositionData: calculateVertexPositionData
+};

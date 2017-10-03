@@ -13,20 +13,6 @@ function preloadImageMap(callback) {
   preloadImage(source, callback);
 }
 
-function textureCoordinateDataFromImageName(imageName) {
-  const imageNames = [
-          imageName,
-          imageName,
-          imageName,
-          imageName,
-          imageName,
-          imageName
-        ],
-        textureCoordinateData = textureCoordinateDataFromImageNames(imageNames);
-  
-  return textureCoordinateData;
-}
-
 function textureCoordinateDataFromImageNames(imageNames) {
   const textureCoordinates = imageNames.reduce(function(textureCoordinates, textureName) {
           textureCoordinates = textureCoordinates.concat(imageMapJSON[textureName]);
@@ -34,12 +20,11 @@ function textureCoordinateDataFromImageNames(imageNames) {
           return textureCoordinates;
         }, []),
         textureCoordinateData = flatten(textureCoordinates);
-  
+
   return textureCoordinateData;
 }
 
 module.exports = {
   preloadImageMap: preloadImageMap,
-  textureCoordinateDataFromImageName: textureCoordinateDataFromImageName,
-  textureCoordinateDataFromImageNames: textureCoordinateDataFromImageNames  
+  textureCoordinateDataFromImageNames: textureCoordinateDataFromImageNames
 };
