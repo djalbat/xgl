@@ -4,43 +4,38 @@ const necessary = require('necessary');
 
 const { arrayUtilities } = necessary;
 
-function divide(data, divisor) {
+function dice(elements, arrayLength) {
   const arrays = [],
-        dataLength = data.length,
-        arraysLength = dataLength / divisor;
+        elementsLength = elements.length,
+        arraysLength = elementsLength / arrayLength;
 
-  for (let i = 0; i < arraysLength; i++) {
-    const array = [],
-          offset = i * divisor;
+  for (let index = 0; index < arraysLength; index++) {
+    const array = [];
 
-    for (let j = 0; j < divisor; j++) {
-      array[j] = data[j + offset];
+    for (let offset = 0; offset < arrayLength; offset++) {
+      array[offset] = elements[index * arrayLength + offset];
     }
 
-    arrays[i] = array;
+    arrays[index] = array;
   }
 
   return arrays;
 }
 
 function flatten(arrays) {
-  const elements = arrays.reduce(function(elements, array) {
+  return arrays.reduce(function(elements, array) {
     return elements.concat(array);
   }, []);
-
-  return elements;
 }
 
 function guarantee(arrayOrElement) {
-  const elements = (arrayOrElement instanceof Array) ?
-                      arrayOrElement :
-                       [arrayOrElement];
-
-  return elements;
+  return (arrayOrElement instanceof Array) ?
+            arrayOrElement :
+             [arrayOrElement];
 }
 
 module.exports = Object.assign(arrayUtilities, {
-  divide: divide,
+  dice: dice,
   flatten: flatten,
   guarantee: guarantee
 });

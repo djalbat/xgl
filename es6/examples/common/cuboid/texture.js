@@ -2,16 +2,18 @@
 
 const cuboid = require('../cuboid'),
       TextureElement = require('../../../element/texture'),
+      vertexUtilities = require('../../../utilities/vertex'),
       imageMapUtilities = require('../../../utilities/imageMap');
 
-const { textureCoordinateDataFromImageNames } = imageMapUtilities,
-      { vertexIndexData, vertexNormalData, calculateVertexPositionData } = cuboid;
+const { calculateVertexPositionData } = vertexUtilities,
+      { textureCoordinateDataFromImageNames } = imageMapUtilities,
+      { vertexIndexData, vertexNormalData, initialVertexPositionData } = cuboid;
 
 class TextureCuboid extends TextureElement {
   static fromProperties(properties) {
     const { width, depth, height, offset, imageName } = properties,
           textureCoordinateData = calculateTextureCoordinateData(imageName),
-          vertexPositionData = calculateVertexPositionData(width, depth, height, offset),
+          vertexPositionData = calculateVertexPositionData(initialVertexPositionData, width, depth, height, offset),
           textureCuboid = TextureElement.fromProperties(TextureCuboid, properties, vertexPositionData, vertexNormalData, vertexIndexData, textureCoordinateData);
 
     return textureCuboid;

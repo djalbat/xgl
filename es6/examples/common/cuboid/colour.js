@@ -1,17 +1,19 @@
 'use strict';
 
 const cuboid = require('../cuboid'),
-      ColourElement = require('../../../element/colour');
+      ColourElement = require('../../../element/colour'),
+      vertexUtilities = require('../../../utilities/vertex');
 
-const { vertexIndexData, vertexNormalData, calculateVertexPositionData } = cuboid;
+const { calculateVertexPositionData } = vertexUtilities,
+      { vertexIndexData, vertexNormalData, initialVertexPositionData } = cuboid;
 
 class ColourCuboid extends ColourElement {
   static fromProperties(properties) {
     const { width, depth, height, offset, colour } = properties,
           vertexColourData = calculateVertexColourData(colour),
-          vertexPositionData = calculateVertexPositionData(width, depth, height, offset),
+          vertexPositionData = calculateVertexPositionData(initialVertexPositionData, width, depth, height, offset),
           colourCuboid = ColourElement.fromProperties(ColourCuboid, properties, vertexPositionData, vertexNormalData, vertexIndexData, vertexColourData);
-
+    
     return colourCuboid;
   }
 }
