@@ -35,37 +35,23 @@ class Scene extends Element {
   }
 
   addMouseEventHandlers() {
-    const mouseEvents = MouseEvents.fromNothing(this.canvas),
-          mouseUpEventHandler = this.mouseUpEventHandler.bind(this),
-          mouseDownEventHandler = this.mouseDownEventHandler.bind(this),
-          mouseMoveEventHandler = this.mouseMoveEventHandler.bind(this),
-          mouseWheelEventHandler = this.mouseWheelEventHandler.bind(this);
+    const mouseEvents = MouseEvents.fromNothing(this.canvas);
 
-    mouseEvents.addMouseUpEventHandler(mouseUpEventHandler);
-    mouseEvents.addMouseDownEventHandler(mouseDownEventHandler);
-    mouseEvents.addMouseMoveEventHandler(mouseMoveEventHandler);
-    mouseEvents.addMouseWheelEventHandler(mouseWheelEventHandler);
+    mouseEvents.addMouseUpEventHandler(angles.mouseUpEventHandler.bind(angles));
 
-  }
+    mouseEvents.addMouseDownEventHandler(angles.mouseDownEventHandler.bind(angles));
 
-  mouseUpEventHandler(mouseCoordinates) {
-    angles.mouseUpEventHandler(mouseCoordinates);
-  }
+    mouseEvents.addMouseMoveEventHandler(function(mouseCoordinates) {
+      angles.mouseMoveEventHandler(mouseCoordinates);
 
-  mouseDownEventHandler(mouseCoordinates) {
-    angles.mouseDownEventHandler(mouseCoordinates);
-  }
+      this.render();  ///
+    }.bind(this));
 
-  mouseMoveEventHandler(mouseCoordinates) {
-    angles.mouseMoveEventHandler(mouseCoordinates);
+    mouseEvents.addMouseWheelEventHandler(function(delta) {
+      zoom.mouseWheelEventHandler(delta);
 
-    this.render();
-  }
-
-  mouseWheelEventHandler(delta) {
-    zoom.mouseWheelEventHandler(delta);
-
-    this.render();
+      this.render();
+    }.bind(this));
   }
 
   resize() {
@@ -128,7 +114,10 @@ class Scene extends Element {
       childElement.create(colourShader, textureShader);
     });
 
-    textureShader.createTexture(imageMap, canvas);
+    if (imageMap) {
+      textureShader.createTexture(imageMap, canvas);
+    }
+
     textureShader.createBuffers(canvas);
     colourShader.createBuffers(canvas);
 
