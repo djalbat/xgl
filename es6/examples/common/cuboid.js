@@ -1,39 +1,43 @@
 'use strict';
 
-const vec3 = require('../../vec3'),
-      arrayUtilities = require('../../utilities/array');
+const vec4 = require('gl-vec4'),  ///
+      mat4 = require('gl-mat4');  ///
+
+const arrayUtilities = require('../../utilities/array');
+
+const { divide, flatten } = arrayUtilities;
 
 const vertexPositionData = [
 
-        0.0, 0.0, 1.0,
-        1.0, 0.0, 1.0,
-        1.0, 1.0, 1.0,
-        0.0, 1.0, 1.0,
+        0.0, 0.0, 1.0, 1,
+        1.0, 0.0, 1.0, 1,
+        1.0, 1.0, 1.0, 1,
+        0.0, 1.0, 1.0, 1,
 
-        0.0, 0.0, 0.0,
-        0.0, 1.0, 0.0,
-        1.0, 1.0, 0.0,
-        1.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 1,
+        0.0, 1.0, 0.0, 1,
+        1.0, 1.0, 0.0, 1,
+        1.0, 0.0, 0.0, 1,
 
-        0.0, 1.0, 0.0,
-        0.0, 1.0, 1.0,
-        1.0, 1.0, 1.0,
-        1.0, 1.0, 0.0,
+        0.0, 1.0, 0.0, 1,
+        0.0, 1.0, 1.0, 1,
+        1.0, 1.0, 1.0, 1,
+        1.0, 1.0, 0.0, 1,
 
-        0.0, 0.0, 0.0,
-        1.0, 0.0, 0.0,
-        1.0, 0.0, 1.0,
-        0.0, 0.0, 1.0,
+        0.0, 0.0, 0.0, 1,
+        1.0, 0.0, 0.0, 1,
+        1.0, 0.0, 1.0, 1,
+        0.0, 0.0, 1.0, 1,
 
-        1.0, 0.0, 0.0,
-        1.0, 1.0, 0.0,
-        1.0, 1.0, 1.0,
-        1.0, 0.0, 1.0,
+        1.0, 0.0, 0.0, 1,
+        1.0, 1.0, 0.0, 1,
+        1.0, 1.0, 1.0, 1,
+        1.0, 0.0, 1.0, 1,
 
-        0.0, 0.0, 0.0,
-        0.0, 0.0, 1.0,
-        0.0, 1.0, 1.0,
-        0.0, 1.0, 0.0,
+        0.0, 0.0, 0.0, 1,
+        0.0, 0.0, 1.0, 1,
+        0.0, 1.0, 1.0, 1,
+        0.0, 1.0, 0.0, 1,
 
       ],
       vertexNormalData = [
@@ -91,16 +95,20 @@ const vertexPositionData = [
 
       ];
 
-const { divide, flatten } = arrayUtilities;
-
 function calculateVertexPositionData(width, depth, height, offset) {
-  let vertexPositions = divide(vertexPositionData, 3);  ///
+  const matrix = mat4.create();
+
+  mat4.translate(matrix, matrix, offset);
+  mat4.scale(matrix, matrix, [width, depth, height]);
+
+  let vertexPositions = divide(vertexPositionData, 4);  ///
 
   vertexPositions = vertexPositions.map(function(vertexPosition) {
-    vertexPosition = vec3.multiply(vertexPosition, [width, depth, height]);
-    vertexPosition = vec3.add(vertexPosition, offset);
+    return vec4.transformMat4(vertexPosition, vertexPosition, matrix);
+  });
 
-    return vertexPosition;
+  vertexPositions = vertexPositions.map(function(vertexPosition) {
+    return vertexPosition.slice(0, 3);
   });
 
   return flatten(vertexPositions);
