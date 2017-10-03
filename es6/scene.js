@@ -71,8 +71,8 @@ class Scene extends Element {
           height = this.canvas.getHeight(),
           xAngle = xAxisAngle,  ///
           zAngle = yAxisAngle, ///
-          xCoordinate = 0,  ///-18,
-          yCoordinate = 0,  ///-16,
+          xCoordinate = -18,
+          yCoordinate = -16,
           zCoordinate = -Math.max(10, distance), ///
           offset = Offset.fromXCoordinateAndYCoordinate(xCoordinate, yCoordinate),
           rotation = Rotation.fromXAngleAndZAngle(xAngle, zAngle),

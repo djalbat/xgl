@@ -18,7 +18,7 @@ class Position {
   static fromZCoordinate(zCoordinate) { return Position.fromCoordinates(undefined, undefined, zCoordinate); }
 
   static fromCoordinates(xCoordinate = defaultXCoordinate, yCoordinate = defaultYCoordinate, zCoordinate = defaultZCoordinate) {
-    const coordinateVector = [
+    const translationVector = [
             xCoordinate,
             yCoordinate,
             zCoordinate
@@ -26,7 +26,7 @@ class Position {
           matrix = mat4.create(),
           position = new Position(matrix);
 
-    mat4.translate(matrix, matrix, coordinateVector);
+    mat4.translate(matrix, matrix, translationVector);
 
     return position;
   }

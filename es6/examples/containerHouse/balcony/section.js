@@ -1,15 +1,15 @@
 'use strict';
 
-const vec3 = require('../../../vec3'),
-      Edge = require('./section/edge'),
+const vec3 = require('gl-vec3');  ///
+
+const Edge = require('./section/edge'),
       LongEdge = require('./section/edge/long'),
       ShortEdge = require('./section/edge/short');
 
 const width = 4,
       depth = 16;
 
-const { add } = vec3,
-      { height, thickness } = Edge;
+const { height, thickness } = Edge;
 
 const BalconySection = (properties) => {
   const { offset } = properties;
@@ -28,3 +28,11 @@ const BalconySection = (properties) => {
 };
 
 module.exports = BalconySection;
+
+function add(vec1, vec2) {
+  const vec = [];
+
+  vec3.add(vec, vec1, vec2);
+
+  return vec;
+}

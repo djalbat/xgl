@@ -22,14 +22,14 @@ module.exports = TextureCuboid;
 
 function calculateTextureCoordinateData(imageName) {
   const imageNames = [
-        imageName,
-        imageName,
-        imageName,
-        imageName,
-        imageName,
-        imageName
-      ],
-      textureCoordinateData = textureCoordinateDataFromImageNames(imageNames);
+          imageName,
+          imageName,
+          imageName,
+          imageName,
+          imageName,
+          imageName
+        ],
+        textureCoordinateData = textureCoordinateDataFromImageNames(imageNames);
 
   return textureCoordinateData;
 }

@@ -97,7 +97,7 @@ function calculateVertexPositionData(width, depth, height, offset) {
   let vertexPositions = divide(vertexPositionData, 3);  ///
 
   vertexPositions = vertexPositions.map(function(vertexPosition) {
-    vertexPosition = vec3.multiply(vertexPosition, [width, depth, height]) ;
+    vertexPosition = vec3.multiply(vertexPosition, [width, depth, height]);
     vertexPosition = vec3.add(vertexPosition, offset);
 
     return vertexPosition;
