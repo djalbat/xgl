@@ -1,7 +1,8 @@
 'use strict';
 
-const React = require('../react'),
-      Scene = require('../scene'),
+require('../jiggle');
+
+const Scene = require('../scene'),
       Frame = require('./containerHouse/frame'),
       FirstFloor = require('./containerHouse/floor/first'),
       ThirdFloor = require('./containerHouse/floor/third'),
@@ -15,21 +16,19 @@ const { preloadImageMap } = imageMapUtilities;
 
 const containerHouse = () => {
 
-  preloadImageMap((imageMap) => {
-    return (
+  preloadImageMap((imageMap) => 
 
-        <Scene imageMap={imageMap}>
-          <Foundations />
-          <FirstFloor />
-          <SecondFloor />
-          <ThirdFloor />
-          <MainBalcony />
-          <BedroomBalcony />
-          <Frame />
-        </Scene>
+    <Scene imageMap={imageMap}>
+      <Foundations />
+      <FirstFloor />
+      <SecondFloor />
+      <ThirdFloor />
+      <MainBalcony />
+      <BedroomBalcony />
+      <Frame />
+    </Scene>
 
-    );
-  });
+  );
 };
 
 module.exports = containerHouse;

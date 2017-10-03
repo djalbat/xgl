@@ -1,7 +1,6 @@
 'use strict';
 
-const React = require('../../react'),
-      SteelSection = require('./steelSection');
+const SteelSection = require('./steelSection');
 
 const Frame = (properties) => {
   const width = 48,

@@ -1,7 +1,6 @@
 'use strict';
 
-const React = require('../../react'),
-      ConcreteSlab = require('./concreteSlab');
+const ConcreteSlab = require('./concreteSlab');
 
 const Foundations = (properties) => [
 

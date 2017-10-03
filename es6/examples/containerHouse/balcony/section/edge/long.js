@@ -1,7 +1,6 @@
 'use strict';
 
-const React = require('../../../../../react'),
-      Edge = require('../edge');
+const Edge = require('../edge');
 
 const { thickness } = Edge;
 

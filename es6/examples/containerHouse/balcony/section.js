@@ -1,7 +1,6 @@
 'use strict';
 
-const React = require('../../../react'),
-      vec3 = require('../../../vec3'),
+const vec3 = require('../../../vec3'),
       Edge = require('./section/edge'),
       LongEdge = require('./section/edge/long'),
       ShortEdge = require('./section/edge/short');

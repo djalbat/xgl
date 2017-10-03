@@ -1,7 +1,6 @@
 'use strict';
 
-const React = require('../../../react'),
-      TwentyFootContainer = require('../container/twentyFoot');
+const TwentyFootContainer = require('../container/twentyFoot');
 
 const ThirdFloor = (properties) => [
 

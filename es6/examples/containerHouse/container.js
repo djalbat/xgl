@@ -1,7 +1,6 @@
 'use strict';
 
-const React = require('../../react'),
-      ColourCuboid = require('../common/cuboid/colour');
+const ColourCuboid = require('../common/cuboid/colour');
 
 const Container = (properties) => {
   const { offset, width } = properties;

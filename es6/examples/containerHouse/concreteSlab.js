@@ -1,7 +1,6 @@
 'use strict';
 
-const React = require('../../react'),
-      TextureCuboid = require('../common/cuboid/texture');
+const TextureCuboid = require('../common/cuboid/texture');
 
 const ConcreteSlab = (properties) => {
   const { offset, width, depth, height } = properties;
