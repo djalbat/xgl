@@ -8,7 +8,7 @@ const SteelSection = (properties) => {
 
   return (
 
-    <TextureCuboid imageName="steel.jpg" offset={offset} width={width} depth={depth} height={height} />
+    <TextureCuboid imageName="rustySteel.jpg" offset={offset} width={width} depth={depth} height={height} />
       
   );
 };

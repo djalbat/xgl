@@ -15,20 +15,19 @@ class Position {
     return this.matrix;
   }
 
-  static fromZCoordinate(zCoordinate) {
-    const xCoordinate = defaultXCoordinate,
-          yCoordinate = defaultYCoordinate,
-          coordinateVector = [
+  static fromZCoordinate(zCoordinate) { return Position.fromCoordinates(undefined, undefined, zCoordinate); }
+
+  static fromCoordinates(xCoordinate = defaultXCoordinate, yCoordinate = defaultYCoordinate, zCoordinate = defaultZCoordinate) {
+    const coordinateVector = [
             xCoordinate,
             yCoordinate,
             zCoordinate
           ],
-          matrix = mat4.create();
+          matrix = mat4.create(),
+          position = new Position(matrix);
 
     mat4.translate(matrix, matrix, coordinateVector);
 
-    const position = new Position(matrix);
-    
     return position;
   }
 }

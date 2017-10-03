@@ -66,10 +66,12 @@ class Scene {
           height = this.canvas.getHeight(),
           xAngle = xAxisAngle,  ///
           zAngle = yAxisAngle, ///
+          xCoordinate = -24,
+          yCoordinate = 0,
           zCoordinate = -Math.max(10, distance), ///
           perspective = Perspective.fromWidthAndHeight(width, height),
           rotation = Rotation.fromXAngleAndZAngle(xAngle, zAngle),
-          position = Position.fromZCoordinate(zCoordinate),
+          position = Position.fromCoordinates(xCoordinate, yCoordinate, zCoordinate),
           normal = Normal.fromRotation(rotation);
 
     this.drawElements(normal, rotation, position, perspective);
