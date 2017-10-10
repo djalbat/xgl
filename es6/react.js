@@ -1,6 +1,7 @@
 'use strict';
 
-const Element = require('./element'),
+const Scene = require('./scene'),
+      Element = require('./element'),
       arrayUtilities = require('./utilities/array');
 
 const { flatten, guarantee } = arrayUtilities;
@@ -17,6 +18,10 @@ function createElement(firstArgument, properties, ...childElements) {
 
     if (false) {
 
+    } else if (firstArgument === Scene) {
+      const scene = Scene.fromProperties(properties);
+
+      elementOrElements = scene;  ///
     } else if (isSubclassOf(firstArgument, Element)) {
       const Class = firstArgument;  ///
 
@@ -28,7 +33,7 @@ function createElement(firstArgument, properties, ...childElements) {
     }
   }
 
-  const elements = flatten(guarantee(elementOrElements));
+  const elements = flatten(guarantee(elementOrElements)); ///
 
   return elements;
 }

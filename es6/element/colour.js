@@ -35,7 +35,7 @@ class ColourElement extends Element {
     colourShader.addVertexColourData(this.vertexColourData);
   }
 
-  static fromProperties(Class, properties, vertexPositionData, vertexNormalData, vertexIndexData, vertexColourData, ...remainingArguments) {  /// 
+  static fromProperties(Class, properties, vertexPositionData, vertexNormalData, vertexIndexData, vertexColourData, ...remainingArguments) {  ///
     const colourElement = new Class(vertexPositionData, vertexNormalData, vertexIndexData, vertexColourData, ...remainingArguments);
     
     return colourElement;

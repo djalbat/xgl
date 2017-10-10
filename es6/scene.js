@@ -1,7 +1,6 @@
 'use strict';
 
-const Element = require('./element'),
-      Canvas = require('./canvas'),
+const Canvas = require('./canvas'),
       zoom = require('./scene/zoom'),
       angles = require('./scene/angles'),
       Offset = require('./scene/offset'),
@@ -13,10 +12,8 @@ const Element = require('./element'),
       TextureShader = require('./shader/texture'),
       MouseEvents = require('./scene/mouseEvents');
 
-class Scene extends Element {
+class Scene {
   constructor(canvas, colourShader, textureShader) {
-    super();
-    
     this.canvas = canvas;
     this.colourShader = colourShader;
     this.textureShader = textureShader;

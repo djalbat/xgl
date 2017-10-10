@@ -1,9 +1,11 @@
 'use strict';
 
-const arrayUtilities = require('../../utilities/array'),
+const constants = require('../../constants'),
+      arrayUtilities = require('../../utilities/array'),
       vertexUtilities = require('../../utilities/vertex');
 
-const { flatten } = arrayUtilities,
+const { CYLINDER_FACES } = constants,
+      { flatten } = arrayUtilities,
       { calculateVertexIndexData, calculateVertexNormalData} = vertexUtilities;
 
 const initialVertexPositionData = calculateInitialVertexPositionData(),
@@ -18,7 +20,7 @@ module.exports = {
 
 function calculateInitialVertexPositionData() {
   const initialVertexPositionVectors = [],
-        faces = 64, ///
+        faces = CYLINDER_FACES,
         step = 2 * Math.PI / faces;
 
   for (let count = 0; count < faces; count++) {
