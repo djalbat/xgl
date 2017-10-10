@@ -2,10 +2,11 @@
 
 const vec3 = require('gl-vec3');  ///
 
-const ColourCuboid = require('../../../common/cuboid/colour');
+const ColourCuboid = require('../../../common/cuboid/colour'),
+      ColourCylinder = require('../../../common/cylinder/colour');
 
-const height = 0.25,
-      thickness = 0.025,
+const overallHeight = 0.25,
+      overallThickness = 0.025,
       widthwiseCount = 10,
       depthwiseCount = 5,
       colour = [ 0.6, 0.6, 0.6, 10 ];
@@ -18,33 +19,33 @@ const OpenMesh = (properties) => {
 
   for (let index = 1; index < widthwiseCount; index++) {
     const step = overallWidth / widthwiseCount,
-          width = thickness;  ///
+          width = overallThickness,  ///
+          depth = overallDepth,
+          height = overallHeight;
 
     elements.push(
 
-      <ColourCuboid colour={colour} offset={add(offset, [ step * index, 0, -height ])} width={width} depth={overallDepth} height={height} />
+      <ColourCuboid colour={colour} offset={add(offset, [ step * index, 0, -height ])} width={width} depth={depth} height={height} />
 
     )
   }
 
   for (let index = 1; index < depthwiseCount; index++) {
     const step = overallDepth / depthwiseCount,
-          depth = thickness;  //;
+          diameter = overallHeight / 2, ///
+          width = diameter, ///
+          depth = diameter, ///
+          height = overallWidth;  ///
 
     elements.push(
 
-      <ColourCuboid colour={colour} offset={add(offset, [ 0, step * index, -height ])} width={overallWidth} depth={depth} height={height} />
+      <ColourCylinder colour={colour} offset={add(offset, [ 0, step * index, -diameter/2 ])} width={width} depth={depth} height={height} rotation={[ 0, 90, 0 ]} />
 
     )
   }
 
   return elements;
 };
-
-Object.assign(OpenMesh, {
-  height: height,
-  thickness: thickness
-});
 
 module.exports = OpenMesh;
 

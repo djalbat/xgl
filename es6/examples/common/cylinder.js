@@ -25,10 +25,10 @@ function calculateInitialVertexPositionData() {
 
   for (let count = 0; count < faces; count++) {
     const angle = step * count,
-          firstX = Math.cos(angle),
-          firstY = Math.sin(angle),
-          secondX = Math.cos(angle + step),
-          secondY = Math.sin(angle + step),
+          firstX = (Math.cos(angle) + 1 )/ 2,
+          firstY = (Math.sin(angle) + 1 )/ 2,
+          secondX = (Math.cos(angle + step) + 1 )/ 2,
+          secondY = (Math.sin(angle + step) + 1 )/ 2,
           firstZ = 0,
           secondZ = 1;
 

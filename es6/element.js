@@ -38,15 +38,13 @@ class Element {
   }
 
   updateContext(childElement) {
-    const context = (typeof childElement.context === 'function') ?
-                      childElement.context() :
+    const context = (typeof childElement.parentContext === 'function') ?
+                      childElement.parentContext() :
                         childElement.context;
 
     this.context = Object.assign({}, this.context, context);
 
-    if (typeof childElement.context !== 'function') {
-      delete childElement.context;
-    }
+    delete childElement.context;
   }
 
   static fromProperties(Class, properties, ...remainingArguments) {

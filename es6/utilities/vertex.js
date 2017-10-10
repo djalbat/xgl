@@ -6,18 +6,34 @@ const vec3 = require('gl-vec3'),  ///
 
 const arrayUtilities = require('../utilities/array');
 
-const { dice, flatten } = arrayUtilities;
+const { dice, flatten } = arrayUtilities,
+      { create, translate, scale, rotate } = mat4,
+      { transformMat4 } = vec4;
 
-function calculateVertexPositionData(initialVertexPositionData, width, depth, height, offset) {
-  const matrix = mat4.create();
+const defaultWidth = 1,
+      defaultDepth = 1,
+      defaultHeight = 1,
+      defaultOffset = [ 0, 0, 0 ],
+      defaultRotation = [ 0, 0, 0];
 
-  mat4.translate(matrix, matrix, offset);
-  mat4.scale(matrix, matrix, [width, depth, height]);
+function calculateVertexPositionData(initialVertexPositionData, width = defaultWidth, depth = defaultDepth, height = defaultHeight, offset = defaultOffset, rotation = defaultRotation) {
+  const mat4 = create(),
+        xAngle = rotation[0] * Math.PI / 180,
+        yAngle = rotation[1] * Math.PI / 180,
+        zAngle = rotation[2] * Math.PI / 180;
+
+  translate(mat4, mat4, offset);
+
+  rotate(mat4, mat4, xAngle, [1, 0, 0]);
+  rotate(mat4, mat4, yAngle, [0, 1, 0]);
+  rotate(mat4, mat4, zAngle, [0, 0, 1]);
+
+  scale(mat4, mat4, [width, depth, height]);
 
   let vertexPositions = dice(initialVertexPositionData, 4);  ///
 
   vertexPositions = vertexPositions.map(function(vertexPosition) {
-    return vec4.transformMat4(vertexPosition, vertexPosition, matrix);
+    return transformMat4(vertexPosition, vertexPosition, mat4);
   });
 
   vertexPositions = vertexPositions.map(function(vertexPosition) {
@@ -31,7 +47,7 @@ function calculateVertexPositionData(initialVertexPositionData, width, depth, he
 
 function calculateVertexNormalData(initialVertexPositionData) {
   const vertexNormalVectors = [],
-        faces = dice(initialVertexPositionData, 16);
+        faces = dice(initialVertexPositionData, 16);  ///
 
   faces.forEach(function(face) {
     const vertexPositions = dice(face, 4);
@@ -59,7 +75,7 @@ function calculateVertexNormalData(initialVertexPositionData) {
 function calculateVertexIndexData(initialVertexPositionData) {
   const vertexIndexData = [],
         initialVertexPositionDataLength = initialVertexPositionData.length,
-        facesLength = initialVertexPositionDataLength / 16;
+        facesLength = initialVertexPositionDataLength / 16; ///
 
   for (let index = 0; index < facesLength; index++) {
     const offset = index * 4;

@@ -9,11 +9,13 @@ const { flatten } = arrayUtilities,
       { calculateVertexPositionData } = vertexUtilities,
       { vertexIndexData, vertexNormalData, initialVertexPositionData } = cylinder;
 
+const defaultOffset = [ 10, 10, 10 ];
+
 class ColourCylinder extends ColourElement {
   static fromProperties(properties) {
-    const { width, depth, height, offset, colour } = properties,
+    const { width, depth, height, offset, rotation, colour } = properties,
           vertexColourData = calculateVertexColourData(initialVertexPositionData, colour),
-          vertexPositionData = calculateVertexPositionData(initialVertexPositionData, width, depth, height, offset),
+          vertexPositionData = calculateVertexPositionData(initialVertexPositionData, width, depth, height, offset, rotation),
           colourCylinder = ColourElement.fromProperties(ColourCylinder, properties, vertexPositionData, vertexNormalData, vertexIndexData, vertexColourData);
 
     return colourCylinder;
