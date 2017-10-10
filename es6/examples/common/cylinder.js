@@ -18,10 +18,10 @@ module.exports = {
 
 function calculateInitialVertexPositionData() {
   const initialVertexPositionVectors = [],
-        facesLength = 64, ///
-        step = 2 * Math.PI / facesLength;
+        faces = 64, ///
+        step = 2 * Math.PI / faces;
 
-  for (let count = 0; count < facesLength; count++) {
+  for (let count = 0; count < faces; count++) {
     const angle = step * count,
           firstX = Math.cos(angle),
           firstY = Math.sin(angle),

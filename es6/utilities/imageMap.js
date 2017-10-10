@@ -1,16 +1,18 @@
 'use strict';
 
-const arrayUtilities = require('../utilities/array'),
+const constants = require('../../bin/constants'), ///
+      arrayUtilities = require('../utilities/array'),
       imageUtilities = require('../utilities/image');
 
-const { flatten } = arrayUtilities,
+const { IMAGE_MAP_PATH } = constants,
+      { flatten } = arrayUtilities,
       { preloadImage } = imageUtilities,
       { imageMapJSON } = runtimeConfiguration;
 
 function preloadImageMap(callback) {
-  const source = 'imageMap';  ///
+  const path = IMAGE_MAP_PATH;
 
-  preloadImage(source, callback);
+  preloadImage(path, callback);
 }
 
 function textureCoordinateDataFromImageNames(imageNames) {

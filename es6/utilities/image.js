@@ -5,22 +5,22 @@ const necessary = require('necessary');
 const { asynchronousUtilities } = necessary,
       { repeatedly } = asynchronousUtilities;
 
-function preloadImage(source, callback) {
+function preloadImage(path, callback) {
   const image = new Image();
 
   image.onload = function() {
     callback(image);
   };
 
-  image.src = source;  ///
+  image.src = path;  ///
 }
 
-function preloadImages(sources, callback) {
+function preloadImages(paths, callback) {
   const images = [],
-        length = sources.length, ///
+        length = paths.length, ///
         context = {
           images: images,
-          sources: sources
+          paths: paths
         };
 
   repeatedly(preloadImageCallback, length, done, context);
@@ -36,13 +36,13 @@ module.exports = {
 };
 
 function preloadImageCallback(next, done, context, index) {
-  const { images, sources } = context,
-        source = sources[index],
+  const { images, paths } = context,
+        path = paths[index],
         image = new Image();
 
   images[index] = image;
 
   image.onload = next;  ///
 
-  image.src = source;  ///
+  image.src = path;  ///
 }

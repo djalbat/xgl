@@ -25,11 +25,10 @@ module.exports = ColourCylinder;
 function calculateVertexColourData(initialVertexPositionData, colour) {
   const initialVertexPositionDataLength = initialVertexPositionData.length,
         vertexColoursLength = initialVertexPositionDataLength / 4,  ///
+        vertexColour = colour,
         vertexColours = [];
 
   for (let index = 0; index < vertexColoursLength; index++) {
-    const vertexColour = colour;
-
     vertexColours.push(vertexColour);
   }
 
