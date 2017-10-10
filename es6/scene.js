@@ -1,30 +1,18 @@
 'use strict';
 
 const Canvas = require('./canvas'),
-      Zoom = require('./scene/zoom'),
-      angles = require('./scene/angles'),
       Offset = require('./scene/offset'),
-      Normal = require('./scene/normal'),
-      Rotation = require('./scene/rotation'),
-      Position = require('./scene/position'),
-      Projection = require('./scene/projection'),
       ColourShader = require('./shader/colour'),
-      TextureShader = require('./shader/texture'),
-      MouseEvents = require('./scene/mouseEvents');
+      TextureShader = require('./shader/texture');
 
 class Scene {
-  constructor(zoom, offsetVec3, canvas, colourShader, textureShader) {
-    this.zoom = zoom;
+  constructor(offsetVec3, canvas, colourShader, textureShader) {
     this.offsetVec3 = offsetVec3;
     this.canvas = canvas;
     this.colourShader = colourShader;
     this.textureShader = textureShader;
   }
   
-  getZoom() {
-    return this.zoom;
-  }
-
   getOffsetVec3() {
     return this.offsetVec3;
   }
@@ -41,26 +29,6 @@ class Scene {
     return this.textureShader;
   }
 
-  addMouseEventHandlers() {
-    const mouseEvents = MouseEvents.fromNothing(this.canvas);
-
-    mouseEvents.addMouseUpEventHandler(angles.mouseUpEventHandler.bind(angles));
-
-    mouseEvents.addMouseDownEventHandler(angles.mouseDownEventHandler.bind(angles));
-
-    mouseEvents.addMouseMoveEventHandler(function(mouseCoordinates) {
-      angles.mouseMoveEventHandler(mouseCoordinates);
-
-      this.render();  ///
-    }.bind(this));
-
-    mouseEvents.addMouseWheelEventHandler(function(delta) {
-      this.zoom.mouseWheelEventHandler(delta);
-
-      this.render();
-    }.bind(this));
-  }
-
   resize() {
     const clientWidth = this.canvas.getClientWidth(),
           clientHeight = this.canvas.getClientHeight(),
@@ -68,25 +36,6 @@ class Scene {
           height = clientHeight;  ///
 
     this.canvas.resize(width, height);
-  }
-
-  render() {
-    const xAxisAngle = angles.getXAxisAngle(),
-          yAxisAngle = angles.getYAxisAngle(),
-          distance = this.zoom.getDistance(),
-          width = this.canvas.getWidth(),
-          height = this.canvas.getHeight(),
-          xAngle = xAxisAngle,  ///
-          yAngle = undefined, ///
-          zAngle = yAxisAngle, ///
-          zCoordinate = -distance, ///
-          offset = Offset.fromVec3(this.offsetVec3),
-          rotation = Rotation.fromXAngleYAngleAndZAngle(xAngle, yAngle, zAngle),
-          position = Position.fromZCoordinate(zCoordinate),
-          projection = Projection.fromWidthAndHeight(width, height),
-          normal = Normal.fromRotation(rotation);
-
-    this.drawElements(offset, rotation, position, projection, normal);
   }
 
   drawElements(offset, rotation, position, projection, normal) {
@@ -109,18 +58,34 @@ class Scene {
     this.canvas.render(this.textureShader, offset, rotation, position, projection, normal);
   }
 
+  initialise() {
+    assignContext.call(this);
+
+    this.registerCallback(function(rotation, position, projection, normal) {
+      const offset = Offset.fromVec3(this.offsetVec3);
+
+      this.resize();
+
+      this.drawElements(offset, rotation, position, projection, normal);
+    }.bind(this));
+
+    this.addMouseEventHandlers();
+  }
+
   static fromProperties(properties) {
-    const { childElements, imageMap, offset, initialPosition } = properties,
-          initialDistance = -initialPosition[2], ///
+    const { childElements, imageMap, offset } = properties,
           offsetVec3 = offset,  ///
-          zoom = Zoom.fromInitialDistance(initialDistance),
           canvas = new Canvas(),
           colourShader = ColourShader.fromNothing(canvas),
           textureShader = TextureShader.fromNothing(canvas),
-          scene = new Scene(zoom, offsetVec3, canvas, colourShader, textureShader);
+          scene = new Scene(offsetVec3, canvas, colourShader, textureShader);
+    
+    const parentElement = scene; ///
 
     childElements.forEach(function(childElement) {
       childElement.create(colourShader, textureShader);
+      
+      updateParentContext(childElement, parentElement); ///
     });
 
     if (imageMap) {
@@ -133,18 +98,61 @@ class Scene {
     canvas.enableDepthTesting();
     canvas.enableDepthFunction();
 
-    window.onresize = function() {
-      scene.resize();
-      scene.render();
-    };
+    // window.onresize = function() {
+    //   scene.resize();
+    //   scene.render();
+    // };
 
-    scene.resize();
-    scene.render();
-
-    scene.addMouseEventHandlers();
+    scene.initialise();
 
     return scene;
   }
 }
 
 module.exports = Scene;
+
+function updateParentContext(childElement, parentElement) {
+  const parentContext = (typeof childElement.parentContext === 'function') ?
+                          childElement.parentContext() :
+                            childElement.context;
+
+  parentElement.context = Object.assign({}, parentElement.context, parentContext);
+
+  delete childElement.context;
+}
+
+function assignContext(names, thenDelete) {
+  const argumentsLength = arguments.length;
+
+  if (argumentsLength === 1) {
+    const firstArgument = first(arguments);
+
+    if (typeof firstArgument === 'boolean') {
+      names = Object.keys(this.context);
+
+      thenDelete = firstArgument;
+    } else {
+      thenDelete = true;
+    }
+  }
+
+  if (argumentsLength === 0) {
+    names = Object.keys(this.context);
+
+    thenDelete = true;
+  }
+
+  names.forEach(function(name) {
+    const value = this.context[name],
+          propertyName = name,  ///
+          descriptor = {
+            value: value
+          };
+
+    Object.defineProperty(this, propertyName, descriptor);
+
+    if (thenDelete) {
+      delete this.context[name];
+    }
+  }.bind(this), []);
+}

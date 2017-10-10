@@ -1,6 +1,7 @@
 'use strict';
 
 const Scene = require('./scene'),
+      Camera = require('./camera'),
       Element = require('./element'),
       arrayUtilities = require('./utilities/array');
 
@@ -22,6 +23,10 @@ function createElement(firstArgument, properties, ...childElements) {
       const scene = Scene.fromProperties(properties);
 
       elementOrElements = scene;  ///
+    } else if (firstArgument === Camera) {
+      const camera = Camera.fromProperties(properties);
+
+      elementOrElements = camera; ///
     } else if (isSubclassOf(firstArgument, Element)) {
       const Class = firstArgument;  ///
 
