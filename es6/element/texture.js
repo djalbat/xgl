@@ -4,24 +4,9 @@ const Element = require('../element');
 
 class TextureElement extends Element {
   constructor(vertexPositionData, vertexNormalData, vertexIndexData, textureCoordinateData) {
-    super();
+    super(vertexPositionData, vertexNormalData, vertexIndexData);
 
-    this.vertexPositionData = vertexPositionData;
-    this.vertexNormalData = vertexNormalData;
-    this.vertexIndexData = vertexIndexData;
     this.textureCoordinateData = textureCoordinateData;
-  }
-
-  getVertexPositionData() {
-    return this.vertexPositionData;
-  }
-
-  getVertexNormalData() {
-    return this.vertexNormalData;
-  }
-
-  getVertexIndexData() {
-    return this.vertexIndexData;
   }
 
   getTextureCoordinateData() {
@@ -29,9 +14,14 @@ class TextureElement extends Element {
   }
 
   create(colourShader, textureShader) {
-    textureShader.addVertexPositionData(this.vertexPositionData);
-    textureShader.addVertexNormalData(this.vertexNormalData);
-    textureShader.addVertexIndexData(this.vertexIndexData);
+    const vertexPositionData = this.getVertexPositionData(),
+          vertexNormalData = this.getVertexNormalData(),
+          vertexIndexData = this.getVertexIndexData();
+
+    textureShader.addVertexPositionData(vertexPositionData);
+    textureShader.addVertexNormalData(vertexNormalData);
+    textureShader.addVertexIndexData(vertexIndexData);
+    
     textureShader.addTextureCoordinateData(this.textureCoordinateData);
   }
 

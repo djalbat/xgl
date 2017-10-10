@@ -4,24 +4,9 @@ const Element = require('../element');
 
 class ColourElement extends Element {
   constructor(vertexPositionData, vertexNormalData, vertexIndexData, vertexColourData) {
-    super();
+    super(vertexPositionData, vertexNormalData, vertexIndexData);
 
-    this.vertexPositionData = vertexPositionData;
-    this.vertexNormalData = vertexNormalData;
-    this.vertexIndexData = vertexIndexData;
     this.vertexColourData = vertexColourData;
-  }
-
-  getVertexPositionData() {
-    return this.vertexPositionData;
-  }
-
-  getVertexNormalData() {
-    return this.vertexNormalData;
-  }
-
-  getVertexIndexData() {
-    return this.vertexIndexData;
   }
 
   getVertexColourData() {
@@ -29,9 +14,14 @@ class ColourElement extends Element {
   }
 
   create(colourShader, textureShader) {
-    colourShader.addVertexPositionData(this.vertexPositionData);
-    colourShader.addVertexNormalData(this.vertexNormalData);
-    colourShader.addVertexIndexData(this.vertexIndexData);
+    const vertexPositionData = this.getVertexPositionData(),
+          vertexNormalData = this.getVertexNormalData(),
+          vertexIndexData = this.getVertexIndexData();
+    
+    colourShader.addVertexPositionData(vertexPositionData);
+    colourShader.addVertexNormalData(vertexNormalData);
+    colourShader.addVertexIndexData(vertexIndexData);
+    
     colourShader.addVertexColourData(this.vertexColourData);
   }
 
