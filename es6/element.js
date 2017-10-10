@@ -1,10 +1,6 @@
 'use strict';
 
 class Element {
-  create(colourShader, textureShader) {
-    ///
-  }
-  
   assignContext(names, thenDelete) {
     const argumentsLength = arguments.length;
   

@@ -2,13 +2,13 @@
 
 const Element = require('./element'),
       Canvas = require('./canvas'),
-      Zoom = require('./scene/zoom'),
-      angles = require('./scene/angles'),
-      Normal = require('./scene/normal'),
-      Rotation = require('./scene/rotation'),
-      Position = require('./scene/position'),
-      Projection = require('./scene/projection'),
-      MouseEvents = require('./scene/mouseEvents');
+      Zoom = require('./camera/zoom'),
+      angles = require('./camera/angles'),
+      Normal = require('./camera/normal'),
+      Rotation = require('./camera/rotation'),
+      Position = require('./camera/position'),
+      Projection = require('./camera/projection'),
+      MouseEvents = require('./camera/mouseEvents');
 
 class Camera extends Element {
   constructor(zoom, canvas, updateHandler) {
@@ -45,6 +45,10 @@ class Camera extends Element {
 
       this.update();
     }.bind(this));
+  }
+
+  create(colourShader, textureShader) {
+    ///
   }
 
   onUpdate(updateHandler) {
@@ -88,8 +92,7 @@ class Camera extends Element {
 
   static fromProperties(properties) {
     const { initialPosition } = properties,
-          initialDistance = -initialPosition[2], ///
-          zoom = Zoom.fromInitialDistance(initialDistance),
+          zoom = Zoom.fromInitialPosition(initialPosition),
           canvas = new Canvas(),  ///
           updateHandler = null,  ///
           camera = new Camera(zoom, canvas, updateHandler);
