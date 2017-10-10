@@ -51,7 +51,7 @@ function calculateVertexNormalData(initialVertexPositionData) {
     }
   });
   
-  const vertexNormalData = flatten(vertexNormalVectors); 
+  const vertexNormalData = flatten(vertexNormalVectors); ///
 
   return vertexNormalData;
 }

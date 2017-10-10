@@ -17,8 +17,8 @@ module.exports = {
 };
 
 function calculateInitialVertexPositionData() {
-  const initialVertexPositions = [],
-        facesLength = 7, ///
+  const initialVertexPositionVectors = [],
+        facesLength = 64, ///
         step = 2 * Math.PI / facesLength;
 
   for (let count = 0; count < facesLength; count++) {
@@ -30,13 +30,13 @@ function calculateInitialVertexPositionData() {
           firstZ = 0,
           secondZ = 1;
 
-    initialVertexPositions.push([ firstX, firstY, firstZ, 1 ]);
-    initialVertexPositions.push([ secondX, secondY, firstZ, 1 ]);
-    initialVertexPositions.push([ secondX, secondY, secondZ, 1 ]);
-    initialVertexPositions.push([ firstX, firstY, secondZ, 1 ]);
+    initialVertexPositionVectors.push([ firstX, firstY, firstZ, 1 ]);
+    initialVertexPositionVectors.push([ secondX, secondY, firstZ, 1 ]);
+    initialVertexPositionVectors.push([ secondX, secondY, secondZ, 1 ]);
+    initialVertexPositionVectors.push([ firstX, firstY, secondZ, 1 ]);
   }
 
-  const initialVertexPositionData = flatten(initialVertexPositions);
+  const initialVertexPositionData = flatten(initialVertexPositionVectors);  ///
 
   return initialVertexPositionData;
 }
