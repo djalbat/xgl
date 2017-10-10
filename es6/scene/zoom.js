@@ -1,7 +1,9 @@
 'use strict';
 
-const INITIAL_DISTANCE = 20;
-    
+const constants = require('../constants');
+
+const { MINIMUM_DISTANCE } = constants; 
+
 class Zoom {
   constructor(distance) {
     this.distance = distance;
@@ -12,17 +14,17 @@ class Zoom {
   }
 
   mouseWheelEventHandler(delta) {
-    this.distance += delta;
+    this.distance += delta * 5;  ///
+
+    this.distance = Math.max(MINIMUM_DISTANCE, this.distance);
   }
   
-  static fromNothing() {
-    const distance = INITIAL_DISTANCE,
+  static fromInitialDistance(initialDistance) {
+    const distance = initialDistance,
           zoom = new Zoom(distance);
     
     return zoom;
   }
 }
 
-const zoom = Zoom.fromNothing();
-
-module.exports = zoom;
+module.exports = Zoom;

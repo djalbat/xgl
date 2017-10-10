@@ -9,7 +9,7 @@ const { arrayUtilities } = necessary,
 const offsetMatrixName = 'uOffsetMatrix',
       rotationMatrixName = 'uRotationMatrix',
       positionMatrixName = 'uPositionMatrix',
-      perspectiveMatrixName = 'uPerspectiveMatrix',
+      projectionMatrixName = 'uPerspectiveMatrix',
       normalMatrixName = 'uNormalMatrix',
       vertexPositionAttributeName = 'aVertexPosition',
       vertexNormalAttributeName = 'aVertexNormal',
@@ -39,12 +39,12 @@ const offsetMatrixName = 'uOffsetMatrix',
         uniform mat4 ${offsetMatrixName},
                      ${rotationMatrixName},
                      ${positionMatrixName},
-                     ${perspectiveMatrixName};
+                     ${projectionMatrixName};
         
         attribute vec4 ${vertexPositionAttributeName};
 
         vec4 calculatePosition() {
-          vec4 position = ${perspectiveMatrixName} * ${positionMatrixName} * ${rotationMatrixName} * ${offsetMatrixName} * ${vertexPositionAttributeName};
+          vec4 position = ${projectionMatrixName} * ${positionMatrixName} * ${rotationMatrixName} * ${offsetMatrixName} * ${vertexPositionAttributeName};
           
           return position;
         }
@@ -59,7 +59,7 @@ class Shader {
     this.offsetMatrixUniformLocation = canvas.getUniformLocation(program, offsetMatrixName);
     this.rotationMatrixUniformLocation = canvas.getUniformLocation(program, rotationMatrixName);
     this.positionMatrixUniformLocation = canvas.getUniformLocation(program, positionMatrixName);
-    this.perspectiveMatrixUniformLocation = canvas.getUniformLocation(program, perspectiveMatrixName);
+    this.projectionMatrixUniformLocation = canvas.getUniformLocation(program, projectionMatrixName);
     this.normalMatrixUniformLocation = canvas.getUniformLocation(program, normalMatrixName);
 
     this.vertexPositionAttributeLocation = canvas.getAttributeLocation(program, vertexPositionAttributeName);
@@ -95,7 +95,7 @@ class Shader {
   }
 
   getPerspectiveMatrixUniformLocation() {
-    return this.perspectiveMatrixUniformLocation;
+    return this.projectionMatrixUniformLocation;
   }
 
   getNormalMatrixUniformLocation() {

@@ -68,22 +68,22 @@ class Canvas {
     this.setViewport(0, 0, width, height);
   }
 
-  render(shader, offset, rotation, position, perspective, normal) {
+  render(shader, offset, rotation, position, projection, normal) {
     const offsetMatrix = offset.getMatrix(),
           rotationMatrix = rotation.getMatrix(),
           positionMatrix = position.getMatrix(),
-          perspectiveMatrix = perspective.getMatrix(),
+          projectionMatrix = projection.getMatrix(),
           normalMatrix = normal.getMatrix(),
           offsetMatrixUniformLocation = shader.getOffsetMatrixUniformLocation(),
           rotationMatrixUniformLocation = shader.getRotationMatrixUniformLocation(),
           positionMatrixUniformLocation = shader.getPositionMatrixUniformLocation(),
-          perspectiveMatrixUniformLocation = shader.getPerspectiveMatrixUniformLocation(),
+          projectionMatrixUniformLocation = shader.getPerspectiveMatrixUniformLocation(),
           normalMatrixUniformLocation = shader.getNormalMatrixUniformLocation();
 
     this.applyMatrix(offsetMatrixUniformLocation, offsetMatrix);
     this.applyMatrix(rotationMatrixUniformLocation, rotationMatrix);
     this.applyMatrix(positionMatrixUniformLocation, positionMatrix);
-    this.applyMatrix(perspectiveMatrixUniformLocation, perspectiveMatrix);
+    this.applyMatrix(projectionMatrixUniformLocation, projectionMatrix);
     this.applyMatrix(normalMatrixUniformLocation, normalMatrix);
 
     const count = shader.getCount();

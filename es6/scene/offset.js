@@ -2,31 +2,22 @@
 
 const mat4 = require('gl-mat4');  ///
 
-const defaultXCoordinate = +0.0,
-      defaultYCoordinate = +0.0,
-      defaultZCoordinate = +0.0;
+const { create, translate } = mat4;
 
 class Offset {
-  constructor(matrix) {
-    this.matrix = matrix;
+  constructor(mat4) {
+    this.mat4 = mat4;
   }
   
   getMatrix() {
-    return this.matrix;
+    return this.mat4;
   }
 
-  static fromXCoordinateAndYCoordinate(xCoordinate, yCoordinate) { return Offset.fromCoordinates(xCoordinate, yCoordinate, undefined); }
+  static fromVec3(vec3) {
+    const mat4 = create(),
+          offset = new Offset(mat4);
 
-  static fromCoordinates(xCoordinate = defaultXCoordinate, yCoordinate = defaultYCoordinate, zCoordinate = defaultZCoordinate) {
-    const coordinateVector = [
-            xCoordinate,
-            yCoordinate,
-            zCoordinate
-          ],
-          matrix = mat4.create(),
-          offset = new Offset(matrix);
-
-    mat4.translate(matrix, matrix, coordinateVector);
+    translate(mat4, mat4, vec3);
 
     return offset;
   }

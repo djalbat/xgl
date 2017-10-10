@@ -2,61 +2,28 @@
 
 const mat4 = require('gl-mat4');  ///
 
+const { create, rotate } = mat4;
+
 const defaultXAngle = 0.0,
       defaultYAngle = 0.0,
-      defaultZAngle = 0.0,
-      xAxisVectorArray = [1, 0, 0],
-      yAxisVectorArray = [0, 1, 0],
-      zAxisVectorArray = [0, 0, 1];
+      defaultZAngle = 0.0;
 
 class Rotation {
-  constructor(matrix) {
-    this.matrix = matrix;
+  constructor(mat4) {
+    this.mat4 = mat4;
   }
   
   getMatrix() {
-    return this.matrix;
+    return this.mat4;
   }
 
-  static fromNothing() {
-    const xAngle = defaultXAngle,
-          yAngle = defaultYAngle,
-          zAngle = defaultZAngle,
-          rotation = Rotation.fromXAngleYAngleAndZAngle(xAngle, yAngle, zAngle);
+  static fromXAngleYAngleAndZAngle(xAngle = defaultXAngle, yAngle = defaultYAngle, zAngle = defaultZAngle) {
+    const mat4 = create(),
+          rotation = new Rotation(mat4);
 
-    return rotation;
-  }
-
-  static fromXAngle(xAngle) {
-    const yAngle = defaultYAngle,
-          zAngle = defaultZAngle,
-          rotation = Rotation.fromXAngleYAngleAndZAngle(xAngle, yAngle, zAngle);
-
-    return rotation;
-  }
-
-  static fromXAngleAndYAngle(xAngle, yAngle) {
-    const zAngle = defaultZAngle,
-          rotation = Rotation.fromXAngleYAngleAndZAngle(xAngle, yAngle, zAngle);
-
-    return rotation;
-  }
-
-  static fromXAngleAndZAngle(xAngle, zAngle) {
-    const yAngle = defaultYAngle,
-          rotation = Rotation.fromXAngleYAngleAndZAngle(xAngle, yAngle, zAngle);
-
-    return rotation;
-  }
-
-  static fromXAngleYAngleAndZAngle(xAngle, yAngle, zAngle) {
-    const matrix = mat4.create();
-
-    mat4.rotate(matrix, matrix, xAngle, xAxisVectorArray);
-    mat4.rotate(matrix, matrix, yAngle, yAxisVectorArray);
-    mat4.rotate(matrix, matrix, zAngle, zAxisVectorArray);
-
-    const rotation = new Rotation(matrix);
+    rotate(mat4, mat4, xAngle, [1, 0, 0]);
+    rotate(mat4, mat4, yAngle, [0, 1, 0]);
+    rotate(mat4, mat4, zAngle, [0, 0, 1]);
 
     return rotation;
   }

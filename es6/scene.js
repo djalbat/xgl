@@ -1,22 +1,32 @@
 'use strict';
 
 const Canvas = require('./canvas'),
-      zoom = require('./scene/zoom'),
+      Zoom = require('./scene/zoom'),
       angles = require('./scene/angles'),
       Offset = require('./scene/offset'),
       Normal = require('./scene/normal'),
       Rotation = require('./scene/rotation'),
       Position = require('./scene/position'),
-      Perspective = require('./scene/perspective'),
+      Projection = require('./scene/projection'),
       ColourShader = require('./shader/colour'),
       TextureShader = require('./shader/texture'),
       MouseEvents = require('./scene/mouseEvents');
 
 class Scene {
-  constructor(canvas, colourShader, textureShader) {
+  constructor(zoom, offsetVec3, canvas, colourShader, textureShader) {
+    this.zoom = zoom;
+    this.offsetVec3 = offsetVec3;
     this.canvas = canvas;
     this.colourShader = colourShader;
     this.textureShader = textureShader;
+  }
+  
+  getZoom() {
+    return this.zoom;
+  }
+
+  getOffsetVec3() {
+    return this.offsetVec3;
   }
   
   getCanvas() {
@@ -45,7 +55,7 @@ class Scene {
     }.bind(this));
 
     mouseEvents.addMouseWheelEventHandler(function(delta) {
-      zoom.mouseWheelEventHandler(delta);
+      this.zoom.mouseWheelEventHandler(delta);
 
       this.render();
     }.bind(this));
@@ -63,24 +73,23 @@ class Scene {
   render() {
     const xAxisAngle = angles.getXAxisAngle(),
           yAxisAngle = angles.getYAxisAngle(),
-          distance = zoom.getDistance(),
+          distance = this.zoom.getDistance(),
           width = this.canvas.getWidth(),
           height = this.canvas.getHeight(),
           xAngle = xAxisAngle,  ///
+          yAngle = undefined, ///
           zAngle = yAxisAngle, ///
-          xCoordinate = 0,  ///-18,
-          yCoordinate = -0, ///-16,
-          zCoordinate = -Math.max(10, distance), ///
-          offset = Offset.fromXCoordinateAndYCoordinate(xCoordinate, yCoordinate),
-          rotation = Rotation.fromXAngleAndZAngle(xAngle, zAngle),
+          zCoordinate = -distance, ///
+          offset = Offset.fromVec3(this.offsetVec3),
+          rotation = Rotation.fromXAngleYAngleAndZAngle(xAngle, yAngle, zAngle),
           position = Position.fromZCoordinate(zCoordinate),
-          perspective = Perspective.fromWidthAndHeight(width, height),
+          projection = Projection.fromWidthAndHeight(width, height),
           normal = Normal.fromRotation(rotation);
 
-    this.drawElements(offset, rotation, position, perspective, normal);
+    this.drawElements(offset, rotation, position, projection, normal);
   }
 
-  drawElements(offset, rotation, position, perspective, normal) {
+  drawElements(offset, rotation, position, projection, normal) {
     this.canvas.clear();
 
     this.canvas.useShader(this.colourShader);
@@ -89,7 +98,7 @@ class Scene {
 
     this.colourShader.activateTexture(this.canvas);
 
-    this.canvas.render(this.colourShader, offset, rotation, position, perspective, normal);
+    this.canvas.render(this.colourShader, offset, rotation, position, projection, normal);
 
     this.canvas.useShader(this.textureShader);
     
@@ -97,15 +106,18 @@ class Scene {
     
     this.textureShader.activateTexture(this.canvas);
     
-    this.canvas.render(this.textureShader, offset, rotation, position, perspective, normal);
+    this.canvas.render(this.textureShader, offset, rotation, position, projection, normal);
   }
 
   static fromProperties(properties) {
-    const { childElements, imageMap } = properties,
+    const { childElements, imageMap, offset, initialPosition } = properties,
+          initialDistance = -initialPosition[2], ///
+          offsetVec3 = offset,  ///
+          zoom = Zoom.fromInitialDistance(initialDistance),
           canvas = new Canvas(),
           colourShader = ColourShader.fromNothing(canvas),
           textureShader = TextureShader.fromNothing(canvas),
-          scene = new Scene(canvas, colourShader, textureShader);
+          scene = new Scene(zoom, offsetVec3, canvas, colourShader, textureShader);
 
     childElements.forEach(function(childElement) {
       childElement.create(colourShader, textureShader);

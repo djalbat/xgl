@@ -16,9 +16,9 @@ const { preloadImageMap } = imageMapUtilities;
 
 const containerHouse = () => {
 
-  preloadImageMap((imageMap) => 
+  preloadImageMap((imageMap) =>
 
-    <Scene imageMap={imageMap}>
+    <Scene imageMap={imageMap} initialPosition={[ 0, 0, -150 ]} offset={[ -18, -16, 0 ]}>
       <Foundations />
       <FirstFloor />
       <SecondFloor />

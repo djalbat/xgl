@@ -27,9 +27,9 @@ function createElement(firstArgument, properties, ...childElements) {
 
       elementOrElements = Class.fromProperties(properties);
     } else if (typeof firstArgument === 'function') {
-      const elementFunction = firstArgument;  ///
+      const func = firstArgument;  ///
 
-      elementOrElements = elementFunction(properties);
+      elementOrElements = func(properties);
     }
   }
 

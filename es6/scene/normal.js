@@ -2,23 +2,25 @@
 
 const mat4 = require('gl-mat4');  ///
 
+const { create, invert, transpose } = mat4;
+
 class Normal {
-  constructor(matrix) {
-    this.matrix = matrix;
+  constructor(mat4) {
+    this.mat4 = mat4;
   }
   
   getMatrix() {
-    return this.matrix;
+    return this.mat4;
   }
   
   static fromRotation(rotation) {
-    const matrix = mat4.create(),
-          rotationMatrix = rotation.getMatrix();
+    const mat4 = create(),
+          rotationMatrix = rotation.getMatrix(),
+          normal = new Normal(mat4);
 
-    mat4.invert(matrix, rotationMatrix);    
-    mat4.transpose(matrix, matrix);
+    invert(mat4, rotationMatrix);
     
-    const normal = new Normal(matrix);
+    transpose(mat4, mat4);
     
     return normal;
   }
