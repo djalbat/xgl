@@ -1,12 +1,15 @@
 'use strict';
 
-const Canvas = require('./canvas'),
+const Element = require('./element'),
+      Canvas = require('./canvas'),
       Offset = require('./scene/offset'),
       ColourShader = require('./shader/colour'),
       TextureShader = require('./shader/texture');
 
-class Scene {
+class Scene extends Element {
   constructor(offsetVec3, canvas, colourShader, textureShader) {
+    super();
+
     this.offsetVec3 = offsetVec3;
     this.canvas = canvas;
     this.colourShader = colourShader;
@@ -58,18 +61,26 @@ class Scene {
     this.canvas.render(this.textureShader, offset, rotation, position, projection, normal);
   }
 
+  updateHandler(rotation, position, projection, normal) {
+    const offset = Offset.fromVec3(this.offsetVec3);
+
+    this.drawElements(offset, rotation, position, projection, normal);
+  }
+
   initialise() {
-    assignContext.call(this);
+    this.assignContext();
 
-    this.registerCallback(function(rotation, position, projection, normal) {
-      const offset = Offset.fromVec3(this.offsetVec3);
+    this.onUpdate(this.updateHandler.bind(this));
 
+    window.onresize = function() {
       this.resize();
 
-      this.drawElements(offset, rotation, position, projection, normal);
-    }.bind(this));
+      this.forceUpdate();
+    }.bind(this);
 
-    this.addMouseEventHandlers();
+    this.resize();
+
+    this.forceUpdate();
   }
 
   static fromProperties(properties) {
@@ -78,30 +89,21 @@ class Scene {
           canvas = new Canvas(),
           colourShader = ColourShader.fromNothing(canvas),
           textureShader = TextureShader.fromNothing(canvas),
-          scene = new Scene(offsetVec3, canvas, colourShader, textureShader);
+          scene = Element.fromProperties(Scene, properties, offsetVec3, canvas, colourShader, textureShader);
     
-    const parentElement = scene; ///
-
     childElements.forEach(function(childElement) {
       childElement.create(colourShader, textureShader);
-      
-      updateParentContext(childElement, parentElement); ///
     });
 
     if (imageMap) {
       textureShader.createTexture(imageMap, canvas);
     }
 
-    textureShader.createBuffers(canvas);
     colourShader.createBuffers(canvas);
+    textureShader.createBuffers(canvas);
 
     canvas.enableDepthTesting();
     canvas.enableDepthFunction();
-
-    // window.onresize = function() {
-    //   scene.resize();
-    //   scene.render();
-    // };
 
     scene.initialise();
 
@@ -110,49 +112,3 @@ class Scene {
 }
 
 module.exports = Scene;
-
-function updateParentContext(childElement, parentElement) {
-  const parentContext = (typeof childElement.parentContext === 'function') ?
-                          childElement.parentContext() :
-                            childElement.context;
-
-  parentElement.context = Object.assign({}, parentElement.context, parentContext);
-
-  delete childElement.context;
-}
-
-function assignContext(names, thenDelete) {
-  const argumentsLength = arguments.length;
-
-  if (argumentsLength === 1) {
-    const firstArgument = first(arguments);
-
-    if (typeof firstArgument === 'boolean') {
-      names = Object.keys(this.context);
-
-      thenDelete = firstArgument;
-    } else {
-      thenDelete = true;
-    }
-  }
-
-  if (argumentsLength === 0) {
-    names = Object.keys(this.context);
-
-    thenDelete = true;
-  }
-
-  names.forEach(function(name) {
-    const value = this.context[name],
-          propertyName = name,  ///
-          descriptor = {
-            value: value
-          };
-
-    Object.defineProperty(this, propertyName, descriptor);
-
-    if (thenDelete) {
-      delete this.context[name];
-    }
-  }.bind(this), []);
-}

@@ -1,6 +1,7 @@
 'use strict';
 
-const Canvas = require('./canvas'),
+const Element = require('./element'),
+      Canvas = require('./canvas'),
       Zoom = require('./scene/zoom'),
       angles = require('./scene/angles'),
       Normal = require('./scene/normal'),
@@ -9,11 +10,13 @@ const Canvas = require('./canvas'),
       Projection = require('./scene/projection'),
       MouseEvents = require('./scene/mouseEvents');
 
-class Camera {
-  constructor(zoom, canvas, callback) {
+class Camera extends Element {
+  constructor(zoom, canvas, updateHandler) {
+    super();
+    
     this.zoom = zoom;
     this.canvas = canvas;
-    this.callback = callback;
+    this.updateHandler = updateHandler;
   }
 
   getZoom() {
@@ -24,20 +27,6 @@ class Camera {
     return this.canvas;
   }
   
-  getCallback() {
-    return this.callback;
-  }
-  
-  setCallback(callback) {
-    this.callback = callback;
-  }
-  
-  registerCallback(callback) {
-    this.setCallback(callback);
-  }
-
-  create() {}
-
   addMouseEventHandlers() {
     const mouseEvents = MouseEvents.fromNothing(this.canvas);
 
@@ -57,7 +46,15 @@ class Camera {
       this.update();
     }.bind(this));
   }
+
+  onUpdate(updateHandler) {
+    this.updateHandler = updateHandler;
+  }
   
+  forceUpdate() {
+    this.update();
+  }
+
   update() {
     const xAxisAngle = angles.getXAxisAngle(),
           yAxisAngle = angles.getYAxisAngle(),
@@ -73,16 +70,20 @@ class Camera {
           projection = Projection.fromWidthAndHeight(width, height),
           normal = Normal.fromRotation(rotation);
     
-    if (this.callback) {  ///
-      this.callback(rotation, position, projection, normal);
+    if (this.updateHandler) {  ///
+      this.updateHandler(rotation, position, projection, normal);
     }
   }
 
-  parentContext() {
+  context() {
     return ({
-      registerCallback: this.registerCallback.bind(this),
-      addMouseEventHandlers: this.addMouseEventHandlers.bind(this)
+      onUpdate: this.onUpdate.bind(this),
+      forceUpdate: this.forceUpdate.bind(this)
     });
+  }
+  
+  initialise() {
+    this.addMouseEventHandlers();
   }
 
   static fromProperties(properties) {
@@ -90,8 +91,10 @@ class Camera {
           initialDistance = -initialPosition[2], ///
           zoom = Zoom.fromInitialDistance(initialDistance),
           canvas = new Canvas(),  ///
-          callback = null,  ///
-          camera = new Camera(zoom, canvas, callback);
+          updateHandler = null,  ///
+          camera = new Camera(zoom, canvas, updateHandler);
+    
+    camera.initialise();
 
     return camera;
   }
