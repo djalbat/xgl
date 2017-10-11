@@ -28,11 +28,11 @@ class ColourElement extends Element {
     return this.vertexColourData;
   }
 
-  create(colourShader, textureShader) {
-    colourShader.addVertexPositionData(this.vertexPositionData);
-    colourShader.addVertexNormalData(this.vertexNormalData);
-    colourShader.addVertexIndexData(this.vertexIndexData);
-    colourShader.addVertexColourData(this.vertexColourData);
+  create(colourRenderer, textureRenderer) {
+    colourRenderer.addVertexPositionData(this.vertexPositionData);
+    colourRenderer.addVertexNormalData(this.vertexNormalData);
+    colourRenderer.addVertexIndexData(this.vertexIndexData);
+    colourRenderer.addVertexColourData(this.vertexColourData);
   }
 
   static fromProperties(Class, properties, vertexPositionData, vertexNormalData, vertexIndexData, vertexColourData, ...remainingArguments) {  ///

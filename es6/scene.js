@@ -7,13 +7,13 @@ const Element = require('./element'),
       TextureShader = require('./shader/texture');
 
 class Scene extends Element {
-  constructor(offsetVec3, canvas, colourShader, textureShader) {
+  constructor(offsetVec3, canvas, colourRenderer, textureRenderer) {
     super();
 
     this.offsetVec3 = offsetVec3;
     this.canvas = canvas;
-    this.colourShader = colourShader;
-    this.textureShader = textureShader;
+    this.colourRenderer = colourRenderer;
+    this.textureRenderer = textureRenderer;
   }
   
   getOffsetVec3() {
@@ -25,11 +25,11 @@ class Scene extends Element {
   }
   
   getColourShader() {
-    return this.colourShader;
+    return this.colourRenderer;
   }
   
   getTextureShader() {
-    return this.textureShader;
+    return this.textureRenderer;
   }
 
   resize() {
@@ -42,24 +42,24 @@ class Scene extends Element {
   }
 
   drawElements(offset, rotation, position, projection, normal) {
-    const colourShaderProgram = this.colourShader.getProgram(),
-          textureShaderProgram = this.textureShader.getProgram();
+    const colourRendererProgram = this.colourRenderer.getProgram(),
+          textureRendererProgram = this.textureRenderer.getProgram();
 
     this.canvas.clear();
 
-    this.canvas.useProgram(colourShaderProgram);
+    this.canvas.useProgram(colourRendererProgram);
 
-    this.colourShader.bindBuffers(this.canvas);
+    this.colourRenderer.bindBuffers(this.canvas);
 
-    this.canvas.render(this.colourShader, offset, rotation, position, projection, normal);
+    this.canvas.render(this.colourRenderer, offset, rotation, position, projection, normal);
 
-    this.canvas.useProgram(textureShaderProgram);
+    this.canvas.useProgram(textureRendererProgram);
     
-    this.textureShader.bindBuffers(this.canvas);
+    this.textureRenderer.bindBuffers(this.canvas);
     
-    this.textureShader.activateTexture(this.canvas);
+    this.textureRenderer.activateTexture(this.canvas);
     
-    this.canvas.render(this.textureShader, offset, rotation, position, projection, normal);
+    this.canvas.render(this.textureRenderer, offset, rotation, position, projection, normal);
   }
 
   updateHandler(rotation, position, projection, normal) {
@@ -88,20 +88,20 @@ class Scene extends Element {
     const { childElements, imageMap, offset } = properties,
           offsetVec3 = offset,  ///
           canvas = new Canvas(),
-          colourShader = ColourShader.fromNothing(canvas),
-          textureShader = TextureShader.fromNothing(canvas),
-          scene = Element.fromProperties(Scene, properties, offsetVec3, canvas, colourShader, textureShader);
+          colourRenderer = ColourShader.fromNothing(canvas),
+          textureRenderer = TextureShader.fromNothing(canvas),
+          scene = Element.fromProperties(Scene, properties, offsetVec3, canvas, colourRenderer, textureRenderer);
     
     childElements.forEach(function(childElement) {
-      childElement.create(colourShader, textureShader);
+      childElement.create(colourRenderer, textureRenderer);
     });
 
     if (imageMap) {
-      textureShader.createTexture(imageMap, canvas);
+      textureRenderer.createTexture(imageMap, canvas);
     }
 
-    colourShader.createBuffers(canvas);
-    textureShader.createBuffers(canvas);
+    colourRenderer.createBuffers(canvas);
+    textureRenderer.createBuffers(canvas);
 
     canvas.enableDepthTesting();
     canvas.enableDepthFunction();

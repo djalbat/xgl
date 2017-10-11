@@ -2,7 +2,7 @@
 
 const necessary = require('necessary');
 
-const Shader = require('../shader'),
+const Renderer = require('../renderer'),
       UniformLocations = require('./locations/uniform'),
       AttributeLocations = require('./locations/attribute'),
       vertexShaderSource = require('./source/texture/vertex'),
@@ -14,7 +14,7 @@ const { textureCoordinateAttributeName } = vertexShaderSource,
       { merge } = arrayUtilities,
       add = merge;  ///
 
-class TextureShader extends Shader {
+class TextureRenderer extends Renderer {
   constructor(program, uniformLocations, attributeLocations, samplerUniformLocation, textureCoordinateAttributeLocation, textureCoordinateData) {
     super(program, uniformLocations, attributeLocations);
 
@@ -73,10 +73,10 @@ class TextureShader extends Shader {
           samplerUniformLocation = canvas.getUniformLocation(program, samplerName),
           textureCoordinateAttributeLocation = canvas.getAttributeLocation(program, textureCoordinateAttributeName),
           textureCoordinateData = [],
-          textureShader = new TextureShader(program, uniformLocations, attributeLocations, samplerUniformLocation, textureCoordinateAttributeLocation, textureCoordinateData);
+          textureRenderer = new TextureRenderer(program, uniformLocations, attributeLocations, samplerUniformLocation, textureCoordinateAttributeLocation, textureCoordinateData);
 
-    return textureShader;
+    return textureRenderer;
   }
 }
 
-module.exports = TextureShader;
+module.exports = TextureRenderer;

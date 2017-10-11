@@ -47,7 +47,7 @@ class Camera extends Element {
     }.bind(this));
   }
 
-  create(colourShader, textureShader) {
+  create(colourRenderer, textureRenderer) {
     ///
   }
 

@@ -28,11 +28,11 @@ class TextureElement extends Element {
     return this.textureCoordinateData;
   }
 
-  create(colourShader, textureShader) {
-    textureShader.addVertexPositionData(this.vertexPositionData);
-    textureShader.addVertexNormalData(this.vertexNormalData);
-    textureShader.addVertexIndexData(this.vertexIndexData);    
-    textureShader.addTextureCoordinateData(this.textureCoordinateData);
+  create(colourRenderer, textureRenderer) {
+    textureRenderer.addVertexPositionData(this.vertexPositionData);
+    textureRenderer.addVertexNormalData(this.vertexNormalData);
+    textureRenderer.addVertexIndexData(this.vertexIndexData);    
+    textureRenderer.addTextureCoordinateData(this.textureCoordinateData);
   }
 
   static fromProperties(Class, properties, vertexPositionData, vertexNormalData, vertexIndexData, textureCoordinateData, ...remainingArguments) {  /// 

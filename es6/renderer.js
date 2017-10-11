@@ -6,7 +6,7 @@ const { arrayUtilities } = necessary,
       { merge } = arrayUtilities,
       add = merge;  ///
 
-class Shader {
+class Renderer {
   constructor(program, uniformLocations, attributeLocations) {
     this.program = program;
     this.uniformLocations = uniformLocations;
@@ -106,4 +106,4 @@ class Shader {
   }
 }
 
-module.exports = Shader;
+module.exports = Renderer;

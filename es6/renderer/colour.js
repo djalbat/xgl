@@ -2,7 +2,7 @@
 
 const necessary = require('necessary');
 
-const Shader = require('../shader'),
+const Renderer = require('../renderer'),
       UniformLocations = require('./locations/uniform'),
       AttributeLocations = require('./locations/attribute'),
       vertexShaderSource = require('./source/colour/vertex'),
@@ -13,7 +13,7 @@ const { vertexColourAttributeName } = vertexShaderSource,
       { merge } = arrayUtilities,
       add = merge;  ///
 
-class ColourShader extends Shader {
+class ColourRenderer extends Renderer {
   constructor(program, uniformLocations, attributeLocations, vertexColourAttributeLocation, vertexColourData) {
     super(program, uniformLocations, attributeLocations);
 
@@ -48,17 +48,17 @@ class ColourShader extends Shader {
   }
 
   static fromNothing(canvas) {
-    const vertexShader = canvas.createVertexShader(vertexShaderSource),
-          fragmentShader = canvas.createFragmentShader(fragmentShaderSource),
+    const vertexShader = canvas.createVertexRenderer(vertexShaderSource),
+          fragmentShader = canvas.createFragmentRenderer(fragmentShaderSource),
           program = canvas.createProgram(vertexShader, fragmentShader),
           vertexColourAttributeLocation = canvas.getAttributeLocation(program, vertexColourAttributeName),
           uniformLocations = UniformLocations.fromProgram(program, canvas),
           attributeLocations = AttributeLocations.fromProgram(program, canvas),
           vertexColourData = [],
-          colourShader = new ColourShader(program, uniformLocations, attributeLocations, vertexColourAttributeLocation, vertexColourData);
+          colourRenderer = new ColourRenderer(program, uniformLocations, attributeLocations, vertexColourAttributeLocation, vertexColourData);
     
-    return colourShader;
+    return colourRenderer;
   }
 }
 
-module.exports = ColourShader;
+module.exports = ColourRenderer;
