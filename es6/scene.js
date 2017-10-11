@@ -2,22 +2,22 @@
 
 const Element = require('./element'),
       Canvas = require('./canvas'),
-      Offset = require('./scene/offset'),
+      OffsetMatrix = require('./matrix/offset'),
       ColourShader = require('./shader/colour'),
       TextureShader = require('./shader/texture');
 
 class Scene extends Element {
-  constructor(offsetVec3, canvas, colourRenderer, textureRenderer) {
+  constructor(offset, canvas, colourRenderer, textureRenderer) {
     super();
 
-    this.offsetVec3 = offsetVec3;
+    this.offset = offset;
     this.canvas = canvas;
     this.colourRenderer = colourRenderer;
     this.textureRenderer = textureRenderer;
   }
   
   getOffsetVec3() {
-    return this.offsetVec3;
+    return this.offset;
   }
   
   getCanvas() {
@@ -41,7 +41,7 @@ class Scene extends Element {
     this.canvas.resize(width, height);
   }
 
-  drawElements(offset, rotation, position, projection, normal) {
+  render(offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix) {
     const colourRendererProgram = this.colourRenderer.getProgram(),
           textureRendererProgram = this.textureRenderer.getProgram();
 
@@ -51,7 +51,7 @@ class Scene extends Element {
 
     this.colourRenderer.bindBuffers(this.canvas);
 
-    this.canvas.render(this.colourRenderer, offset, rotation, position, projection, normal);
+    this.canvas.render(this.colourRenderer, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
 
     this.canvas.useProgram(textureRendererProgram);
     
@@ -59,13 +59,13 @@ class Scene extends Element {
     
     this.textureRenderer.activateTexture(this.canvas);
     
-    this.canvas.render(this.textureRenderer, offset, rotation, position, projection, normal);
+    this.canvas.render(this.textureRenderer, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
   }
 
-  updateHandler(rotation, position, projection, normal) {
-    const offset = Offset.fromVec3(this.offsetVec3);
+  updateHandler(rotationMatrix, positionMatrix, projectionMatrix, normalMatrix) {
+    const offsetMatrix = OffsetMatrix.fromOffset(this.offset);
 
-    this.drawElements(offset, rotation, position, projection, normal);
+    this.render(offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
   }
 
   initialise() {
@@ -86,11 +86,10 @@ class Scene extends Element {
 
   static fromProperties(properties) {
     const { childElements, imageMap, offset } = properties,
-          offsetVec3 = offset,  ///
           canvas = new Canvas(),
           colourRenderer = ColourShader.fromNothing(canvas),
           textureRenderer = TextureShader.fromNothing(canvas),
-          scene = Element.fromProperties(Scene, properties, offsetVec3, canvas, colourRenderer, textureRenderer);
+          scene = Element.fromProperties(Scene, properties, offset, canvas, colourRenderer, textureRenderer);
     
     childElements.forEach(function(childElement) {
       childElement.create(colourRenderer, textureRenderer);

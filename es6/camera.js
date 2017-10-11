@@ -4,11 +4,11 @@ const Element = require('./element'),
       Canvas = require('./canvas'),
       Zoom = require('./camera/zoom'),
       angles = require('./camera/angles'),
-      Normal = require('./camera/normal'),
-      Rotation = require('./camera/rotation'),
-      Position = require('./camera/position'),
-      Projection = require('./camera/projection'),
-      MouseEvents = require('./camera/mouseEvents');
+      MouseEvents = require('./camera/mouseEvents'),
+      NormalMatrix = require('./matrix/normal'),
+      RotationMatrix = require('./matrix/rotation'),
+      PositionMatrix = require('./matrix/position'),
+      ProjectionMatrix = require('./matrix/projection');
 
 class Camera extends Element {
   constructor(zoom, canvas, updateHandler) {
@@ -66,13 +66,13 @@ class Camera extends Element {
           distance = this.zoom.getDistance(),
           width = this.canvas.getWidth(),
           height = this.canvas.getHeight(),
-          rotation = Rotation.fromXAngleYAngleAndZAngle(xAngle, yAngle, zAngle),
-          position = Position.fromDistance(distance),
-          projection = Projection.fromWidthAndHeight(width, height),
-          normal = Normal.fromRotation(rotation);
+          rotationMatrix = RotationMatrix.fromXAngleYAngleAndZAngle(xAngle, yAngle, zAngle),
+          positionMatrix = PositionMatrix.fromDistance(distance),
+          projectionMatrix = ProjectionMatrix.fromWidthAndHeight(width, height),
+          normalMatrix = NormalMatrix.fromRotationMatrix(rotationMatrix);
     
     if (this.updateHandler) {  ///
-      this.updateHandler(rotation, position, projection, normal);
+      this.updateHandler(rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
     }
   }
 

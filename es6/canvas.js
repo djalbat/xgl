@@ -69,23 +69,19 @@ class Canvas {
     this.setViewport(0, 0, width, height);
   }
 
-  render(shader, offset, rotation, position, projection, normal) {
-    const offsetMatrix = offset.getMatrix(),
-          rotationMatrix = rotation.getMatrix(),
-          positionMatrix = position.getMatrix(),
-          projectionMatrix = projection.getMatrix(),
-          normalMatrix = normal.getMatrix(),
-          offsetMatrixUniformLocation = shader.getOffsetMatrixUniformLocation(),
+  render(shader, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix) {
+    const offsetMatrixUniformLocation = shader.getOffsetMatrixUniformLocation(),
           rotationMatrixUniformLocation = shader.getRotationMatrixUniformLocation(),
           positionMatrixUniformLocation = shader.getPositionMatrixUniformLocation(),
           projectionMatrixUniformLocation = shader.getProjectionMatrixUniformLocation(),
-          normalMatrixUniformLocation = shader.getNormalMatrixUniformLocation();
+          normalMatrixUniformLocation = shader.getNormalMatrixUniformLocation(),
+          canvas = this;  ///
 
-    this.applyMatrix(offsetMatrixUniformLocation, offsetMatrix);
-    this.applyMatrix(rotationMatrixUniformLocation, rotationMatrix);
-    this.applyMatrix(positionMatrixUniformLocation, positionMatrix);
-    this.applyMatrix(projectionMatrixUniformLocation, projectionMatrix);
-    this.applyMatrix(normalMatrixUniformLocation, normalMatrix);
+    offsetMatrix.apply(offsetMatrixUniformLocation, canvas);
+    rotationMatrix.apply(rotationMatrixUniformLocation, canvas);
+    positionMatrix.apply(positionMatrixUniformLocation, canvas);
+    projectionMatrix.apply(projectionMatrixUniformLocation, canvas);
+    normalMatrix.apply(normalMatrixUniformLocation, canvas);
 
     const count = shader.getCount();
 
