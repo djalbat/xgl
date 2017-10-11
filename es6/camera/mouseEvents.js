@@ -1,27 +1,14 @@
 'use strict';
 
-const MOUSE_UP = 'MOUSE_UP',
-      MOUSE_DOWN = 'MOUSE_DOWN',
-      MOUSE_MOVE = 'MOUSE_MOVE',
-      MOUSE_WHEEL = 'MOUSE_WHEEL';
+const constants = require('../constants');
+
+const { MOUSE_UP, MOUSE_DOWN, MOUSE_MOVE, MOUSE_WHEEL } = constants;
 
 class MouseEvents {
-  constructor(canvas) {
+  constructor(canvas, handlers) {
     this.canvas = canvas;
+    this.handlers = handlers;
 
-    this.handlers = {};
-
-    const mouseEventTypes = [
-            MOUSE_UP,
-            MOUSE_DOWN,
-            MOUSE_MOVE,
-            MOUSE_WHEEL
-          ];
-
-    mouseEventTypes.forEach(function(mouseEventType) {
-      this.handlers[mouseEventType] = [];
-    }.bind(this));
-    
     this.addEventHandler(canvas, 'mouseup', function(event) { this.onMouseEvent(MOUSE_UP, event) }.bind(this) );
     this.addEventHandler(canvas, 'mousedown', function(event) { this.onMouseEvent(MOUSE_DOWN, event) }.bind(this) );
     this.addEventHandler(canvas, 'mousemove', function(event) { this.onMouseEvent(MOUSE_MOVE, event) }.bind(this) );
@@ -42,6 +29,12 @@ class MouseEvents {
 
   addMouseWheelEventHandler(mouseWheelEventHandler) {
     this.addMouseEventHandler(MOUSE_WHEEL, mouseWheelEventHandler);
+  }
+
+  addMouseEventHandler(mouseEventType, mouseEventHandler) {
+    const mouseEventHandlers = this.handlers[mouseEventType];
+
+    mouseEventHandlers.push(mouseEventHandler);
   }
 
   addEventHandler(canvas, type, handler) {
@@ -66,24 +59,30 @@ class MouseEvents {
   onMouseWheelEvent(event) {
     const mouseWheelEventType = MOUSE_WHEEL,
           mouseWheelEventHandlers = this.handlers[mouseWheelEventType],
-          delta = Math.max(-1, Math.min(1, event.wheelDelta)); ///
+          delta = deltaFromEvent(event);
 
     mouseWheelEventHandlers.forEach(function(mouseWheelEventHandler) {
       mouseWheelEventHandler(delta);
     });
   }
 
-  addMouseEventHandler(mouseEventType, mouseEventHandler) {
-    const mouseEventHandlers = this.handlers[mouseEventType];
-
-    mouseEventHandlers.push(mouseEventHandler);
-  }
-
   static fromNothing(canvas) {
-    const mouseEvents = new MouseEvents(canvas);
+    const handlers = {
+            MOUSE_UP: [],
+            MOUSE_DOWN: [],
+            MOUSE_MOVE: [],
+            MOUSE_WHEEL: []
+          },
+          mouseEvents = new MouseEvents(canvas, handlers);
 
     return mouseEvents;
   }
 }
 
 module.exports = MouseEvents;
+
+function deltaFromEvent(event) {
+  const delta = Math.max(-1, Math.min(1, event.wheelDelta)); ///
+
+  return delta;
+}
