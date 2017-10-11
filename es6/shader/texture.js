@@ -68,9 +68,10 @@ class TextureShader extends Shader {
   static fromNothing(canvas) {
     const vertexShader = createVertexShader(vertexShaderSource, canvas),
           fragmentShader = createFragmentShader(fragmentShaderSource, canvas),
-          colourShader = canvas.createShader(TextureShader, vertexShader, fragmentShader);
+          program = canvas.createProgram(vertexShader, fragmentShader),
+          textureShader = new TextureShader(program, canvas);
 
-    return colourShader;
+    return textureShader;
   }
 }
 

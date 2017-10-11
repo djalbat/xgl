@@ -1,9 +1,9 @@
 'use strict';
 
 const domUtilities = require('./utilities/dom'),
+      programMixin = require('./mixin/program'),
       textureMixin = require('./mixin/texture'),
       colourMixin = require('./mixin/colour'),
-      shaderMixin = require('./mixin/shader'),
       bufferMixin = require('./mixin/buffer'),
       matrixMixin = require('./mixin/matrix'),
       depthMixin = require('./mixin/depth'),
@@ -100,9 +100,9 @@ class Canvas {
   }
 }
 
+Object.assign(Canvas.prototype, programMixin);
 Object.assign(Canvas.prototype, textureMixin);
 Object.assign(Canvas.prototype, colourMixin);
-Object.assign(Canvas.prototype, shaderMixin);
 Object.assign(Canvas.prototype, bufferMixin);
 Object.assign(Canvas.prototype, matrixMixin);
 Object.assign(Canvas.prototype, depthMixin);

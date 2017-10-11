@@ -52,8 +52,9 @@ class ColourShader extends Shader {
   static fromNothing(canvas) {
     const vertexShader = createVertexShader(vertexShaderSource, canvas),
           fragmentShader = createFragmentShader(fragmentShaderSource, canvas),
-          colourShader = canvas.createShader(ColourShader, vertexShader, fragmentShader);
-
+          program = canvas.createProgram(vertexShader, fragmentShader),
+          colourShader = new ColourShader(program, canvas);
+    
     return colourShader;
   }
 }

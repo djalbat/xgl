@@ -42,9 +42,12 @@ class Scene extends Element {
   }
 
   drawElements(offset, rotation, position, projection, normal) {
+    const colourShaderProgram = this.colourShader.getProgram(),
+          textureShaderProgram = this.textureShader.getProgram();
+
     this.canvas.clear();
 
-    this.canvas.useShader(this.colourShader);
+    this.canvas.useProgram(colourShaderProgram);
 
     this.colourShader.bindBuffers(this.canvas);
 
@@ -52,7 +55,7 @@ class Scene extends Element {
 
     this.canvas.render(this.colourShader, offset, rotation, position, projection, normal);
 
-    this.canvas.useShader(this.textureShader);
+    this.canvas.useProgram(textureShaderProgram);
     
     this.textureShader.bindBuffers(this.canvas);
     
