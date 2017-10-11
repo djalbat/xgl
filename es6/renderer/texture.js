@@ -66,7 +66,7 @@ class TextureRenderer extends Renderer {
   }
 
   static fromNothing(canvas) {
-    const program = createProgram(vertexShaderSource, fragmentShaderSource),
+    const program = createProgram(vertexShaderSource, fragmentShaderSource, canvas),
           uniformLocations = TextureUniformLocations.fromProgram(program, canvas),
           attributeLocations = TextureAttributeLocations.fromProgram(program, canvas),
           textureRenderer = new TextureRenderer(program, uniformLocations, attributeLocations);

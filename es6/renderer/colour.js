@@ -49,7 +49,7 @@ class ColourRenderer extends Renderer {
   }
 
   static fromNothing(canvas) {
-    const program = createProgram(vertexShaderSource, fragmentShaderSource),
+    const program = createProgram(vertexShaderSource, fragmentShaderSource, canvas),
           uniformLocations = ColourUniformLocations.fromProgram(program, canvas),
           attributeLocations = ColourAttributeLocations.fromProgram(program, canvas),
           colourRenderer = new ColourRenderer(program, uniformLocations, attributeLocations);

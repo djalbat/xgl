@@ -5,22 +5,32 @@ const Element = require('./element'),
       Zoom = require('./camera/zoom'),
       angles = require('./camera/angles'),
       MouseEvents = require('./camera/mouseEvents'),
+      OffsetMatrix = require('./matrix/offset'),
       NormalMatrix = require('./matrix/normal'),
       RotationMatrix = require('./matrix/rotation'),
       PositionMatrix = require('./matrix/position'),
       ProjectionMatrix = require('./matrix/projection');
 
 class Camera extends Element {
-  constructor(zoom, canvas, updateHandler) {
+  constructor(zoom, offset, updateHandler, canvas) {
     super();
     
     this.zoom = zoom;
-    this.canvas = canvas;
+    this.offset = offset;
     this.updateHandler = updateHandler;
+    this.canvas = canvas;
   }
 
   getZoom() {
     return this.zoom;
+  }
+
+  getOffset() {
+    return this.offset;
+  }
+
+  getUpdateHandler() {
+    return this.updateHandler;
   }
 
   getCanvas() {
@@ -66,13 +76,14 @@ class Camera extends Element {
           distance = this.zoom.getDistance(),
           width = this.canvas.getWidth(),
           height = this.canvas.getHeight(),
+          offsetMatrix = OffsetMatrix.fromOffset(this.offset),
           rotationMatrix = RotationMatrix.fromXAngleYAngleAndZAngle(xAngle, yAngle, zAngle),
           positionMatrix = PositionMatrix.fromDistance(distance),
           projectionMatrix = ProjectionMatrix.fromWidthAndHeight(width, height),
           normalMatrix = NormalMatrix.fromRotationMatrix(rotationMatrix);
     
     if (this.updateHandler) {  ///
-      this.updateHandler(rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
+      this.updateHandler(offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
     }
   }
 
@@ -88,11 +99,12 @@ class Camera extends Element {
   }
 
   static fromProperties(properties) {
-    const { initialPosition } = properties,
+    const { initialPosition, initialOffset } = properties,
           zoom = Zoom.fromInitialPosition(initialPosition),
+          offset = initialOffset, ///
           canvas = new Canvas(),  ///
           updateHandler = null,  ///
-          camera = new Camera(zoom, canvas, updateHandler);
+          camera = new Camera(zoom, offset, updateHandler, canvas);
     
     camera.initialise();
 

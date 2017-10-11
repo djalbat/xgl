@@ -120,8 +120,8 @@ class Renderer {
 }
 
 function createProgram(vertexShaderSource, fragmentShaderSource, canvas) {
-  const vertexShader = canvas.createVertexRenderer(vertexShaderSource),
-        fragmentShader = canvas.createFragmentRenderer(fragmentShaderSource),
+  const vertexShader = canvas.createVertexShader(vertexShaderSource),
+        fragmentShader = canvas.createFragmentShader(fragmentShaderSource),
         program = canvas.createProgram(vertexShader, fragmentShader);
   
   return program;
