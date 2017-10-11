@@ -20,18 +20,13 @@ class AttributeLocations {
     return this.vertexNormalAttributeLocation;
   }
   
-  static fromProgram(program, canvas) {
+  static fromProgram(Class, program, canvas, ...remainingArguments) {
     const vertexPositionAttributeLocation = canvas.getAttributeLocation(program, vertexPositionAttributeName),
           vertexNormalAttributeLocation = canvas.getAttributeLocation(program, vertexNormalAttributeName),
-          attributeLocations = new AttributeLocations(vertexPositionAttributeLocation, vertexNormalAttributeLocation);
+          attributeLocations = new Class(vertexPositionAttributeLocation, vertexNormalAttributeLocation, ...remainingArguments);
 
     return attributeLocations;
   }  
 }
-
-Object.assign(AttributeLocations, {
-  vertexPositionAttributeName: vertexPositionAttributeName,
-  vertexNormalAttributeName: vertexNormalAttributeName
-});
 
 module.exports = AttributeLocations;

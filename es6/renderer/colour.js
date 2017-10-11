@@ -3,22 +3,27 @@
 const necessary = require('necessary');
 
 const Renderer = require('../renderer'),
-      UniformLocations = require('./locations/uniform'),
-      AttributeLocations = require('./locations/attribute'),
-      vertexShaderSource = require('./source/colour/vertex'),
-      fragmentShaderSource = require('./source/colour/fragment');
+      vertexShaderSource = require('./source/colour/vertexShader'),
+      fragmentShaderSource = require('./source/colour/fragmentShader'),
+      ColourUniformLocations = require('./locations/colour/uniform'),
+      ColourAttributeLocations = require('./locations/colour/attribute');
 
-const { vertexColourAttributeName } = vertexShaderSource,
-      { arrayUtilities } = necessary,
+const { arrayUtilities } = necessary,
       { merge } = arrayUtilities,
       add = merge;  ///
 
 class ColourRenderer extends Renderer {
-  constructor(program, uniformLocations, attributeLocations, vertexColourAttributeLocation, vertexColourData) {
+  constructor(program, uniformLocations, attributeLocations, vertexColourData) {
     super(program, uniformLocations, attributeLocations);
 
-    this.vertexColourAttributeLocation = vertexColourAttributeLocation;
     this.vertexColourData = vertexColourData;
+  }
+
+  getVertexColourAttributeLocation() {
+    const attributeLocations = this.getAttributeLocations(),
+          vertexColourAttributeLocation = attributeLocations.getVertexColourAttributeLocation();
+
+    return vertexColourAttributeLocation;
   }
 
   addVertexColourData(vertexColourData) {
@@ -42,20 +47,20 @@ class ColourRenderer extends Renderer {
   }
 
   bindVertexColourBuffer(canvas) {
-    const vertexColourComponents = 4;
+    const vertexColourAttributeLocation = this.getVertexColourAttributeLocation(),
+          vertexColourComponents = 4;
 
-    canvas.bindBuffer(this.vertexColourBuffer, this.vertexColourAttributeLocation, vertexColourComponents);
+    canvas.bindBuffer(this.vertexColourBuffer, vertexColourAttributeLocation, vertexColourComponents);
   }
 
   static fromNothing(canvas) {
     const vertexShader = canvas.createVertexRenderer(vertexShaderSource),
           fragmentShader = canvas.createFragmentRenderer(fragmentShaderSource),
           program = canvas.createProgram(vertexShader, fragmentShader),
-          vertexColourAttributeLocation = canvas.getAttributeLocation(program, vertexColourAttributeName),
-          uniformLocations = UniformLocations.fromProgram(program, canvas),
-          attributeLocations = AttributeLocations.fromProgram(program, canvas),
+          uniformLocations = ColourUniformLocations.fromProgram(program, canvas),
+          attributeLocations = ColourAttributeLocations.fromProgram(program, canvas),
           vertexColourData = [],
-          colourRenderer = new ColourRenderer(program, uniformLocations, attributeLocations, vertexColourAttributeLocation, vertexColourData);
+          colourRenderer = new ColourRenderer(program, uniformLocations, attributeLocations, vertexColourData);
     
     return colourRenderer;
   }

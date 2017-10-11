@@ -28,7 +28,15 @@ class Renderer {
   getProgram() {
     return this.program;
   }
-
+  
+  getUniformLocations() {
+    return this.uniformLocations;
+  }
+  
+  getAttributeLocations() {
+    return this.attributeLocations;
+  }
+  
   getOffsetMatrixUniformLocation() { return this.uniformLocations.getOffsetMatrixUniformLocation(); }
 
   getRotationMatrixUniformLocation() { return this.uniformLocations.getRotationMatrixUniformLocation(); }

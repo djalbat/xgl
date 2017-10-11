@@ -35,24 +35,16 @@ class UniformLocations {
     return this.normalMatrixUniformLocation;
   }
 
-  static fromProgram(program, canvas) {
+  static fromProgram(Class, program, canvas, ...remainingArguments) {
     const offsetMatrixUniformLocation = canvas.getUniformLocation(program, offsetMatrixName),
           rotationMatrixUniformLocation = canvas.getUniformLocation(program, rotationMatrixName),
           positionMatrixUniformLocation = canvas.getUniformLocation(program, positionMatrixName),
           projectionMatrixUniformLocation = canvas.getUniformLocation(program, projectionMatrixName),
           normalMatrixUniformLocation = canvas.getUniformLocation(program, normalMatrixName),
-          uniformLocations = new UniformLocations(offsetMatrixUniformLocation, rotationMatrixUniformLocation, positionMatrixUniformLocation, projectionMatrixUniformLocation, normalMatrixUniformLocation);
+          uniformLocations = new Class(offsetMatrixUniformLocation, rotationMatrixUniformLocation, positionMatrixUniformLocation, projectionMatrixUniformLocation, normalMatrixUniformLocation, ...remainingArguments);
     
     return uniformLocations;       
   }
 }
-
-Object.assign(UniformLocations, {
-  offsetMatrixName: offsetMatrixName,
-  rotationMatrixName: rotationMatrixName,
-  positionMatrixName: positionMatrixName,
-  projectionMatrixName: projectionMatrixName,
-  normalMatrixName: normalMatrixName,
-});
 
 module.exports = UniformLocations;
