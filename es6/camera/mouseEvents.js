@@ -26,7 +26,6 @@ class MouseEvents {
     this.addEventHandler(canvas, 'mousedown', function(event) { this.onMouseEvent(MOUSE_DOWN, event) }.bind(this) );
     this.addEventHandler(canvas, 'mousemove', function(event) { this.onMouseEvent(MOUSE_MOVE, event) }.bind(this) );
     this.addEventHandler(canvas, 'mousewheel', function(event) { this.onMouseWheelEvent(event) }.bind(this) );
-    this.addEventHandler(canvas, 'DOMMouseScroll', function(event) { this.onMouseWheelEvent(event) }.bind(this) );
   }
 
   addMouseUpEventHandler(mouseUpEventHandler) {
@@ -67,7 +66,7 @@ class MouseEvents {
   onMouseWheelEvent(event) {
     const mouseWheelEventType = MOUSE_WHEEL,
           mouseWheelEventHandlers = this.handlers[mouseWheelEventType],
-          delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail))); ///
+          delta = Math.max(-1, Math.min(1, event.wheelDelta)); ///
 
     mouseWheelEventHandlers.forEach(function(mouseWheelEventHandler) {
       mouseWheelEventHandler(delta);

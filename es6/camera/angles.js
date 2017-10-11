@@ -1,33 +1,39 @@
 'use strict';
 
-const AngleCoordinates = require('./angleCoordinates'),
-      MouseCoordinates = require('./mouseCoordinates');
+const necessary = require('necessary');
 
-const INITIAL_MOUSE_COORDINATES = new MouseCoordinates(0, 0),
-      INITIAL_ANGLE_COORDINATES = new AngleCoordinates(0, Math.PI / 2);
+const vec2 = require('../gl/vec2'),
+      constants = require('../constants');
+
+const { arrayUtilities } = necessary,
+      { first, second } = arrayUtilities,
+      { add, subtract, scale } = vec2,
+      { ANGLE_COORDINATES_SCALAR, INITIAL_MOUSE_COORDINATES, INITIAL_ANGLE_COORDINATES } = constants;
 
 class Angles {
-  constructor(mouseDown, offsetMouseCoordinates, angleCoordinates, previousAngleCoordinates) {
+  constructor(mouseDown, mouseCoordinates, angleCoordinates, previousAngleCoordinates) {
     this.mouseDown = mouseDown;
-    this.offsetMouseCoordinates = offsetMouseCoordinates;
+    this.mouseCoordinates = mouseCoordinates;
     this.angleCoordinates = angleCoordinates;
     this.previousAngleCoordinates = previousAngleCoordinates;
   }
 
   getXAngle() {
-    const xAngle = -this.angleCoordinates.getY(); ///
+    const secondAngleCoordinate = second(this.angleCoordinates),
+          xAngle = -secondAngleCoordinate; ///
 
     return xAngle;
   }
   
   getYAngle() {
-    const yAngle = 0;
+    const yAngle = 0; ///
     
     return yAngle;
   }
 
   getZAngle() {
-    const zAngle = +this.angleCoordinates.getX(); ///
+    const firstAngleCoordinate = first(this.angleCoordinates),
+          zAngle = +firstAngleCoordinate; ///
 
     return zAngle;
   }
@@ -39,7 +45,7 @@ class Angles {
 
   mouseDownEventHandler(mouseCoordinates) {
     this.mouseDown = true;
-    this.offsetMouseCoordinates = mouseCoordinates;
+    this.mouseCoordinates = mouseCoordinates;
   }
 
   mouseMoveEventHandler(mouseCoordinates) {
@@ -49,18 +55,19 @@ class Angles {
   }
 
   updateAngleCoordinates(mouseCoordinates) {
-    const relativeMouseCoordinates = mouseCoordinates.minus(this.offsetMouseCoordinates),
-          relativeAngleCoordinates = relativeMouseCoordinates.multipliedBy(Math.PI / 180);  ///
+    const scalar = ANGLE_COORDINATES_SCALAR,
+          relativeMouseCoordinates = subtract(mouseCoordinates, this.mouseCoordinates),
+          relativeAngleCoordinates = scale(relativeMouseCoordinates, scalar);
 
-    this.angleCoordinates = this.previousAngleCoordinates.plus(relativeAngleCoordinates);
+    this.angleCoordinates = add(this.previousAngleCoordinates, relativeAngleCoordinates);
   }
 
   static fromNothing() {
     const mouseDown = false,
-          offsetMouseCoordinates = INITIAL_MOUSE_COORDINATES,
+          mouseCoordinates = INITIAL_MOUSE_COORDINATES,
           angleCoordinates = INITIAL_ANGLE_COORDINATES,
           previousAngleCoordinates = angleCoordinates,
-          angles = new Angles(mouseDown, offsetMouseCoordinates, angleCoordinates, previousAngleCoordinates);
+          angles = new Angles(mouseDown, mouseCoordinates, angleCoordinates, previousAngleCoordinates);
 
     return angles;
   }
