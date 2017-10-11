@@ -4,6 +4,7 @@ const Element = require('./element'),
       Canvas = require('./canvas'),
       Zoom = require('./camera/zoom'),
       angles = require('./camera/angles'),
+      keyEvents = require('./camera/keyEvents'),
       MouseEvents = require('./camera/mouseEvents'),
       OffsetMatrix = require('./matrix/offset'),
       NormalMatrix = require('./matrix/normal'),
@@ -35,6 +36,16 @@ class Camera extends Element {
 
   getCanvas() {
     return this.canvas;
+  }
+
+  addKeyEventHandlers() {
+    keyEvents.addCtrlKeyHandler(function(keyDown) {
+      debugger
+    });
+
+    keyEvents.addShiftKeyHandler(function(keyDown) {
+      debugger
+    });
   }
   
   addMouseEventHandlers() {
@@ -95,6 +106,7 @@ class Camera extends Element {
   }
   
   initialise() {
+    this.addKeyEventHandlers();
     this.addMouseEventHandlers();
   }
 
