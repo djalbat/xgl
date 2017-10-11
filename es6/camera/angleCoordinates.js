@@ -1,6 +1,6 @@
 'use strict';
 
-class MouseCoordinates {
+class AngleCoordinates {
   constructor(x, y) {
     this.x = x;
     this.y = y;
@@ -22,32 +22,32 @@ class MouseCoordinates {
     this.y = y;
   }
 
-  plus(mouseCoordinates) {
-    let x = mouseCoordinates.getX(),
-        y = mouseCoordinates.getY();
+  plus(angleCoordinates) {
+    let x = angleCoordinates.getX(),
+        y = angleCoordinates.getY();
 
     x = this.x + x;
     y = this.y + y;
 
-    return new MouseCoordinates(x, y);
+    return new AngleCoordinates(x, y);
   }
 
-  minus(mouseCoordinates) {
-    let x = mouseCoordinates.getX(),
-        y = mouseCoordinates.getY();
+  minus(angleCoordinates) {
+    let x = angleCoordinates.getX(),
+        y = angleCoordinates.getY();
 
     x = this.x - x;
     y = this.y - y;
 
-    return new MouseCoordinates(x, y);
+    return new AngleCoordinates(x, y);
   }
 
   multipliedBy(scalar) {
     const x = this.x * scalar,
           y = this.y * scalar;
 
-    return new MouseCoordinates(x, y);
+    return new AngleCoordinates(x, y);
   }
 }
 
-module.exports = MouseCoordinates;
+module.exports = AngleCoordinates;

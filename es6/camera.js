@@ -60,17 +60,14 @@ class Camera extends Element {
   }
 
   update() {
-    const xAxisAngle = angles.getXAxisAngle(),
-          yAxisAngle = angles.getYAxisAngle(),
+    const xAngle = angles.getXAngle(),
+          yAngle = angles.getYAngle(),
+          zAngle = angles.getZAngle(),
           distance = this.zoom.getDistance(),
           width = this.canvas.getWidth(),
           height = this.canvas.getHeight(),
-          xAngle = xAxisAngle,  ///
-          yAngle = undefined, ///
-          zAngle = yAxisAngle, ///
-          zCoordinate = -distance, ///
           rotation = Rotation.fromXAngleYAngleAndZAngle(xAngle, yAngle, zAngle),
-          position = Position.fromZCoordinate(zCoordinate),
+          position = Position.fromDistance(distance),
           projection = Projection.fromWidthAndHeight(width, height),
           normal = Normal.fromRotation(rotation);
     

@@ -1,6 +1,6 @@
 'use strict';
 
-const AngleCoordinates = require('./coordinates2D'),  ///
+const AngleCoordinates = require('./angleCoordinates'),
       MouseCoordinates = require('./mouseCoordinates');
 
 const INITIAL_MOUSE_COORDINATES = new MouseCoordinates(0, 0),
@@ -14,16 +14,22 @@ class Angles {
     this.previousAngleCoordinates = previousAngleCoordinates;
   }
 
-  getXAxisAngle() {
-    const xAxisAngle = -this.angleCoordinates.getY(); ///
+  getXAngle() {
+    const xAngle = -this.angleCoordinates.getY(); ///
 
-    return xAxisAngle;
+    return xAngle;
+  }
+  
+  getYAngle() {
+    const yAngle = 0;
+    
+    return yAngle;
   }
 
-  getYAxisAngle() {
-    const yAxisAngle = +this.angleCoordinates.getX(); ///
+  getZAngle() {
+    const zAngle = +this.angleCoordinates.getX(); ///
 
-    return yAxisAngle;
+    return zAngle;
   }
   
   mouseUpEventHandler(mouseCoordinates) {

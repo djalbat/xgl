@@ -4,10 +4,6 @@ const mat4 = require('../gl/mat4');
 
 const { create, translate } = mat4;
 
-const defaultXCoordinate = +0.0,
-      defaultYCoordinate = +0.0,
-      defaultZCoordinate = -6.0;
-
 class Position {
   constructor(mat4) {
     this.mat4 = mat4;
@@ -17,9 +13,16 @@ class Position {
     return this.mat4;
   }
 
-  static fromZCoordinate(zCoordinate) { return Position.fromCoordinates(undefined, undefined, zCoordinate); }
+  static fromDistance(distance) {
+    const xCoordinate = 0,
+          yCoordinate = 0,
+          zCoordinate = -distance, ///
+          position = Position.fromCoordinates(xCoordinate, yCoordinate, zCoordinate);
 
-  static fromCoordinates(xCoordinate = defaultXCoordinate, yCoordinate = defaultYCoordinate, zCoordinate = defaultZCoordinate) {
+    return position;
+  }
+
+  static fromCoordinates(xCoordinate, yCoordinate, zCoordinate) {
     const mat4 = create(),
           position = new Position(mat4);
 
