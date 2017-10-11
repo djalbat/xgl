@@ -1,7 +1,7 @@
 'use strict';
 
 const samplerName = 'uSampler',
-      fragmentShaderSource = `
+      fragmentShaderSource = new String(`
         
         uniform sampler2D ${samplerName};
 
@@ -15,6 +15,10 @@ const samplerName = 'uSampler',
           gl_FragColor = vec4(texelColour.rgb * vLighting, texelColour.a);  
         }
         
-      `;
+      `);
+
+Object.assign(fragmentShaderSource, {
+  samplerName: samplerName
+});
 
 module.exports = fragmentShaderSource;

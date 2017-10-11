@@ -1,7 +1,10 @@
 'use strict';
 
-const vertexPositionAttributeName = 'aVertexPosition',
-      vertexNormalAttributeName = 'aVertexNormal';
+const lightingSource = require('../source/lighting'),
+      positionSource = require('../source/position');
+
+const { vertexNormalAttributeName } = lightingSource,
+      { vertexPositionAttributeName } = positionSource;
 
 class AttributeLocations {
   constructor(vertexPositionAttributeLocation, vertexNormalAttributeLocation) {

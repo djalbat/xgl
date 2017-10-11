@@ -7,12 +7,11 @@ const Shader = require('../shader'),
       fragmentShaderSource = require('./source/colour/fragment');
 
 const { createVertexShader, createFragmentShader } = Shader,
+      { vertexColourAttributeName } = vertexShaderSource,
       { arrayUtilities } = necessary,
       { merge } = arrayUtilities,
       add = merge;  ///
 
-const vertexColourAttributeName = 'aVertexColour';
-  
 class ColourShader extends Shader {
   constructor(program, canvas) {
     super(program, canvas);

@@ -7,18 +7,18 @@ const Shader = require('../shader'),
       fragmentShaderSource = require('./source/texture/fragment');
 
 const { createVertexShader, createFragmentShader } = Shader,
+      { textureCoordinateAttributeName } = vertexShaderSource,
+      { samplerName } = fragmentShaderSource,
       { arrayUtilities } = necessary,
       { merge } = arrayUtilities,
       add = merge;  ///
-
-const samplerName = 'uSampler',
-      textureCoordinateAttributeName = 'aTextureCoordinate';
 
 class TextureShader extends Shader {
   constructor(program, canvas) {
     super(program, canvas);
 
     this.samplerUniformLocation = canvas.getUniformLocation(program, samplerName);
+
     this.textureCoordinateAttributeLocation = canvas.getAttributeLocation(program, textureCoordinateAttributeName);
 
     this.textureCoordinateData = [];

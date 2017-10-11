@@ -1,11 +1,12 @@
 'use strict';
 
-const UniformLocations = require('../locations/uniform'),
-      AttributeLocations = require('../locations/attribute');
+const offsetMatrixName = 'uOffsetMatrix',
+      rotationMatrixName = 'uRotationMatrix',
+      positionMatrixName = 'uPositionMatrix',
+      projectionMatrixName = 'uPerspectiveMatrix',
+      vertexPositionAttributeName = 'aVertexPosition';
 
-const { offsetMatrixName, rotationMatrixName, positionMatrixName, projectionMatrixName } = UniformLocations,
-      { vertexPositionAttributeName } = AttributeLocations,
-      positionSource = `
+const positionSource = new String(`
   
         uniform mat4 ${offsetMatrixName},
                      ${rotationMatrixName},
@@ -20,6 +21,14 @@ const { offsetMatrixName, rotationMatrixName, positionMatrixName, projectionMatr
           return position;
         }
         
-      `;
+      `);
+
+Object.assign(positionSource, {
+  offsetMatrixName: offsetMatrixName,
+  rotationMatrixName: rotationMatrixName,
+  positionMatrixName: positionMatrixName,
+  projectionMatrixName: projectionMatrixName,
+  vertexPositionAttributeName: vertexPositionAttributeName
+});
     
 module.exports = positionSource;

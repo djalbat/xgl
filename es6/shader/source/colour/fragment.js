@@ -1,6 +1,6 @@
 'use strict';
 
-const fragmentShaderSource = `
+const fragmentShaderSource = new String(`
         
         varying lowp vec4 vColour;
               
@@ -10,6 +10,6 @@ const fragmentShaderSource = `
           gl_FragColor = vec4(vColour.rgb * vLighting, vColour.a);
         }
         
-      `;
+      `);
 
 module.exports = fragmentShaderSource;

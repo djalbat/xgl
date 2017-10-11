@@ -1,10 +1,10 @@
 'use strict';
 
-const offsetMatrixName = 'uOffsetMatrix',
-      rotationMatrixName = 'uRotationMatrix',
-      positionMatrixName = 'uPositionMatrix',
-      projectionMatrixName = 'uPerspectiveMatrix',
-      normalMatrixName = 'uNormalMatrix';
+const lightingSource = require('../source/lighting'),
+      positionSource = require('../source/position');
+
+const { normalMatrixName } = lightingSource,
+      { offsetMatrixName, rotationMatrixName, positionMatrixName, projectionMatrixName } = positionSource;
 
 class UniformLocations {
   constructor(offsetMatrixUniformLocation, rotationMatrixUniformLocation, positionMatrixUniformLocation, projectionMatrixUniformLocation, normalMatrixUniformLocation) {

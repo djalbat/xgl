@@ -4,7 +4,7 @@ const lightingSource = require('../../source/lighting'),
       positionSource = require('../../source/position');
 
 const vertexColourAttributeName = 'aVertexColour',
-      vertexShaderSource = `
+      vertexShaderSource = new String(`
     
         attribute vec4 ${vertexColourAttributeName};
 
@@ -24,6 +24,10 @@ const vertexColourAttributeName = 'aVertexColour',
           vColour = ${vertexColourAttributeName};                    
         }
         
-      `;
+      `);
+
+Object.assign(vertexShaderSource, {
+  vertexColourAttributeName: vertexColourAttributeName
+});
 
 module.exports = vertexShaderSource;

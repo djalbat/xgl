@@ -1,11 +1,9 @@
 'use strict';
 
-const UniformLocations = require('../locations/uniform'),
-      AttributeLocations = require('../locations/attribute');
+const normalMatrixName = 'uNormalMatrix',
+      vertexNormalAttributeName = 'aVertexNormal';
 
-const { normalMatrixName } = UniformLocations,
-      { vertexNormalAttributeName } = AttributeLocations,
-      lightingSource = `
+const lightingSource = new String(`
   
         uniform mat4 ${normalMatrixName};
 
@@ -25,7 +23,11 @@ const { normalMatrixName } = UniformLocations,
           return lighting;
         }
 
-      `;
+      `);
+
+Object.assign(lightingSource, {
+  normalMatrixName: normalMatrixName,
+  vertexNormalAttributeName: vertexNormalAttributeName
+});
 
 module.exports = lightingSource;
-  

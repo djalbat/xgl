@@ -4,7 +4,7 @@ const lightingSource = require('../../source/lighting'),
       positionSource = require('../../source/position');
 
 const textureCoordinateAttributeName = 'aTextureCoordinate',
-      vertexShaderSource = `
+      vertexShaderSource = new String(`
         
         attribute vec2 ${textureCoordinateAttributeName};
         
@@ -24,6 +24,10 @@ const textureCoordinateAttributeName = 'aTextureCoordinate',
           vTextureCoordinate = ${textureCoordinateAttributeName};
         }
         
-      `;
+      `);
+
+Object.assign(vertexShaderSource, {
+  textureCoordinateAttributeName: textureCoordinateAttributeName
+});
 
 module.exports = vertexShaderSource;
