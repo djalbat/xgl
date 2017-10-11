@@ -7,7 +7,6 @@ const programMixin = require('./canvas/mixin/program'),
       bufferMixin = require('./canvas/mixin/buffer'),
       matrixMixin = require('./canvas/mixin/matrix'),
       depthMixin = require('./canvas/mixin/depth'),
-      mouseMixin = require('./canvas/mixin/mouse'),
       domUtilities = require('./utilities/dom');
 
 const { domElementFromSelector } = domUtilities;
@@ -104,6 +103,5 @@ Object.assign(Canvas.prototype, shaderMixin);
 Object.assign(Canvas.prototype, bufferMixin);
 Object.assign(Canvas.prototype, matrixMixin);
 Object.assign(Canvas.prototype, depthMixin);
-Object.assign(Canvas.prototype, mouseMixin);
 
 module.exports = Canvas;

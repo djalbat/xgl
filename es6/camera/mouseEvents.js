@@ -49,7 +49,7 @@ class MouseEvents {
 
   onMouseEvent(mouseEventType, event) {
     const mouseEventHandlers = this.handlers[mouseEventType],
-          mouseCoordinates = this.canvas.mouseCoordinatesFromEvent(event);
+          mouseCoordinates = mouseCoordinatesFromEvent(event, this.canvas);
 
     mouseEventHandlers.forEach(function(mouseEventHandler) {
       mouseEventHandler(mouseCoordinates);
@@ -85,4 +85,15 @@ function deltaFromEvent(event) {
   const delta = Math.max(-1, Math.min(1, event.wheelDelta)); ///
 
   return delta;
+}
+
+function mouseCoordinatesFromEvent(event, canvas) {
+  const domElement = canvas.getDOMElement(),
+        domElementBoundingClientRect = domElement.getBoundingClientRect(),
+        mouseCoordinates = [
+          +(event.clientX - domElementBoundingClientRect.left),
+          -(event.clientY - domElementBoundingClientRect.top)
+        ];
+
+  return mouseCoordinates;
 }
