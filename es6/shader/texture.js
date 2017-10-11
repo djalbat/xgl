@@ -2,51 +2,17 @@
 
 const necessary = require('necessary');
 
-const Shader = require('../shader');
+const Shader = require('../shader'),
+      vertexShaderSource = require('./source/texture/vertex'),
+      fragmentShaderSource = require('./source/texture/fragment');
 
-const { createVertexShader, createFragmentShader, calculateLightingSource, calculatePositionSource } = Shader,
+const { createVertexShader, createFragmentShader } = Shader,
       { arrayUtilities } = necessary,
       { merge } = arrayUtilities,
       add = merge;  ///
 
 const samplerName = 'uSampler',
-      textureCoordinateAttributeName = 'aTextureCoordinate',
-      vertexShaderSource = `
-        
-        attribute vec2 ${textureCoordinateAttributeName};
-        
-        ${calculateLightingSource}
-      
-        ${calculatePositionSource}
-
-        varying highp vec3 vLighting;
-        
-        varying highp vec2 vTextureCoordinate;
-        
-        void main() {
-          vLighting = calculateLighting();
-
-          gl_Position = calculatePosition();
-                    
-          vTextureCoordinate = ${textureCoordinateAttributeName};
-        }
-        
-      `,
-      fragmentShaderSource = `
-        
-        uniform sampler2D ${samplerName};
-
-        varying highp vec3 vLighting;
-                   
-        varying highp vec2 vTextureCoordinate;
-        
-        void main() {
-          highp vec4 texelColour = texture2D(${samplerName}, vTextureCoordinate);
-          
-          gl_FragColor = vec4(texelColour.rgb * vLighting, texelColour.a);  
-        }
-        
-      `;
+      textureCoordinateAttributeName = 'aTextureCoordinate';
 
 class TextureShader extends Shader {
   constructor(program, canvas) {

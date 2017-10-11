@@ -2,46 +2,16 @@
 
 const necessary = require('necessary');
 
-const Shader = require('../shader');
+const Shader = require('../shader'),
+      vertexShaderSource = require('./source/colour/vertex'),
+      fragmentShaderSource = require('./source/colour/fragment');
 
-const { createVertexShader, createFragmentShader, calculateLightingSource, calculatePositionSource } = Shader,
+const { createVertexShader, createFragmentShader } = Shader,
       { arrayUtilities } = necessary,
       { merge } = arrayUtilities,
       add = merge;  ///
 
-const vertexColourAttributeName = 'aVertexColour',
-      vertexShaderSource = `
-    
-        attribute vec4 ${vertexColourAttributeName};
-
-        ${calculateLightingSource}
-      
-        ${calculatePositionSource}
-    
-        varying highp vec3 vLighting;
-        
-        varying lowp vec4 vColour;
-        
-        void main() {
-          vLighting = calculateLighting();
-
-          gl_Position = calculatePosition();
-
-          vColour = ${vertexColourAttributeName};                    
-        }
-        
-      `,
-      fragmentShaderSource = `
-        
-        varying lowp vec4 vColour;
-              
-        varying highp vec3 vLighting;
-
-        void main() {
-          gl_FragColor = vec4(vColour.rgb * vLighting, vColour.a);
-        }
-        
-      `;
+const vertexColourAttributeName = 'aVertexColour';
   
 class ColourShader extends Shader {
   constructor(program, canvas) {
