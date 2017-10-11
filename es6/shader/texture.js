@@ -3,6 +3,8 @@
 const necessary = require('necessary');
 
 const Shader = require('../shader'),
+      UniformLocations = require('./locations/uniform'),
+      AttributeLocations = require('./locations/attribute'),
       vertexShaderSource = require('./source/texture/vertex'),
       fragmentShaderSource = require('./source/texture/fragment');
 
@@ -14,14 +16,12 @@ const { createVertexShader, createFragmentShader } = Shader,
       add = merge;  ///
 
 class TextureShader extends Shader {
-  constructor(program, canvas) {
-    super(program, canvas);
+  constructor(program, uniformLocations, attributeLocations, samplerUniformLocation, textureCoordinateAttributeLocation, textureCoordinateData) {
+    super(program, uniformLocations, attributeLocations);
 
-    this.samplerUniformLocation = canvas.getUniformLocation(program, samplerName);
-
-    this.textureCoordinateAttributeLocation = canvas.getAttributeLocation(program, textureCoordinateAttributeName);
-
-    this.textureCoordinateData = [];
+    this.samplerUniformLocation = samplerUniformLocation;
+    this.textureCoordinateAttributeLocation = textureCoordinateAttributeLocation;
+    this.textureCoordinateData = textureCoordinateData;
   }
 
   addTextureCoordinateData(textureCoordinateData) {
@@ -69,7 +69,12 @@ class TextureShader extends Shader {
     const vertexShader = createVertexShader(vertexShaderSource, canvas),
           fragmentShader = createFragmentShader(fragmentShaderSource, canvas),
           program = canvas.createProgram(vertexShader, fragmentShader),
-          textureShader = new TextureShader(program, canvas);
+          uniformLocations = UniformLocations.fromProgram(program, canvas),
+          attributeLocations = AttributeLocations.fromProgram(program, canvas),
+          samplerUniformLocation = canvas.getUniformLocation(program, samplerName),
+          textureCoordinateAttributeLocation = canvas.getAttributeLocation(program, textureCoordinateAttributeName),
+          textureCoordinateData = [],
+          textureShader = new TextureShader(program, uniformLocations, attributeLocations, samplerUniformLocation, textureCoordinateAttributeLocation, textureCoordinateData);
 
     return textureShader;
   }

@@ -2,9 +2,6 @@
 
 const necessary = require('necessary');
 
-const UniformLocations = require('./shader/locations/uniform'),
-      AttributeLocations = require('./shader/locations/attribute');
-
 const { arrayUtilities } = necessary,
       { merge } = arrayUtilities,
       add = merge;  ///
@@ -13,10 +10,10 @@ const vertexPositionComponents = 3,
       vertexNormalComponents = 3;
 
 class Shader {
-  constructor(program, canvas) {
+  constructor(program, uniformLocations, attributeLocations) {
     this.program = program;
-    this.uniformLocations = UniformLocations.fromProgram(program, canvas);
-    this.attributeLocations = AttributeLocations.fromProgram(program, canvas);
+    this.uniformLocations = uniformLocations;
+    this.attributeLocations = attributeLocations;
 
     this.vertexPositionData = [];
     this.vertexNormalData = [];
@@ -114,7 +111,7 @@ function createVertexShader(vertexShaderSource, canvas) {
   const context = canvas.getContext(),
         { VERTEX_SHADER } = context,
         type = VERTEX_SHADER,
-        vertexShader = createShader(type, vertexShaderSource, canvas);
+        vertexShader = canvas.createShader(type, vertexShaderSource);
 
   return vertexShader;
 }
@@ -123,7 +120,7 @@ function createFragmentShader(fragmentShaderSource, canvas) {
   const context = canvas.getContext(),
         { FRAGMENT_SHADER } = context,
         type = FRAGMENT_SHADER,
-        vertexShader = createShader(type, fragmentShaderSource, canvas);
+        vertexShader = canvas.createShader(type, fragmentShaderSource);
 
   return vertexShader;
 }
@@ -135,21 +132,3 @@ Object.assign(Shader, {
 
 module.exports = Shader;
 
-function createShader(type, shaderSource, canvas) {
-  const context = canvas.getContext(),
-        { COMPILE_STATUS } = context,
-        pname = COMPILE_STATUS,
-        shader = context.createShader(type);
-
-  context.shaderSource(shader, shaderSource);
-
-  context.compileShader(shader);
-
-  const compileStatus = context.getShaderParameter(shader, pname);
-
-  if (!compileStatus) {
-    throw new Error(`Unable to create the shader.`);
-  }
-
-  return shader;
-}

@@ -5,6 +5,7 @@ function createProgram(vertexShader, fragmentShader) {
 
   this.context.attachShader(program, vertexShader);
   this.context.attachShader(program, fragmentShader);
+  
   this.context.linkProgram(program);
   
   return program;
@@ -13,7 +14,6 @@ function createProgram(vertexShader, fragmentShader) {
 function useProgram(program) {
   this.context.useProgram(program);
 }
-
 
 module.exports = {
   createProgram: createProgram,
