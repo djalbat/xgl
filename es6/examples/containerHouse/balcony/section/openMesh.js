@@ -1,11 +1,11 @@
 'use strict';
 
-const vec3 = require('gl-vec3');  ///
-
-const ColourCuboid = require('../../../common/cuboid/colour'),
+const vec3 = require('../../../../gl/vec3'),
+      ColourCuboid = require('../../../common/cuboid/colour'),
       ColourCylinder = require('../../../common/cylinder/colour');
 
-const overallHeight = 0.25,
+const { add } = vec3,
+      overallHeight = 0.25,
       overallThickness = 0.025,
       widthwiseCount = 10,
       depthwiseCount = 5,
@@ -48,11 +48,3 @@ const OpenMesh = (properties) => {
 };
 
 module.exports = OpenMesh;
-
-function add(vec1, vec2) {
-  const vec = [];
-
-  vec3.add(vec, vec1, vec2);
-
-  return vec;
-}

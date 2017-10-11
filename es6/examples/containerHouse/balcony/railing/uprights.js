@@ -1,8 +1,9 @@
 'use strict';
 
-const vec3 = require('gl-vec3');  ///
+const vec3 = require('../../../../gl/vec3'),
+      Upright = require('./upright');
 
-const Upright = require('./upright');
+const { add } = vec3;
 
 const Uprights = (properties) => {
   const { offset, height, length } = properties,
@@ -22,11 +23,3 @@ const Uprights = (properties) => {
 };
 
 module.exports = Uprights;
-
-function add(vec1, vec2) {
-  const vec = [];
-
-  vec3.add(vec, vec1, vec2);
-
-  return vec;
-}

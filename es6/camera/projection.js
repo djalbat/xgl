@@ -1,8 +1,7 @@
 'use strict';
 
-const mat4 = require('gl-mat4');  ///
-
-const constants = require('../constants');
+const mat4 = require('../gl/mat4'),
+      constants = require('../constants');
 
 const { create, perspective } = mat4,
       { FIELD_OF_VIEW, Z_NEAR, Z_FAR } = constants;

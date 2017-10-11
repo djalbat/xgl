@@ -1,14 +1,14 @@
 'use strict';
 
-const vec3 = require('gl-vec3'),  ///
-      vec4 = require('gl-vec4'),  ///
-      mat4 = require('gl-mat4');  ///
-
-const arrayUtilities = require('../utilities/array');
+const vec3 = require('../gl/vec3'),
+      vec4 = require('../gl/vec4'),
+      mat4 = require('../gl/mat4'),
+      arrayUtilities = require('../utilities/array');
 
 const { dice, flatten } = arrayUtilities,
       { create, translate, scale, rotate } = mat4,
-      { transformMat4 } = vec4;
+      { transformMat4 } = vec4,
+      { subtract, cross } = vec3;
 
 const defaultWidth = 1,
       defaultDepth = 1,
@@ -96,19 +96,3 @@ module.exports = {
   calculateVertexNormalData: calculateVertexNormalData,
   calculateVertexIndexData: calculateVertexIndexData
 };
-
-function subtract(vec1, vec2) {
-  const vec = [];
-
-  vec3.subtract(vec, vec1, vec2);
-
-  return vec;
-}
-
-function cross(vec1, vec2) {
-  const vec = [];
-
-  vec3.cross(vec, vec1, vec2);
-
-  return vec;
-}

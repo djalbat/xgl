@@ -1,11 +1,11 @@
 'use strict';
 
-const vec3 = require('gl-vec3');  ///
-
-const TopRail = require('./railing/topRail'),
+const vec3 = require('../../../gl/vec3'),
+      TopRail = require('./railing/topRail'),
       Uprights = require('./railing/uprights');
 
-const { thickness } = TopRail,
+const { add } = vec3,
+      { thickness } = TopRail,
       height = 3;
 
 const Railing = (properties) => {
@@ -24,11 +24,3 @@ module.exports = Railing;
 Object.assign(Railing, {
   thickness: thickness
 });
-
-function add(vec1, vec2) {
-  const vec = [];
-
-  vec3.add(vec, vec1, vec2);
-
-  return vec;
-}
