@@ -1,6 +1,6 @@
 'use strict';
 
-const MouseCoordinates = require('../mouseCoordinates');
+const MouseCoordinates = require('../../mouseCoordinates');
 
 let horizontalOffset = 512, ///
     verticalOffset = 320; ///

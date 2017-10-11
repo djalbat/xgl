@@ -1,14 +1,14 @@
 'use strict';
 
-const domUtilities = require('./utilities/dom'),
-      programMixin = require('./mixin/program'),
-      textureMixin = require('./mixin/texture'),
-      colourMixin = require('./mixin/colour'),
-      shaderMixin = require('./mixin/shader'),
-      bufferMixin = require('./mixin/buffer'),
-      matrixMixin = require('./mixin/matrix'),
-      depthMixin = require('./mixin/depth'),
-      mouseMixin = require('./mixin/mouse');
+const programMixin = require('./canvas/mixin/program'),
+      textureMixin = require('./canvas/mixin/texture'),
+      colourMixin = require('./canvas/mixin/colour'),
+      shaderMixin = require('./canvas/mixin/shader'),
+      bufferMixin = require('./canvas/mixin/buffer'),
+      matrixMixin = require('./canvas/mixin/matrix'),
+      depthMixin = require('./canvas/mixin/depth'),
+      mouseMixin = require('./canvas/mixin/mouse'),
+      domUtilities = require('./utilities/dom');
 
 const { domElementFromSelector } = domUtilities;
 
