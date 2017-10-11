@@ -18,6 +18,24 @@ function createShader(type, shaderSource) {
   return shader;
 }
 
+function createVertexShader(vertexShaderSource, canvas) {
+  const { VERTEX_SHADER } = this.context,
+        type = VERTEX_SHADER,
+        vertexShader = this.createShader(type, vertexShaderSource);
+
+  return vertexShader;
+}
+
+function createFragmentShader(fragmentShaderSource, canvas) {
+  const { FRAGMENT_SHADER } = this.context,
+        type = FRAGMENT_SHADER,
+        vertexShader = this.createShader(type, fragmentShaderSource);
+
+  return vertexShader;
+}
+
 module.exports = {
-  createShader: createShader
+  createShader: createShader,
+  createVertexShader: createVertexShader,
+  createFragmentShader: createFragmentShader
 };

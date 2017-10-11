@@ -8,8 +8,7 @@ const Shader = require('../shader'),
       vertexShaderSource = require('./source/colour/vertex'),
       fragmentShaderSource = require('./source/colour/fragment');
 
-const { createVertexShader, createFragmentShader } = Shader,
-      { vertexColourAttributeName } = vertexShaderSource,
+const { vertexColourAttributeName } = vertexShaderSource,
       { arrayUtilities } = necessary,
       { merge } = arrayUtilities,
       add = merge;  ///
@@ -48,11 +47,9 @@ class ColourShader extends Shader {
     canvas.bindBuffer(this.vertexColourBuffer, this.vertexColourAttributeLocation, vertexColourComponents);
   }
 
-  activateTexture(canvas) {}  ///
-
   static fromNothing(canvas) {
-    const vertexShader = createVertexShader(vertexShaderSource, canvas),
-          fragmentShader = createFragmentShader(fragmentShaderSource, canvas),
+    const vertexShader = canvas.createVertexShader(vertexShaderSource),
+          fragmentShader = canvas.createFragmentShader(fragmentShaderSource),
           program = canvas.createProgram(vertexShader, fragmentShader),
           vertexColourAttributeLocation = canvas.getAttributeLocation(program, vertexColourAttributeName),
           uniformLocations = UniformLocations.fromProgram(program, canvas),

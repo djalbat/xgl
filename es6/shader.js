@@ -6,9 +6,6 @@ const { arrayUtilities } = necessary,
       { merge } = arrayUtilities,
       add = merge;  ///
 
-const vertexPositionComponents = 3,
-      vertexNormalComponents = 3;
-
 class Shader {
   constructor(program, uniformLocations, attributeLocations) {
     this.program = program;
@@ -91,13 +88,15 @@ class Shader {
   }
 
   bindVertexPositionBuffer(canvas) {
-    const vertexPositionAttributeLocation = this.getVertexPositionAttributeLocation();
+    const vertexPositionAttributeLocation = this.getVertexPositionAttributeLocation(),
+          vertexPositionComponents = 3;
     
     canvas.bindBuffer(this.vertexPositionBuffer, vertexPositionAttributeLocation, vertexPositionComponents);
   }
 
   bindVertexNormalBuffer(canvas) {
-    const vertexNormalAttributeLocation = this.getVertexNormalAttributeLocation();
+    const vertexNormalAttributeLocation = this.getVertexNormalAttributeLocation(),
+          vertexNormalComponents = 3;
 
     canvas.bindBuffer(this.vertexNormalBuffer, vertexNormalAttributeLocation, vertexNormalComponents);
   }
@@ -107,28 +106,4 @@ class Shader {
   }
 }
 
-function createVertexShader(vertexShaderSource, canvas) {
-  const context = canvas.getContext(),
-        { VERTEX_SHADER } = context,
-        type = VERTEX_SHADER,
-        vertexShader = canvas.createShader(type, vertexShaderSource);
-
-  return vertexShader;
-}
-
-function createFragmentShader(fragmentShaderSource, canvas) {
-  const context = canvas.getContext(),
-        { FRAGMENT_SHADER } = context,
-        type = FRAGMENT_SHADER,
-        vertexShader = canvas.createShader(type, fragmentShaderSource);
-
-  return vertexShader;
-}
-
-Object.assign(Shader, {
-  createVertexShader: createVertexShader,
-  createFragmentShader: createFragmentShader
-});
-
 module.exports = Shader;
-

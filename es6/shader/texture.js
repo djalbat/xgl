@@ -8,8 +8,7 @@ const Shader = require('../shader'),
       vertexShaderSource = require('./source/texture/vertex'),
       fragmentShaderSource = require('./source/texture/fragment');
 
-const { createVertexShader, createFragmentShader } = Shader,
-      { textureCoordinateAttributeName } = vertexShaderSource,
+const { textureCoordinateAttributeName } = vertexShaderSource,
       { samplerName } = fragmentShaderSource,
       { arrayUtilities } = necessary,
       { merge } = arrayUtilities,
@@ -66,8 +65,8 @@ class TextureShader extends Shader {
   }
 
   static fromNothing(canvas) {
-    const vertexShader = createVertexShader(vertexShaderSource, canvas),
-          fragmentShader = createFragmentShader(fragmentShaderSource, canvas),
+    const vertexShader = canvas.createVertexShader(vertexShaderSource),
+          fragmentShader = canvas.createFragmentShader(fragmentShaderSource),
           program = canvas.createProgram(vertexShader, fragmentShader),
           uniformLocations = UniformLocations.fromProgram(program, canvas),
           attributeLocations = AttributeLocations.fromProgram(program, canvas),

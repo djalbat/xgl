@@ -51,8 +51,6 @@ class Scene extends Element {
 
     this.colourShader.bindBuffers(this.canvas);
 
-    this.colourShader.activateTexture(this.canvas);
-
     this.canvas.render(this.colourShader, offset, rotation, position, projection, normal);
 
     this.canvas.useProgram(textureShaderProgram);
