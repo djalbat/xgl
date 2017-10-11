@@ -15,6 +15,11 @@ class Renderer {
     this.vertexPositionData = [];
     this.vertexNormalData = [];
     this.vertexIndexData = [];
+
+    this.vertexPositionBuffer = null; ///
+    this.vertexNormalBuffer = null; ///
+    this.vertexIndexElementBuffer = null; ///
+
     this.maximumVertexIndex = -1; ///
   }
 

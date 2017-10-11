@@ -14,11 +14,12 @@ const { createProgram } = Renderer,
       add = merge;  ///
 
 class ColourRenderer extends Renderer {
-  constructor(program, uniformLocations, attributeLocations, vertexColourData, vertexColourBuffer) {
+  constructor(program, uniformLocations, attributeLocations) {
     super(program, uniformLocations, attributeLocations);
 
-    this.vertexColourData = vertexColourData;
-    this.vertexColourBuffer = vertexColourBuffer;
+    this.vertexColourData = [];
+    
+    this.vertexColourBuffer = null; ///
   }
 
   getVertexColourAttributeLocation() {
@@ -49,13 +50,9 @@ class ColourRenderer extends Renderer {
 
   static fromNothing(canvas) {
     const program = createProgram(vertexShaderSource, fragmentShaderSource),
-          colourUniformLocations = ColourUniformLocations.fromProgram(program, canvas),
-          colourAttributeLocations = ColourAttributeLocations.fromProgram(program, canvas),
-          uniformLocations = colourUniformLocations,  ///
-          attributeLocations = colourAttributeLocations,  ///
-          vertexColourData = [],
-          vertexColourBuffer = null,  ///
-          colourRenderer = new ColourRenderer(program, uniformLocations, attributeLocations, vertexColourData, vertexColourBuffer);
+          uniformLocations = ColourUniformLocations.fromProgram(program, canvas),
+          attributeLocations = ColourAttributeLocations.fromProgram(program, canvas),
+          colourRenderer = new ColourRenderer(program, uniformLocations, attributeLocations);
     
     return colourRenderer;
   }

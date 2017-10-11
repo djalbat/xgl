@@ -14,11 +14,12 @@ const { createProgram } = Renderer,
       add = merge;  ///
 
 class TextureRenderer extends Renderer {
-  constructor(program, uniformLocations, attributeLocations, textureCoordinateData, textureCoordinateBuffer) {
+  constructor(program, uniformLocations, attributeLocations) {
     super(program, uniformLocations, attributeLocations);
 
-    this.textureCoordinateData = textureCoordinateData;
-    this.textureCoordinateBuffer = textureCoordinateBuffer;
+    this.textureCoordinateData = [];
+    
+    this.textureCoordinateBuffer = null;  ///
   }
 
   getTextureCoordinateAttributeLocation() {
@@ -66,13 +67,9 @@ class TextureRenderer extends Renderer {
 
   static fromNothing(canvas) {
     const program = createProgram(vertexShaderSource, fragmentShaderSource),
-          textureUniformLocations = TextureUniformLocations.fromProgram(program, canvas),
-          textureAttributeLocations = TextureAttributeLocations.fromProgram(program, canvas),
-          uniformLocations = textureUniformLocations,  ///
-          attributeLocations = textureAttributeLocations,  ///
-          textureCoordinateData = [],
-          textureCoordinateBuffer = null, ///
-          textureRenderer = new TextureRenderer(program, uniformLocations, attributeLocations, textureCoordinateData, textureCoordinateBuffer);
+          uniformLocations = TextureUniformLocations.fromProgram(program, canvas),
+          attributeLocations = TextureAttributeLocations.fromProgram(program, canvas),
+          textureRenderer = new TextureRenderer(program, uniformLocations, attributeLocations);
 
     return textureRenderer;
   }
