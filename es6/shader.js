@@ -2,17 +2,15 @@
 
 const necessary = require('necessary');
 
+const UniformLocations = require('./shader/locations/uniform'),
+      AttributeLocations = require('./shader/locations/attribute');
+
 const { arrayUtilities } = necessary,
       { merge } = arrayUtilities,
       add = merge;  ///
 
-const offsetMatrixName = 'uOffsetMatrix',
-      rotationMatrixName = 'uRotationMatrix',
-      positionMatrixName = 'uPositionMatrix',
-      projectionMatrixName = 'uPerspectiveMatrix',
-      normalMatrixName = 'uNormalMatrix',
-      vertexPositionAttributeName = 'aVertexPosition',
-      vertexNormalAttributeName = 'aVertexNormal',
+const { offsetMatrixName, rotationMatrixName, positionMatrixName, projectionMatrixName, normalMatrixName } = UniformLocations,
+      { vertexPositionAttributeName, vertexNormalAttributeName } = AttributeLocations,
       calculateLightingSource = `
 
         uniform mat4 ${normalMatrixName};
@@ -56,14 +54,8 @@ const offsetMatrixName = 'uOffsetMatrix',
 class Shader {
   constructor(program, canvas) {
     this.program = program;
-    this.offsetMatrixUniformLocation = canvas.getUniformLocation(program, offsetMatrixName);
-    this.rotationMatrixUniformLocation = canvas.getUniformLocation(program, rotationMatrixName);
-    this.positionMatrixUniformLocation = canvas.getUniformLocation(program, positionMatrixName);
-    this.projectionMatrixUniformLocation = canvas.getUniformLocation(program, projectionMatrixName);
-    this.normalMatrixUniformLocation = canvas.getUniformLocation(program, normalMatrixName);
-
-    this.vertexPositionAttributeLocation = canvas.getAttributeLocation(program, vertexPositionAttributeName);
-    this.vertexNormalAttributeLocation = canvas.getAttributeLocation(program, vertexNormalAttributeName);
+    this.uniformLocations = UniformLocations.fromProgram(program, canvas);
+    this.attributeLocations = AttributeLocations.fromProgram(program, canvas);
 
     this.vertexPositionData = [];
     this.vertexNormalData = [];
@@ -82,25 +74,19 @@ class Shader {
     return this.program;
   }
 
-  getOffsetMatrixUniformLocation() {
-    return this.offsetMatrixUniformLocation;
-  }
+  getOffsetMatrixUniformLocation() { return this.uniformLocations.getOffsetMatrixUniformLocation(); }
 
-  getRotationMatrixUniformLocation() {
-    return this.rotationMatrixUniformLocation;
-  }
+  getRotationMatrixUniformLocation() { return this.uniformLocations.getRotationMatrixUniformLocation(); }
 
-  getPositionMatrixUniformLocation() {
-    return this.positionMatrixUniformLocation;
-  }
+  getPositionMatrixUniformLocation() { return this.uniformLocations.getPositionMatrixUniformLocation(); }
 
-  getPerspectiveMatrixUniformLocation() {
-    return this.projectionMatrixUniformLocation;
-  }
+  getProjectionMatrixUniformLocation() { return this.uniformLocations.getProjectionMatrixUniformLocation(); }
 
-  getNormalMatrixUniformLocation() {
-    return this.normalMatrixUniformLocation;
-  }
+  getNormalMatrixUniformLocation() { return this.uniformLocations.getNormalMatrixUniformLocation(); }
+
+  getVertexPositionAttributeLocation() { return this.attributeLocations.getVertexPositionAttributeLocation(); }
+
+  getVertexNormalAttributeLocation() { return this.attributeLocations.getVertexNormalAttributeLocation(); }
 
   addVertexPositionData(vertexPositionData) {
     add(this.vertexPositionData, vertexPositionData);
@@ -146,12 +132,17 @@ class Shader {
     this.vertexIndexElementBuffer = canvas.createElementBuffer(this.vertexIndexData);
   }
 
-  bindVertexNormalBuffer(canvas) {
-    canvas.bindBuffer(this.vertexNormalBuffer, this.vertexNormalAttributeLocation, vertexNormalComponents);
+  bindVertexPositionBuffer(canvas) {
+    const vertexPositionAttributeLocation = this.getVertexPositionAttributeLocation();
+    
+    canvas.bindBuffer(this.vertexPositionBuffer, vertexPositionAttributeLocation, vertexPositionComponents);
   }
 
-  bindVertexPositionBuffer(canvas) {
-    canvas.bindBuffer(this.vertexPositionBuffer, this.vertexPositionAttributeLocation, vertexPositionComponents);4}
+  bindVertexNormalBuffer(canvas) {
+    const vertexNormalAttributeLocation = this.getVertexNormalAttributeLocation();
+
+    canvas.bindBuffer(this.vertexNormalBuffer, vertexNormalAttributeLocation, vertexNormalComponents);
+  }
 
   bindVertexIndexElementBuffer(canvas) {
     canvas.bindElementBuffer(this.vertexIndexElementBuffer);

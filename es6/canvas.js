@@ -77,7 +77,7 @@ class Canvas {
           offsetMatrixUniformLocation = shader.getOffsetMatrixUniformLocation(),
           rotationMatrixUniformLocation = shader.getRotationMatrixUniformLocation(),
           positionMatrixUniformLocation = shader.getPositionMatrixUniformLocation(),
-          projectionMatrixUniformLocation = shader.getPerspectiveMatrixUniformLocation(),
+          projectionMatrixUniformLocation = shader.getProjectionMatrixUniformLocation(),
           normalMatrixUniformLocation = shader.getNormalMatrixUniformLocation();
 
     this.applyMatrix(offsetMatrixUniformLocation, offsetMatrix);
