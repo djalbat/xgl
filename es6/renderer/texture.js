@@ -8,15 +8,17 @@ const Renderer = require('../renderer'),
       TextureUniformLocations = require('./locations/texture/uniform'),
       TextureAttributeLocations = require('./locations/texture/attribute');
 
-const { arrayUtilities } = necessary,
+const { createProgram } = Renderer,
+      { arrayUtilities } = necessary,
       { merge } = arrayUtilities,
       add = merge;  ///
 
 class TextureRenderer extends Renderer {
-  constructor(program, uniformLocations, attributeLocations, textureCoordinateData) {
+  constructor(program, uniformLocations, attributeLocations, textureCoordinateData, textureCoordinateBuffer) {
     super(program, uniformLocations, attributeLocations);
 
     this.textureCoordinateData = textureCoordinateData;
+    this.textureCoordinateBuffer = textureCoordinateBuffer;
   }
 
   getTextureCoordinateAttributeLocation() {
@@ -31,26 +33,18 @@ class TextureRenderer extends Renderer {
   }
 
   createBuffers(canvas) {
-    this.createTextureCoordinateBuffer(canvas);
+    this.textureCoordinateBuffer = canvas.createBuffer(this.textureCoordinateData);
 
     super.createBuffers(canvas);
   }
 
-  createTextureCoordinateBuffer(canvas) {
-    this.textureCoordinateBuffer = canvas.createBuffer(this.textureCoordinateData);
-  }
-
   bindBuffers(canvas) {
-    this.bindTextureCoordinateBuffer(canvas);
-
-    super.bindBuffers(canvas);
-  }
-
-  bindTextureCoordinateBuffer(canvas) {
     const textureCoordinateAttributeLocation = this.getTextureCoordinateAttributeLocation(),
           textureCoordinateComponents = 2;
 
     canvas.bindBuffer(this.textureCoordinateBuffer, textureCoordinateAttributeLocation, textureCoordinateComponents);
+
+    super.bindBuffers(canvas);
   }
 
   createTexture(image, canvas) {
@@ -71,13 +65,14 @@ class TextureRenderer extends Renderer {
   }
 
   static fromNothing(canvas) {
-    const vertexShader = canvas.createVertexShader(vertexShaderSource),
-          fragmentShader = canvas.createFragmentShader(fragmentShaderSource),
-          program = canvas.createProgram(vertexShader, fragmentShader),
-          uniformLocations = TextureUniformLocations.fromProgram(program, canvas),
-          attributeLocations = TextureAttributeLocations.fromProgram(program, canvas),
+    const program = createProgram(vertexShaderSource, fragmentShaderSource),
+          textureUniformLocations = TextureUniformLocations.fromProgram(program, canvas),
+          textureAttributeLocations = TextureAttributeLocations.fromProgram(program, canvas),
+          uniformLocations = textureUniformLocations,  ///
+          attributeLocations = textureAttributeLocations,  ///
           textureCoordinateData = [],
-          textureRenderer = new TextureRenderer(program, uniformLocations, attributeLocations, textureCoordinateData);
+          textureCoordinateBuffer = null, ///
+          textureRenderer = new TextureRenderer(program, uniformLocations, attributeLocations, textureCoordinateData, textureCoordinateBuffer);
 
     return textureRenderer;
   }

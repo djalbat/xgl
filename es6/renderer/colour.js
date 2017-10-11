@@ -8,15 +8,17 @@ const Renderer = require('../renderer'),
       ColourUniformLocations = require('./locations/colour/uniform'),
       ColourAttributeLocations = require('./locations/colour/attribute');
 
-const { arrayUtilities } = necessary,
+const { createProgram } = Renderer,
+      { arrayUtilities } = necessary,
       { merge } = arrayUtilities,
       add = merge;  ///
 
 class ColourRenderer extends Renderer {
-  constructor(program, uniformLocations, attributeLocations, vertexColourData) {
+  constructor(program, uniformLocations, attributeLocations, vertexColourData, vertexColourBuffer) {
     super(program, uniformLocations, attributeLocations);
 
     this.vertexColourData = vertexColourData;
+    this.vertexColourBuffer = vertexColourBuffer;
   }
 
   getVertexColourAttributeLocation() {
@@ -31,36 +33,29 @@ class ColourRenderer extends Renderer {
   }
 
   createBuffers(canvas) {
-    this.createVertexColourBuffer(canvas);
+    this.vertexColourBuffer = canvas.createBuffer(this.vertexColourData);
 
     super.createBuffers(canvas);
   }
 
-  createVertexColourBuffer(canvas) {
-    this.vertexColourBuffer = canvas.createBuffer(this.vertexColourData);
-  }
-
   bindBuffers(canvas) {
-    this.bindVertexColourBuffer(canvas);
-
-    super.bindBuffers(canvas);
-  }
-
-  bindVertexColourBuffer(canvas) {
     const vertexColourAttributeLocation = this.getVertexColourAttributeLocation(),
           vertexColourComponents = 4;
 
     canvas.bindBuffer(this.vertexColourBuffer, vertexColourAttributeLocation, vertexColourComponents);
+
+    super.bindBuffers(canvas);
   }
 
   static fromNothing(canvas) {
-    const vertexShader = canvas.createVertexRenderer(vertexShaderSource),
-          fragmentShader = canvas.createFragmentRenderer(fragmentShaderSource),
-          program = canvas.createProgram(vertexShader, fragmentShader),
-          uniformLocations = ColourUniformLocations.fromProgram(program, canvas),
-          attributeLocations = ColourAttributeLocations.fromProgram(program, canvas),
+    const program = createProgram(vertexShaderSource, fragmentShaderSource),
+          colourUniformLocations = ColourUniformLocations.fromProgram(program, canvas),
+          colourAttributeLocations = ColourAttributeLocations.fromProgram(program, canvas),
+          uniformLocations = colourUniformLocations,  ///
+          attributeLocations = colourAttributeLocations,  ///
           vertexColourData = [],
-          colourRenderer = new ColourRenderer(program, uniformLocations, attributeLocations, vertexColourData);
+          vertexColourBuffer = null,  ///
+          colourRenderer = new ColourRenderer(program, uniformLocations, attributeLocations, vertexColourData, vertexColourBuffer);
     
     return colourRenderer;
   }

@@ -114,4 +114,16 @@ class Renderer {
   }
 }
 
+function createProgram(vertexShaderSource, fragmentShaderSource, canvas) {
+  const vertexShader = canvas.createVertexRenderer(vertexShaderSource),
+        fragmentShader = canvas.createFragmentRenderer(fragmentShaderSource),
+        program = canvas.createProgram(vertexShader, fragmentShader);
+  
+  return program;
+}
+
+Object.assign(Renderer, {
+  createProgram: createProgram
+});
+
 module.exports = Renderer;
