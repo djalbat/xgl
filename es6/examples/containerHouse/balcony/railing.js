@@ -1,6 +1,6 @@
 'use strict';
 
-const vec3 = require('../../../gl/vec3'),
+const vec3 = require('../../../maths/vec3'),
       TopRail = require('./railing/topRail'),
       Uprights = require('./railing/uprights');
 

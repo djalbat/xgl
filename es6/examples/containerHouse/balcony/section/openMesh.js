@@ -1,6 +1,6 @@
 'use strict';
 
-const vec3 = require('../../../../gl/vec3'),
+const vec3 = require('../../../../maths/vec3'),
       ColourCuboid = require('../../../common/cuboid/colour'),
       ColourCylinder = require('../../../common/cylinder/colour');
 

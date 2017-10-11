@@ -1,6 +1,6 @@
 'use strict';
 
-const vec3 = require('../../../gl/vec3'),
+const vec3 = require('../../../maths/vec3'),
       Edge = require('./section/edge'),
       OpenMesh = require('./section/openMesh'),
       LongEdge = require('./section/edge/long'),

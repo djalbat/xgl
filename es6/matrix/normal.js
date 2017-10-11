@@ -1,6 +1,6 @@
 'use strict';
 
-const mat4 = require('../gl/mat4'),
+const mat4 = require('../maths/mat4'),
       Matrix = require('../matrix');
 
 const { create, invert, transpose } = mat4;

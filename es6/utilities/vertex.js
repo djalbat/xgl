@@ -1,8 +1,8 @@
 'use strict';
 
-const vec3 = require('../gl/vec3'),
-      vec4 = require('../gl/vec4'),
-      mat4 = require('../gl/mat4'),
+const vec3 = require('../maths/vec3'),
+      vec4 = require('../maths/vec4'),
+      mat4 = require('../maths/mat4'),
       arrayUtilities = require('../utilities/array');
 
 const { dice, flatten } = arrayUtilities,
