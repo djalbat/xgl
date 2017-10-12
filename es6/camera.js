@@ -1,7 +1,6 @@
 'use strict';
 
 const Element = require('./element'),
-      Canvas = require('./canvas'),
       Zoom = require('./camera/zoom'),
       angles = require('./camera/angles'),
       keyEvents = require('./camera/keyEvents'),
@@ -38,34 +37,47 @@ class Camera extends Element {
     return this.canvas;
   }
 
-  addKeyEventHandlers() {
-    keyEvents.addCtrlKeyHandler(function(keyDown) {
-      debugger
-    });
+  mouseUpHandler(mouseCoordinates) {
+    angles.mouseUpHandler(mouseCoordinates);
+  }
 
-    keyEvents.addShiftKeyHandler(function(keyDown) {
-      debugger
-    });
+  mouseDownHandler(mouseCoordinates) {
+    angles.mouseDownHandler(mouseCoordinates);
+  }
+
+  mouseMoveHandler(mouseCoordinates) {
+    angles.mouseMoveHandler(mouseCoordinates);
+
+    this.update();
+  }
+
+  mouseWheelHandler(delta) {
+    this.zoom.mouseWheelEventHandler(delta);
+
+    this.update();
+  }
+
+  shiftKeyHandler(keyDown) {
+
+  }
+
+  addKeyEventHandlers() {
+    const shiftKeyHandler = this.shiftKeyHandler.bind(this);
+
+    keyEvents.addShiftKeyHandler(shiftKeyHandler);
   }
   
   addMouseEventHandlers() {
-    const mouseEvents = MouseEvents.fromNothing(this.canvas);
+    const mouseEvents = MouseEvents.fromNothing(this.canvas),
+          mouseUpHandler = this.mouseUpHandler.bind(this),
+          mouseDownHandler = this.mouseDownHandler.bind(this),
+          mouseMoveHandler = this.mouseMoveHandler.bind(this),
+          mouseWheelHandler = this.mouseWheelHandler.bind(this);
 
-    mouseEvents.addMouseUpHandler(angles.mouseUpHandler.bind(angles));
-
-    mouseEvents.addMouseDownHandler(angles.mouseDownHandler.bind(angles));
-
-    mouseEvents.addMouseMoveHandler(function(mouseCoordinates) {
-      angles.mouseMoveHandler(mouseCoordinates);
-
-      this.update();
-    }.bind(this));
-
-    mouseEvents.addMouseWheelHandler(function(delta) {
-      this.zoom.mouseWheelEventHandler(delta);
-
-      this.update();
-    }.bind(this));
+    mouseEvents.addMouseUpHandler(mouseUpHandler);
+    mouseEvents.addMouseDownHandler(mouseDownHandler);
+    mouseEvents.addMouseMoveHandler(mouseMoveHandler);
+    mouseEvents.addMouseWheelHandler(mouseWheelHandler);
   }
 
   create(colourRenderer, textureRenderer) {
@@ -111,10 +123,9 @@ class Camera extends Element {
   }
 
   static fromProperties(properties) {
-    const { initialPosition, initialOffset } = properties,
+    const { initialPosition, initialOffset, canvas } = properties,
           zoom = Zoom.fromInitialPosition(initialPosition),
           offset = initialOffset, ///
-          canvas = new Canvas(),  ///
           updateHandler = null,  ///
           camera = new Camera(zoom, offset, updateHandler, canvas);
     

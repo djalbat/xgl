@@ -5,15 +5,8 @@ const constants = require('../constants');
 const { MOUSE_UP, MOUSE_DOWN, MOUSE_MOVE, MOUSE_WHEEL } = constants;
 
 class MouseEvents {
-  constructor(canvas, handlersMap) {
-    this.canvas = canvas;
-
+  constructor(handlersMap) {
     this.handlersMap = handlersMap;
-
-    addMouseEventHandler(canvas, 'mouseup', function(event) { this.onMouseEvent(MOUSE_UP, event) }.bind(this) );
-    addMouseEventHandler(canvas, 'mousedown', function(event) { this.onMouseEvent(MOUSE_DOWN, event) }.bind(this) );
-    addMouseEventHandler(canvas, 'mousemove', function(event) { this.onMouseEvent(MOUSE_MOVE, event) }.bind(this) );
-    addMouseEventHandler(canvas, 'mousewheel', function(event) { this.onMouseWheelEvent(event) }.bind(this) );
   }
 
   addMouseUpHandler(mouseUpHandler) {
@@ -63,7 +56,13 @@ class MouseEvents {
             MOUSE_MOVE: [],
             MOUSE_WHEEL: []
           },
-          mouseEvents = new MouseEvents(canvas, handlersMap);
+          mouseEvents = new MouseEvents(handlersMap),
+          domElement = canvas.getDOMElement();
+
+    addMouseEventHandler(domElement, 'mouseup', function(event) { mouseEvents.onMouseEvent(MOUSE_UP, event); });
+    addMouseEventHandler(domElement, 'mousedown', function(event) { mouseEvents.onMouseEvent(MOUSE_DOWN, event); });
+    addMouseEventHandler(domElement, 'mousemove', function(event) { mouseEvents.onMouseEvent(MOUSE_MOVE, event); });
+    addMouseEventHandler(domElement, 'mousewheel', function(event) { mouseEvents.onMouseWheelEvent(event); });
 
     return mouseEvents;
   }
@@ -71,24 +70,14 @@ class MouseEvents {
 
 module.exports = MouseEvents;
 
-function addMouseEventHandler(canvas, type, handler) {
-  const domElement = canvas.getDOMElement();
-
-  domElement.addEventListener(type, function(event) {
-    event.preventDefault();
-
-    handler(event);
-  });
-}
-
 function deltaFromEvent(event) {
   const delta = Math.max(-1, Math.min(1, event.wheelDelta)); ///
 
   return delta;
 }
 
-function mouseCoordinatesFromEvent(event, canvas) {
-  const domElement = canvas.getDOMElement(),
+function mouseCoordinatesFromEvent(event) {
+  const domElement = event.target,  ///
         domElementBoundingClientRect = domElement.getBoundingClientRect(),
         mouseCoordinates = [
           +(event.clientX - domElementBoundingClientRect.left),
@@ -96,4 +85,12 @@ function mouseCoordinatesFromEvent(event, canvas) {
         ];
 
   return mouseCoordinates;
+}
+
+function addMouseEventHandler(domElement, type, handler) {
+  domElement.addEventListener(type, function(event) {
+    handler(event);
+
+    event.preventDefault();
+  });
 }

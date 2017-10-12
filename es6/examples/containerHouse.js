@@ -3,6 +3,7 @@
 require('../jiggle');
 
 const Scene = require('../scene'),
+      Canvas = require('../canvas'),
       Camera = require('../camera'),
       Frame = require('./containerHouse/frame'),
       FirstFloor = require('./containerHouse/floor/first'),
@@ -17,10 +18,12 @@ const { preloadImageMap } = imageMapUtilities;
 
 const containerHouse = () => {
 
+  const canvas = new Canvas();
+
   preloadImageMap((imageMap) =>
 
-    <Scene imageMap={imageMap}>
-      <Camera initialPosition={[ 0, 0, -150 ]} initialOffset={[ -18, -16, 0 ]} />
+    <Scene imageMap={imageMap} canvas={canvas}>
+      <Camera initialPosition={[ 0, 0, -150 ]} initialOffset={[ -18, -16, 0 ]} canvas={canvas} />
       <Foundations />
       <FirstFloor />
       <SecondFloor />

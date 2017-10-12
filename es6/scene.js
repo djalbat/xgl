@@ -1,17 +1,16 @@
 'use strict';
 
-const Canvas = require('./canvas'),
-      Element = require('./element'),
+const Element = require('./element'),
       ColourRenderer = require('./renderer/colour'),
       TextureRenderer = require('./renderer/texture');
 
 class Scene extends Element {
-  constructor(canvas, colourRenderer, textureRenderer) {
+  constructor(colourRenderer, textureRenderer, canvas) {
     super();
 
-    this.canvas = canvas;
     this.colourRenderer = colourRenderer;
     this.textureRenderer = textureRenderer;
+    this.canvas = canvas;
   }
   
   getCanvas() {
@@ -77,11 +76,10 @@ class Scene extends Element {
   }
 
   static fromProperties(properties) {
-    const { childElements, imageMap } = properties,
-          canvas = new Canvas(),
+    const { childElements, imageMap, canvas } = properties,
           colourRenderer = ColourRenderer.fromNothing(canvas),
           textureRenderer = TextureRenderer.fromNothing(canvas),
-          scene = Element.fromProperties(Scene, properties, canvas, colourRenderer, textureRenderer);
+          scene = Element.fromProperties(Scene, properties, colourRenderer, textureRenderer, canvas);
     
     childElements.forEach(function(childElement) {
       childElement.create(colourRenderer, textureRenderer);
