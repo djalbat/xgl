@@ -51,17 +51,17 @@ class Camera extends Element {
   addMouseEventHandlers() {
     const mouseEvents = MouseEvents.fromNothing(this.canvas);
 
-    mouseEvents.addMouseUpEventHandler(angles.mouseUpEventHandler.bind(angles));
+    mouseEvents.addMouseUpHandler(angles.mouseUpHandler.bind(angles));
 
-    mouseEvents.addMouseDownEventHandler(angles.mouseDownEventHandler.bind(angles));
+    mouseEvents.addMouseDownHandler(angles.mouseDownHandler.bind(angles));
 
-    mouseEvents.addMouseMoveEventHandler(function(mouseCoordinates) {
-      angles.mouseMoveEventHandler(mouseCoordinates);
+    mouseEvents.addMouseMoveHandler(function(mouseCoordinates) {
+      angles.mouseMoveHandler(mouseCoordinates);
 
       this.update();
     }.bind(this));
 
-    mouseEvents.addMouseWheelEventHandler(function(delta) {
+    mouseEvents.addMouseWheelHandler(function(delta) {
       this.zoom.mouseWheelEventHandler(delta);
 
       this.update();

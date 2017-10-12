@@ -5,81 +5,81 @@ const constants = require('../constants');
 const { MOUSE_UP, MOUSE_DOWN, MOUSE_MOVE, MOUSE_WHEEL } = constants;
 
 class MouseEvents {
-  constructor(canvas, handlers) {
+  constructor(canvas, handlersMap) {
     this.canvas = canvas;
-    this.handlers = handlers;
 
-    this.addEventHandler(canvas, 'mouseup', function(event) { this.onMouseEvent(MOUSE_UP, event) }.bind(this) );
-    this.addEventHandler(canvas, 'mousedown', function(event) { this.onMouseEvent(MOUSE_DOWN, event) }.bind(this) );
-    this.addEventHandler(canvas, 'mousemove', function(event) { this.onMouseEvent(MOUSE_MOVE, event) }.bind(this) );
-    this.addEventHandler(canvas, 'mousewheel', function(event) { this.onMouseWheelEvent(event) }.bind(this) );
+    this.handlersMap = handlersMap;
+
+    addMouseEventHandler(canvas, 'mouseup', function(event) { this.onMouseEvent(MOUSE_UP, event) }.bind(this) );
+    addMouseEventHandler(canvas, 'mousedown', function(event) { this.onMouseEvent(MOUSE_DOWN, event) }.bind(this) );
+    addMouseEventHandler(canvas, 'mousemove', function(event) { this.onMouseEvent(MOUSE_MOVE, event) }.bind(this) );
+    addMouseEventHandler(canvas, 'mousewheel', function(event) { this.onMouseWheelEvent(event) }.bind(this) );
   }
 
-  addMouseUpEventHandler(mouseUpEventHandler) {
-    this.addMouseEventHandler(MOUSE_UP, mouseUpEventHandler);
+  addMouseUpHandler(mouseUpHandler) {
+    this.addHandler(MOUSE_UP, mouseUpHandler);
   }
 
-  addMouseDownEventHandler(mouseDownEventHandler) {
-    this.addMouseEventHandler(MOUSE_DOWN, mouseDownEventHandler);
+  addMouseDownHandler(mouseDownHandler) {
+    this.addHandler(MOUSE_DOWN, mouseDownHandler);
   }
 
-  addMouseMoveEventHandler(mouseMoveEventHandler) {
-    this.addMouseEventHandler(MOUSE_MOVE, mouseMoveEventHandler);
+  addMouseMoveHandler(mouseMoveHandler) {
+    this.addHandler(MOUSE_MOVE, mouseMoveHandler);
   }
 
-  addMouseWheelEventHandler(mouseWheelEventHandler) {
-    this.addMouseEventHandler(MOUSE_WHEEL, mouseWheelEventHandler);
+  addMouseWheelHandler(mouseWheelHandler) {
+    this.addHandler(MOUSE_WHEEL, mouseWheelHandler);
   }
 
-  addMouseEventHandler(mouseEventType, mouseEventHandler) {
-    const mouseEventHandlers = this.handlers[mouseEventType];
+  addHandler(eventType, handler) {
+    const handlers = this.handlersMap[eventType];
 
-    mouseEventHandlers.push(mouseEventHandler);
+    handlers.push(handler);
   }
 
-  addEventHandler(canvas, type, handler) {
-    const domElement = canvas.getDOMElement();
-
-    domElement.addEventListener(type, function(event) {
-      event.preventDefault();
-
-      handler(event);
-    });
-  }
-
-  onMouseEvent(mouseEventType, event) {
-    const mouseEventHandlers = this.handlers[mouseEventType],
+  onMouseEvent(eventType, event) {
+    const handlers = this.handlersMap[eventType],
           mouseCoordinates = mouseCoordinatesFromEvent(event, this.canvas);
 
-    mouseEventHandlers.forEach(function(mouseEventHandler) {
-      mouseEventHandler(mouseCoordinates);
+    handlers.forEach(function(handler) {
+      handler(mouseCoordinates);
     });
   }
 
   onMouseWheelEvent(event) {
-    const mouseWheelEventType = MOUSE_WHEEL,
-          mouseWheelEventHandlers = this.handlers[mouseWheelEventType],
+    const handlers = this.handlersMap[MOUSE_WHEEL],
           delta = deltaFromEvent(event);
 
-    mouseWheelEventHandlers.forEach(function(mouseWheelEventHandler) {
-      mouseWheelEventHandler(delta);
+    handlers.forEach(function(handler) {
+      handler(delta);
     });
   }
 
   static fromNothing(canvas) {
-    const handlers = {
+    const handlersMap = {
             MOUSE_UP: [],
             MOUSE_DOWN: [],
             MOUSE_MOVE: [],
             MOUSE_WHEEL: []
           },
-          mouseEvents = new MouseEvents(canvas, handlers);
+          mouseEvents = new MouseEvents(canvas, handlersMap);
 
     return mouseEvents;
   }
 }
 
 module.exports = MouseEvents;
+
+function addMouseEventHandler(canvas, type, handler) {
+  const domElement = canvas.getDOMElement();
+
+  domElement.addEventListener(type, function(event) {
+    event.preventDefault();
+
+    handler(event);
+  });
+}
 
 function deltaFromEvent(event) {
   const delta = Math.max(-1, Math.min(1, event.wheelDelta)); ///

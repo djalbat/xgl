@@ -38,17 +38,17 @@ class Angles {
     return zAngle;
   }
   
-  mouseUpEventHandler(mouseCoordinates) {
+  mouseUpHandler(mouseCoordinates) {
     this.mouseDown = false;
     this.previousAngleCoordinates = this.angleCoordinates;
   }
 
-  mouseDownEventHandler(mouseCoordinates) {
+  mouseDownHandler(mouseCoordinates) {
     this.mouseDown = true;
     this.mouseCoordinates = mouseCoordinates;
   }
 
-  mouseMoveEventHandler(mouseCoordinates) {
+  mouseMoveHandler(mouseCoordinates) {
     if (this.mouseDown) {
       this.updateAngleCoordinates(mouseCoordinates);
     }
