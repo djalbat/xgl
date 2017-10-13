@@ -11,10 +11,12 @@ const { arrayUtilities } = necessary,
       { ANGLE_COORDINATES_SCALAR, INITIAL_MOUSE_COORDINATES, INITIAL_ANGLE_COORDINATES } = constants;
 
 class Angles {
-  constructor(mouseDown, mouseCoordinates, angleCoordinates, previousAngleCoordinates) {
+  constructor(mouseDown, shiftKeyDown, mouseCoordinates, angleCoordinates, previousMouseCoordinates, previousAngleCoordinates) {
     this.mouseDown = mouseDown;
+    this.shiftKeyDown = shiftKeyDown;
     this.mouseCoordinates = mouseCoordinates;
     this.angleCoordinates = angleCoordinates;
+    this.previousMouseCoordinates = previousMouseCoordinates;
     this.previousAngleCoordinates = previousAngleCoordinates;
   }
 
@@ -45,18 +47,29 @@ class Angles {
 
   mouseDownHandler(mouseCoordinates) {
     this.mouseDown = true;
-    this.mouseCoordinates = mouseCoordinates;
+    this.previousMouseCoordinates = this.mouseCoordinates;
   }
 
   mouseMoveHandler(mouseCoordinates) {
-    if (this.mouseDown) {
-      this.updateAngleCoordinates(mouseCoordinates);
+    this.mouseCoordinates = mouseCoordinates;
+
+    if (this.mouseDown && !this.shiftKeyDown) {
+      this.updateAngleCoordinates();
     }
   }
 
-  updateAngleCoordinates(mouseCoordinates) {
+  shiftKeyHandler(shiftKeyDown) {
+    this.shiftKeyDown = shiftKeyDown;
+
+    if (!shiftKeyDown) {
+      this.previousMouseCoordinates = this.mouseCoordinates;
+      this.previousAngleCoordinates = this.angleCoordinates;
+    }
+  }
+
+  updateAngleCoordinates() {
     const scalar = ANGLE_COORDINATES_SCALAR,
-          relativeMouseCoordinates = subtract(mouseCoordinates, this.mouseCoordinates),
+          relativeMouseCoordinates = subtract(this.mouseCoordinates, this.previousMouseCoordinates),
           relativeAngleCoordinates = scale(relativeMouseCoordinates, scalar);
 
     this.angleCoordinates = add(this.previousAngleCoordinates, relativeAngleCoordinates);
@@ -64,10 +77,12 @@ class Angles {
 
   static fromNothing() {
     const mouseDown = false,
+          shiftKeyDown = false,
           mouseCoordinates = INITIAL_MOUSE_COORDINATES,
           angleCoordinates = INITIAL_ANGLE_COORDINATES,
-          previousAngleCoordinates = angleCoordinates,
-          angles = new Angles(mouseDown, mouseCoordinates, angleCoordinates, previousAngleCoordinates);
+          previousAngleCoordinates = angleCoordinates,  ///
+          previousMouseCoordinates = mouseCoordinates,  ///
+          angles = new Angles(mouseDown, shiftKeyDown, mouseCoordinates, angleCoordinates, previousMouseCoordinates, previousAngleCoordinates);
 
     return angles;
   }

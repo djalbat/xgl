@@ -18,7 +18,7 @@ const shapes = () => {
   preloadImageMap((imageMap) =>
 
     <Scene imageMap={imageMap} canvas={canvas}>
-      <Camera initialPosition={[ 0, 0, -20 ]} initialOffset={[ 0, 0, 0 ]} canvas={canvas} />
+      <Camera initialDistance={20} initialOffset={[ 0, 0, 0 ]} canvas={canvas} />
       <TextureCuboid width={1} depth={1} height={1} imageName="bricks.jpg" />
       <ColourCylinder width={1} depth={1} height={5} colour={[ 1, 0, 0, 1 ]} rotation={[ 0, 90, 0 ]} offset={[ 2, 0, 0 ]} />
     </Scene>

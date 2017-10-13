@@ -19,9 +19,8 @@ class Zoom {
     this.distance = Math.max(MINIMUM_DISTANCE, this.distance);
   }
   
-  static fromInitialPosition(initialPosition) {
-    const initialDistance = -initialPosition[2], ///
-          distance = initialDistance,
+  static fromInitialDistance(initialDistance) {
+    const distance = initialDistance,
           zoom = new Zoom(distance);
     
     return zoom;

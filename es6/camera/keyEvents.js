@@ -10,38 +10,38 @@ class KeyEvents {
   }
   
   onCtrlKeyUp() {
-    const keyDown = false,
+    const ctrlKeyDown = false,
           ctrlKeyHandlers = this.handlers[CTRL_KEY_CODE];
 
     ctrlKeyHandlers.forEach(function(ctrlKeyHandler) {
-      ctrlKeyHandler(keyDown);
+      ctrlKeyHandler(ctrlKeyDown);
     });
   }
 
   onShiftKeyUp() {
-    const keyDown = false,
+    const shiftKeyDown = false,
           shiftKeyHandlers = this.handlers[SHIFT_KEY_CODE];
 
     shiftKeyHandlers.forEach(function(shiftKeyHandler) {
-      shiftKeyHandler(keyDown);
+      shiftKeyHandler(shiftKeyDown);
     });
   }
 
   onCtrlKeyDown() {
-    const keyDown = true,
+    const ctrlKeyDown = true,
           ctrlKeyHandlers = this.handlers[CTRL_KEY_CODE];
 
     ctrlKeyHandlers.forEach(function(ctrlKeyHandler) {
-      ctrlKeyHandler(keyDown);
+      ctrlKeyHandler(ctrlKeyDown);
     });
   }
 
   onShiftKeyDown() {
-    const keyDown = true,
+    const shiftKeyDown = true,
           shiftKeyHandlers = this.handlers[SHIFT_KEY_CODE];
 
     shiftKeyHandlers.forEach(function(shiftKeyHandler) {
-      shiftKeyHandler(keyDown);
+      shiftKeyHandler(shiftKeyDown);
     });
   }
 
