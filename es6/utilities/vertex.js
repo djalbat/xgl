@@ -24,9 +24,9 @@ function calculateVertexPositionData(initialVertexPositionData, width = defaultW
 
   translate(mat4, mat4, offset);
 
-  rotate(mat4, mat4, xAngle, [1, 0, 0]);
-  rotate(mat4, mat4, yAngle, [0, 1, 0]);
-  rotate(mat4, mat4, zAngle, [0, 0, 1]);
+  rotate(mat4, mat4, xAngle, [ 1, 0, 0 ]);
+  rotate(mat4, mat4, yAngle, [ 0, 1, 0 ]);
+  rotate(mat4, mat4, zAngle, [ 0, 0, 1 ]);
 
   scale(mat4, mat4, [width, height, depth]);
 

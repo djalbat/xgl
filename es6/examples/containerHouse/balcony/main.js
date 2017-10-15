@@ -1,23 +1,14 @@
 'use strict';
 
-const Railing = require('../balcony/railing'),
-      BalconySection = require('../balcony/section');
+const Railing = require('../balcony/railing');
 
 const { thickness } = Railing;
 
-const MainBalcony = (properties) => [
+const LowerBalcony = (properties) => [
 
-  <BalconySection offset={[ 40, 19,  0 ]} />,
-  <BalconySection offset={[ 44, 19,  0 ]} />,
-  <BalconySection offset={[ 36, 19,  0 ]} />,
-  <BalconySection offset={[ 32, 19,  0 ]} />,
-  <BalconySection offset={[ 28, 19,  0 ]} />,
-  <BalconySection offset={[ 40, 19, 16 ]} />,
-  <BalconySection offset={[ 44, 19, 16 ]} />,
-
-  <Railing offset={[ 28, 19, 0              ]} length={20} />,
-  <Railing offset={[ 20, 19, 32 - thickness ]} length={28} />,
+  <Railing offset={[ 40, 9.5, 16           ]} length={8} />,
+  <Railing offset={[ 40, 9.5, 32-thickness ]} length={8} />,
 
 ];
 
-module.exports = MainBalcony;
+module.exports = LowerBalcony;

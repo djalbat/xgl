@@ -2,7 +2,7 @@
 
 const constants = require('../constants');
 
-const { MINIMUM_DISTANCE } = constants; 
+const { DISTANCE_SCALAR, MINIMUM_DISTANCE } = constants; 
 
 class Zoom {
   constructor(distance) {
@@ -14,7 +14,9 @@ class Zoom {
   }
 
   mouseWheelEventHandler(delta) {
-    this.distance += delta * 5;  ///
+    const scalar = DISTANCE_SCALAR;
+    
+    this.distance -= delta * scalar;
 
     this.distance = Math.max(MINIMUM_DISTANCE, this.distance);
   }

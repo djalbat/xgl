@@ -11,6 +11,7 @@ const Scene = require('../scene'),
       SecondFloor = require('./containerHouse/floor/second'),
       Foundations = require('./containerHouse/foundations'),
       MainBalcony = require('./containerHouse/balcony/main'),
+      LowerBalcony = require('./containerHouse/balcony/lower'),
       BedroomBalcony = require('./containerHouse/balcony/bedroom'),
       imageMapUtilities = require('../utilities/imageMap');
 
@@ -29,6 +30,7 @@ const containerHouse = () => {
       <SecondFloor />
       <ThirdFloor />
       <MainBalcony />
+      <LowerBalcony />
       <BedroomBalcony />
       <Frame />
     </Scene>

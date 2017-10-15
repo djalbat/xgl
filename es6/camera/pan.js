@@ -1,11 +1,16 @@
 'use strict';
 
-const vec2 = require('../maths/vec2'),
-      constants = require('../constants'),
-      RotationMatrix = require('../matrix/rotation');
+const necessary = require('necessary');
 
-const { add, subtract, scale } = vec2,
-      { INITIAL_MOUSE_COORDINATES, OFFSET_SCALAR } = constants;
+const vec2 = require('../maths/vec2'),
+      vec3 = require('../maths/vec3'),
+      constants = require('../constants');
+
+const { arrayUtilities } = necessary,
+      { first, second } = arrayUtilities,
+      { add } = vec3,
+      { subtract, scale } = vec2,
+      { OFFSET_SCALAR, INITIAL_MOUSE_COORDINATES } = constants;
 
 class Pan {
   constructor(mouseDown, shiftKeyDown, offset, previousOffset, mouseCoordinates, previousMouseCoordinates) {
@@ -29,6 +34,11 @@ class Pan {
   mouseDownHandler() {
     this.mouseDown = true;
     this.previousOffset = this.offset;
+
+    if (this.shiftKeyDown) {
+      this.previousMouseCoordinates = this.mouseCoordinates;
+      this.previousOffset = this.offset;
+    }
   }
 
   mouseMoveHandler(mouseCoordinates, angles) {
@@ -42,20 +52,40 @@ class Pan {
   shiftKeyHandler(shiftKeyDown) {
     this.shiftKeyDown = shiftKeyDown;
 
-    if (shiftKeyDown) {
+    if (this.shiftKeyDown) {
       this.previousMouseCoordinates = this.mouseCoordinates;
       this.previousOffset = this.offset;
     }
   }
 
   updateOffset(angles) {
-    const scalar = OFFSET_SCALAR,
+    const xAngle = angles.getXAngle(),
+          yAngle = angles.getYAngle(),
+          scalar = OFFSET_SCALAR,
           relativeMouseCoordinates = subtract(this.mouseCoordinates, this.previousMouseCoordinates),
-          rotationMatrix = RotationMatrix.fromAngles(angles);
+          relativeOffset = scale(relativeMouseCoordinates, scalar),
+          firstRelativeOffset = first(relativeOffset),
+          secondRelativeOffset = second(relativeOffset);
 
-    this.offset = add(this.previousOffset, rotationMatrix);
+    let offset = this.previousOffset.slice();
 
-    debugger
+    (function() {
+      const x = -Math.cos(yAngle) * firstRelativeOffset,
+            y = 0,
+            z = -Math.sin(yAngle) * firstRelativeOffset;
+
+      offset = add(offset, [x, y, z]);
+    })();
+
+    (function() {
+      const x = -Math.sin(xAngle) * Math.sin(yAngle) * secondRelativeOffset,
+            y = -Math.cos(xAngle) * secondRelativeOffset,
+            z = +Math.sin(xAngle) * Math.cos(yAngle) * secondRelativeOffset;
+
+      offset = add(offset, [x, y, z]);
+    })();
+
+    this.offset = offset;
   }
 
   static fromInitialOffset(initialOffset) {

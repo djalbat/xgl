@@ -7,19 +7,19 @@ const { create, translate } = mat4;
 
 class PositionMatrix extends Matrix {
   static fromDistance(distance) {
-    const xCoordinate = 0,
-          yCoordinate = 0,
-          zCoordinate = -distance, ///
-          positionMatrix = PositionMatrix.fromCoordinates(xCoordinate, yCoordinate, zCoordinate);
+    const x = 0,
+          y = 0,
+          z = -distance, ///
+          positionMatrix = PositionMatrix.fromCoordinates(x, y, z);
 
     return positionMatrix;
   }
 
-  static fromCoordinates(xCoordinate, yCoordinate, zCoordinate) {
+  static fromCoordinates(x, y, z) {
     const mat4 = create(),
           positionMatrix = new PositionMatrix(mat4);
 
-    translate(mat4, mat4, [ xCoordinate, yCoordinate, zCoordinate ]);
+    translate(mat4, mat4, [ x, y, z ]);
 
     return positionMatrix;
   }
