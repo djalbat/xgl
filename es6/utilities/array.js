@@ -4,7 +4,7 @@ const necessary = require('necessary');
 
 const { arrayUtilities } = necessary;
 
-function dice(elements, arrayLength) {
+function chop(elements, arrayLength) {
   const arrays = [],
         elementsLength = elements.length,
         arraysLength = elementsLength / arrayLength;
@@ -35,7 +35,7 @@ function guarantee(arrayOrElement) {
 }
 
 module.exports = Object.assign(arrayUtilities, {
-  dice: dice,
+  chop: chop,
   flatten: flatten,
   guarantee: guarantee
 });

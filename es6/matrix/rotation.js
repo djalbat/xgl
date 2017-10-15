@@ -5,12 +5,17 @@ const mat4 = require('../maths/mat4'),
 
 const { create, rotate } = mat4;
 
-const defaultXAngle = 0.0,
-      defaultYAngle = 0.0,
-      defaultZAngle = 0.0;
-
 class RotationMatrix extends Matrix {
-  static fromXAngleYAngleAndZAngle(xAngle = defaultXAngle, yAngle = defaultYAngle, zAngle = defaultZAngle) {
+  static fromAngles(angles) {
+    const xAngle = angles.getXAngle(),
+          yAngle = angles.getYAngle(),
+          zAngle = angles.getZAngle(),
+          rotationMatrix = RotationMatrix.fromXAngleYAngleAndZAngle(xAngle, yAngle, zAngle);
+
+    return rotationMatrix;
+  }
+
+  static fromXAngleYAngleAndZAngle(xAngle, yAngle, zAngle) {
     const mat4 = create(),
           rotationMatrix = new RotationMatrix(mat4);
 

@@ -13,7 +13,7 @@ const TopRail = (properties) => {
 
   return (
 
-    <ColourCuboid colour={colour} offset={offset} width={width} depth={depth} height={height} />
+    <ColourCuboid colour={colour} offset={offset} width={width} height={height} depth={depth} />
 
   );
 };

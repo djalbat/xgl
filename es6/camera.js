@@ -23,36 +23,26 @@ class Camera extends Element {
     this.canvas = canvas;
   }
   
-  getPan() {
-    return this.pan;
-  }
-
-  getZoom() {
-    return this.zoom;
-  }
-
-  getHandler() {
-    return this.handler;
-  }
-
-  getCanvas() {
-    return this.canvas;
-  }
-
   mouseUpHandler(mouseCoordinates) {
     this.mouseDown = false;
+    
+    angles.mouseUpHandler();
 
-    angles.mouseUpHandler(mouseCoordinates);
+    this.pan.mouseUpHandler();
   }
 
   mouseDownHandler(mouseCoordinates) {
     this.mouseDown = true;
+    
+    angles.mouseDownHandler();
 
-    angles.mouseDownHandler(mouseCoordinates);
+    this.pan.mouseDownHandler();
   }
 
   mouseMoveHandler(mouseCoordinates) {
     angles.mouseMoveHandler(mouseCoordinates);
+
+    this.pan.mouseMoveHandler(mouseCoordinates, angles);
 
     if (this.mouseDown) {
       this.update();
@@ -67,6 +57,8 @@ class Camera extends Element {
 
   shiftKeyHandler(shiftKeyDown) {
     angles.shiftKeyHandler(shiftKeyDown);
+
+    this.pan.shiftKeyHandler(shiftKeyDown);
   }
 
   addKeyEventHandlers() {
@@ -101,15 +93,12 @@ class Camera extends Element {
   }
 
   update() {
-    const xAngle = angles.getXAngle(),
-          yAngle = angles.getYAngle(),
-          zAngle = angles.getZAngle(),
-          width = this.canvas.getWidth(),
+    const width = this.canvas.getWidth(),
           height = this.canvas.getHeight(),
           offset = this.pan.getOffset(),
           distance = this.zoom.getDistance(),
           offsetMatrix = OffsetMatrix.fromOffset(offset),
-          rotationMatrix = RotationMatrix.fromXAngleYAngleAndZAngle(xAngle, yAngle, zAngle),
+          rotationMatrix = RotationMatrix.fromAngles(angles),
           positionMatrix = PositionMatrix.fromDistance(distance),
           projectionMatrix = ProjectionMatrix.fromWidthAndHeight(width, height),
           normalMatrix = NormalMatrix.fromRotationMatrix(rotationMatrix);

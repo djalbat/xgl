@@ -1,21 +1,30 @@
 'use strict';
 
-const ColourCylinder = require('../../../common/cylinder/colour');
+const vec3 = require('../../../../maths/vec3'),
+      ColourCylinder = require('../../../common/cylinder/colour');
 
-const thickness = 0.125,
+const { add } = vec3,
+      thickness = 0.125,
       colour = [ 0.5, 0.5, 0.5, 1];
 
 const Upright = (properties) => {
   const { offset, height } = properties,
-        width = thickness, ///
-        depth = thickness; ///
+        overallHeight = height,
+        upright = (() => {
 
-  return (
+          const width = thickness, ///
+                height = thickness, ///
+                depth = overallHeight;  ///
 
-    <ColourCylinder colour={colour} offset={offset} width={width} depth={depth} height={height} />
+          return (
 
-  );
+            <ColourCylinder colour={colour} offset={add(offset, [ 0, 0, 2*thickness ])} width={width} height={height} depth={depth} rotation={[ -90, 0, 0 ]} />
+
+          );
+
+        })();
+
+  return upright;
 };
-
 
 module.exports = Upright;

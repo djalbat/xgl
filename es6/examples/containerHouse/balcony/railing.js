@@ -13,7 +13,7 @@ const Railing = (properties) => {
 
   return ([
 
-    <TopRail offset={add(offset, [ 0, 0, height ])} length={length} />,
+    <TopRail offset={add(offset, [ 0, height, 0 ])} length={length} />,
     <Uprights offset={offset} height={height} length={length} />
 
   ]);

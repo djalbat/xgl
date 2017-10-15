@@ -22,30 +22,30 @@ class Angles {
 
   getXAngle() {
     const secondAngleCoordinate = second(this.angleCoordinates),
-          xAngle = -secondAngleCoordinate; ///
+          xAngle = secondAngleCoordinate; ///
 
     return xAngle;
   }
   
   getYAngle() {
-    const yAngle = 0; ///
-    
+    const firstAngleCoordinate = first(this.angleCoordinates),
+          yAngle = -firstAngleCoordinate; ///
+
     return yAngle;
   }
 
   getZAngle() {
-    const firstAngleCoordinate = first(this.angleCoordinates),
-          zAngle = +firstAngleCoordinate; ///
+    const zAngle = 0;
 
     return zAngle;
   }
   
-  mouseUpHandler(mouseCoordinates) {
+  mouseUpHandler() {
     this.mouseDown = false;
     this.previousAngleCoordinates = this.angleCoordinates;
   }
 
-  mouseDownHandler(mouseCoordinates) {
+  mouseDownHandler() {
     this.mouseDown = true;
     this.previousMouseCoordinates = this.mouseCoordinates;
   }
