@@ -11,9 +11,9 @@ const { calculateVertexPositionData } = vertexUtilities,
 
 class TextureCuboid extends TextureElement {
   static fromProperties(properties) {
-    const { width, height, depth, offset, imageName } = properties,
+    const { width, height, depth, offset, rotation, imageName } = properties,
           textureCoordinateData = calculateTextureCoordinateData(imageName),
-          vertexPositionData = calculateVertexPositionData(initialVertexPositionData, width, height, depth, offset),
+          vertexPositionData = calculateVertexPositionData(initialVertexPositionData, width, height, depth, offset, rotation),
           textureCuboid = TextureElement.fromProperties(TextureCuboid, properties, vertexPositionData, vertexNormalData, vertexIndexData, textureCoordinateData);
 
     return textureCuboid;

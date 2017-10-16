@@ -9,9 +9,9 @@ const { calculateVertexPositionData } = vertexUtilities,
 
 class ColourCuboid extends ColourElement {
   static fromProperties(properties) {
-    const { width, height, depth, offset, colour } = properties,
+    const { width, height, depth, offset, rotation, colour } = properties,
           vertexColourData = calculateVertexColourData(colour),
-          vertexPositionData = calculateVertexPositionData(initialVertexPositionData, width, height, depth, offset),
+          vertexPositionData = calculateVertexPositionData(initialVertexPositionData, width, height, depth, offset, rotation),
           colourCuboid = ColourElement.fromProperties(ColourCuboid, properties, vertexPositionData, vertexNormalData, vertexIndexData, vertexColourData);
     
     return colourCuboid;

@@ -9,18 +9,19 @@ const { add } = vec3,
       height = 3;
 
 const Railing = (properties) => {
-  const { offset, length } = properties;
+  const { offset, rotation, length } = properties;
 
   return ([
 
-    <TopRail offset={add(offset, [ 0, height, 0 ])} length={length} />,
-    <Uprights offset={offset} height={height} length={length} />
+    <TopRail offset={add(offset, [ 0, height, 0 ])} rotation={rotation} length={length} />,
+      
+    <Uprights offset={offset} rotation={rotation} height={height} length={length} thickness={thickness} />
 
   ]);
 };
 
-module.exports = Railing;
-
 Object.assign(Railing, {
   thickness: thickness
 });
+
+module.exports = Railing;

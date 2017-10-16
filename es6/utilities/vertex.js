@@ -2,42 +2,23 @@
 
 const vec3 = require('../maths/vec3'),
       vec4 = require('../maths/vec4'),
-      mat4 = require('../maths/mat4'),
       arrayUtilities = require('../utilities/array');
 
 const { chop, flatten } = arrayUtilities,
-      { create, translate, scale, rotate } = mat4,
-      { transformMat4 } = vec4,
-      { subtract, cross } = vec3;
+      { subtract, cross } = vec3,
+      { composeTransform } = vec4;
 
-const defaultWidth = 1,
-      defaultDepth = 1,
-      defaultHeight = 1,
-      defaultOffset = [ 0, 0, 0 ],
-      defaultRotation = [ 0, 0, 0];
-
-function calculateVertexPositionData(initialVertexPositionData, width = defaultWidth, height = defaultHeight, depth = defaultDepth, offset = defaultOffset, rotation = defaultRotation) {
-  const mat4 = create(),
-        xAngle = rotation[0] * Math.PI / 180,
-        yAngle = rotation[1] * Math.PI / 180,
-        zAngle = rotation[2] * Math.PI / 180;
-
-  translate(mat4, mat4, offset);
-
-  rotate(mat4, mat4, xAngle, [ 1, 0, 0 ]);
-  rotate(mat4, mat4, yAngle, [ 0, 1, 0 ]);
-  rotate(mat4, mat4, zAngle, [ 0, 0, 1 ]);
-
-  scale(mat4, mat4, [width, height, depth]);
+function calculateVertexPositionData(initialVertexPositionData, width, height, depth, offset, rotation) {
+  const transform = composeTransform(width, height, depth, offset, rotation);
 
   let vertexPositions = chop(initialVertexPositionData, 4);  ///
 
   vertexPositions = vertexPositions.map(function(vertexPosition) {
-    return transformMat4(vertexPosition, vertexPosition, mat4);
+    return transform(vertexPosition);
   });
 
   vertexPositions = vertexPositions.map(function(vertexPosition) {
-    return vertexPosition.slice(0, 3);
+    return vertexPosition.slice(0, 3);  ///
   });
   
   const vertexPositionData = flatten(vertexPositions); 
