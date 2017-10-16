@@ -6,6 +6,7 @@ const Scene = require('../scene'),
       Canvas = require('../canvas'),
       Camera = require('../camera'),
       Frame = require('./containerHouse/frame'),
+      RoofGarden = require('./containerHouse/roofGarden'),
       FirstFloor = require('./containerHouse/floor/first'),
       ThirdFloor = require('./containerHouse/floor/third'),
       SecondFloor = require('./containerHouse/floor/second'),
@@ -29,6 +30,7 @@ const containerHouse = () => {
       <FirstFloor />
       <SecondFloor />
       <ThirdFloor />
+      <RoofGarden />
       <MainBalcony />
       <LowerBalcony />
       <BedroomBalcony />
