@@ -1,22 +1,12 @@
 'use strict';
 
 const plane = require('../plane'),
-      ColourElement = require('../../../element/colour'),
-      vertexUtilities = require('../../../utilities/vertex');
+      ColourElement = require('../../../element/colour');
 
-const { calculateVertexPositionData, calculateVertexNormalData, calculateVertexColourData } = vertexUtilities,
-      { vertexIndexData, initialVertexPositionData } = plane;
+const { initialVertexPositionData } = plane;
 
 class ColourPlane extends ColourElement {
-  static fromProperties(properties) {
-    const { width, height, depth, position, rotations, colour } = properties,
-          vertexColourData = calculateVertexColourData(initialVertexPositionData, colour),
-          vertexPositionData = calculateVertexPositionData(initialVertexPositionData, width, height, depth, position, rotations),
-          vertexNormalData = calculateVertexNormalData(vertexPositionData),
-          colourPlane = ColourElement.fromProperties(ColourPlane, properties, vertexPositionData, vertexNormalData, vertexIndexData, vertexColourData);
-    
-    return colourPlane;
-  }
+  static fromProperties(properties) { return ColourElement.fromPropertiesAndInitialVertexPositionData(ColourPlane, properties, initialVertexPositionData); }
 }
 
 module.exports = ColourPlane;

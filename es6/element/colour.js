@@ -1,14 +1,17 @@
 'use strict';
 
-const Element = require('../element');
+const Element = require('../element'),
+      vertexUtilities = require('../utilities/vertex');
+
+const { calculateVertexPositionData, calculateVertexNormalData, calculateVertexIndexData, calculateVertexColourData } = vertexUtilities;
 
 class ColourElement extends Element {
-  constructor(vertexPositionData, vertexNormalData, vertexIndexData, vertexColourData) {
+  constructor(vertexPositionData, vertexIndexData, vertexNormalData, vertexColourData) {
     super();
 
     this.vertexPositionData = vertexPositionData;
-    this.vertexNormalData = vertexNormalData;
     this.vertexIndexData = vertexIndexData;
+    this.vertexNormalData = vertexNormalData;
     this.vertexColourData = vertexColourData;
   }
 
@@ -16,12 +19,12 @@ class ColourElement extends Element {
     return this.vertexPositionData;
   }
 
-  getVertexNormalData() {
-    return this.vertexNormalData;
-  }
-
   getVertexIndexData() {
     return this.vertexIndexData;
+  }
+
+  getVertexNormalData() {
+    return this.vertexNormalData;
   }
 
   getVertexColourData() {
@@ -30,14 +33,19 @@ class ColourElement extends Element {
 
   create(colourRenderer, textureRenderer) {
     colourRenderer.addVertexPositionData(this.vertexPositionData);
-    colourRenderer.addVertexNormalData(this.vertexNormalData);
     colourRenderer.addVertexIndexData(this.vertexIndexData);
+    colourRenderer.addVertexNormalData(this.vertexNormalData);
     colourRenderer.addVertexColourData(this.vertexColourData);
   }
 
-  static fromProperties(Class, properties, vertexPositionData, vertexNormalData, vertexIndexData, vertexColourData, ...remainingArguments) {  ///
-    const colourElement = new Class(vertexPositionData, vertexNormalData, vertexIndexData, vertexColourData, ...remainingArguments);
-    
+  static fromPropertiesAndInitialVertexPositionData(Class, properties, initialVertexPositionData) {
+    const { width, height, depth, position, rotations, colour } = properties,
+          vertexPositionData = calculateVertexPositionData(initialVertexPositionData, width, height, depth, position, rotations),
+          vertexIndexData = calculateVertexIndexData(initialVertexPositionData),
+          vertexNormalData = calculateVertexNormalData(vertexPositionData),
+          vertexColourData = calculateVertexColourData(initialVertexPositionData, colour),
+          colourElement = new Class(vertexPositionData, vertexIndexData, vertexNormalData, vertexColourData);
+
     return colourElement;
   }
 }

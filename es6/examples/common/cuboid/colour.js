@@ -1,22 +1,12 @@
 'use strict';
 
 const cuboid = require('../cuboid'),
-      ColourElement = require('../../../element/colour'),
-      vertexUtilities = require('../../../utilities/vertex');
+      ColourElement = require('../../../element/colour');
 
-const { calculateVertexPositionData, calculateVertexNormalData, calculateVertexColourData } = vertexUtilities,
-      { vertexIndexData, initialVertexPositionData } = cuboid;
+const { initialVertexPositionData } = cuboid;
 
 class ColourCuboid extends ColourElement {
-  static fromProperties(properties) {
-    const { width, height, depth, position, rotations, colour } = properties,
-          vertexColourData = calculateVertexColourData(initialVertexPositionData, colour),
-          vertexPositionData = calculateVertexPositionData(initialVertexPositionData, width, height, depth, position, rotations),
-          vertexNormalData = calculateVertexNormalData(vertexPositionData),
-          colourCuboid = ColourElement.fromProperties(ColourCuboid, properties, vertexPositionData, vertexNormalData, vertexIndexData, vertexColourData);
-    
-    return colourCuboid;
-  }
+  static fromProperties(properties) { return ColourElement.fromPropertiesAndInitialVertexPositionData(ColourCuboid, properties, initialVertexPositionData); }
 }
 
 module.exports = ColourCuboid;

@@ -1,18 +1,14 @@
 'use strict';
 
 const constants = require('../../constants'),
-      arrayUtilities = require('../../utilities/array'),
-      vertexUtilities = require('../../utilities/vertex');
+      arrayUtilities = require('../../utilities/array');
 
 const { CYLINDER_FACES } = constants,
-      { flatten } = arrayUtilities,
-      { calculateVertexIndexData } = vertexUtilities;
+      { flatten } = arrayUtilities;
 
-const initialVertexPositionData = calculateInitialVertexPositionData(),
-      vertexIndexData = calculateVertexIndexData(initialVertexPositionData);
+const initialVertexPositionData = calculateInitialVertexPositionData();
 
 module.exports = {
-  vertexIndexData: vertexIndexData,
   initialVertexPositionData: initialVertexPositionData
 };
 

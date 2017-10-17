@@ -1,22 +1,12 @@
 'use strict';
 
 const plane = require('../plane'),
-      TextureElement = require('../../../element/texture'),
-      vertexUtilities = require('../../../utilities/vertex');
+      TextureElement = require('../../../element/texture');
 
-const { calculateVertexPositionData, calculateVertexNormalData, calculateTextureCoordinateData } = vertexUtilities,
-      { vertexIndexData, initialVertexPositionData } = plane;
+const { initialVertexPositionData } = plane;
 
 class TexturePlane extends TextureElement {
-  static fromProperties(properties) {
-    const { width, height, depth, position, rotations, imageName } = properties,
-          textureCoordinateData = calculateTextureCoordinateData(initialVertexPositionData, imageName),
-          vertexPositionData = calculateVertexPositionData(initialVertexPositionData, width, height, depth, position, rotations),
-          vertexNormalData = calculateVertexNormalData(vertexPositionData),
-          texturePlane = TextureElement.fromProperties(TexturePlane, properties, vertexPositionData, vertexNormalData, vertexIndexData, textureCoordinateData);
-
-    return texturePlane;
-  }
+  static fromProperties(properties) { return TextureElement.fromPropertiesAndInitialVertexPositionData(TexturePlane, properties, initialVertexPositionData); }
 }
 
 module.exports = TexturePlane;
