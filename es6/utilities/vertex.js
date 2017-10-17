@@ -2,9 +2,11 @@
 
 const vec3 = require('../maths/vec3'),
       vec4 = require('../maths/vec4'),
-      arrayUtilities = require('../utilities/array');
+      arrayUtilities = require('../utilities/array'),
+      imageMapUtilities = require('../utilities/imageMap');
 
 const { chop, flatten } = arrayUtilities,
+      { textureCoordinateDataFromImageNames } = imageMapUtilities,
       { subtract, cross } = vec3,
       { composeTransform } = vec4;
 
@@ -39,6 +41,20 @@ function calculateVertexColourData(initialVertexPositionData, colour) {
   const vertexColourData = flatten(vertexColours);  ///
 
   return vertexColourData;
+}
+
+function calculateTextureCoordinateData(initialVertexPositionData, imageName) {
+  const initialVertexPositionDataLength = initialVertexPositionData.length,
+        imageNamesLength = initialVertexPositionDataLength / 16,  ///
+        imageNames = [];
+  
+  for (let index = 0; index < imageNamesLength; index++) {
+    imageNames.push(imageName);
+  }
+
+  const textureCoordinateData = textureCoordinateDataFromImageNames(imageNames);
+
+  return textureCoordinateData;
 }
 
 function calculateVertexNormalData(initialVertexPositionData) {
@@ -89,6 +105,7 @@ function calculateVertexIndexData(initialVertexPositionData) {
 
 module.exports = {
   calculateVertexPositionData: calculateVertexPositionData,
+  calculateTextureCoordinateData: calculateTextureCoordinateData,
   calculateVertexColourData: calculateVertexColourData,
   calculateVertexNormalData: calculateVertexNormalData,
   calculateVertexIndexData: calculateVertexIndexData
