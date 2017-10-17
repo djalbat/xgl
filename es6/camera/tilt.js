@@ -10,7 +10,7 @@ const { arrayUtilities } = necessary,
       { add, subtract, scale } = vec2,
       { ANGLE_COORDINATES_SCALAR, INITIAL_MOUSE_COORDINATES, INITIAL_ANGLE_COORDINATES } = constants;
 
-class Angles {
+class Tilt {
   constructor(mouseDown, shiftKeyDown, mouseCoordinates, angleCoordinates, previousMouseCoordinates, previousAngleCoordinates) {
     this.mouseDown = mouseDown;
     this.shiftKeyDown = shiftKeyDown;
@@ -82,12 +82,12 @@ class Angles {
           angleCoordinates = INITIAL_ANGLE_COORDINATES,
           previousAngleCoordinates = angleCoordinates,  ///
           previousMouseCoordinates = mouseCoordinates,  ///
-          angles = new Angles(mouseDown, shiftKeyDown, mouseCoordinates, angleCoordinates, previousMouseCoordinates, previousAngleCoordinates);
+          tilt = new Tilt(mouseDown, shiftKeyDown, mouseCoordinates, angleCoordinates, previousMouseCoordinates, previousAngleCoordinates);
 
-    return angles;
+    return tilt;
   }
 }
 
-const angles = Angles.fromNothing();
+const tilt = Tilt.fromNothing();
 
-module.exports = angles;
+module.exports = tilt;

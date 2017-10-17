@@ -3,27 +3,27 @@
 const vec2 = require('gl-vec2');
 
 function add(vecA, vecB) {
-  const vec = [];
+  const out = [];
 
-  vec2.add(vec, vecA, vecB);
+  vec2.add(out, vecA, vecB);
 
-  return vec;
+  return out;
 }
 
 function subtract(vecA, vecB) {
-  const vec = [];
+  const out = [];
 
-  vec2.subtract(vec, vecA, vecB);
+  vec2.subtract(out, vecA, vecB);
 
-  return vec;
+  return out;
 }
 
 function scale(vecA, scalar) {
-  const vec = [];
+  const out = [];
 
-  vec2.scale(vec, vecA, scalar);
+  vec2.scale(out, vecA, scalar);
 
-  return vec;
+  return out;
 }
 
 module.exports = {

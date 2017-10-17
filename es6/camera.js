@@ -3,7 +3,7 @@
 const Element = require('./element'),
       Pan = require('./camera/pan'),
       Zoom = require('./camera/zoom'),
-      angles = require('./camera/angles'),
+      tilt = require('./camera/tilt'),
       keyEvents = require('./camera/keyEvents'),
       MouseEvents = require('./camera/mouseEvents'),
       OffsetMatrix = require('./matrix/offset'),
@@ -26,7 +26,7 @@ class Camera extends Element {
   mouseUpHandler(mouseCoordinates) {
     this.mouseDown = false;
     
-    angles.mouseUpHandler();
+    tilt.mouseUpHandler();
 
     this.pan.mouseUpHandler();
   }
@@ -34,15 +34,15 @@ class Camera extends Element {
   mouseDownHandler(mouseCoordinates) {
     this.mouseDown = true;
     
-    angles.mouseDownHandler();
+    tilt.mouseDownHandler();
 
     this.pan.mouseDownHandler();
   }
 
   mouseMoveHandler(mouseCoordinates) {
-    angles.mouseMoveHandler(mouseCoordinates);
+    tilt.mouseMoveHandler(mouseCoordinates);
 
-    this.pan.mouseMoveHandler(mouseCoordinates, angles);
+    this.pan.mouseMoveHandler(mouseCoordinates, tilt);
 
     if (this.mouseDown) {
       this.update();
@@ -56,7 +56,7 @@ class Camera extends Element {
   }
 
   shiftKeyHandler(shiftKeyDown) {
-    angles.shiftKeyHandler(shiftKeyDown);
+    tilt.shiftKeyHandler(shiftKeyDown);
 
     this.pan.shiftKeyHandler(shiftKeyDown);
   }
@@ -98,7 +98,7 @@ class Camera extends Element {
           offset = this.pan.getOffset(),
           distance = this.zoom.getDistance(),
           offsetMatrix = OffsetMatrix.fromOffset(offset),
-          rotationMatrix = RotationMatrix.fromAngles(angles),
+          rotationMatrix = RotationMatrix.fromAngles(tilt),
           positionMatrix = PositionMatrix.fromDistance(distance),
           projectionMatrix = ProjectionMatrix.fromWidthAndHeight(width, height),
           normalMatrix = NormalMatrix.fromRotationMatrix(rotationMatrix);

@@ -4,14 +4,15 @@ const cylinder = require('../cylinder'),
       ColourElement = require('../../../element/colour'),
       vertexUtilities = require('../../../utilities/vertex');
 
-const { calculateVertexPositionData, calculateVertexColourData } = vertexUtilities,
-      { vertexIndexData, vertexNormalData, initialVertexPositionData } = cylinder;
+const { calculateVertexPositionData, calculateVertexNormalData, calculateVertexColourData } = vertexUtilities,
+      { vertexIndexData, initialVertexPositionData } = cylinder;
 
 class ColourCylinder extends ColourElement {
   static fromProperties(properties) {
-    const { width, height, depth, offset, rotation, colour } = properties,
+    const { width, height, depth, offset, rotations, colour } = properties,
           vertexColourData = calculateVertexColourData(initialVertexPositionData, colour),
-          vertexPositionData = calculateVertexPositionData(initialVertexPositionData, width, height, depth, offset, rotation),
+          vertexPositionData = calculateVertexPositionData(initialVertexPositionData, width, height, depth, offset, rotations),
+          vertexNormalData = calculateVertexNormalData(vertexPositionData),
           colourCylinder = ColourElement.fromProperties(ColourCylinder, properties, vertexPositionData, vertexNormalData, vertexIndexData, vertexColourData);
 
     return colourCylinder;

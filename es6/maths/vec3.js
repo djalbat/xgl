@@ -3,31 +3,40 @@
 const vec3 = require('gl-vec3');
 
 function add(vecA, vecB) {
-  const vec = [];
+  const out = [];
 
-  vec3.add(vec, vecA, vecB);
+  vec3.add(out, vecA, vecB);
 
-  return vec;
+  return out;
 }
 
 function subtract(vecA, vecB) {
-  const vec = [];
+  const out = [];
 
-  vec3.subtract(vec, vecA, vecB);
+  vec3.subtract(out, vecA, vecB);
 
-  return vec;
+  return out;
 }
 
 function cross(vecA, vecB) {
-  const vec = [];
+  const out = [];
 
-  vec3.cross(vec, vecA, vecB);
+  vec3.cross(out, vecA, vecB);
 
-  return vec;
+  return out;
+}
+
+function normalise(vec) {
+  const out = [];
+
+  vec3.normalize(out, vec);
+
+  return out;
 }
 
 module.exports = {
   add: add,
   subtract: subtract,
-  cross: cross
+  cross: cross,
+  normalise: normalise
 };

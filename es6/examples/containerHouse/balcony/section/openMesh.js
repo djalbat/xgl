@@ -39,7 +39,7 @@ const OpenMesh = (properties) => {
 
     elements.push(
 
-      <ColourCylinder colour={colour} offset={add(offset, [ 0, -3*diameter/2, step * index ])} width={width} height={height} depth={depth} rotation={[ 0, 90, 0 ]} />
+      <ColourCylinder colour={colour} offset={add(offset, [ 0, -3*diameter/2, step * index ])} width={width} height={height} depth={depth} rotations={[ 0, 90, 0 ]} />
 
     )
   }

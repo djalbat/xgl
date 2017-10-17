@@ -9,16 +9,15 @@ const lightingSource = new String(`
 
         attribute vec3 ${vertexNormalAttributeName};
 
-        vec3 ambientLight = vec3(0.3, 0.3, 0.3),
-             directionalLightColour = vec3(1, 1, 1),
-             directionalVector = normalize(vec3(0.85, 0.8, 0.75));
+        vec3 directionalLightColour = vec3(1, 1, 1),
+             directionalVector = normalize(vec3(1.0, 1.0, 1.0));
           
         vec3 calculateLighting() {
           vec4 transformedNormal = ${normalMatrixName} * vec4(${vertexNormalAttributeName}, 1.0);            
 
-          float directional = max(dot(transformedNormal.xyz, directionalVector), 0.0);
+          float directional = (dot(transformedNormal.xyz, directionalVector) + 1.0) / 2.0;
           
-          vec3 lighting = ambientLight + (directionalLightColour * directional);
+          vec3 lighting = (directionalLightColour * directional);
           
           return lighting;
         }

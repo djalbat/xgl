@@ -1,11 +1,9 @@
 'use strict';
 
 const constants = require('../../bin/constants'), ///
-      arrayUtilities = require('../utilities/array'),
       imageUtilities = require('../utilities/image');
 
 const { IMAGE_MAP_PATH } = constants,
-      { flatten } = arrayUtilities,
       { preloadImage } = imageUtilities,
       { imageMapJSON } = runtimeConfiguration;
 
@@ -15,18 +13,17 @@ function preloadImageMap(callback) {
   preloadImage(path, callback);
 }
 
-function textureCoordinateDataFromImageNames(imageNames) {
+function textureCoordinatesFromImageNames(imageNames) {
   const textureCoordinates = imageNames.reduce(function(textureCoordinates, textureName) {
           textureCoordinates = textureCoordinates.concat(imageMapJSON[textureName]);
 
           return textureCoordinates;
-        }, []),
-        textureCoordinateData = flatten(textureCoordinates);
+        }, []);
 
-  return textureCoordinateData;
+  return textureCoordinates;
 }
 
 module.exports = {
   preloadImageMap: preloadImageMap,
-  textureCoordinateDataFromImageNames: textureCoordinateDataFromImageNames
+  textureCoordinatesFromImageNames: textureCoordinatesFromImageNames
 };

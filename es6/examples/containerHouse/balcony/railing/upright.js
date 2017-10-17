@@ -19,7 +19,7 @@ const Upright = (properties) => {
 
           return (
 
-            <ColourCylinder colour={colour} offset={add(offset, [ -radius, 0, radius ])} width={width} height={height} depth={depth} rotation={[ -90, 0, 0 ]} />
+            <ColourCylinder colour={colour} offset={add(offset, [ -radius, 0, radius ])} width={width} height={height} depth={depth} rotations={[ -90, 0, 0 ]} />
 
           );
 

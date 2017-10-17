@@ -17,7 +17,7 @@ const MainBalcony = (properties) => [
 
   <Railing offset={[ 28, 19,            0 ]} length={20} />,
   <Railing offset={[ 20, 19, 32-thickness ]} length={28} />,
-  <Railing offset={[ 48, 19, 0            ]} rotation={[ 0, -90, 0]} length={32} />,
+  <Railing offset={[ 48, 19, 0            ]} rotations={[ 0, -90, 0]} length={32} />,
 
 ];
 

@@ -1,85 +1,50 @@
 'use strict';
 
 const vec3 = require('../maths/vec3'),
-      vec4 = require('../maths/vec4'),
       arrayUtilities = require('../utilities/array'),
-      imageMapUtilities = require('../utilities/imageMap');
+      imageMapUtilities = require('../utilities/imageMap'),
+      transformUtilities = require('../utilities/transform');
 
-const { chop, flatten } = arrayUtilities,
-      { textureCoordinateDataFromImageNames } = imageMapUtilities,
-      { subtract, cross } = vec3,
-      { composeTransform } = vec4;
+const { textureCoordinatesFromImageNames } = imageMapUtilities,
+      { composeScaleRotateTranslate } = transformUtilities,
+      { chop, flatten } = arrayUtilities,
+      { subtract, cross, normalise } = vec3;
 
-function calculateVertexPositionData(initialVertexPositionData, width, height, depth, offset, rotation) {
-  const transform = composeTransform(width, height, depth, offset, rotation);
-
-  let vertexPositions = chop(initialVertexPositionData, 4);  ///
-
-  vertexPositions = vertexPositions.map(function(vertexPosition) {
-    return transform(vertexPosition);
-  });
-
-  vertexPositions = vertexPositions.map(function(vertexPosition) {
-    return vertexPosition.slice(0, 3);  ///
-  });
+function calculateVertexPositionData(initialVertexPositionData, width, height, depth, offset, rotations) {
+  const initialVertexPositions = chop(initialVertexPositionData, 3),  ///
+        scaleRotateTranslate = composeScaleRotateTranslate(width, height, depth, offset, rotations),
+        vertexPositions = initialVertexPositions.map(function(initialVertexPosition) {
+          const vertexPosition = scaleRotateTranslate(initialVertexPosition);
   
-  const vertexPositionData = flatten(vertexPositions); 
+          return vertexPosition;
+        }),
+        vertexPositionData = flatten(vertexPositions);
 
   return vertexPositionData;
 }
 
-function calculateVertexColourData(initialVertexPositionData, colour) {
-  const initialVertexPositionDataLength = initialVertexPositionData.length,
-        vertexColoursLength = initialVertexPositionDataLength / 4,  ///
-        vertexColour = colour,
-        vertexColours = [];
+function calculateVertexNormalData(vertexPositionData) {
+  const faces = chop(vertexPositionData, 12),  ///
+        vertexNormals = faces.reduce(function(vertexNormals, face) {
+          const vertexPositions = chop(face, 3);
 
-  for (let index = 0; index < vertexColoursLength; index++) {
-    vertexColours.push(vertexColour);
-  }
+          for (let index = 0; index < 4; index++) {
+            const firstVertexIndex = index,
+                  secondVertexIndex = (index + 1) % 4,
+                  thirdVertexIndex = (index + 3) % 4,
+                  firstVertexPosition = vertexPositions[firstVertexIndex],
+                  secondVertexPosition = vertexPositions[secondVertexIndex],
+                  thirdVertexPosition = vertexPositions[thirdVertexIndex],
+                  firstVector = subtract(secondVertexPosition, firstVertexPosition),
+                  secondVector = subtract(thirdVertexPosition, firstVertexPosition),
+                  vertexNormal = normalise(cross(firstVector, secondVector));
 
-  const vertexColourData = flatten(vertexColours);  ///
+            vertexNormals.push(vertexNormal);
+          }
 
-  return vertexColourData;
-}
-
-function calculateTextureCoordinateData(initialVertexPositionData, imageName) {
-  const initialVertexPositionDataLength = initialVertexPositionData.length,
-        imageNamesLength = initialVertexPositionDataLength / 16,  ///
-        imageNames = [];
-  
-  for (let index = 0; index < imageNamesLength; index++) {
-    imageNames.push(imageName);
-  }
-
-  const textureCoordinateData = textureCoordinateDataFromImageNames(imageNames);
-
-  return textureCoordinateData;
-}
-
-function calculateVertexNormalData(initialVertexPositionData) {
-  const vertexNormalVectors = [],
-        faces = chop(initialVertexPositionData, 16);  ///
-
-  faces.forEach(function(face) {
-    const vertexPositions = chop(face, 4);
-
-    for (let index = 0; index < 4; index++) {
-      const firstVertexIndex = index,
-            secondVertexIndex = (index + 1) % 4,
-            thirdVertexIndex = (index + 3) % 4,
-            firstVertexPosition = vertexPositions[firstVertexIndex],
-            secondVertexPosition = vertexPositions[secondVertexIndex],
-            thirdVertexPosition = vertexPositions[thirdVertexIndex],
-            firstVector = subtract(secondVertexPosition, firstVertexPosition),  ///
-            secondVector = subtract(thirdVertexPosition, firstVertexPosition),  ///
-            vertexNormalVector = cross(firstVector, secondVector);
-
-      vertexNormalVectors.push(vertexNormalVector);
-    }
-  });
-  
-  const vertexNormalData = flatten(vertexNormalVectors); ///
+          return vertexNormals;
+        }, []),
+        vertexNormalData = flatten(vertexNormals); ///
 
   return vertexNormalData;
 }
@@ -87,7 +52,7 @@ function calculateVertexNormalData(initialVertexPositionData) {
 function calculateVertexIndexData(initialVertexPositionData) {
   const vertexIndexData = [],
         initialVertexPositionDataLength = initialVertexPositionData.length,
-        facesLength = initialVertexPositionDataLength / 16; ///
+        facesLength = initialVertexPositionDataLength / 12; ///
 
   for (let index = 0; index < facesLength; index++) {
     const offset = index * 4;
@@ -103,10 +68,40 @@ function calculateVertexIndexData(initialVertexPositionData) {
   return vertexIndexData;
 }
 
+function calculateVertexColourData(initialVertexPositionData, colour) {
+  const initialVertexPositionDataLength = initialVertexPositionData.length,
+        vertexColoursLength = initialVertexPositionDataLength / 3,  ///
+        vertexColour = colour,
+        vertexColours = [];
+
+  for (let index = 0; index < vertexColoursLength; index++) {
+    vertexColours.push(vertexColour);
+  }
+
+  const vertexColourData = flatten(vertexColours);  ///
+
+  return vertexColourData;
+}
+
+function calculateTextureCoordinateData(initialVertexPositionData, imageName) {
+  const initialVertexPositionDataLength = initialVertexPositionData.length,
+        imageNamesLength = initialVertexPositionDataLength / 12,  ///
+        imageNames = [];
+
+  for (let index = 0; index < imageNamesLength; index++) {
+    imageNames.push(imageName);
+  }
+
+  const textureCoordinates = textureCoordinatesFromImageNames(imageNames),
+        textureCoordinateData = flatten(textureCoordinates);
+
+  return textureCoordinateData;
+}
+
 module.exports = {
   calculateVertexPositionData: calculateVertexPositionData,
-  calculateTextureCoordinateData: calculateTextureCoordinateData,
-  calculateVertexColourData: calculateVertexColourData,
   calculateVertexNormalData: calculateVertexNormalData,
-  calculateVertexIndexData: calculateVertexIndexData
+  calculateVertexIndexData: calculateVertexIndexData,
+  calculateVertexColourData: calculateVertexColourData,
+  calculateTextureCoordinateData: calculateTextureCoordinateData
 };

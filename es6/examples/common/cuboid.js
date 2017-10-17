@@ -2,46 +2,44 @@
 
 const vertexUtilities = require('../../utilities/vertex');
 
-const { calculateVertexIndexData, calculateVertexNormalData} = vertexUtilities;
+const { calculateVertexIndexData } = vertexUtilities;
 
 const initialVertexPositionData = [
 
-        0.0, 0.0, 1.0, 1,
-        1.0, 0.0, 1.0, 1,
-        1.0, 1.0, 1.0, 1,
-        0.0, 1.0, 1.0, 1,
+        0.0, 0.0, 1.0,
+        1.0, 0.0, 1.0,
+        1.0, 1.0, 1.0,
+        0.0, 1.0, 1.0,
 
-        0.0, 0.0, 0.0, 1,
-        0.0, 1.0, 0.0, 1,
-        1.0, 1.0, 0.0, 1,
-        1.0, 0.0, 0.0, 1,
+        0.0, 0.0, 0.0,
+        0.0, 1.0, 0.0,
+        1.0, 1.0, 0.0,
+        1.0, 0.0, 0.0,
 
-        0.0, 1.0, 0.0, 1,
-        0.0, 1.0, 1.0, 1,
-        1.0, 1.0, 1.0, 1,
-        1.0, 1.0, 0.0, 1,
+        0.0, 1.0, 0.0,
+        0.0, 1.0, 1.0,
+        1.0, 1.0, 1.0,
+        1.0, 1.0, 0.0,
 
-        0.0, 0.0, 0.0, 1,
-        1.0, 0.0, 0.0, 1,
-        1.0, 0.0, 1.0, 1,
-        0.0, 0.0, 1.0, 1,
+        0.0, 0.0, 0.0,
+        1.0, 0.0, 0.0,
+        1.0, 0.0, 1.0,
+        0.0, 0.0, 1.0,
 
-        1.0, 0.0, 0.0, 1,
-        1.0, 1.0, 0.0, 1,
-        1.0, 1.0, 1.0, 1,
-        1.0, 0.0, 1.0, 1,
+        1.0, 0.0, 0.0,
+        1.0, 1.0, 0.0,
+        1.0, 1.0, 1.0,
+        1.0, 0.0, 1.0,
 
-        0.0, 0.0, 0.0, 1,
-        0.0, 0.0, 1.0, 1,
-        0.0, 1.0, 1.0, 1,
-        0.0, 1.0, 0.0, 1,
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 1.0,
+        0.0, 1.0, 1.0,
+        0.0, 1.0, 0.0,
 
       ],
-      vertexIndexData = calculateVertexIndexData(initialVertexPositionData),
-      vertexNormalData = calculateVertexNormalData(initialVertexPositionData);
+      vertexIndexData = calculateVertexIndexData(initialVertexPositionData);
 
 module.exports = {
   vertexIndexData: vertexIndexData,
-  vertexNormalData: vertexNormalData,
   initialVertexPositionData: initialVertexPositionData
 };

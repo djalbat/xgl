@@ -6,15 +6,13 @@ const constants = require('../../constants'),
 
 const { CYLINDER_FACES } = constants,
       { flatten } = arrayUtilities,
-      { calculateVertexIndexData, calculateVertexNormalData} = vertexUtilities;
+      { calculateVertexIndexData } = vertexUtilities;
 
 const initialVertexPositionData = calculateInitialVertexPositionData(),
-      vertexIndexData = calculateVertexIndexData(initialVertexPositionData),
-      vertexNormalData = calculateVertexNormalData(initialVertexPositionData);
+      vertexIndexData = calculateVertexIndexData(initialVertexPositionData);
 
 module.exports = {
   vertexIndexData: vertexIndexData,
-  vertexNormalData: vertexNormalData,
   initialVertexPositionData: initialVertexPositionData
 };
 
@@ -32,10 +30,10 @@ function calculateInitialVertexPositionData() {
           firstZ = 0,
           secondZ = 1;
 
-    initialVertexPositionVectors.push([ firstX, firstY, firstZ, 1 ]);
-    initialVertexPositionVectors.push([ secondX, secondY, firstZ, 1 ]);
-    initialVertexPositionVectors.push([ secondX, secondY, secondZ, 1 ]);
-    initialVertexPositionVectors.push([ firstX, firstY, secondZ, 1 ]);
+    initialVertexPositionVectors.push([ firstX, firstY, firstZ ]);
+    initialVertexPositionVectors.push([ secondX, secondY, firstZ ]);
+    initialVertexPositionVectors.push([ secondX, secondY, secondZ ]);
+    initialVertexPositionVectors.push([ firstX, firstY, secondZ ]);
   }
 
   const initialVertexPositionData = flatten(initialVertexPositionVectors);  ///
