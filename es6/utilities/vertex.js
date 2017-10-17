@@ -6,16 +6,20 @@ const vec3 = require('../maths/vec3'),
       transformUtilities = require('../utilities/transform');
 
 const { textureCoordinatesFromImageNames } = imageMapUtilities,
-      { composeScaleRotateTranslate } = transformUtilities,
+      { composeTransforms } = transformUtilities,
       { chop, flatten } = arrayUtilities,
       { subtract, cross, normalise } = vec3;
 
-function calculateVertexPositionData(initialVertexPositionData, width, height, depth, offset, rotations) {
+function calculateVertexPositionData(initialVertexPositionData, width, height, depth, dimensions, position, rotations, transformations) {
   const initialVertexPositions = chop(initialVertexPositionData, 3),  ///
-        scaleRotateTranslate = composeScaleRotateTranslate(width, height, depth, offset, rotations),
+        transforms = composeTransforms(width, height, depth, dimensions, position, rotations, transformations),
         vertexPositions = initialVertexPositions.map(function(initialVertexPosition) {
-          const vertexPosition = scaleRotateTranslate(initialVertexPosition);
-  
+          let vertexPosition = initialVertexPosition;
+
+          transforms.forEach(function(transform) {
+            vertexPosition = transform(vertexPosition);
+          });
+
           return vertexPosition;
         }),
         vertexPositionData = flatten(vertexPositions);

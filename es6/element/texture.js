@@ -39,8 +39,8 @@ class TextureElement extends Element {
   }
   
   static fromPropertiesAndInitialVertexPositionData(Class, properties, initialVertexPositionData) { 
-    const { width, height, depth, position, rotations, imageName } = properties,
-          vertexPositionData = calculateVertexPositionData(initialVertexPositionData, width, height, depth, position, rotations),
+    const { width, height, depth, dimensions, position, rotations, transformations, imageName } = properties,
+          vertexPositionData = calculateVertexPositionData(initialVertexPositionData, width, height, depth, dimensions, position, rotations, transformations),
           vertexIndexData = calculateVertexIndexData(initialVertexPositionData),
           vertexNormalData = calculateVertexNormalData(vertexPositionData),
           textureCoordinateData = calculateTextureCoordinateData(initialVertexPositionData, imageName),

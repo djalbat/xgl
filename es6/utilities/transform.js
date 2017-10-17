@@ -9,39 +9,21 @@ const { DEGREES_TO_RADIANS } = constants,
       { create, translate, scale, rotate } = mat4,
       { first, second, third } = arrayUtilities,
       { transform } = vec4,
-      defaultWidth = 1,
-      defaultDepth = 1,
-      defaultHeight = 1,
       xAxis = [ 1, 0, 0 ],
       yAxis = [ 0, 1, 0 ],
       zAxis = [ 0, 0, 1 ],
+      defaultWidth = 1,
+      defaultDepth = 1,
+      defaultHeight = 1,
       defaultPosition = [ 0, 0, 0 ],
       defaultRotations = [ 0, 0, 0 ];
-
-function composeScaleRotateTranslate(width, height, depth, position, rotations) {
-  const scale = composeScale(width, height, depth),
-        rotate = composeRotate(rotations),
-        translate = composeTranslate(position);
-  
-  return function(vec) {
-    return translate(rotate(scale(vec)));
-  }
-}
-
-function composeTranslate(position = defaultPosition) {
-  const mat4 = create();
-
-  translate(mat4, mat4, position);
-
-  return composeTransform(mat4);
-}
 
 function composeScale(width = defaultWidth, height = defaultHeight, depth = defaultDepth) {
   const mat4 = create();
 
-  scale(mat4, mat4, [width, height, depth]);
+  scale(mat4, mat4, [ width, height, depth ]);
 
-  return composeTransform(mat4);
+  return compose(mat4);
 }
 
 function composeRotate(rotations = defaultRotations) {
@@ -57,17 +39,67 @@ function composeRotate(rotations = defaultRotations) {
   rotate(mat4, mat4, yAngle, yAxis);
   rotate(mat4, mat4, zAngle, zAxis);
 
-  return composeTransform(mat4);
+  return compose(mat4);
+}
+
+function composeTranslate(position = defaultPosition) {
+  const mat4 = create();
+
+  translate(mat4, mat4, position);
+
+  return compose(mat4);
+}
+
+function composeTransform(transformation) {
+  const { dimensions, position, rotations } = transformation,
+        { width, height, depth } = dimensions,
+        scale = composeScale(width, height, depth),
+        rotate = composeRotate(rotations),
+        translate = composeTranslate(position);
+
+  return function(vec) {
+    return translate(rotate(scale(vec)));
+  }
+}
+
+function composeTransforms(width, height, depth, dimensions, position, rotations, transformations) {
+  let transforms;
+
+  if (transformations !== undefined) {
+    transforms = transformations.map(composeTransform);
+  } else {
+    if (dimensions === undefined) {
+      dimensions = {
+        width: width,
+        height: height,
+        depth: depth
+      }
+    }
+
+    const transformation = {
+            dimensions: dimensions,
+            position: position,
+            rotations: rotations
+          },
+          transform = composeTransform(transformation);
+
+    transforms = [
+      transform
+    ];
+  }
+
+  return transforms;
 }
 
 module.exports = module.exports = {
-  composeScaleRotateTranslate: composeScaleRotateTranslate,
   composeScale: composeScale,
   composeRotate: composeRotate,
-  composeTranslate: composeTranslate
+  composeTranslate: composeTranslate,
+  composeTransform: composeTransform,
+  composeTransforms: composeTransforms
 };
 
-function composeTransform(mat4) {
+function compose(mat4) {
   return function(vec) {
     return transform([...vec, 1], mat4).slice(0, 3);
   };

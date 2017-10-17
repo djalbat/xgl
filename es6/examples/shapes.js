@@ -9,7 +9,6 @@ const Scene = require('../scene'),
       TextureCuboid = require('./common/texture/cuboid'),
       ColourCylinder = require('./common/colour/cylinder'),
       TextureCylinder = require('./common/texture/cylinder'),
-      TwentyFootContainer = require('./containerHouse/container/twentyFoot'),
       imageMapUtilities = require('../utilities/imageMap');
 
 const { preloadImageMap } = imageMapUtilities;
@@ -21,9 +20,11 @@ const shapes = () => {
   preloadImageMap((imageMap) =>
 
     <Scene imageMap={imageMap} canvas={canvas}>
-      <Camera initialDistance={100} initialOffset={[ 0, 0, 0 ]} canvas={canvas} />
-      <TextureCuboid width={10} height={10} depth={10} position={[ 0, 20, 0 ]} imageName="bricks.jpg" />
-      <TwentyFootContainer rotations={[ 0, 0, 0 ]} />
+      <Camera initialDistance={10} initialOffset={[ 0, 0, 0 ]} canvas={canvas} />
+      <TextureCuboid width={1} height={1} depth={1} position={[ 0, 2, 0 ]} imageName="bricks.jpg" />
+      <TexturePlane width={1} height={1} position={[ -1, -1, -1 ]} imageName="gravel.jpg" />
+      <ColourCylinder width={1} height={1} depth={1} position={[ 0, -1, 1 ]} rotations={[ 0, 0, 0 ]} colour={[ 1, 0, 0, 1 ]} />
+      <TextureCylinder width={1} height={1} depth={1} position={[ 0, 1, -1 ]} rotations={[ 0, 90, 90 ]} imageName="grass.jpg" />
     </Scene>
 
   );
@@ -31,6 +32,3 @@ const shapes = () => {
 
 module.exports = shapes;
 
-// <TexturePlane width={1} height={1} position={[ -1, -1, -1 ]} imageName="gravel.jpg" />
-// <ColourCylinder width={1} height={1} depth={1} position={[ 0, -1, 1 ]} rotations={[ 0, 0, 0 ]} colour={[ 1, 0, 0, 1 ]} />
-// <TextureCylinder width={1} height={1} depth={1} position={[ 0, 1, -1 ]} imageName="grass.jpg" rotations={[ 0, 90, 90 ]} />

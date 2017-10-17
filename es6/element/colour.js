@@ -39,8 +39,8 @@ class ColourElement extends Element {
   }
 
   static fromPropertiesAndInitialVertexPositionData(Class, properties, initialVertexPositionData) {
-    const { width, height, depth, position, rotations, colour } = properties,
-          vertexPositionData = calculateVertexPositionData(initialVertexPositionData, width, height, depth, position, rotations),
+    const { width, height, depth, dimensions, position, rotations, transformations, colour } = properties,
+          vertexPositionData = calculateVertexPositionData(initialVertexPositionData, width, height, depth, dimensions, position, rotations, transformations),
           vertexIndexData = calculateVertexIndexData(initialVertexPositionData),
           vertexNormalData = calculateVertexNormalData(vertexPositionData),
           vertexColourData = calculateVertexColourData(initialVertexPositionData, colour),
