@@ -1,6 +1,6 @@
 'use strict';
 
-const ColourCuboid = require('../../../common/cuboid/colour');
+const ColourCuboid = require('../../../common/colour/cuboid');
 
 const height = 0.1,
       thickness = 0.4,

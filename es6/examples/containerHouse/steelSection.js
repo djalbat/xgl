@@ -1,6 +1,6 @@
 'use strict';
 
-const TextureCuboid = require('../common/cuboid/texture');
+const TextureCuboid = require('../common/texture/cuboid');
 
 const SteelSection = (properties) => {
   const { position, width, height, depth } = properties;

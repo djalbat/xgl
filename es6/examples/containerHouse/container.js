@@ -1,7 +1,7 @@
 'use strict';
 
 const vec3 = require('../../maths/vec3'),
-      ColourPlane = require('../common/plane/colour'),
+      ColourPlane = require('../common/colour/plane'),
       transformUtilities = require('../../utilities/transform');
 
 const { add } = vec3,

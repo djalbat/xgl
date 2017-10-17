@@ -1,8 +1,8 @@
 'use strict';
 
 const vec3 = require('../../../../maths/vec3'),
-      ColourCuboid = require('../../../common/cuboid/colour'),
-      ColourCylinder = require('../../../common/cylinder/colour');
+      ColourCuboid = require('../../../common/colour/cuboid'),
+      ColourCylinder = require('../../../common/colour/cylinder');
 
 const { add } = vec3,
       overallHeight = 0.25,

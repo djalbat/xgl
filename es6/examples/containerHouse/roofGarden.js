@@ -1,6 +1,6 @@
 'use strict';
 
-const TexturePlane = require('../common/plane/texture');
+const TexturePlane = require('../common/texture/plane');
 
 const RoofGarden = (properties) => {
   return (

@@ -1,6 +1,6 @@
 'use strict';
 
-const TextureCuboid = require('../../../common/cuboid/texture');
+const TextureCuboid = require('../../../common/texture/cuboid');
 
 const height = 0.25,
       thickness = 0.1;

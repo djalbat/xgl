@@ -1,7 +1,7 @@
 'use strict';
 
 const vec3 = require('../../../../maths/vec3'),
-      ColourCylinder = require('../../../common/cylinder/colour');
+      ColourCylinder = require('../../../common/colour/cylinder');
 
 const { add } = vec3,
       diameter = 0.125,

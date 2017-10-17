@@ -5,10 +5,10 @@ require('../jiggle');
 const Scene = require('../scene'),
       Canvas = require('../canvas'),
       Camera = require('../camera'),
-      TexturePlane = require('./common/plane/texture'),
-      TextureCuboid = require('./common/cuboid/texture'),
-      ColourCylinder = require('./common/cylinder/colour'),
-      TextureCylinder = require('./common/cylinder/texture'),
+      TexturePlane = require('./common/texture/plane'),
+      TextureCuboid = require('./common/texture/cuboid'),
+      ColourCylinder = require('./common/colour/cylinder'),
+      TextureCylinder = require('./common/texture/cylinder'),
       TwentyFootContainer = require('./containerHouse/container/twentyFoot'),
       imageMapUtilities = require('../utilities/imageMap');
 
