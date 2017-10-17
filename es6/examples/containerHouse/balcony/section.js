@@ -13,16 +13,16 @@ const { add } = vec3,
 const { height, thickness } = Edge;
 
 const BalconySection = (properties) => {
-  const { offset } = properties;
+  const { position } = properties;
 
   return ([
 
-    <LongEdge offset={add(offset,  [               0, -height,            0 ])} depth={depth} />,
-    <LongEdge offset={add(offset,  [ width-thickness, -height,            0 ])} depth={depth} />,
-    <ShortEdge offset={add(offset, [               0, -height,            0 ])} width={width} />,
-    <ShortEdge offset={add(offset, [               0, -height, 16-thickness ])} width={width} />,
+    <LongEdge position={add(position,  [               0, -height,            0 ])} depth={depth} />,
+    <LongEdge position={add(position,  [ width-thickness, -height,            0 ])} depth={depth} />,
+    <ShortEdge position={add(position, [               0, -height,            0 ])} width={width} />,
+    <ShortEdge position={add(position, [               0, -height, 16-thickness ])} width={width} />,
 
-    <OpenMesh offset={add(offset,  [       thickness,       0,    thickness ])} width={width - 2 * thickness} depth={depth - 2 * thickness} />
+    <OpenMesh position={add(position,  [       thickness,       0,    thickness ])} width={width - 2 * thickness} depth={depth - 2 * thickness} />
 
   ]);
 };

@@ -3,11 +3,11 @@
 const Container = require('../container');
 
 const FortyFootContainer = (properties) => {
-  const { offset, rotations } = properties;
+  const { position, rotations } = properties;
 
   return (
 
-    <Container offset={offset} rotations={rotations} length={40} />
+    <Container position={position} rotations={rotations} length={40} />
       
   );
 };

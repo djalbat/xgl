@@ -5,10 +5,10 @@ const FortyFootContainer = require('../container/fortyFoot'),
 
 const SecondFloor = (properties) => [
 
-  <FortyFootContainer offset={[  0, 9.5, 24 ]} />,
-  <FortyFootContainer offset={[  0, 9.5, 16 ]} />,
-  <TwentyFootContainer offset={[ 8, 9.5,  8 ]} />,
-  <TwentyFootContainer offset={[ 8, 9.5,  0 ]} />,
+  <FortyFootContainer position={[  0, 9.5, 24 ]} />,
+  <FortyFootContainer position={[  0, 9.5, 16 ]} />,
+  <TwentyFootContainer position={[ 8, 9.5,  8 ]} />,
+  <TwentyFootContainer position={[ 8, 9.5,  0 ]} />,
 
 ];
 

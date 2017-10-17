@@ -5,12 +5,12 @@ const Edge = require('../edge');
 const { thickness } = Edge;
 
 const LongEdge = (properties) => {
-  const { offset, depth } = properties,
+  const { position, depth } = properties,
         width = thickness;  ///
 
   return (
 
-    <Edge offset={offset} width={width} depth={depth} />
+    <Edge position={position} width={width} depth={depth} />
 
   );
 };

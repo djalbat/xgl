@@ -9,9 +9,9 @@ const { calculateVertexPositionData, calculateVertexNormalData, calculateTexture
 
 class TexturePlane extends TextureElement {
   static fromProperties(properties) {
-    const { width, height, depth, offset, rotations, imageName } = properties,
+    const { width, height, depth, position, rotations, imageName } = properties,
           textureCoordinateData = calculateTextureCoordinateData(initialVertexPositionData, imageName),
-          vertexPositionData = calculateVertexPositionData(initialVertexPositionData, width, height, depth, offset, rotations),
+          vertexPositionData = calculateVertexPositionData(initialVertexPositionData, width, height, depth, position, rotations),
           vertexNormalData = calculateVertexNormalData(vertexPositionData),
           texturePlane = TextureElement.fromProperties(TexturePlane, properties, vertexPositionData, vertexNormalData, vertexIndexData, textureCoordinateData);
 

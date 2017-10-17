@@ -13,83 +13,83 @@ const { add } = vec3,
       defaultRotations = [ 0, 0, 0 ];
 
 const Container = (properties) => {
-  const { offset = defaultOffset, rotations = defaultRotations,  length } = properties;
+  const { position = defaultOffset, rotations = defaultRotations,  length } = properties;
 
   return ([
 
-    frontWall(length, offset, rotations),
+    frontWall(length, position, rotations),
 
-    backWall(length, offset, rotations),
+    backWall(length, position, rotations),
 
-    bottom(length, offset, rotations),
+    bottom(length, position, rotations),
 
-    top(length, offset, rotations),
+    top(length, position, rotations),
 
-    sideWallA(length, offset, rotations),
+    sideWallA(length, position, rotations),
 
-    sideWallB(length, offset, rotations),
+    sideWallB(length, position, rotations),
 
   ]);
 };
 
 module.exports = Container;
 
-const frontWall = (length, offset, rotations) => {
+const frontWall = (length, position, rotations) => {
   const rotate = composeRotate(rotations);
 
   return (
 
-    <ColourPlane colour={colour} offset={rotate(add(offset, [ 0, 0, length ]))} width={width} height={height} rotations={[ 0, 0, 0 ]} />
+    <ColourPlane colour={colour} position={rotate(add(position, [ 0, 0, length ]))} width={width} height={height} rotations={[ 0, 0, 0 ]} />
 
   );
 };
 
-const backWall = (length, offset, rotations) => {
+const backWall = (length, position, rotations) => {
   const rotate = composeRotate(rotations);
 
   return (
 
-    <ColourPlane colour={colour} offset={rotate(add(offset, [ width, 0, 0 ]))} width={width} height={height} rotations={[ 0, -180, 0 ]} />
+    <ColourPlane colour={colour} position={rotate(add(position, [ width, 0, 0 ]))} width={width} height={height} rotations={[ 0, -180, 0 ]} />
 
   );
 };
 
-const bottom = (length, offset, rotations) => {
+const bottom = (length, position, rotations) => {
   const rotate = composeRotate(rotations);
 
   return (
 
-    <ColourPlane colour={colour} offset={rotate(add(offset, [ 0, 0, 0 ]))} width={width} height={length} rotations={[ 90,  0, 0 ]} />
+    <ColourPlane colour={colour} position={rotate(add(position, [ 0, 0, 0 ]))} width={width} height={length} rotations={[ 90,  0, 0 ]} />
 
   );
 };
 
-const top = (length, offset, rotations) => {
+const top = (length, position, rotations) => {
   const rotate = composeRotate(rotations);
 
   return (
 
-    <ColourPlane colour={colour} offset={rotate(add(offset, [ 0, height, length ]))} width={width} height={length} rotations={[ -90, 0, 0 ]} />
+    <ColourPlane colour={colour} position={rotate(add(position, [ 0, height, length ]))} width={width} height={length} rotations={[ -90, 0, 0 ]} />
 
   );
 };
 
-const sideWallA = (length, offset, rotations) => {
+const sideWallA = (length, position, rotations) => {
   const rotate = composeRotate(rotations);
 
   return (
 
-    <ColourPlane colour={colour} offset={rotate(add(offset, [ 0, 0, 0 ]))} width={length} height={height} rotations={[ 0, -90, 0 ]} />
+    <ColourPlane colour={colour} position={rotate(add(position, [ 0, 0, 0 ]))} width={length} height={height} rotations={[ 0, -90, 0 ]} />
 
   );
 };
 
-const sideWallB = (length, offset, rotations) => {
+const sideWallB = (length, position, rotations) => {
   const rotate = composeRotate(rotations);
 
   return (
 
-    <ColourPlane colour={colour} offset={rotate(add(offset, [ width, 0, length ]))} width={length} height={height} rotations={[ 0, 90, 0 ]} />
+    <ColourPlane colour={colour} position={rotate(add(position, [ width, 0, length ]))} width={length} height={height} rotations={[ 0, 90, 0 ]} />
 
   );
 };

@@ -9,9 +9,9 @@ const { calculateVertexPositionData, calculateVertexNormalData, calculateVertexC
 
 class ColourCylinder extends ColourElement {
   static fromProperties(properties) {
-    const { width, height, depth, offset, rotations, colour } = properties,
+    const { width, height, depth, position, rotations, colour } = properties,
           vertexColourData = calculateVertexColourData(initialVertexPositionData, colour),
-          vertexPositionData = calculateVertexPositionData(initialVertexPositionData, width, height, depth, offset, rotations),
+          vertexPositionData = calculateVertexPositionData(initialVertexPositionData, width, height, depth, position, rotations),
           vertexNormalData = calculateVertexNormalData(vertexPositionData),
           colourCylinder = ColourElement.fromProperties(ColourCylinder, properties, vertexPositionData, vertexNormalData, vertexIndexData, vertexColourData);
 

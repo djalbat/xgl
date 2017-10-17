@@ -9,13 +9,13 @@ const { add } = vec3,
       height = 3;
 
 const Railing = (properties) => {
-  const { offset, rotations, length } = properties;
+  const { position, rotations, length } = properties;
 
   return ([
 
-    <TopRail offset={add(offset, [ 0, height, 0 ])} rotations={rotations} length={length} />,
+    <TopRail position={add(position, [ 0, height, 0 ])} rotations={rotations} length={length} />,
       
-    <Uprights offset={offset} rotations={rotations} height={height} length={length} thickness={thickness} />
+    <Uprights position={position} rotations={rotations} height={height} length={length} thickness={thickness} />
 
   ]);
 };

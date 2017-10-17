@@ -3,11 +3,11 @@
 const TextureCuboid = require('../common/cuboid/texture');
 
 const SteelSection = (properties) => {
-  const { offset, width, height, depth } = properties;
+  const { position, width, height, depth } = properties;
 
   return (
 
-    <TextureCuboid imageName="rustySteel.jpg" offset={offset} width={width} height={height} depth={depth} />
+    <TextureCuboid imageName="rustySteel.jpg" position={position} width={width} height={height} depth={depth} />
       
   );
 };

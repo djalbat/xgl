@@ -22,7 +22,7 @@ const shapes = () => {
 
     <Scene imageMap={imageMap} canvas={canvas}>
       <Camera initialDistance={100} initialOffset={[ 0, 0, 0 ]} canvas={canvas} />
-      <TextureCuboid width={10} height={10} depth={10} offset={[ 0, 20, 0 ]} imageName="bricks.jpg" />
+      <TextureCuboid width={10} height={10} depth={10} position={[ 0, 20, 0 ]} imageName="bricks.jpg" />
       <TwentyFootContainer rotations={[ 0, 0, 0 ]} />
     </Scene>
 
@@ -31,6 +31,6 @@ const shapes = () => {
 
 module.exports = shapes;
 
-// <TexturePlane width={1} height={1} offset={[ -1, -1, -1 ]} imageName="gravel.jpg" />
-// <ColourCylinder width={1} height={1} depth={1} offset={[ 0, -1, 1 ]} rotations={[ 0, 0, 0 ]} colour={[ 1, 0, 0, 1 ]} />
-// <TextureCylinder width={1} height={1} depth={1} offset={[ 0, 1, -1 ]} imageName="grass.jpg" rotations={[ 0, 90, 90 ]} />
+// <TexturePlane width={1} height={1} position={[ -1, -1, -1 ]} imageName="gravel.jpg" />
+// <ColourCylinder width={1} height={1} depth={1} position={[ 0, -1, 1 ]} rotations={[ 0, 0, 0 ]} colour={[ 1, 0, 0, 1 ]} />
+// <TextureCylinder width={1} height={1} depth={1} position={[ 0, 1, -1 ]} imageName="grass.jpg" rotations={[ 0, 90, 90 ]} />

@@ -15,23 +15,23 @@ const { DEGREES_TO_RADIANS } = constants,
       xAxis = [ 1, 0, 0 ],
       yAxis = [ 0, 1, 0 ],
       zAxis = [ 0, 0, 1 ],
-      defaultOffset = [ 0, 0, 0 ],
+      defaultPosition = [ 0, 0, 0 ],
       defaultRotations = [ 0, 0, 0 ];
 
-function composeScaleRotateTranslate(width, height, depth, offset, rotations) {
+function composeScaleRotateTranslate(width, height, depth, position, rotations) {
   const scale = composeScale(width, height, depth),
         rotate = composeRotate(rotations),
-        translate = composeTranslate(offset);
+        translate = composeTranslate(position);
   
   return function(vec) {
     return translate(rotate(scale(vec)));
   }
 }
 
-function composeTranslate(offset = defaultOffset) {
+function composeTranslate(position = defaultPosition) {
   const mat4 = create();
 
-  translate(mat4, mat4, offset);
+  translate(mat4, mat4, position);
 
   return composeTransform(mat4);
 }

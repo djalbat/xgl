@@ -12,7 +12,7 @@ const { add } = vec3,
       colour = [ 0.6, 0.6, 0.6, 10 ];
 
 const OpenMesh = (properties) => {
-  const { offset, width, depth } = properties,
+  const { position, width, depth } = properties,
         overallWidth = width, ///
         overallDepth = depth, ///
         elements = [];
@@ -25,7 +25,7 @@ const OpenMesh = (properties) => {
 
     elements.push(
 
-      <ColourCuboid colour={colour} offset={add(offset, [ step * index, -height, 0 ])} width={width} height={height} depth={depth} />
+      <ColourCuboid colour={colour} position={add(position, [ step * index, -height, 0 ])} width={width} height={height} depth={depth} />
 
     )
   }
@@ -39,7 +39,7 @@ const OpenMesh = (properties) => {
 
     elements.push(
 
-      <ColourCylinder colour={colour} offset={add(offset, [ 0, -3*diameter/2, step * index ])} width={width} height={height} depth={depth} rotations={[ 0, 90, 0 ]} />
+      <ColourCylinder colour={colour} position={add(position, [ 0, -3*diameter/2, step * index ])} width={width} height={height} depth={depth} rotations={[ 0, 90, 0 ]} />
 
     )
   }

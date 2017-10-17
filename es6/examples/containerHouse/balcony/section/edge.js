@@ -6,11 +6,11 @@ const height = 0.25,
       thickness = 0.1;
 
 const Edge = (properties) => {
-  const { offset, width, depth } = properties;
+  const { position, width, depth } = properties;
 
   return (
 
-    <TextureCuboid imageName="rustySteel.jpg" offset={offset} width={width} depth={depth} height={height} />
+    <TextureCuboid imageName="rustySteel.jpg" position={position} width={width} depth={depth} height={height} />
 
   );
 };

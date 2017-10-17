@@ -3,11 +3,11 @@
 const TextureCuboid = require('../common/cuboid/texture');
 
 const ConcreteSlab = (properties) => {
-  const { offset, width, height, depth } = properties;
+  const { position, width, height, depth } = properties;
 
   return (
 
-    <TextureCuboid imageName="concrete.jpg" offset={offset} width={width} height={height} depth={depth} />
+    <TextureCuboid imageName="concrete.jpg" position={position} width={width} height={height} depth={depth} />
       
   );
 };

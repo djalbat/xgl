@@ -8,7 +8,7 @@ const { add } = vec3,
       colour = [ 0.5, 0.5, 0.5, 1];
 
 const Upright = (properties) => {
-  const { offset, height } = properties,
+  const { position, height } = properties,
         overallHeight = height,
         upright = (() => {
 
@@ -19,7 +19,7 @@ const Upright = (properties) => {
 
           return (
 
-            <ColourCylinder colour={colour} offset={add(offset, [ -radius, 0, radius ])} width={width} height={height} depth={depth} rotations={[ -90, 0, 0 ]} />
+            <ColourCylinder colour={colour} position={add(position, [ -radius, 0, radius ])} width={width} height={height} depth={depth} rotations={[ -90, 0, 0 ]} />
 
           );
 
