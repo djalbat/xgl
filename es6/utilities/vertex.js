@@ -26,6 +26,21 @@ function calculateVertexPositionData(initialVertexPositionData, width, height, d
   return vertexPositionData;
 }
 
+function calculateVertexColourData(initialVertexPositionData, colour) {
+  const initialVertexPositionDataLength = initialVertexPositionData.length,
+        vertexColoursLength = initialVertexPositionDataLength / 4,  ///
+        vertexColour = colour,
+        vertexColours = [];
+
+  for (let index = 0; index < vertexColoursLength; index++) {
+    vertexColours.push(vertexColour);
+  }
+
+  const vertexColourData = flatten(vertexColours);  ///
+
+  return vertexColourData;
+}
+
 function calculateVertexNormalData(initialVertexPositionData) {
   const vertexNormalVectors = [],
         faces = chop(initialVertexPositionData, 16);  ///
@@ -74,6 +89,7 @@ function calculateVertexIndexData(initialVertexPositionData) {
 
 module.exports = {
   calculateVertexPositionData: calculateVertexPositionData,
+  calculateVertexColourData: calculateVertexColourData,
   calculateVertexNormalData: calculateVertexNormalData,
   calculateVertexIndexData: calculateVertexIndexData
 };
