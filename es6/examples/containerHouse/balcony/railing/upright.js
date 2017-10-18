@@ -1,7 +1,7 @@
 'use strict';
 
 const vec3 = require('../../../../maths/vec3'),
-      ColourCylinder = require('../../../common/colour/cylinder');
+      ColouredCylinder = require('../../../common/coloured/cylinder');
 
 const { add } = vec3,
       diameter = 0.125,
@@ -19,7 +19,7 @@ const Upright = (properties) => {
 
           return (
 
-            <ColourCylinder colour={colour} position={add(position, [ -radius, 0, radius ])} width={width} height={height} depth={depth} rotations={[ -90, 0, 0 ]} />
+            <ColouredCylinder colour={colour} position={add(position, [ -radius, 0, radius ])} width={width} height={height} depth={depth} rotations={[ -90, 0, 0 ]} />
 
           );
 

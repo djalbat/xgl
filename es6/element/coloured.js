@@ -5,7 +5,7 @@ const Element = require('../element'),
 
 const { calculateVertexPositionData, calculateVertexNormalData, calculateVertexIndexData, calculateVertexColourData } = vertexUtilities;
 
-class ColourElement extends Element {
+class ColouredElement extends Element {
   constructor(vertexPositionData, vertexIndexData, vertexNormalData, vertexColourData) {
     super();
 
@@ -44,10 +44,10 @@ class ColourElement extends Element {
           vertexIndexData = calculateVertexIndexData(initialVertexPositionData),
           vertexNormalData = calculateVertexNormalData(vertexPositionData),
           vertexColourData = calculateVertexColourData(initialVertexPositionData, colour),
-          colourElement = new Class(vertexPositionData, vertexIndexData, vertexNormalData, vertexColourData);
+          colouredElement = new Class(vertexPositionData, vertexIndexData, vertexNormalData, vertexColourData);
 
-    return colourElement;
+    return colouredElement;
   }
 }
 
-module.exports = ColourElement;
+module.exports = ColouredElement;

@@ -5,7 +5,7 @@ const Element = require('../element'),
 
 const { calculateVertexPositionData, calculateVertexNormalData, calculateVertexIndexData, calculateTextureCoordinateData } = vertexUtilities;
 
-class TextureElement extends Element {
+class TexturedElement extends Element {
   constructor(vertexPositionData, vertexIndexData, vertexNormalData, textureCoordinateData) {
     super();
 
@@ -44,10 +44,10 @@ class TextureElement extends Element {
           vertexIndexData = calculateVertexIndexData(initialVertexPositionData),
           vertexNormalData = calculateVertexNormalData(vertexPositionData),
           textureCoordinateData = calculateTextureCoordinateData(initialVertexPositionData, imageName),
-          textureElement = new Class(vertexPositionData, vertexIndexData, vertexNormalData, textureCoordinateData);
+          texturedElement = new Class(vertexPositionData, vertexIndexData, vertexNormalData, textureCoordinateData);
     
-    return textureElement;
+    return texturedElement;
   }
 }
 
-module.exports = TextureElement;
+module.exports = TexturedElement;

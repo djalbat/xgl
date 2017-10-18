@@ -1,6 +1,6 @@
 'use strict';
 
-const ColourCuboid = require('../../../common/colour/cuboid');
+const ColouredCuboid = require('../../../common/coloured/cuboid');
 
 const height = 0.1,
       thickness = 0.4,
@@ -13,7 +13,7 @@ const TopRail = (properties) => {
 
   return (
 
-    <ColourCuboid colour={colour} position={position} rotations={rotations} width={width} height={height} depth={depth} />
+    <ColouredCuboid colour={colour} position={position} rotations={rotations} width={width} height={height} depth={depth} />
 
   );
 };

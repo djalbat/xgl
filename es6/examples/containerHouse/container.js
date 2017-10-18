@@ -1,6 +1,6 @@
 'use strict';
 
-const ColourPlane = require('../common/colour/plane');
+const ColouredPlane = require('../common/coloured/plane');
 
 const overallHeight = 9.5,
       overallWidth = 8,
@@ -54,7 +54,7 @@ const top = (overallLength, overallTransformation) => {
 
   return (
 
-    <ColourPlane colour={colour} transformations={transformations} />
+    <ColouredPlane colour={colour} transformations={transformations} />
 
   );
 };
@@ -82,7 +82,7 @@ const bottom = (overallLength, overallTransformation) => {
 
   return (
 
-    <ColourPlane colour={colour} transformations={transformations} />
+    <ColouredPlane colour={colour} transformations={transformations} />
 
   );
 };
@@ -110,7 +110,7 @@ const frontWall = (overallLength, overallTransformation) => {
 
   return (
 
-    <ColourPlane colour={colour} transformations={transformations} />
+    <ColouredPlane colour={colour} transformations={transformations} />
 
   );
 };
@@ -138,7 +138,7 @@ const backWall = (overallLength, overallTransformation) => {
 
   return (
 
-    <ColourPlane colour={colour} transformations={transformations} />
+    <ColouredPlane colour={colour} transformations={transformations} />
 
   );
 };
@@ -166,7 +166,7 @@ const sideWallA = (overallLength, overallTransformation) => {
 
   return (
 
-    <ColourPlane colour={colour} transformations={transformations} />
+    <ColouredPlane colour={colour} transformations={transformations} />
 
   );
 };
@@ -194,7 +194,7 @@ const sideWallB = (overallLength, overallTransformation) => {
 
   return (
 
-    <ColourPlane colour={colour} transformations={transformations} />
+    <ColouredPlane colour={colour} transformations={transformations} />
 
   );
 };

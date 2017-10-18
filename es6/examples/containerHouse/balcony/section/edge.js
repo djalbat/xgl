@@ -1,6 +1,6 @@
 'use strict';
 
-const TextureCuboid = require('../../../common/texture/cuboid');
+const TexturedCuboid = require('../../../common/textured/cuboid');
 
 const height = 0.25,
       thickness = 0.1;
@@ -10,7 +10,7 @@ const Edge = (properties) => {
 
   return (
 
-    <TextureCuboid imageName="rustySteel.jpg" position={position} width={width} depth={depth} height={height} />
+    <TexturedCuboid imageName="rustySteel.jpg" position={position} width={width} depth={depth} height={height} />
 
   );
 };

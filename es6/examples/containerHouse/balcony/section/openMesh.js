@@ -1,8 +1,8 @@
 'use strict';
 
 const vec3 = require('../../../../maths/vec3'),
-      ColourCuboid = require('../../../common/colour/cuboid'),
-      ColourCylinder = require('../../../common/colour/cylinder');
+      ColouredCuboid = require('../../../common/coloured/cuboid'),
+      ColouredCylinder = require('../../../common/coloured/cylinder');
 
 const { add } = vec3,
       overallHeight = 0.25,
@@ -25,7 +25,7 @@ const OpenMesh = (properties) => {
 
     elements.push(
 
-      <ColourCuboid colour={colour} position={add(position, [ step * index, -height, 0 ])} width={width} height={height} depth={depth} />
+      <ColouredCuboid colour={colour} position={add(position, [ step * index, -height, 0 ])} width={width} height={height} depth={depth} />
 
     )
   }
@@ -39,7 +39,7 @@ const OpenMesh = (properties) => {
 
     elements.push(
 
-      <ColourCylinder colour={colour} position={add(position, [ 0, -3*diameter/2, step * index ])} width={width} height={height} depth={depth} rotations={[ 0, 90, 0 ]} />
+      <ColouredCylinder colour={colour} position={add(position, [ 0, -3*diameter/2, step * index ])} width={width} height={height} depth={depth} rotations={[ 0, 90, 0 ]} />
 
     )
   }
