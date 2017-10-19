@@ -1,12 +1,16 @@
 'use strict';
 
 const plane = require('../plane'),
-      ColouredElement = require('../../../element/coloured');
+      ColouredCanvasElement = require('../../../element/canvas/coloured');
 
 const { initialVertexPositionData } = plane;
 
-class ColouredPlane extends ColouredElement {
-  static fromProperties(properties) { return ColouredElement.fromPropertiesAndInitialVertexPositionData(ColouredPlane, properties, initialVertexPositionData); }
+class ColouredPlane extends ColouredCanvasElement {
+  getInitialVertexPositionData() {
+    return initialVertexPositionData;
+  }
+
+  static fromProperties(properties) { return ColouredCanvasElement.fromProperties(ColouredPlane, properties); }
 }
 
 module.exports = ColouredPlane;

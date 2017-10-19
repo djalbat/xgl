@@ -1,12 +1,16 @@
 'use strict';
 
 const cuboid = require('../cuboid'),
-      ColouredElement = require('../../../element/coloured');
+      ColouredCanvasElement = require('../../../element/canvas/coloured');
 
 const { initialVertexPositionData } = cuboid;
 
-class ColouredCuboid extends ColouredElement {
-  static fromProperties(properties) { return ColouredElement.fromPropertiesAndInitialVertexPositionData(ColouredCuboid, properties, initialVertexPositionData); }
+class ColouredCuboid extends ColouredCanvasElement {
+  getInitialVertexPositionData() {
+    return initialVertexPositionData;
+  }
+
+  static fromProperties(properties) { return ColouredCanvasElement.fromProperties(ColouredCuboid, properties); }
 }
 
 module.exports = ColouredCuboid;

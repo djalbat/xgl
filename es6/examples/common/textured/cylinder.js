@@ -1,12 +1,16 @@
 'use strict';
 
 const cylinder = require('../cylinder'),
-      TexturedElement = require('../../../element/textured');
+      TexturedCanvasElement = require('../../../element/canvas/textured');
 
 const { initialVertexPositionData } = cylinder;
 
-class TexturedCylinder extends TexturedElement {
-  static fromProperties(properties) { return TexturedElement.fromPropertiesAndInitialVertexPositionData(TexturedCylinder, properties, initialVertexPositionData); }
+class TexturedCylinder extends TexturedCanvasElement {
+  getInitialVertexPositionData() {
+    return initialVertexPositionData;
+  }
+
+  static fromProperties(properties) { return TexturedCanvasElement.fromProperties(TexturedCylinder, properties); }
 }
 
 module.exports = TexturedCylinder;

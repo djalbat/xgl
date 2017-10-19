@@ -1,12 +1,16 @@
 'use strict';
 
 const cylinder = require('../cylinder'),
-      ColouredElement = require('../../../element/coloured');
+      ColouredCanvasElement = require('../../../element/canvas/coloured');
 
 const { initialVertexPositionData } = cylinder;
 
-class ColouredCylinder extends ColouredElement {
-  static fromProperties(properties) { return ColouredElement.fromPropertiesAndInitialVertexPositionData(ColouredCylinder, properties, initialVertexPositionData); }
+class ColouredCylinder extends ColouredCanvasElement {
+  getInitialVertexPositionData() {
+    return initialVertexPositionData;
+  }
+
+  static fromProperties(properties) { return ColouredCanvasElement.fromProperties(ColouredCylinder, properties); }
 }
 
 module.exports = ColouredCylinder;

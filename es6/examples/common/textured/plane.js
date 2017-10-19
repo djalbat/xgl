@@ -1,12 +1,16 @@
 'use strict';
 
 const plane = require('../plane'),
-      TexturedElement = require('../../../element/textured');
+      TexturedCanvasElement = require('../../../element/canvas/textured');
 
 const { initialVertexPositionData } = plane;
 
-class TexturedPlane extends TexturedElement {
-  static fromProperties(properties) { return TexturedElement.fromPropertiesAndInitialVertexPositionData(TexturedPlane, properties, initialVertexPositionData); }
+class TexturedPlane extends TexturedCanvasElement {
+  getInitialVertexPositionData() {
+    return initialVertexPositionData;
+  }
+
+  static fromProperties(properties) { return TexturedCanvasElement.fromProperties(TexturedPlane, properties); }
 }
 
 module.exports = TexturedPlane;
