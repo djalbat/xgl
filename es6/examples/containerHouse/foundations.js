@@ -1,7 +1,7 @@
 'use strict';
 
 const CanvasElement = require('../../element/canvas'),
-      ConcreteSlab = require('./concreteSlab');
+      ConcreteSlab = require('./foundations/concreteSlab');
 
 class Foundations extends CanvasElement {
   getChildElements() {

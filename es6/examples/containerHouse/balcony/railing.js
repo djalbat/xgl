@@ -1,23 +1,21 @@
 'use strict';
 
-const vec3 = require('../../../maths/vec3'),
-      TopRail = require('./railing/topRail'),
+const TopRail = require('./railing/topRail'),
       Uprights = require('./railing/uprights'),
       CanvasElement = require('../../../element/canvas');
 
-const { add } = vec3,
-      { thickness } = TopRail,
-      height = 3;
+const { thickness } = TopRail,
+      overallHeight = 3;
 
 class Railing extends CanvasElement {
   childElements(properties) {
-    const { position, rotations, length } = properties;
+    const { length } = properties;
 
     return ([
 
-      <TopRail position={add(position, [0, height, 0])} rotations={rotations} length={length}/>,
+      <TopRail overallHeight={overallHeight} length={length} />,
 
-      <Uprights position={position} rotations={rotations} height={height} length={length} thickness={thickness}/>
+      <Uprights overallHeight={overallHeight} length={length} thickness={thickness} />
 
     ]);
   }

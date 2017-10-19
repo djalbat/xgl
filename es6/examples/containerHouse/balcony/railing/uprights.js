@@ -1,25 +1,23 @@
 'use strict';
 
 const Upright = require('./upright'),
-      vec3 = require('../../../../maths/vec3'),
       CanvasElement = require('../../../../element/canvas');
 
-const { add } = vec3;
+const { radius } = Upright;
 
 class Uprights extends CanvasElement {
   childElements(properties) {
-    const { position, rotations, height, length, thickness } = properties,
-          overallPosition = position,
+    const { overallHeight, length, thickness } = properties,
           elements = [],
           step = 0.5,
           count = length / step;
 
     for (let index = 1; index < count; index++) {
-      const position = [step * index, 0, thickness / 2, 1];
+      const position = [step * index - radius, 0, thickness / 2 + radius, 1];
 
       elements.push(
 
-        <Upright position={add(overallPosition, position)} rotations={rotations} height={height}/>
+        <Upright position={position} overallHeight={overallHeight} />
 
       )
     }

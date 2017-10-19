@@ -1,12 +1,10 @@
 'use strict';
 
-const vec3 = require('../../../../maths/vec3'),
-      CanvasElement = require('../../../../element/canvas'),
+const CanvasElement = require('../../../../element/canvas'),
       ColouredCuboid = require('../../../common/coloured/cuboid'),
       ColouredCylinder = require('../../../common/coloured/cylinder');
 
-const { add } = vec3,
-      overallHeight = 0.25,
+const overallHeight = 0.25,
       overallThickness = 0.025,
       widthwiseCount = 10,
       depthwiseCount = 5,
@@ -14,9 +12,7 @@ const { add } = vec3,
 
 class OpenMesh extends CanvasElement {
   childElements(properties) {
-    const { position, width, depth } = properties,
-          overallWidth = width, ///
-          overallDepth = depth, ///
+    const { overallWidth, overallDepth } = properties,
           elements = [];
 
     for (let index = 1; index < widthwiseCount; index++) {
@@ -27,7 +23,7 @@ class OpenMesh extends CanvasElement {
 
       elements.push(
 
-        <ColouredCuboid colour={colour} position={add(position, [step * index, -height, 0])} width={width} height={height} depth={depth}/>
+        <ColouredCuboid colour={colour} position={[step * index, -height, 0]} width={width} height={height} depth={depth}/>
 
       )
     }
@@ -41,7 +37,7 @@ class OpenMesh extends CanvasElement {
 
       elements.push(
 
-        <ColouredCylinder colour={colour} position={add(position, [ 0, -3 * diameter / 2, step * index ])} width={width} height={height} depth={depth} rotations={[ 0, 90, 0 ]}/>
+        <ColouredCylinder colour={colour} position={[ 0, -3 * diameter / 2, step * index ]} width={width} height={height} depth={depth} rotations={[ 0, 90, 0 ]}/>
 
       )
     }

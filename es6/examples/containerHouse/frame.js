@@ -1,6 +1,6 @@
 'use strict';
 
-const SteelSection = require('./steelSection'),
+const SteelSection = require('./frame/steelSection'),
       CanvasElement = require('../../element/canvas');
 
 class Frame extends CanvasElement {

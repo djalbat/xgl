@@ -9,17 +9,16 @@ const overallHeight = 9.5,
 
 class Container extends CanvasElement {
   childElements(properties) {
-    const { length } = properties,
-          overallLength = length; ///
+    const { length } = properties;
 
     return ([
 
-      top(overallLength),
-      bottom(overallLength),
-      frontWall(overallLength),
-      backWall(overallLength),
-      sideWallA(overallLength),
-      sideWallB(overallLength),
+      top(length),
+      bottom(length),
+      frontWall(length),
+      backWall(length),
+      sideWallA(length),
+      sideWallB(length),
 
     ]);
   }
@@ -31,11 +30,11 @@ class Container extends CanvasElement {
 
 module.exports = Container;
 
-const top = (overallLength) => {
+const top = (length) => {
   const width = overallWidth,
-        height = overallLength,
+        height = length,
         depth = overallHeight,
-        position = [ 0, overallHeight, overallLength ],
+        position = [ 0, overallHeight, length ],
         rotations = [ -90, 0, 0 ];
 ;
 
@@ -46,9 +45,9 @@ const top = (overallLength) => {
   );
 };
 
-const bottom = (overallLength) => {
+const bottom = (length) => {
   const width = overallWidth,
-        height = overallLength,
+        height = length,
         depth = 0,
         position = [ 0, 0, 0 ],
         rotations = [ +90,  0, 0 ];
@@ -60,11 +59,11 @@ const bottom = (overallLength) => {
   );
 };
 
-const frontWall = (overallLength) => {
+const frontWall = (length) => {
   const width = overallWidth,
         height = overallHeight,
         depth = 0,
-        position = [ 0, 0, overallLength ],
+        position = [ 0, 0, length ],
         rotations = [ 0, 0, 0 ];
 
   return (
@@ -74,7 +73,7 @@ const frontWall = (overallLength) => {
   );
 };
 
-const backWall = (overallLength) => {
+const backWall = (length) => {
   const width = overallWidth,
         height = overallHeight,
         depth = 0,
@@ -88,8 +87,8 @@ const backWall = (overallLength) => {
   );
 };
 
-const sideWallA = (overallLength) => {
-  const width = overallLength,
+const sideWallA = (length) => {
+  const width = length,
         height = overallHeight,
         depth = 0,
         position = [ 0, 0, 0 ],
@@ -102,11 +101,11 @@ const sideWallA = (overallLength) => {
   );
 };
 
-const sideWallB = (overallLength) => {
-  const width = overallLength,
+const sideWallB = (length) => {
+  const width = length,
         height = overallHeight,
         depth = 0,
-        position = [ overallWidth, 0, overallLength ],
+        position = [ overallWidth, 0, length ],
         rotations = [ 0, +90, 0 ];
 
   return (
