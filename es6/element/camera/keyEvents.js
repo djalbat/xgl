@@ -1,6 +1,6 @@
 'use strict';
 
-const constants = require('../constants');
+const constants = require('../../constants');
 
 const { CTRL_KEY_CODE, SHIFT_KEY_CODE } = constants;
 

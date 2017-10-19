@@ -1,8 +1,8 @@
 'use strict';
 
-const Element = require('./element'),
-      ColourRenderer = require('./renderer/colour'),
-      TextureRenderer = require('./renderer/texture');
+const Element = require('../element'),
+      ColourRenderer = require('../renderer/colour'),
+      TextureRenderer = require('../renderer/texture');
 
 class Scene extends Element {
   constructor(colourRenderer, textureRenderer, canvas) {

@@ -2,9 +2,9 @@
 
 const necessary = require('necessary');
 
-const vec2 = require('../maths/vec2'),
-      vec3 = require('../maths/vec3'),
-      constants = require('../constants');
+const vec2 = require('../../maths/vec2'),
+      vec3 = require('../../maths/vec3'),
+      constants = require('../../constants');
 
 const { arrayUtilities } = necessary,
       { first, second } = arrayUtilities,

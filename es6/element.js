@@ -1,6 +1,10 @@
 'use strict';
 
 class Element {
+  create(colourRenderer, textureRenderer) {
+    ///
+  }
+
   assignContext(names, thenDelete) {
     const argumentsLength = arguments.length;
   

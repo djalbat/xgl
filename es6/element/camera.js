@@ -1,16 +1,16 @@
 'use strict';
 
-const Element = require('./element'),
+const Element = require('../element'),
       Pan = require('./camera/pan'),
       Zoom = require('./camera/zoom'),
       tilt = require('./camera/tilt'),
       keyEvents = require('./camera/keyEvents'),
       MouseEvents = require('./camera/mouseEvents'),
-      OffsetMatrix = require('./matrix/offset'),
-      NormalMatrix = require('./matrix/normal'),
-      RotationMatrix = require('./matrix/rotation'),
-      PositionMatrix = require('./matrix/position'),
-      ProjectionMatrix = require('./matrix/projection');
+      OffsetMatrix = require('../matrix/offset'),
+      NormalMatrix = require('../matrix/normal'),
+      RotationMatrix = require('../matrix/rotation'),
+      PositionMatrix = require('../matrix/position'),
+      ProjectionMatrix = require('../matrix/projection');
 
 class Camera extends Element {
   constructor(pan, zoom, handler, mouseDown, canvas) {
@@ -78,10 +78,6 @@ class Camera extends Element {
     mouseEvents.addMouseDownHandler(mouseDownHandler);
     mouseEvents.addMouseMoveHandler(mouseMoveHandler);
     mouseEvents.addMouseWheelHandler(mouseWheelHandler);
-  }
-
-  create(colourRenderer, textureRenderer) {
-    ///
   }
 
   onUpdate(handler) {
