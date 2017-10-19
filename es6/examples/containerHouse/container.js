@@ -1,200 +1,117 @@
 'use strict';
 
-const ColouredPlane = require('../common/coloured/plane');
+const CanvasElement = require('../../element/canvas'),
+      ColouredPlane = require('../common/coloured/plane');
 
 const overallHeight = 9.5,
       overallWidth = 8,
       colour = [ 1, 1, 1, 1 ];
 
-const Container = (properties) => {
-  const { position, rotations, length } = properties,
-        dimensions = [ 1, 1, 1 ],
-        transformation = {
-          dimensions: dimensions,
-          position: position,
-          rotations: rotations
-        },
-        overallLength = length, ///
-        overallTransformation = transformation; ///
+class Container extends CanvasElement {
+  getChildElements() {
+    const /*{ length } = properties,
+          */overallLength = 40; ///
 
-  return ([
+    return ([
 
-    top(overallLength, overallTransformation),
-    bottom(overallLength, overallTransformation),
-    frontWall(overallLength, overallTransformation),
-    backWall(overallLength, overallTransformation),
-    sideWallA(overallLength, overallTransformation),
-    sideWallB(overallLength, overallTransformation),
+      top(overallLength),
+      bottom(overallLength),
+      frontWall(overallLength),
+      backWall(overallLength),
+      sideWallA(overallLength),
+      sideWallB(overallLength),
 
-  ]);
-};
+    ]);
+  }
+
+  static fromProperties(properties) { return CanvasElement.fromProperties(Container, properties); }
+}
+
+'use strict';
 
 module.exports = Container;
 
-const top = (overallLength, overallTransformation) => {
+const top = (overallLength) => {
   const width = overallWidth,
         height = overallLength,
         depth = overallHeight,
         position = [ 0, overallHeight, overallLength ],
-        dimensions = {
-          width: width,
-          height: height,
-          depth: depth
-        },
-        rotations = [ -90, 0, 0 ],
-        transformation = {
-          position: position,
-          dimensions: dimensions,
-          rotations: rotations
-        },
-        transformations = [
-          transformation,
-          overallTransformation
-        ];
+        rotations = [ -90, 0, 0 ];
+;
 
   return (
 
-    <ColouredPlane colour={colour} transformations={transformations} />
+    <ColouredPlane colour={colour} width={width} height={height} depth={depth} position={position} rotations={rotations} />
 
   );
 };
 
-const bottom = (overallLength, overallTransformation) => {
+const bottom = (overallLength) => {
   const width = overallWidth,
         height = overallLength,
         depth = 0,
         position = [ 0, 0, 0 ],
-        dimensions = {
-          width: width,
-          height: height,
-          depth: depth
-        },
-        rotations = [ +90,  0, 0 ],
-        transformation = {
-          position: position,
-          dimensions: dimensions,
-          rotations: rotations
-        },
-        transformations = [
-          transformation,
-          overallTransformation
-        ];
+        rotations = [ +90,  0, 0 ];
 
   return (
 
-    <ColouredPlane colour={colour} transformations={transformations} />
+    <ColouredPlane colour={colour} width={width} height={height} depth={depth} position={position} rotations={rotations} />
 
   );
 };
 
-const frontWall = (overallLength, overallTransformation) => {
+const frontWall = (overallLength) => {
   const width = overallWidth,
         height = overallHeight,
         depth = 0,
         position = [ 0, 0, overallLength ],
-        dimensions = {
-          width: width,
-          height: height,
-          depth: depth
-        },
-        rotations = [ 0, 0, 0 ],
-        transformation = {
-          position: position,
-          dimensions: dimensions,
-          rotations: rotations
-        },
-        transformations = [
-          transformation,
-          overallTransformation
-        ];
+        rotations = [ 0, 0, 0 ];
 
   return (
 
-    <ColouredPlane colour={colour} transformations={transformations} />
+    <ColouredPlane colour={colour} width={width} height={height} depth={depth} position={position} rotations={rotations} />
 
   );
 };
 
-const backWall = (overallLength, overallTransformation) => {
+const backWall = (overallLength) => {
   const width = overallWidth,
         height = overallHeight,
         depth = 0,
         position = [ overallWidth, 0, 0 ],
-        dimensions = {
-          width: width,
-          height: height,
-          depth: depth
-        },
-        rotations = [ 0, -180, 0 ],
-        transformation = {
-          position: position,
-          dimensions: dimensions,
-          rotations: rotations
-        },
-        transformations = [
-          transformation,
-          overallTransformation
-        ];
+        rotations = [ 0, -180, 0 ];
 
   return (
 
-    <ColouredPlane colour={colour} transformations={transformations} />
+    <ColouredPlane colour={colour} width={width} height={height} depth={depth} position={position} rotations={rotations} />
 
   );
 };
 
-const sideWallA = (overallLength, overallTransformation) => {
+const sideWallA = (overallLength) => {
   const width = overallLength,
         height = overallHeight,
         depth = 0,
         position = [ 0, 0, 0 ],
-        dimensions = {
-          width: width,
-          height: height,
-          depth: depth
-        },
-        rotations = [ 0, -90, 0 ],
-        transformation = {
-          position: position,
-          dimensions: dimensions,
-          rotations: rotations
-        },
-        transformations = [
-          transformation,
-          overallTransformation
-        ];
+        rotations = [ 0, -90, 0 ];
 
   return (
 
-    <ColouredPlane colour={colour} transformations={transformations} />
+    <ColouredPlane colour={colour} width={width} height={height} depth={depth} position={position} rotations={rotations} />
 
   );
 };
 
-const sideWallB = (overallLength, overallTransformation) => {
+const sideWallB = (overallLength) => {
   const width = overallLength,
         height = overallHeight,
         depth = 0,
         position = [ overallWidth, 0, overallLength ],
-        dimensions = {
-          width: width,
-          height: height,
-          depth: depth
-        },
-        rotations = [ 0, +90, 0 ],
-        transformation = {
-          position: position,
-          dimensions: dimensions,
-          rotations: rotations
-        },
-        transformations = [
-          transformation,
-          overallTransformation
-        ];
+        rotations = [ 0, +90, 0 ];
 
   return (
 
-    <ColouredPlane colour={colour} transformations={transformations} />
+    <ColouredPlane colour={colour} width={width} height={height} depth={depth} position={position} rotations={rotations} />
 
   );
 };

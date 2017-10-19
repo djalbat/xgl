@@ -6,8 +6,8 @@ const CanvasElement = require('../../element/canvas'),
 const { flatten } = arrayUtilities;
 
 class ColouredCanvasElement extends CanvasElement {
-  constructor(transform, transformations, colour) {
-    super(transform, transformations);
+  constructor(transform, childElements, colour) {
+    super(transform, childElements);
 
     this.colour = colour;
   }
@@ -27,8 +27,8 @@ class ColouredCanvasElement extends CanvasElement {
     return vertexColourData;
   }
 
-  create(colourRenderer, textureRenderer) {
-    const vertexPositionData = this.calculateVertexPositionData(),
+  create(colourRenderer, textureRenderer, transforms) {
+    const vertexPositionData = this.calculateVertexPositionData(transforms),
           vertexIndexData = this.calculateVertexIndexData(vertexPositionData),
           vertexNormalData = this.calculateVertexNormalData(vertexPositionData),
           vertexColourData = this.calculateVertexColourData(vertexPositionData);
@@ -37,6 +37,8 @@ class ColouredCanvasElement extends CanvasElement {
     colourRenderer.addVertexIndexData(vertexIndexData);
     colourRenderer.addVertexNormalData(vertexNormalData);
     colourRenderer.addVertexColourData(vertexColourData);
+
+    super.create(colourRenderer, textureRenderer, transforms);
   }
 
   static fromProperties(Class, properties) {

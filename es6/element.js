@@ -1,8 +1,8 @@
 'use strict';
 
 class Element {
-  create(colourRenderer, textureRenderer) {
-    ///
+  isCanvasElement() {
+    return false;
   }
 
   assignContext(names, thenDelete) {

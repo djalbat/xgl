@@ -8,8 +8,8 @@ const { flatten } = arrayUtilities,
       { textureCoordinatesFromImageNames } = imageMapUtilities;
 
 class TexturedCanvasElement extends CanvasElement {
-  constructor(transform, transformations, imageName) {
-    super(transform, transformations);
+  constructor(transform, childElements, imageName) {
+    super(transform, childElements);
 
     this.imageName = imageName;
   }
@@ -29,8 +29,8 @@ class TexturedCanvasElement extends CanvasElement {
     return textureCoordinateData;
   }
 
-  create(colourRenderer, textureRenderer) {
-    const vertexPositionData = this.calculateVertexPositionData(),
+  create(colourRenderer, textureRenderer, transforms) {
+    const vertexPositionData = this.calculateVertexPositionData(transforms),
           vertexIndexData = this.calculateVertexIndexData(vertexPositionData),
           vertexNormalData = this.calculateVertexNormalData(vertexPositionData),
           textureCoordinateData = this.calculateTextureCoordinateData(vertexPositionData);
@@ -39,6 +39,8 @@ class TexturedCanvasElement extends CanvasElement {
     textureRenderer.addVertexIndexData(vertexIndexData);
     textureRenderer.addVertexNormalData(vertexNormalData);
     textureRenderer.addTextureCoordinateData(textureCoordinateData);
+
+    super.create(colourRenderer, textureRenderer, transforms);
   }
   
   static fromProperties(Class, properties) {

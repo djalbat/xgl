@@ -2,9 +2,9 @@
 
 require('../jiggle');
 
-const Scene = require('../scene'),
-      Canvas = require('../canvas'),
-      Camera = require('../camera'),
+const Canvas = require('../canvas'),
+      Scene = require('../element/scene'),
+      Camera = require('../element/camera'),
       Frame = require('./containerHouse/frame'),
       RoofGarden = require('./containerHouse/roofGarden'),
       FirstFloor = require('./containerHouse/floor/first'),
@@ -28,16 +28,16 @@ const containerHouse = () => {
       <Camera initialDistance={150} initialOffset={[ -18, 0, -16 ]} canvas={canvas} />
       <Foundations />
       <FirstFloor />
-      <SecondFloor />
-      <ThirdFloor />
-      <RoofGarden />
-      <MainBalcony />
-      <LowerBalcony />
-      <BedroomBalcony />
-      <Frame />
     </Scene>
 
   );
 };
 
 module.exports = containerHouse;
+// <SecondFloor />
+// <ThirdFloor />
+// <RoofGarden />
+// <MainBalcony />
+// <LowerBalcony />
+// <BedroomBalcony />
+// <Frame />

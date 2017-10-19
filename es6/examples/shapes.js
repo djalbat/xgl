@@ -2,9 +2,10 @@
 
 require('../jiggle');
 
-const Scene = require('../scene'),
-      Canvas = require('../canvas'),
-      Camera = require('../camera'),
+const Canvas = require('../canvas'),
+      Scene = require('../element/scene'),
+      Camera = require('../element/camera'),
+      CompoundedShapes = require('./shapes/compounded'),
       TexturedPlane = require('./common/textured/plane'),
       TexturedCuboid = require('./common/textured/cuboid'),
       ColouredCylinder = require('./common/coloured/cylinder'),
@@ -25,6 +26,7 @@ const shapes = () => {
       <TexturedPlane width={1} height={1} position={[ -1, -1, -1 ]} imageName="gravel.jpg" />
       <ColouredCylinder width={1} height={1} depth={1} position={[ 0, -1, 1 ]} rotations={[ 0, 0, 0 ]} colour={[ 1, 0, 0, 1 ]} />
       <TexturedCylinder width={1} height={1} depth={1} position={[ 0, 1, -1 ]} rotations={[ 0, 90, 90 ]} imageName="grass.jpg" />
+      <CompoundedShapes width={0.1} height={0.1} depth={0.1} rotations={[ 45, 45, 45 ]} position={[ 0, 0, 10 ]} />
     </Scene>
 
   );

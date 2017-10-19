@@ -5,31 +5,46 @@ const Element = require('../element'),
       arrayUtilities = require('../utilities/array'),
       transformUtilities = require('../utilities/transform');
 
-const { composeTransform, composeTransforms } = transformUtilities,
+const { composeTransform } = transformUtilities,
       { chop, flatten } = arrayUtilities,
       { subtract, cross, normalise } = vec3;
 
 class CanvasElement extends Element {
-  constructor(transform, transformations) {
+  constructor(transform, childElements) {
     super();
 
     this.transform = transform;
 
-    this.transformations = transformations;
+    this.childElements = childElements;
+  }
+
+  isCanvasElement() {
+    return true;
   }
 
   getTransform() {
     return this.transform;
   }
 
-  getTransformations() {
-    return this.transformations;
+  getChildElements() {
+    return this.childElements;
   }
 
-  calculateVertexPositionData() {
+  create(colourRenderer, textureRenderer, transforms) {
+    transforms = [this.transform, ...transforms]; ///
+
+    const childElements = this.getChildElements();
+
+    childElements.forEach(function(childElement) {
+      childElement.create(colourRenderer, textureRenderer, transforms);
+    });
+  }
+
+  calculateVertexPositionData(transforms) {
+    transforms = [this.transform, ...transforms]; ///
+
     const initialVertexPositionData = this.getInitialVertexPositionData(),
           initialVertexPositions = chop(initialVertexPositionData, 3),  ///
-          transforms = composeTransforms(this.transform, this.transformations),
           vertexPositions = initialVertexPositions.map(function(initialVertexPosition) {
             let vertexPosition = initialVertexPosition;
 
@@ -90,9 +105,9 @@ class CanvasElement extends Element {
   }
 
   static fromProperties(Class, properties, ...remainingArguments) {
-    const { width, height, depth, dimensions, position, rotations, transformations } = properties,
-          transform = composeTransform(width, height, depth, dimensions, position, rotations),
-          canvasElement = new Class(transform, transformations, ...remainingArguments);
+    const { width, height, depth, position, rotations, childElements } = properties,
+          transform = composeTransform(width, height, depth, position, rotations),
+          canvasElement = new Class(transform, childElements, ...remainingArguments);
 
     return canvasElement;
   }

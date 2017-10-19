@@ -1,36 +1,27 @@
 'use strict';
 
-const Element = require('./element'),
-      arrayUtilities = require('./utilities/array');
-
-const { flatten, guarantee } = arrayUtilities;
+const Element = require('./element');
 
 function createElement(firstArgument, properties, ...childElements) {
-  let elementOrElements;
+  let element;
 
-  if (firstArgument !== undefined) {
-    childElements = flatten(childElements);
+  properties = Object.assign({
+    childElements: childElements
+  }, properties);
 
-    properties = Object.assign({
-      childElements: childElements
-    }, properties);
+  if (false) {
 
-    if (false) {
+  } else if (isSubclassOf(firstArgument, Element)) {
+    const Class = firstArgument;  ///
 
-    } else if (isSubclassOf(firstArgument, Element)) {
-      const Class = firstArgument;  ///
+    element = Class.fromProperties(properties);
+  } else if (typeof firstArgument === 'function') {
+    const func = firstArgument;  ///
 
-      elementOrElements = Class.fromProperties(properties);
-    } else if (typeof firstArgument === 'function') {
-      const func = firstArgument;  ///
-
-      elementOrElements = func(properties);
-    }
+    element = func(properties);
   }
 
-  const elements = flatten(guarantee(elementOrElements)); ///
-
-  return elements;
+  return element;
 }
 
 const React = {
