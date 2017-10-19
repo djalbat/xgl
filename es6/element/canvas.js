@@ -5,45 +5,21 @@ const Element = require('../element'),
       arrayUtilities = require('../utilities/array'),
       transformUtilities = require('../utilities/transform');
 
-const { composeTransforms } = transformUtilities,
+const { composeTransform, composeTransforms } = transformUtilities,
       { chop, flatten } = arrayUtilities,
       { subtract, cross, normalise } = vec3;
 
 class CanvasElement extends Element {
-  constructor(width, height, depth, dimensions, position, rotations, transformations) {
+  constructor(transform, transformations) {
     super();
 
-    this.width = width;
-    this.height = height;
-    this.depth = depth;
-    this.dimensions = dimensions;
-    this.position = position;
-    this.rotations = rotations;
+    this.transform = transform;
+
     this.transformations = transformations;
   }
 
-  getWidth() {
-    return this.width;
-  }
-
-  getHeight() {
-    return this.height;
-  }
-
-  getDepth() {
-    return this.depth;
-  }
-
-  getDimensions() {
-    return this.dimensions;
-  }
-
-  getPosition() {
-    return this.position;
-  }
-
-  getRotations() {
-    return this.rotations;
+  getTransform() {
+    return this.transform;
   }
 
   getTransformations() {
@@ -53,7 +29,7 @@ class CanvasElement extends Element {
   calculateVertexPositionData() {
     const initialVertexPositionData = this.getInitialVertexPositionData(),
           initialVertexPositions = chop(initialVertexPositionData, 3),  ///
-          transforms = composeTransforms(this.width, this.height, this.depth, this.dimensions, this.position, this.rotations, this.transformations),
+          transforms = composeTransforms(this.transform, this.transformations),
           vertexPositions = initialVertexPositions.map(function(initialVertexPosition) {
             let vertexPosition = initialVertexPosition;
 
@@ -115,7 +91,8 @@ class CanvasElement extends Element {
 
   static fromProperties(Class, properties, ...remainingArguments) {
     const { width, height, depth, dimensions, position, rotations, transformations } = properties,
-          canvasElement = new Class(width, height, depth, dimensions, position, rotations, transformations, ...remainingArguments);
+          transform = composeTransform(width, height, depth, dimensions, position, rotations),
+          canvasElement = new Class(transform, transformations, ...remainingArguments);
 
     return canvasElement;
   }

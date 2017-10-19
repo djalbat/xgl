@@ -10,6 +10,7 @@ class Scene extends Element {
 
     this.colourRenderer = colourRenderer;
     this.textureRenderer = textureRenderer;
+
     this.canvas = canvas;
   }
   

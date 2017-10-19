@@ -8,8 +8,8 @@ const { flatten } = arrayUtilities,
       { textureCoordinatesFromImageNames } = imageMapUtilities;
 
 class TexturedCanvasElement extends CanvasElement {
-  constructor(width, height, depth, dimensions, position, rotations, transformations, imageName) {
-    super(width, height, depth, dimensions, position, rotations, transformations);
+  constructor(transform, transformations, imageName) {
+    super(transform, transformations);
 
     this.imageName = imageName;
   }

@@ -50,39 +50,31 @@ function composeTranslate(position = defaultPosition) {
   return compose(mat4);
 }
 
-function composeTransform(transformation) {
-  const { dimensions, position, rotations } = transformation,
-        { width, height, depth } = dimensions,
-        scale = composeScale(width, height, depth),
-        rotate = composeRotate(rotations),
-        translate = composeTranslate(position);
-
-  return function(vec) {
-    return translate(rotate(scale(vec)));
+function composeTransform(width, height, depth, dimensions, position, rotations) {
+  if (dimensions === undefined) {
+    dimensions = {
+      width: width,
+      height: height,
+      depth: depth
+    }
   }
+
+  const transformation = {
+          dimensions: dimensions,
+          position: position,
+          rotations: rotations
+        },
+        transform = composeTransformEx(transformation);
+
+  return transform;
 }
 
-function composeTransforms(width, height, depth, dimensions, position, rotations, transformations) {
+function composeTransforms(transform, transformations) {
   let transforms;
 
   if (transformations !== undefined) {
-    transforms = transformations.map(composeTransform);
+    transforms = transformations.map(composeTransformEx);
   } else {
-    if (dimensions === undefined) {
-      dimensions = {
-        width: width,
-        height: height,
-        depth: depth
-      }
-    }
-
-    const transformation = {
-            dimensions: dimensions,
-            position: position,
-            rotations: rotations
-          },
-          transform = composeTransform(transformation);
-
     transforms = [
       transform
     ];
@@ -103,4 +95,16 @@ function compose(mat4) {
   return function(vec) {
     return transform([...vec, 1], mat4).slice(0, 3);
   };
+}
+
+function composeTransformEx(transformation) {
+  const { dimensions, position, rotations } = transformation,
+        { width, height, depth } = dimensions,
+        scale = composeScale(width, height, depth),
+        rotate = composeRotate(rotations),
+        translate = composeTranslate(position);
+
+  return function(vec) {
+    return translate(rotate(scale(vec)));
+  }
 }
