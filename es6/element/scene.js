@@ -80,17 +80,11 @@ class Scene extends Element {
     const { childElements, imageMap, canvas } = properties,
           colourRenderer = ColourRenderer.fromNothing(canvas),
           textureRenderer = TextureRenderer.fromNothing(canvas),
-          scene = Element.fromProperties(Scene, properties, colourRenderer, textureRenderer, canvas);
+          scene = Element.fromProperties(Scene, properties, colourRenderer, textureRenderer, canvas),
+          transforms = [];
 
-    const transforms = [],
-          childCanvasElements = childElements.filter(function(childElement) {
-            const childElementCanvasElement = childElement.isCanvasElement();
-
-            return childElementCanvasElement;
-          });
-    
-    childCanvasElements.forEach(function(childCanvasElement) {
-      childCanvasElement.create(colourRenderer, textureRenderer, transforms);
+    childElements.forEach(function(childElement) {
+      childElement.create(colourRenderer, textureRenderer, transforms);
     });
 
     if (imageMap) {

@@ -1,9 +1,15 @@
 'use strict';
 
 class Element {
-  isCanvasElement() {
-    return false;
+  getChildElements() {
+    return this.childElements;
   }
+
+  setChildElements(childElements) {
+    this.childElements = childElements;
+  }
+
+  create(colourRenderer, textureRenderer, transforms) {}
 
   assignContext(names, thenDelete) {
     const argumentsLength = arguments.length;
@@ -52,8 +58,10 @@ class Element {
   }
 
   static fromProperties(Class, properties, ...remainingArguments) {
-    const { childElements } = properties,
-          element = new Class(...remainingArguments);
+    const element = new Class(...remainingArguments),
+          childElements = childElementsFromElementOrProperties(element, properties);
+
+    element.setChildElements(childElements);
 
     childElements.forEach(function(childElement) {
       element.updateContext(childElement);
@@ -64,3 +72,12 @@ class Element {
 }
 
 module.exports = Element;
+
+function childElementsFromElementOrProperties(element, properties) {
+  const childElements = (typeof element.childElements === 'function') ?
+                          element.childElements(properties) :
+                            properties.childElements || [];
+
+  return childElements;
+}
+

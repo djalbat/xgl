@@ -5,29 +5,19 @@ const Element = require('../element'),
       arrayUtilities = require('../utilities/array'),
       transformUtilities = require('../utilities/transform');
 
-const { composeTransform } = transformUtilities,
-      { chop, flatten } = arrayUtilities,
+const { chop, flatten } = arrayUtilities,
+      { composeTransform } = transformUtilities,
       { subtract, cross, normalise } = vec3;
 
 class CanvasElement extends Element {
-  constructor(transform, childElements) {
+  constructor(transform) {
     super();
 
     this.transform = transform;
-
-    this.childElements = childElements;
-  }
-
-  isCanvasElement() {
-    return true;
   }
 
   getTransform() {
     return this.transform;
-  }
-
-  getChildElements() {
-    return this.childElements;
   }
 
   create(colourRenderer, textureRenderer, transforms) {
@@ -105,9 +95,9 @@ class CanvasElement extends Element {
   }
 
   static fromProperties(Class, properties, ...remainingArguments) {
-    const { width, height, depth, position, rotations, childElements } = properties,
+    const { width, height, depth, position, rotations } = properties,
           transform = composeTransform(width, height, depth, position, rotations),
-          canvasElement = new Class(transform, childElements, ...remainingArguments);
+          canvasElement = Element.fromProperties(Class, properties, transform, ...remainingArguments);
 
     return canvasElement;
   }

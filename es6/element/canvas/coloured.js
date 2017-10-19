@@ -6,8 +6,8 @@ const CanvasElement = require('../../element/canvas'),
 const { flatten } = arrayUtilities;
 
 class ColouredCanvasElement extends CanvasElement {
-  constructor(transform, childElements, colour) {
-    super(transform, childElements);
+  constructor(transform, colour) {
+    super(transform);
 
     this.colour = colour;
   }

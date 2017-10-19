@@ -5,7 +5,7 @@ const CanvasElement = require('../../element/canvas'),
       TexturedCylinder = require('../common/textured/cylinder');
 
 class CompoundedShapes extends CanvasElement {
-  getChildElements() {
+  childElements() {
     return ([
 
         <ColouredCylinder width={1} height={1} depth={1} position={[ 3, -1, 1 ]} rotations={[ 0, 0, 0 ]} colour={[ 1, 0, 1, 1 ]} />,

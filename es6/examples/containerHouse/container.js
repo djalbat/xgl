@@ -8,9 +8,9 @@ const overallHeight = 9.5,
       colour = [ 1, 1, 1, 1 ];
 
 class Container extends CanvasElement {
-  getChildElements() {
-    const /*{ length } = properties,
-          */overallLength = 40; ///
+  childElements(properties) {
+    const { length } = properties,
+          overallLength = length; ///
 
     return ([
 

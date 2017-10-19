@@ -28,16 +28,16 @@ const containerHouse = () => {
       <Camera initialDistance={150} initialOffset={[ -18, 0, -16 ]} canvas={canvas} />
       <Foundations />
       <FirstFloor />
+      <SecondFloor />
+      <ThirdFloor />
+      <RoofGarden />
+      <MainBalcony />
+      <LowerBalcony />
+      <BedroomBalcony />
+      <Frame />
     </Scene>
 
   );
 };
 
 module.exports = containerHouse;
-// <SecondFloor />
-// <ThirdFloor />
-// <RoofGarden />
-// <MainBalcony />
-// <LowerBalcony />
-// <BedroomBalcony />
-// <Frame />
