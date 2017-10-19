@@ -1,9 +1,9 @@
 'use strict';
 
 const CanvasElement = require('../../element/canvas'),
-      vertexUtilities = require('../../utilities/vertex');
+      arrayUtilities = require('../../utilities/array');
 
-const { calculateVertexPositionData, calculateVertexNormalData, calculateVertexIndexData, calculateVertexColourData } = vertexUtilities;
+const { flatten } = arrayUtilities;
 
 class ColouredCanvasElement extends CanvasElement {
   constructor(width, height, depth, dimensions, position, rotations, transformations, colour) {
@@ -12,19 +12,26 @@ class ColouredCanvasElement extends CanvasElement {
     this.colour = colour;
   }
 
+  calculateVertexColourData(vertexPositionData) {
+    const vertexPositionDataLength = vertexPositionData.length,
+          vertexColoursLength = vertexPositionDataLength / 3,  ///
+          vertexColour = this.colour,
+          vertexColours = [];
+
+    for (let index = 0; index < vertexColoursLength; index++) {
+      vertexColours.push(vertexColour);
+    }
+
+    const vertexColourData = flatten(vertexColours);  ///
+
+    return vertexColourData;
+  }
+
   create(colourRenderer, textureRenderer) {
-    const initialVertexPositionData = this.getInitialVertexPositionData(),
-        width = this.getWidth(),
-        height = this.getHeight(),
-        depth = this.getDepth(),
-        dimensions = this.getDimensions(),
-        position = this.getPosition(),
-        rotations = this.getRotations(),
-        transformations = this.getTransformations(),
-        vertexPositionData = calculateVertexPositionData(initialVertexPositionData, width, height, depth, dimensions, position, rotations, transformations),
-        vertexIndexData = calculateVertexIndexData(initialVertexPositionData),
-        vertexNormalData = calculateVertexNormalData(vertexPositionData),
-        vertexColourData = calculateVertexColourData(initialVertexPositionData, this.colour);
+    const vertexPositionData = this.calculateVertexPositionData(),
+          vertexIndexData = this.calculateVertexIndexData(vertexPositionData),
+          vertexNormalData = this.calculateVertexNormalData(vertexPositionData),
+          vertexColourData = this.calculateVertexColourData(vertexPositionData);
 
     colourRenderer.addVertexPositionData(vertexPositionData);
     colourRenderer.addVertexIndexData(vertexIndexData);

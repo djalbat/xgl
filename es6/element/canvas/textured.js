@@ -1,9 +1,11 @@
 'use strict';
 
 const CanvasElement = require('../../element/canvas'),
-      vertexUtilities = require('../../utilities/vertex');
+      arrayUtilities = require('../../utilities/array'),
+      imageMapUtilities = require('../../utilities/imageMap');
 
-const { calculateVertexPositionData, calculateVertexNormalData, calculateVertexIndexData, calculateTextureCoordinateData } = vertexUtilities;
+const { flatten } = arrayUtilities,
+      { textureCoordinatesFromImageNames } = imageMapUtilities;
 
 class TexturedCanvasElement extends CanvasElement {
   constructor(width, height, depth, dimensions, position, rotations, transformations, imageName) {
@@ -12,19 +14,26 @@ class TexturedCanvasElement extends CanvasElement {
     this.imageName = imageName;
   }
 
+  calculateTextureCoordinateData(vertexPositionData) {
+    const vertexPositionDataLength = vertexPositionData.length,
+          imageNamesLength = vertexPositionDataLength / 12,  ///
+          imageNames = [];
+
+    for (let index = 0; index < imageNamesLength; index++) {
+      imageNames.push(this.imageName);
+    }
+
+    const textureCoordinates = textureCoordinatesFromImageNames(imageNames),
+          textureCoordinateData = flatten(textureCoordinates);
+
+    return textureCoordinateData;
+  }
+
   create(colourRenderer, textureRenderer) {
-    const initialVertexPositionData = this.getInitialVertexPositionData(),
-          width = this.getWidth(),
-          height = this.getHeight(),
-          depth = this.getDepth(),
-          dimensions = this.getDimensions(),
-          position = this.getPosition(),
-          rotations = this.getRotations(),
-          transformations = this.getTransformations(),
-          vertexPositionData = calculateVertexPositionData(initialVertexPositionData, width, height, depth, dimensions, position, rotations, transformations),
-          vertexIndexData = calculateVertexIndexData(initialVertexPositionData),
-          vertexNormalData = calculateVertexNormalData(vertexPositionData),
-          textureCoordinateData = calculateTextureCoordinateData(initialVertexPositionData, this.imageName);
+    const vertexPositionData = this.calculateVertexPositionData(),
+          vertexIndexData = this.calculateVertexIndexData(vertexPositionData),
+          vertexNormalData = this.calculateVertexNormalData(vertexPositionData),
+          textureCoordinateData = this.calculateTextureCoordinateData(vertexPositionData);
 
     textureRenderer.addVertexPositionData(vertexPositionData);
     textureRenderer.addVertexIndexData(vertexIndexData);
