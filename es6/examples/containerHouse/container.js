@@ -1,7 +1,12 @@
 'use strict';
 
 const CanvasElement = require('../../element/canvas'),
-      ColouredPlane = require('../common/coloured/plane');
+      Roof = require('./container/roof'),
+      BackWall = require('./container/backWall'),
+      Underside = require('./container/underside'),
+      FrontWall = require('./container/frontWall'),
+      SideWallA = require('./container/sideWallA'),
+      SideWallB = require('./container/sideWallB');
 
 const overallHeight = 9.5,
       overallWidth = 8,
@@ -13,12 +18,12 @@ class Container extends CanvasElement {
 
     return ([
 
-      top(length),
-      bottom(length),
-      frontWall(length),
-      backWall(length),
-      sideWallA(length),
-      sideWallB(length),
+      <Roof length={length} overallWidth={overallWidth} overallHeight={overallHeight} colour={colour} />,
+      <Underside length={length} overallWidth={overallWidth} overallHeight={overallHeight} colour={colour} />,
+      <FrontWall length={length} overallWidth={overallWidth} overallHeight={overallHeight} colour={colour} />,
+      <BackWall length={length} overallWidth={overallWidth} overallHeight={overallHeight} colour={colour} />,
+      <SideWallA length={length} overallWidth={overallWidth} overallHeight={overallHeight} colour={colour} />,
+      <SideWallB length={length} overallWidth={overallWidth} overallHeight={overallHeight} colour={colour} />,
 
     ]);
   }
@@ -26,91 +31,4 @@ class Container extends CanvasElement {
   static fromProperties(properties) { return CanvasElement.fromProperties(Container, properties); }
 }
 
-'use strict';
-
 module.exports = Container;
-
-const top = (length) => {
-  const width = overallWidth,
-        height = length,
-        depth = overallHeight,
-        position = [ 0, overallHeight, length ],
-        rotations = [ -90, 0, 0 ];
-;
-
-  return (
-
-    <ColouredPlane colour={colour} width={width} height={height} depth={depth} position={position} rotations={rotations} />
-
-  );
-};
-
-const bottom = (length) => {
-  const width = overallWidth,
-        height = length,
-        depth = 0,
-        position = [ 0, 0, 0 ],
-        rotations = [ +90,  0, 0 ];
-
-  return (
-
-    <ColouredPlane colour={colour} width={width} height={height} depth={depth} position={position} rotations={rotations} />
-
-  );
-};
-
-const frontWall = (length) => {
-  const width = overallWidth,
-        height = overallHeight,
-        depth = 0,
-        position = [ 0, 0, length ],
-        rotations = [ 0, 0, 0 ];
-
-  return (
-
-    <ColouredPlane colour={colour} width={width} height={height} depth={depth} position={position} rotations={rotations} />
-
-  );
-};
-
-const backWall = (length) => {
-  const width = overallWidth,
-        height = overallHeight,
-        depth = 0,
-        position = [ overallWidth, 0, 0 ],
-        rotations = [ 0, -180, 0 ];
-
-  return (
-
-    <ColouredPlane colour={colour} width={width} height={height} depth={depth} position={position} rotations={rotations} />
-
-  );
-};
-
-const sideWallA = (length) => {
-  const width = length,
-        height = overallHeight,
-        depth = 0,
-        position = [ 0, 0, 0 ],
-        rotations = [ 0, -90, 0 ];
-
-  return (
-
-    <ColouredPlane colour={colour} width={width} height={height} depth={depth} position={position} rotations={rotations} />
-
-  );
-};
-
-const sideWallB = (length) => {
-  const width = length,
-        height = overallHeight,
-        depth = 0,
-        position = [ overallWidth, 0, length ],
-        rotations = [ 0, +90, 0 ];
-
-  return (
-
-    <ColouredPlane colour={colour} width={width} height={height} depth={depth} position={position} rotations={rotations} />
-
-  );
-};
