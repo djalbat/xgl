@@ -2,11 +2,10 @@
 
 const CanvasElement = require('../../element/canvas'),
       Roof = require('./container/roof'),
+      SideWall = require('./container/sideWall'),
       BackWall = require('./container/backWall'),
-      Underside = require('./container/underside'),
       FrontWall = require('./container/frontWall'),
-      SideWallA = require('./container/sideWallA'),
-      SideWallB = require('./container/sideWallB');
+      Underside = require('./container/underside');
 
 const overallHeight = 9.5,
       overallWidth = 8,
@@ -22,8 +21,8 @@ class Container extends CanvasElement {
       <Underside length={length} overallWidth={overallWidth} overallHeight={overallHeight} colour={colour} />,
       <FrontWall length={length} overallWidth={overallWidth} overallHeight={overallHeight} colour={colour} />,
       <BackWall length={length} overallWidth={overallWidth} overallHeight={overallHeight} colour={colour} />,
-      <SideWallA length={length} overallWidth={overallWidth} overallHeight={overallHeight} colour={colour} />,
-      <SideWallB length={length} overallWidth={overallWidth} overallHeight={overallHeight} colour={colour} />,
+      <SideWall length={length} overallWidth={overallWidth} overallHeight={overallHeight} colour={colour} />,
+      <SideWall length={length} overallWidth={overallWidth} overallHeight={overallHeight} colour={colour} position={[ overallWidth, 0, length ]} rotations={[ 0, 180, 0 ]} />,
 
     ]);
   }
