@@ -25,7 +25,7 @@ const containerHouse = () => {
   preloadImageMap((imageMap) =>
 
     <Scene imageMap={imageMap} canvas={canvas}>
-      <Camera initialDistance={150} initialOffset={[ -18, 0, -16 ]} canvas={canvas} />
+      <Camera initialDistance={50} initialOffset={[ -18, 0, -16 ]} canvas={canvas} />
       <Foundations />
       <FirstFloor />
       <SecondFloor />

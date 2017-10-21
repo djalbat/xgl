@@ -8,12 +8,12 @@ const { radius } = Upright;
 class Uprights extends CanvasElement {
   childElements(properties) {
     const { overallHeight, length, thickness } = properties,
-          elements = [],
           step = 0.5,
-          count = length / step;
+          count = length / step,
+          elements = [];
 
     for (let index = 1; index < count; index++) {
-      const position = [step * index - radius, 0, thickness / 2 + radius, 1];
+      const position = [step * index - radius, 0, thickness / 2 + radius];
 
       elements.push(
 
