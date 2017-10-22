@@ -1,24 +1,16 @@
 'use strict';
 
 class Renderer {
-  constructor(program, uniformLocations, attributeLocations, rendererData, rendererBuffers) {
+  constructor(program, rendererData, rendererBuffers, uniformLocations, attributeLocations) {
     this.program = program;
-    this.uniformLocations = uniformLocations;
-    this.attributeLocations = attributeLocations;
     this.rendererData = rendererData;
     this.rendererBuffers = rendererBuffers;
+    this.uniformLocations = uniformLocations;
+    this.attributeLocations = attributeLocations;
   }
 
   getProgram() {
     return this.program;
-  }
-  
-  getUniformLocations() {
-    return this.uniformLocations;
-  }
-  
-  getAttributeLocations() {
-    return this.attributeLocations;
   }
   
   getRendererData() {
@@ -27,6 +19,14 @@ class Renderer {
   
   getRendererBuffers() {
     return this.rendererBuffers;
+  }
+
+  getUniformLocations() {
+    return this.uniformLocations;
+  }
+
+  getAttributeLocations() {
+    return this.attributeLocations;
   }
 
   getCount() { return this.rendererData.getCount(); }
@@ -50,21 +50,6 @@ class Renderer {
   addVertexNormals(vertexNormals) { this.rendererData.addVertexNormals(vertexNormals); }
 
   addVertexIndexes(vertexIndexes) { this.rendererData.addVertexIndexes(vertexIndexes); }
-
-  createBuffers(canvas) { 
-    const vertexPositionsData = this.rendererData.getVertexPositionsData(),
-          vertexNormalsData = this.rendererData.getVertexNormalsData(),
-          vertexIndexesData = this.rendererData.getVertexIndexesData();
-    
-    this.rendererBuffers.createBuffers(vertexPositionsData, vertexNormalsData, vertexIndexesData, canvas); 
-  }
-
-  bindBuffers(canvas) { 
-    const vertexNormalAttributeLocation = this.getVertexNormalAttributeLocation(), 
-          vertexPositionAttributeLocation = this.getVertexPositionAttributeLocation();
-    
-    this.rendererBuffers.bindBuffers(vertexNormalAttributeLocation, vertexPositionAttributeLocation, canvas); 
-  }
 }
 
 function createProgram(vertexShaderSource, fragmentShaderSource, canvas) {

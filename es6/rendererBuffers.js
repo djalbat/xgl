@@ -10,18 +10,6 @@ class RendererBuffers {
     this.vertexIndexesElementBuffer = vertexIndexesElementBuffer;
   }
 
-  createBuffers(vertexPositionsData, vertexNormalsData, vertexIndexesData, canvas) {
-    this.createVertexPositionsBuffer(vertexPositionsData, canvas);
-    this.createVertexNormalsBuffer(vertexNormalsData, canvas);
-    this.createVertexIndexesElementBuffer(vertexIndexesData, canvas);
-  }
-
-  bindBuffers(vertexNormalAttributeLocation, vertexPositionAttributeLocation, canvas) {
-    this.bindVertexNormalsBuffer(vertexNormalAttributeLocation, canvas);
-    this.bindVertexPositionsBuffer(vertexPositionAttributeLocation, canvas);
-    this.bindVertexIndexesElementBuffer(canvas);
-  }
-
   createVertexPositionsBuffer(vertexPositionsData, canvas) {
     this.vertexPositionsBuffer = canvas.createBuffer(vertexPositionsData);
   }
@@ -45,12 +33,24 @@ class RendererBuffers {
   bindVertexIndexesElementBuffer(canvas) {
     canvas.bindElementBuffer(this.vertexIndexesElementBuffer);
   }
-  
-  static fromNothing() {
+
+  createBuffers(vertexPositionsData, vertexNormalsData, vertexIndexesData, canvas) {
+    this.createVertexPositionsBuffer(vertexPositionsData, canvas);
+    this.createVertexNormalsBuffer(vertexNormalsData, canvas);
+    this.createVertexIndexesElementBuffer(vertexIndexesData, canvas);
+  }
+
+  bindBuffers(vertexNormalAttributeLocation, vertexPositionAttributeLocation, canvas) {
+    this.bindVertexNormalsBuffer(vertexNormalAttributeLocation, canvas);
+    this.bindVertexPositionsBuffer(vertexPositionAttributeLocation, canvas);
+    this.bindVertexIndexesElementBuffer(canvas);
+  }
+
+  static fromNothing(Class, ...remainingArguments) {
     const vertexPositionsBuffer = null, ///
           vertexNormalsBuffer = null, ///
           vertexIndexesElementBuffer = null,  ///
-          rendererBuffers = new RendererBuffers(vertexPositionsBuffer, vertexNormalsBuffer, vertexIndexesElementBuffer);
+          rendererBuffers = new Class(vertexPositionsBuffer, vertexNormalsBuffer, vertexIndexesElementBuffer, ...remainingArguments);
 
     return rendererBuffers;
   }
