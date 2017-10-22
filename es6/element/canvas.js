@@ -5,7 +5,7 @@ const Element = require('../element'),
       arrayUtilities = require('../utilities/array'),
       transformUtilities = require('../utilities/transform');
 
-const { chop, flatten } = arrayUtilities,
+const { chop } = arrayUtilities,
       { composeTransform } = transformUtilities,
       { subtract, cross, normalise } = vec3;
 
@@ -30,7 +30,7 @@ class CanvasElement extends Element {
     });
   }
 
-  calculateVertexPositionData(transforms) {
+  calculateVertexPositions(transforms) {
     transforms = [this.transform, ...transforms]; ///
 
     const initialVertexPositions = this.getInitialVertexPositions(),
@@ -42,16 +42,15 @@ class CanvasElement extends Element {
             });
 
             return vertexPosition;
-          }),
-          vertexPositionData = flatten(vertexPositions);
+          });
 
-    return vertexPositionData;
+    return vertexPositions;
   }
 
-  calculateVertexNormalData(vertexPositionData) {
-    const faces = chop(vertexPositionData, 12),  ///
+  calculateVertexNormals(vertexPositions) {
+    const faces = chop(vertexPositions, 4),  ///
           vertexNormals = faces.reduce(function(vertexNormals, face) {
-            const vertexPositions = chop(face, 3);
+            const vertexPositions = face; ///
 
             for (let index = 0; index < 4; index++) {
               const firstVertexIndex = index,
@@ -68,29 +67,28 @@ class CanvasElement extends Element {
             }
 
             return vertexNormals;
-          }, []),
-          vertexNormalData = flatten(vertexNormals); ///
+          }, []);
 
-    return vertexNormalData;
+    return vertexNormals;
   }
 
-  calculateVertexIndexData(vertexPositionData) {
-    const vertexIndexData = [],
-          vertexPositionDataLength = vertexPositionData.length,
-          facesLength = vertexPositionDataLength / 12; ///
+  calculateVertexIndexes(vertexPositions) {
+    const vertexIndexes = [],
+          vertexPositionsLength = vertexPositions.length,
+          facesLength = vertexPositionsLength / 4; ///
 
     for (let index = 0; index < facesLength; index++) {
       const offset = index * 4;
 
-      vertexIndexData.push(offset + 0);
-      vertexIndexData.push(offset + 1);
-      vertexIndexData.push(offset + 2);
-      vertexIndexData.push(offset + 0);
-      vertexIndexData.push(offset + 2);
-      vertexIndexData.push(offset + 3);
+      vertexIndexes.push(offset + 0);
+      vertexIndexes.push(offset + 1);
+      vertexIndexes.push(offset + 2);
+      vertexIndexes.push(offset + 0);
+      vertexIndexes.push(offset + 2);
+      vertexIndexes.push(offset + 3);
     }
 
-    return vertexIndexData;
+    return vertexIndexes;
   }
 
   static fromProperties(Class, properties, ...remainingArguments) {

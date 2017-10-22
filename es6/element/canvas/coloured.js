@@ -12,9 +12,9 @@ class ColouredCanvasElement extends CanvasElement {
     this.colour = colour;
   }
 
-  calculateVertexColourData(vertexPositionData) {
-    const vertexPositionDataLength = vertexPositionData.length,
-          vertexColoursLength = vertexPositionDataLength / 3,  ///
+  calculateVertexColours(vertexPositions) {
+    const vertexPositionsLength = vertexPositions.length,
+          vertexColoursLength = vertexPositionsLength,  ///
           vertexColour = this.colour,
           vertexColours = [];
 
@@ -22,16 +22,19 @@ class ColouredCanvasElement extends CanvasElement {
       vertexColours.push(vertexColour);
     }
 
-    const vertexColourData = flatten(vertexColours);  ///
-
-    return vertexColourData;
+    return vertexColours;
   }
 
   create(colourRenderer, textureRenderer, transforms) {
-    const vertexPositionData = this.calculateVertexPositionData(transforms),
-          vertexIndexData = this.calculateVertexIndexData(vertexPositionData),
-          vertexNormalData = this.calculateVertexNormalData(vertexPositionData),
-          vertexColourData = this.calculateVertexColourData(vertexPositionData);
+    const vertexPositions = this.calculateVertexPositions(transforms),
+          vertexIndexes = this.calculateVertexIndexes(vertexPositions),
+          vertexNormals = this.calculateVertexNormals(vertexPositions),
+          vertexColours = this.calculateVertexColours(vertexPositions);
+
+    const vertexPositionData = flatten(vertexPositions),
+          vertexNormalData = flatten(vertexNormals),
+          vertexColourData = flatten(vertexColours),
+          vertexIndexData = vertexIndexes;
 
     colourRenderer.addVertexPositionData(vertexPositionData);
     colourRenderer.addVertexIndexData(vertexIndexData);

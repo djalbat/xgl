@@ -14,26 +14,30 @@ class TexturedCanvasElement extends CanvasElement {
     this.imageName = imageName;
   }
 
-  calculateTextureCoordinateData(vertexPositionData) {
-    const vertexPositionDataLength = vertexPositionData.length,
-          imageNamesLength = vertexPositionDataLength / 12,  ///
+  calculateTextureCoordinates(vertexPositions) {
+    const vertexPositionsLength = vertexPositions.length,
+          imageNamesLength = vertexPositionsLength / 4,  ///
           imageNames = [];
 
     for (let index = 0; index < imageNamesLength; index++) {
       imageNames.push(this.imageName);
     }
 
-    const textureCoordinates = textureCoordinatesFromImageNames(imageNames),
-          textureCoordinateData = flatten(textureCoordinates);
+    const textureCoordinates = textureCoordinatesFromImageNames(imageNames);
 
-    return textureCoordinateData;
+    return textureCoordinates;
   }
 
   create(colourRenderer, textureRenderer, transforms) {
-    const vertexPositionData = this.calculateVertexPositionData(transforms),
-          vertexIndexData = this.calculateVertexIndexData(vertexPositionData),
-          vertexNormalData = this.calculateVertexNormalData(vertexPositionData),
-          textureCoordinateData = this.calculateTextureCoordinateData(vertexPositionData);
+    const vertexPositions = this.calculateVertexPositions(transforms),
+          vertexIndexes = this.calculateVertexIndexes(vertexPositions),
+          vertexNormals = this.calculateVertexNormals(vertexPositions),
+          textureCoordinates = this.calculateTextureCoordinates(vertexPositions);
+    
+    const vertexPositionData = flatten(vertexPositions),
+          vertexNormalData = flatten(vertexNormals),
+          textureCoordinateData = flatten(textureCoordinates),
+          vertexIndexData = vertexIndexes;
 
     textureRenderer.addVertexPositionData(vertexPositionData);
     textureRenderer.addVertexIndexData(vertexIndexData);
