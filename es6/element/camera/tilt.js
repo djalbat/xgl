@@ -1,12 +1,10 @@
 'use strict';
 
-const necessary = require('necessary');
-
 const vec2 = require('../../maths/vec2'),
-      constants = require('../../constants');
+      constants = require('../../constants'),
+      arrayUtilities = require('../../utilities/array');
 
-const { arrayUtilities } = necessary,
-      { first, second } = arrayUtilities,
+const { first, second } = arrayUtilities,
       { add, subtract, scale } = vec2,
       { ANGLE_COORDINATES_SCALAR, INITIAL_MOUSE_COORDINATES, INITIAL_ANGLE_COORDINATES } = constants;
 

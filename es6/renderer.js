@@ -1,33 +1,16 @@
 'use strict';
 
-const necessary = require('necessary');
-
-const { arrayUtilities } = necessary,
-      { merge } = arrayUtilities,
-      add = merge;  ///
-
 class Renderer {
-  constructor(program, uniformLocations, attributeLocations) {
+  constructor(program, uniformLocations, attributeLocations, rendererData) {
     this.program = program;
     this.uniformLocations = uniformLocations;
     this.attributeLocations = attributeLocations;
+    
+    this.rendererData = rendererData;
 
-    this.vertexPositionData = [];
-    this.vertexNormalData = [];
-    this.vertexIndexData = [];
-
-    this.vertexPositionBuffer = null; ///
-    this.vertexNormalBuffer = null; ///
-    this.vertexIndexElementBuffer = null; ///
-
-    this.maximumVertexIndex = -1; ///
-  }
-
-  getCount() {
-    const vertexIndexDataLength = this.vertexIndexData.length,
-          count = vertexIndexDataLength;  ///
-
-    return count;
+    this.vertexPositionsBuffer = null; ///
+    this.vertexNormalsBuffer = null; ///
+    this.vertexIndexesElementBuffer = null; ///
   }
 
   getProgram() {
@@ -41,7 +24,9 @@ class Renderer {
   getAttributeLocations() {
     return this.attributeLocations;
   }
-  
+
+  getCount() { return this.rendererData.getCount(); }
+
   getOffsetMatrixUniformLocation() { return this.uniformLocations.getOffsetMatrixUniformLocation(); }
 
   getRotationMatrixUniformLocation() { return this.uniformLocations.getRotationMatrixUniformLocation(); }
@@ -56,25 +41,11 @@ class Renderer {
 
   getVertexNormalAttributeLocation() { return this.attributeLocations.getVertexNormalAttributeLocation(); }
 
-  addVertexPositionData(vertexPositionData) {
-    add(this.vertexPositionData, vertexPositionData);
-  }
+  addVertexPositions(vertexPositions) { this.rendererData.addVertexPositions(vertexPositions); }
 
-  addVertexNormalData(vertexNormalData) {
-    add(this.vertexNormalData, vertexNormalData);
-  }
+  addVertexNormals(vertexNormals) { this.rendererData.addVertexNormals(vertexNormals); }
 
-  addVertexIndexData(vertexIndexData) {
-    const offset = this.maximumVertexIndex + 1;
-
-    vertexIndexData = vertexIndexData.map(function(vertexIndex) {
-      return vertexIndex + offset;
-    });
-
-    add(this.vertexIndexData, vertexIndexData);
-
-    this.maximumVertexIndex = Math.max(this.maximumVertexIndex, ...vertexIndexData);
-  }
+  addVertexIndexes(vertexIndexes) { this.rendererData.addVertexIndexes(vertexIndexes); }
 
   createBuffers(canvas) {
     this.createVertexPositionBuffer(canvas);
@@ -89,33 +60,39 @@ class Renderer {
   }
 
   createVertexPositionBuffer(canvas) {
-    this.vertexPositionBuffer = canvas.createBuffer(this.vertexPositionData);
+    const vertexPositionsData = this.rendererData.getVertexPositionsData();
+    
+    this.vertexPositionsBuffer = canvas.createBuffer(vertexPositionsData);
   }
 
   createVertexNormalBuffer(canvas) {
-    this.vertexNormalBuffer = canvas.createBuffer(this.vertexNormalData);
+    const vertexNormalsData = this.rendererData.getVertexNormalsData();
+    
+    this.vertexNormalsBuffer = canvas.createBuffer(vertexNormalsData);
   }
 
   createVertexIndexElementBuffer(canvas) {
-    this.vertexIndexElementBuffer = canvas.createElementBuffer(this.vertexIndexData);
+    const vertexIndexesData = this.rendererData.getVertexIndexesData();
+    
+    this.vertexIndexesElementBuffer = canvas.createElementBuffer(vertexIndexesData);
   }
 
   bindVertexPositionBuffer(canvas) {
     const vertexPositionAttributeLocation = this.getVertexPositionAttributeLocation(),
           vertexPositionComponents = 3;
     
-    canvas.bindBuffer(this.vertexPositionBuffer, vertexPositionAttributeLocation, vertexPositionComponents);
+    canvas.bindBuffer(this.vertexPositionsBuffer, vertexPositionAttributeLocation, vertexPositionComponents);
   }
 
   bindVertexNormalBuffer(canvas) {
     const vertexNormalAttributeLocation = this.getVertexNormalAttributeLocation(),
           vertexNormalComponents = 3;
 
-    canvas.bindBuffer(this.vertexNormalBuffer, vertexNormalAttributeLocation, vertexNormalComponents);
+    canvas.bindBuffer(this.vertexNormalsBuffer, vertexNormalAttributeLocation, vertexNormalComponents);
   }
 
   bindVertexIndexElementBuffer(canvas) {
-    canvas.bindElementBuffer(this.vertexIndexElementBuffer);
+    canvas.bindElementBuffer(this.vertexIndexesElementBuffer);
   }
 }
 

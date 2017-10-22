@@ -1,11 +1,9 @@
 'use strict';
 
 const CanvasElement = require('../../element/canvas'),
-      arrayUtilities = require('../../utilities/array'),
       imageMapUtilities = require('../../utilities/imageMap');
 
-const { flatten } = arrayUtilities,
-      { textureCoordinatesFromImageNames } = imageMapUtilities;
+const { textureCoordinatesFromImageNames } = imageMapUtilities;
 
 class TexturedCanvasElement extends CanvasElement {
   constructor(transform, imageName) {
@@ -34,15 +32,10 @@ class TexturedCanvasElement extends CanvasElement {
           vertexNormals = this.calculateVertexNormals(vertexPositions),
           textureCoordinates = this.calculateTextureCoordinates(vertexPositions);
     
-    const vertexPositionData = flatten(vertexPositions),
-          vertexNormalData = flatten(vertexNormals),
-          textureCoordinateData = flatten(textureCoordinates),
-          vertexIndexData = vertexIndexes;
-
-    textureRenderer.addVertexPositionData(vertexPositionData);
-    textureRenderer.addVertexIndexData(vertexIndexData);
-    textureRenderer.addVertexNormalData(vertexNormalData);
-    textureRenderer.addTextureCoordinateData(textureCoordinateData);
+    textureRenderer.addVertexPositions(vertexPositions);
+    textureRenderer.addVertexIndexes(vertexIndexes);
+    textureRenderer.addVertexNormals(vertexNormals);
+    textureRenderer.addTextureCoordinates(textureCoordinates);
 
     super.create(colourRenderer, textureRenderer, transforms);
   }

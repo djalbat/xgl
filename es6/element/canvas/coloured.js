@@ -1,9 +1,6 @@
 'use strict';
 
-const CanvasElement = require('../../element/canvas'),
-      arrayUtilities = require('../../utilities/array');
-
-const { flatten } = arrayUtilities;
+const CanvasElement = require('../../element/canvas');
 
 class ColouredCanvasElement extends CanvasElement {
   constructor(transform, colour) {
@@ -31,15 +28,10 @@ class ColouredCanvasElement extends CanvasElement {
           vertexNormals = this.calculateVertexNormals(vertexPositions),
           vertexColours = this.calculateVertexColours(vertexPositions);
 
-    const vertexPositionData = flatten(vertexPositions),
-          vertexNormalData = flatten(vertexNormals),
-          vertexColourData = flatten(vertexColours),
-          vertexIndexData = vertexIndexes;
-
-    colourRenderer.addVertexPositionData(vertexPositionData);
-    colourRenderer.addVertexIndexData(vertexIndexData);
-    colourRenderer.addVertexNormalData(vertexNormalData);
-    colourRenderer.addVertexColourData(vertexColourData);
+    colourRenderer.addVertexPositions(vertexPositions);
+    colourRenderer.addVertexIndexes(vertexIndexes);
+    colourRenderer.addVertexNormals(vertexNormals);
+    colourRenderer.addVertexColours(vertexColours);
 
     super.create(colourRenderer, textureRenderer, transforms);
   }

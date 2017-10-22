@@ -1,25 +1,19 @@
 'use strict';
 
-const necessary = require('necessary');
-
 const Renderer = require('../renderer'),
+      TextureRendererData = require('../rendererData/texture'),
       vertexShaderSource = require('./source/texture/vertexShader'),
       fragmentShaderSource = require('./source/texture/fragmentShader'),
       TextureUniformLocations = require('./locations/texture/uniform'),
       TextureAttributeLocations = require('./locations/texture/attribute');
 
-const { createProgram } = Renderer,
-      { arrayUtilities } = necessary,
-      { merge } = arrayUtilities,
-      add = merge;  ///
+const { createProgram } = Renderer;
 
 class TextureRenderer extends Renderer {
-  constructor(program, uniformLocations, attributeLocations) {
-    super(program, uniformLocations, attributeLocations);
+  constructor(program, uniformLocations, attributeLocations, rendererData) {
+    super(program, uniformLocations, attributeLocations, rendererData);
 
-    this.textureCoordinateData = [];
-    
-    this.textureCoordinateBuffer = null;  ///
+    this.textureCoordinatesBuffer = null;  ///
   }
 
   getTextureCoordinateAttributeLocation() {
@@ -29,12 +23,12 @@ class TextureRenderer extends Renderer {
     return textureCoordinateAttributeLocation;
   }
 
-  addTextureCoordinateData(textureCoordinateData) {
-    add(this.textureCoordinateData, textureCoordinateData);
-  }
+  addTextureCoordinates(textureCoordinates) { this.rendererData.addTextureCoordinates(textureCoordinates); }
 
   createBuffers(canvas) {
-    this.textureCoordinateBuffer = canvas.createBuffer(this.textureCoordinateData);
+    const textureCoordinatesData = this.rendererData.getTextureCoordinatesData();
+
+    this.textureCoordinatesBuffer = canvas.createBuffer(textureCoordinatesData);
 
     super.createBuffers(canvas);
   }
@@ -43,7 +37,7 @@ class TextureRenderer extends Renderer {
     const textureCoordinateAttributeLocation = this.getTextureCoordinateAttributeLocation(),
           textureCoordinateComponents = 2;
 
-    canvas.bindBuffer(this.textureCoordinateBuffer, textureCoordinateAttributeLocation, textureCoordinateComponents);
+    canvas.bindBuffer(this.textureCoordinatesBuffer, textureCoordinateAttributeLocation, textureCoordinateComponents);
 
     super.bindBuffers(canvas);
   }
@@ -69,7 +63,9 @@ class TextureRenderer extends Renderer {
     const program = createProgram(vertexShaderSource, fragmentShaderSource, canvas),
           uniformLocations = TextureUniformLocations.fromProgram(program, canvas),
           attributeLocations = TextureAttributeLocations.fromProgram(program, canvas),
-          textureRenderer = new TextureRenderer(program, uniformLocations, attributeLocations);
+          textureRendererData = TextureRendererData.fromNothing(),
+          rendererData = textureRendererData,  ///
+          textureRenderer = new TextureRenderer(program, uniformLocations, attributeLocations, rendererData);
 
     return textureRenderer;
   }
