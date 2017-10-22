@@ -1,6 +1,7 @@
 'use strict';
 
 const Renderer = require('../renderer'),
+      RendererBuffers = require('../rendererBuffers'),
       ColourRendererData = require('../rendererData/colour'),
       vertexShaderSource = require('./source/colour/vertexShader'),
       fragmentShaderSource = require('./source/colour/fragmentShader'),
@@ -10,8 +11,8 @@ const Renderer = require('../renderer'),
 const { createProgram } = Renderer;
 
 class ColourRenderer extends Renderer {
-  constructor(program, uniformLocations, attributeLocations, rendererData) {
-    super(program, uniformLocations, attributeLocations, rendererData);
+  constructor(program, uniformLocations, attributeLocations, rendererData, rendererBuffers) {
+    super(program, uniformLocations, attributeLocations, rendererData, rendererBuffers);
 
     this.vertexColoursBuffer = null; ///
   }
@@ -48,7 +49,8 @@ class ColourRenderer extends Renderer {
           attributeLocations = ColourAttributeLocations.fromProgram(program, canvas),
           colourRendererData = ColourRendererData.fromNothing(),
           rendererData = colourRendererData,  ///
-          colourRenderer = new ColourRenderer(program, uniformLocations, attributeLocations, rendererData);
+          rendererBuffers = RendererBuffers.fromNothing(),
+          colourRenderer = new ColourRenderer(program, uniformLocations, attributeLocations, rendererData, rendererBuffers);
     
     return colourRenderer;
   }

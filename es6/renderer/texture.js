@@ -1,6 +1,7 @@
 'use strict';
 
 const Renderer = require('../renderer'),
+      RendererBuffers = require('../rendererBuffers'),
       TextureRendererData = require('../rendererData/texture'),
       vertexShaderSource = require('./source/texture/vertexShader'),
       fragmentShaderSource = require('./source/texture/fragmentShader'),
@@ -10,8 +11,8 @@ const Renderer = require('../renderer'),
 const { createProgram } = Renderer;
 
 class TextureRenderer extends Renderer {
-  constructor(program, uniformLocations, attributeLocations, rendererData) {
-    super(program, uniformLocations, attributeLocations, rendererData);
+  constructor(program, uniformLocations, attributeLocations, rendererData, rendererBuffers) {
+    super(program, uniformLocations, attributeLocations, rendererData, rendererBuffers);
 
     this.textureCoordinatesBuffer = null;  ///
   }
@@ -65,7 +66,8 @@ class TextureRenderer extends Renderer {
           attributeLocations = TextureAttributeLocations.fromProgram(program, canvas),
           textureRendererData = TextureRendererData.fromNothing(),
           rendererData = textureRendererData,  ///
-          textureRenderer = new TextureRenderer(program, uniformLocations, attributeLocations, rendererData);
+          rendererBuffers = RendererBuffers.fromNothing(),
+          textureRenderer = new TextureRenderer(program, uniformLocations, attributeLocations, rendererData, rendererBuffers);
 
     return textureRenderer;
   }

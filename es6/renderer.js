@@ -1,16 +1,12 @@
 'use strict';
 
 class Renderer {
-  constructor(program, uniformLocations, attributeLocations, rendererData) {
+  constructor(program, uniformLocations, attributeLocations, rendererData, rendererBuffers) {
     this.program = program;
     this.uniformLocations = uniformLocations;
     this.attributeLocations = attributeLocations;
-    
     this.rendererData = rendererData;
-
-    this.vertexPositionsBuffer = null; ///
-    this.vertexNormalsBuffer = null; ///
-    this.vertexIndexesElementBuffer = null; ///
+    this.rendererBuffers = rendererBuffers;
   }
 
   getProgram() {
@@ -23,6 +19,14 @@ class Renderer {
   
   getAttributeLocations() {
     return this.attributeLocations;
+  }
+  
+  getRendererData() {
+    return this.rendererData;
+  }
+  
+  getRendererBuffers() {
+    return this.rendererBuffers;
   }
 
   getCount() { return this.rendererData.getCount(); }
@@ -47,52 +51,19 @@ class Renderer {
 
   addVertexIndexes(vertexIndexes) { this.rendererData.addVertexIndexes(vertexIndexes); }
 
-  createBuffers(canvas) {
-    this.createVertexPositionBuffer(canvas);
-    this.createVertexNormalBuffer(canvas);
-    this.createVertexIndexElementBuffer(canvas);
-  }
-
-  bindBuffers(canvas) {
-    this.bindVertexNormalBuffer(canvas);
-    this.bindVertexPositionBuffer(canvas);
-    this.bindVertexIndexElementBuffer(canvas);
-  }
-
-  createVertexPositionBuffer(canvas) {
-    const vertexPositionsData = this.rendererData.getVertexPositionsData();
+  createBuffers(canvas) { 
+    const vertexPositionsData = this.rendererData.getVertexPositionsData(),
+          vertexNormalsData = this.rendererData.getVertexNormalsData(),
+          vertexIndexesData = this.rendererData.getVertexIndexesData();
     
-    this.vertexPositionsBuffer = canvas.createBuffer(vertexPositionsData);
+    this.rendererBuffers.createBuffers(vertexPositionsData, vertexNormalsData, vertexIndexesData, canvas); 
   }
 
-  createVertexNormalBuffer(canvas) {
-    const vertexNormalsData = this.rendererData.getVertexNormalsData();
+  bindBuffers(canvas) { 
+    const vertexNormalAttributeLocation = this.getVertexNormalAttributeLocation(), 
+          vertexPositionAttributeLocation = this.getVertexPositionAttributeLocation();
     
-    this.vertexNormalsBuffer = canvas.createBuffer(vertexNormalsData);
-  }
-
-  createVertexIndexElementBuffer(canvas) {
-    const vertexIndexesData = this.rendererData.getVertexIndexesData();
-    
-    this.vertexIndexesElementBuffer = canvas.createElementBuffer(vertexIndexesData);
-  }
-
-  bindVertexPositionBuffer(canvas) {
-    const vertexPositionAttributeLocation = this.getVertexPositionAttributeLocation(),
-          vertexPositionComponents = 3;
-    
-    canvas.bindBuffer(this.vertexPositionsBuffer, vertexPositionAttributeLocation, vertexPositionComponents);
-  }
-
-  bindVertexNormalBuffer(canvas) {
-    const vertexNormalAttributeLocation = this.getVertexNormalAttributeLocation(),
-          vertexNormalComponents = 3;
-
-    canvas.bindBuffer(this.vertexNormalsBuffer, vertexNormalAttributeLocation, vertexNormalComponents);
-  }
-
-  bindVertexIndexElementBuffer(canvas) {
-    canvas.bindElementBuffer(this.vertexIndexesElementBuffer);
+    this.rendererBuffers.bindBuffers(vertexNormalAttributeLocation, vertexPositionAttributeLocation, canvas); 
   }
 }
 
