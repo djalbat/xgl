@@ -1,8 +1,8 @@
 'use strict';
 
 const Renderer = require('../renderer'),
-      TextureRendererBuffers = require('../rendererBuffers/texture'),
-      TextureRendererData = require('../rendererData/texture'),
+      TextureRendererBuffers = require('../renderer/buffers/texture'),
+      TextureRendererData = require('../renderer/data/texture'),
       vertexShaderSource = require('./source/texture/vertexShader'),
       fragmentShaderSource = require('./source/texture/fragmentShader'),
       TextureUniformLocations = require('./locations/texture/uniform'),

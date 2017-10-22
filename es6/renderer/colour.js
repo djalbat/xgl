@@ -1,8 +1,8 @@
 'use strict';
 
 const Renderer = require('../renderer'),
-      ColourRendererData = require('../rendererData/colour'),
-      ColourRendererBuffers = require('../rendererBuffers/colour'),
+      ColourRendererData = require('../renderer/data/colour'),
+      ColourRendererBuffers = require('../renderer/buffers/colour'),
       vertexShaderSource = require('./source/colour/vertexShader'),
       fragmentShaderSource = require('./source/colour/fragmentShader'),
       ColourUniformLocations = require('./locations/colour/uniform'),

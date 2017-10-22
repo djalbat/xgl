@@ -1,6 +1,6 @@
 'use strict';
 
-const RendererBuffers = require('../rendererBuffers');
+const RendererBuffers = require('../../renderer/buffers');
 
 const vertexColourComponents = 4;
 

@@ -1,6 +1,7 @@
 'use strict';
 
-const CanvasElement = require('../../element/canvas'),
+const Mask = require('../../element/canvas/mask'),
+      CanvasElement = require('../../element/canvas'),
       imageMapUtilities = require('../../utilities/imageMap');
 
 const { textureCoordinatesFromImageNames } = imageMapUtilities;
@@ -27,8 +28,22 @@ class TexturedCanvasElement extends CanvasElement {
   }
 
   create(colourRenderer, textureRenderer, transforms) {
-    const vertexPositions = this.calculateVertexPositions(transforms),
-          vertexIndexes = this.calculateVertexIndexes(vertexPositions),
+    super.create(colourRenderer, textureRenderer, transforms);
+
+    const vertexPositions = this.calculateVertexPositions(transforms);
+
+    const childElements = this.getChildElements(),
+          mask = childElements.find(function(childElement) {
+            const childElementMask = (childElement instanceof Mask);
+
+            return childElementMask;
+          });
+
+    if (mask !== undefined) {
+      debugger
+    }
+
+    const vertexIndexes = this.calculateVertexIndexes(vertexPositions),
           vertexNormals = this.calculateVertexNormals(vertexPositions),
           textureCoordinates = this.calculateTextureCoordinates(vertexPositions);
     
@@ -36,8 +51,6 @@ class TexturedCanvasElement extends CanvasElement {
     textureRenderer.addVertexIndexes(vertexIndexes);
     textureRenderer.addVertexNormals(vertexNormals);
     textureRenderer.addTextureCoordinates(textureCoordinates);
-
-    super.create(colourRenderer, textureRenderer, transforms);
   }
   
   static fromProperties(Class, properties) {

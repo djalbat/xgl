@@ -1,7 +1,7 @@
 'use strict';
 
-const RendererData = require('../rendererData'),
-      arrayUtilities = require('../utilities/array');
+const RendererData = require('../../renderer/data'),
+      arrayUtilities = require('../../utilities/array');
 
 const { merge, flatten } = arrayUtilities,
       add = merge;  ///
