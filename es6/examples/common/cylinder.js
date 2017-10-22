@@ -1,19 +1,17 @@
 'use strict';
 
-const constants = require('../../constants'),
-      arrayUtilities = require('../../utilities/array');
+const constants = require('../../constants');
 
-const { CYLINDER_FACES } = constants,
-      { flatten } = arrayUtilities;
+const { CYLINDER_FACES } = constants;
 
-const initialVertexPositionData = calculateInitialVertexPositionData();
+const initialVertexPositions = calculateInitialVertexPositions();
 
 module.exports = {
-  initialVertexPositionData: initialVertexPositionData
+  initialVertexPositions: initialVertexPositions
 };
 
-function calculateInitialVertexPositionData() {
-  const initialVertexPositionVectors = [],
+function calculateInitialVertexPositions() {
+  const initialVertexPositions = [],
         faces = CYLINDER_FACES,
         step = 2 * Math.PI / faces;
 
@@ -26,13 +24,11 @@ function calculateInitialVertexPositionData() {
           firstZ = 0,
           secondZ = 1;
 
-    initialVertexPositionVectors.push([ firstX, firstY, firstZ ]);
-    initialVertexPositionVectors.push([ secondX, secondY, firstZ ]);
-    initialVertexPositionVectors.push([ secondX, secondY, secondZ ]);
-    initialVertexPositionVectors.push([ firstX, firstY, secondZ ]);
+    initialVertexPositions.push([ firstX, firstY, firstZ ]);
+    initialVertexPositions.push([ secondX, secondY, firstZ ]);
+    initialVertexPositions.push([ secondX, secondY, secondZ ]);
+    initialVertexPositions.push([ firstX, firstY, secondZ ]);
   }
 
-  const initialVertexPositionData = flatten(initialVertexPositionVectors);  ///
-
-  return initialVertexPositionData;
+  return initialVertexPositions;
 }

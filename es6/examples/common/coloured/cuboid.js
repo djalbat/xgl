@@ -3,11 +3,11 @@
 const cuboid = require('../cuboid'),
       ColouredCanvasElement = require('../../../element/canvas/coloured');
 
-const { initialVertexPositionData } = cuboid;
+const { initialVertexPositions } = cuboid;
 
 class ColouredCuboid extends ColouredCanvasElement {
-  getInitialVertexPositionData() {
-    return initialVertexPositionData;
+  getInitialVertexPositions() {
+    return initialVertexPositions;
   }
 
   static fromProperties(properties) { return ColouredCanvasElement.fromProperties(ColouredCuboid, properties); }

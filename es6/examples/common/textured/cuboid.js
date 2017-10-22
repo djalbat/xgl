@@ -3,11 +3,11 @@
 const cuboid = require('../cuboid'),
       TexturedCanvasElement = require('../../../element/canvas/textured');
 
-const { initialVertexPositionData } = cuboid;
+const { initialVertexPositions } = cuboid;
 
 class TexturedCuboid extends TexturedCanvasElement {
-  getInitialVertexPositionData() {
-    return initialVertexPositionData;
+  getInitialVertexPositions() {
+    return initialVertexPositions;
   }
 
   static fromProperties(properties) { return TexturedCanvasElement.fromProperties(TexturedCuboid, properties); }

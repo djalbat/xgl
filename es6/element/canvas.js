@@ -33,8 +33,7 @@ class CanvasElement extends Element {
   calculateVertexPositionData(transforms) {
     transforms = [this.transform, ...transforms]; ///
 
-    const initialVertexPositionData = this.getInitialVertexPositionData(),
-          initialVertexPositions = chop(initialVertexPositionData, 3),  ///
+    const initialVertexPositions = this.getInitialVertexPositions(),
           vertexPositions = initialVertexPositions.map(function(initialVertexPosition) {
             let vertexPosition = initialVertexPosition;
 

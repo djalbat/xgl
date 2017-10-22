@@ -3,11 +3,11 @@
 const plane = require('../plane'),
       ColouredCanvasElement = require('../../../element/canvas/coloured');
 
-const { initialVertexPositionData } = plane;
+const { initialVertexPositions } = plane;
 
 class ColouredPlane extends ColouredCanvasElement {
-  getInitialVertexPositionData() {
-    return initialVertexPositionData;
+  getInitialVertexPositions() {
+    return initialVertexPositions;
   }
 
   static fromProperties(properties) { return ColouredCanvasElement.fromProperties(ColouredPlane, properties); }

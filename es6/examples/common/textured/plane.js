@@ -3,11 +3,11 @@
 const plane = require('../plane'),
       TexturedCanvasElement = require('../../../element/canvas/textured');
 
-const { initialVertexPositionData } = plane;
+const { initialVertexPositions } = plane;
 
 class TexturedPlane extends TexturedCanvasElement {
-  getInitialVertexPositionData() {
-    return initialVertexPositionData;
+  getInitialVertexPositions() {
+    return initialVertexPositions;
   }
 
   static fromProperties(properties) { return TexturedCanvasElement.fromProperties(TexturedPlane, properties); }

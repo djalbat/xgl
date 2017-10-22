@@ -1,14 +1,14 @@
 'use strict';
 
-const initialVertexPositionData = [
+const initialVertexPositions = [
 
-        0.0, 0.0, 0.0,
-        1.0, 0.0, 0.0,
-        1.0, 1.0, 0.0,
-        0.0, 1.0, 0.0,
+        [ 0.0, 0.0, 0.0 ],
+        [ 1.0, 0.0, 0.0 ],
+        [ 1.0, 1.0, 0.0 ],
+        [ 0.0, 1.0, 0.0 ],
     
       ];
 
 module.exports = {
-  initialVertexPositionData: initialVertexPositionData
+  initialVertexPositions: initialVertexPositions
 };

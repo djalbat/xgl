@@ -3,11 +3,11 @@
 const cylinder = require('../cylinder'),
       ColouredCanvasElement = require('../../../element/canvas/coloured');
 
-const { initialVertexPositionData } = cylinder;
+const { initialVertexPositions } = cylinder;
 
 class ColouredCylinder extends ColouredCanvasElement {
-  getInitialVertexPositionData() {
-    return initialVertexPositionData;
+  getInitialVertexPositions() {
+    return initialVertexPositions;
   }
 
   static fromProperties(properties) { return ColouredCanvasElement.fromProperties(ColouredCylinder, properties); }

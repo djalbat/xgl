@@ -3,11 +3,11 @@
 const cylinder = require('../cylinder'),
       TexturedCanvasElement = require('../../../element/canvas/textured');
 
-const { initialVertexPositionData } = cylinder;
+const { initialVertexPositions } = cylinder;
 
 class TexturedCylinder extends TexturedCanvasElement {
-  getInitialVertexPositionData() {
-    return initialVertexPositionData;
+  getInitialVertexPositions() {
+    return initialVertexPositions;
   }
 
   static fromProperties(properties) { return TexturedCanvasElement.fromProperties(TexturedCylinder, properties); }
