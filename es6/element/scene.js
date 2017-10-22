@@ -95,7 +95,6 @@ class Scene extends Element {
     textureRenderer.createBuffers(canvas);
 
     canvas.enableDepthTesting();
-    canvas.enableDepthFunction();
 
     scene.initialise();
 

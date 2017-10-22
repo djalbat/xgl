@@ -1,6 +1,7 @@
 'use strict';
 
-const programMixin = require('./canvas/mixin/program'),
+const blendingMixin = require('./canvas/mixin/blending'),
+      programMixin = require('./canvas/mixin/program'),
       textureMixin = require('./canvas/mixin/texture'),
       colourMixin = require('./canvas/mixin/colour'),
       shaderMixin = require('./canvas/mixin/shader'),
@@ -96,6 +97,7 @@ class Canvas {
   }
 }
 
+Object.assign(Canvas.prototype, blendingMixin);
 Object.assign(Canvas.prototype, programMixin);
 Object.assign(Canvas.prototype, textureMixin);
 Object.assign(Canvas.prototype, colourMixin);
