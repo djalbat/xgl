@@ -2,9 +2,11 @@
 
 const Mask = require('../../element/canvas/mask'),
       CanvasElement = require('../../element/canvas'),
+      maskUtilities = require('../../utilities/mask'),
       imageMapUtilities = require('../../utilities/imageMap');
 
-const { textureCoordinatesFromImageNames } = imageMapUtilities;
+const { calculateIntersectionOfPlanes } = maskUtilities,
+      { textureCoordinatesFromImageNames } = imageMapUtilities;
 
 class TexturedCanvasElement extends CanvasElement {
   constructor(transform, imageName) {
@@ -28,8 +30,6 @@ class TexturedCanvasElement extends CanvasElement {
   }
 
   create(colourRenderer, textureRenderer, transforms) {
-    super.create(colourRenderer, textureRenderer, transforms);
-
     const vertexPositions = this.calculateVertexPositions(transforms);
 
     const childElements = this.getChildElements(),
@@ -40,7 +40,10 @@ class TexturedCanvasElement extends CanvasElement {
           });
 
     if (mask !== undefined) {
-      debugger
+      const maskVertexPositions = mask.calculateVertexPositions(this.transform, transforms),
+            intersection = calculateIntersectionOfPlanes(vertexPositions, maskVertexPositions);
+      
+      
     }
 
     const vertexIndexes = this.calculateVertexIndexes(vertexPositions),
@@ -51,6 +54,8 @@ class TexturedCanvasElement extends CanvasElement {
     textureRenderer.addVertexIndexes(vertexIndexes);
     textureRenderer.addVertexNormals(vertexNormals);
     textureRenderer.addTextureCoordinates(textureCoordinates);
+
+    super.create(colourRenderer, textureRenderer, transforms);
   }
   
   static fromProperties(Class, properties) {

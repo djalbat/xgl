@@ -54,14 +54,14 @@ class CanvasElement extends Element {
 
             for (let index = 0; index < 4; index++) {
               const firstVertexIndex = index,
-                  secondVertexIndex = (index + 1) % 4,
-                  thirdVertexIndex = (index + 3) % 4,
-                  firstVertexPosition = vertexPositions[firstVertexIndex],
-                  secondVertexPosition = vertexPositions[secondVertexIndex],
-                  thirdVertexPosition = vertexPositions[thirdVertexIndex],
-                  firstVector = subtract(secondVertexPosition, firstVertexPosition),
-                  secondVector = subtract(thirdVertexPosition, firstVertexPosition),
-                  vertexNormal = normalise(cross(firstVector, secondVector));
+                    secondVertexIndex = (index + 1) % 4,
+                    thirdVertexIndex = (index + 3) % 4,
+                    firstVertexPosition = vertexPositions[firstVertexIndex],
+                    secondVertexPosition = vertexPositions[secondVertexIndex],
+                    thirdVertexPosition = vertexPositions[thirdVertexIndex],
+                    firstVector = subtract(secondVertexPosition, firstVertexPosition),
+                    secondVector = subtract(thirdVertexPosition, firstVertexPosition),
+                    vertexNormal = normalise(cross(firstVector, secondVector));
 
               vertexNormals.push(vertexNormal);
             }

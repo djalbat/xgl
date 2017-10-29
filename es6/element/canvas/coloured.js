@@ -1,7 +1,6 @@
 'use strict';
 
-const Mask = require('../../element/canvas/mask'),
-      CanvasElement = require('../../element/canvas');
+const CanvasElement = require('../../element/canvas');
 
 class ColouredCanvasElement extends CanvasElement {
   constructor(transform, colour) {
@@ -24,22 +23,8 @@ class ColouredCanvasElement extends CanvasElement {
   }
 
   create(colourRenderer, textureRenderer, transforms) {
-    super.create(colourRenderer, textureRenderer, transforms);
-
-    const vertexPositions = this.calculateVertexPositions(transforms);
-
-    const childElements = this.getChildElements(),
-          mask = childElements.find(function(childElement) {
-            const childElementMask = (childElement instanceof Mask);
-
-            return childElementMask;
-          });
-
-    if (mask !== undefined) {
-      debugger
-    }
-
-    const vertexIndexes = this.calculateVertexIndexes(vertexPositions),
+    const vertexPositions = this.calculateVertexPositions(transforms),
+          vertexIndexes = this.calculateVertexIndexes(vertexPositions),
           vertexNormals = this.calculateVertexNormals(vertexPositions),
           vertexColours = this.calculateVertexColours(vertexPositions);
 
@@ -47,6 +32,8 @@ class ColouredCanvasElement extends CanvasElement {
     colourRenderer.addVertexIndexes(vertexIndexes);
     colourRenderer.addVertexNormals(vertexNormals);
     colourRenderer.addVertexColours(vertexColours);
+
+    super.create(colourRenderer, textureRenderer, transforms);
   }
 
   static fromProperties(Class, properties) {
