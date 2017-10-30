@@ -4,9 +4,9 @@ const vec3 = require('../maths/vec3'),
       arrayUtilities = require('../utilities/array');
 
 const { first, second, third, fourth } = arrayUtilities,
-      { subtract, cross, normalise } = vec3;
+      { subtract, dot, cross, normalise } = vec3;
 
-function calculateVertexNormal(vertexPositions) {
+function calculateNormal(vertexPositions) {
   const firstVertexPosition = first(vertexPositions),
         secondVertexPosition = second(vertexPositions),
         fourthVertexPosition = fourth(vertexPositions),
@@ -18,25 +18,45 @@ function calculateVertexNormal(vertexPositions) {
 }
 
 function calculateIntersectionOfPlanes(vertexPositionsA, vertexPositionsB) {
-  const normalA = calculateVertexNormal(vertexPositionsA),
-        normalAComponents = normalA,  ///
-        firstNormalAComponent = first(normalAComponents),
-        secondNormalAComponent = second(normalAComponents),
-        thirdNormalAComponent = third(normalAComponents),
-        angleOfRotationCosine = thirdNormalAComponent,  ///
-        axisOfRotation = [
-          secondNormalAComponent,
-          -firstNormalAComponent, 0
-        ],
-        unitAxisOfRotation = normalise(axisOfRotation),
-        rotationQuaternion = calculateRotationQuarternion(angleOfRotationCosine, unitAxisOfRotation),
-        rotatedVertexPositionsA = vertexPositionsA.map(function(vertexPositionA) {
-          const rotatedVertexPositionA = rotatePosition(vertexPositionA, rotationQuaternion);
+  const normalA = calculateNormal(vertexPositionsA),
+        rotationQuaternion = calculateRotationQuaternion(normalA),
+        rotatedVertexPositionsA = rotatePositions(vertexPositionsA, rotationQuaternion),
+        rotatedVertexPositionsB = rotatePositions(vertexPositionsB, rotationQuaternion),
+        firstRotatedVertexPosition = first(rotatedVertexPositionsA),
+        rotatedVertexPosition = firstRotatedVertexPosition, ///
+        rotatedVertexPositionComponents = rotatedVertexPosition,  ///
+        thirdRotatedVertexPositionComponent = third(rotatedVertexPositionComponents),
+        z = thirdRotatedVertexPositionComponent,  ///
+        normalB = calculateNormal(rotatedVertexPositionsB),
+        normalBComponents = normalB,  ///
+        firstNormalBComponent = first(normalBComponents),
+        secondNormalBComponent = second(normalBComponents),
+        thirdNormalBComponent = third(normalBComponents),
+        a = firstNormalBComponent,  ///
+        b = secondNormalBComponent, ///
+        c = dot(rotatedVertexPosition, normalB) - thirdNormalBComponent * z;
 
-          return rotatedVertexPositionA;
-        });
 
   debugger
+}
+
+function calculateRotationQuaternion(normal) {
+  const normalComponents = normal,  ///
+        firstNormalComponent = first(normalComponents),
+        secondNormalComponent = second(normalComponents),
+        thirdNormalComponent = third(normalComponents),
+        angleOfRotationCosine = thirdNormalComponent,  ///
+        axisOfRotation = (angleOfRotationCosine === 1) ?
+                           [ 0, 0, 1 ] :
+                             [
+                               +secondNormalComponent,
+                               -firstNormalComponent,
+                               0
+                             ],
+        unitAxisOfRotation = normalise(axisOfRotation),
+        rotationQuaternion = calculateRotationQuarternion(angleOfRotationCosine, unitAxisOfRotation);
+
+  return rotationQuaternion;
 }
 
 function rotatePosition(position, rotationQuaternion) {
@@ -45,6 +65,16 @@ function rotatePosition(position, rotationQuaternion) {
         rotatedPosition = calculatePosition(rotatedImaginaryQuaternion);
 
   return rotatedPosition;
+}
+
+function rotatePositions(positions, rotationQuaternion) {
+  const rotatedPositions = positions.map(function(position) {
+    const rotatedPosition = rotatePosition(position, rotationQuaternion);
+
+    return rotatedPosition;
+  });
+
+  return rotatedPositions;
 }
 
 function rotateImaginaryQuaternion(imaginaryQuaternion, rotationQuaternion) {

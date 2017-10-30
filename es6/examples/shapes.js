@@ -22,8 +22,8 @@ const shapes = () => {
 
     <Scene imageMap={imageMap} canvas={canvas}>
       <Camera initialDistance={10} initialOffset={[ 0, 0, 0 ]} canvas={canvas} />
-      <TexturedPlane width={1} height={1} imageName="gravel.jpg" rotations={ [ 23, -3, -905 ]} >
-        <Mask />
+      <TexturedPlane width={1} height={1} imageName="gravel.jpg" >
+        <Mask rotations={[ 0, 0, -45 ]} />
       </TexturedPlane>
     </Scene>
 

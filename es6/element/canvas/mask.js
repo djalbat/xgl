@@ -15,13 +15,9 @@ class Mask extends CanvasElement {
   getInitialVertexPositions() {
     return initialVertexPositions;
   }
-
-  calculateVertexPositions(transform, transforms) {
-    transforms = [this.transform, ...transforms]; ///
-
-    const vertexPositions = super.calculateVertexPositions(transforms);
-    
-    return vertexPositions;    
+  
+  create(colourRenderer, textureRenderer, transforms) {
+    ///
   }
 
   static fromProperties(properties) { return CanvasElement.fromProperties(Mask, properties); }

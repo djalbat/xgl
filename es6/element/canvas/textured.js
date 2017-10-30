@@ -40,7 +40,9 @@ class TexturedCanvasElement extends CanvasElement {
           });
 
     if (mask !== undefined) {
-      const maskVertexPositions = mask.calculateVertexPositions(this.transform, transforms),
+      transforms = [this.transform, ...transforms]; ///
+
+      const maskVertexPositions = mask.calculateVertexPositions(transforms),
             intersection = calculateIntersectionOfPlanes(vertexPositions, maskVertexPositions);
       
       

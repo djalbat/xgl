@@ -18,6 +18,14 @@ function subtract(vecA, vecB) {
   return out;
 }
 
+function dot(vecA, vecB) {
+  const out = [];
+
+  vec3.dot(out, vecA, vecB);
+
+  return out;
+}
+
 function cross(vecA, vecB) {
   const out = [];
 
@@ -37,6 +45,7 @@ function normalise(vec) {
 module.exports = {
   add: add,
   subtract: subtract,
+  dot: dot,
   cross: cross,
   normalise: normalise
 };

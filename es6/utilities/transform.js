@@ -48,12 +48,12 @@ function composeScale(width = defaultWidth, height = defaultHeight, depth = defa
 
 function composeRotate(rotations = defaultRotations) {
   const mat4 = create(),
-      firstRotation = first(rotations),
-      secondRotation = second(rotations),
-      thirdRotation = third(rotations),
-      xAngle = firstRotation * DEGREES_TO_RADIANS,  ///
-      yAngle = secondRotation * DEGREES_TO_RADIANS, ///
-      zAngle = thirdRotation * DEGREES_TO_RADIANS;  ///
+        firstRotation = first(rotations),
+        secondRotation = second(rotations),
+        thirdRotation = third(rotations),
+        xAngle = firstRotation * DEGREES_TO_RADIANS,  ///
+        yAngle = secondRotation * DEGREES_TO_RADIANS, ///
+        zAngle = thirdRotation * DEGREES_TO_RADIANS;  ///
 
   rotate(mat4, mat4, xAngle, xAxis);
   rotate(mat4, mat4, yAngle, yAxis);
