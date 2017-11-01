@@ -1,6 +1,7 @@
 'use strict';
 
 const vec3 = require('../maths/vec3'),
+      Line = require('../maths/line'),
       arrayUtilities = require('../utilities/array');
 
 const { first, second, third, fourth } = arrayUtilities,
@@ -22,9 +23,9 @@ function calculateIntersectionOfPlanes(vertexPositionsA, vertexPositionsB) {
         rotationQuaternion = calculateRotationQuaternion(normalA),
         rotatedVertexPositionsA = rotatePositions(vertexPositionsA, rotationQuaternion),
         rotatedVertexPositionsB = rotatePositions(vertexPositionsB, rotationQuaternion),
-        firstRotatedVertexPosition = first(rotatedVertexPositionsA),
-        rotatedVertexPosition = firstRotatedVertexPosition, ///
-        rotatedVertexPositionComponents = rotatedVertexPosition,  ///
+        firstRotatedVertexPositionA = first(rotatedVertexPositionsA),
+        rotatedVertexPositionA = firstRotatedVertexPositionA, ///
+        rotatedVertexPositionComponents = rotatedVertexPositionA,  ///
         thirdRotatedVertexPositionComponent = third(rotatedVertexPositionComponents),
         z = thirdRotatedVertexPositionComponent,  ///
         normalB = calculateNormal(rotatedVertexPositionsB),
@@ -34,10 +35,33 @@ function calculateIntersectionOfPlanes(vertexPositionsA, vertexPositionsB) {
         thirdNormalBComponent = third(normalBComponents),
         a = firstNormalBComponent,  ///
         b = secondNormalBComponent, ///
-        c = dot(rotatedVertexPosition, normalB) - thirdNormalBComponent * z;
+        c = dot(rotatedVertexPositionA, normalB) - thirdNormalBComponent * z,
+        intersectionLine = Line.fromEquation(a, b, c),
+        lines = linesFromVertexPositions(rotatedVertexPositionsA),
+        intersections = lines.map(function(line) {
+          const intersection = line.calculateIntersection(intersectionLine);
 
+          return intersection;
+        });
 
   debugger
+}
+
+function linesFromVertexPositions(vertexPositions) {
+  const lines = [],
+        vertexPositionsLength = vertexPositions.length;
+
+  for (var index = 0; index < vertexPositionsLength; index++ ) {
+    const firstIndex = index,
+          secondIndex = (index + 1) % vertexPositionsLength,
+          firstVertexPosition = vertexPositions[firstIndex],
+          secondVertexPosition = vertexPositions[secondIndex],
+          line = Line.fromVertexPositions(firstVertexPosition, secondVertexPosition);
+
+    lines.push(line);
+  }
+
+  return lines;
 }
 
 function calculateRotationQuaternion(normal) {

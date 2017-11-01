@@ -26,8 +26,26 @@ function scale(vecA, scalar) {
   return out;
 }
 
+function normalise(vec) {
+  const out = [];
+
+  vec2.normalize(out, vec);
+
+  return out;
+}
+
+function transform(vec, mat2) {
+  const out = [];
+
+  vec2.transformMat2(out, vec, mat2);
+
+  return out;
+}
+
 module.exports = {
   add: add,
   subtract: subtract,
-  scale: scale
+  scale: scale,
+  normalise: normalise,
+  transform: transform
 };

@@ -1,7 +1,7 @@
 {
   "name": "jiggle",
   "author": "James Smith",
-  "version": "0.0.182",
+  "version": "0.0.183",
   "license": "MIT",
   "homepage": "https://github.com/djalbat/Jiggle",
   "description": "A combination of JSX and WebGL.",
@@ -23,6 +23,8 @@
     "babel-preset-react": "^6.5.0",
     "browserify": "^13.0.0",
     "chokidar-cli": "^1.2.0",
+    "gl-mat2": "^1.0.1",
+    "gl-mat3": "^1.0.0",
     "gl-mat4": "^1.1.4",
     "gl-vec2": "^1.0.0",
     "gl-vec3": "^1.0.3",
