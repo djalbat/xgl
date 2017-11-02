@@ -19,9 +19,7 @@ function subtract(vecA, vecB) {
 }
 
 function dot(vecA, vecB) {
-  const out = [];
-
-  vec3.dot(out, vecA, vecB);
+  const out = vec3.dot(vecA, vecB);
 
   return out;
 }
@@ -42,10 +40,19 @@ function normalise(vec) {
   return out;
 }
 
+function transform(vec, mat3) {
+  const out = [];
+
+  vec3.transformMat3(out, vec, mat3);
+
+  return out;
+}
+
 module.exports = {
   add: add,
   subtract: subtract,
   dot: dot,
   cross: cross,
-  normalise: normalise
+  normalise: normalise,
+  transform: transform
 };
