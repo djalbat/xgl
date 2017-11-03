@@ -8,7 +8,7 @@ const Facet = require('./facet'),
       quaternionUtilities = require('./utilities/quaternion');
 
 const { add, subtract, scale, transform } = vec3,
-      { first, second, third, fourth, permute } = arrayUtilities,
+      { first, second, third, permute } = arrayUtilities,
       { calculateRotationQuaternion } = quaternionUtilities,
       { calculateNormal, rotateVertices, translateVertices } = verticesUtilities;
 
@@ -111,36 +111,29 @@ class FacetInXYPlane extends Facet {
   }
 
   possiblySplitWithNullIntersection(intersections) {
-    let facetsInXYPlane;
+    const nonNullIntersections = calculateNonNullIntersections(intersections),
+          firstNonNullIntersection = first(nonNullIntersections),
+          firstNonNullIntersectionNonTrivial = isIntersectionNonTrivial(firstNonNullIntersection),
+          facetsInXYPlane = firstNonNullIntersectionNonTrivial ?
+                              this.splitWithNullIntersection(intersections) :
+                                this.doNotSplit();
 
-    const nonNullIntersections = intersections.reduce(function(nonNullIntersections, intersection) {
-            if (intersection !== null) {
-              const nonNullIntersection = intersection; ///
+    return facetsInXYPlane;
+  }
 
-              nonNullIntersections.push(nonNullIntersection);
-            }
-
-            return nonNullIntersections;
-          }, []),
-          firstNonNullIntersection = first(nonNullIntersections);
-
-    if ((firstNonNullIntersection > 0) && (firstNonNullIntersection < 1)) {
-      facetsInXYPlane = this.splitWithNullIntersection(intersections);
-    } else {
-      const facetInXYPlane = this;  ///
-
-      facetsInXYPlane = [
-        facetInXYPlane
-      ];
-    }
+  doNotSplit() {
+    const facetInXYPlane = this,  ///
+          facetsInXYPlane = [
+            facetInXYPlane
+          ];
 
     return facetsInXYPlane;
   }
 
   splitWithNullIntersection(intersections) {
     const verticesLength = 3,
-          nullIntersectionIndex = intersections.indexOf(null),
-          places = (verticesLength - nullIntersectionIndex) & verticesLength;
+          nullIntersectionIndex = calculateNonNullIntersectionIndex(intersections),
+          places = (verticesLength - nullIntersectionIndex) % verticesLength;
 
     let vertices = this.getVertices();
 
@@ -185,15 +178,99 @@ class FacetInXYPlane extends Facet {
   }
 
   possiblySplitWithoutNullIntersection(intersections) {
+    const nonTrivialIntersections = calculateNonTrivialIntersections(intersections),
+          nonTrivialIntersectionsLength = nonTrivialIntersections.length,
+          oneNonTrivialIntersection = (nonTrivialIntersectionsLength === 1),
+          facetsInXYPlane = oneNonTrivialIntersection ?
+                              this.splitWithOneNonTrivialIntersection(intersections) :
+                                this.splitWithTwoNonTrivialIntersection(intersections);
 
+    return facetsInXYPlane;
   }
 
-  permuteVertices(places) {
+  splitWithOneNonTrivialIntersection(intersections) {
+    const verticesLength = 3,
+          nonTrivialIntersectionIndex = calculateNonTrivialIntersectionIndex(intersections),
+          places = (verticesLength - nonTrivialIntersectionIndex) % verticesLength;
+
     let vertices = this.getVertices();
+
+    intersections = permute(intersections, places);
 
     vertices = permute(vertices, places);
 
-    this.setVertices(vertices);
+    const firstVertex = first(vertices),
+          secondVertex = second(vertices),
+          thirdVertex = third(vertices),
+          firstIntersection = first(intersections),
+          nonTrivialIntersection = firstIntersection, ///
+          intermediateVertex = calculateIntermediateVertex(firstVertex, secondVertex, nonTrivialIntersection),
+          firstVertices = [
+            firstVertex,
+            intermediateVertex,
+            thirdVertex
+          ],
+          secondVertices = [
+            intermediateVertex,
+            secondVertex,
+            thirdVertex
+          ],
+          normal = this.getNormal(),
+          firstFacetInXYPlane = new FacetInXYPlane(firstVertices, normal, this.rotationQuaternion, this.translation),
+          secondFacetInXYPlane = new FacetInXYPlane(secondVertices, normal, this.rotationQuaternion, this.translation),
+          facetsInXYPlane = [
+            firstFacetInXYPlane,
+            secondFacetInXYPlane
+          ];
+
+    return facetsInXYPlane;
+  }
+
+  splitWithTwoNonTrivialIntersection(intersections) {
+    const verticesLength = 3,
+          trivialIntersectionIndex = calculateTrivialIntersectionIndex(intersections),
+          places = (verticesLength - trivialIntersectionIndex) % verticesLength;
+
+    let vertices = this.getVertices();
+
+    intersections = permute(intersections, places);
+
+    vertices = permute(vertices, places);
+
+    const firstVertex = first(vertices),
+          secondVertex = second(vertices),
+          thirdVertex = third(vertices),
+          nonTrivialIntersections = intersections.slice(1),
+          firstNonTrivialIntersection = first(nonTrivialIntersections),
+          secondNonTrivialIntersection = second(nonTrivialIntersections),
+          firstIntermediateVertex = calculateIntermediateVertex(secondVertex, thirdVertex, firstNonTrivialIntersection),
+          secondIntermediateVertex = calculateIntermediateVertex(thirdVertex, firstVertex, secondNonTrivialIntersection),
+          firstVertices = [
+            firstVertex,
+            secondVertex,
+            firstIntermediateVertex
+          ],
+          secondVertices = [
+            firstVertex,
+            firstIntermediateVertex,
+            secondIntermediateVertex
+          ],
+          thirdVertices = [
+            firstIntermediateVertex,
+            thirdVertex,
+            secondIntermediateVertex
+          ],
+          normal = this.getNormal(),
+          firstFacetInXYPlane = new FacetInXYPlane(firstVertices, normal, this.rotationQuaternion, this.translation),
+          secondFacetInXYPlane = new FacetInXYPlane(secondVertices, normal, this.rotationQuaternion, this.translation),
+          thirdFacetInXYPlane = new FacetInXYPlane(thirdVertices, normal, this.rotationQuaternion, this.translation),
+          facetsInXYPlane = [
+            firstFacetInXYPlane,
+            secondFacetInXYPlane,
+            thirdFacetInXYPlane
+          ];
+
+    return facetsInXYPlane;
   }
 
   calculateIntersectionsWithVerticalLineInXYPlane(verticalLineInXYPlane) {
@@ -247,4 +324,87 @@ function calculateIntermediateVertex(startVertex, endVertex, nonNullIntersection
         intermediateVertex = add(startVertex, offset);
 
   return intermediateVertex;
+}
+
+function isIntersectionTrivial(intersection) {
+  const intersectionNonTrivial = isIntersectionNonTrivial(intersection),
+        intersectionTrivial = !intersectionNonTrivial;
+
+  return intersectionTrivial;
+}
+
+function isIntersectionNonTrivial(intersection) {
+  const intersectionNonTrivial = ((intersection > 0) && (intersection < 1));
+
+  return intersectionNonTrivial;
+}
+
+function calculateNonNullIntersections(intersections) {
+  const nonNullIntersections = intersections.reduce(function(nonNullIntersections, intersection) {
+    const intersectionNonNull = (intersection !== null);
+
+    if (intersectionNonNull) {
+      const nonNullIntersection = intersection; ///
+
+      nonNullIntersections.push(nonNullIntersection);
+    }
+
+    return nonNullIntersections;
+  }, []);
+
+  return nonNullIntersections;
+}
+
+function calculateNonTrivialIntersections(intersections) {
+  const nonTrivialIntersections = intersections.reduce(function(nonTrivialIntersections, intersection) {
+    const intersectionNonTrivial = isIntersectionNonTrivial(intersection);
+
+    if (intersectionNonTrivial) {
+      const nonTrivialIntersection = intersection;  ///
+
+      nonTrivialIntersections.push(nonTrivialIntersection);
+    }
+
+    return nonTrivialIntersections;
+  }, []);
+
+  return nonTrivialIntersections;
+}
+
+function calculateNonNullIntersectionIndex(intersections) {
+  const nullIntersectionIndex = intersections.indexOf(null);
+
+  return nullIntersectionIndex;
+}
+
+function calculateTrivialIntersectionIndex(intersections) {
+  const trivialIntersectionIndex = intersections.reduce(function(trivialIntersectionIndex, intersection, index) {
+    if (trivialIntersectionIndex === null) {
+      const intersectionNonTrivial = isIntersectionTrivial(intersection);
+
+      if (intersectionNonTrivial) {
+        trivialIntersectionIndex = index;
+      }
+    }
+
+    return trivialIntersectionIndex;
+  }, null);
+
+  return trivialIntersectionIndex;
+}
+
+function calculateNonTrivialIntersectionIndex(intersections) {
+  const nonTrivialIntersectionIndex = intersections.reduce(function(nonTrivialIntersectionIndex, intersection, index) {
+    if (nonTrivialIntersectionIndex === null) {
+      const intersectionNonTrivial = isIntersectionNonTrivial(intersection);
+
+      if (intersectionNonTrivial) {
+        nonTrivialIntersectionIndex = index;
+      }
+    }
+
+    return nonTrivialIntersectionIndex;
+  }, null);
+
+  return nonTrivialIntersectionIndex;
 }

@@ -141,21 +141,23 @@ module.exports = Triangle;
 
 function calculateFacets() {
   const facetVertices = [
-          [0, 0, 0], ///[ 0, 0, 2 ],
-          [2, 0, 0], ///[ 1, 0, 1 ],
-          [0, 2, 0], ///[ 0, 1, 1 ],
+          [ -2, 0, 0 ], ///[ 0, 0, 2 ],
+          [  2, 0, 0 ], ///[ 1, 0, 1 ],
+          [  0, 2, 0 ], ///[ 0, 1, 1 ],
         ],
         maskFacetVertices = [
-          [1, 0, 0],  ///[ 0.5, 0, 1 ],
-          [0, 1, 0],  ///[ 0.5, 0, 2 ],
-          [0, 0, 1],  ///[ 0.5, 1, 1 ],
+          [ 1, 0, 0 ],  ///[ 0.5, 0, 1 ],
+          [ 1, 1, 0 ],  ///[ 0.5, 0, 2 ],
+          [ 1, 1, 1 ],  ///[ 0.5, 1, 1 ],
         ],
         facet = Facet.fromVertices(facetVertices),
         maskFacet = Facet.fromVertices(maskFacetVertices),
         facetInXYPlane = FacetInXYPlane.fromFacet(facet);
 
-  const forwardsRotationQuaternion = facetInXYPlane.getForwardsRotationQuaternion(),
-        forwardsTranslation = facetInXYPlane.getForwardsTranslation();
+  const forwardsTranslation = facetInXYPlane.getForwardsTranslation(),
+        backwardsTranslation = facetInXYPlane.getBackwardsTranslation(),
+        forwardsRotationQuaternion = facetInXYPlane.getForwardsRotationQuaternion(),
+        backwardsRotationQuaternion = facetInXYPlane.getBackwardsRotationQuaternion();
 
   maskFacet.rotate(forwardsRotationQuaternion);
   maskFacet.translate(forwardsTranslation);
@@ -173,9 +175,7 @@ function calculateFacets() {
     facetInXYPlane.rotate(backwardsRotationMatrix);
   });
 
-  const backwardsTranslation = facetInXYPlane.getBackwardsTranslation(),
-        backwardsRotationQuaternion = facetInXYPlane.getBackwardsRotationQuaternion(),
-        facets = facetsInXYPlane.map(function (facetInXYPlane) {
+  const facets = facetsInXYPlane.map(function (facetInXYPlane) {
           const facet = Facet.fromFacetInXYPlane(facetInXYPlane);
 
           facet.translate(backwardsTranslation);
