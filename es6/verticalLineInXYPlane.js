@@ -8,39 +8,38 @@ const { add, subtract, normalise, transform } = vec3,
       { first, second, fourth } = arrayUtilities;
 
 class VerticalLineInXYPlane extends LineInXYPlane {
-  constructor(position, direction, rotationMatrix) {
+  constructor(position, direction, rotationAboutZAxisMatrix) {
     super(position, direction);
 
-    this.rotationMatrix = rotationMatrix;
+    this.rotationAboutZAxisMatrix = rotationAboutZAxisMatrix;
   }
   
-  getRotationMatrix() {
-    return this.rotationMatrix;
+  getRotationAboutZAxisMatrix() {
+    return this.rotationAboutZAxisMatrix;
   }
 
-  getForwardsRotationMatrix() {
-    const forwardsRotationMatrix = this.rotationMatrix; ///
+  getForwardsRotationAboutZAxisMatrix() {
+    const forwardsRotationAboutZAxisMatrix = this.rotationAboutZAxisMatrix; ///
     
-    return forwardsRotationMatrix;
+    return forwardsRotationAboutZAxisMatrix;
   }
   
-  getBackwardsRotationMatrix() {
-    const rotationMatrixComponents = this.rotationMatrix, ///
-          firstRotationMatrixComponent = first(rotationMatrixComponents),
-          fourthRotationMatrixComponent = fourth(rotationMatrixComponents),
-          c = firstRotationMatrixComponent, ///
-          s = fourthRotationMatrixComponent,  ///
-          backwardsRotationMatrix = [ c, +s, 0, -s, c, 0, 0, 0, 1 ];
+  getBackwardsRotationAboutZAxisMatrix() {
+    const rotationAboutZAxisMatrixComponents = this.rotationAboutZAxisMatrix, ///
+          firstRotationAboutZAxisMatrixComponent = first(rotationAboutZAxisMatrixComponents),
+          fourthRotationAboutZAxisMatrixComponent = fourth(rotationAboutZAxisMatrixComponents),
+          c = firstRotationAboutZAxisMatrixComponent, ///
+          s = fourthRotationAboutZAxisMatrixComponent,  ///
+          backwardsRotationAboutZAxisMatrix = [ c, +s, 0, -s, c, 0, 0, 0, 1 ];
     
-    return backwardsRotationMatrix;
+    return backwardsRotationAboutZAxisMatrix;
   }
   
-  getX() {
+  getFirstPositionComponent() {
     const positionComponents = this.position, ///
-          firstPositionComponent = first(positionComponents),
-          x = firstPositionComponent; ///
+          firstPositionComponent = first(positionComponents);
     
-    return x;
+    return firstPositionComponent;
   }
 
   static fromLineInXYPlane(lineInXYPlane) {
@@ -55,18 +54,18 @@ class VerticalLineInXYPlane extends LineInXYPlane {
           angleOfRotationSine = -firstUnitDirectionComponent, ///
           c = angleOfRotationCosine,
           s = angleOfRotationSine,
-          rotationMatrix = [ c, -s, 0, +s, c, 0, 0, 0, 1 ];  ///
+          rotationAboutZAxisMatrix = [ c, -s, 0, +s, c, 0, 0, 0, 1 ];  ///
 
     let startVertex = position.slice(),
         endVertex = add(position, direction);
 
-    startVertex = rotateVertex(startVertex, rotationMatrix);
-    endVertex = rotateVertex(endVertex, rotationMatrix);
+    startVertex = rotateVertex(startVertex, rotationAboutZAxisMatrix);
+    endVertex = rotateVertex(endVertex, rotationAboutZAxisMatrix);
 
     position = startVertex;
     direction = subtract(endVertex, startVertex);
 
-    const verticalLineInXYPlane = new VerticalLineInXYPlane(position, direction, rotationMatrix);
+    const verticalLineInXYPlane = new VerticalLineInXYPlane(position, direction, rotationAboutZAxisMatrix);
 
     return verticalLineInXYPlane;
   }
@@ -74,10 +73,10 @@ class VerticalLineInXYPlane extends LineInXYPlane {
 
 module.exports = VerticalLineInXYPlane;
 
-function rotateVertex(vertex, rotationMatrix) {
+function rotateVertex(vertex, rotationAboutZAxisMatrix) {
   let vec = vertex; ///
 
-  const mat3 = rotationMatrix;  ///
+  const mat3 = rotationAboutZAxisMatrix;  ///
 
   vec = transform(vec, mat3);
 

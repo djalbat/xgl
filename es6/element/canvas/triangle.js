@@ -3,12 +3,14 @@
 const Facet = require('../../facet'),
       vec3 = require('../../maths/vec3'),
       CanvasElement = require('../../element/canvas'),
+      arrayUtilities = require('../../utilities/array'),
       transformUtilities = require('../../utilities/transform');
 
 const FacetInXYPlane = require('../../facetInXYPlane'),
       VerticalLineInXYPlane = require('../../verticalLineInXYPlane');
 
-const { normalise } = vec3,
+const { first } = arrayUtilities,
+      { normalise } = vec3,
       { composeTransform } = transformUtilities;
 
 const facets = calculateFacets(),
@@ -16,6 +18,10 @@ const facets = calculateFacets(),
         [ 1, 0, 0, 1 ],
         [ 0, 1, 0, 1 ],
         [ 0, 0, 1, 1 ],
+
+        [ 1, 1, 0, 1 ],
+        [ 0, 1, 1, 1 ],
+        [ 1, 0, 1, 1 ],
       ];
 
 class Triangle extends CanvasElement {
@@ -91,6 +97,8 @@ class Triangle extends CanvasElement {
 
   calculateVertexColours(vertexPositions) {
     const vertexColours = this.facets.reduce(function(vertexColours, facet, index) {
+      index = index % 6;  ///
+      
       const colour = this.colours[index],
             colours = [
               colour,
@@ -141,48 +149,63 @@ module.exports = Triangle;
 
 function calculateFacets() {
   const facetVertices = [
-          [ -2, 0, 0 ], ///[ 0, 0, 2 ],
-          [  2, 0, 0 ], ///[ 1, 0, 1 ],
-          [  0, 2, 0 ], ///[ 0, 1, 1 ],
+          [ -2, 0, 0 ],  /// [ 2, 0, 0 ],
+          [ +2, 0, 0 ],  /// [ 0, 2, 0 ],
+          [  0, 2, 0 ],  /// [ 0, 0, 2 ],
         ],
         maskFacetVertices = [
-          [ 1, 0, 0 ],  ///[ 0.5, 0, 1 ],
-          [ 1, 1, 0 ],  ///[ 0.5, 0, 2 ],
-          [ 1, 1, 1 ],  ///[ 0.5, 1, 1 ],
+          [ 0, 1, 0 ],  /// [ 1, 0, 1 ],
+          [ 1, 0, 0 ],  /// [ 0, 0, 1 ],
+          [ 1, 1, 0 ],  /// [ 0, 1, 1 ],
         ],
         facet = Facet.fromVertices(facetVertices),
         maskFacet = Facet.fromVertices(maskFacetVertices),
-        facetInXYPlane = FacetInXYPlane.fromFacet(facet);
-
-  const forwardsTranslation = facetInXYPlane.getForwardsTranslation(),
-        backwardsTranslation = facetInXYPlane.getBackwardsTranslation(),
-        forwardsRotationQuaternion = facetInXYPlane.getForwardsRotationQuaternion(),
-        backwardsRotationQuaternion = facetInXYPlane.getBackwardsRotationQuaternion();
-
-  maskFacet.rotate(forwardsRotationQuaternion);
-  maskFacet.translate(forwardsTranslation);
-
-  const lineInXYPlane = maskFacet.getLineInXYPlane(),
+        maskFacetInXYPlane = FacetInXYPlane.fromFacet(maskFacet),
+        linesInXYPlane = maskFacetInXYPlane.getLinesInXYPlane(),
+        firstLineInXYPlane = first(linesInXYPlane),
+        lineInXYPlane = firstLineInXYPlane,
         verticalLineInXYPlane = VerticalLineInXYPlane.fromLineInXYPlane(lineInXYPlane),
-        forwardsRotationMatrix = verticalLineInXYPlane.getForwardsRotationMatrix();
+        forwardsRotationAboutZAxisMatrix = verticalLineInXYPlane.getForwardsRotationAboutZAxisMatrix(),
+        backwardsRotationAboutZAxisMatrix = verticalLineInXYPlane.getBackwardsRotationAboutZAxisMatrix();
 
-  facetInXYPlane.rotate(forwardsRotationMatrix);
+  facet.rotateAboutZAxis(forwardsRotationAboutZAxisMatrix);
 
-  const facetsInXYPlane = facetInXYPlane.possiblySplit(verticalLineInXYPlane),
-        backwardsRotationMatrix = verticalLineInXYPlane.getBackwardsRotationMatrix();
+  const facets = facet.splitWithVerticalLineInXYPlane(verticalLineInXYPlane);
 
-  facetsInXYPlane.forEach(function (facetInXYPlane) {
-    facetInXYPlane.rotate(backwardsRotationMatrix);
+  facets.forEach(function(facet) {
+    facet.rotateAboutZAxis(backwardsRotationAboutZAxisMatrix);
   });
 
-  const facets = facetsInXYPlane.map(function (facetInXYPlane) {
-          const facet = Facet.fromFacetInXYPlane(facetInXYPlane);
 
-          facet.translate(backwardsTranslation);
-          facet.rotate(backwardsRotationQuaternion);
-
-          return facet;
-        });
+  // const forwardsTranslation = facetInXYPlane.getForwardsTranslation(),
+  //       backwardsTranslation = facetInXYPlane.getBackwardsTranslation(),
+  //       forwardsRotationQuaternion = facetInXYPlane.getForwardsRotationQuaternion(),
+  //       backwardsRotationQuaternion = facetInXYPlane.getBackwardsRotationQuaternion();
+  //
+  // maskFacet.rotate(forwardsRotationQuaternion);
+  // maskFacet.translate(forwardsTranslation);
+  //
+  // const lineInXYPlane = maskFacet.getLineInXYPlane(),
+  //       verticalLineInXYPlane = VerticalLineInXYPlane.fromLineInXYPlane(lineInXYPlane),
+  //       forwardsRotationMatrix = verticalLineInXYPlane.getForwardsRotationMatrix();
+  //
+  // facetInXYPlane.rotate(forwardsRotationMatrix);
+  //
+  // const facetsInXYPlane = facetInXYPlane.possiblySplit(verticalLineInXYPlane),
+  //       backwardsRotationMatrix = verticalLineInXYPlane.getBackwardsRotationMatrix();
+  //
+  // facetsInXYPlane.forEach(function (facetInXYPlane) {
+  //   facetInXYPlane.rotate(backwardsRotationMatrix);
+  // });
+  //
+  // const facets = facetsInXYPlane.map(function (facetInXYPlane) {
+  //         const facet = Facet.fromFacetInXYPlane(facetInXYPlane);
+  //
+  //         facet.translate(backwardsTranslation);
+  //         facet.rotate(backwardsRotationQuaternion);
+  //
+  //         return facet;
+  //       });
 
   return facets;
 }
