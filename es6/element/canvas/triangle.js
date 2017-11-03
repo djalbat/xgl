@@ -154,27 +154,40 @@ function calculateFacets() {
           [  0, 2, 0 ],  /// [ 0, 0, 2 ],
         ],
         maskFacetVertices = [
-          [ 0, 1, 0 ],  /// [ 1, 0, 1 ],
-          [ 1, 0, 0 ],  /// [ 0, 0, 1 ],
-          [ 1, 1, 0 ],  /// [ 0, 1, 1 ],
+          [ -0.5, 1.25, 0 ],  /// [ 1, 0, 1 ],
+          [ +0.5, 0.25, 0 ],  /// [ 0, 0, 1 ],
+          [ +0.5, 1.25, 0 ],  /// [ 0, 1, 1 ],
         ],
         facet = Facet.fromVertices(facetVertices),
         maskFacet = Facet.fromVertices(maskFacetVertices),
         maskFacetInXYPlane = FacetInXYPlane.fromFacet(maskFacet),
-        linesInXYPlane = maskFacetInXYPlane.getLinesInXYPlane(),
-        firstLineInXYPlane = first(linesInXYPlane),
-        lineInXYPlane = firstLineInXYPlane,
-        verticalLineInXYPlane = VerticalLineInXYPlane.fromLineInXYPlane(lineInXYPlane),
-        forwardsRotationAboutZAxisMatrix = verticalLineInXYPlane.getForwardsRotationAboutZAxisMatrix(),
-        backwardsRotationAboutZAxisMatrix = verticalLineInXYPlane.getBackwardsRotationAboutZAxisMatrix();
+        linesInXYPlane = maskFacetInXYPlane.getLinesInXYPlane();
 
-  facet.rotateAboutZAxis(forwardsRotationAboutZAxisMatrix);
+  let facets = [
+    facet
+  ];
 
-  const facets = facet.splitWithVerticalLineInXYPlane(verticalLineInXYPlane);
+  linesInXYPlane.forEach(function(lineInXYPlane, index) {
+    const verticalLineInXYPlane = VerticalLineInXYPlane.fromLineInXYPlane(lineInXYPlane),
+          forwardsRotationAboutZAxisMatrix = verticalLineInXYPlane.getForwardsRotationAboutZAxisMatrix(),
+          backwardsRotationAboutZAxisMatrix = verticalLineInXYPlane.getBackwardsRotationAboutZAxisMatrix();
 
-  facets.forEach(function(facet) {
-    facet.rotateAboutZAxis(backwardsRotationAboutZAxisMatrix);
+    facets = facets.reduce(function(facets, facet, index) {
+      facet.rotateAboutZAxis(forwardsRotationAboutZAxisMatrix);
+
+      const splitFacets = facet.possiblySplitWithVerticalLineInXYPlane(verticalLineInXYPlane);
+
+      splitFacets.forEach(function(splitFacet) {
+        splitFacet.rotateAboutZAxis(backwardsRotationAboutZAxisMatrix);
+      });
+
+      facets = facets.concat(splitFacets);
+
+      return facets;
+    }, []);
   });
+
+
 
 
   // const forwardsTranslation = facetInXYPlane.getForwardsTranslation(),
