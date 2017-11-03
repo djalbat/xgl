@@ -32,6 +32,14 @@ function cross(vecA, vecB) {
   return out;
 }
 
+function scale(vec, scalar) {
+  const out = [];
+
+  vec3.scale(out, vec, scalar);
+
+  return out;
+}
+
 function normalise(vec) {
   const out = [];
 
@@ -53,6 +61,7 @@ module.exports = {
   subtract: subtract,
   dot: dot,
   cross: cross,
+  scale: scale,
   normalise: normalise,
   transform: transform
 };

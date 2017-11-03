@@ -36,6 +36,14 @@ class Facet {
     return lineInXYPlane;
   }
   
+  setVertices(vertices) {
+    this.vertices = vertices;
+  }
+  
+  setNormal(normal) {
+    this.normal = normal;
+  }
+  
   rotate(rotationQuaternion) {
     this.vertices = rotateVertices(this.vertices, rotationQuaternion);
     
@@ -48,6 +56,14 @@ class Facet {
 
   static fromVertices(vertices) {
     const normal = calculateNormal(vertices),
+          facet = new Facet(vertices, normal);
+
+    return facet;
+  }
+
+  static fromFacetInXYPlane(facetInXYPlane) {
+    const vertices = facetInXYPlane.getVertices(),
+          normal = facetInXYPlane.getNormal(),
           facet = new Facet(vertices, normal);
 
     return facet;

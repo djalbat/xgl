@@ -5,7 +5,7 @@ const vec3 = require('./maths/vec3'),
       arrayUtilities = require('./utilities/array');
 
 const { add, subtract, normalise, transform } = vec3,
-      { first, second } = arrayUtilities;
+      { first, second, fourth } = arrayUtilities;
 
 class VerticalLineInXYPlane extends LineInXYPlane {
   constructor(position, direction, rotationMatrix) {
@@ -13,9 +13,26 @@ class VerticalLineInXYPlane extends LineInXYPlane {
 
     this.rotationMatrix = rotationMatrix;
   }
-
+  
   getRotationMatrix() {
     return this.rotationMatrix;
+  }
+
+  getForwardsRotationMatrix() {
+    const forwardsRotationMatrix = this.rotationMatrix; ///
+    
+    return forwardsRotationMatrix;
+  }
+  
+  getBackwardsRotationMatrix() {
+    const rotationMatrixComponents = this.rotationMatrix, ///
+          firstRotationMatrixComponent = first(rotationMatrixComponents),
+          fourthRotationMatrixComponent = fourth(rotationMatrixComponents),
+          c = firstRotationMatrixComponent, ///
+          s = fourthRotationMatrixComponent,  ///
+          backwardsRotationMatrix = [ c, +s, 0, -s, c, 0, 0, 0, 1 ];
+    
+    return backwardsRotationMatrix;
   }
   
   getX() {
@@ -38,7 +55,7 @@ class VerticalLineInXYPlane extends LineInXYPlane {
           angleOfRotationSine = -firstUnitDirectionComponent, ///
           c = angleOfRotationCosine,
           s = angleOfRotationSine,
-          rotationMatrix = [ c, -s, 0, +s, c, 0, 0, 0, 0 ];  ///
+          rotationMatrix = [ c, -s, 0, +s, c, 0, 0, 0, 1 ];  ///
 
     let startVertex = position.slice(),
         endVertex = add(position, direction);

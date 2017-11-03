@@ -4,7 +4,7 @@ const vec3 = require('./maths/vec3'),
       arrayUtilities = require('./utilities/array');
 
 const { subtract } = vec3,
-      { first, second } = arrayUtilities;
+      { first } = arrayUtilities;
 
 class LineInXYPlane {
   constructor(position, direction) {
@@ -25,23 +25,15 @@ class LineInXYPlane {
 
     const positionComponents = this.position, ///
           directionComponents = this.direction, ///
-          firstPositionComponent = first(positionComponents),
-          secondPositionComponent = second(positionComponents),
-          firstDirectionComponent = first(directionComponents),
-          secondDirectionComponent = second(directionComponents);
+          firstDirectionComponent = first(directionComponents);
 
     if (firstDirectionComponent === 0) {
       intersection = null;
     } else {
-      const a = +secondDirectionComponent, ///
-            b = -firstDirectionComponent,
-            c = firstPositionComponent * secondDirectionComponent - secondPositionComponent * firstDirectionComponent,
-            x = verticalLineInXYPlane.getX(),
-            y = (c - a*x) / b,
-            y1 = secondPositionComponent,
-            y2 = secondPositionComponent + secondDirectionComponent;
+      const firstPositionComponent = first(positionComponents),
+            x = verticalLineInXYPlane.getX();
 
-      intersection = (y - y1) / (y2 - y1);
+      intersection = (x - firstPositionComponent) / firstDirectionComponent;
     }
 
     return intersection;

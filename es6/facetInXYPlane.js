@@ -1,14 +1,14 @@
 'use strict';
 
 const Facet = require('./facet'),
-      vec2 = require('./maths/vec2'),
+      vec3 = require('./maths/vec3'),
       LineInXYPlane = require('./lineInXYPlane'),
       arrayUtilities = require('./utilities/array'),
       verticesUtilities = require('./utilities/vertices'),
       quaternionUtilities = require('./utilities/quaternion');
 
-const { transform } = vec2,
-      { first, third } = arrayUtilities,
+const { add, subtract, scale, transform } = vec3,
+      { first, second, third, fourth, permute } = arrayUtilities,
       { calculateRotationQuaternion } = quaternionUtilities,
       { calculateNormal, rotateVertices, translateVertices } = verticesUtilities;
 
@@ -29,9 +29,49 @@ class FacetInXYPlane extends Facet {
     return this.translation;
   }
 
+  getForwardsRotationQuaternion() {
+    const forwardsRotationQuaternion = this.rotationQuaternion;
+
+    return forwardsRotationQuaternion;
+  }
+  
+  getBackwardsRotationQuaternion() {
+    const rotationQuaternionComponents = this.rotationQuaternion, ///
+          backwardsRotationQuaternionComponents = rotationQuaternionComponents.map(function(rotationQuaternionComponent, index) {
+            const backwardsRotationQuaternionComponent = (index < 1) ?  ///
+                                                           +rotationQuaternionComponent :
+                                                             -rotationQuaternionComponent;
+            
+            return backwardsRotationQuaternionComponent;
+          }),
+          backwardsRotationQuaternion = backwardsRotationQuaternionComponents;
+              
+    return backwardsRotationQuaternion;
+  }
+
+  getForwardsTranslation() {
+    const forwardsTranslation = this.translation;
+
+    return forwardsTranslation;
+  }
+
+  getBackwardsTranslation() {
+    const translationComponents = this.translation, ///
+          backwardsTranslationComponents = translationComponents.map(function(translationComponent, index) {
+            const backwardsTranslationComponent = (index < 2) ? ///
+                                                    +translationComponent :
+                                                      -translationComponent;
+
+            return backwardsTranslationComponent;
+          }),
+          backwardsTranslation = backwardsTranslationComponents;
+    
+    return backwardsTranslation;
+  }
+
   getEdgeLinesInXYPlane() {
     const edgeLinesInXYPlane = [],
-          verticesLength = this.vertices.length;
+          verticesLength = 3; ///
 
     for (let index = 0; index < verticesLength; index++) {
       const startIndex = index,
@@ -60,22 +100,100 @@ class FacetInXYPlane extends Facet {
     });
   }
 
-  split(verticalLineInXYPlane) {
+  possiblySplit(verticalLineInXYPlane) {
     const intersections = this.calculateIntersectionsWithVerticalLineInXYPlane(verticalLineInXYPlane),
           intersectionsIncludesNull = intersections.includes(null),
           facetsInXYPlane = intersectionsIncludesNull ?
-                              this.splitWithNullIntersection(intersections) :
-                                this.splitWithoutNullIntersection(intersections);
+                              this.possiblySplitWithNullIntersection(intersections) :
+                                this.possiblySplitWithoutNullIntersection(intersections);
+
+    return facetsInXYPlane;
+  }
+
+  possiblySplitWithNullIntersection(intersections) {
+    let facetsInXYPlane;
+
+    const nonNullIntersections = intersections.reduce(function(nonNullIntersections, intersection) {
+            if (intersection !== null) {
+              const nonNullIntersection = intersection; ///
+
+              nonNullIntersections.push(nonNullIntersection);
+            }
+
+            return nonNullIntersections;
+          }, []),
+          firstNonNullIntersection = first(nonNullIntersections);
+
+    if ((firstNonNullIntersection > 0) && (firstNonNullIntersection < 1)) {
+      facetsInXYPlane = this.splitWithNullIntersection(intersections);
+    } else {
+      const facetInXYPlane = this;  ///
+
+      facetsInXYPlane = [
+        facetInXYPlane
+      ];
+    }
 
     return facetsInXYPlane;
   }
 
   splitWithNullIntersection(intersections) {
-    debugger
+    const verticesLength = 3,
+          nullIntersectionIndex = intersections.indexOf(null),
+          places = (verticesLength - nullIntersectionIndex) & verticesLength;
+
+    let vertices = this.getVertices();
+
+    intersections = permute(intersections, places);
+
+    vertices = permute(vertices, places);
+
+    const firstVertex = first(vertices),
+          secondVertex = second(vertices),
+          thirdVertex = third(vertices),
+          nonNullIntersections = intersections.slice(1),
+          firstNonNullIntersection = first(nonNullIntersections),
+          secondNonNullIntersection = second(nonNullIntersections),
+          firstIntermediateVertex = calculateIntermediateVertex(secondVertex, thirdVertex, firstNonNullIntersection),
+          secondIntermediateVertex = calculateIntermediateVertex(thirdVertex, firstVertex, secondNonNullIntersection),
+          firstVertices = [
+            firstVertex,
+            secondVertex,
+            secondIntermediateVertex
+          ],
+          secondVertices = [
+            secondVertex,
+            firstIntermediateVertex,
+            secondIntermediateVertex
+          ],
+          thirdVertices = [
+            firstIntermediateVertex,
+            thirdVertex,
+            secondIntermediateVertex
+          ],
+          normal = this.getNormal(),
+          firstFacetInXYPlane = new FacetInXYPlane(firstVertices, normal, this.rotationQuaternion, this.translation),
+          secondFacetInXYPlane = new FacetInXYPlane(secondVertices, normal, this.rotationQuaternion, this.translation),
+          thirdFacetInXYPlane = new FacetInXYPlane(thirdVertices, normal, this.rotationQuaternion, this.translation),
+          facetsInXYPlane = [
+            firstFacetInXYPlane,
+            secondFacetInXYPlane,
+            thirdFacetInXYPlane
+          ];
+
+    return facetsInXYPlane;
   }
 
-  splitWithoutNullIntersection(intersections) {
+  possiblySplitWithoutNullIntersection(intersections) {
 
+  }
+
+  permuteVertices(places) {
+    let vertices = this.getVertices();
+
+    vertices = permute(vertices, places);
+
+    this.setVertices(vertices);
   }
 
   calculateIntersectionsWithVerticalLineInXYPlane(verticalLineInXYPlane) {
@@ -121,4 +239,12 @@ function calculateTranslation(vertices) {
         translation = [0, 0, -z];
 
   return translation;
+}
+
+function calculateIntermediateVertex(startVertex, endVertex, nonNullIntersection) {
+  const direction = subtract(endVertex, startVertex),
+        offset = scale(direction, nonNullIntersection),
+        intermediateVertex = add(startVertex, offset);
+
+  return intermediateVertex;
 }

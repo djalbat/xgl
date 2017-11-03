@@ -22,6 +22,17 @@ function chop(elements, arrayLength) {
   return arrays;
 }
 
+function permute(elements, places) {
+  const length = elements.length,
+        cut = length - places,
+        leadingElements = elements.slice(0, cut),
+        trailingElements = elements.slice(cut);
+
+  elements = [...trailingElements, ...leadingElements];
+
+  return elements;
+}
+
 function flatten(arrays) {
   return arrays.reduce(function(elements, array) {
     return elements.concat(array);
@@ -36,6 +47,7 @@ function guarantee(arrayOrElement) {
 
 module.exports = Object.assign(arrayUtilities, {
   chop: chop,
+  permute: permute,
   flatten: flatten,
   guarantee: guarantee
 });
