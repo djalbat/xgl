@@ -62,7 +62,17 @@ class VerticalLineInXYPlane extends LineInXYPlane {
           facets = intersectionsIncludesNull ?
                      facet.splitWithNullIntersection(intersections) :
                        facet.splitWithoutNullIntersection(intersections),
-          facetsFromSplit = facets; ///
+          facetsFromSplit = facets.reduce(function(facetsFromSplit, facet) {
+            const facetTooSmall = facet.isTooSmall();
+            
+            if (!facetTooSmall) {
+              const facetFromSplit = facet; ///
+
+              facetsFromSplit.push(facetFromSplit);
+            }
+                
+            return facetsFromSplit;
+          }, []);
 
     return facetsFromSplit;
   }

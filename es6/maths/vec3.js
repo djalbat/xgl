@@ -2,6 +2,12 @@
 
 const vec3 = require('gl-vec3');
 
+function length(vec) {
+  const length = vec3.length(vec);
+
+  return length;
+}
+
 function add(vecA, vecB) {
   const out = [];
 
@@ -57,6 +63,7 @@ function transform(vec, mat3) {
 }
 
 module.exports = {
+  length: length,
   add: add,
   subtract: subtract,
   dot: dot,

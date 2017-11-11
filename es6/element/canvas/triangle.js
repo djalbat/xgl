@@ -5,8 +5,7 @@ const Facet = require('../../facet'),
       CanvasElement = require('../../element/canvas'),
       transformUtilities = require('../../utilities/transform');
 
-const FacetInXYPlane = require('../../facetInXYPlane'),
-      VerticalLineInXYPlane = require('../../verticalLineInXYPlane');
+const FacetInXYPlane = require('../../facetInXYPlane');
 
 const { normalise } = vec3,
       { composeTransform } = transformUtilities;
@@ -147,59 +146,19 @@ module.exports = Triangle;
 
 function calculateFacets() {
   const facetVertices = [
-          [ -2, 0, 0 ],  /// [ 2, 0, 0 ],
-          [ +2, 0, 0 ],  /// [ 0, 2, 0 ],
-          [  0, 2, 0 ],  /// [ 0, 0, 2 ],
+          [ 0, 0, 0 ],
+          [ 2, 0, 0 ],
+          [ 0, 2, 0 ],
         ],
         maskFacetVertices = [
-          [ -0.5, 1.25, 0 ],  /// [ 1, 0, 1 ],
-          [ +0.5, 0.25, 0 ],  /// [ 0, 0, 1 ],
-          [ +0.5, 1.25, 0 ],  /// [ 0, 1, 1 ],
+          [ 1, 0, 0 ],
+          [ 1, 1, 0 ],
+          [ 0, 1, 0 ],
         ],
         facet = Facet.fromVertices(facetVertices),
         maskFacet = Facet.fromVertices(maskFacetVertices),
         maskFacetInXYPlane = FacetInXYPlane.fromFacet(maskFacet),
         facets = maskFacetInXYPlane.maskFacet(facet);
-  
-  // facets = facets.reduce(function(facets, facet) {
-  //   const facetOutsideLinesInXYPlane = facet.isOutsideLinesInXYPlane(linesInXYPlane);
-  //
-  //   if (facetOutsideLinesInXYPlane) {
-  //     facets.push(facet);
-  //   }
-  //
-  //   return facets;
-  // }, []);
-
-  // const forwardsTranslation = facetInXYPlane.getForwardsTranslation(),
-  //       backwardsTranslation = facetInXYPlane.getBackwardsTranslation(),
-  //       forwardsRotationQuaternion = facetInXYPlane.getForwardsRotationQuaternion(),
-  //       backwardsRotationQuaternion = facetInXYPlane.getBackwardsRotationQuaternion();
-  //
-  // maskFacet.rotate(forwardsRotationQuaternion);
-  // maskFacet.translate(forwardsTranslation);
-  //
-  // const lineInXYPlane = maskFacet.getLineInXYPlane(),
-  //       verticalLineInXYPlane = VerticalLineInXYPlane.fromLineInXYPlane(lineInXYPlane),
-  //       forwardsRotationMatrix = verticalLineInXYPlane.getForwardsRotationMatrix();
-  //
-  // facetInXYPlane.rotate(forwardsRotationMatrix);
-  //
-  // const facetsInXYPlane = facetInXYPlane.possiblySplit(verticalLineInXYPlane),
-  //       backwardsRotationMatrix = verticalLineInXYPlane.getBackwardsRotationMatrix();
-  //
-  // facetsInXYPlane.forEach(function (facetInXYPlane) {
-  //   facetInXYPlane.rotate(backwardsRotationMatrix);
-  // });
-  //
-  // const facets = facetsInXYPlane.map(function (facetInXYPlane) {
-  //         const facet = Facet.fromFacetInXYPlane(facetInXYPlane);
-  //
-  //         facet.translate(backwardsTranslation);
-  //         facet.rotate(backwardsRotationQuaternion);
-  //
-  //         return facet;
-  //       });
 
   return facets;
 }

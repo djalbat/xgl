@@ -18,8 +18,9 @@ function calculateRotationQuaternion(normal) {
   const angleCosineBetweenNormalAndZAxis = calculateAngleCosineBetweenNormalAndZAxis(normal),
         crossProductOfNormalWithZAxis = calculateCrossProductOfNormalWithZAxis(normal),
         angleOfRotationCosine = angleCosineBetweenNormalAndZAxis,
-        axisOfRotation = (angleOfRotationCosine === 1) ?
-                           [0, 0, 1] : ///
+        angleOfRotationCosineAbsoluteValue = Math.abs(angleOfRotationCosine),
+        axisOfRotation = (angleOfRotationCosineAbsoluteValue === 1) ?
+                           [1, 0, 0] : ///
                              crossProductOfNormalWithZAxis,
         unitAxisOfRotation = normalise(axisOfRotation),
         halfAngleOfRotationCosine = calculateHalfAngleCosine(angleOfRotationCosine),
@@ -54,10 +55,33 @@ function calculateInverseRotationQuaternion(rotationQuaternion) {
   return inverseRotationQuaternion;
 }
 
+function calculateForwardsRotationQuaternion(rotationQuaternion) {
+  const forwardsRotationQuaternion = rotationQuaternion.slice();
+
+  return forwardsRotationQuaternion;
+}
+
+function calculateBackwardsRotationQuaternion(rotationQuaternion) {
+  const rotationQuaternionComponents = rotationQuaternion.slice(), ///
+        backwardsRotationQuaternionComponents = rotationQuaternionComponents.map(function(rotationQuaternionComponent, index) {
+          const backwardsRotationQuaternionComponent = (index < 1) ?  ///
+              +rotationQuaternionComponent :
+              -rotationQuaternionComponent;
+  
+          return backwardsRotationQuaternionComponent;
+        }),
+        backwardsRotationQuaternion = backwardsRotationQuaternionComponents;
+
+  return backwardsRotationQuaternion;
+
+}
+
 module.exports = {
   rotateImaginaryQuaternion: rotateImaginaryQuaternion,
   calculateRotationQuaternion: calculateRotationQuaternion,
-  calculateInverseRotationQuaternion: calculateInverseRotationQuaternion
+  calculateInverseRotationQuaternion: calculateInverseRotationQuaternion,
+  calculateForwardsRotationQuaternion: calculateForwardsRotationQuaternion,
+  calculateBackwardsRotationQuaternion: calculateBackwardsRotationQuaternion
 };
 
 function calculateAngleCosineBetweenNormalAndZAxis(normal) {

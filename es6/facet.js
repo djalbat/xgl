@@ -3,11 +3,13 @@
 const Line = require('./line'),
       vec3 = require('./maths/vec3'),
       arrayUtilities = require('./utilities/array'),
-      verticesUtilities = require('./utilities/vertices');
+      verticesUtilities = require('./utilities/vertices'),
+      approximateUtilities = require('./utilities/approximate');
 
-const { add, subtract, scale, transform } = vec3,
+const { add, subtract, scale, transform, length } = vec3,
       { first, second, third, permute } = arrayUtilities,
-      { calculateNormal, rotateVertices } = verticesUtilities;
+      { calculateNormal, rotateVertices } = verticesUtilities,
+      { isApproximatelyEqualToZero } = approximateUtilities; 
 
 class Facet {
   constructor(vertices, normal) {
@@ -37,9 +39,34 @@ class Facet {
 
     return lines;
   }
-
+  
+  isTooSmall() {
+    const normalLength = length(this.normal),
+          normalLengthApproximatelyEqualToZero = isApproximatelyEqualToZero(normalLength),
+          tooSmall = normalLengthApproximatelyEqualToZero;  ///
+    
+    return tooSmall;
+  }
+  
   isOutsideLinesInXYPlane(linesInXYPlane) {
-    return true;
+    const insideLinesInXYPlane = this.isInsideLinesInXYPlane(linesInXYPlane),
+          outsideLinesInXYPlane = !insideLinesInXYPlane;
+    
+    return outsideLinesInXYPlane;
+  }
+  
+  isInsideLinesInXYPlane(linesInXYPlane) {
+    const totalOfSidesOfLineInXYPlane = linesInXYPlane.reduce(function(totalOfSidesOfLineInXYPlane, lineInXYPlane) {
+            const sideOfLineInXYPlane = this.calculateSideOfLineInXYPlane(lineInXYPlane);
+
+            totalOfSidesOfLineInXYPlane += sideOfLineInXYPlane;
+
+            return totalOfSidesOfLineInXYPlane;
+          }.bind(this), 0),
+          totalOfSidesOfLineInXYPlaneAbsoluteValue = Math.abs(totalOfSidesOfLineInXYPlane),
+          insideLinesInXYPlane = (totalOfSidesOfLineInXYPlaneAbsoluteValue === 3);
+
+    return insideLinesInXYPlane;
   }
   
   rotate(rotationQuaternion) {
@@ -246,6 +273,20 @@ class Facet {
           ];
 
     return facets;
+  }
+
+  calculateSideOfLineInXYPlane(lineInXYPlane) {
+    const sideOfLineInXYPlane = this.vertices.reduce(function(sideOfLineInXYPlane, vertex) {
+      if (sideOfLineInXYPlane === 0) {
+        const vertexSide = lineInXYPlane.calculateVertexSide(vertex);
+
+        sideOfLineInXYPlane = vertexSide; ///
+      }
+
+      return sideOfLineInXYPlane;
+    }, 0);
+
+    return sideOfLineInXYPlane;
   }
 
   calculateIntersectionsWithVerticalLineInXYPlane(verticalLineInXYPlane) {

@@ -6,8 +6,8 @@ const Facet = require('./facet'),
       verticesUtilities = require('./utilities/vertices'),
       quaternionUtilities = require('./utilities/quaternion');
 
-const { calculateRotationQuaternion } = quaternionUtilities,
-      { calculateNormal, rotateVertices } = verticesUtilities;
+const { calculateNormal, rotateVertices } = verticesUtilities,
+      { calculateRotationQuaternion, calculateForwardsRotationQuaternion, calculateBackwardsRotationQuaternion } = quaternionUtilities;
 
 class FacetInXYPlane extends Facet {
   constructor(vertices, normal, rotationQuaternion) {
@@ -18,26 +18,6 @@ class FacetInXYPlane extends Facet {
 
   getRotationQuaternion() {
     return this.rotationQuaternion;
-  }
-
-  getForwardsRotationQuaternion() {
-    const forwardsRotationQuaternion = this.rotationQuaternion;
-
-    return forwardsRotationQuaternion;
-  }
-  
-  getBackwardsRotationQuaternion() {
-    const rotationQuaternionComponents = this.rotationQuaternion, ///
-          backwardsRotationQuaternionComponents = rotationQuaternionComponents.map(function(rotationQuaternionComponent, index) {
-            const backwardsRotationQuaternionComponent = (index < 1) ?  ///
-                                                           +rotationQuaternionComponent :
-                                                             -rotationQuaternionComponent;
-            
-            return backwardsRotationQuaternionComponent;
-          }),
-          backwardsRotationQuaternion = backwardsRotationQuaternionComponents;
-              
-    return backwardsRotationQuaternion;
   }
 
   getLinesInXYPlane() {
@@ -56,14 +36,24 @@ class FacetInXYPlane extends Facet {
   }
   
   maskFacet(facet) {
+    const linesInXYPlane = this.getLinesInXYPlane(),
+          forwardsRotationQuaternion = calculateForwardsRotationQuaternion(this.rotationQuaternion),
+          backwardsRotationQuaternion = calculateBackwardsRotationQuaternion(this.rotationQuaternion);
+
+    facet.rotate(forwardsRotationQuaternion);
+
     let facets = [
       facet
     ];
-    
-    const linesInXYPlane = this.getLinesInXYPlane();
-    
+
     facets = this.splitFacetsWithLinesInXYPlane(facets, linesInXYPlane);
-    
+
+    facets = this.keepFacetsOutsideLinesInXYPlane(facets, linesInXYPlane);
+
+    facets.forEach(function(facet) {
+      facet.rotate(backwardsRotationQuaternion);
+    });
+
     return facets;
   }
   
@@ -75,6 +65,20 @@ class FacetInXYPlane extends Facet {
 
       return facets;
     }, facets);
+    
+    return facets;
+  }
+
+  keepFacetsOutsideLinesInXYPlane(facets, linesInXYPlane) {
+    facets = facets.reduce(function(facets, facet, index) {
+      const outsideLinesInXYPlane = facet.isOutsideLinesInXYPlane(linesInXYPlane);
+      
+      if (outsideLinesInXYPlane) {
+        facets.push(facet);
+      }
+      
+      return facets;
+    }, []);
     
     return facets;
   }
