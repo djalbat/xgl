@@ -2,6 +2,7 @@
 
 const Facet = require('./facet'),
       LineInXYPlane = require('./lineInXYPlane'),
+      VerticalLineInXYPlane = require('./verticalLineInXYPlane'),
       verticesUtilities = require('./utilities/vertices'),
       quaternionUtilities = require('./utilities/quaternion');
 
@@ -53,6 +54,30 @@ class FacetInXYPlane extends Facet {
 
     return linesInXYPlane;
   }
+  
+  maskFacet(facet) {
+    let facets = [
+      facet
+    ];
+    
+    const linesInXYPlane = this.getLinesInXYPlane();
+    
+    facets = this.splitFacetsWithLinesInXYPlane(facets, linesInXYPlane);
+    
+    return facets;
+  }
+  
+  splitFacetsWithLinesInXYPlane(facets, linesInXYPlane) {
+    facets = linesInXYPlane.reduce(function(facets, lineInXYPlane) {
+      const verticalLineInXYPlane = VerticalLineInXYPlane.fromLineInXYPlane(lineInXYPlane);
+
+      facets = verticalLineInXYPlane.splitFacets(facets);
+
+      return facets;
+    }, facets);
+    
+    return facets;
+  }
 
   static fromFacet(facet) {
     let normal = facet.getNormal();
@@ -72,4 +97,3 @@ class FacetInXYPlane extends Facet {
 }
 
 module.exports = FacetInXYPlane;
-

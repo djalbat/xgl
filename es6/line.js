@@ -1,10 +1,8 @@
 'use strict';
 
-const vec3 = require('./maths/vec3'),
-      arrayUtilities = require('./utilities/array');
+const vec3 = require('./maths/vec3');
 
-const { subtract } = vec3,
-      { first } = arrayUtilities;
+const { subtract } = vec3;
 
 class Line {
   constructor(position, direction) {
@@ -18,25 +16,6 @@ class Line {
 
   getDirection() {
     return this.direction;
-  }
-
-  calculateIntersectionWithVerticalLineInXYPlane(verticalLineInXYPlane) {
-    let intersection;
-
-    const positionComponents = this.position, ///
-          directionComponents = this.direction, ///
-          firstDirectionComponent = first(directionComponents);
-
-    if (firstDirectionComponent === 0) {
-      intersection = null;
-    } else {
-      const firstPositionComponent = first(positionComponents),
-            verticalLineInXYPlaneFirstPositionComponent = verticalLineInXYPlane.getFirstPositionComponent();
-
-      intersection = (verticalLineInXYPlaneFirstPositionComponent - firstPositionComponent) / firstDirectionComponent;
-    }
-
-    return intersection;
   }
 
   static fromVertices(startVertex, endVertex) {

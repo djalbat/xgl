@@ -3,14 +3,12 @@
 const Facet = require('../../facet'),
       vec3 = require('../../maths/vec3'),
       CanvasElement = require('../../element/canvas'),
-      arrayUtilities = require('../../utilities/array'),
       transformUtilities = require('../../utilities/transform');
 
 const FacetInXYPlane = require('../../facetInXYPlane'),
       VerticalLineInXYPlane = require('../../verticalLineInXYPlane');
 
-const { first } = arrayUtilities,
-      { normalise } = vec3,
+const { normalise } = vec3,
       { composeTransform } = transformUtilities;
 
 const facets = calculateFacets(),
@@ -161,34 +159,17 @@ function calculateFacets() {
         facet = Facet.fromVertices(facetVertices),
         maskFacet = Facet.fromVertices(maskFacetVertices),
         maskFacetInXYPlane = FacetInXYPlane.fromFacet(maskFacet),
-        linesInXYPlane = maskFacetInXYPlane.getLinesInXYPlane();
-
-  let facets = [
-    facet
-  ];
-
-  linesInXYPlane.forEach(function(lineInXYPlane, index) {
-    const verticalLineInXYPlane = VerticalLineInXYPlane.fromLineInXYPlane(lineInXYPlane),
-          forwardsRotationAboutZAxisMatrix = verticalLineInXYPlane.getForwardsRotationAboutZAxisMatrix(),
-          backwardsRotationAboutZAxisMatrix = verticalLineInXYPlane.getBackwardsRotationAboutZAxisMatrix();
-
-    facets = facets.reduce(function(facets, facet, index) {
-      facet.rotateAboutZAxis(forwardsRotationAboutZAxisMatrix);
-
-      const splitFacets = facet.possiblySplitWithVerticalLineInXYPlane(verticalLineInXYPlane);
-
-      splitFacets.forEach(function(splitFacet) {
-        splitFacet.rotateAboutZAxis(backwardsRotationAboutZAxisMatrix);
-      });
-
-      facets = facets.concat(splitFacets);
-
-      return facets;
-    }, []);
-  });
-
-
-
+        facets = maskFacetInXYPlane.maskFacet(facet);
+  
+  // facets = facets.reduce(function(facets, facet) {
+  //   const facetOutsideLinesInXYPlane = facet.isOutsideLinesInXYPlane(linesInXYPlane);
+  //
+  //   if (facetOutsideLinesInXYPlane) {
+  //     facets.push(facet);
+  //   }
+  //
+  //   return facets;
+  // }, []);
 
   // const forwardsTranslation = facetInXYPlane.getForwardsTranslation(),
   //       backwardsTranslation = facetInXYPlane.getBackwardsTranslation(),

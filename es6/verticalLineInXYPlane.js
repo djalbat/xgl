@@ -35,11 +35,69 @@ class VerticalLineInXYPlane extends LineInXYPlane {
     return backwardsRotationAboutZAxisMatrix;
   }
   
-  getFirstPositionComponent() {
-    const positionComponents = this.position, ///
-          firstPositionComponent = first(positionComponents);
+  splitFacets(facets) {
+    const forwardsRotationAboutZAxisMatrix = this.getForwardsRotationAboutZAxisMatrix(),
+          backwardsRotationAboutZAxisMatrix = this.getBackwardsRotationAboutZAxisMatrix();
+
+    facets = facets.reduce(function(facets, facet) {
+      facet.rotateAboutZAxis(forwardsRotationAboutZAxisMatrix);
+
+      const facetsFromSplit = this.splitFacet(facet);
+
+      facetsFromSplit.forEach(function(facetFromSplit) {
+        facetFromSplit.rotateAboutZAxis(backwardsRotationAboutZAxisMatrix);
+      });
+
+      facets = facets.concat(facetsFromSplit);
+
+      return facets;
+    }.bind(this), []);
     
-    return firstPositionComponent;
+    return facets;    
+  }
+
+  splitFacet(facet) {
+    const intersections = this.calculateIntersectionsWithFacet(facet),
+          intersectionsIncludesNull = intersections.includes(null),
+          facets = intersectionsIncludesNull ?
+                     facet.splitWithNullIntersection(intersections) :
+                       facet.splitWithoutNullIntersection(intersections),
+          facetsFromSplit = facets; ///
+
+    return facetsFromSplit;
+  }
+
+  calculateIntersectionsWithFacet(facet) {
+    const lines = facet.getLines(),
+          intersections = lines.map(function(line) {
+            const intersection = this.calculateIntersectionWithLine(line);
+
+            return intersection;
+          }.bind(this));
+
+    return intersections;
+  }
+
+  calculateIntersectionWithLine(line) {
+    let intersection;
+
+    const linePosition = line.getPosition(),
+          lineDirection = line.getDirection(),
+          linePositionComponents = linePosition, ///
+          lineDirectionComponents = lineDirection, ///
+          firstLineDirectionComponent = first(lineDirectionComponents);
+
+    if (firstLineDirectionComponent === 0) {
+      intersection = null;
+    } else {
+      const positionComponents = this.position, ///
+            firstPositionComponent = first(positionComponents),
+            firstLinePositionComponent = first(linePositionComponents);
+
+      intersection = (firstPositionComponent- firstLinePositionComponent) / firstLineDirectionComponent;
+    }
+
+    return intersection;
   }
 
   static fromLineInXYPlane(lineInXYPlane) {

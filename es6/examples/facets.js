@@ -21,6 +21,3 @@ const facets = () => {
 };
 
 module.exports = facets;
-
-/*  
-*/
