@@ -13,7 +13,7 @@ const facets = () => {
   (() => 
 
     <Scene canvas={canvas}>
-      <Camera initialDistance={10} initialOffset={[ 0, 0, 0 ]} canvas={canvas} />
+      <Camera initialDistance={20} initialOffset={[ 0, 0, 0 ]} canvas={canvas} />
       <Triangle />
     </Scene>
 

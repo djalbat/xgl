@@ -2,9 +2,11 @@
 
 const vec3 = require('./maths/vec3'),
       LineInXYPlane = require('./lineInXYPlane'),
-      arrayUtilities = require('./utilities/array');
+      arrayUtilities = require('./utilities/array'),
+      vertexUtilities = require('./utilities/vertex');
 
-const { add, subtract, normalise, transform } = vec3,
+const { add, subtract, normalise } = vec3,
+      { rotate } = vertexUtilities,
       { first, second, fourth } = arrayUtilities;
 
 class VerticalLineInXYPlane extends LineInXYPlane {
@@ -62,17 +64,7 @@ class VerticalLineInXYPlane extends LineInXYPlane {
           facets = intersectionsIncludesNull ?
                      facet.splitWithNullIntersection(intersections) :
                        facet.splitWithoutNullIntersection(intersections),
-          facetsFromSplit = facets.reduce(function(facetsFromSplit, facet) {
-            const facetTooSmall = facet.isTooSmall();
-            
-            if (!facetTooSmall) {
-              const facetFromSplit = facet; ///
-
-              facetsFromSplit.push(facetFromSplit);
-            }
-                
-            return facetsFromSplit;
-          }, []);
+          facetsFromSplit = calculateFacetsFromSplit(facets);
 
     return facetsFromSplit;
   }
@@ -127,8 +119,8 @@ class VerticalLineInXYPlane extends LineInXYPlane {
     let startVertex = position.slice(),
         endVertex = add(position, direction);
 
-    startVertex = rotateVertex(startVertex, rotationAboutZAxisMatrix);
-    endVertex = rotateVertex(endVertex, rotationAboutZAxisMatrix);
+    startVertex = rotate(startVertex, rotationAboutZAxisMatrix);
+    endVertex = rotate(endVertex, rotationAboutZAxisMatrix);
 
     position = startVertex;
     direction = subtract(endVertex, startVertex);
@@ -141,14 +133,18 @@ class VerticalLineInXYPlane extends LineInXYPlane {
 
 module.exports = VerticalLineInXYPlane;
 
-function rotateVertex(vertex, rotationAboutZAxisMatrix) {
-  let vec = vertex; ///
+function calculateFacetsFromSplit(facets) {
+  const facetsFromSplit = facets.reduce(function(facetsFromSplit, facet) {
+    const facetTooSmall = facet.isTooSmall();
 
-  const mat3 = rotationAboutZAxisMatrix;  ///
+    if (!facetTooSmall) {
+      const facetFromSplit = facet; ///
 
-  vec = transform(vec, mat3);
+      facetsFromSplit.push(facetFromSplit);
+    }
 
-  vertex = vec; ///
+    return facetsFromSplit;
+  }, []);
 
-  return vertex;
+  return facetsFromSplit;
 }

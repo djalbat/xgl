@@ -5,36 +5,28 @@ const Facet = require('../../facet'),
       CanvasElement = require('../../element/canvas'),
       transformUtilities = require('../../utilities/transform');
 
-const FacetInXYPlane = require('../../facetInXYPlane');
+const MaskingFacet = require('../../maskingFacet');
 
 const { normalise } = vec3,
       { composeTransform } = transformUtilities;
 
 const facets = calculateFacets(),
-      colours = [
-        [ 1, 0, 0, 1 ],
-        [ 0, 1, 0, 1 ],
-        [ 0, 0, 1, 1 ],
-
-        [ 1, 1, 0, 1 ],
-        [ 0, 1, 1, 1 ],
-        [ 1, 0, 1, 1 ],
-      ];
+      colour = [ 1, 0, 0, 1 ];
 
 class Triangle extends CanvasElement {
   constructor(transform) {
     super(transform);
 
     this.facets = facets; ///
-    this.colours = colours; ///
+    this.colour = colour; ///
   }
 
   getFacets() {
     return this.facets;
   }
 
-  getColours() {
-    return this.colours;
+  getColour() {
+    return this.colour;
   }
 
   getInitialVertexPositions() {
@@ -72,19 +64,11 @@ class Triangle extends CanvasElement {
   calculateVertexNormals(vertexPositions) {
     const vertexNormals = this.facets.reduce(function(vertexNormals, facet) {
       const normal = facet.getNormal(),
-            normals = [ ///
-              normal,
-              normal,
-              normal
-            ];
+            vertexNormal = normalise(normal);
 
-      vertexNormals = normals.reduce(function(vertexNormals, normal) {
-        const vertexNormal = normalise(normal);
-
-        vertexNormals.push(vertexNormal);
-
-        return vertexNormals;
-      }, vertexNormals);
+      vertexNormals.push(vertexNormal);
+      vertexNormals.push(vertexNormal);
+      vertexNormals.push(vertexNormal);
 
       return vertexNormals;
     }, []);
@@ -93,24 +77,12 @@ class Triangle extends CanvasElement {
   }
 
   calculateVertexColours(vertexPositions) {
-    const vertexColours = this.facets.reduce(function(vertexColours, facet, index) {
-      index = index % 6;  ///
-      
-      const colour = this.colours[index],
-            colours = [
-              colour,
-              colour,
-              colour
-            ];
+    const vertexColours = this.facets.reduce(function(vertexColours, facet) {
+      const vertexColour = this.colour;
 
-      vertexColours = colours.reduce(function(vertexColours, colour) {
-        const vertexColour = colour;  ///
-
-        vertexColours.push(vertexColour);
-
-        return vertexColours;
-
-      }, vertexColours);
+      vertexColours.push(vertexColour);
+      vertexColours.push(vertexColour);
+      vertexColours.push(vertexColour);
 
       return vertexColours;
     }.bind(this), []);
@@ -147,18 +119,17 @@ module.exports = Triangle;
 function calculateFacets() {
   const facetVertices = [
           [ 0, 0, 0 ],
-          [ 2, 0, 0 ],
-          [ 0, 2, 0 ],
+          [ 5, 0, 0 ],
+          [ 0, 5, 0 ],
         ],
-        maskFacetVertices = [
-          [ 1, 0, 0 ],
-          [ 1, 1, 0 ],
-          [ 0, 1, 0 ],
+        maskingFacetVertices = [
+          [ 2, 1, 0 ],
+          [ 2, 2, 0 ],
+          [ 1, 2, 0 ],
         ],
         facet = Facet.fromVertices(facetVertices),
-        maskFacet = Facet.fromVertices(maskFacetVertices),
-        maskFacetInXYPlane = FacetInXYPlane.fromFacet(maskFacet),
-        facets = maskFacetInXYPlane.maskFacet(facet);
+        maskingFacet = MaskingFacet.fromVertices(maskingFacetVertices),
+        facets = maskingFacet.maskFacet(facet);
 
   return facets;
 }

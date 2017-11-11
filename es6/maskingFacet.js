@@ -9,7 +9,7 @@ const Facet = require('./facet'),
 const { calculateNormal, rotateVertices } = verticesUtilities,
       { calculateRotationQuaternion, calculateForwardsRotationQuaternion, calculateBackwardsRotationQuaternion } = quaternionUtilities;
 
-class FacetInXYPlane extends Facet {
+class MaskingFacet extends Facet {
   constructor(vertices, normal, rotationQuaternion) {
     super(vertices, normal);
     
@@ -94,10 +94,17 @@ class FacetInXYPlane extends Facet {
     
     normal = calculateNormal(vertices);
     
-    const facetInXYPlane = new FacetInXYPlane(vertices, normal, rotationQuaternion);
+    const maskingFacet = new MaskingFacet(vertices, normal, rotationQuaternion);
 
-    return facetInXYPlane;
+    return maskingFacet;
+  }
+  
+  static fromVertices(vertices) {
+    const facet = Facet.fromVertices(vertices),
+          maskingFacet = MaskingFacet.fromFacet(facet);
+    
+    return maskingFacet;
   }
 }
 
-module.exports = FacetInXYPlane;
+module.exports = MaskingFacet;
