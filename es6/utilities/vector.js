@@ -18,11 +18,11 @@ function dot4(vectorA, vectorB) { return vec4.dot(vectorA, vectorB); }
 
 function cross3(vectorA, vectorB) { return vec3.cross([], vectorA, vectorB); }
 
-function normalise2(vector) { return vec2.normalize([], vector); }
+function normalise2(vector) { return vec2.normalize([], vector); }  ///
 
-function normalise3(vector) { return vec3.normalize([], vector); }
+function normalise3(vector) { return vec3.normalize([], vector); }  ///
 
-function normalise4(vector) { return vec4.normalize([], vector); }
+function normalise4(vector) { return vec4.normalize([], vector); }  ///
 
 function scale2(vector, scalar) { return vec2.scale([], vector, scalar); }
 
@@ -42,11 +42,11 @@ function subtract3(vectorA, vectorB) { return vec3.subtract([], vectorA, vectorB
 
 function subtract4(vectorA, vectorB) { return vec4.subtract([], vectorA, vectorB); }
 
-function transform2(vector, matrix) { return vec2.transformMat2([], vector, matrix); }
+function transform2(vector, matrix) { return vec2.transformMat2([], vector, matrix); }  ///
 
-function transform3(vector, matrix) { return vec3.transformMat3([], vector, matrix); }
+function transform3(vector, matrix) { return vec3.transformMat3([], vector, matrix); }  ///
 
-function transform4(vector, matrix) { return vec4.transformMat4([], vector, matrix); }
+function transform4(vector, matrix) { return vec4.transformMat4([], vector, matrix); }  ///
 
 module.exports = {
   length2: length2,

@@ -38,6 +38,19 @@ class Tilt {
     return zAngle;
   }
   
+  getAngles() {
+    const xAngle = this.getXAngle(),
+          yAngle = this.getYAngle(),
+          zAngle = this.getZAngle(),
+          angles = [
+            xAngle,
+            yAngle,
+            zAngle
+          ];
+    
+    return angles;
+  }
+  
   mouseUpHandler() {
     this.mouseDown = false;
     this.previousAngleCoordinates = this.angleCoordinates;

@@ -6,27 +6,26 @@ const Element = require('../element'),
       tilt = require('./camera/tilt'),
       keyEvents = require('./camera/keyEvents'),
       MouseEvents = require('./camera/mouseEvents'),
-      OffsetMatrix = require('../matrix/offset'),
-      NormalMatrix = require('../matrix/normal'),
-      RotationMatrix = require('../matrix/rotation'),
-      PositionMatrix = require('../matrix/position'),
-      ProjectionMatrix = require('../matrix/projection');
+      cameraUtilities = require('../utilities/camera');
+
+const { offsetMatrixFromOffset, rotationMatrixFromAngles, positionMatrixFromDistance, projectionMatrixFromWidthAndHeight, normalMatrixFromRotationMatrix } = cameraUtilities;
 
 class Camera extends Element {
-  constructor(pan, zoom, handler, mouseDown, canvas) {
+  constructor(tilt, pan, zoom, handler, mouseDown, canvas) {
     super();
-    
+
+    this.tilt = tilt;
     this.pan = pan;
     this.zoom = zoom;
     this.handler = handler;
     this.mouseDown = mouseDown;
     this.canvas = canvas;
   }
-  
+
   mouseUpHandler(mouseCoordinates) {
     this.mouseDown = false;
     
-    tilt.mouseUpHandler();
+    this.tilt.mouseUpHandler();
 
     this.pan.mouseUpHandler();
   }
@@ -34,15 +33,15 @@ class Camera extends Element {
   mouseDownHandler(mouseCoordinates) {
     this.mouseDown = true;
     
-    tilt.mouseDownHandler();
+    this.tilt.mouseDownHandler();
 
     this.pan.mouseDownHandler();
   }
 
   mouseMoveHandler(mouseCoordinates) {
-    tilt.mouseMoveHandler(mouseCoordinates);
+    this.tilt.mouseMoveHandler(mouseCoordinates);
 
-    this.pan.mouseMoveHandler(mouseCoordinates, tilt);
+    this.pan.mouseMoveHandler(mouseCoordinates, this.tilt);
 
     if (this.mouseDown) {
       this.update();
@@ -56,7 +55,7 @@ class Camera extends Element {
   }
 
   shiftKeyHandler(shiftKeyDown) {
-    tilt.shiftKeyHandler(shiftKeyDown);
+    this.tilt.shiftKeyHandler(shiftKeyDown);
 
     this.pan.shiftKeyHandler(shiftKeyDown);
   }
@@ -92,12 +91,13 @@ class Camera extends Element {
     const width = this.canvas.getWidth(),
           height = this.canvas.getHeight(),
           offset = this.pan.getOffset(),
+          angles = this.tilt.getAngles(),
           distance = this.zoom.getDistance(),
-          offsetMatrix = OffsetMatrix.fromOffset(offset),
-          rotationMatrix = RotationMatrix.fromAngles(tilt),
-          positionMatrix = PositionMatrix.fromDistance(distance),
-          projectionMatrix = ProjectionMatrix.fromWidthAndHeight(width, height),
-          normalMatrix = NormalMatrix.fromRotationMatrix(rotationMatrix);
+          offsetMatrix = offsetMatrixFromOffset(offset),
+          rotationMatrix = rotationMatrixFromAngles(angles),
+          positionMatrix = positionMatrixFromDistance(distance),
+          projectionMatrix = projectionMatrixFromWidthAndHeight(width, height),
+          normalMatrix = normalMatrixFromRotationMatrix(rotationMatrix);
     
     if (this.handler) {  ///
       this.handler(offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
@@ -122,7 +122,7 @@ class Camera extends Element {
           zoom = Zoom.fromInitialDistance(initialDistance),
           handler = null,  ///
           mouseDown = false,
-          camera = new Camera(pan, zoom, handler, mouseDown, canvas);
+          camera = new Camera(tilt, pan, zoom, handler, mouseDown, canvas);
     
     camera.initialise();
 

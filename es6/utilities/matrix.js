@@ -4,11 +4,11 @@ const mat2 = require('gl-mat2');
 const mat3 = require('gl-mat3');
 const mat4 = require('gl-mat4');
 
-function identity2() { return mat2.create(); }
+function identity2() { return mat2.create(); }  ///
 
-function identity3() { return mat3.create(); }
+function identity3() { return mat3.create(); }  ///
 
-function identity4() { return mat4.create(); }
+function identity4() { return mat4.create(); }  ///
 
 function invert2(matrix) { return mat2.invert([], matrix); }
 
