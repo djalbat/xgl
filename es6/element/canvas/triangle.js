@@ -1,28 +1,35 @@
 'use strict';
 
 const Facet = require('../../facet'),
+      Mask = require('../../element/mask'),
       vectorUtilities = require('../../utilities/vector'),
       ColouredCanvasElement = require('../../element/canvas/coloured');
 
-const MaskingFacet = require('../../maskingFacet');
-
 const { normalise3 } = vectorUtilities;
 
-const facets = calculateFacets();
+const defaultVertices = [
+  [ 0, 0, 0 ],
+  [ 1, 0, 0 ],
+  [ 0, 1, 0 ]
+];
 
 class Triangle extends ColouredCanvasElement {
-  constructor(transform, colour) {
+  constructor(transform, colour, facets) {
     super(transform, colour);
 
-    this.facets = facets; ///
+    this.facets = facets;
+  }
+
+  getColour() {
+    return this.colour;
   }
 
   getFacets() {
     return this.facets;
   }
 
-  getColour() {
-    return this.colour;
+  setFacets(facets) {
+    this.facets = facets;
   }
 
   getInitialVertexPositions() {
@@ -87,6 +94,23 @@ class Triangle extends ColouredCanvasElement {
   }
 
   create(colourRenderer, textureRenderer, transforms) {
+    // super.create(colourRenderer, textureRenderer, transforms);
+
+    transforms = [this.transform, ...transforms]; ///
+
+    const childElements = this.getChildElements();
+
+    childElements.forEach(function(childElement) {
+      childElement.create(colourRenderer, textureRenderer, transforms);
+
+      if (childElement instanceof Mask) {
+        const mask = childElement,  ///
+              element = this; ///
+
+        mask.maskElement(element);
+      }
+    }.bind(this));
+
     const vertexPositions = this.calculateVertexPositions(transforms),
           vertexIndexes = this.calculateVertexIndexes(vertexPositions),
           vertexNormals = this.calculateVertexNormals(vertexPositions),
@@ -96,29 +120,18 @@ class Triangle extends ColouredCanvasElement {
     colourRenderer.addVertexIndexes(vertexIndexes);
     colourRenderer.addVertexNormals(vertexNormals);
     colourRenderer.addVertexColours(vertexColours);
-
-    super.create(colourRenderer, textureRenderer, transforms);
   }
 
-  static fromProperties(properties) { return ColouredCanvasElement.fromProperties(Triangle, properties); }
+  static fromProperties(properties) {
+    const { vertices = defaultVertices } = properties,
+          facet = Facet.fromVertices(vertices),
+          facets = [
+            facet
+          ],
+          triangle = ColouredCanvasElement.fromProperties(Triangle, properties, facets);
+
+    return triangle;
+  }
 }
 
 module.exports = Triangle;
-
-function calculateFacets() {
-  const facetVertices = [
-          [ 0, 0, 0 ],
-          [ 5, 0, 0 ],
-          [ 0, 5, 0 ],
-        ],
-        maskingFacetVertices = [
-          [ 2, 1, 0 ],
-          [ 2, 2, 0 ],
-          [ 1, 2, 0 ],
-        ],
-        facet = Facet.fromVertices(facetVertices),
-        maskingFacet = MaskingFacet.fromVertices(maskingFacetVertices),
-        facets = maskingFacet.maskFacet(facet);
-
-  return facets;
-}

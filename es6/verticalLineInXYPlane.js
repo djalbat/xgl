@@ -39,34 +39,39 @@ class VerticalLineInXYPlane extends LineInXYPlane {
   
   splitFacets(facets) {
     const forwardsRotationAboutZAxisMatrix = this.getForwardsRotationAboutZAxisMatrix(),
-          backwardsRotationAboutZAxisMatrix = this.getBackwardsRotationAboutZAxisMatrix();
-
-    facets = facets.reduce(function(facets, facet) {
+          backwardsRotationAboutZAxisMatrix = this.getBackwardsRotationAboutZAxisMatrix(),
+          facetsFromSplit = [];
+    
+    facets.forEach(function(facet) {
       facet.rotateAboutZAxis(forwardsRotationAboutZAxisMatrix);
 
-      const facetsFromSplit = this.splitFacet(facet);
+      this.splitFacet(facet, facetsFromSplit);
+    }.bind(this));
 
-      facetsFromSplit.forEach(function(facetFromSplit) {
-        facetFromSplit.rotateAboutZAxis(backwardsRotationAboutZAxisMatrix);
-      });
 
-      facets = facets.concat(facetsFromSplit);
+    facetsFromSplit.forEach(function(facetFromSplit) {
+      facetFromSplit.rotateAboutZAxis(backwardsRotationAboutZAxisMatrix);
+    });
 
-      return facets;
-    }.bind(this), []);
-    
-    return facets;    
+    return facetsFromSplit;    
   }
 
-  splitFacet(facet) {
+  splitFacet(facet, facetsFromSplit) {
     const intersections = this.calculateIntersectionsWithFacet(facet),
           intersectionsIncludesNull = intersections.includes(null),
           facets = intersectionsIncludesNull ?
                      facet.splitWithNullIntersection(intersections) :
-                       facet.splitWithoutNullIntersection(intersections),
-          facetsFromSplit = calculateFacetsFromSplit(facets);
+                       facet.splitWithoutNullIntersection(intersections);
+    
+    facets.forEach(function(facet) {
+      const facetTooSmall = facet.isTooSmall();
 
-    return facetsFromSplit;
+      if (!facetTooSmall) {
+        const facetFromSplit = facet; ///
+        
+        facetsFromSplit.push(facetFromSplit);
+      }
+    });
   }
 
   calculateIntersectionsWithFacet(facet) {
@@ -132,19 +137,3 @@ class VerticalLineInXYPlane extends LineInXYPlane {
 }
 
 module.exports = VerticalLineInXYPlane;
-
-function calculateFacetsFromSplit(facets) {
-  const facetsFromSplit = facets.reduce(function(facetsFromSplit, facet) {
-    const facetTooSmall = facet.isTooSmall();
-
-    if (!facetTooSmall) {
-      const facetFromSplit = facet; ///
-
-      facetsFromSplit.push(facetFromSplit);
-    }
-
-    return facetsFromSplit;
-  }, []);
-
-  return facetsFromSplit;
-}

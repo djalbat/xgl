@@ -4,7 +4,7 @@ class Element {
   getChildElements() {
     return this.childElements;
   }
-
+  
   setChildElements(childElements) {
     this.childElements = childElements;
   }

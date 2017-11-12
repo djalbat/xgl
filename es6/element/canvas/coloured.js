@@ -36,9 +36,9 @@ class ColouredCanvasElement extends CanvasElement {
     super.create(colourRenderer, textureRenderer, transforms);
   }
 
-  static fromProperties(Class, properties) {
+  static fromProperties(Class, properties, ...remainingArguments) {
     const { colour } = properties,
-          colouredCanvasElement = CanvasElement.fromProperties(Class, properties, colour);
+          colouredCanvasElement = CanvasElement.fromProperties(Class, properties, colour, ...remainingArguments);
 
     return colouredCanvasElement;
   }

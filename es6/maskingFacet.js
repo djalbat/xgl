@@ -35,52 +35,54 @@ class MaskingFacet extends Facet {
     return linesInXYPlane;
   }
   
-  maskFacet(facet) {
-    const linesInXYPlane = this.getLinesInXYPlane(),
-          forwardsRotationQuaternion = calculateForwardsRotationQuaternion(this.rotationQuaternion),
+  maskFacet(facet, maskedFacets) {
+    const forwardsRotationQuaternion = calculateForwardsRotationQuaternion(this.rotationQuaternion),
           backwardsRotationQuaternion = calculateBackwardsRotationQuaternion(this.rotationQuaternion);
 
     facet.rotate(forwardsRotationQuaternion);
+
+    const facetsFromSplit = this.splitFacet(facet);
+
+    this.maskFacetsFromSplit(facetsFromSplit, maskedFacets);
+
+    maskedFacets.forEach(function(maskedFacet) {
+      maskedFacet.rotate(backwardsRotationQuaternion);
+    });
+  }
+  
+  splitFacet(facet) {
+    const linesInXYPlane = this.getLinesInXYPlane();
 
     let facets = [
       facet
     ];
 
-    facets = this.splitFacetsWithLinesInXYPlane(facets, linesInXYPlane);
+    linesInXYPlane.forEach(function(lineInXYPlane) {
+      const verticalLineInXYPlane = VerticalLineInXYPlane.fromLineInXYPlane(lineInXYPlane),
+            facetsFromSplit = verticalLineInXYPlane.splitFacets(facets);
 
-    facets = this.keepFacetsOutsideLinesInXYPlane(facets, linesInXYPlane);
-
-    facets.forEach(function(facet) {
-      facet.rotate(backwardsRotationQuaternion);
+      facets = facetsFromSplit; ///
     });
 
-    return facets;
-  }
-  
-  splitFacetsWithLinesInXYPlane(facets, linesInXYPlane) {
-    facets = linesInXYPlane.reduce(function(facets, lineInXYPlane) {
-      const verticalLineInXYPlane = VerticalLineInXYPlane.fromLineInXYPlane(lineInXYPlane);
+    const facetsFromSplit = facets; ///
 
-      facets = verticalLineInXYPlane.splitFacets(facets);
-
-      return facets;
-    }, facets);
-    
-    return facets;
+    return facetsFromSplit;
   }
 
-  keepFacetsOutsideLinesInXYPlane(facets, linesInXYPlane) {
-    facets = facets.reduce(function(facets, facet, index) {
-      const outsideLinesInXYPlane = facet.isOutsideLinesInXYPlane(linesInXYPlane);
+  maskFacetsFromSplit(facetsFromSplit, maskedFacets) {
+    const linesInXYPlane = this.getLinesInXYPlane();
+
+    facetsFromSplit.forEach(function(facetFromSplit) {
+      const outsideLinesInXYPlane = facetFromSplit.isOutsideLinesInXYPlane(linesInXYPlane);
       
       if (outsideLinesInXYPlane) {
-        facets.push(facet);
+        const maskedFacet = facetFromSplit; ///
+        
+        maskedFacets.push(maskedFacet);
       }
-      
-      return facets;
-    }, []);
+    });
     
-    return facets;
+    return maskedFacets;
   }
 
   static fromFacet(facet) {
