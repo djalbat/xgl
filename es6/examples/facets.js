@@ -14,7 +14,7 @@ const facets = () => {
 
     <Scene canvas={canvas}>
       <Camera initialDistance={20} initialOffset={[ 0, 0, 0 ]} canvas={canvas} />
-      <Triangle />
+      <Triangle colour={[ 1, 1, 0, 1 ]} />
     </Scene>
 
   )();

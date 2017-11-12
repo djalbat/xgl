@@ -1,24 +1,20 @@
 'use strict';
 
 const Facet = require('../../facet'),
-      CanvasElement = require('../../element/canvas'),
       vectorUtilities = require('../../utilities/vector'),
-      transformUtilities = require('../../utilities/transform');
+      ColouredCanvasElement = require('../../element/canvas/coloured');
 
 const MaskingFacet = require('../../maskingFacet');
 
-const { normalise3 } = vectorUtilities,
-      { composeTransform } = transformUtilities;
+const { normalise3 } = vectorUtilities;
 
-const facets = calculateFacets(),
-      colour = [ 1, 0, 0, 1 ];
+const facets = calculateFacets();
 
-class Triangle extends CanvasElement {
-  constructor(transform) {
-    super(transform);
+class Triangle extends ColouredCanvasElement {
+  constructor(transform, colour) {
+    super(transform, colour);
 
     this.facets = facets; ///
-    this.colour = colour; ///
   }
 
   getFacets() {
@@ -47,20 +43,6 @@ class Triangle extends CanvasElement {
     return initialVertexPositions;
   }
 
-  calculateVertexIndexes(vertexPositions) {
-    let vertexIndex = 0;
-
-    const vertexIndexes = this.facets.reduce(function(vertexIndexes, facet) {
-            vertexIndexes = [ ...vertexIndexes, vertexIndex + 0, vertexIndex + 1, vertexIndex + 2 ];
-
-            vertexIndex += 3;
-
-            return vertexIndexes;
-          }, []);
-
-    return vertexIndexes;
-  }
-
   calculateVertexNormals(vertexPositions) {
     const vertexNormals = this.facets.reduce(function(vertexNormals, facet) {
       const normal = facet.getNormal(),
@@ -74,6 +56,20 @@ class Triangle extends CanvasElement {
     }, []);
 
     return vertexNormals;
+  }
+
+  calculateVertexIndexes(vertexPositions) {
+    let vertexIndex = 0;
+
+    const vertexIndexes = this.facets.reduce(function(vertexIndexes, facet) {
+      vertexIndexes = [ ...vertexIndexes, vertexIndex + 0, vertexIndex + 1, vertexIndex + 2 ];
+
+      vertexIndex += 3;
+
+      return vertexIndexes;
+    }, []);
+
+    return vertexIndexes;
   }
 
   calculateVertexColours(vertexPositions) {
@@ -104,14 +100,7 @@ class Triangle extends CanvasElement {
     super.create(colourRenderer, textureRenderer, transforms);
   }
 
-  static fromProperties(properties, ...remainingArguments) {
-    const { width, height, depth, position, rotations } = properties,
-          transform = composeTransform(width, height, depth, position, rotations),
-          Class = Triangle,
-          canvasElement = CanvasElement.fromProperties(Class, properties, transform, ...remainingArguments);
-
-    return canvasElement;
-  }
+  static fromProperties(properties) { return ColouredCanvasElement.fromProperties(Triangle, properties); }
 }
 
 module.exports = Triangle;

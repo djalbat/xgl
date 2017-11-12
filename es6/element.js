@@ -9,7 +9,9 @@ class Element {
     this.childElements = childElements;
   }
 
-  create(colourRenderer, textureRenderer, transforms) {}
+  create(colourRenderer, textureRenderer, transforms) {
+    ///
+  }
 
   assignContext(names, thenDelete) {
     const argumentsLength = arguments.length;
@@ -44,7 +46,7 @@ class Element {
       if (thenDelete) {
         delete this.context[name];
       }
-    }.bind(this), []);
+    }.bind(this));
   }
 
   updateContext(childElement) {
