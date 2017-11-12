@@ -1,9 +1,9 @@
 'use strict';
 
 const Element = require('../element'),
+      tilt = require('./camera/tilt'),
       Pan = require('./camera/pan'),
       Zoom = require('./camera/zoom'),
-      tilt = require('./camera/tilt'),
       keyEvents = require('./camera/keyEvents'),
       MouseEvents = require('./camera/mouseEvents'),
       cameraUtilities = require('../utilities/camera');
