@@ -1,13 +1,11 @@
 'use strict';
 
-const vec2 = require('../../maths/vec2'),
-      vec3 = require('../../maths/vec3'),
-      constants = require('../../constants'),
-      arrayUtilities = require('../../utilities/array');
+const constants = require('../../constants'),
+      arrayUtilities = require('../../utilities/array'),
+      vectorUtilities = require('../../utilities/vector');
 
 const { first, second } = arrayUtilities,
-      { add } = vec3,
-      { subtract, scale } = vec2,
+      { add3, subtract2, scale2 } = vectorUtilities,
       { OFFSET_SCALAR, INITIAL_MOUSE_COORDINATES } = constants;
 
 class Pan {
@@ -60,8 +58,8 @@ class Pan {
     const xAngle = angles.getXAngle(),
           yAngle = angles.getYAngle(),
           scalar = OFFSET_SCALAR,
-          relativeMouseCoordinates = subtract(this.mouseCoordinates, this.previousMouseCoordinates),
-          relativeOffset = scale(relativeMouseCoordinates, scalar),
+          relativeMouseCoordinates = subtract2(this.mouseCoordinates, this.previousMouseCoordinates),
+          relativeOffset = scale2(relativeMouseCoordinates, scalar),
           firstRelativeOffset = first(relativeOffset),
           secondRelativeOffset = second(relativeOffset);
 
@@ -72,7 +70,7 @@ class Pan {
             y = 0,
             z = -Math.sin(yAngle) * firstRelativeOffset;
 
-      offset = add(offset, [x, y, z]);
+      offset = add3(offset, [x, y, z]);
     })();
 
     (function() {
@@ -80,7 +78,7 @@ class Pan {
             y = -Math.cos(xAngle) * secondRelativeOffset,
             z = +Math.sin(xAngle) * Math.cos(yAngle) * secondRelativeOffset;
 
-      offset = add(offset, [x, y, z]);
+      offset = add3(offset, [x, y, z]);
     })();
 
     this.offset = offset;

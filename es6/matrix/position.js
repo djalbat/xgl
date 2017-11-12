@@ -1,9 +1,9 @@
 'use strict';
 
-const mat4 = require('../maths/mat4'),
-      Matrix = require('../matrix');
+const Matrix = require('../matrix'),
+      mathsUtiltities = require('../utilities/maths');
 
-const { create, translate } = mat4;
+const { identity4, translate4 } = mathsUtiltities;
 
 class PositionMatrix extends Matrix {
   static fromDistance(distance) {
@@ -16,10 +16,11 @@ class PositionMatrix extends Matrix {
   }
 
   static fromCoordinates(x, y, z) {
-    const mat4 = create(),
-          positionMatrix = new PositionMatrix(mat4);
+    let matrix = identity4();
 
-    translate(mat4, mat4, [ x, y, z ]);
+    matrix = translate4(matrix, [ x, y, z ]);
+
+    const positionMatrix = new PositionMatrix(matrix);
 
     return positionMatrix;
   }

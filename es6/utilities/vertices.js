@@ -1,10 +1,10 @@
 'use strict';
 
-const vec3 = require('../maths/vec3'),
+const vectorUtilities = require('../utilities/vector'),
       arrayUtilities = require('../utilities/array'),
       quaternionUtilities = require('../utilities/quaternion');
 
-const { subtract, cross } = vec3,
+const { subtract3, cross3 } = vectorUtilities,
       { first, second, third } = arrayUtilities,
       { calculateInverseRotationQuaternion, rotateImaginaryQuaternion } = quaternionUtilities;
 
@@ -12,9 +12,9 @@ function calculateNormal(vertices) {
   const firstVertex = first(vertices),
         secondVertex = second(vertices),
         thirdVertex = third(vertices),
-        firstEdge = subtract(secondVertex, firstVertex),
-        secondEdge = subtract(thirdVertex, firstVertex),
-        normal = cross(firstEdge, secondEdge);
+        firstEdge = subtract3(secondVertex, firstVertex),
+        secondEdge = subtract3(thirdVertex, firstVertex),
+        normal = cross3(firstEdge, secondEdge);
 
   return normal;
 }

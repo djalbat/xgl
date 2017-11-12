@@ -1,13 +1,13 @@
 'use strict';
 
-const vec3 = require('./maths/vec3'),
-      LineInXYPlane = require('./lineInXYPlane'),
+const LineInXYPlane = require('./lineInXYPlane'),
       arrayUtilities = require('./utilities/array'),
+      vectorUtilities = require('./utilities/vector'),
       vertexUtilities = require('./utilities/vertex');
 
-const { add, subtract, normalise } = vec3,
-      { rotate } = vertexUtilities,
-      { first, second, fourth } = arrayUtilities;
+const { rotateAboutZAxis } = vertexUtilities,
+      { first, second, fourth } = arrayUtilities,
+      { add3, subtract3, normalise3 } = vectorUtilities;
 
 class VerticalLineInXYPlane extends LineInXYPlane {
   constructor(position, direction, rotationAboutZAxisMatrix) {
@@ -106,7 +106,7 @@ class VerticalLineInXYPlane extends LineInXYPlane {
     let position = lineInXYPlane.getPosition(),
         direction = lineInXYPlane.getDirection();
 
-    const unitDirection = normalise(direction),
+    const unitDirection = normalise3(direction),
           unitDirectionComponents = unitDirection,  ///
           firstUnitDirectionComponent = first(unitDirectionComponents),
           secondUnitDirectionComponent = second(unitDirectionComponents),
@@ -117,13 +117,13 @@ class VerticalLineInXYPlane extends LineInXYPlane {
           rotationAboutZAxisMatrix = [ c, -s, 0, +s, c, 0, 0, 0, 1 ];  ///
 
     let startVertex = position.slice(),
-        endVertex = add(position, direction);
+        endVertex = add3(position, direction);
 
-    startVertex = rotate(startVertex, rotationAboutZAxisMatrix);
-    endVertex = rotate(endVertex, rotationAboutZAxisMatrix);
+    startVertex = rotateAboutZAxis(startVertex, rotationAboutZAxisMatrix);
+    endVertex = rotateAboutZAxis(endVertex, rotationAboutZAxisMatrix);
 
     position = startVertex;
-    direction = subtract(endVertex, startVertex);
+    direction = subtract3(endVertex, startVertex);
 
     const verticalLineInXYPlane = new VerticalLineInXYPlane(position, direction, rotationAboutZAxisMatrix);
 

@@ -1,15 +1,17 @@
 'use strict';
 
 const Line = require('./line'),
-      vec3 = require('./maths/vec3'),
       arrayUtilities = require('./utilities/array'),
+      vectorUtilities = require('./utilities/vector'),
+      vertexUtilities = require('./utilities/vertex'),
       verticesUtilities = require('./utilities/vertices'),
       approximateUtilities = require('./utilities/approximate');
 
-const { add, subtract, scale, transform, length } = vec3,
-      { first, second, third, permute } = arrayUtilities,
+const { first, second, third, permute } = arrayUtilities,
+      { rotateAboutZAxis } = vertexUtilities,
+      { isApproximatelyEqualToZero } = approximateUtilities,
       { calculateNormal, rotateVertices } = verticesUtilities,
-      { isApproximatelyEqualToZero } = approximateUtilities; 
+      { add3, subtract3, scale3, length3 } = vectorUtilities;
 
 class Facet {
   constructor(vertices, normal) {
@@ -41,7 +43,7 @@ class Facet {
   }
   
   isTooSmall() {
-    const normalLength = length(this.normal),
+    const normalLength = length3(this.normal),
           normalLengthApproximatelyEqualToZero = isApproximatelyEqualToZero(normalLength),
           tooSmall = normalLengthApproximatelyEqualToZero;  ///
     
@@ -76,14 +78,8 @@ class Facet {
   }
 
   rotateAboutZAxis(rotationAboutZAxisMatrix) {
-    const mat2 = rotationAboutZAxisMatrix;  ///
-
     this.vertices = this.vertices.map(function(vertex) {
-      let vec = vertex;
-
-      vec = transform(vec, mat2);
-
-      vertex = vec;
+      vertex = rotateAboutZAxis(vertex, rotationAboutZAxisMatrix);
 
       return vertex;
     });
@@ -324,9 +320,9 @@ function isIntersectionNonTrivial(intersection) {
 }
 
 function calculateIntermediateVertex(startVertex, endVertex, nonNullIntersection) {
-  const direction = subtract(endVertex, startVertex),
-      offset = scale(direction, nonNullIntersection),
-      intermediateVertex = add(startVertex, offset);
+  const direction = subtract3(endVertex, startVertex),
+      offset = scale3(direction, nonNullIntersection),
+      intermediateVertex = add3(startVertex, offset);
 
   return intermediateVertex;
 }

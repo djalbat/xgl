@@ -1,16 +1,17 @@
 'use strict';
 
-const mat4 = require('../maths/mat4'),
-      Matrix = require('../matrix');
+const Matrix = require('../matrix'),
+      matrixUtilities = require('../utilities/matrix');
 
-const { create, translate } = mat4;
+const { identity4, translate4 } = matrixUtilities;
 
 class OffsetMatrix extends Matrix {
   static fromOffset(offset) {
-    const mat4 = create(),
-          offsetMatrix = new OffsetMatrix(mat4);
+    let matrix = identity4();
 
-    translate(mat4, mat4, offset);
+    matrix = translate4(matrix, offset);
+
+    const offsetMatrix = new OffsetMatrix(matrix);
 
     return offsetMatrix;
   }

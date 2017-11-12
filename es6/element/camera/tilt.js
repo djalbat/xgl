@@ -1,11 +1,11 @@
 'use strict';
 
-const vec2 = require('../../maths/vec2'),
-      constants = require('../../constants'),
-      arrayUtilities = require('../../utilities/array');
+const constants = require('../../constants'),
+      arrayUtilities = require('../../utilities/array'),
+      vectorUtilities = require('../../utilities/vector');
 
 const { first, second } = arrayUtilities,
-      { add, subtract, scale } = vec2,
+      { add3, subtract3, scale3 } = vectorUtilities,
       { ANGLE_COORDINATES_SCALAR, INITIAL_MOUSE_COORDINATES, INITIAL_ANGLE_COORDINATES } = constants;
 
 class Tilt {
@@ -67,10 +67,10 @@ class Tilt {
 
   updateAngleCoordinates() {
     const scalar = ANGLE_COORDINATES_SCALAR,
-          relativeMouseCoordinates = subtract(this.mouseCoordinates, this.previousMouseCoordinates),
-          relativeAngleCoordinates = scale(relativeMouseCoordinates, scalar);
+          relativeMouseCoordinates = subtract3(this.mouseCoordinates, this.previousMouseCoordinates),
+          relativeAngleCoordinates = scale3(relativeMouseCoordinates, scalar);
 
-    this.angleCoordinates = add(this.previousAngleCoordinates, relativeAngleCoordinates);
+    this.angleCoordinates = add3(this.previousAngleCoordinates, relativeAngleCoordinates);
   }
 
   static fromNothing() {

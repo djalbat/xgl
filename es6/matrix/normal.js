@@ -1,20 +1,22 @@
 'use strict';
 
-const mat4 = require('../maths/mat4'),
-      Matrix = require('../matrix');
+const Matrix = require('../matrix'),
+      matrixUtilities = require('../utilities/matrix');
 
-const { create, invert, transpose } = mat4;
+const { identity4, invert4, transpose4 } = matrixUtilities;
 
 class NormalMatrix extends Matrix {
   static fromRotationMatrix(rotationMatrix) {
-    const mat4 = create(),
-          rotationMat4 = rotationMatrix.getMat4(),
-          normalMatrix = new NormalMatrix(mat4);
+    const rotationMat4 = rotationMatrix.getMat4();
 
-    invert(mat4, rotationMat4);
-    
-    transpose(mat4, mat4);
-    
+    let matrix = identity4();
+
+    matrix = invert4(matrix, rotationMat4);
+
+    matrix = transpose4(matrix);
+
+    const normalMatrix = new NormalMatrix(matrix);
+
     return normalMatrix;
   }
 }

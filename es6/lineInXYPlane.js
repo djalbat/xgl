@@ -1,13 +1,13 @@
 'use strict';
 
 const Line = require('./line'),
-      vec3 = require('./maths/vec3'),
+      vectorUtilities = require('./utilities/vector'),
       arrayUtilities = require('./utilities/array'),
       vertexUtilities = require('./utilities/vertex'),
       approximateUtilities = require('./utilities/approximate');
 
-const { subtract, cross } = vec3,
-      { third } = arrayUtilities,
+const { third } = arrayUtilities,
+      { subtract3, cross3 } = vectorUtilities,
       { projectOntoXYPlane } = vertexUtilities,
       { isApproximatelyEqualToZero } = approximateUtilities;
 
@@ -19,8 +19,8 @@ class LineInXYPlane extends Line {
 
     const position = this.getPosition(),
           direction = this.getDirection(),
-          vertexDirection = subtract(vertex, position),
-          zDirection = cross(direction, vertexDirection), ///
+          vertexDirection = subtract3(vertex, position),
+          zDirection = cross3(direction, vertexDirection), ///
           zDirectionComponents = zDirection,
           thirdZDirectionComponent = third(zDirectionComponents),
           thirdZDirectionComponentApproximatelyEqualToZero = isApproximatelyEqualToZero(thirdZDirectionComponent);
@@ -34,7 +34,7 @@ class LineInXYPlane extends Line {
   
   static fromVertices(startVertex, endVertex) {
     const position = startVertex.slice(),
-          direction = subtract(endVertex, startVertex),
+          direction = subtract3(endVertex, startVertex),
           lineInXYPlane = new LineInXYPlane(position, direction);
 
     return lineInXYPlane;

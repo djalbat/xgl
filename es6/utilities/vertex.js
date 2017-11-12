@@ -1,17 +1,13 @@
 'use strict';
 
-const vec3 = require('../maths/vec3');
+const vectorUtilities = require('../utilities/vector');
 
-const { transform } = vec3;
+const { transform3 } = vectorUtilities;
 
-function rotate(vertex, rotationAboutZAxisMatrix) {
-  let vec = vertex; ///
+function rotateAboutZAxis(vertex, rotationAboutZAxisMatrix) {
+  const matrix = rotationAboutZAxisMatrix;  ///
 
-  const mat3 = rotationAboutZAxisMatrix;  ///
-
-  vec = transform(vec, mat3);
-
-  vertex = vec; ///
+  vertex = transform3(vertex, matrix);
 
   return vertex;
 }
@@ -23,6 +19,6 @@ function projectOntoXYPlane(vertex) {
 }
 
 module.exports = {
-  rotate: rotate,
+  rotateAboutZAxis: rotateAboutZAxis,
   projectOntoXYPlane: projectOntoXYPlane
 };

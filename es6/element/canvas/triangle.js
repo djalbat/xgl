@@ -1,13 +1,13 @@
 'use strict';
 
 const Facet = require('../../facet'),
-      vec3 = require('../../maths/vec3'),
       CanvasElement = require('../../element/canvas'),
+      vectorUtilities = require('../../utilities/vector'),
       transformUtilities = require('../../utilities/transform');
 
 const MaskingFacet = require('../../maskingFacet');
 
-const { normalise } = vec3,
+const { normalise3 } = vectorUtilities,
       { composeTransform } = transformUtilities;
 
 const facets = calculateFacets(),
@@ -64,7 +64,7 @@ class Triangle extends CanvasElement {
   calculateVertexNormals(vertexPositions) {
     const vertexNormals = this.facets.reduce(function(vertexNormals, facet) {
       const normal = facet.getNormal(),
-            vertexNormal = normalise(normal);
+            vertexNormal = normalise3(normal);
 
       vertexNormals.push(vertexNormal);
       vertexNormals.push(vertexNormal);

@@ -1,8 +1,8 @@
 'use strict';
 
-const vec3 = require('./maths/vec3');
+const vectorUtilities = require('./utilities/vector');
 
-const { subtract } = vec3;
+const { subtract3 } = vectorUtilities;
 
 class Line {
   constructor(position, direction) {
@@ -20,7 +20,7 @@ class Line {
 
   static fromVertices(startVertex, endVertex) {
     const position = startVertex.slice(),
-          direction = subtract(endVertex, startVertex),
+          direction = subtract3(endVertex, startVertex),
           line = new Line(position, direction);
 
     return line;

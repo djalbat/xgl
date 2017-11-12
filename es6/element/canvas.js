@@ -1,13 +1,13 @@
 'use strict';
 
 const Element = require('../element'),
-      vec3 = require('../maths/vec3'),
       arrayUtilities = require('../utilities/array'),
+      vectorUtilities = require('../utilities/vector'),
       transformUtilities = require('../utilities/transform');
 
 const { chop } = arrayUtilities,
       { composeTransform } = transformUtilities,
-      { subtract, cross, normalise } = vec3;
+      { subtract3, cross3, normalise3 } = vectorUtilities;
 
 class CanvasElement extends Element {
   constructor(transform) {
@@ -59,9 +59,9 @@ class CanvasElement extends Element {
                     firstVertexPosition = vertexPositions[firstVertexIndex],
                     secondVertexPosition = vertexPositions[secondVertexIndex],
                     thirdVertexPosition = vertexPositions[thirdVertexIndex],
-                    firstVector = subtract(secondVertexPosition, firstVertexPosition),
-                    secondVector = subtract(thirdVertexPosition, firstVertexPosition),
-                    vertexNormal = normalise(cross(firstVector, secondVector));
+                    firstVector = subtract3(secondVertexPosition, firstVertexPosition),
+                    secondVector = subtract3(thirdVertexPosition, firstVertexPosition),
+                    vertexNormal = normalise3(cross3(firstVector, secondVector));
 
               vertexNormals.push(vertexNormal);
             }

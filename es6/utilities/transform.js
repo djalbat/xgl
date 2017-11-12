@@ -1,14 +1,14 @@
 'use strict';
 
-const mat4 = require('../maths/mat4'),
-      vec4 = require('../maths/vec4'),
-      constants = require('../constants'),
-      arrayUtilities = require('../utilities/array');
+const constants = require('../constants'),
+      arrayUtilities = require('../utilities/array'),
+      vectorUtilities = require('../utilities/vector'),
+      matrixUtilities = require('../utilities/matrix');
 
 const { DEGREES_TO_RADIANS } = constants,
+      { transform4 } = vectorUtilities,
       { first, second, third } = arrayUtilities,
-      { create, scale, rotate, translate } = mat4,
-      { transform } = vec4,
+      { identity4, scale4, rotate4, translate4 } = matrixUtilities,
       xAxis = [ 1, 0, 0 ],
       yAxis = [ 0, 1, 0 ],
       zAxis = [ 0, 0, 1 ],
@@ -23,8 +23,8 @@ function composeTransform(width, height, depth, position, rotations) {
         rotate = composeRotate(rotations),
         translate = composeTranslate(position);
 
-  return function(vec) {
-    return translate(rotate(scale(vec)));
+  return function(vector) {
+    return translate(rotate(scale(vector)));
   };
 }
 
@@ -32,40 +32,41 @@ module.exports = module.exports = {
   composeTransform: composeTransform
 };
 
-function compose(mat4) {
-  return function(vec) {
-    return transform([...vec, 1], mat4).slice(0, 3);
+function compose(matrix) {
+  return function(vector) {
+    return transform4([...vector, 1], matrix).slice(0, 3);
   };
 }
 
 function composeScale(width = defaultWidth, height = defaultHeight, depth = defaultDepth) {
-  const mat4 = create();
+  let matrix = identity4();
 
-  scale(mat4, mat4, [ width, height, depth ]);
+  matrix = scale4(matrix, [ width, height, depth ]);
 
-  return compose(mat4);
+  return compose(matrix);
 }
 
 function composeRotate(rotations = defaultRotations) {
-  const mat4 = create(),
-        firstRotation = first(rotations),
+  const firstRotation = first(rotations),
         secondRotation = second(rotations),
         thirdRotation = third(rotations),
         xAngle = firstRotation * DEGREES_TO_RADIANS,  ///
         yAngle = secondRotation * DEGREES_TO_RADIANS, ///
         zAngle = thirdRotation * DEGREES_TO_RADIANS;  ///
 
-  rotate(mat4, mat4, xAngle, xAxis);
-  rotate(mat4, mat4, yAngle, yAxis);
-  rotate(mat4, mat4, zAngle, zAxis);
+  let matrix = identity4();
 
-  return compose(mat4);
+  matrix = rotate4(matrix, xAngle, xAxis);
+  matrix = rotate4(matrix, yAngle, yAxis);
+  matrix = rotate4(matrix, zAngle, zAxis);
+
+  return compose(matrix);
 }
 
 function composeTranslate(position = defaultPosition) {
-  const mat4 = create();
+  let matrix = identity4();
 
-  translate(mat4, mat4, position);
+  matrix = translate4(matrix, position);
 
-  return compose(mat4);
+  return compose(matrix);
 }

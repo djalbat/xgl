@@ -1,8 +1,8 @@
 'use strict';
 
 const CanvasElement = require('../../../element/canvas'),
-    FortyFootContainer = require('../container/fortyFoot'),
-    TwentyFootContainer = require('../container/twentyFoot');
+      FortyFootContainer = require('../container/fortyFoot'),
+      TwentyFootContainer = require('../container/twentyFoot');
 
 class SecondFloor extends CanvasElement {
   childElements() {

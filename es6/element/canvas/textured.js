@@ -2,11 +2,9 @@
 
 const Mask = require('../../element/canvas/mask'),
       CanvasElement = require('../../element/canvas'),
-      maskUtilities = require('../../utilities/mask'),
       imageMapUtilities = require('../../utilities/imageMap');
 
-const { calculateIntersectionOfPlanes } = maskUtilities,
-      { textureCoordinatesFromImageNames } = imageMapUtilities;
+const { textureCoordinatesFromImageNames } = imageMapUtilities;
 
 class TexturedCanvasElement extends CanvasElement {
   constructor(transform, imageName) {
@@ -42,10 +40,9 @@ class TexturedCanvasElement extends CanvasElement {
     if (mask !== undefined) {
       transforms = [this.transform, ...transforms]; ///
 
-      const maskVertexPositions = mask.calculateVertexPositions(transforms),
-            intersection = calculateIntersectionOfPlanes(vertexPositions, maskVertexPositions);
-      
-      
+      const maskVertexPositions = mask.calculateVertexPositions(transforms);
+
+      ///
     }
 
     const vertexIndexes = this.calculateVertexIndexes(vertexPositions),

@@ -1,10 +1,10 @@
 'use strict';
 
-const vec3 = require('../maths/vec3'),
-      arrayUtilities = require('../utilities/array'),
-      angleUtilities = require('../utilities/angle');
+const arrayUtilities = require('../utilities/array'),
+      angleUtilities = require('../utilities/angle'),
+      vectorUtilities = require('../utilities/vector');
 
-const { normalise } = vec3,
+const { normalise3 } = vectorUtilities,
       { first, second, third, fourth } = arrayUtilities,
       { calculateHalfAngleCosine, calculateHalfAngleSine } = angleUtilities;
 
@@ -22,7 +22,7 @@ function calculateRotationQuaternion(normal) {
         axisOfRotation = (angleOfRotationCosineAbsoluteValue === 1) ?
                            [1, 0, 0] : ///
                              crossProductOfNormalWithZAxis,
-        unitAxisOfRotation = normalise(axisOfRotation),
+        unitAxisOfRotation = normalise3(axisOfRotation),
         halfAngleOfRotationCosine = calculateHalfAngleCosine(angleOfRotationCosine),
         halfAngleOfRotationSine = calculateHalfAngleSine(angleOfRotationCosine),
         unitAxisOfRotationComponents = unitAxisOfRotation,  ///
@@ -85,7 +85,7 @@ module.exports = {
 };
 
 function calculateAngleCosineBetweenNormalAndZAxis(normal) {
-  const unitNormal = normalise(normal),
+  const unitNormal = normalise3(normal),
         unitNormalComponents = unitNormal,  ///
         thirdUnitNormalComponent = third(unitNormalComponents),
         angleCosineBetweenNormalAndZAxis = thirdUnitNormalComponent;  ///
