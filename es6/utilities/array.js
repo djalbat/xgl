@@ -22,6 +22,16 @@ function chop(elements, arrayLength) {
   return arrays;
 }
 
+function dilute(elements, array, test) {
+  elements.forEach(function(element, index) {
+    const passed = test(element, index);
+
+    if (passed) {
+      array.push(element);
+    }
+  });
+}
+
 function permute(elements, places) {
   const length = elements.length,
         cut = length - places,
@@ -47,6 +57,7 @@ function guarantee(arrayOrElement) {
 
 module.exports = Object.assign(arrayUtilities, {
   chop: chop,
+  dilute: dilute,
   permute: permute,
   flatten: flatten,
   guarantee: guarantee

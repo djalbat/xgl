@@ -63,7 +63,7 @@ class Pan {
           firstRelativeOffset = first(relativeOffset),
           secondRelativeOffset = second(relativeOffset);
 
-    let offset = this.previousOffset.slice();
+    let offset = this.previousOffset.slice(); ///
 
     (function() {
       const x = -Math.cos(yAngle) * firstRelativeOffset,

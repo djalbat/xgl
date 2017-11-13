@@ -3,11 +3,13 @@
 const LineInXYPlane = require('./lineInXYPlane'),
       arrayUtilities = require('./utilities/array'),
       vectorUtilities = require('./utilities/vector'),
-      vertexUtilities = require('./utilities/vertex');
+      vertexUtilities = require('./utilities/vertex'),
+      rotationUtilities = require('./utilities/rotation');
 
-const { rotateAboutZAxis } = vertexUtilities,
-      { first, second, fourth } = arrayUtilities,
-      { add3, subtract3, normalise3 } = vectorUtilities;
+const { first, second } = arrayUtilities,
+      { rotateAboutZAxis } = vertexUtilities,
+      { add3, subtract3, normalise3 } = vectorUtilities,
+      { calculateForwardsRotationAboutZAxisMatrix, calculateBackwardsRotationAboutZAxisMatrix } = rotationUtilities;
 
 class VerticalLineInXYPlane extends LineInXYPlane {
   constructor(position, direction, rotationAboutZAxisMatrix) {
@@ -20,58 +22,28 @@ class VerticalLineInXYPlane extends LineInXYPlane {
     return this.rotationAboutZAxisMatrix;
   }
 
-  getForwardsRotationAboutZAxisMatrix() {
-    const forwardsRotationAboutZAxisMatrix = this.rotationAboutZAxisMatrix; ///
-    
-    return forwardsRotationAboutZAxisMatrix;
-  }
-  
-  getBackwardsRotationAboutZAxisMatrix() {
-    const rotationAboutZAxisMatrixComponents = this.rotationAboutZAxisMatrix, ///
-          firstRotationAboutZAxisMatrixComponent = first(rotationAboutZAxisMatrixComponents),
-          fourthRotationAboutZAxisMatrixComponent = fourth(rotationAboutZAxisMatrixComponents),
-          c = firstRotationAboutZAxisMatrixComponent, ///
-          s = fourthRotationAboutZAxisMatrixComponent,  ///
-          backwardsRotationAboutZAxisMatrix = [ c, +s, 0, -s, c, 0, 0, 0, 1 ];
-    
-    return backwardsRotationAboutZAxisMatrix;
-  }
-  
   splitFacets(facets) {
-    const forwardsRotationAboutZAxisMatrix = this.getForwardsRotationAboutZAxisMatrix(),
-          backwardsRotationAboutZAxisMatrix = this.getBackwardsRotationAboutZAxisMatrix(),
-          facetsFromSplit = [];
+    const smallerFacets = [],
+          forwardsRotationAboutZAxisMatrix = calculateForwardsRotationAboutZAxisMatrix(this.rotationAboutZAxisMatrix),
+          backwardsRotationAboutZAxisMatrix = calculateBackwardsRotationAboutZAxisMatrix(this.rotationAboutZAxisMatrix);
     
     facets.forEach(function(facet) {
       facet.rotateAboutZAxis(forwardsRotationAboutZAxisMatrix);
 
-      this.splitFacet(facet, facetsFromSplit);
+      this.splitFacet(facet, smallerFacets);
     }.bind(this));
-
-
-    facetsFromSplit.forEach(function(facetFromSplit) {
-      facetFromSplit.rotateAboutZAxis(backwardsRotationAboutZAxisMatrix);
+    
+    smallerFacets.forEach(function(smallerFacet) {
+      smallerFacet.rotateAboutZAxis(backwardsRotationAboutZAxisMatrix);
     });
 
-    return facetsFromSplit;    
+    return smallerFacets;    
   }
 
-  splitFacet(facet, facetsFromSplit) {
-    const intersections = this.calculateIntersectionsWithFacet(facet),
-          intersectionsIncludesNull = intersections.includes(null),
-          facets = intersectionsIncludesNull ?
-                     facet.splitWithNullIntersection(intersections) :
-                       facet.splitWithoutNullIntersection(intersections);
-    
-    facets.forEach(function(facet) {
-      const facetTooSmall = facet.isTooSmall();
+  splitFacet(facet, smallerFacets) {
+    const intersections = this.calculateIntersectionsWithFacet(facet);
 
-      if (!facetTooSmall) {
-        const facetFromSplit = facet; ///
-        
-        facetsFromSplit.push(facetFromSplit);
-      }
-    });
+    facet.split(intersections, smallerFacets);
   }
 
   calculateIntersectionsWithFacet(facet) {
@@ -121,7 +93,7 @@ class VerticalLineInXYPlane extends LineInXYPlane {
           s = angleOfRotationSine,
           rotationAboutZAxisMatrix = [ c, -s, 0, +s, c, 0, 0, 0, 1 ];  ///
 
-    let startVertex = position.slice(),
+    let startVertex = position.slice(), ///
         endVertex = add3(position, direction);
 
     startVertex = rotateAboutZAxis(startVertex, rotationAboutZAxisMatrix);

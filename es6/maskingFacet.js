@@ -2,12 +2,14 @@
 
 const Facet = require('./facet'),
       LineInXYPlane = require('./lineInXYPlane'),
-      VerticalLineInXYPlane = require('./verticalLineInXYPlane'),
+      arrayUtilities = require('./utilities/array'),
       verticesUtilities = require('./utilities/vertices'),
-      quaternionUtilities = require('./utilities/quaternion');
+      rotationUtilities = require('./utilities/rotation'),
+      VerticalLineInXYPlane = require('./verticalLineInXYPlane');
 
-const { calculateNormal, rotateVertices } = verticesUtilities,
-      { calculateRotationQuaternion, calculateForwardsRotationQuaternion, calculateBackwardsRotationQuaternion } = quaternionUtilities;
+const { dilute } = arrayUtilities,
+      { calculateNormal, rotateVertices } = verticesUtilities,
+      { calculateRotationQuaternion, calculateForwardsRotationQuaternion, calculateBackwardsRotationQuaternion } = rotationUtilities;
 
 class MaskingFacet extends Facet {
   constructor(vertices, normal, rotationQuaternion) {
@@ -34,19 +36,19 @@ class MaskingFacet extends Facet {
 
     return linesInXYPlane;
   }
-  
-  maskFacet(facet, maskedFacets) {
+
+  maskFacet(facet, unmaskedFacets) {
     const forwardsRotationQuaternion = calculateForwardsRotationQuaternion(this.rotationQuaternion),
           backwardsRotationQuaternion = calculateBackwardsRotationQuaternion(this.rotationQuaternion);
 
     facet.rotate(forwardsRotationQuaternion);
 
-    const facetsFromSplit = this.splitFacet(facet);
+    const smallerFacets = this.splitFacet(facet);
 
-    this.maskFacetsFromSplit(facetsFromSplit, maskedFacets);
+    this.diluteSmallerFacets(smallerFacets, unmaskedFacets);
 
-    maskedFacets.forEach(function(maskedFacet) {
-      maskedFacet.rotate(backwardsRotationQuaternion);
+    unmaskedFacets.forEach(function(unmaskedFacet) {
+      unmaskedFacet.rotate(backwardsRotationQuaternion);
     });
   }
   
@@ -54,35 +56,30 @@ class MaskingFacet extends Facet {
     const linesInXYPlane = this.getLinesInXYPlane();
 
     let facets = [
-      facet
-    ];
+          facet
+        ],
+        smallerFacets = facets; ///
 
     linesInXYPlane.forEach(function(lineInXYPlane) {
-      const verticalLineInXYPlane = VerticalLineInXYPlane.fromLineInXYPlane(lineInXYPlane),
-            facetsFromSplit = verticalLineInXYPlane.splitFacets(facets);
+      const verticalLineInXYPlane = VerticalLineInXYPlane.fromLineInXYPlane(lineInXYPlane);
 
-      facets = facetsFromSplit; ///
+      smallerFacets = verticalLineInXYPlane.splitFacets(facets);
+
+      facets = smallerFacets; ///
     });
 
-    const facetsFromSplit = facets; ///
-
-    return facetsFromSplit;
+    return smallerFacets;
   }
 
-  maskFacetsFromSplit(facetsFromSplit, maskedFacets) {
+  diluteSmallerFacets(smallerFacets, unmaskedFacets) {
     const linesInXYPlane = this.getLinesInXYPlane();
 
-    facetsFromSplit.forEach(function(facetFromSplit) {
-      const outsideLinesInXYPlane = facetFromSplit.isOutsideLinesInXYPlane(linesInXYPlane);
-      
-      if (outsideLinesInXYPlane) {
-        const maskedFacet = facetFromSplit; ///
-        
-        maskedFacets.push(maskedFacet);
-      }
+    dilute(smallerFacets, unmaskedFacets, function(smallerFacet) {
+      const smallerFacetOutsideLinesInXYPlane = smallerFacet.isOutsideLinesInXYPlane(linesInXYPlane),
+            smallerFacetUnmasked = smallerFacetOutsideLinesInXYPlane; ///
+
+      return smallerFacetUnmasked;
     });
-    
-    return maskedFacets;
   }
 
   static fromFacet(facet) {

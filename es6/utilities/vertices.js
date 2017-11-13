@@ -1,12 +1,12 @@
 'use strict';
 
-const vectorUtilities = require('../utilities/vector'),
-      arrayUtilities = require('../utilities/array'),
-      quaternionUtilities = require('../utilities/quaternion');
+const arrayUtilities = require('../utilities/array'),
+      vectorUtilities = require('../utilities/vector'),
+      rotationUtilities = require('../utilities/rotation');
 
 const { subtract3, cross3 } = vectorUtilities,
       { first, second, third } = arrayUtilities,
-      { calculateInverseRotationQuaternion, rotateImaginaryQuaternion } = quaternionUtilities;
+      { calculateInverseRotationQuaternion, rotateImaginaryQuaternion } = rotationUtilities;
 
 function calculateNormal(vertices) {
   const firstVertex = first(vertices),

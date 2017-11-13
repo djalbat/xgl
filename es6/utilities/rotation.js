@@ -56,13 +56,13 @@ function calculateInverseRotationQuaternion(rotationQuaternion) {
 }
 
 function calculateForwardsRotationQuaternion(rotationQuaternion) {
-  const forwardsRotationQuaternion = rotationQuaternion.slice();
+  const forwardsRotationQuaternion = rotationQuaternion;  ///
 
   return forwardsRotationQuaternion;
 }
 
 function calculateBackwardsRotationQuaternion(rotationQuaternion) {
-  const rotationQuaternionComponents = rotationQuaternion.slice(), ///
+  const rotationQuaternionComponents = rotationQuaternion,  ///
         backwardsRotationQuaternionComponents = rotationQuaternionComponents.map(function(rotationQuaternionComponent, index) {
           const backwardsRotationQuaternionComponent = (index < 1) ?  ///
               +rotationQuaternionComponent :
@@ -76,12 +76,31 @@ function calculateBackwardsRotationQuaternion(rotationQuaternion) {
 
 }
 
+function calculateForwardsRotationAboutZAxisMatrix(rotationAboutZAxisMatrix) {
+  const forwardsRotationAboutZAxisMatrix = rotationAboutZAxisMatrix; ///
+
+  return forwardsRotationAboutZAxisMatrix;
+}
+
+function calculateBackwardsRotationAboutZAxisMatrix(rotationAboutZAxisMatrix) {
+  const rotationAboutZAxisMatrixComponents = rotationAboutZAxisMatrix, ///
+        firstRotationAboutZAxisMatrixComponent = first(rotationAboutZAxisMatrixComponents),
+        fourthRotationAboutZAxisMatrixComponent = fourth(rotationAboutZAxisMatrixComponents),
+        c = firstRotationAboutZAxisMatrixComponent, ///
+        s = fourthRotationAboutZAxisMatrixComponent,  ///
+        backwardsRotationAboutZAxisMatrix = [ c, +s, 0, -s, c, 0, 0, 0, 1 ];
+
+  return backwardsRotationAboutZAxisMatrix;
+}
+
 module.exports = {
   rotateImaginaryQuaternion: rotateImaginaryQuaternion,
   calculateRotationQuaternion: calculateRotationQuaternion,
   calculateInverseRotationQuaternion: calculateInverseRotationQuaternion,
   calculateForwardsRotationQuaternion: calculateForwardsRotationQuaternion,
-  calculateBackwardsRotationQuaternion: calculateBackwardsRotationQuaternion
+  calculateBackwardsRotationQuaternion: calculateBackwardsRotationQuaternion,
+  calculateForwardsRotationAboutZAxisMatrix: calculateForwardsRotationAboutZAxisMatrix,
+  calculateBackwardsRotationAboutZAxisMatrix: calculateBackwardsRotationAboutZAxisMatrix
 };
 
 function calculateAngleCosineBetweenNormalAndZAxis(normal) {

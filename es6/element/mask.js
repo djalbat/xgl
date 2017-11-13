@@ -21,7 +21,7 @@ class Mask extends Element {
     return facets;
   }
   
-  getMaskingFacets() {
+  getMaskFacets() {
     const facets = this.getFacets(),
           maskingFacets = facets.map(MaskingFacet.fromFacet);
     
@@ -39,16 +39,16 @@ class Mask extends Element {
   maskElement(element) {
     let facets = element.getFacets();
     
-    const maskingFacets = this.getMaskingFacets();
+    const maskingFacets = this.getMaskFacets();
 
     maskingFacets.forEach(function(maskingFacet) {
-      const maskedFacets = [];
+      const unmaskedFacets = [];
 
       facets.forEach(function(facet) {
-        maskingFacet.maskFacet(facet, maskedFacets);
+        maskingFacet.maskFacet(facet, unmaskedFacets);
       });
 
-      facets = maskedFacets;  ///
+      facets = unmaskedFacets;  ///
     });
     
     element.setFacets(facets);

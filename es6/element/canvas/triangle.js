@@ -81,7 +81,7 @@ class Triangle extends ColouredCanvasElement {
 
   calculateVertexColours(vertexPositions) {
     const vertexColours = this.facets.reduce(function(vertexColours, facet) {
-      const vertexColour = this.colour;
+      const vertexColour = [Math.random(1), Math.random(1), Math.random(1), 1]; ///this.colour;
 
       vertexColours.push(vertexColour);
       vertexColours.push(vertexColour);

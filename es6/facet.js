@@ -7,9 +7,9 @@ const Line = require('./line'),
       verticesUtilities = require('./utilities/vertices'),
       approximateUtilities = require('./utilities/approximate');
 
-const { first, second, third, permute } = arrayUtilities,
-      { rotateAboutZAxis } = vertexUtilities,
+const { rotateAboutZAxis } = vertexUtilities,
       { isApproximatelyEqualToZero } = approximateUtilities,
+      { first, second, third, permute } = arrayUtilities,
       { calculateNormal, rotateVertices } = verticesUtilities,
       { add3, subtract3, scale3, length3 } = vectorUtilities;
 
@@ -86,51 +86,55 @@ class Facet {
 
     this.normal = calculateNormal(this.vertices);
   }
+  
+  split(intersections, smallerFacets) {
+    const intersectionsIncludesNull = intersections.includes(null);
 
-  splitWithNullIntersection(intersections) {
-    let facets;
+    intersectionsIncludesNull ?
+      this.splitWithNullIntersection(intersections, smallerFacets) :
+        this.splitWithoutNullIntersection(intersections, smallerFacets);
+  }
 
+  splitWithNullIntersection(intersections, smallerFacets) {
     const nonNullIntersections = calculateNonNullIntersections(intersections),
           nonTrivialNonNullIntersections = calculateNonTrivialIntersections(nonNullIntersections),
           nonTrivialNonNullIntersectionsLength = nonTrivialNonNullIntersections.length;
 
     switch (nonTrivialNonNullIntersectionsLength) {
       case 2 :
-        facets = this.splitWithTwoNonTrivialNonNullIntersections(intersections);
+        this.splitWithTwoNonTrivialNonNullIntersections(intersections, smallerFacets);
         break;
 
       default :
-        facets = this.splitWithNoNonTrivialNonNullIntersections();
+        const smallerFacet = this;  ///
+
+        smallerFacets.push(smallerFacet);
         break;
     }
-
-    return facets;
   }
 
-  splitWithoutNullIntersection(intersections) {
-    let facets;
-
+  splitWithoutNullIntersection(intersections, smallerFacets) {
     const nonTrivialIntersections = calculateNonTrivialIntersections(intersections),
           nonTrivialIntersectionsLength = nonTrivialIntersections.length;
 
     switch(nonTrivialIntersectionsLength) {
       case 2 :
-        facets = this.splitWithTwoNonTrivialIntersections(intersections);
+        this.splitWithTwoNonTrivialIntersections(intersections, smallerFacets);
         break;
 
       case 1 :
-        facets = this.splitWithOneNonTrivialIntersection(intersections);
+        this.splitWithOneNonTrivialIntersection(intersections, smallerFacets);
         break;
 
       default :
-        facets = this.splitWithNoNonTrivialIntersections();
+        const smallerFacet = this;  ///
+
+        smallerFacets.push(smallerFacet);
         break;
     }
-
-    return facets;
   }
 
-  splitWithTwoNonTrivialNonNullIntersections(intersections) {
+  splitWithTwoNonTrivialNonNullIntersections(intersections, smallerFacets) {
     const verticesLength = 3,
           nullIntersectionIndex = calculateNonNullIntersectionIndex(intersections),
           places = (verticesLength - nullIntersectionIndex) % verticesLength;
@@ -165,25 +169,24 @@ class Facet {
           firstFacet = Facet.fromVertices(firstVertices),
           secondFacet = Facet.fromVertices(secondVertices),
           thirdFacet = Facet.fromVertices(thirdVertices),
-          facets = [
-            firstFacet,
-            secondFacet,
-            thirdFacet
-          ];
+          firstFacetTooSmall = firstFacet.isTooSmall(),
+          secondFacetTooSmall = secondFacet.isTooSmall(),
+          thirdFacetTooSmall = thirdFacet.isTooSmall();
 
-    return facets;
+    if (!firstFacetTooSmall) {
+      smallerFacets.push(firstFacet);
+    }
+
+    if (!secondFacetTooSmall) {
+      smallerFacets.push(secondFacet);
+    }
+
+    if (!thirdFacetTooSmall) {
+      smallerFacets.push(thirdFacet);
+    }
   }
 
-  splitWithNoNonTrivialNonNullIntersections() {
-    const facet = this,  ///
-        facets = [
-          facet
-        ];
-
-    return facets;
-  }
-
-  splitWithTwoNonTrivialIntersections(intersections) {
+  splitWithTwoNonTrivialIntersections(intersections, smallerFacets) {
     const verticesLength = 3,
           trivialIntersectionIndex = calculateTrivialIntersectionIndex(intersections),
           places = (verticesLength - trivialIntersectionIndex) % verticesLength;
@@ -215,19 +218,27 @@ class Facet {
             thirdVertex,
             secondIntermediateVertex
           ],
-          firstFacetInXYPlane = Facet.fromVertices(firstVertices),
-          secondFacetInXYPlane = Facet.fromVertices(secondVertices),
-          thirdFacetInXYPlane = Facet.fromVertices(thirdVertices),
-          facets = [
-            firstFacetInXYPlane,
-            secondFacetInXYPlane,
-            thirdFacetInXYPlane
-          ];
+          firstFacet= Facet.fromVertices(firstVertices),
+          secondFacet = Facet.fromVertices(secondVertices),
+          thirdFacet = Facet.fromVertices(thirdVertices),
+          firstFacetTooSmall = firstFacet.isTooSmall(),
+          secondFacetTooSmall = secondFacet.isTooSmall(),
+          thirdFacetTooSmall = thirdFacet.isTooSmall();
 
-    return facets;
+    if (!firstFacetTooSmall) {
+      smallerFacets.push(firstFacet);
+    }
+
+    if (!secondFacetTooSmall) {
+      smallerFacets.push(secondFacet);
+    }
+
+    if (!thirdFacetTooSmall) {
+      smallerFacets.push(thirdFacet);
+    }
   }
 
-  splitWithOneNonTrivialIntersection(intersections) {
+  splitWithOneNonTrivialIntersection(intersections, smallerFacets) {
     const verticesLength = 3,
           nonTrivialIntersectionIndex = calculateNonTrivialIntersectionIndex(intersections),
           places = (verticesLength - nonTrivialIntersectionIndex) % verticesLength;
@@ -252,23 +263,29 @@ class Facet {
             secondVertex,
             thirdVertex
           ],
-          firstFacetInXYPlane = Facet.fromVertices(firstVertices),
-          secondFacetInXYPlane = Facet.fromVertices(secondVertices),
-          facets = [
-            firstFacetInXYPlane,
-            secondFacetInXYPlane
-          ];
+          firstFacet = Facet.fromVertices(firstVertices),
+          secondFacet = Facet.fromVertices(secondVertices),
+          firstFacetTooSmall = firstFacet.isTooSmall(),
+          secondFacetTooSmall = secondFacet.isTooSmall();
 
-    return facets;
+    if (!firstFacetTooSmall) {
+      smallerFacets.push(firstFacet);
+    }
+
+    if (!secondFacetTooSmall) {
+      smallerFacets.push(secondFacet);
+    }
   }
 
-  splitWithNoNonTrivialIntersections() {
-    const facet = this,  ///
-          facets = [
-            facet
-          ];
+  calculateIntersectionsWithVerticalLineInXYPlane(verticalLineInXYPlane) {
+    const lines = this.getLines(),
+          intersections = lines.map(function(line) {
+            const intersection = line.calculateIntersectionWithVerticalLineInXYPlane(verticalLineInXYPlane);
+  
+            return intersection;
+          });
 
-    return facets;
+    return intersections;
   }
 
   calculateSideOfLineInXYPlane(lineInXYPlane) {
@@ -283,17 +300,6 @@ class Facet {
     }, 0);
 
     return sideOfLineInXYPlane;
-  }
-
-  calculateIntersectionsWithVerticalLineInXYPlane(verticalLineInXYPlane) {
-    const lines = this.getLines(),
-          intersections = lines.map(function(line) {
-            const intersection = line.calculateIntersectionWithVerticalLineInXYPlane(verticalLineInXYPlane);
-  
-            return intersection;
-          });
-
-    return intersections;
   }
 
   static fromVertices(vertices) {
@@ -321,8 +327,8 @@ function isIntersectionNonTrivial(intersection) {
 
 function calculateIntermediateVertex(startVertex, endVertex, nonNullIntersection) {
   const direction = subtract3(endVertex, startVertex),
-      offset = scale3(direction, nonNullIntersection),
-      intermediateVertex = add3(startVertex, offset);
+        offset = scale3(direction, nonNullIntersection),
+        intermediateVertex = add3(startVertex, offset);
 
   return intermediateVertex;
 }

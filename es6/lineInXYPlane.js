@@ -33,7 +33,7 @@ class LineInXYPlane extends Line {
   }
   
   static fromVertices(startVertex, endVertex) {
-    const position = startVertex.slice(),
+    const position = startVertex.slice(), ///
           direction = subtract3(endVertex, startVertex),
           lineInXYPlane = new LineInXYPlane(position, direction);
 
