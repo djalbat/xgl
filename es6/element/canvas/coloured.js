@@ -3,15 +3,20 @@
 const CanvasElement = require('../../element/canvas');
 
 class ColouredCanvasElement extends CanvasElement {
-  constructor(transform, colour) {
-    super(transform);
+  constructor(facets, transform, colour) {
+    super(facets, transform);
 
     this.colour = colour;
   }
 
-  calculateVertexColours(vertexPositions) {
-    const vertexPositionsLength = vertexPositions.length,
-          vertexColoursLength = vertexPositionsLength,  ///
+  getColour() {
+    return this.colour;
+  }
+
+  calculateVertexColours() {
+    const facets = this.getFacets(),
+          facetsLength = facets.length,
+          vertexColoursLength = facetsLength * 3,  ///
           vertexColour = this.colour,
           vertexColours = [];
 
@@ -23,22 +28,22 @@ class ColouredCanvasElement extends CanvasElement {
   }
 
   create(colourRenderer, textureRenderer, transforms) {
-    const vertexPositions = this.calculateVertexPositions(transforms),
-          vertexIndexes = this.calculateVertexIndexes(vertexPositions),
-          vertexNormals = this.calculateVertexNormals(vertexPositions),
-          vertexColours = this.calculateVertexColours(vertexPositions);
+    super.create(colourRenderer, textureRenderer, transforms);
+    
+    const vertexPositions = this.calculateVertexPositions(),
+          vertexIndexes = this.calculateVertexIndexes(),
+          vertexNormals = this.calculateVertexNormals(),
+          vertexColours = this.calculateVertexColours();
 
     colourRenderer.addVertexPositions(vertexPositions);
     colourRenderer.addVertexIndexes(vertexIndexes);
     colourRenderer.addVertexNormals(vertexNormals);
     colourRenderer.addVertexColours(vertexColours);
-
-    super.create(colourRenderer, textureRenderer, transforms);
   }
 
-  static fromProperties(Class, properties, ...remainingArguments) {
+  static fromProperties(Class, properties, facets, ...remainingArguments) {
     const { colour } = properties,
-          colouredCanvasElement = CanvasElement.fromProperties(Class, properties, colour, ...remainingArguments);
+          colouredCanvasElement = CanvasElement.fromProperties(Class, properties, facets, colour, ...remainingArguments);
 
     return colouredCanvasElement;
   }

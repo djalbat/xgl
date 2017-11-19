@@ -56,9 +56,7 @@ function projectionMatrixFromWidthAndHeight(width, height) {
 }
 
 function normalMatrixFromRotationMatrix(rotationMatrix) {
-  let normalMatrix = identity4();
-
-  normalMatrix = invert4(normalMatrix, rotationMatrix);
+  let normalMatrix = invert4(rotationMatrix);
 
   normalMatrix = transpose4(normalMatrix);
 

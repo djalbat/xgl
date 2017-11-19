@@ -47,8 +47,8 @@ class MaskingFacet extends Facet {
 
     this.diluteSmallerFacets(smallerFacets, unmaskedFacets);
 
-    unmaskedFacets.forEach(function(unmaskedFacet) {
-      unmaskedFacet.rotate(backwardsRotationQuaternion);
+    smallerFacets.forEach(function(smallerFacet) {
+      smallerFacet.rotate(backwardsRotationQuaternion);
     });
   }
   

@@ -1,100 +1,106 @@
 'use strict';
 
 const Element = require('../element'),
-      arrayUtilities = require('../utilities/array'),
+      Mask = require('../element/mask'),
       vectorUtilities = require('../utilities/vector'),
       transformUtilities = require('../utilities/transform');
 
-const { chop } = arrayUtilities,
-      { composeTransform } = transformUtilities,
-      { subtract3, cross3, normalise3 } = vectorUtilities;
+const { normalise3 } = vectorUtilities,
+      { composeTransform } = transformUtilities;
 
 class CanvasElement extends Element {
-  constructor(transform) {
+  constructor(facets, transform) {
     super();
 
+    this.facets = facets;
+
     this.transform = transform;
+  }
+
+  getFacets() {
+    return this.facets;
   }
 
   getTransform() {
     return this.transform;
   }
 
+  setFacets(facets) {
+    this.facets = facets;
+  }
+
   create(colourRenderer, textureRenderer, transforms) {
     transforms = [this.transform, ...transforms]; ///
+
+    this.facets.forEach(function(facet) {
+      facet.applyTransforms(transforms);
+    });
 
     const childElements = this.getChildElements();
 
     childElements.forEach(function(childElement) {
       childElement.create(colourRenderer, textureRenderer, transforms);
-    });
+
+      if (childElement instanceof Mask) {
+        const mask = childElement,  ///
+              element = this; ///
+
+        mask.maskElement(element);
+      }
+    }.bind(this));
   }
 
-  calculateVertexPositions(transforms) {
-    transforms = [this.transform, ...transforms]; ///
+  calculateVertexPositions() {
+    const vertexPositions = this.facets.reduce(function(vertexPositions, facet) {
+      const vertices = facet.getVertices();
 
-    const initialVertexPositions = this.getInitialVertexPositions(),
-          vertexPositions = initialVertexPositions.map(function(initialVertexPosition) {
-            let vertexPosition = initialVertexPosition;
+      vertexPositions = vertices.reduce(function(vertexPositions, vertex) {
+        const vertexPosition = vertex.slice(); ///
 
-            transforms.forEach(function(transform) {
-              vertexPosition = transform(vertexPosition);
-            });
+        vertexPositions.push(vertexPosition);
 
-            return vertexPosition;
-          });
+        return vertexPositions;
+      }, vertexPositions);
+
+      return vertexPositions;
+    }, []);
 
     return vertexPositions;
   }
 
-  calculateVertexNormals(vertexPositions) {
-    const faces = chop(vertexPositions, 4),  ///
-          vertexNormals = faces.reduce(function(vertexNormals, face) {
-            const vertexPositions = face; ///
+  calculateVertexNormals() {
+    const vertexNormals = this.facets.reduce(function(vertexNormals, facet) {
+      const normal = facet.getNormal(),
+            vertexNormal = normalise3(normal);
 
-            for (let index = 0; index < 4; index++) {
-              const firstVertexIndex = index,
-                    secondVertexIndex = (index + 1) % 4,
-                    thirdVertexIndex = (index + 3) % 4,
-                    firstVertexPosition = vertexPositions[firstVertexIndex],
-                    secondVertexPosition = vertexPositions[secondVertexIndex],
-                    thirdVertexPosition = vertexPositions[thirdVertexIndex],
-                    firstVector = subtract3(secondVertexPosition, firstVertexPosition),
-                    secondVector = subtract3(thirdVertexPosition, firstVertexPosition),
-                    vertexNormal = normalise3(cross3(firstVector, secondVector));
+      vertexNormals.push(vertexNormal);
+      vertexNormals.push(vertexNormal);
+      vertexNormals.push(vertexNormal);
 
-              vertexNormals.push(vertexNormal);
-            }
-
-            return vertexNormals;
-          }, []);
+      return vertexNormals;
+    }, []);
 
     return vertexNormals;
   }
 
-  calculateVertexIndexes(vertexPositions) {
-    const vertexIndexes = [],
-          vertexPositionsLength = vertexPositions.length,
-          facesLength = vertexPositionsLength / 4; ///
+  calculateVertexIndexes() {
+    let vertexIndex = 0;
 
-    for (let index = 0; index < facesLength; index++) {
-      const offset = index * 4;
+    const vertexIndexes = this.facets.reduce(function(vertexIndexes, facet) {
+      vertexIndexes.push(vertexIndex++);
+      vertexIndexes.push(vertexIndex++);
+      vertexIndexes.push(vertexIndex++);
 
-      vertexIndexes.push(offset + 0);
-      vertexIndexes.push(offset + 1);
-      vertexIndexes.push(offset + 2);
-      vertexIndexes.push(offset + 0);
-      vertexIndexes.push(offset + 2);
-      vertexIndexes.push(offset + 3);
-    }
+      return vertexIndexes;
+    }, []);
 
     return vertexIndexes;
   }
 
-  static fromProperties(Class, properties, ...remainingArguments) {
+  static fromProperties(Class, properties, facets, ...remainingArguments) {
     const { width, height, depth, position, rotations } = properties,
           transform = composeTransform(width, height, depth, position, rotations),
-          canvasElement = Element.fromProperties(Class, properties, transform, ...remainingArguments);
+          canvasElement = Element.fromProperties(Class, properties, facets, transform, ...remainingArguments);
 
     return canvasElement;
   }

@@ -4,11 +4,13 @@ const LineInXYPlane = require('./lineInXYPlane'),
       arrayUtilities = require('./utilities/array'),
       vectorUtilities = require('./utilities/vector'),
       vertexUtilities = require('./utilities/vertex'),
-      rotationUtilities = require('./utilities/rotation');
+      rotationUtilities = require('./utilities/rotation'),
+      approximateUtilities = require('./utilities/approximate');
 
 const { first, second } = arrayUtilities,
       { rotateAboutZAxis } = vertexUtilities,
       { add3, subtract3, normalise3 } = vectorUtilities,
+      { isApproximatelyEqualToZero } = approximateUtilities,
       { calculateForwardsRotationAboutZAxisMatrix, calculateBackwardsRotationAboutZAxisMatrix } = rotationUtilities;
 
 class VerticalLineInXYPlane extends LineInXYPlane {
@@ -64,9 +66,10 @@ class VerticalLineInXYPlane extends LineInXYPlane {
           lineDirection = line.getDirection(),
           linePositionComponents = linePosition, ///
           lineDirectionComponents = lineDirection, ///
-          firstLineDirectionComponent = first(lineDirectionComponents);
+          firstLineDirectionComponent = first(lineDirectionComponents),
+          firstLineDirectionComponentApproximatelyEqualToZero = isApproximatelyEqualToZero(firstLineDirectionComponent);
 
-    if (firstLineDirectionComponent === 0) {
+    if (firstLineDirectionComponentApproximatelyEqualToZero) {
       intersection = null;
     } else {
       const positionComponents = this.position, ///

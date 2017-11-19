@@ -42,6 +42,18 @@ class Facet {
     return lines;
   }
   
+  getMidPoint() {
+    const midPoint = this.vertices.reduce(function(midPoint, vertex) {
+      const scaledVertex = scale3(vertex, 1/3);
+      
+      midPoint = add3(midPoint, scaledVertex);
+      
+      return midPoint;
+    }, [ 0, 0, 0 ]);
+    
+    return midPoint;
+  }
+  
   isTooSmall() {
     const normalLength = length3(this.normal),
           normalLengthApproximatelyEqualToZero = isApproximatelyEqualToZero(normalLength),
@@ -58,17 +70,23 @@ class Facet {
   }
   
   isInsideLinesInXYPlane(linesInXYPlane) {
-    const totalOfSidesOfLineInXYPlane = linesInXYPlane.reduce(function(totalOfSidesOfLineInXYPlane, lineInXYPlane) {
-            const sideOfLineInXYPlane = this.calculateSideOfLineInXYPlane(lineInXYPlane);
-
-            totalOfSidesOfLineInXYPlane += sideOfLineInXYPlane;
-
-            return totalOfSidesOfLineInXYPlane;
-          }.bind(this), 0),
-          totalOfSidesOfLineInXYPlaneAbsoluteValue = Math.abs(totalOfSidesOfLineInXYPlane),
-          insideLinesInXYPlane = (totalOfSidesOfLineInXYPlaneAbsoluteValue === 3);
+    const midPoint = this.getMidPoint(),
+          midPointToOneSideOfLinesInXYPlane = isMidPointToOneSideOfLinesInXYPlane(midPoint, linesInXYPlane),
+          insideLinesInXYPlane = midPointToOneSideOfLinesInXYPlane;  ///
 
     return insideLinesInXYPlane;
+  }
+  
+  applyTransforms(transforms) {
+    this.vertices = this.vertices.map(function(vertex) {
+      transforms.forEach(function(transform) {
+        vertex = transform(vertex);
+      });
+
+      return vertex;
+    });
+
+    this.normal = calculateNormal(this.vertices);
   }
   
   rotate(rotationQuaternion) {
@@ -288,20 +306,6 @@ class Facet {
     return intersections;
   }
 
-  calculateSideOfLineInXYPlane(lineInXYPlane) {
-    const sideOfLineInXYPlane = this.vertices.reduce(function(sideOfLineInXYPlane, vertex) {
-      if (sideOfLineInXYPlane === 0) {
-        const vertexSide = lineInXYPlane.calculateVertexSide(vertex);
-
-        sideOfLineInXYPlane = vertexSide; ///
-      }
-
-      return sideOfLineInXYPlane;
-    }, 0);
-
-    return sideOfLineInXYPlane;
-  }
-
   static fromVertices(vertices) {
     const normal = calculateNormal(vertices),
           facet = new Facet(vertices, normal);
@@ -402,3 +406,43 @@ function calculateNonTrivialIntersectionIndex(intersections) {
 
   return nonTrivialIntersectionIndex;
 }
+
+function isMidPointToOneSideOfLinesInXYPlane(midPoint, linesInXYPlane) {
+  const midPointToTheLeftOfLinesInXYPlane = isMidPointToTheLeftOfLinesInXYPlane(midPoint, linesInXYPlane),
+        midPointToTheRightOfLinesInXYPlane = isMidPointToTheRightOfLinesInXYPlane(midPoint, linesInXYPlane),
+        midPointToOneSideOfLinesInXYPlane = midPointToTheLeftOfLinesInXYPlane || midPointToTheRightOfLinesInXYPlane; ///
+
+  return midPointToOneSideOfLinesInXYPlane;
+}
+
+function isMidPointToTheLeftOfLinesInXYPlane(midPoint, linesInXYPlane) {
+  const midPointToTheLeftOfLinesInXYPlane = linesInXYPlane.reduce(function(midPointToTheLeftOfLinesInXYPlane, lineInXYPlane) {
+    if (midPointToTheLeftOfLinesInXYPlane) {
+      const midPointToTheLeftOfLineInXYPlane = lineInXYPlane.isMidPointToTheLeft(midPoint);
+
+      midPointToTheLeftOfLinesInXYPlane = midPointToTheLeftOfLineInXYPlane;
+    }
+
+    return midPointToTheLeftOfLinesInXYPlane;
+  }, true);
+
+  return midPointToTheLeftOfLinesInXYPlane;
+}
+
+function isMidPointToTheRightOfLinesInXYPlane(midPoint, linesInXYPlane) {
+  const midPointToTheRightOfLinesInXYPlane = linesInXYPlane.reduce(function(midPointToTheRightOfLinesInXYPlane, lineInXYPlane) {
+    if (midPointToTheRightOfLinesInXYPlane) {
+      const midPointToTheRightOfLineInXYPlane = lineInXYPlane.isMidPointToTheRight(midPoint);
+
+      midPointToTheRightOfLinesInXYPlane = midPointToTheRightOfLineInXYPlane;
+    }
+
+    return midPointToTheRightOfLinesInXYPlane;
+  }, true);
+
+  return midPointToTheRightOfLinesInXYPlane;
+}
+
+
+
+

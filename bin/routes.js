@@ -7,9 +7,10 @@ const constants = require('./constants'),
       indexPage = require('./page/index'),
       facetsPage = require('./page/facets'),
       shapesPage = require('./page/shapes'),
-      containerHousePage = require('./page/containerHouse');
+      containerHousePage = require('./page/containerHouse'),
+      timberFramedHousePage = require('./page/timberFramedHouse');
 
-const { IMAGE_MAP_PATH, INDEX_PAGE_PATH, FACETS_PAGE_PATH, SHAPES_PAGE_PATH, CONTAINER_HOUSE_PAGE_PATH } = constants;
+const { IMAGE_MAP_PATH, INDEX_PAGE_PATH, FACETS_PAGE_PATH, SHAPES_PAGE_PATH, CONTAINER_HOUSE_PAGE_PATH, TIMBER_FRAMED_HOUSE_PAGE_PATH } = constants;
 
 class routes {
   static router() {
@@ -47,6 +48,14 @@ class routes {
 
     router.get(CONTAINER_HOUSE_PAGE_PATH, function(request, response, next) {
       const html = containerHousePage.html();
+
+      response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+
+      response.end(html);
+    });
+
+    router.get(TIMBER_FRAMED_HOUSE_PAGE_PATH, function(request, response, next) {
+      const html = timberFramedHousePage.html();
 
       response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
 

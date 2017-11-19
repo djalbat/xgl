@@ -3,33 +3,32 @@
 const Line = require('./line'),
       vectorUtilities = require('./utilities/vector'),
       arrayUtilities = require('./utilities/array'),
-      vertexUtilities = require('./utilities/vertex'),
-      approximateUtilities = require('./utilities/approximate');
+      vertexUtilities = require('./utilities/vertex');
 
 const { third } = arrayUtilities,
       { subtract3, cross3 } = vectorUtilities,
-      { projectOntoXYPlane } = vertexUtilities,
-      { isApproximatelyEqualToZero } = approximateUtilities;
+      { projectOntoXYPlane } = vertexUtilities;
 
 class LineInXYPlane extends Line {
-  calculateVertexSide(vertex) {
-    vertex = projectOntoXYPlane(vertex);
+  isMidPointToTheLeft(midPoint) {
+    midPoint = projectOntoXYPlane(midPoint);
     
-    let vertexSide = 0;
-
     const position = this.getPosition(),
           direction = this.getDirection(),
-          vertexDirection = subtract3(vertex, position),
-          zDirection = cross3(direction, vertexDirection), ///
-          zDirectionComponents = zDirection,
-          thirdZDirectionComponent = third(zDirectionComponents),
-          thirdZDirectionComponentApproximatelyEqualToZero = isApproximatelyEqualToZero(thirdZDirectionComponent);
+          midPointDirection = subtract3(midPoint, position),
+          crossProduct = cross3(direction, midPointDirection), ///
+          crossProductComponents = crossProduct,  ///
+          thirdCrossProductComponent = third(crossProductComponents),
+          midPointToTheLeft = (thirdCrossProductComponent > 0);
 
-    if (!thirdZDirectionComponentApproximatelyEqualToZero) {
-      vertexSide = (thirdZDirectionComponent > 0) ? +1 : -1; ///
-    }
-
-    return vertexSide;
+    return midPointToTheLeft;
+  }
+  
+  isMidPointToTheRight(midPoint) {
+    const midPointToTheLeft = this.isMidPointToTheLeft(midPoint),
+          midPointToTheRight = !midPointToTheLeft;  ///
+    
+    return midPointToTheRight;
   }
   
   static fromVertices(startVertex, endVertex) {
