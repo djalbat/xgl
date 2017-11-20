@@ -12,7 +12,7 @@ const { third } = arrayUtilities,
 class LineInXYPlane extends Line {
   isMidPointToTheLeft(midPoint) {
     midPoint = projectOntoXYPlane(midPoint);
-    
+
     const position = this.getPosition(),
           direction = this.getDirection(),
           midPointDirection = subtract3(midPoint, position),

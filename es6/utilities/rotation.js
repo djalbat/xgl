@@ -2,26 +2,27 @@
 
 const arrayUtilities = require('../utilities/array'),
       angleUtilities = require('../utilities/angle'),
-      vectorUtilities = require('../utilities/vector');
+      vectorUtilities = require('../utilities/vector'),
+      approximateUtilities = require('../utilities/approximate');
 
-const { normalise3 } = vectorUtilities,
+const { dot3, cross3, normalise3 } = vectorUtilities,
       { first, second, third, fourth } = arrayUtilities,
+      { isApproximatelyEqualTo } = approximateUtilities,
       { calculateHalfAngleCosine, calculateHalfAngleSine } = angleUtilities;
 
-function rotateImaginaryQuaternion(imaginaryQuaternion, rotationQuaternion, inverseRotationQuaternion) {
-  const rotatedImaginaryQuaternion = hamiltonProduct(hamiltonProduct(rotationQuaternion, imaginaryQuaternion), inverseRotationQuaternion);
-
-  return rotatedImaginaryQuaternion;
-}
+function rotateImaginaryQuaternion(imaginaryQuaternion, rotationQuaternion, inverseRotationQuaternion) { return hamiltonProduct(hamiltonProduct(rotationQuaternion, imaginaryQuaternion), inverseRotationQuaternion); }
 
 function calculateRotationQuaternion(normal) {
-  const angleCosineBetweenNormalAndZAxis = calculateAngleCosineBetweenNormalAndZAxis(normal),
-        crossProductOfNormalWithZAxis = calculateCrossProductOfNormalWithZAxis(normal),
-        angleOfRotationCosine = angleCosineBetweenNormalAndZAxis,
+  const unitNormal = normalise3(normal),
+        zAxis = [ 0, 0, 1],
+        dotProductOfUnitNormalAndZAxis = dot3(unitNormal, zAxis),
+        crossProductOfUnitNormalAndZAxis = cross3(unitNormal, zAxis),
+        angleOfRotationCosine = dotProductOfUnitNormalAndZAxis, ///
         angleOfRotationCosineAbsoluteValue = Math.abs(angleOfRotationCosine),
-        axisOfRotation = (angleOfRotationCosineAbsoluteValue === 1) ?
-                           [1, 0, 0] : ///
-                             crossProductOfNormalWithZAxis,
+        angleOfRotationCosineAbsoluteValueApproximatelyEqualToOne = isApproximatelyEqualTo(angleOfRotationCosineAbsoluteValue, 1),
+        axisOfRotation = angleOfRotationCosineAbsoluteValueApproximatelyEqualToOne ?
+                           [ 1, 0, 0 ] : ///
+                             crossProductOfUnitNormalAndZAxis,
         unitAxisOfRotation = normalise3(axisOfRotation),
         halfAngleOfRotationCosine = calculateHalfAngleCosine(angleOfRotationCosine),
         halfAngleOfRotationSine = calculateHalfAngleSine(angleOfRotationCosine),
@@ -62,15 +63,8 @@ function calculateForwardsRotationQuaternion(rotationQuaternion) {
 }
 
 function calculateBackwardsRotationQuaternion(rotationQuaternion) {
-  const rotationQuaternionComponents = rotationQuaternion,  ///
-        backwardsRotationQuaternionComponents = rotationQuaternionComponents.map(function(rotationQuaternionComponent, index) {
-          const backwardsRotationQuaternionComponent = (index < 1) ?  ///
-              +rotationQuaternionComponent :
-              -rotationQuaternionComponent;
-  
-          return backwardsRotationQuaternionComponent;
-        }),
-        backwardsRotationQuaternion = backwardsRotationQuaternionComponents;
+  const inverseRotationQuaternion = calculateInverseRotationQuaternion(rotationQuaternion),
+        backwardsRotationQuaternion = inverseRotationQuaternion;  ///
 
   return backwardsRotationQuaternion;
 
@@ -103,28 +97,6 @@ module.exports = {
   calculateBackwardsRotationAboutZAxisMatrix: calculateBackwardsRotationAboutZAxisMatrix
 };
 
-function calculateAngleCosineBetweenNormalAndZAxis(normal) {
-  const unitNormal = normalise3(normal),
-        unitNormalComponents = unitNormal,  ///
-        thirdUnitNormalComponent = third(unitNormalComponents),
-        angleCosineBetweenNormalAndZAxis = thirdUnitNormalComponent;  ///
-
-  return angleCosineBetweenNormalAndZAxis;
-}
-
-function calculateCrossProductOfNormalWithZAxis(normal) {
-  const normalComponents = normal,  ///
-        firstNormalComponent = first(normalComponents),
-        secondNormalComponent = second(normalComponents),
-        crossProductOfNormalWithZAxis = [
-          +secondNormalComponent,
-          -firstNormalComponent,
-          0
-        ];
-
-  return crossProductOfNormalWithZAxis;
-}
-
 function hamiltonProduct(quaternionA, quaternionB) {
   const quaternionAComponents = quaternionA,  ///
         quaternionBComponents = quaternionB,  ///
@@ -136,14 +108,14 @@ function hamiltonProduct(quaternionA, quaternionB) {
         secondQuaternionBComponent = second(quaternionBComponents),
         thirdQuaternionBComponent = third(quaternionBComponents),
         fourthQuaternionBComponent = fourth(quaternionBComponents),
-        a1 = firstQuaternionAComponent,
-        b1 = secondQuaternionAComponent,
-        c1 = thirdQuaternionAComponent,
-        d1 = fourthQuaternionAComponent,
-        a2 = firstQuaternionBComponent,
-        b2 = secondQuaternionBComponent,
-        c2 = thirdQuaternionBComponent,
-        d2 = fourthQuaternionBComponent,
+        a1 = firstQuaternionAComponent, ///
+        b1 = secondQuaternionAComponent,  ///
+        c1 = thirdQuaternionAComponent, ///
+        d1 = fourthQuaternionAComponent,  ///
+        a2 = firstQuaternionBComponent, ///
+        b2 = secondQuaternionBComponent,  ///
+        c2 = thirdQuaternionBComponent, ///
+        d2 = fourthQuaternionBComponent,  ///
         a = a1 * a2 - b1 * b2 - c1 * c2 - d1 * d2,
         b = a1 * b2 + b1 * a2 + c1 * d2 - d1 * c2,
         c = a1 * c2 - b1 * d2 + c1 * a2 + d1 * b2,

@@ -4,7 +4,7 @@ const constants = require('../constants');
 
 const { DEFAULT_MARGIN_OF_ERROR } = constants;
 
-function areApproximatelyEqual(valueA, valueB, marginOfError = DEFAULT_MARGIN_OF_ERROR) {
+function isApproximatelyEqualTo(valueA, valueB, marginOfError = DEFAULT_MARGIN_OF_ERROR) {
   const difference = valueA - valueB,
         absoluteDifference = Math.abs(difference),
         approximatelyEqual = (absoluteDifference < marginOfError);
@@ -12,9 +12,9 @@ function areApproximatelyEqual(valueA, valueB, marginOfError = DEFAULT_MARGIN_OF
   return approximatelyEqual;
 }
 
-function isApproximatelyEqualToZero(value, marginOfError = DEFAULT_MARGIN_OF_ERROR) { return areApproximatelyEqual(value, 0, marginOfError); }
+function isApproximatelyEqualToZero(value, marginOfError = DEFAULT_MARGIN_OF_ERROR) { return isApproximatelyEqualTo(value, 0, marginOfError); }
 
 module.exports = {
-  areApproximatelyEqual: areApproximatelyEqual,
+  isApproximatelyEqualTo: isApproximatelyEqualTo,
   isApproximatelyEqualToZero: isApproximatelyEqualToZero
 };
