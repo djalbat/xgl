@@ -312,6 +312,18 @@ class Facet {
 
     return facet;
   }
+
+  static fromVerticesAndIndexes(vertices, indexes) {
+    vertices = indexes.map(function(index) {
+      const vertex = vertices[index];
+
+      return vertex;
+    });
+
+    const facet = Facet.fromVertices(vertices);
+
+    return facet;
+  }
 }
 
 module.exports = Facet;
