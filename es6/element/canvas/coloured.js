@@ -41,9 +41,9 @@ class ColouredCanvasElement extends CanvasElement {
     colourRenderer.addVertexColours(vertexColours);
   }
 
-  static fromProperties(Class, properties, facets, ...remainingArguments) {
+  static fromProperties(Class, properties, vertices, indexes, ...remainingArguments) {
     const { colour } = properties,
-          colouredCanvasElement = CanvasElement.fromProperties(Class, properties, facets, colour, ...remainingArguments);
+          colouredCanvasElement = CanvasElement.fromProperties(Class, properties, vertices, indexes, colour, ...remainingArguments);
 
     return colouredCanvasElement;
   }

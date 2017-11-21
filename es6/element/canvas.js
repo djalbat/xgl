@@ -1,6 +1,7 @@
 'use strict';
 
 const Element = require('../element'),
+      Facet = require('../facet'),
       Mask = require('../element/mask'),
       vectorUtilities = require('../utilities/vector'),
       transformUtilities = require('../utilities/transform');
@@ -97,8 +98,13 @@ class CanvasElement extends Element {
     return vertexIndexes;
   }
 
-  static fromProperties(Class, properties, facets, ...remainingArguments) {
+  static fromProperties(Class, properties, vertices, indexes, ...remainingArguments) {
     const { width, height, depth, position, rotations } = properties,
+          facets = indexes.map(function(indexes) {
+            const facet = Facet.fromVerticesAndIndexes(vertices, indexes);
+            
+            return facet;
+          }),
           transform = composeTransform(width, height, depth, position, rotations),
           canvasElement = Element.fromProperties(Class, properties, facets, transform, ...remainingArguments);
 
