@@ -101,7 +101,7 @@ class CanvasElement extends Element {
 
   static fromProperties(Class, properties, vertices, indexes, ...remainingArguments) {
     const { width, height, depth, position, rotations } = properties,
-          facets = indexes.map(function(indexes) {
+          facets = indexes.map(function(indexes) {  ///
             const facet = Facet.fromVerticesAndIndexes(vertices, indexes);
             
             return facet;
