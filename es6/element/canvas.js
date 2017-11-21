@@ -38,16 +38,16 @@ class CanvasElement extends Element {
     });
 
     const childElements = this.getChildElements(),
-          mask = false; ///
+          masking = false; ///
 
     childElements.forEach(function(childElement) {
-      childElement.create(colourRenderer, textureRenderer, transforms, mask);
+      childElement.create(colourRenderer, textureRenderer, transforms, masking);
 
       if (childElement instanceof Mask) {
-        const maskElement = childElement,  ///
+        const mask = childElement,  ///
               element = this; ///
 
-        maskElement.mask(element);
+        mask.maskElement(element);
       }
     }.bind(this));
   }

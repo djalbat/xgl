@@ -13,10 +13,10 @@ class ColouredCanvasElement extends CanvasElement {
     return this.colour;
   }
 
-  create(colourRenderer, textureRenderer, transforms, mask) {
+  create(colourRenderer, textureRenderer, transforms, masking) {
     super.create(colourRenderer, textureRenderer, transforms);
 
-    if (!mask) {
+    if (!masking) {
       this.render(colourRenderer);
     }
   }

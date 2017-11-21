@@ -12,10 +12,10 @@ class TexturedCanvasElement extends CanvasElement {
     this.imageName = imageName;
   }
 
-  create(colourRenderer, textureRenderer, transforms, mask) {
+  create(colourRenderer, textureRenderer, transforms, masking) {
     super.create(colourRenderer, textureRenderer, transforms);
     
-    if (!mask) {
+    if (!masking) {
       this.render(textureRenderer);
     }
   }
