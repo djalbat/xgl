@@ -3,10 +3,10 @@
 const template = require('../template'),
       runtimeConfiguration = require('../runtimeConfiguration');
 
-class facetsPage {
+class maskingPage {
   static html() {
     const publicDirectoryPath = runtimeConfiguration.getPublicDirectoryPath(),
-          filePath = `${publicDirectoryPath}/facets.html`,
+          filePath = `${publicDirectoryPath}/masking.html`,
           args = {},
           html = template.parseFile(filePath, args);
 
@@ -14,4 +14,4 @@ class facetsPage {
   }
 }
 
-module.exports = facetsPage;
+module.exports = maskingPage;

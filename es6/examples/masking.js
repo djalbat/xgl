@@ -10,7 +10,7 @@ const Canvas = require('../canvas'),
       ColouredTriangle = require('../examples/common/coloured/triangle'),
       ColouredQuadrangle = require('../examples/common/coloured/quadrangle');
 
-const facets = () => {
+const masking = () => {
   const canvas = new Canvas();
 
   (() => 
@@ -27,7 +27,7 @@ const facets = () => {
   )();
 };
 
-module.exports = facets;
+module.exports = masking;
 
 /*
 
