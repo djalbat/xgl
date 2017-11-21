@@ -1,7 +1,7 @@
 'use strict';
 
 const CYLINDER_FACES = 16,
-      MINIMUM_DISTANCE = 10,
+      MINIMUM_DISTANCE = 1,
       DEGREES_TO_RADIANS = Math.PI / 180,
       FIELD_OF_VIEW = 45 * DEGREES_TO_RADIANS,
       Z_NEAR = 1,

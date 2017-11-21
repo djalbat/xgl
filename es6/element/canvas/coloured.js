@@ -15,14 +15,14 @@ class ColouredCanvasElement extends CanvasElement {
 
   calculateVertexColours() {
     const facets = this.getFacets(),
-          facetsLength = facets.length,
-          vertexColoursLength = facetsLength * 3,  ///
           vertexColour = this.colour,
-          vertexColours = [];
+          vertexColours = facets.reduce(function(vertexColours, facet) {
+            vertexColours.push(vertexColour);
+            vertexColours.push(vertexColour);
+            vertexColours.push(vertexColour);
 
-    for (let index = 0; index < vertexColoursLength; index++) {
-      vertexColours.push(vertexColour);
-    }
+            return vertexColours;
+          }, []);
 
     return vertexColours;
   }

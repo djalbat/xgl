@@ -17,7 +17,11 @@ const facets = () => {
 
     <Scene canvas={canvas}>
       <Camera initialDistance={15} initialOffset={[ 0, 0, 0 ]} canvas={canvas} />
-      <ColouredCuboid colour={[ 1, 1, 0, 1]} />
+      <ColouredCuboid colour={[ 1, 1, 0, 1 ]}>
+        <Mask>
+          <ColouredCuboid colour={[ 1, 0, 1, 1 ]} width={0.5} height={0.5} depth={0.5} position={[ 0.25, 0.25, 0.25 ]} />
+        </Mask>
+      </ColouredCuboid>
     </Scene>
 
   )();
@@ -26,14 +30,17 @@ const facets = () => {
 module.exports = facets;
 
 /*
+
  <ColouredQuadrangle colour={[ 1, 1, 1, 1 ]} />
+
  <ColouredTriangle vertices={[ [ 2, 2, 0 ], [ 2, -2, 0 ], [ -2, 2, 0 ] ]} colour={[ 1, 0, 0, 1 ]} position={[ 0, 0, 0 ]} rotations={[ -45, +45, -45 ]} >
- <Mask>
- <ColouredTriangle vertices={[ [ 0, 0, 0 ], [ 2, 0, 0 ], [ 0, 2, 0 ] ]} colour={[ 0, 1, 0, 1 ]} position={[ 0, 0, 1 ]} rotations={[ +15, -15, 0 ]} >
- <Mask>
- <ColouredTriangle vertices={[ [ 1, 0, 0 ], [ 1, 1, 0 ], [ 0, 1, 0 ] ]} colour={[ 0, 0, 1, 1 ]} position={[ 0, 0, 1 ]} rotations={[ -15, +15, 0 ]} />
- </Mask>
+   <Mask>
+     <ColouredTriangle vertices={[ [ 0, 0, 0 ], [ 2, 0, 0 ], [ 0, 2, 0 ] ]} colour={[ 0, 1, 0, 1 ]} position={[ 0, 0, 1 ]} rotations={[ +15, -15, 0 ]} >
+       <Mask>
+         <ColouredTriangle vertices={[ [ 1, 0, 0 ], [ 1, 1, 0 ], [ 0, 1, 0 ] ]} colour={[ 0, 0, 1, 1 ]} position={[ 0, 0, 1 ]} rotations={[ -15, +15, 0 ]} />
+       </Mask>
+     </ColouredTriangle>
+   </Mask>
  </ColouredTriangle>
- </Mask>
- </ColouredTriangle>
+
  */
