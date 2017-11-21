@@ -13,6 +13,26 @@ class ColouredCanvasElement extends CanvasElement {
     return this.colour;
   }
 
+  create(colourRenderer, textureRenderer, transforms, mask) {
+    super.create(colourRenderer, textureRenderer, transforms);
+
+    if (!mask) {
+      this.render(colourRenderer);
+    }
+  }
+
+  render(colourRenderer) {
+    const vertexPositions = this.calculateVertexPositions(),
+          vertexIndexes = this.calculateVertexIndexes(),
+          vertexNormals = this.calculateVertexNormals(),
+          vertexColours = this.calculateVertexColours();
+
+    colourRenderer.addVertexPositions(vertexPositions);
+    colourRenderer.addVertexIndexes(vertexIndexes);
+    colourRenderer.addVertexNormals(vertexNormals);
+    colourRenderer.addVertexColours(vertexColours);
+  }
+
   calculateVertexColours() {
     const facets = this.getFacets(),
           vertexColour = this.colour,
@@ -25,20 +45,6 @@ class ColouredCanvasElement extends CanvasElement {
           }, []);
 
     return vertexColours;
-  }
-
-  create(colourRenderer, textureRenderer, transforms) {
-    super.create(colourRenderer, textureRenderer, transforms);
-    
-    const vertexPositions = this.calculateVertexPositions(),
-          vertexIndexes = this.calculateVertexIndexes(),
-          vertexNormals = this.calculateVertexNormals(),
-          vertexColours = this.calculateVertexColours();
-
-    colourRenderer.addVertexPositions(vertexPositions);
-    colourRenderer.addVertexIndexes(vertexIndexes);
-    colourRenderer.addVertexNormals(vertexNormals);
-    colourRenderer.addVertexColours(vertexColours);
   }
 
   static fromProperties(Class, properties, vertices, indexes, ...remainingArguments) {

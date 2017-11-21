@@ -12,6 +12,26 @@ class TexturedCanvasElement extends CanvasElement {
     this.imageName = imageName;
   }
 
+  create(colourRenderer, textureRenderer, transforms, mask) {
+    super.create(colourRenderer, textureRenderer, transforms);
+    
+    if (!mask) {
+      this.render(textureRenderer);
+    }
+  }
+  
+  render(textureRenderer) {
+    const vertexPositions = this.calculateVertexPositions(),
+          vertexIndexes = this.calculateVertexIndexes(vertexPositions),
+          vertexNormals = this.calculateVertexNormals(vertexPositions),
+          textureCoordinates = this.calculateTextureCoordinates(vertexPositions);
+
+    textureRenderer.addVertexPositions(vertexPositions);
+    textureRenderer.addVertexIndexes(vertexIndexes);
+    textureRenderer.addVertexNormals(vertexNormals);
+    textureRenderer.addTextureCoordinates(textureCoordinates);
+  }
+
   calculateTextureCoordinates(vertexPositions) {
     const vertexPositionsLength = vertexPositions.length,
           imageNamesLength = vertexPositionsLength / 4,  ///
@@ -26,20 +46,6 @@ class TexturedCanvasElement extends CanvasElement {
     return textureCoordinates;
   }
 
-  create(colourRenderer, textureRenderer, transforms) {
-    const vertexPositions = this.calculateVertexPositions(transforms),
-          vertexIndexes = this.calculateVertexIndexes(vertexPositions),
-          vertexNormals = this.calculateVertexNormals(vertexPositions),
-          textureCoordinates = this.calculateTextureCoordinates(vertexPositions);
-    
-    textureRenderer.addVertexPositions(vertexPositions);
-    textureRenderer.addVertexIndexes(vertexIndexes);
-    textureRenderer.addVertexNormals(vertexNormals);
-    textureRenderer.addTextureCoordinates(textureCoordinates);
-
-    super.create(colourRenderer, textureRenderer, transforms);
-  }
-  
   static fromProperties(Class, properties) {
     const { imageName } = properties,
           texturedCanvasElement = CanvasElement.fromProperties(Class, properties, imageName);

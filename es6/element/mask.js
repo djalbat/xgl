@@ -7,7 +7,7 @@ const Element = require('../element'),
 
 const { push } = arrayUtilities;
 
-class Mask extends Element {
+class MaskElement extends Element {
   getFacets() {
     const childElements = this.getChildElements(),
           facets =  childElements.reduce(function(facets, childElement) {
@@ -29,14 +29,15 @@ class Mask extends Element {
   }
 
   create(colourRenderer, textureRenderer, transforms) {
-    const childElements = this.getChildElements();
+    const childElements = this.getChildElements(),
+          mask = true;  ///
 
     childElements.forEach(function(childElement) {
-      childElement.create(colourRenderer, textureRenderer, transforms);
+      childElement.create(colourRenderer, textureRenderer, transforms, mask);
     });
   }
   
-  maskElement(element) {
+  mask(element) {
     let facets = element.getFacets();
     
     const maskingFacets = this.getMaskingFacets();
@@ -54,7 +55,7 @@ class Mask extends Element {
     element.setFacets(facets);
   }
 
-  static fromProperties(properties) { return Element.fromProperties(Mask, properties); }
+  static fromProperties(properties) { return Element.fromProperties(MaskElement, properties); }
 }
 
-module.exports = Mask;
+module.exports = MaskElement;

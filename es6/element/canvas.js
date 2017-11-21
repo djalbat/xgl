@@ -37,16 +37,17 @@ class CanvasElement extends Element {
       facet.applyTransforms(transforms);
     });
 
-    const childElements = this.getChildElements();
+    const childElements = this.getChildElements(),
+          mask = false; ///
 
     childElements.forEach(function(childElement) {
-      childElement.create(colourRenderer, textureRenderer, transforms);
+      childElement.create(colourRenderer, textureRenderer, transforms, mask);
 
       if (childElement instanceof Mask) {
-        const mask = childElement,  ///
+        const maskElement = childElement,  ///
               element = this; ///
 
-        mask.maskElement(element);
+        maskElement.mask(element);
       }
     }.bind(this));
   }
