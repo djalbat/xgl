@@ -22,6 +22,8 @@ class ColouredCanvasElement extends CanvasElement {
   }
 
   render(colourRenderer) {
+    console.log(this.facets.length);
+    
     const vertexPositions = this.calculateVertexPositions(),
           vertexIndexes = this.calculateVertexIndexes(),
           vertexNormals = this.calculateVertexNormals(),
@@ -37,6 +39,8 @@ class ColouredCanvasElement extends CanvasElement {
     const facets = this.getFacets(),
           vertexColour = this.colour,
           vertexColours = facets.reduce(function(vertexColours, facet) {
+            const vertexColour = [ Math.random(), Math.random(), Math.random(), 1 ];
+
             vertexColours.push(vertexColour);
             vertexColours.push(vertexColour);
             vertexColours.push(vertexColour);

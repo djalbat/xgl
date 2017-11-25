@@ -51,35 +51,60 @@ class VerticalLineInXYPlane extends LineInXYPlane {
   calculateIntersectionsWithFacet(facet) {
     const lines = facet.getLines(),
           intersections = lines.map(function(line) {
-            const intersection = this.calculateIntersectionWithLine(line);
+            const intersection = this.calculateIntersection(line);
 
             return intersection;
           }.bind(this));
 
     return intersections;
   }
+  
+  calculateIntersection(line) {
+    let intersection = null;
 
-  calculateIntersectionWithLine(line) {
-    let intersection;
+    const lineNonParallel = isLineNonParallel(line);
 
-    const linePosition = line.getPosition(),
-          lineDirection = line.getDirection(),
-          linePositionComponents = linePosition, ///
-          lineDirectionComponents = lineDirection, ///
-          firstLineDirectionComponent = first(lineDirectionComponents),
-          firstLineDirectionComponentApproximatelyEqualToZero = isApproximatelyEqualToZero(firstLineDirectionComponent);
+    if (lineNonParallel) {
+      const lineIntersection = this.calculateLineIntersection(line),
+            lineIntersectionNonTrivial = isIntersectionNonTrivial(lineIntersection);
 
-    if (firstLineDirectionComponentApproximatelyEqualToZero) {
-      intersection = null;
-    } else {
-      const positionComponents = this.position, ///
-            firstPositionComponent = first(positionComponents),
-            firstLinePositionComponent = first(linePositionComponents);
-
-      intersection = (firstPositionComponent- firstLinePositionComponent) / firstLineDirectionComponent;
+      if (lineIntersectionNonTrivial) {
+        intersection = lineIntersection;  ///
+      }
     }
 
     return intersection;
+  }
+
+  calculateLineIntersection(line) {
+    const linePosition = line.getPosition(),
+          lineDirection = line.getDirection(),
+          positionComponents = this.position, ///
+          linePositionComponents = linePosition, ///
+          lineDirectionComponents = lineDirection, ///
+          firstPositionComponent = first(positionComponents),
+          firstLinePositionComponent = first(linePositionComponents),
+          firstLineDirectionComponent = first(lineDirectionComponents),
+          lineIntersection = (firstPositionComponent - firstLinePositionComponent) / firstLineDirectionComponent;
+    
+    return lineIntersection;
+  }
+
+  calculateIntersectionWithLine(line, lineIntersection) {
+    const linePosition = line.getPosition(),
+          lineDirection = line.getDirection(),
+          positionComponents = this.position, ///
+          directionComponents = this.direction, ///
+          linePositionComponents = linePosition, ///
+          lineDirectionComponents = lineDirection, ///
+          secondPositionComponent = second(positionComponents),
+          secondDirectionComponent = second(directionComponents),
+          secondLinePositionComponent = second(linePositionComponents),
+          secondLineDirectionComponent = second(lineDirectionComponents),
+          secondIntersectionComponent = secondLinePositionComponent + lineIntersection * secondLineDirectionComponent,
+          intersectionWithLine = (secondIntersectionComponent - secondPositionComponent) / secondDirectionComponent;
+
+    return intersectionWithLine;
   }
 
   static fromLineInXYPlane(lineInXYPlane) {
@@ -112,3 +137,22 @@ class VerticalLineInXYPlane extends LineInXYPlane {
 }
 
 module.exports = VerticalLineInXYPlane;
+
+function isLineNonParallel(line) {
+  const lineDirection = line.getDirection(),
+        lineDirectionComponents = lineDirection, ///
+        firstLineDirectionComponent = first(lineDirectionComponents),
+        secondLineDirectionComponent = second(lineDirectionComponents),
+        lineAngleTangent = firstLineDirectionComponent / secondLineDirectionComponent,
+        lineAngleTangentApproximatelyEqualToZero = isApproximatelyEqualToZero(lineAngleTangent),
+        lineParallel = lineAngleTangentApproximatelyEqualToZero, ///
+        lineNonParallel = !lineParallel;
+
+  return lineNonParallel;
+}
+
+function isIntersectionNonTrivial(intersection) {
+  const intersectionNonTrivial = ((intersection > 0 ) && (intersection < 1));
+
+  return intersectionNonTrivial;
+}

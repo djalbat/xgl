@@ -106,42 +106,16 @@ class Facet {
   }
   
   split(intersections, smallerFacets) {
-    const intersectionsIncludesNull = intersections.includes(null);
-
-    intersectionsIncludesNull ?
-      this.splitWithNullIntersection(intersections, smallerFacets) :
-        this.splitWithoutNullIntersection(intersections, smallerFacets);
-  }
-
-  splitWithNullIntersection(intersections, smallerFacets) {
     const nonNullIntersections = calculateNonNullIntersections(intersections),
-          nonTrivialNonNullIntersections = calculateNonTrivialIntersections(nonNullIntersections),
-          nonTrivialNonNullIntersectionsLength = nonTrivialNonNullIntersections.length;
+          nonNullIntersectionsLength = nonNullIntersections.length;
 
-    switch (nonTrivialNonNullIntersectionsLength) {
+    switch (nonNullIntersectionsLength) {
       case 2 :
-        this.splitWithTwoNonTrivialNonNullIntersections(intersections, smallerFacets);
-        break;
-
-      default :
-        const smallerFacet = this;  ///
-
-        smallerFacets.push(smallerFacet);
-        break;
-    }
-  }
-
-  splitWithoutNullIntersection(intersections, smallerFacets) {
-    const nonTrivialIntersections = calculateNonTrivialIntersections(intersections),
-          nonTrivialIntersectionsLength = nonTrivialIntersections.length;
-
-    switch(nonTrivialIntersectionsLength) {
-      case 2 :
-        this.splitWithTwoNonTrivialIntersections(intersections, smallerFacets);
+        this.splitWithTwoNonNullIntersections(intersections, smallerFacets);
         break;
 
       case 1 :
-        this.splitWithOneNonTrivialIntersection(intersections, smallerFacets);
+        this.splitWithOneNonNullIntersection(intersections, smallerFacets);
         break;
 
       default :
@@ -152,9 +126,9 @@ class Facet {
     }
   }
 
-  splitWithTwoNonTrivialNonNullIntersections(intersections, smallerFacets) {
+  splitWithTwoNonNullIntersections(intersections, smallerFacets) {
     const verticesLength = 3,
-          nullIntersectionIndex = calculateNonNullIntersectionIndex(intersections),
+          nullIntersectionIndex = calculateNullIntersectionIndex(intersections),
           places = (verticesLength - nullIntersectionIndex) % verticesLength;
 
     intersections = permute(intersections, places);
@@ -172,12 +146,12 @@ class Facet {
           firstVertices = [
             firstVertex,
             secondVertex,
-            secondIntermediateVertex
+            firstIntermediateVertex
           ],
           secondVertices = [
-            secondVertex,
             firstIntermediateVertex,
-            secondIntermediateVertex
+            secondIntermediateVertex,
+            firstVertex
           ],
           thirdVertices = [
             firstIntermediateVertex,
@@ -204,62 +178,10 @@ class Facet {
     }
   }
 
-  splitWithTwoNonTrivialIntersections(intersections, smallerFacets) {
+  splitWithOneNonNullIntersection(intersections, smallerFacets) {
     const verticesLength = 3,
-          trivialIntersectionIndex = calculateTrivialIntersectionIndex(intersections),
-          places = (verticesLength - trivialIntersectionIndex) % verticesLength;
-
-    intersections = permute(intersections, places);
-
-    this.vertices = permute(this.vertices, places);
-
-    const firstVertex = first(this.vertices),
-          secondVertex = second(this.vertices),
-          thirdVertex = third(this.vertices),
-          nonTrivialIntersections = intersections.slice(1),
-          firstNonTrivialIntersection = first(nonTrivialIntersections),
-          secondNonTrivialIntersection = second(nonTrivialIntersections),
-          firstIntermediateVertex = calculateIntermediateVertex(secondVertex, thirdVertex, firstNonTrivialIntersection),
-          secondIntermediateVertex = calculateIntermediateVertex(thirdVertex, firstVertex, secondNonTrivialIntersection),
-          firstVertices = [
-            firstVertex,
-            secondVertex,
-            firstIntermediateVertex
-          ],
-          secondVertices = [
-            firstVertex,
-            firstIntermediateVertex,
-            secondIntermediateVertex
-          ],
-          thirdVertices = [
-            firstIntermediateVertex,
-            thirdVertex,
-            secondIntermediateVertex
-          ],
-          firstFacet= Facet.fromVertices(firstVertices),
-          secondFacet = Facet.fromVertices(secondVertices),
-          thirdFacet = Facet.fromVertices(thirdVertices),
-          firstFacetTooSmall = firstFacet.isTooSmall(),
-          secondFacetTooSmall = secondFacet.isTooSmall(),
-          thirdFacetTooSmall = thirdFacet.isTooSmall();
-
-    if (!firstFacetTooSmall) {
-      smallerFacets.push(firstFacet);
-    }
-
-    if (!secondFacetTooSmall) {
-      smallerFacets.push(secondFacet);
-    }
-
-    if (!thirdFacetTooSmall) {
-      smallerFacets.push(thirdFacet);
-    }
-  }
-
-  splitWithOneNonTrivialIntersection(intersections, smallerFacets) {
-    const verticesLength = 3,
-          nonTrivialIntersectionIndex = calculateNonTrivialIntersectionIndex(intersections),
-          places = (verticesLength - nonTrivialIntersectionIndex) % verticesLength;
+          nonNullIntersectionIndex = calculateNonNullIntersectionIndex(intersections),
+          places = (verticesLength - nonNullIntersectionIndex) % verticesLength;
 
     intersections = permute(intersections, places);
 
@@ -269,8 +191,7 @@ class Facet {
           secondVertex = second(this.vertices),
           thirdVertex = third(this.vertices),
           firstIntersection = first(intersections),
-          nonTrivialIntersection = firstIntersection, ///
-          intermediateVertex = calculateIntermediateVertex(firstVertex, secondVertex, nonTrivialIntersection),
+          intermediateVertex = calculateIntermediateVertex(firstVertex, secondVertex, firstIntersection),
           firstVertices = [
             firstVertex,
             intermediateVertex,
@@ -328,19 +249,6 @@ class Facet {
 
 module.exports = Facet;
 
-function isIntersectionTrivial(intersection) {
-  const intersectionNonTrivial = isIntersectionNonTrivial(intersection),
-      intersectionTrivial = !intersectionNonTrivial;
-
-  return intersectionTrivial;
-}
-
-function isIntersectionNonTrivial(intersection) {
-  const intersectionNonTrivial = ((intersection > 0) && (intersection < 1));
-
-  return intersectionNonTrivial;
-}
-
 function calculateIntermediateVertex(startVertex, endVertex, nonNullIntersection) {
   const direction = subtract3(endVertex, startVertex),
         offset = scale3(direction, nonNullIntersection),
@@ -351,9 +259,7 @@ function calculateIntermediateVertex(startVertex, endVertex, nonNullIntersection
 
 function calculateNonNullIntersections(intersections) {
   const nonNullIntersections = intersections.reduce(function(nonNullIntersections, intersection) {
-    const intersectionNonNull = (intersection !== null);
-
-    if (intersectionNonNull) {
+    if (intersection !== null) {
       const nonNullIntersection = intersection; ///
 
       nonNullIntersections.push(nonNullIntersection);
@@ -365,58 +271,32 @@ function calculateNonNullIntersections(intersections) {
   return nonNullIntersections;
 }
 
-function calculateNonTrivialIntersections(intersections) {
-  const nonTrivialIntersections = intersections.reduce(function(nonTrivialIntersections, intersection) {
-    const intersectionNonTrivial = isIntersectionNonTrivial(intersection);
-
-    if (intersectionNonTrivial) {
-      const nonTrivialIntersection = intersection;  ///
-
-      nonTrivialIntersections.push(nonTrivialIntersection);
+function calculateNullIntersectionIndex(intersections) {
+  const nullIntersectionIndex = intersections.reduce(function(nullIntersectionIndex, intersection, index) {
+    if (nullIntersectionIndex === null) {
+      if (intersection === null) {
+        nullIntersectionIndex = index;
+      }
     }
 
-    return nonTrivialIntersections;
-  }, []);
-
-  return nonTrivialIntersections;
-}
-
-function calculateNonNullIntersectionIndex(intersections) {
-  const nullIntersectionIndex = intersections.indexOf(null);
+    return nullIntersectionIndex;
+  }, null);
 
   return nullIntersectionIndex;
 }
 
-function calculateTrivialIntersectionIndex(intersections) {
-  const trivialIntersectionIndex = intersections.reduce(function(trivialIntersectionIndex, intersection, index) {
-    if (trivialIntersectionIndex === null) {
-      const intersectionNonTrivial = isIntersectionTrivial(intersection);
-
-      if (intersectionNonTrivial) {
-        trivialIntersectionIndex = index;
+function calculateNonNullIntersectionIndex(intersections) {
+  const nullIntersectionIndex = intersections.reduce(function(nullIntersectionIndex, intersection, index) {
+    if (nullIntersectionIndex === null) {
+      if (intersection !== null) {
+        nullIntersectionIndex = index;
       }
     }
 
-    return trivialIntersectionIndex;
+    return nullIntersectionIndex;
   }, null);
 
-  return trivialIntersectionIndex;
-}
-
-function calculateNonTrivialIntersectionIndex(intersections) {
-  const nonTrivialIntersectionIndex = intersections.reduce(function(nonTrivialIntersectionIndex, intersection, index) {
-    if (nonTrivialIntersectionIndex === null) {
-      const intersectionNonTrivial = isIntersectionNonTrivial(intersection);
-
-      if (intersectionNonTrivial) {
-        nonTrivialIntersectionIndex = index;
-      }
-    }
-
-    return nonTrivialIntersectionIndex;
-  }, null);
-
-  return nonTrivialIntersectionIndex;
+  return nullIntersectionIndex;
 }
 
 function isMidPointToOneSideOfLinesInXYPlane(midPoint, linesInXYPlane) {

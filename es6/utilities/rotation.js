@@ -7,7 +7,7 @@ const arrayUtilities = require('../utilities/array'),
 
 const { dot3, cross3, normalise3 } = vectorUtilities,
       { first, second, third, fourth } = arrayUtilities,
-      { isApproximatelyEqualTo } = approximateUtilities,
+      { isApproximatelyEqualToOne } = approximateUtilities,
       { calculateHalfAngleCosine, calculateHalfAngleSine } = angleUtilities;
 
 function rotateImaginaryQuaternion(imaginaryQuaternion, rotationQuaternion, inverseRotationQuaternion) { return hamiltonProduct(hamiltonProduct(rotationQuaternion, imaginaryQuaternion), inverseRotationQuaternion); }
@@ -19,7 +19,7 @@ function calculateRotationQuaternion(normal) {
         crossProductOfUnitNormalAndZAxis = cross3(unitNormal, zAxis),
         angleOfRotationCosine = dotProductOfUnitNormalAndZAxis, ///
         angleOfRotationCosineAbsoluteValue = Math.abs(angleOfRotationCosine),
-        angleOfRotationCosineAbsoluteValueApproximatelyEqualToOne = isApproximatelyEqualTo(angleOfRotationCosineAbsoluteValue, 1),
+        angleOfRotationCosineAbsoluteValueApproximatelyEqualToOne = isApproximatelyEqualToOne(angleOfRotationCosineAbsoluteValue),
         axisOfRotation = angleOfRotationCosineAbsoluteValueApproximatelyEqualToOne ?
                            [ 1, 0, 0 ] : ///
                              crossProductOfUnitNormalAndZAxis,
