@@ -19,6 +19,16 @@ class Facet {
     this.normal = normal;
   }
 
+  clone() {
+    const vertices = this.vertices.map(function(vertex) {
+            return vertex.slice();
+          }),
+          normal = this.normal.slice(),
+          facet = new Facet(vertices, normal);
+
+    return facet;
+  }
+
   getVertices() {
     return this.vertices;
   }
@@ -60,13 +70,6 @@ class Facet {
           tooSmall = normalLengthApproximatelyEqualToZero;  ///
     
     return tooSmall;
-  }
-  
-  isOutsideLinesInXYPlane(linesInXYPlane) {
-    const insideLinesInXYPlane = this.isInsideLinesInXYPlane(linesInXYPlane),
-          outsideLinesInXYPlane = !insideLinesInXYPlane;
-    
-    return outsideLinesInXYPlane;
   }
   
   isInsideLinesInXYPlane(linesInXYPlane) {
@@ -334,7 +337,3 @@ function isMidPointToTheRightOfLinesInXYPlane(midPoint, linesInXYPlane) {
 
   return midPointToTheRightOfLinesInXYPlane;
 }
-
-
-
-

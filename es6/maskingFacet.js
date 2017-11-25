@@ -7,7 +7,7 @@ const Facet = require('./facet'),
       rotationUtilities = require('./utilities/rotation'),
       VerticalLineInXYPlane = require('./verticalLineInXYPlane');
 
-const { dilute } = arrayUtilities,
+const { separate, concatenate } = arrayUtilities,
       { calculateNormal, rotateVertices } = verticesUtilities,
       { calculateRotationQuaternion, calculateForwardsRotationQuaternion, calculateBackwardsRotationQuaternion } = rotationUtilities;
 
@@ -38,18 +38,29 @@ class MaskingFacet extends Facet {
   }
 
   maskFacet(facet, unmaskedFacets) {
-    const forwardsRotationQuaternion = calculateForwardsRotationQuaternion(this.rotationQuaternion),
+    const unmaskedFacet = facet.clone(),
+          forwardsRotationQuaternion = calculateForwardsRotationQuaternion(this.rotationQuaternion),
           backwardsRotationQuaternion = calculateBackwardsRotationQuaternion(this.rotationQuaternion);
 
     facet.rotate(forwardsRotationQuaternion);
 
-    const smallerFacets = this.splitFacet(facet);
+    const smallerFacets = this.splitFacet(facet),
+          maskedSmallerFacets = [],
+          unmaskedSmallerFacets = [];
 
-    this.diluteSmallerFacets(smallerFacets, unmaskedFacets);
+    this.separateSmallerFacets(smallerFacets, maskedSmallerFacets, unmaskedSmallerFacets);
 
-    smallerFacets.forEach(function(smallerFacet) {
-      smallerFacet.rotate(backwardsRotationQuaternion);
-    });
+    const maskedSmallerFacetsLength = maskedSmallerFacets.length;
+
+    if (maskedSmallerFacetsLength === 0) {
+      concatenate(unmaskedFacets, unmaskedFacet);
+    } else {
+      unmaskedSmallerFacets.forEach(function(unmaskedSmallerFacet) {
+        unmaskedSmallerFacet.rotate(backwardsRotationQuaternion);
+      });
+
+      concatenate(unmaskedFacets, unmaskedSmallerFacets);
+    }
   }
   
   splitFacet(facet) {
@@ -71,14 +82,14 @@ class MaskingFacet extends Facet {
     return smallerFacets;
   }
 
-  diluteSmallerFacets(smallerFacets, unmaskedFacets) {
+  separateSmallerFacets(smallerFacets, maskedSmallerFacets, unmaskedSmallerFacets) {
     const linesInXYPlane = this.getLinesInXYPlane();
 
-    dilute(smallerFacets, unmaskedFacets, function(smallerFacet) {
-      const smallerFacetOutsideLinesInXYPlane = smallerFacet.isOutsideLinesInXYPlane(linesInXYPlane),
-            smallerFacetUnmasked = smallerFacetOutsideLinesInXYPlane; ///
+    separate(smallerFacets, maskedSmallerFacets, unmaskedSmallerFacets, function(smallerFacet) {
+      const smallerFacetInsideLinesInXYPlane = smallerFacet.isInsideLinesInXYPlane(linesInXYPlane),
+            smallerFacetMasked = smallerFacetInsideLinesInXYPlane; ///
 
-      return smallerFacetUnmasked;
+      return smallerFacetMasked;
     });
   }
 

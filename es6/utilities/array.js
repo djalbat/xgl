@@ -2,7 +2,8 @@
 
 const necessary = require('necessary');
 
-const { arrayUtilities } = necessary;
+const { arrayUtilities } = necessary,
+      { splice } = arrayUtilities;
 
 function chop(elements, arrayLength) {
   const arrays = [],
@@ -55,10 +56,18 @@ function guarantee(arrayOrElement) {
              [arrayOrElement];
 }
 
+function concatenate(elements, arrayOrElement) {
+  const array = guarantee(arrayOrElement),
+        start = 0,
+        deleteCount = 0;
+
+  splice(elements, start, deleteCount, array);
+}
+
 module.exports = Object.assign(arrayUtilities, {
   chop: chop,
   dilute: dilute,
   permute: permute,
   flatten: flatten,
-  guarantee: guarantee
+  concatenate: concatenate  
 });
