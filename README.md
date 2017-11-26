@@ -18,6 +18,8 @@ You can clone the repository with [Git](https://git-scm.com/)...
     
 **This section is a work in progress. Again, please come back another day.**
 
+![Masked cube](https://github.com/djalbat/Jiggle/blob/master/assets/masked_cube.jpg)
+
 ![Masked cube facets](https://github.com/djalbat/Jiggle/blob/master/assets/masked_cube_facets.jpg)
 
 ## Compiling from source
