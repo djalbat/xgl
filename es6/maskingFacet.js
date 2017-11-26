@@ -1,79 +1,75 @@
 'use strict';
 
-const Facet = require('./facet'),
-      LineInXYPlane = require('./lineInXYPlane'),
-      arrayUtilities = require('./utilities/array'),
+const arrayUtilities = require('./utilities/array'),
       verticesUtilities = require('./utilities/vertices'),
       rotationUtilities = require('./utilities/rotation'),
-      VerticalLineInXYPlane = require('./verticalLineInXYPlane');
+      EdgeInXYPlane = require('./facet/edgeInXYPlane'),
+      VerticalLineInXYPlane = require('./facet/verticalLineInXYPlane');
 
-const { separate, concatenate } = arrayUtilities,
-      { calculateNormal, rotateVertices } = verticesUtilities,
+const { push, separate } = arrayUtilities,
+      { rotateVertices } = verticesUtilities,
       { calculateRotationQuaternion, calculateForwardsRotationQuaternion, calculateBackwardsRotationQuaternion } = rotationUtilities;
 
-class MaskingFacet extends Facet {
-  constructor(vertices, normal, rotationQuaternion) {
-    super(vertices, normal);
-    
-    this.rotationQuaternion = rotationQuaternion;
+class MaskingFacet {
+  constructor(edgesInXYPlane, verticalLinesInXYPlane, forwardsRotationQuaternion, backwardsRotationQuaternion) {
+    this.edgesInXYPlane = edgesInXYPlane;
+    this.verticalLinesInXYPlane = verticalLinesInXYPlane;
+    this.forwardsRotationQuaternion = forwardsRotationQuaternion;
+    this.backwardsRotationQuaternion = backwardsRotationQuaternion;
   }
 
-  getRotationQuaternion() {
-    return this.rotationQuaternion;
+  getEdgesInXYPlane() {
+    return this.edgesInXYPlane;
   }
 
-  getLinesInXYPlane() {
-    const verticesLength = 3, ///
-          linesInXYPlane = this.vertices.map(function(vertex, index) {
-            const startIndex = index,
-                  endIndex = (startIndex + 1) % verticesLength,
-                  startVertex = this.vertices[startIndex],
-                  endVertex = this.vertices[endIndex],
-                  lineInXYPlane = LineInXYPlane.fromVertices(startVertex, endVertex);
-                  
-            return lineInXYPlane;
-          }.bind(this));
+  getVerticalLinesInXYPlane() {
+    return this.verticalLinesInXYPlane;
+  }
 
-    return linesInXYPlane;
+  getForwardsRotationQuaternion() {
+    return this.forwardsRotationQuaternion;
+  }
+
+  getBackwardsRotationQuaternion() {
+    return this.backwardsRotationQuaternion;
   }
 
   maskFacet(facet, unmaskedFacets) {
-    const unmaskedFacet = facet.clone(),
-          forwardsRotationQuaternion = calculateForwardsRotationQuaternion(this.rotationQuaternion),
-          backwardsRotationQuaternion = calculateBackwardsRotationQuaternion(this.rotationQuaternion);
+    const unmaskedFacet = facet.clone();
 
-    facet.rotate(forwardsRotationQuaternion);
+    facet.rotate(this.forwardsRotationQuaternion);
 
-    const smallerFacets = this.splitFacet(facet),
+    const maskingFacet = this,  ///
+          smallerFacets = this.splitFacet(facet),
           maskedSmallerFacets = [],
           unmaskedSmallerFacets = [];
 
-    this.separateSmallerFacets(smallerFacets, maskedSmallerFacets, unmaskedSmallerFacets);
+    separate(smallerFacets, maskedSmallerFacets, unmaskedSmallerFacets, function(smallerFacet) {
+      const smallerFacetMasked = smallerFacet.isMasked(maskingFacet);
+
+      return smallerFacetMasked;
+    });
 
     const maskedSmallerFacetsLength = maskedSmallerFacets.length;
 
     if (maskedSmallerFacetsLength === 0) {
-      concatenate(unmaskedFacets, unmaskedFacet);
+      unmaskedFacets.push(unmaskedFacet);
     } else {
       unmaskedSmallerFacets.forEach(function(unmaskedSmallerFacet) {
-        unmaskedSmallerFacet.rotate(backwardsRotationQuaternion);
-      });
+        unmaskedSmallerFacet.rotate(this.backwardsRotationQuaternion);
+      }.bind(this));
 
-      concatenate(unmaskedFacets, unmaskedSmallerFacets);
+      push(unmaskedFacets, unmaskedSmallerFacets);
     }
   }
   
   splitFacet(facet) {
-    const linesInXYPlane = this.getLinesInXYPlane();
-
     let facets = [
           facet
         ],
         smallerFacets = facets; ///
 
-    linesInXYPlane.forEach(function(lineInXYPlane) {
-      const verticalLineInXYPlane = VerticalLineInXYPlane.fromLineInXYPlane(lineInXYPlane);
-
+    this.verticalLinesInXYPlane.forEach(function(verticalLineInXYPlane) {
       smallerFacets = verticalLineInXYPlane.splitFacets(facets);
 
       facets = smallerFacets; ///
@@ -82,39 +78,34 @@ class MaskingFacet extends Facet {
     return smallerFacets;
   }
 
-  separateSmallerFacets(smallerFacets, maskedSmallerFacets, unmaskedSmallerFacets) {
-    const linesInXYPlane = this.getLinesInXYPlane();
-
-    separate(smallerFacets, maskedSmallerFacets, unmaskedSmallerFacets, function(smallerFacet) {
-      const smallerFacetInsideLinesInXYPlane = smallerFacet.isInsideLinesInXYPlane(linesInXYPlane),
-            smallerFacetMasked = smallerFacetInsideLinesInXYPlane; ///
-
-      return smallerFacetMasked;
-    });
-  }
-
   static fromFacet(facet) {
-    let normal = facet.getNormal();
-    
-    const rotationQuaternion = calculateRotationQuaternion(normal);
+    const facetNormal = facet.getNormal(),
+          facetVertices = facet.getVertices(),
+          rotationQuaternion = calculateRotationQuaternion(facetNormal),
+          vertices = rotateVertices(facetVertices, rotationQuaternion),
+          edgesInXYPlane = calculateEdgesInXYPlane(vertices),
+          verticalLinesInXYPlane = edgesInXYPlane.map(VerticalLineInXYPlane.fromEdgeInXYPlane),
+          forwardsRotationQuaternion = calculateForwardsRotationQuaternion(rotationQuaternion),
+          backwardsRotationQuaternion = calculateBackwardsRotationQuaternion(rotationQuaternion),
+          maskingFacet = new MaskingFacet(edgesInXYPlane, verticalLinesInXYPlane, forwardsRotationQuaternion, backwardsRotationQuaternion);
 
-    let vertices = facet.getVertices();
-    
-    vertices = rotateVertices(vertices, rotationQuaternion);
-    
-    normal = calculateNormal(vertices);
-    
-    const maskingFacet = new MaskingFacet(vertices, normal, rotationQuaternion);
-
-    return maskingFacet;
-  }
-  
-  static fromVertices(vertices) {
-    const facet = Facet.fromVertices(vertices),
-          maskingFacet = MaskingFacet.fromFacet(facet);
-    
     return maskingFacet;
   }
 }
 
 module.exports = MaskingFacet;
+
+function calculateEdgesInXYPlane(vertices) {
+  const verticesLength = 3, ///
+        edgesInXYPlane = vertices.map(function(vertex, index) {
+          const startIndex = index,
+              endIndex = (startIndex + 1) % verticesLength,
+              startVertex = vertices[startIndex],
+              endVertex = vertices[endIndex],
+              edgeInXYPlane = EdgeInXYPlane.fromStartVertexAndEndVertex(startVertex, endVertex);
+
+          return edgeInXYPlane;
+        }.bind(this));
+
+  return edgesInXYPlane;
+}

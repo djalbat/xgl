@@ -4,7 +4,6 @@ const Element = require('../element'),
       MaskingFacet = require('../maskingFacet'),
       arrayUtilities = require('../utilities/array');
 
-
 const { push } = arrayUtilities;
 
 class Mask extends Element {

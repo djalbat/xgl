@@ -1,6 +1,6 @@
 'use strict';
 
-const Line = require('./line'),
+const Edge = require('./facet/edge'),
       arrayUtilities = require('./utilities/array'),
       vectorUtilities = require('./utilities/vector'),
       vertexUtilities = require('./utilities/vertex'),
@@ -19,16 +19,6 @@ class Facet {
     this.normal = normal;
   }
 
-  clone() {
-    const vertices = this.vertices.map(function(vertex) {
-            return vertex.slice();
-          }),
-          normal = this.normal.slice(),
-          facet = new Facet(vertices, normal);
-
-    return facet;
-  }
-
   getVertices() {
     return this.vertices;
   }
@@ -37,19 +27,19 @@ class Facet {
     return this.normal;
   }
 
-  getLines() {
+  getEdges() {
     const verticesLength = 3, ///
-          lines = this.vertices.map(function(vertex, index) {
+          edges = this.vertices.map(function(vertex, index) {
             const startIndex = index,
                   endIndex = (startIndex + 1) % verticesLength,
                   startVertex = this.vertices[startIndex],
                   endVertex = this.vertices[endIndex],
-                  line = Line.fromVertices(startVertex, endVertex);
+                  edge = Edge.fromVertices(startVertex, endVertex);
   
-            return line;
+            return edge;
           }.bind(this));
 
-    return lines;
+    return edges;
   }
   
   getMidPoint() {
@@ -72,12 +62,13 @@ class Facet {
     return tooSmall;
   }
   
-  isInsideLinesInXYPlane(linesInXYPlane) {
-    const midPoint = this.getMidPoint(),
-          midPointToOneSideOfLinesInXYPlane = isMidPointToOneSideOfLinesInXYPlane(midPoint, linesInXYPlane),
-          insideLinesInXYPlane = midPointToOneSideOfLinesInXYPlane;  ///
-
-    return insideLinesInXYPlane;
+  isMasked(maskingFacet) {
+    const edgesInXYPlane = maskingFacet.getEdgesInXYPlane(),
+          midPoint = this.getMidPoint(),
+          midPointToOneSideOfEdgesInXYPlane = isMidPointToOneSideOfEdgesInXYPlane(midPoint, edgesInXYPlane),
+          masked = midPointToOneSideOfEdgesInXYPlane;  ///
+    
+    return masked;
   }
   
   applyTransforms(transforms) {
@@ -136,16 +127,17 @@ class Facet {
 
     intersections = permute(intersections, places);
 
+    intersections = intersections.slice(1); ///
+
     this.vertices = permute(this.vertices, places);
 
     const firstVertex = first(this.vertices),
           secondVertex = second(this.vertices),
           thirdVertex = third(this.vertices),
-          nonNullIntersections = intersections.slice(1),
-          firstNonNullIntersection = first(nonNullIntersections),
-          secondNonNullIntersection = second(nonNullIntersections),
-          firstIntermediateVertex = calculateIntermediateVertex(secondVertex, thirdVertex, firstNonNullIntersection),
-          secondIntermediateVertex = calculateIntermediateVertex(thirdVertex, firstVertex, secondNonNullIntersection),
+          firstIntersection = first(intersections),
+          secondIntersection = second(intersections),
+          firstIntermediateVertex = calculateIntermediateVertex(secondVertex, thirdVertex, firstIntersection),
+          secondIntermediateVertex = calculateIntermediateVertex(thirdVertex, firstVertex, secondIntersection),
           firstVertices = [
             firstVertex,
             secondVertex,
@@ -220,14 +212,24 @@ class Facet {
   }
 
   calculateIntersectionsWithVerticalLineInXYPlane(verticalLineInXYPlane) {
-    const lines = this.getLines(),
-          intersections = lines.map(function(line) {
-            const intersection = line.calculateIntersectionWithVerticalLineInXYPlane(verticalLineInXYPlane);
+    const edges = this.getEdges(),
+          intersections = edges.map(function(edge) {
+            const intersection = edge.calculateIntersectionWithVerticalLineInXYPlane(verticalLineInXYPlane);
   
             return intersection;
           });
 
     return intersections;
+  }
+
+  clone() {
+    const vertices = this.vertices.map(function(vertex) {
+            return vertex.slice();
+          }),
+          normal = this.normal.slice(),
+          facet = new Facet(vertices, normal);
+
+    return facet;
   }
 
   static fromVertices(vertices) {
@@ -252,9 +254,9 @@ class Facet {
 
 module.exports = Facet;
 
-function calculateIntermediateVertex(startVertex, endVertex, nonNullIntersection) {
+function calculateIntermediateVertex(startVertex, endVertex, intersection) {
   const direction = subtract3(endVertex, startVertex),
-        offset = scale3(direction, nonNullIntersection),
+        offset = scale3(direction, intersection),
         intermediateVertex = add3(startVertex, offset);
 
   return intermediateVertex;
@@ -302,38 +304,38 @@ function calculateNonNullIntersectionIndex(intersections) {
   return nullIntersectionIndex;
 }
 
-function isMidPointToOneSideOfLinesInXYPlane(midPoint, linesInXYPlane) {
-  const midPointToTheLeftOfLinesInXYPlane = isMidPointToTheLeftOfLinesInXYPlane(midPoint, linesInXYPlane),
-        midPointToTheRightOfLinesInXYPlane = isMidPointToTheRightOfLinesInXYPlane(midPoint, linesInXYPlane),
-        midPointToOneSideOfLinesInXYPlane = midPointToTheLeftOfLinesInXYPlane || midPointToTheRightOfLinesInXYPlane; ///
+function isMidPointToOneSideOfEdgesInXYPlane(midPoint, edgesInXYPlane) {
+  const midPointToTheLeftOfEdgesInXYPlane = isMidPointToTheLeftOfEdgesInXYPlane(midPoint, edgesInXYPlane),
+        midPointToTheRightOfEdgesInXYPlane = isMidPointToTheRightOfEdgesInXYPlane(midPoint, edgesInXYPlane),
+        midPointToOneSideOfEdgesInXYPlane = midPointToTheLeftOfEdgesInXYPlane || midPointToTheRightOfEdgesInXYPlane; ///
 
-  return midPointToOneSideOfLinesInXYPlane;
+  return midPointToOneSideOfEdgesInXYPlane;
 }
 
-function isMidPointToTheLeftOfLinesInXYPlane(midPoint, linesInXYPlane) {
-  const midPointToTheLeftOfLinesInXYPlane = linesInXYPlane.reduce(function(midPointToTheLeftOfLinesInXYPlane, lineInXYPlane) {
-    if (midPointToTheLeftOfLinesInXYPlane) {
-      const midPointToTheLeftOfLineInXYPlane = lineInXYPlane.isMidPointToTheLeft(midPoint);
+function isMidPointToTheLeftOfEdgesInXYPlane(midPoint, edgesInXYPlane) {
+  const midPointToTheLeftOfEdgesInXYPlane = edgesInXYPlane.reduce(function(midPointToTheLeftOfEdgesInXYPlane, edgeInXYPlane) {
+    if (midPointToTheLeftOfEdgesInXYPlane) {
+      const midPointToTheLeftOfEdgeInXYPlane = edgeInXYPlane.isMidPointToTheLeft(midPoint);
 
-      midPointToTheLeftOfLinesInXYPlane = midPointToTheLeftOfLineInXYPlane;
+      midPointToTheLeftOfEdgesInXYPlane = midPointToTheLeftOfEdgeInXYPlane;
     }
 
-    return midPointToTheLeftOfLinesInXYPlane;
+    return midPointToTheLeftOfEdgesInXYPlane;
   }, true);
 
-  return midPointToTheLeftOfLinesInXYPlane;
+  return midPointToTheLeftOfEdgesInXYPlane;
 }
 
-function isMidPointToTheRightOfLinesInXYPlane(midPoint, linesInXYPlane) {
-  const midPointToTheRightOfLinesInXYPlane = linesInXYPlane.reduce(function(midPointToTheRightOfLinesInXYPlane, lineInXYPlane) {
-    if (midPointToTheRightOfLinesInXYPlane) {
-      const midPointToTheRightOfLineInXYPlane = lineInXYPlane.isMidPointToTheRight(midPoint);
+function isMidPointToTheRightOfEdgesInXYPlane(midPoint, edgesInXYPlane) {
+  const midPointToTheRightOfEdgesInXYPlane = edgesInXYPlane.reduce(function(midPointToTheRightOfEdgesInXYPlane, edgeInXYPlane) {
+    if (midPointToTheRightOfEdgesInXYPlane) {
+      const midPointToTheRightOfEdgeInXYPlane = edgeInXYPlane.isMidPointToTheRight(midPoint);
 
-      midPointToTheRightOfLinesInXYPlane = midPointToTheRightOfLineInXYPlane;
+      midPointToTheRightOfEdgesInXYPlane = midPointToTheRightOfEdgeInXYPlane;
     }
 
-    return midPointToTheRightOfLinesInXYPlane;
+    return midPointToTheRightOfEdgesInXYPlane;
   }, true);
 
-  return midPointToTheRightOfLinesInXYPlane;
+  return midPointToTheRightOfEdgesInXYPlane;
 }

@@ -14,7 +14,7 @@ const masking = () => {
   (() => 
 
     <Scene canvas={canvas}>
-      <Camera initialDistance={15} initialOffset={[ 0, 0, 0 ]} canvas={canvas} />
+      <Camera initialDistance={5} initialOffset={[ 0, 0, 0 ]} canvas={canvas} />
       <ColouredCuboid colour={[ 1, 1, 0, 1 ]} position={[ -0.5, -0.5, -0.5 ]}>
         <Mask>
           <ColouredCuboid colour={[ 1, 1, 0, 1 ]} width={0.5} height={0.5} depth={0.5} position={[ 0.25, 0.25, 0.25 ]}>

@@ -1,22 +1,22 @@
 'use strict';
 
-const Line = require('./line'),
-      vectorUtilities = require('./utilities/vector'),
-      arrayUtilities = require('./utilities/array'),
-      vertexUtilities = require('./utilities/vertex');
+const Edge = require('../facet/edge'),
+      arrayUtilities = require('../utilities/array'),
+      vectorUtilities = require('../utilities/vector'),
+      vertexUtilities = require('../utilities/vertex');
 
 const { third } = arrayUtilities,
       { subtract3, cross3 } = vectorUtilities,
       { projectOntoXYPlane } = vertexUtilities;
 
-class LineInXYPlane extends Line {
+class EdgeInXYPlane extends Edge {
   isMidPointToTheLeft(midPoint) {
     midPoint = projectOntoXYPlane(midPoint);
 
     const position = this.getPosition(),
-          direction = this.getDirection(),
+          extent = this.getExtent(),
           midPointDirection = subtract3(midPoint, position),
-          crossProduct = cross3(direction, midPointDirection), ///
+          crossProduct = cross3(extent, midPointDirection), ///
           crossProductComponents = crossProduct,  ///
           thirdCrossProductComponent = third(crossProductComponents),
           midPointToTheLeft = (thirdCrossProductComponent > 0);
@@ -31,13 +31,13 @@ class LineInXYPlane extends Line {
     return midPointToTheRight;
   }
   
-  static fromVertices(startVertex, endVertex) {
+  static fromStartVertexAndEndVertex(startVertex, endVertex) {
     const position = startVertex.slice(), ///
-          direction = subtract3(endVertex, startVertex),
-          lineInXYPlane = new LineInXYPlane(position, direction);
+          extent = subtract3(endVertex, startVertex),
+          edgeInXYPlane = new EdgeInXYPlane(position, extent);
 
-    return lineInXYPlane;
+    return edgeInXYPlane;
   }
 }
 
-module.exports = LineInXYPlane;
+module.exports = EdgeInXYPlane;

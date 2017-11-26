@@ -50,24 +50,9 @@ function flatten(arrays) {
   }, []);
 }
 
-function guarantee(arrayOrElement) {
-  return (arrayOrElement instanceof Array) ?
-            arrayOrElement :
-             [arrayOrElement];
-}
-
-function concatenate(elements, arrayOrElement) {
-  const array = guarantee(arrayOrElement),
-        start = 0,
-        deleteCount = 0;
-
-  splice(elements, start, deleteCount, array);
-}
-
 module.exports = Object.assign(arrayUtilities, {
   chop: chop,
   dilute: dilute,
   permute: permute,
-  flatten: flatten,
-  concatenate: concatenate  
+  flatten: flatten  
 });
