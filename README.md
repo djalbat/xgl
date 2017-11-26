@@ -13,6 +13,12 @@ You can clone the repository with [Git](https://git-scm.com/)...
 ...and then install the necessary modules with npm from within the project's root directory:
 
     npm install
+    
+# Usage
+    
+**This section is a work in progress. Again, please come back another day.**
+
+![Masked cube facets](https://github.com/djalbat/Jiggle/blob/master/assets/masked_cube_facets.jpg)
 
 ## Compiling from source
 
