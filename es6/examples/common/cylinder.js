@@ -2,33 +2,54 @@
 
 const constants = require('../../constants');
 
-const { CYLINDER_FACES } = constants;
+const { CYLINDER_SIDES } = constants;
 
-const initialVertexPositions = calculateInitialVertexPositions();
+const defaultIndexes = calculateDefaultIndexes(),
+      defaultVertices = calculateDefaultVertices();
 
 module.exports = {
-  initialVertexPositions: initialVertexPositions
+  defaultIndexes: defaultIndexes,
+  defaultVertices: defaultVertices
 };
 
-function calculateInitialVertexPositions() {
-  const initialVertexPositions = [],
-        faces = CYLINDER_FACES,
-        step = 2 * Math.PI / faces;
+function calculateDefaultIndexes() {
+  const defaultIndexes = [],
+        sides = CYLINDER_SIDES,
+        defaultIndexCount = sides * 2;
 
-  for (let count = 0; count < faces; count++) {
-    const angle = step * count,
-          firstX = (Math.cos(angle) + 1 )/ 2,
-          firstY = (Math.sin(angle) + 1 )/ 2,
-          secondX = (Math.cos(angle + step) + 1 )/ 2,
-          secondY = (Math.sin(angle + step) + 1 )/ 2,
-          firstZ = 0,
-          secondZ = 1;
+  for (let count = 0; count < sides; count++) {
+    const defaultIndex = count * 2;
 
-    initialVertexPositions.push([ firstX, firstY, firstZ ]);
-    initialVertexPositions.push([ secondX, secondY, firstZ ]);
-    initialVertexPositions.push([ secondX, secondY, secondZ ]);
-    initialVertexPositions.push([ firstX, firstY, secondZ ]);
+    defaultIndexes.push([ (defaultIndex + 1) % defaultIndexCount, (defaultIndex + 0) % defaultIndexCount, (defaultIndex + 2) % defaultIndexCount ]);
+    defaultIndexes.push([ (defaultIndex + 2) % defaultIndexCount, (defaultIndex + 3) % defaultIndexCount, (defaultIndex + 1) % defaultIndexCount ]);
   }
 
-  return initialVertexPositions;
+  return defaultIndexes;
+}
+
+function calculateDefaultVertices() {
+  const defaultVertices = [],
+        sides = CYLINDER_SIDES,
+        step = 2 * Math.PI / sides;
+
+  for (let count = 0; count < sides; count++) {
+    const angle = step * count,
+          angleCosine = Math.cos(angle),
+          angleSine = Math.sin(angle),
+          topDefaultVertex = [
+            ( angleCosine + 1 ) / 2,
+            ( angleSine + 1 ) / 2,
+            0
+          ],
+          bottomDefaultVertex = [
+            ( angleCosine + 1 ) / 2,
+            ( angleSine + 1 ) / 2,
+            1
+          ];
+
+    defaultVertices.push(topDefaultVertex);
+    defaultVertices.push(bottomDefaultVertex);
+  }
+
+  return defaultVertices;
 }

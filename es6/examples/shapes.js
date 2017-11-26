@@ -19,7 +19,7 @@ const shapes = () => {
 
     <Scene imageMap={imageMap} canvas={canvas}>
       <Camera initialDistance={10} initialOffset={[ 0, 0, 0 ]} canvas={canvas} />
-      <ColouredCylinder width={1} height={1} depth={1} position={[ 0, -1, 1 ]} rotations={[ 0, 0, 0 ]} colour={[ 1, 0, 0, 1 ]} />
+      <ColouredCylinder colour={[ 1, 0, 0, 1 ]} />
     </Scene>
 
   );
@@ -28,7 +28,5 @@ const shapes = () => {
 module.exports = shapes;
 
 /*
-
- <TexturedCuboid width={1} height={1} depth={1} position={[ 0, 2, 0 ]} imageName="bricks.jpg" />
-
-*/
+ <TexturedCuboid colour={[ 0, 1, 1, 1 ]} position={[ 0, 0, -1 ]} imageName="bricks.jpg" />
+ */
