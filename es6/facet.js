@@ -1,13 +1,15 @@
 'use strict';
 
 const Edge = require('./facet/edge'),
+      constants = require('./constants'),
       arrayUtilities = require('./utilities/array'),
       vectorUtilities = require('./utilities/vector'),
       vertexUtilities = require('./utilities/vertex'),
       verticesUtilities = require('./utilities/vertices'),
       approximateUtilities = require('./utilities/approximate');
 
-const { rotateAboutZAxis } = vertexUtilities,
+const { VERTICES_LENGTH } = constants,
+      { rotateAboutZAxis } = vertexUtilities,
       { isApproximatelyEqualToZero } = approximateUtilities,
       { first, second, third, permute } = arrayUtilities,
       { calculateNormal, rotateVertices } = verticesUtilities,
@@ -28,10 +30,9 @@ class Facet {
   }
 
   getEdges() {
-    const verticesLength = 3, ///
-          edges = this.vertices.map(function(vertex, index) {
+    const edges = this.vertices.map(function(vertex, index) {
             const startIndex = index,
-                  endIndex = (startIndex + 1) % verticesLength,
+                  endIndex = (startIndex + 1) % VERTICES_LENGTH,
                   startVertex = this.vertices[startIndex],
                   endVertex = this.vertices[endIndex],
                   edge = Edge.fromVertices(startVertex, endVertex);
@@ -112,18 +113,15 @@ class Facet {
         this.splitWithOneNonNullIntersection(intersections, smallerFacets);
         break;
 
-      default :
-        const smallerFacet = this;  ///
-
-        smallerFacets.push(smallerFacet);
+      case 0 :
+        this.splitWithZeroNonNullIntersections(intersections, smallerFacets);
         break;
     }
   }
 
   splitWithTwoNonNullIntersections(intersections, smallerFacets) {
-    const verticesLength = 3,
-          nullIntersectionIndex = calculateNullIntersectionIndex(intersections),
-          places = (verticesLength - nullIntersectionIndex) % verticesLength;
+    const nullIntersectionIndex = calculateNullIntersectionIndex(intersections),
+          places = (VERTICES_LENGTH - nullIntersectionIndex) % VERTICES_LENGTH;
 
     intersections = permute(intersections, places);
 
@@ -174,9 +172,8 @@ class Facet {
   }
 
   splitWithOneNonNullIntersection(intersections, smallerFacets) {
-    const verticesLength = 3,
-          nonNullIntersectionIndex = calculateNonNullIntersectionIndex(intersections),
-          places = (verticesLength - nonNullIntersectionIndex) % verticesLength;
+    const nonNullIntersectionIndex = calculateNonNullIntersectionIndex(intersections),
+          places = (VERTICES_LENGTH - nonNullIntersectionIndex) % VERTICES_LENGTH;
 
     intersections = permute(intersections, places);
 
@@ -209,6 +206,12 @@ class Facet {
     if (!secondFacetTooSmall) {
       smallerFacets.push(secondFacet);
     }
+  }
+
+  splitWithZeroNonNullIntersections(intersections, smallerFacets) {
+    const smallerFacet = this;  ///
+
+    smallerFacets.push(smallerFacet);
   }
 
   calculateIntersectionsWithVerticalLineInXYPlane(verticalLineInXYPlane) {

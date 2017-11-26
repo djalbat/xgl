@@ -1,12 +1,14 @@
 'use strict';
 
-const arrayUtilities = require('./utilities/array'),
+const constants = require('./constants'),
+      arrayUtilities = require('./utilities/array'),
       verticesUtilities = require('./utilities/vertices'),
       rotationUtilities = require('./utilities/rotation'),
       EdgeInXYPlane = require('./facet/edgeInXYPlane'),
       VerticalLineInXYPlane = require('./facet/verticalLineInXYPlane');
 
-const { push, separate } = arrayUtilities,
+const { VERTICES_LENGTH } = constants,
+      { push, separate } = arrayUtilities,
       { rotateVertices } = verticesUtilities,
       { calculateRotationQuaternion, calculateForwardsRotationQuaternion, calculateBackwardsRotationQuaternion } = rotationUtilities;
 
@@ -82,9 +84,13 @@ class MaskingFacet {
     const facetNormal = facet.getNormal(),
           facetVertices = facet.getVertices(),
           rotationQuaternion = calculateRotationQuaternion(facetNormal),
-          vertices = rotateVertices(facetVertices, rotationQuaternion),
-          edgesInXYPlane = calculateEdgesInXYPlane(vertices),
-          verticalLinesInXYPlane = edgesInXYPlane.map(VerticalLineInXYPlane.fromEdgeInXYPlane),
+          verticesInXYPlane = rotateVertices(facetVertices, rotationQuaternion),
+          edgesInXYPlane = calculateEdgesInXYPlane(verticesInXYPlane),
+          verticalLinesInXYPlane = edgesInXYPlane.map(function(edgeInXYPlane) {
+            const verticalLineInXYPlane = VerticalLineInXYPlane.fromEdgeInXYPlane(edgeInXYPlane);
+            
+            return verticalLineInXYPlane;
+          }),
           forwardsRotationQuaternion = calculateForwardsRotationQuaternion(rotationQuaternion),
           backwardsRotationQuaternion = calculateBackwardsRotationQuaternion(rotationQuaternion),
           maskingFacet = new MaskingFacet(edgesInXYPlane, verticalLinesInXYPlane, forwardsRotationQuaternion, backwardsRotationQuaternion);
@@ -95,14 +101,13 @@ class MaskingFacet {
 
 module.exports = MaskingFacet;
 
-function calculateEdgesInXYPlane(vertices) {
-  const verticesLength = 3, ///
-        edgesInXYPlane = vertices.map(function(vertex, index) {
+function calculateEdgesInXYPlane(verticesInXYPlane) {
+  const edgesInXYPlane = verticesInXYPlane.map(function(vertex, index) {
           const startIndex = index,
-              endIndex = (startIndex + 1) % verticesLength,
-              startVertex = vertices[startIndex],
-              endVertex = vertices[endIndex],
-              edgeInXYPlane = EdgeInXYPlane.fromStartVertexAndEndVertex(startVertex, endVertex);
+                endIndex = (startIndex + 1) % VERTICES_LENGTH,
+                startVertexInXYPlane = verticesInXYPlane[startIndex],
+                endVertexInXYPlane = verticesInXYPlane[endIndex],
+                edgeInXYPlane = EdgeInXYPlane.fromStartVertexInXYPlaneAndEndVertexInXYPlane(startVertexInXYPlane, endVertexInXYPlane);
 
           return edgeInXYPlane;
         }.bind(this));

@@ -31,9 +31,9 @@ class EdgeInXYPlane extends Edge {
     return midPointToTheRight;
   }
   
-  static fromStartVertexAndEndVertex(startVertex, endVertex) {
-    const position = startVertex.slice(), ///
-          extent = subtract3(endVertex, startVertex),
+  static fromStartVertexInXYPlaneAndEndVertexInXYPlane(startVertexInXYPlane, endVertexInXYPlane) {
+    const position = startVertexInXYPlane.slice(), ///
+          extent = subtract3(endVertexInXYPlane, startVertexInXYPlane),
           edgeInXYPlane = new EdgeInXYPlane(position, extent);
 
     return edgeInXYPlane;

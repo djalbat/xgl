@@ -22,7 +22,11 @@ class Mask extends Element {
   
   getMaskingFacets() {
     const facets = this.getFacets(),
-          maskingFacets = facets.map(MaskingFacet.fromFacet);
+          maskingFacets = facets.map(function(facet) {
+            const maskingFacet = MaskingFacet.fromFacet(facet);
+            
+            return maskingFacet;
+          });
     
     return maskingFacets;          
   }
