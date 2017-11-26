@@ -18,6 +18,21 @@ You can clone the repository with [Git](https://git-scm.com/)...
     
 **This section is a work in progress. Again, please come back another day.**
 
+```xml
+    <Scene canvas={canvas}>
+      <Camera initialDistance={15} initialOffset={[ 0, 0, 0 ]} canvas={canvas} />
+      <ColouredCuboid colour={[ 1, 1, 0, 1 ]} position={[ -0.5, -0.5, -0.5 ]}>
+        <Mask>
+          <ColouredCuboid colour={[ 1, 1, 0, 1 ]} width={0.5} height={0.5} depth={0.5} position={[ 0.25, 0.25, 0.25 ]}>
+            <Mask>
+              <ColouredCuboid colour={[ 1, 0, 1, 1 ]} width={0.5} height={0.5} depth={0.5} position={[ 0.25, 0.25, 0.25 ]} />
+            </Mask>
+          </ColouredCuboid>
+        </Mask>
+      </ColouredCuboid>
+    </Scene>
+```
+
 ![Masked cube](https://github.com/djalbat/Jiggle/blob/master/assets/masked_cube.jpg)
 
 ![Masked cube facets](https://github.com/djalbat/Jiggle/blob/master/assets/masked_cube_facets.jpg)
