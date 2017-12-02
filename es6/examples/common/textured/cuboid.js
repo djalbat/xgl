@@ -3,14 +3,15 @@
 const cuboid = require('../cuboid'),
       TexturedCanvasElement = require('../../../element/canvas/textured');
 
-const { initialVertexPositions } = cuboid;
+const { defaultVertices, defaultIndexes, defaultTextureCoordinates } = cuboid;
 
 class TexturedCuboid extends TexturedCanvasElement {
-  getInitialVertexPositions() {
-    return initialVertexPositions;
-  }
+  static fromProperties(properties) {
+    const { vertices = defaultVertices, indexes = defaultIndexes, textureCoordinates = defaultTextureCoordinates } = properties,
+          texturedCuboid = TexturedCanvasElement.fromProperties(TexturedCuboid, properties, vertices, indexes, textureCoordinates);
 
-  static fromProperties(properties) { return TexturedCanvasElement.fromProperties(TexturedCuboid, properties); }
+    return texturedCuboid;
+  }
 }
 
 module.exports = TexturedCuboid;

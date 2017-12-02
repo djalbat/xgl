@@ -33,10 +33,10 @@ class Mask extends Element {
 
   create(colourRenderer, textureRenderer, transforms) {
     const childElements = this.getChildElements(),
-          masking = true;  ///
+          masked = true;  ///
 
     childElements.forEach(function(childElement) {
-      childElement.create(colourRenderer, textureRenderer, transforms, masking);
+      childElement.create(colourRenderer, textureRenderer, transforms, masked);
     });
   }
   

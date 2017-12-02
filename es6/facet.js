@@ -16,7 +16,7 @@ const { VERTICES_LENGTH } = constants,
       { add3, subtract3, scale3, length3 } = vectorUtilities;
 
 class Facet {
-  constructor(vertices, normal) {
+  constructor(vertices, textureCoordinates, normal) {
     this.vertices = vertices;
     this.normal = normal;
   }

@@ -10,12 +10,19 @@ const defaultVertices = [
       ],
       defaultIndexes = [
   
-        [ 0, 1, 3 ],
-        [ 2, 3, 1 ],
+        [ 0, 1, 2 ],
+        [ 2, 3, 0 ],
   
+      ],
+      defaultTextureCoordinates = [
+
+        [ 0, 0 ], [ 1, 0 ], [ 1, 1 ],
+        [ 1, 1 ], [ 0, 1 ], [ 0, 0 ],
+
       ];
 
 module.exports = {
   defaultVertices: defaultVertices,
-  defaultIndexes: defaultIndexes
+  defaultIndexes: defaultIndexes,
+  defaultTextureCoordinates: defaultTextureCoordinates
 };

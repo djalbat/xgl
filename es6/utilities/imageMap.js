@@ -12,18 +12,14 @@ function preloadImageMap(callback) {
   preloadImage(path, callback);
 }
 
-function textureCoordinatesFromImageNames(imageNames) {
-  const { imageMapJSON } = runtimeConfiguration,  ///
-        textureCoordinates = imageNames.reduce(function(textureCoordinates, textureName) {
-          textureCoordinates = textureCoordinates.concat(imageMapJSON[textureName]);
+function getImageDetails(imageName) {
+  const { imageMapJSON } = runtimeConfiguration,
+        imageDetails = imageMapJSON[imageName];
 
-          return textureCoordinates;
-        }, []);
-
-  return textureCoordinates;
+  return imageDetails;
 }
 
 module.exports = {
   preloadImageMap: preloadImageMap,
-  textureCoordinatesFromImageNames: textureCoordinatesFromImageNames
+  getImageDetails: getImageDetails
 };

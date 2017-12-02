@@ -42,6 +42,12 @@ function subtract3(vectorA, vectorB) { return vec3.subtract([], vectorA, vectorB
 
 function subtract4(vectorA, vectorB) { return vec4.subtract([], vectorA, vectorB); }
 
+function multiply2(vectorA, vectorB) { return vec2.multiply([], vectorA, vectorB); }
+
+function multiply3(vectorA, vectorB) { return vec3.multiply([], vectorA, vectorB); }
+
+function multiply4(vectorA, vectorB) { return vec4.multiply([], vectorA, vectorB); }
+
 function transform2(vector, matrix) { return vec2.transformMat2([], vector, matrix); }  ///
 
 function transform3(vector, matrix) { return vec3.transformMat3([], vector, matrix); }  ///
@@ -68,6 +74,9 @@ module.exports = {
   subtract2: subtract2,
   subtract3: subtract3,
   subtract4: subtract4,
+  multiply2: multiply2,
+  multiply3: multiply3,
+  multiply4: multiply4,
   transform2: transform2,
   transform3: transform3,
   transform4: transform4

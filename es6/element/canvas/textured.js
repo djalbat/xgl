@@ -1,30 +1,42 @@
 'use strict';
 
 const CanvasElement = require('../../element/canvas'),
+      vectorUtilities = require('../../utilities/vector'),
       imageMapUtilities = require('../../utilities/imageMap');
 
-const { textureCoordinatesFromImageNames } = imageMapUtilities;
+const { add2, multiply2 } = vectorUtilities,
+      { getImageDetails } = imageMapUtilities;
 
 class TexturedCanvasElement extends CanvasElement {
-  constructor(transform, imageName) {
-    super(transform);
+  constructor(facets, transform, textureCoordinates, imageName) {
+    super(facets, transform);
+
+    this.textureCoordinates = textureCoordinates;
 
     this.imageName = imageName;
   }
 
-  create(colourRenderer, textureRenderer, transforms, masking) {
+  getTextureCoordinates() {
+    return this.textureCoordinates;
+  }
+  
+  getImageName() {
+    return this.imageName;
+  }
+
+  create(colourRenderer, textureRenderer, transforms, masked) {
     super.create(colourRenderer, textureRenderer, transforms);
     
-    if (!masking) {
+    if (!masked) {
       this.render(textureRenderer);
     }
   }
   
   render(textureRenderer) {
     const vertexPositions = this.calculateVertexPositions(),
-          vertexIndexes = this.calculateVertexIndexes(vertexPositions),
-          vertexNormals = this.calculateVertexNormals(vertexPositions),
-          textureCoordinates = this.calculateTextureCoordinates(vertexPositions);
+          vertexIndexes = this.calculateVertexIndexes(),
+          vertexNormals = this.calculateVertexNormals(),
+          textureCoordinates = this.calculateTextureCoordinates();
 
     textureRenderer.addVertexPositions(vertexPositions);
     textureRenderer.addVertexIndexes(vertexIndexes);
@@ -32,26 +44,30 @@ class TexturedCanvasElement extends CanvasElement {
     textureRenderer.addTextureCoordinates(textureCoordinates);
   }
 
-  calculateTextureCoordinates(vertexPositions) {
-    const vertexPositionsLength = vertexPositions.length,
-          imageNamesLength = vertexPositionsLength / 4,  ///
-          imageNames = [];
+  calculateTextureCoordinates() {
+    const imageDetails = getImageDetails(this.imageName),
+          { left, bottom, width, height } = imageDetails,
+          textureCoordinates = this.textureCoordinates.map(function(textureCoordinates) { ///
+            textureCoordinates = translateTextureCoordinates(textureCoordinates, left, bottom, width, height );
 
-    for (let index = 0; index < imageNamesLength; index++) {
-      imageNames.push(this.imageName);
-    }
-
-    const textureCoordinates = textureCoordinatesFromImageNames(imageNames);
-
+            return textureCoordinates;
+          });
+    
     return textureCoordinates;
   }
 
-  static fromProperties(Class, properties) {
+  static fromProperties(Class, properties, vertices, indexes, textureCoordinates, ...remainingArguments) {
     const { imageName } = properties,
-          texturedCanvasElement = CanvasElement.fromProperties(Class, properties, imageName);
+          texturedCanvasElement = CanvasElement.fromProperties(Class, properties, vertices, indexes, textureCoordinates, imageName, ...remainingArguments);
     
     return texturedCanvasElement;
   }
 }
 
 module.exports = TexturedCanvasElement;
+
+function translateTextureCoordinates(texturecoordinates, left, bottom, width, height ) {
+  texturecoordinates = add2(multiply2(texturecoordinates, [ width, height ] ), [ left, bottom ]);
+
+  return texturecoordinates;
+}

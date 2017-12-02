@@ -38,10 +38,10 @@ class CanvasElement extends Element {
     });
 
     const childElements = this.getChildElements(),
-          masking = false; ///
+          masked = false; ///
 
     childElements.forEach(function(childElement) {
-      childElement.create(colourRenderer, textureRenderer, transforms, masking);
+      childElement.create(colourRenderer, textureRenderer, transforms, masked);
 
       if (childElement instanceof Mask) {
         const mask = childElement,  ///

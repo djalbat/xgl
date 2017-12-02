@@ -7,14 +7,14 @@ const constants = require('./constants'),
       runtimeConfiguration = require('./runtimeConfiguration');
 
 const { fileSystemUtilities, asynchronousUtilities } = necessary,
-      { readDirectory } = fileSystemUtilities,
+      { IMAGE_SIZE } = constants,
       { whilst } = asynchronousUtilities,
-      { IMAGE_SIZE } = constants;
+      { readDirectory } = fileSystemUtilities;
 
 const imageDirectoryPath = runtimeConfiguration.getImageDirectoryPath(),
       names = readDirectory(imageDirectoryPath),
       namesLength = names.length,
-      size = Math.ceil(Math.sqrt(namesLength)); ///
+      dimension = Math.ceil(Math.sqrt(namesLength)); ///
 
 class imageMap {
   static respond(response) {
@@ -24,7 +24,7 @@ class imageMap {
         buffer: buffer
       };
       
-      whilst(overlayWithImageCallback, function() {
+      whilst(overlayCallback, function() {
         const { buffer } = context;
 
         sharp(buffer).pipe(response);
@@ -33,40 +33,21 @@ class imageMap {
   }
   
   static json() {
-    const width = IMAGE_SIZE * size,  ///
-          height = IMAGE_SIZE * size, ///
-          json = names.reduce(function(json, name, index) {
-            let top = Math.floor(index / size) / size,
-                left = (index % size) / size,
-                right = left + (1 / size),
-                bottom = top + (1 / size);
+    const json = names.reduce(function(json, name, index) {
+      const left = (index % dimension) / dimension,
+            width = 1 / dimension,  ///
+            height = 1 / dimension, ///
+            bottom = Math.floor(index / dimension) / dimension;
 
-            top = top * height;
-            left = left * width;
-            right = right * width;
-            bottom = bottom * height;
+      json[name] = {
+        left: left,
+        width: width,
+        height: height,
+        bottom: bottom
+      };
 
-            top = top + 8;
-            left = left + 8;
-            right = right - 8;
-            bottom = bottom - 8;
-
-            top = top / height;
-            left = left / width;
-            right = right / width;
-            bottom = bottom / height;
-
-            const coordinates = [
-                    [left, top],
-                    [right, top],
-                    [right, bottom],
-                    [left, bottom]
-                  ];
-            
-            json[name] = coordinates;
-            
-            return json;
-          }, {});    
+      return json;
+    }, {});
     
     return json;
   }
@@ -75,10 +56,10 @@ class imageMap {
 module.exports = imageMap;
 
 function createImageMap(callback) {
-  const width = IMAGE_SIZE * size,  ///
-        height = IMAGE_SIZE * size, ///
+  const width = IMAGE_SIZE * dimension,  ///
+        height = IMAGE_SIZE * dimension, ///
         channels = 4,
-        background = { r: 255, g: 255, b: 255, alpha: 0 },
+        background = { r: 0, g: 0, b: 0, alpha: 0 },
         options = {
           width: width,
           height: height,
@@ -95,7 +76,7 @@ function createImageMap(callback) {
     .then(callback);
 }
 
-function overlayWithImageCallback(next, done, context, index) {
+function overlayCallback(next, done, context, index) {
   const { names, buffer } = context,
         namesLength = names.length,
         lastIndex = namesLength - 1;
@@ -110,8 +91,8 @@ function overlayWithImageCallback(next, done, context, index) {
         path = `${imageDirectoryPath}/${name}`;
 
   resizeImage(path, function(resizedImageBuffer) {
-    const top = Math.floor(index / size) * IMAGE_SIZE,
-          left = (index % size) * IMAGE_SIZE,
+    const top = ((dimension - 1) - Math.floor(index / dimension) ) * IMAGE_SIZE,
+          left = (index % dimension) * IMAGE_SIZE,
           options = {
             top: top,
             left: left
