@@ -5,11 +5,11 @@ const template = require('../template'),
       runtimeConfiguration = require('../runtimeConfiguration');
 
 class indexPage {
-  static html() {
+  static html(fileName) {
     const host = runtimeConfiguration.getHost(),
           imageMapJSON = JSON.stringify(imageMap.json(), null, '\t'), ///
           publicDirectoryPath = runtimeConfiguration.getPublicDirectoryPath(),
-          filePath = `${publicDirectoryPath}/timberFramedHouse.html`,
+          filePath = `${publicDirectoryPath}/${fileName}`,
           args = {
             host: host,
             imageMapJSON: imageMapJSON
