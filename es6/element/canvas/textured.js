@@ -1,10 +1,12 @@
 'use strict';
 
 const CanvasElement = require('../../element/canvas'),
+      arrayUtilities = require('../../utilities/array'),
       vectorUtilities = require('../../utilities/vector'),
       imageMapUtilities = require('../../utilities/imageMap');
 
-const { add2, multiply2 } = vectorUtilities,
+const { push } = arrayUtilities,
+      { add2, multiply2 } = vectorUtilities,
       { getImageDetails } = imageMapUtilities;
 
 class TexturedCanvasElement extends CanvasElement {
@@ -45,13 +47,14 @@ class TexturedCanvasElement extends CanvasElement {
   }
 
   calculateTextureCoordinates() {
-    const imageDetails = getImageDetails(this.imageName),
+    const facets = this.getFacets(),
+          imageDetails = getImageDetails(this.imageName),
           { left, bottom, width, height } = imageDetails,
-          textureCoordinates = this.textureCoordinates.map(function(textureCoordinates) { ///
-            textureCoordinates = translateTextureCoordinates(textureCoordinates, left, bottom, width, height );
+          textureCoordinates = facets.reduce(function(textureCoordinates, facet) { ///
+            push(textureCoordinates, translateTextureCoordinates(this.textureCoordinates, left, bottom, width, height ));
 
             return textureCoordinates;
-          });
+          }.bind(this), []);
     
     return textureCoordinates;
   }
@@ -67,7 +70,11 @@ class TexturedCanvasElement extends CanvasElement {
 module.exports = TexturedCanvasElement;
 
 function translateTextureCoordinates(textureCoordinates, left, bottom, width, height ) {
-  textureCoordinates = add2(multiply2(textureCoordinates, [ width, height ] ), [ left, bottom ]);
+  textureCoordinates = textureCoordinates.map(function(textureCoordinates) {  ///
+    textureCoordinates = add2(multiply2(textureCoordinates, [ width, height ] ), [ left, bottom ]);
+
+    return textureCoordinates;
+  });
 
   return textureCoordinates;
 }

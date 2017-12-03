@@ -3,11 +3,11 @@
 const constants = require('../../bin/constants'), ///
       imageUtilities = require('../utilities/image');
 
-const { IMAGE_MAP_PATH } = constants,
+const { IMAGE_MAP_URL_PATH } = constants,
       { preloadImage } = imageUtilities;
 
 function preloadImageMap(callback) {
-  const path = IMAGE_MAP_PATH;
+  const path = IMAGE_MAP_URL_PATH;
 
   preloadImage(path, callback);
 }

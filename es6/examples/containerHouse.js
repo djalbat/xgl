@@ -19,7 +19,6 @@ const Canvas = require('../canvas'),
 const { preloadImageMap } = imageMapUtilities;
 
 const containerHouse = () => {
-
   const canvas = new Canvas();
 
   preloadImageMap((imageMap) =>

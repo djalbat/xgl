@@ -11,7 +11,6 @@ const Canvas = require('../canvas'),
 const { preloadImageMap } = imageMapUtilities;
 
 const timberFramedHouse = () => {
-
   const canvas = new Canvas();
 
   preloadImageMap((imageMap) =>

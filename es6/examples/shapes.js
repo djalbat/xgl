@@ -12,7 +12,6 @@ const Canvas = require('../canvas'),
 const { preloadImageMap } = imageMapUtilities;
 
 const shapes = () => {
-
   const canvas = new Canvas();
 
   preloadImageMap((imageMap) =>
