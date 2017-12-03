@@ -12,6 +12,25 @@ class ColouredFacet extends Facet {
     this.colour = colour;
   }
 
+  getColour() {
+    return this.colour;
+  }
+  
+  getVertexColours() {
+    const vertexColour = this.colour, ///
+          vertexColours = [
+            vertexColour,
+            vertexColour,
+            vertexColour,
+          ];
+    
+    return vertexColours;
+  }
+
+  splitWithTwoNonNullIntersections(intersections, smallerFacets, Facet) { super.splitWithTwoNonNullIntersections(intersections, smallerFacets, this); } ///
+
+  splitWithOneNonNullIntersection(intersections, smallerFacets, Facet) { super.splitWithOneNonNullIntersection(intersections, smallerFacets, this); } ///
+
   clone() {
     let vertices = this.getVertices(),
         normal = this.getNormal();
@@ -29,25 +48,6 @@ class ColouredFacet extends Facet {
 
     return colouredFacet;
   }
-  
-  getColour() {
-    return this.colour;
-  }
-  
-  getVertexColours() {
-    const vertexColour = this.colour, ///
-          vertexColours = [
-            vertexColour,
-            vertexColour,
-            vertexColour,
-          ];
-    
-    return vertexColours;
-  }
-
-  splitWithTwoNonNullIntersections(intersections, smallerFacets, Facet) { super.splitWithTwoNonNullIntersections(intersections, smallerFacets, this); }
-
-  splitWithOneNonNullIntersection(intersections, smallerFacets, Facet) { super.splitWithOneNonNullIntersection(intersections, smallerFacets, this); }
 
   fromVertices(vertices) {
     const colour = this.colour,
