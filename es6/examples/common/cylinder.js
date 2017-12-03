@@ -1,15 +1,21 @@
 'use strict';
 
+const necessary = require('necessary');
+
 const constants = require('../../constants');
 
-const { CYLINDER_SIDES } = constants;
+const { CYLINDER_SIDES } = constants,
+      { arrayUtilities } = necessary,
+      { push } = arrayUtilities;
 
 const defaultIndexes = calculateDefaultIndexes(),
-      defaultVertices = calculateDefaultVertices();
+      defaultVertices = calculateDefaultVertices(),
+      defaultTextureCoordinates = calculateDefaultTextureCoordinates();
 
 module.exports = {
   defaultIndexes: defaultIndexes,
-  defaultVertices: defaultVertices
+  defaultVertices: defaultVertices,
+  defaultTextureCoordinates: defaultTextureCoordinates
 };
 
 function calculateDefaultIndexes() {
@@ -18,10 +24,12 @@ function calculateDefaultIndexes() {
         defaultIndexCount = sides * 2;
 
   for (let count = 0; count < sides; count++) {
-    const defaultIndex = count * 2;
+    const defaultIndex = count * 2,
+          firstDefaultIndexes = [ (defaultIndex + 1) % defaultIndexCount, (defaultIndex + 0) % defaultIndexCount, (defaultIndex + 2) % defaultIndexCount ],
+          secondDefaultIndexes = [ (defaultIndex + 2) % defaultIndexCount, (defaultIndex + 3) % defaultIndexCount, (defaultIndex + 1) % defaultIndexCount ];
 
-    defaultIndexes.push([ (defaultIndex + 1) % defaultIndexCount, (defaultIndex + 0) % defaultIndexCount, (defaultIndex + 2) % defaultIndexCount ]);
-    defaultIndexes.push([ (defaultIndex + 2) % defaultIndexCount, (defaultIndex + 3) % defaultIndexCount, (defaultIndex + 1) % defaultIndexCount ]);
+    defaultIndexes.push(firstDefaultIndexes);
+    defaultIndexes.push(secondDefaultIndexes);
   }
 
   return defaultIndexes;
@@ -52,4 +60,21 @@ function calculateDefaultVertices() {
   }
 
   return defaultVertices;
+}
+
+function calculateDefaultTextureCoordinates() {
+  const defaultTextureCoordinates = [],
+        sides = CYLINDER_SIDES,
+        step = 1 / sides;
+
+  for (let count = 0; count < sides; count++) {
+    const offset = step * count,
+          firstDefaultTextureCoordinates = [ [ offset, 0 ], [ offset, 1 ], [ offset + step, 1 ] ],
+          secondDefaultTextureCoordinates = [ [ offset + step, 1 ], [ offset + step, 0 ], [ offset, 0 ] ];
+
+    push(defaultTextureCoordinates, firstDefaultTextureCoordinates);
+    push(defaultTextureCoordinates, secondDefaultTextureCoordinates);
+  }
+
+  return defaultTextureCoordinates;
 }

@@ -66,8 +66,8 @@ class TexturedCanvasElement extends CanvasElement {
 
 module.exports = TexturedCanvasElement;
 
-function translateTextureCoordinates(texturecoordinates, left, bottom, width, height ) {
-  texturecoordinates = add2(multiply2(texturecoordinates, [ width, height ] ), [ left, bottom ]);
+function translateTextureCoordinates(textureCoordinates, left, bottom, width, height ) {
+  textureCoordinates = add2(multiply2(textureCoordinates, [ width, height ] ), [ left, bottom ]);
 
-  return texturecoordinates;
+  return textureCoordinates;
 }

@@ -35,15 +35,15 @@ class imageMap {
   static json() {
     const json = names.reduce(function(json, name, index) {
       const left = (index % dimension) / dimension,
-            width = 1 / dimension,  ///
-            height = 1 / dimension, ///
-            bottom = Math.floor(index / dimension) / dimension;
+            bottom = Math.floor(index / dimension) / dimension,
+            width = 1 / dimension,
+            height = 1 / dimension;
 
       json[name] = {
         left: left,
+        bottom: bottom,
         width: width,
-        height: height,
-        bottom: bottom
+        height: height
       };
 
       return json;
