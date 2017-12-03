@@ -23,7 +23,7 @@ const masking = () => {
       <Camera initialDistance={5} initialOffset={[ 0, 0, 0 ]} canvas={canvas} />
       <TexturedTriangle imageName="graffiti.jpg">
         <Mask>
-          <ColouredTriangle position={[ 0.375, 0.125, 0.5 ]} width={0.5} height={0.5} />
+          <ColouredTriangle position={[ 0.25, 0.125, 1 ]} width={0.5} height={0.5} />
         </Mask>
       </TexturedTriangle>
     </Scene>

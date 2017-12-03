@@ -51,13 +51,7 @@ class ColouredFacet extends Facet {
 
   fromVertices(vertices) {
     const colour = this.colour,
-          colouredFacet = ColouredFacet.fromVerticesAndColour(vertices, colour);
-    
-    return colouredFacet;
-  }
-
-  static fromVerticesAndColour(vertices, colour) {
-    const normal = calculateNormal(vertices),
+          normal = calculateNormal(vertices),
           colouredFacet = new ColouredFacet(vertices, normal, colour);
 
     return colouredFacet;
@@ -70,7 +64,8 @@ class ColouredFacet extends Facet {
       return vertex;
     });
 
-    const colouredFacet = ColouredFacet.fromVerticesAndColour(vertices, colour);
+    const normal = calculateNormal(vertices),
+          colouredFacet = new ColouredFacet(vertices, normal, colour);
     
     return colouredFacet;
   }

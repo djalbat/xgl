@@ -150,6 +150,10 @@ class Facet {
         break;
     }
   }
+  
+  permute(places) {
+    this.vertices = permute(this.vertices, places);
+  }
 
   splitWithTwoNonNullIntersections(intersections, smallerFacets, facet) {
     const nullIntersectionIndex = calculateNullIntersectionIndex(intersections),
@@ -158,8 +162,8 @@ class Facet {
     intersections = permute(intersections, places);
 
     intersections = intersections.slice(1); ///
-
-    this.vertices = permute(this.vertices, places);
+    
+    this.permute(places);
 
     const firstVertex = first(this.vertices),
           secondVertex = second(this.vertices),
@@ -209,7 +213,7 @@ class Facet {
 
     intersections = permute(intersections, places);
 
-    this.vertices = permute(this.vertices, places);
+    this.permute(places);
 
     const firstVertex = first(this.vertices),
           secondVertex = second(this.vertices),
@@ -226,6 +230,7 @@ class Facet {
             secondVertex,
             thirdVertex
           ],
+          parentVertices = this.vertices,
           firstFacet = facet.fromVertices(firstVertices),
           secondFacet = facet.fromVertices(secondVertices),
           firstFacetTooSmall = firstFacet.isTooSmall(),
