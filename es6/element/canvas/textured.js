@@ -8,10 +8,10 @@ const { push } = arrayUtilities;
 
 class TexturedCanvasElement extends CanvasElement {
   render(colourRenderer, textureRenderer) {
-    const vertexPositions = this.calculateVertexPositions(),
-          vertexIndexes = this.calculateVertexIndexes(),
-          vertexNormals = this.calculateVertexNormals(),
-          vertexTextureCoordinates = this.calculateVertexTextureCoordinates();
+    const vertexPositions = this.getVertexPositions(),
+          vertexIndexes = this.getVertexIndexes(),
+          vertexNormals = this.getVertexNormals(),
+          vertexTextureCoordinates = this.getVertexTextureCoordinates();
 
     textureRenderer.addVertexPositions(vertexPositions);
     textureRenderer.addVertexIndexes(vertexIndexes);
@@ -19,7 +19,7 @@ class TexturedCanvasElement extends CanvasElement {
     textureRenderer.addVertexTextureCoordinates(vertexTextureCoordinates);
   }
 
-  calculateVertexTextureCoordinates() {
+  getVertexTextureCoordinates() {
     const facets = this.getFacets(),
           vertexTextureCoordinates = facets.reduce(function(vertexTextureCoordinates, facet) {
             const texturedFacet = facet,  ///

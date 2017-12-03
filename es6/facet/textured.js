@@ -17,6 +17,29 @@ class TexturedFacet extends Facet {
     this.textureCoordinates = textureCoordinates;
   }
 
+  clone() {
+    let vertices = this.getVertices(),
+        normal = this.getNormal();
+
+    vertices = vertices.map(function(vertex) {
+      vertex = vertex.slice();  ///
+
+      return vertex;
+    });
+
+    normal = normal.slice();  ///
+
+    const imageName = this.imageName,
+          textureCoordinates = this.textureCoordinates.map(function(textureCoordinates) {
+            textureCoordinates = textureCoordinates.slice();  ///
+
+            return textureCoordinates;
+          }),
+          texturedFacet = new TexturedFacet(vertices, normal, imageName, textureCoordinates);
+
+    return texturedFacet;
+  }
+
   getImageName() {
     return this.imageName;
   }
@@ -33,13 +56,35 @@ class TexturedFacet extends Facet {
     return vertexTextureCoordinates;
   }
 
+  splitWithTwoNonNullIntersections(intersections, smallerFacets, Facet) { super.splitWithTwoNonNullIntersections(intersections, smallerFacets, this); }
+
+  splitWithOneNonNullIntersection(intersections, smallerFacets, Facet) { super.splitWithOneNonNullIntersection(intersections, smallerFacets, this); }
+
+  fromVertices(vertices) {
+    const imageName = this.imageName,
+          textureCoordinates = this.textureCoordinates.map(function(textureCoordinates) {
+            textureCoordinates = textureCoordinates.slice();  ///
+
+            return textureCoordinates;
+          }),
+          texturedFacet = TexturedFacet.fromVerticesImageNameAndTextureCoordinates(vertices, imageName, textureCoordinates);
+
+    return texturedFacet;
+  }
+
+  static fromVerticesImageNameAndTextureCoordinates(vertices, imageName, textureCoordinates) {
+    const normal = calculateNormal(vertices),
+          texturedFacet = new TexturedFacet(vertices, normal, imageName, textureCoordinates);
+
+    return texturedFacet;
+  }
+
   static fromVerticesIndexesImageNameAndTextureCoordinates(vertices, indexes, imageName, textureCoordinates, index) {
     vertices = indexes.map(function(index) { return vertices[index]; });  ///
 
     textureCoordinates = textureCoordinates.slice(index * 3, index * 3 + 3);  ///
 
-    const normal = calculateNormal(vertices),
-          texturedFacet = new TexturedFacet(vertices, normal, imageName, textureCoordinates);
+    const texturedFacet = TexturedFacet.fromVerticesImageNameAndTextureCoordinates(vertices, imageName, textureCoordinates);
 
     return texturedFacet;
   }

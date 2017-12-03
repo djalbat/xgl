@@ -3,11 +3,9 @@
 const Element = require('../element'),
       Mask = require('../element/mask'),
       arrayUtilities = require('../utilities/array'),
-      vectorUtilities = require('../utilities/vector'),
       transformUtilities = require('../utilities/transform');
 
 const { push } = arrayUtilities,
-      { normalise3 } = vectorUtilities,
       { composeTransform } = transformUtilities;
 
 class CanvasElement extends Element {
@@ -58,7 +56,7 @@ class CanvasElement extends Element {
     }
   }
 
-  calculateVertexPositions() {
+  getVertexPositions() {
     const vertexPositions = this.facets.reduce(function(vertexPositions, facet) {
       const facetVertexPositions = facet.getVertexPositions();
       
@@ -70,7 +68,7 @@ class CanvasElement extends Element {
     return vertexPositions;
   }
 
-  calculateVertexNormals() {
+  getVertexNormals() {
     const vertexNormals = this.facets.reduce(function(vertexNormals, facet) {
       const facetVertexNormals = facet.getVertexNormals();
       
@@ -82,7 +80,7 @@ class CanvasElement extends Element {
     return vertexNormals;
   }
 
-  calculateVertexIndexes() {
+  getVertexIndexes() {
     const vertexIndexes = this.facets.reduce(function(vertexIndexes, facet, index) {
       const facetVertexIndexes = facet.getVertexIndexes(index);
       

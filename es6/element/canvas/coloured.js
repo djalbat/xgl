@@ -8,10 +8,10 @@ const { push } = arrayUtilities;
 
 class ColouredCanvasElement extends CanvasElement {
   render(colourRenderer, textureRenderer) {
-    const vertexPositions = this.calculateVertexPositions(),
-          vertexIndexes = this.calculateVertexIndexes(),
-          vertexNormals = this.calculateVertexNormals(),
-          vertexColours = this.calculateVertexColours();
+    const vertexPositions = this.getVertexPositions(),
+          vertexIndexes = this.getVertexIndexes(),
+          vertexNormals = this.getVertexNormals(),
+          vertexColours = this.getVertexColours();
 
     colourRenderer.addVertexPositions(vertexPositions);
     colourRenderer.addVertexIndexes(vertexIndexes);
@@ -19,7 +19,7 @@ class ColouredCanvasElement extends CanvasElement {
     colourRenderer.addVertexColours(vertexColours);
   }
 
-  calculateVertexColours() {
+  getVertexColours() {
     const facets = this.getFacets(),
           vertexColours = facets.reduce(function(vertexColours, facet) {
             const colouredFacet = facet,  ///

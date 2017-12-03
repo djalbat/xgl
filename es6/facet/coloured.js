@@ -24,7 +24,8 @@ class ColouredFacet extends Facet {
 
     normal = normal.slice();  ///
 
-    const colouredFacet = new ColouredFacet(vertices, normal, this.colour);
+    const colour = this.colour.slice(),
+          colouredFacet = new ColouredFacet(vertices, normal, colour);
 
     return colouredFacet;
   }
@@ -48,7 +49,12 @@ class ColouredFacet extends Facet {
 
   splitWithOneNonNullIntersection(intersections, smallerFacets, Facet) { super.splitWithOneNonNullIntersection(intersections, smallerFacets, this); }
 
-  fromVertices(vertices) { return ColouredFacet.fromVerticesAndColour(vertices, this.colour); }
+  fromVertices(vertices) {
+    const colour = this.colour,
+          colouredFacet = ColouredFacet.fromVerticesAndColour(vertices, colour);
+    
+    return colouredFacet;
+  }
 
   static fromVerticesAndColour(vertices, colour) {
     const normal = calculateNormal(vertices),
