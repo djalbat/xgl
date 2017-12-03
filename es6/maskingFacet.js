@@ -1,11 +1,11 @@
 'use strict';
 
 const constants = require('./constants'),
+      EdgeInXYPlane = require('./edgeInXYPlane'),
+      VerticalLineInXYPlane = require('./verticalLineInXYPlane'),
       arrayUtilities = require('./utilities/array'),
       verticesUtilities = require('./utilities/vertices'),
-      rotationUtilities = require('./utilities/rotation'),
-      EdgeInXYPlane = require('./facet/edgeInXYPlane'),
-      VerticalLineInXYPlane = require('./facet/verticalLineInXYPlane');
+      rotationUtilities = require('./utilities/rotation');
 
 const { VERTICES_LENGTH } = constants,
       { push, separate } = arrayUtilities,

@@ -1,6 +1,6 @@
 'use strict';
 
-const vectorUtilities = require('../utilities/vector');
+const vectorUtilities = require('./utilities/vector');
 
 const { subtract3 } = vectorUtilities;
 

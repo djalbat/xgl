@@ -1,9 +1,9 @@
 'use strict';
 
-const Edge = require('../facet/edge'),
-      arrayUtilities = require('../utilities/array'),
-      vectorUtilities = require('../utilities/vector'),
-      vertexUtilities = require('../utilities/vertex');
+const Edge = require('./edge'),
+      arrayUtilities = require('./utilities/array'),
+      vectorUtilities = require('./utilities/vector'),
+      vertexUtilities = require('./utilities/vertex');
 
 const { third } = arrayUtilities,
       { subtract3, cross3 } = vectorUtilities,

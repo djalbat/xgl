@@ -1,10 +1,10 @@
 'use strict';
 
-const arrayUtilities = require('../utilities/array'),
-      vectorUtilities = require('../utilities/vector'),
-      vertexUtilities = require('../utilities/vertex'),
-      rotationUtilities = require('../utilities/rotation'),
-      approximateUtilities = require('../utilities/approximate');
+const arrayUtilities = require('./utilities/array'),
+      vectorUtilities = require('./utilities/vector'),
+      vertexUtilities = require('./utilities/vertex'),
+      rotationUtilities = require('./utilities/rotation'),
+      approximateUtilities = require('./utilities/approximate');
 
 const { normalise3 } = vectorUtilities,
       { first, second } = arrayUtilities,

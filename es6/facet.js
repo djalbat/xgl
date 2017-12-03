@@ -1,6 +1,6 @@
 'use strict';
 
-const Edge = require('./facet/edge'),
+const Edge = require('./edge'),
       constants = require('./constants'),
       arrayUtilities = require('./utilities/array'),
       vectorUtilities = require('./utilities/vector'),
