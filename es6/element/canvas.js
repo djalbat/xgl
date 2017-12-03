@@ -1,12 +1,13 @@
 'use strict';
 
 const Element = require('../element'),
-      Facet = require('../facet'),
       Mask = require('../element/mask'),
+      arrayUtilities = require('../utilities/array'),
       vectorUtilities = require('../utilities/vector'),
       transformUtilities = require('../utilities/transform');
 
-const { normalise3 } = vectorUtilities,
+const { push } = arrayUtilities,
+      { normalise3 } = vectorUtilities,
       { composeTransform } = transformUtilities;
 
 class CanvasElement extends Element {
@@ -14,7 +15,7 @@ class CanvasElement extends Element {
     super();
 
     this.facets = facets;
-
+    
     this.transform = transform;
   }
 
@@ -30,17 +31,18 @@ class CanvasElement extends Element {
     this.facets = facets;
   }
 
-  create(colourRenderer, textureRenderer, transforms) {
+  create(colourRenderer, textureRenderer, transforms, masked) {
     transforms = [this.transform, ...transforms]; ///
 
     this.facets.forEach(function(facet) {
       facet.applyTransforms(transforms);
     });
 
-    const childElements = this.getChildElements(),
-          masked = false; ///
+    const childElements = this.getChildElements();
 
     childElements.forEach(function(childElement) {
+      const masked = false; ///
+      
       childElement.create(colourRenderer, textureRenderer, transforms, masked);
 
       if (childElement instanceof Mask) {
@@ -50,19 +52,17 @@ class CanvasElement extends Element {
         mask.maskElement(element);
       }
     }.bind(this));
+
+    if (!masked) {
+      this.render(colourRenderer, textureRenderer);
+    }
   }
 
   calculateVertexPositions() {
     const vertexPositions = this.facets.reduce(function(vertexPositions, facet) {
-      const vertices = facet.getVertices();
-
-      vertexPositions = vertices.reduce(function(vertexPositions, vertex) {
-        const vertexPosition = vertex.slice(); ///
-
-        vertexPositions.push(vertexPosition);
-
-        return vertexPositions;
-      }, vertexPositions);
+      const facetVertexPositions = facet.getVertexPositions();
+      
+      push(vertexPositions, facetVertexPositions);
 
       return vertexPositions;
     }, []);
@@ -72,12 +72,9 @@ class CanvasElement extends Element {
 
   calculateVertexNormals() {
     const vertexNormals = this.facets.reduce(function(vertexNormals, facet) {
-      const normal = facet.getNormal(),
-            vertexNormal = normalise3(normal);
-
-      vertexNormals.push(vertexNormal);
-      vertexNormals.push(vertexNormal);
-      vertexNormals.push(vertexNormal);
+      const facetVertexNormals = facet.getVertexNormals();
+      
+      push(vertexNormals, facetVertexNormals);
 
       return vertexNormals;
     }, []);
@@ -86,12 +83,10 @@ class CanvasElement extends Element {
   }
 
   calculateVertexIndexes() {
-    let vertexIndex = 0;
-
-    const vertexIndexes = this.facets.reduce(function(vertexIndexes, facet) {
-      vertexIndexes.push(vertexIndex++);
-      vertexIndexes.push(vertexIndex++);
-      vertexIndexes.push(vertexIndex++);
+    const vertexIndexes = this.facets.reduce(function(vertexIndexes, facet, index) {
+      const facetVertexIndexes = facet.getVertexIndexes(index);
+      
+      push(vertexIndexes, facetVertexIndexes);
 
       return vertexIndexes;
     }, []);
@@ -99,13 +94,8 @@ class CanvasElement extends Element {
     return vertexIndexes;
   }
 
-  static fromProperties(Class, properties, vertices, indexes, ...remainingArguments) {
+  static fromProperties(Class, properties, facets, ...remainingArguments) {
     const { width, height, depth, position, rotations } = properties,
-          facets = indexes.map(function(indexes) {  ///
-            const facet = Facet.fromVerticesAndIndexes(vertices, indexes);
-            
-            return facet;
-          }),
           transform = composeTransform(width, height, depth, position, rotations),
           canvasElement = Element.fromProperties(Class, properties, facets, transform, ...remainingArguments);
 

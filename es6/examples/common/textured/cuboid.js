@@ -7,8 +7,8 @@ const { defaultVertices, defaultIndexes, defaultTextureCoordinates } = cuboid;
 
 class TexturedCuboid extends TexturedCanvasElement {
   static fromProperties(properties) {
-    const { vertices = defaultVertices, indexes = defaultIndexes, textureCoordinates = defaultTextureCoordinates } = properties,
-          texturedCuboid = TexturedCanvasElement.fromProperties(TexturedCuboid, properties, vertices, indexes, textureCoordinates);
+    const { vertices = defaultVertices, indexes = defaultIndexes, imageName, textureCoordinates = defaultTextureCoordinates } = properties,
+          texturedCuboid = TexturedCanvasElement.fromProperties(TexturedCuboid, properties, vertices, indexes, imageName, textureCoordinates);
 
     return texturedCuboid;
   }

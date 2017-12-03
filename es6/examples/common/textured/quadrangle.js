@@ -7,8 +7,8 @@ const { defaultVertices, defaultIndexes, defaultTextureCoordinates } = quadrangl
 
 class TexturedQuadrangle extends TexturedCanvasElement {
   static fromProperties(properties) {
-    const { vertices = defaultVertices, indexes = defaultIndexes, textureCoordinates = defaultTextureCoordinates } = properties,
-          texturedQuadrangle = TexturedCanvasElement.fromProperties(TexturedQuadrangle, properties, vertices, indexes, textureCoordinates);
+    const { vertices = defaultVertices, indexes = defaultIndexes, imageName, textureCoordinates = defaultTextureCoordinates } = properties,
+          texturedQuadrangle = TexturedCanvasElement.fromProperties(TexturedQuadrangle, properties, vertices, indexes, imageName, textureCoordinates);
 
     return texturedQuadrangle;
   }

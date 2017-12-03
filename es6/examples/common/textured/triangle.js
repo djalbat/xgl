@@ -7,8 +7,8 @@ const { defaultVertices, defaultIndexes, defaultTextureCoordinates } = triangle;
 
 class TexturedTriangle extends TexturedCanvasElement {
   static fromProperties(properties) {
-    const { vertices = defaultVertices, indexes = defaultIndexes, textureCoordinates = defaultTextureCoordinates } = properties,
-          texturedTriangle = TexturedCanvasElement.fromProperties(TexturedTriangle, properties, vertices, indexes, textureCoordinates);
+    const { vertices = defaultVertices, indexes = defaultIndexes, imageName, textureCoordinates = defaultTextureCoordinates } = properties,
+          texturedTriangle = TexturedCanvasElement.fromProperties(TexturedTriangle, properties, vertices, indexes, imageName, textureCoordinates);
 
     return texturedTriangle;
   }

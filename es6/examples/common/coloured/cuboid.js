@@ -7,8 +7,8 @@ const { defaultVertices, defaultIndexes } = cuboid;
 
 class ColouredCuboid extends ColouredCanvasElement {
   static fromProperties(properties) {
-    const { vertices = defaultVertices, indexes = defaultIndexes } = properties,
-          colouredCuboid = ColouredCanvasElement.fromProperties(ColouredCuboid, properties, vertices, indexes);
+    const { vertices = defaultVertices, indexes = defaultIndexes, colour } = properties,
+          colouredCuboid = ColouredCanvasElement.fromProperties(ColouredCuboid, properties, vertices, indexes, colour);
 
     return colouredCuboid;
   }

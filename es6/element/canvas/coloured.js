@@ -1,27 +1,13 @@
 'use strict';
 
-const CanvasElement = require('../../element/canvas');
+const ColouredFacet = require('../../facet/coloured'),
+      CanvasElement = require('../../element/canvas'),
+      arrayUtilities = require('../../utilities/array');
+
+const { push } = arrayUtilities;
 
 class ColouredCanvasElement extends CanvasElement {
-  constructor(facets, transform, colour) {
-    super(facets, transform);
-
-    this.colour = colour;
-  }
-
-  getColour() {
-    return this.colour;
-  }
-
-  create(colourRenderer, textureRenderer, transforms, masked) {
-    super.create(colourRenderer, textureRenderer, transforms);
-
-    if (!masked) {
-      this.render(colourRenderer);
-    }
-  }
-
-  render(colourRenderer) {
+  render(colourRenderer, textureRenderer) {
     const vertexPositions = this.calculateVertexPositions(),
           vertexIndexes = this.calculateVertexIndexes(),
           vertexNormals = this.calculateVertexNormals(),
@@ -35,11 +21,11 @@ class ColouredCanvasElement extends CanvasElement {
 
   calculateVertexColours() {
     const facets = this.getFacets(),
-          vertexColour = this.colour,
           vertexColours = facets.reduce(function(vertexColours, facet) {
-            vertexColours.push(vertexColour);
-            vertexColours.push(vertexColour);
-            vertexColours.push(vertexColour);
+            const colouredFacet = facet,  ///
+                  colouredFacetVertexColours = colouredFacet.getVertexColours();
+            
+            push(vertexColours, colouredFacetVertexColours);
 
             return vertexColours;
           }, []);
@@ -47,9 +33,14 @@ class ColouredCanvasElement extends CanvasElement {
     return vertexColours;
   }
 
-  static fromProperties(Class, properties, vertices, indexes, ...remainingArguments) {
-    const { colour } = properties,
-          colouredCanvasElement = CanvasElement.fromProperties(Class, properties, vertices, indexes, colour, ...remainingArguments);
+  static fromProperties(Class, properties, vertices, indexes, colour, ...remainingArguments) {
+    const colouredFacets = indexes.map(function(indexes) {  ///
+            const colouredFacet = ColouredFacet.fromVerticesIndexesAndColour(vertices, indexes, colour);
+  
+            return colouredFacet;
+          }),
+          facets = colouredFacets,  ///
+          colouredCanvasElement = CanvasElement.fromProperties(Class, properties, facets, ...remainingArguments);
 
     return colouredCanvasElement;
   }

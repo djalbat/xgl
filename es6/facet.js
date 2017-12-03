@@ -13,7 +13,7 @@ const { VERTICES_LENGTH } = constants,
       { isApproximatelyEqualToZero } = approximateUtilities,
       { first, second, third, permute } = arrayUtilities,
       { calculateNormal, rotateVertices } = verticesUtilities,
-      { add3, subtract3, scale3, length3 } = vectorUtilities;
+      { add3, subtract3, scale3, length3, normalise3 } = vectorUtilities;
 
 class Facet {
   constructor(vertices, normal) {
@@ -53,6 +53,38 @@ class Facet {
     }, [ 0, 0, 0 ]);
     
     return midPoint;
+  }
+  
+  getVertexPositions() {
+    const vertexPositions = this.vertices.map(function(vertex) {
+      const vertexPosition = vertex.slice(); ///
+      
+      return vertexPosition;
+    });
+    
+    return vertexPositions;
+  }
+  
+  getVertexNormals() {
+    const vertexNormal = normalise3(this.normal),
+          vertexNormals = [
+            vertexNormal,
+            vertexNormal,
+            vertexNormal,
+          ];
+    
+    return vertexNormals;
+  }
+  
+  getVertexIndexes(index) { ///
+    const vertexIndex = index * 3,
+          vertexIndexes = [
+            vertexIndex + 0,
+            vertexIndex + 1,
+            vertexIndex + 2,
+          ];
+    
+    return vertexIndexes;
   }
   
   isTooSmall() {
@@ -223,35 +255,6 @@ class Facet {
           });
 
     return intersections;
-  }
-
-  clone() {
-    const vertices = this.vertices.map(function(vertex) {
-            return vertex.slice();
-          }),
-          normal = this.normal.slice(),
-          facet = new Facet(vertices, normal);
-
-    return facet;
-  }
-
-  static fromVertices(vertices) {
-    const normal = calculateNormal(vertices),
-          facet = new Facet(vertices, normal);
-
-    return facet;
-  }
-
-  static fromVerticesAndIndexes(vertices, indexes) {
-    vertices = indexes.map(function(index) {
-      const vertex = vertices[index];
-
-      return vertex;
-    });
-
-    const facet = Facet.fromVertices(vertices);
-
-    return facet;
   }
 }
 

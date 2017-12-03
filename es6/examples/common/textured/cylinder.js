@@ -7,8 +7,8 @@ const { defaultVertices, defaultIndexes, defaultTextureCoordinates } = cylinder;
 
 class TexturedCylinder extends TexturedCanvasElement {
   static fromProperties(properties) {
-    const { vertices = defaultVertices, indexes = defaultIndexes, textureCoordinates = defaultTextureCoordinates } = properties,
-          texturedCylinder = TexturedCanvasElement.fromProperties(TexturedCylinder, properties, vertices, indexes, textureCoordinates);
+    const { vertices = defaultVertices, indexes = defaultIndexes, imageName, textureCoordinates = defaultTextureCoordinates } = properties,
+          texturedCylinder = TexturedCanvasElement.fromProperties(TexturedCylinder, properties, vertices, indexes, imageName, textureCoordinates);
 
     return texturedCylinder;
   }

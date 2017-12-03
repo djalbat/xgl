@@ -1,11 +1,9 @@
 'use strict';
 
-const necessary = require('necessary');
-
-const constants = require('../../constants');
+const constants = require('../../constants'),
+      arrayUtilities = require('../../utilities/array');
 
 const { CYLINDER_SIDES } = constants,
-      { arrayUtilities } = necessary,
       { push } = arrayUtilities;
 
 const defaultIndexes = calculateDefaultIndexes(),

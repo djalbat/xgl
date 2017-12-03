@@ -18,7 +18,7 @@ class TextureRenderer extends Renderer {
     return textureCoordinateAttributeLocation;
   }
 
-  addTextureCoordinates(textureCoordinates) { this.rendererData.addTextureCoordinates(textureCoordinates); }
+  addVertexTextureCoordinates(vertexTextureCoordinates) { this.rendererData.addVertexTextureCoordinates(vertexTextureCoordinates); }
 
   createBuffers(canvas) {
     const rendererData = this.getRendererData(),
@@ -26,7 +26,7 @@ class TextureRenderer extends Renderer {
           vertexPositionsData = rendererData.getVertexPositionsData(),
           vertexNormalsData = rendererData.getVertexNormalsData(),
           vertexIndexesData = rendererData.getVertexIndexesData(),
-          textureCoordinatesData = rendererData.getTextureCoordinatesData();
+          textureCoordinatesData = rendererData.getVertexTextureCoordinatesData();
 
     rendererBuffers.createBuffers(vertexPositionsData, vertexNormalsData, vertexIndexesData, textureCoordinatesData, canvas);
   }

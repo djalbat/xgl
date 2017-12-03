@@ -21,9 +21,6 @@ const masking = () => {
     <Scene imageMap={imageMap} canvas={canvas}>
       <Camera initialDistance={5} initialOffset={[ 0, 0, 0 ]} canvas={canvas} />
       <TexturedTriangle imageName="graffiti.jpg" >
-        <Mask>
-          <ColouredTriangle position={[ 0.375, 0.125, 0.5 ]} width={0.5} height={0.5} />
-        </Mask>
       </TexturedTriangle>
     </Scene>
 
@@ -33,6 +30,10 @@ const masking = () => {
 module.exports = masking;
 
 /*
+ <Mask>
+ <ColouredTriangle position={[ 0.375, 0.125, 0.5 ]} width={0.5} height={0.5} />
+ </Mask>
+
  <ColouredCuboid colour={[ 1, 1, 0, 1 ]} position={[ -0.5, -0.5, -0.5 ]}>
  <Mask>
  <ColouredCuboid width={0.5} height={0.5} depth={0.5} position={[ 0.25, 0.25, 0.25 ]}>

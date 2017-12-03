@@ -9,31 +9,31 @@ const { add2, multiply2 } = vectorUtilities,
       add = merge;  ///
 
 class TextureRendererData extends RendererData {
-  constructor(vertexPositionsData, vertexNormalsData, vertexIndexesData, maximumVertexIndex, textureCoordinatesData) {
+  constructor(vertexPositionsData, vertexNormalsData, vertexIndexesData, maximumVertexIndex, vertexTextureCoordinatesData) {
     super(vertexPositionsData, vertexNormalsData, vertexIndexesData, maximumVertexIndex);
     
-    this.textureCoordinatesData = textureCoordinatesData;
+    this.vertexTextureCoordinatesData = vertexTextureCoordinatesData;
   }
   
-  getTextureCoordinatesData() {
-    return this.textureCoordinatesData;
+  getVertexTextureCoordinatesData() {
+    return this.vertexTextureCoordinatesData;
   }
 
-  addTextureCoordinates(textureCoordinates) {
-    textureCoordinates = textureCoordinates.map(function(textureCoordinates) {  ///
-      textureCoordinates =  verticallyFlipTextureCoordinates(textureCoordinates);
+  addVertexTextureCoordinates(vertexTextureCoordinates) {
+    vertexTextureCoordinates = vertexTextureCoordinates.map(function(vertexTextureCoordinates) {  ///
+      vertexTextureCoordinates =  verticallyFlipVertexTextureCoordinates(vertexTextureCoordinates);
 
-      return textureCoordinates;
+      return vertexTextureCoordinates;
     });
 
-    const textureCoordinatesData = flatten(textureCoordinates);
+    const vertexTextureCoordinatesData = flatten(vertexTextureCoordinates);
 
-    add(this.textureCoordinatesData, textureCoordinatesData);
+    add(this.vertexTextureCoordinatesData, vertexTextureCoordinatesData);
   }
 
   static fromNothing() { 
-    const textureCoordinatesData = [],
-          textureRendererData = RendererData.fromNothing(TextureRendererData, textureCoordinatesData);
+    const vertexTextureCoordinatesData = [],
+          textureRendererData = RendererData.fromNothing(TextureRendererData, vertexTextureCoordinatesData);
     
     return textureRendererData;
   }
@@ -41,4 +41,4 @@ class TextureRendererData extends RendererData {
 
 module.exports = TextureRendererData;
 
-function verticallyFlipTextureCoordinates(textureCoordinates) { return add2(multiply2(textureCoordinates, [ 1, -1 ]), [ 0, 1 ]); }  ///
+function verticallyFlipVertexTextureCoordinates(vertexTextureCoordinates) { return add2(multiply2(vertexTextureCoordinates, [ 1, -1 ]), [ 0, 1 ]); }  ///
