@@ -151,7 +151,7 @@ class Facet {
     }
   }
 
-  splitWithTwoNonNullIntersections(intersections, smallerFacets) {
+  splitWithTwoNonNullIntersections(intersections, smallerFacets, facet) {
     const nullIntersectionIndex = calculateNullIntersectionIndex(intersections),
           places = (VERTICES_LENGTH - nullIntersectionIndex) % VERTICES_LENGTH;
 
@@ -183,9 +183,9 @@ class Facet {
             thirdVertex,
             secondIntermediateVertex
           ],
-          firstFacet = Facet.fromVertices(firstVertices),
-          secondFacet = Facet.fromVertices(secondVertices),
-          thirdFacet = Facet.fromVertices(thirdVertices),
+          firstFacet = facet.fromVertices(firstVertices),
+          secondFacet = facet.fromVertices(secondVertices),
+          thirdFacet = facet.fromVertices(thirdVertices),
           firstFacetTooSmall = firstFacet.isTooSmall(),
           secondFacetTooSmall = secondFacet.isTooSmall(),
           thirdFacetTooSmall = thirdFacet.isTooSmall();
@@ -203,7 +203,7 @@ class Facet {
     }
   }
 
-  splitWithOneNonNullIntersection(intersections, smallerFacets) {
+  splitWithOneNonNullIntersection(intersections, smallerFacets, facet) {
     const nonNullIntersectionIndex = calculateNonNullIntersectionIndex(intersections),
           places = (VERTICES_LENGTH - nonNullIntersectionIndex) % VERTICES_LENGTH;
 
@@ -226,8 +226,8 @@ class Facet {
             secondVertex,
             thirdVertex
           ],
-          firstFacet = Facet.fromVertices(firstVertices),
-          secondFacet = Facet.fromVertices(secondVertices),
+          firstFacet = facet.fromVertices(firstVertices),
+          secondFacet = facet.fromVertices(secondVertices),
           firstFacetTooSmall = firstFacet.isTooSmall(),
           secondFacetTooSmall = secondFacet.isTooSmall();
 
