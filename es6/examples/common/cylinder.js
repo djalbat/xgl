@@ -6,32 +6,19 @@ const constants = require('../../constants'),
 const { CYLINDER_SIDES } = constants,
       { push } = arrayUtilities;
 
-const defaultIndexes = calculateDefaultIndexes(),
-      defaultVertices = calculateDefaultVertices(),
+const defaultVertices = calculateDefaultVertices(),
+      defaultIndexes = calculateDefaultIndexes(),
+      defaultColour = [ 0, 0, 1, 1 ],
+      defaultImageName = "concrete.jpg",
       defaultTextureCoordinates = calculateDefaultTextureCoordinates();
 
 module.exports = {
-  defaultIndexes: defaultIndexes,
   defaultVertices: defaultVertices,
+  defaultIndexes: defaultIndexes,
+  defaultColour: defaultColour,
+  defaultImageName: defaultImageName,
   defaultTextureCoordinates: defaultTextureCoordinates
 };
-
-function calculateDefaultIndexes() {
-  const defaultIndexes = [],
-        sides = CYLINDER_SIDES,
-        defaultIndexCount = sides * 2;
-
-  for (let count = 0; count < sides; count++) {
-    const defaultIndex = count * 2,
-          firstDefaultIndexes = [ (defaultIndex + 1) % defaultIndexCount, (defaultIndex + 0) % defaultIndexCount, (defaultIndex + 2) % defaultIndexCount ],
-          secondDefaultIndexes = [ (defaultIndex + 2) % defaultIndexCount, (defaultIndex + 3) % defaultIndexCount, (defaultIndex + 1) % defaultIndexCount ];
-
-    defaultIndexes.push(firstDefaultIndexes);
-    defaultIndexes.push(secondDefaultIndexes);
-  }
-
-  return defaultIndexes;
-}
 
 function calculateDefaultVertices() {
   const defaultVertices = [],
@@ -52,12 +39,29 @@ function calculateDefaultVertices() {
             ( angleSine + 1 ) / 2,
             1
           ];
-
+  
     defaultVertices.push(topDefaultVertex);
     defaultVertices.push(bottomDefaultVertex);
   }
 
   return defaultVertices;
+}
+
+function calculateDefaultIndexes() {
+  const defaultIndexes = [],
+        sides = CYLINDER_SIDES,
+        defaultIndexCount = sides * 2;
+
+  for (let count = 0; count < sides; count++) {
+    const defaultIndex = count * 2,
+          firstDefaultIndexes = [ (defaultIndex + 1) % defaultIndexCount, (defaultIndex + 0) % defaultIndexCount, (defaultIndex + 2) % defaultIndexCount ],
+          secondDefaultIndexes = [ (defaultIndex + 2) % defaultIndexCount, (defaultIndex + 3) % defaultIndexCount, (defaultIndex + 1) % defaultIndexCount ];
+
+    defaultIndexes.push(firstDefaultIndexes);
+    defaultIndexes.push(secondDefaultIndexes);
+  }
+
+  return defaultIndexes;
 }
 
 function calculateDefaultTextureCoordinates() {

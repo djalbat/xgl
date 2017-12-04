@@ -14,6 +14,8 @@ const defaultVertices = [
         [ 2, 3, 0 ],
   
       ],
+      defaultColour = [ 0, 1, 0, 1],
+      defaultImageName = "grass.jpg",
       defaultTextureCoordinates = [
 
         [ 0, 0 ], [ 1, 0 ], [ 1, 1 ],
@@ -24,5 +26,7 @@ const defaultVertices = [
 module.exports = {
   defaultVertices: defaultVertices,
   defaultIndexes: defaultIndexes,
+  defaultColour: defaultColour,
+  defaultImageName: defaultImageName,
   defaultTextureCoordinates: defaultTextureCoordinates
 };

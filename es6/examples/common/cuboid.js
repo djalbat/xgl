@@ -34,6 +34,8 @@ const defaultVertices = [
         [ 1, 5, 4 ],
 
       ],
+      defaultColour = [ 1, 0, 0, 1 ],
+      defaultImageName = "bricks.jpg",
       defaultTextureCoordinates = [
 
         [ 0, 0 ], [ 1, 0 ], [ 1, 1 ],
@@ -59,5 +61,7 @@ const defaultVertices = [
 module.exports = {
   defaultVertices: defaultVertices,
   defaultIndexes: defaultIndexes,
+  defaultColour: defaultColour,
+  defaultImageName: defaultImageName,
   defaultTextureCoordinates: defaultTextureCoordinates
 };
