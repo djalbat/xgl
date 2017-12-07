@@ -13,7 +13,7 @@ class Railing extends CanvasElement {
 
     return ([
 
-      <TopRail overallHeight={overallHeight} length={length} />,
+      // <TopRail overallHeight={overallHeight} length={length} />,
 
       <Uprights overallHeight={overallHeight} length={length} thickness={thickness} />
 

@@ -4,7 +4,7 @@ const ColouredCylinder = require('../../../common/coloured/cylinder');
 
 const diameter = 0.125,
       radius = diameter / 2,
-      colour = [ 0.5, 0.5, 0.5, 1];
+      colour = [ 0.5, 0.5, 0.5, 1 ];
 
 const Upright = (properties) => {
   const { position, overallHeight } = properties,

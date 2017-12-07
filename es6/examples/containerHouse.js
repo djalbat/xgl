@@ -5,15 +5,7 @@ require('../jiggle');
 const Canvas = require('../canvas'),
       Scene = require('../element/scene'),
       Camera = require('../element/camera'),
-      Frame = require('./containerHouse/frame'),
-      RoofGarden = require('./containerHouse/roofGarden'),
-      FirstFloor = require('./containerHouse/floor/first'),
-      ThirdFloor = require('./containerHouse/floor/third'),
-      SecondFloor = require('./containerHouse/floor/second'),
-      Foundations = require('./containerHouse/foundations'),
       MainBalcony = require('./containerHouse/balcony/main'),
-      LowerBalcony = require('./containerHouse/balcony/lower'),
-      BedroomBalcony = require('./containerHouse/balcony/bedroom'),
       imageMapUtilities = require('../utilities/imageMap');
 
 const { preloadImageMap } = imageMapUtilities;
@@ -24,19 +16,32 @@ const containerHouse = () => {
   preloadImageMap((imageMap) =>
 
     <Scene imageMap={imageMap} canvas={canvas}>
-      <Camera initialDistance={100} initialOffset={[ -18, 0, -16 ]} canvas={canvas} />
-      <Foundations />
-      <FirstFloor />
-      <SecondFloor />
-      <ThirdFloor />
-      <RoofGarden />
+      <Camera initialDistance={1} initialOffset={[ 0, 0, 0 ]} canvas={canvas} />
       <MainBalcony />
-      <LowerBalcony />
-      <BedroomBalcony />
-      <Frame />
     </Scene>
 
   );
 };
 
 module.exports = containerHouse;
+
+/*
+ Frame = require('./containerHouse/frame'),
+ RoofGarden = require('./containerHouse/roofGarden'),
+ Foundations = require('./containerHouse/foundations'),
+ FirstFloor = require('./containerHouse/floor/first'),
+ ThirdFloor = require('./containerHouse/floor/third'),
+ SecondFloor = require('./containerHouse/floor/second'),
+ LowerBalcony = require('./containerHouse/balcony/lower'),
+ BedroomBalcony = require('./containerHouse/balcony/bedroom'),
+
+ <Frame />
+ <RoofGarden />
+ <Foundations />
+ <FirstFloor />
+ <SecondFloor />
+ <ThirdFloor />
+ <LowerBalcony />
+ <BedroomBalcony />
+
+ */

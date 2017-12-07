@@ -1,7 +1,7 @@
 'use strict';
 
 const VERTICES_LENGTH = 3,
-      CYLINDER_SIDES = 64,
+      CYLINDER_SIDES = 995,
       MINIMUM_DISTANCE = 1,
       DEGREES_TO_RADIANS = Math.PI / 180,
       FIELD_OF_VIEW = 45 * DEGREES_TO_RADIANS,

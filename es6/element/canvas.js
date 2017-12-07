@@ -56,6 +56,10 @@ class CanvasElement extends Element {
     }
   }
 
+  render(colourRenderer, textureRenderer) {
+    ///
+  }
+
   getVertexPositions() {
     const vertexPositions = this.facets.reduce(function(vertexPositions, facet) {
       const facetVertexPositions = facet.getVertexPositions();
@@ -92,7 +96,7 @@ class CanvasElement extends Element {
     return vertexIndexes;
   }
 
-  static fromProperties(Class, properties, facets, ...remainingArguments) {
+  static fromProperties(Class, properties, facets = [], ...remainingArguments) {
     const { width, height, depth, position, rotations } = properties,
           transform = composeTransform(width, height, depth, position, rotations),
           canvasElement = Element.fromProperties(Class, properties, facets, transform, ...remainingArguments);

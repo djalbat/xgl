@@ -2,8 +2,7 @@
 
 const necessary = require('necessary');
 
-const { arrayUtilities } = necessary,
-      { splice } = arrayUtilities;
+const { arrayUtilities } = necessary;
 
 function chop(elements, arrayLength) {
   const arrays = [],

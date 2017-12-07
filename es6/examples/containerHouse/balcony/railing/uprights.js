@@ -19,7 +19,7 @@ class Uprights extends CanvasElement {
 
         <Upright position={position} overallHeight={overallHeight} />
 
-      )
+      );
     }
 
     return elements;
