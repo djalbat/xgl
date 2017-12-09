@@ -1,13 +1,13 @@
 'use strict';
 
 const Facet = require('../facet'),
-      verticesUtilities = require('../utilities/vertices');
+      facetUtilities = require('../utilities/facet');
 
-const { calculateNormal } = verticesUtilities;
+const { cloneEdges, cloneNormal, cloneVertices, calculateEdges, calculateNormal } = facetUtilities;
 
 class ColouredFacet extends Facet {
-  constructor(vertices, normal, colour) {
-    super(vertices, normal);
+  constructor(vertices, normal, edges, colour) {
+    super(vertices, normal, edges);
     
     this.colour = colour;
   }
@@ -33,18 +33,15 @@ class ColouredFacet extends Facet {
 
   clone() {
     let vertices = this.getVertices(),
-        normal = this.getNormal();
-
-    vertices = vertices.map(function(vertex) {
-      vertex = vertex.slice();  ///
-
-      return vertex;
-    });
-
-    normal = normal.slice();  ///
+        normal = this.getNormal(),
+        edges = this.getEdges();
+    
+    vertices = cloneVertices(vertices);
+    normal = cloneNormal(normal);
+    edges = cloneEdges(edges);
 
     const colour = this.colour.slice(),
-          colouredFacet = new ColouredFacet(vertices, normal, colour);
+          colouredFacet = new ColouredFacet(vertices, normal, edges, colour);
 
     return colouredFacet;
   }
@@ -52,7 +49,8 @@ class ColouredFacet extends Facet {
   fromVertices(vertices) {
     const colour = this.colour,
           normal = calculateNormal(vertices),
-          colouredFacet = new ColouredFacet(vertices, normal, colour);
+          edges = calculateEdges(vertices),
+          colouredFacet = new ColouredFacet(vertices, normal, edges, colour);
 
     return colouredFacet;
   }
@@ -65,7 +63,8 @@ class ColouredFacet extends Facet {
     });
 
     const normal = calculateNormal(vertices),
-          colouredFacet = new ColouredFacet(vertices, normal, colour);
+          edges = calculateEdges(vertices),
+          colouredFacet = new ColouredFacet(vertices, normal, edges, colour);
     
     return colouredFacet;
   }

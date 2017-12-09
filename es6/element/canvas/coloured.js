@@ -24,7 +24,7 @@ class ColouredCanvasElement extends CanvasElement {
           vertexColours = facets.reduce(function(vertexColours, facet) {
             const colouredFacet = facet,  ///
                   colouredFacetVertexColours = colouredFacet.getVertexColours();
-            
+
             push(vertexColours, colouredFacetVertexColours);
 
             return vertexColours;

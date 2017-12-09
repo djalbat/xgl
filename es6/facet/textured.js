@@ -1,10 +1,10 @@
 'use strict';
 
 const Facet = require('../facet'),
+      facetUtilities = require('../utilities/facet'),
       arrayUtilities = require('../utilities/array'),
       matrixUtilities = require('../utilities/matrix'),
       vectorUtilities = require('../utilities/vector'),
-      verticesUtilities = require('../utilities/vertices'),
       imageMapUtilities = require('../utilities/imageMap'),
       rotationUtilities = require('../utilities/rotation');
 
@@ -12,12 +12,12 @@ const { invert2, invert3 } = matrixUtilities,
       { getImageDetails } = imageMapUtilities,
       { calculateRotationQuaternion } = rotationUtilities,
       { first, second, third, permute } = arrayUtilities,
-      { calculateNormal, rotateVertices } = verticesUtilities,
+      { cloneEdges, cloneNormal, cloneVertices, calculateEdges, calculateNormal, rotateVertices } = facetUtilities,
       { add2, multiply2, transform2, transform3 } = vectorUtilities;
 
 class TexturedFacet extends Facet {
-  constructor(vertices, normal, imageName, textureCoordinates) {
-    super(vertices, normal);
+  constructor(vertices, normal, edges, imageName, textureCoordinates) {
+    super(vertices, normal, edges);
 
     this.imageName = imageName;
     this.textureCoordinates = textureCoordinates;
@@ -51,50 +51,71 @@ class TexturedFacet extends Facet {
 
   clone() {
     let vertices = this.getVertices(),
-        normal = this.getNormal();
-
-    vertices = vertices.map(function(vertex) {
-      vertex = vertex.slice();  ///
-
-      return vertex;
-    });
-
-    normal = normal.slice();  ///
+        normal = this.getNormal(),
+        edges = this.getEdges();
+    
+    vertices = cloneVertices(vertices);
+    normal = cloneNormal(normal);
+    edges = cloneEdges(edges);
 
     const imageName = this.imageName,
-          textureCoordinates = this.textureCoordinates.map(function(textureCoordinates) {
-            textureCoordinates = textureCoordinates.slice();  ///
-
-            return textureCoordinates;
-          }),
-          texturedFacet = new TexturedFacet(vertices, normal, imageName, textureCoordinates);
+          textureCoordinates = cloneTextureCoordinates(this.textureCoordinates),
+          texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinates);
 
     return texturedFacet;
   }
 
   fromVertices(vertices) {
     const normal = calculateNormal(vertices),
+          edges = calculateEdges(vertices),
           imageName = this.imageName,
           parentVertices = this.vertices, ///
           textureCoordinates = textureCoordinatesFromVerticesParentVerticesAndTextureCoordinates(vertices, parentVertices, this.textureCoordinates),
-          texturedFacet = new TexturedFacet(vertices, normal, imageName, textureCoordinates);
+          texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinates);
 
     return texturedFacet;
   }
 
   static fromVerticesIndexesImageNameAndTextureCoordinates(vertices, indexes, imageName, textureCoordinates, index) {
-    vertices = indexes.map(function(index) { return vertices[index]; });  ///
+    vertices = verticesFromVerticesAndIndexes(vertices, indexes); ///
 
-    textureCoordinates = textureCoordinates.slice(index * 3, index * 3 + 3);  ///
+    textureCoordinates = textureCoordinatesFromTextureCoordinatesAndIndex(textureCoordinates, index);  ///
 
     const normal = calculateNormal(vertices),
-          texturedFacet = new TexturedFacet(vertices, normal, imageName, textureCoordinates);
+          edges = calculateEdges(vertices),
+          texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinates);
 
     return texturedFacet;
   }
 }
 
 module.exports = TexturedFacet;
+
+function verticesFromVerticesAndIndexes(vertices, indexes) {  ///
+  vertices = indexes.map(function(index) {
+    const vertex = vertices[index];
+
+    return vertex;
+  });
+
+  return vertices;
+}
+
+function textureCoordinatesFromTextureCoordinatesAndIndex(textureCoordinates, index) {  ///
+  textureCoordinates = textureCoordinates.slice(index * 3, index * 3 + 3);  ///
+
+  return textureCoordinates;
+}
+
+function cloneTextureCoordinates(textureCoordinates) {
+  textureCoordinates = textureCoordinates.map(function(textureCoordinates) {  ///
+    textureCoordinates = textureCoordinates.slice();
+
+    return textureCoordinates;
+  });
+
+  return textureCoordinates;
+}
 
 function translateTextureCoordinates(textureCoordinates, left, bottom, width, height ) {
   textureCoordinates = textureCoordinates.map(function(textureCoordinates) {  ///

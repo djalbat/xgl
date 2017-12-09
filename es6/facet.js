@@ -1,24 +1,24 @@
 'use strict';
 
-const Edge = require('./edge'),
-      constants = require('./constants'),
+const constants = require('./constants'),
+      facetUtilities = require('./utilities/facet'),
       arrayUtilities = require('./utilities/array'),
       vectorUtilities = require('./utilities/vector'),
       vertexUtilities = require('./utilities/vertex'),
-      verticesUtilities = require('./utilities/vertices'),
       approximateUtilities = require('./utilities/approximate');
 
 const { VERTICES_LENGTH } = constants,
       { rotateAboutZAxis } = vertexUtilities,
-      { isApproximatelyEqualToZero } = approximateUtilities,
       { first, second, third, permute } = arrayUtilities,
-      { calculateNormal, rotateVertices } = verticesUtilities,
-      { add3, subtract3, scale3, length3, normalise3 } = vectorUtilities;
+      { isApproximatelyEqualToZero } = approximateUtilities,
+      { add3, subtract3, scale3, length3, normalise3 } = vectorUtilities,
+      { calculateEdges, calculateNormal, rotateVertices } = facetUtilities;
 
 class Facet {
-  constructor(vertices, normal) {
+  constructor(vertices, normal, edges) {
     this.vertices = vertices;
     this.normal = normal;
+    this.edges = edges;
   }
 
   getVertices() {
@@ -30,17 +30,7 @@ class Facet {
   }
 
   getEdges() {
-    const edges = this.vertices.map(function(vertex, index) {
-            const startIndex = index,
-                  endIndex = (startIndex + 1) % VERTICES_LENGTH,
-                  startVertex = this.vertices[startIndex],
-                  endVertex = this.vertices[endIndex],
-                  edge = Edge.fromVertices(startVertex, endVertex);
-  
-            return edge;
-          }.bind(this));
-
-    return edges;
+    return this.edges;
   }
   
   getMidPoint() {
@@ -114,12 +104,16 @@ class Facet {
     });
 
     this.normal = calculateNormal(this.vertices);
+
+    this.edges = calculateEdges(this.vertices);
   }
   
   rotate(rotationQuaternion) {
     this.vertices = rotateVertices(this.vertices, rotationQuaternion);
     
     this.normal = calculateNormal(this.vertices);
+
+    this.edges = calculateEdges(this.vertices);
   }
 
   rotateAboutZAxis(rotationAboutZAxisMatrix) {
@@ -130,6 +124,8 @@ class Facet {
     });
 
     this.normal = calculateNormal(this.vertices);
+
+    this.edges = calculateEdges(this.vertices);
   }
   
   split(intersections, smallerFacets) {

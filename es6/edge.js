@@ -17,6 +17,14 @@ class Edge {
   getExtent() {
     return this.extent;
   }
+  
+  clone() {
+    const position = this.position.slice(),
+          extent = this.extent.slice(),
+          edge = new Edge(position, extent);
+    
+    return edge;
+  }
 
   static fromVertices(startVertex, endVertex) {
     const position = startVertex.slice(), ///
