@@ -3,6 +3,7 @@
 require('../jiggle');
 
 const Canvas = require('../canvas'),
+      Part = require('../element/part'),
       Scene = require('../element/scene'),
       Camera = require('../element/camera'),
       Frame = require('./timberFramedHouse/frame'),
@@ -15,9 +16,11 @@ const timberFramedHouse = () => {
 
   preloadImageMap((imageMap) =>
 
-    <Scene imageMap={imageMap} canvas={canvas}>
+    <Scene canvas={canvas}>
+      <Part imageMap={imageMap} canvas={canvas}>
+        <Frame />
+      </Part>
       <Camera initialDistance={100} initialOffset={[ -18, 0, -16 ]} canvas={canvas} />
-      <Frame />
     </Scene>
 
   );
