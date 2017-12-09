@@ -7,8 +7,8 @@ const Edge = require('../edge'),
       rotationUtilities = require('../utilities/rotation');
 
 const { VERTICES_LENGTH } = constants,
-      { subtract3, cross3 } = vectorUtilities,
       { first, second, third } = arrayUtilities,
+      { subtract3, cross3 } = vectorUtilities,
       { calculateInverseRotationQuaternion, rotateImaginaryQuaternion } = rotationUtilities;
 
 function cloneEdges(edges) {

@@ -11,15 +11,38 @@ const Element = require('../element'),
 const { offsetMatrixFromOffset, rotationMatrixFromAngles, positionMatrixFromDistance, projectionMatrixFromWidthAndHeight, normalMatrixFromRotationMatrix } = cameraUtilities;
 
 class Camera extends Element {
-  constructor(tilt, pan, zoom, handler, mouseDown, canvas) {
-    super();
+  constructor(canvas, tilt, pan, zoom, handler, mouseDown) {
+    super(canvas);
 
     this.tilt = tilt;
     this.pan = pan;
     this.zoom = zoom;
     this.handler = handler;
     this.mouseDown = mouseDown;
-    this.canvas = canvas;
+  }
+
+  getTilt() {
+    return this.tilt;
+  }
+
+  getPan() {
+    return this.pan;
+  }
+
+  getZoom() {
+    return this.zoom;
+  }
+
+  getHandler() {
+    return this.handler;
+  }
+
+  getMouseDown() {
+    return this.mouseDown;
+  }
+  
+  render(offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix) {
+    ///
   }
 
   mouseUpHandler(mouseCoordinates) {
@@ -67,7 +90,8 @@ class Camera extends Element {
   }
   
   addMouseEventHandlers() {
-    const mouseEvents = MouseEvents.fromNothing(this.canvas),
+    const canvas = this.getCanvas(),
+          mouseEvents = MouseEvents.fromNothing(canvas),
           mouseUpHandler = this.mouseUpHandler.bind(this),
           mouseDownHandler = this.mouseDownHandler.bind(this),
           mouseMoveHandler = this.mouseMoveHandler.bind(this),
@@ -88,8 +112,9 @@ class Camera extends Element {
   }
 
   update() {
-    const width = this.canvas.getWidth(),
-          height = this.canvas.getHeight(),
+    const canvas = this.getCanvas(),
+          width = canvas.getWidth(),
+          height = canvas.getHeight(),
           offset = this.pan.getOffset(),
           angles = this.tilt.getAngles(),
           distance = this.zoom.getDistance(),
@@ -117,15 +142,13 @@ class Camera extends Element {
   }
 
   static fromProperties(properties) {
-    const { initialDistance, initialOffset, canvas } = properties,
+    const { initialDistance, initialOffset } = properties,
           pan = Pan.fromInitialOffset(initialOffset),
           zoom = Zoom.fromInitialDistance(initialDistance),
           handler = null,  ///
           mouseDown = false,
-          camera = new Camera(tilt, pan, zoom, handler, mouseDown, canvas);
+          camera = Element.fromProperties(Camera, properties, tilt, pan, zoom, handler, mouseDown);
     
-    camera.initialise();
-
     return camera;
   }
 }

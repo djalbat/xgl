@@ -9,8 +9,8 @@ const { push } = arrayUtilities,
       { composeTransform } = transformUtilities;
 
 class CanvasElement extends Element {
-  constructor(facets, transform) {
-    super();
+  constructor(canvas, facets, transform) {
+    super(canvas);
 
     this.facets = facets;
     
@@ -27,33 +27,6 @@ class CanvasElement extends Element {
 
   setFacets(facets) {
     this.facets = facets;
-  }
-
-  create(colourRenderer, textureRenderer, transforms, masked) {
-    transforms = [this.transform, ...transforms]; ///
-
-    this.facets.forEach(function(facet) {
-      facet.applyTransforms(transforms);
-    });
-
-    const childElements = this.getChildElements();
-
-    childElements.forEach(function(childElement) {
-      const masked = false; ///
-      
-      childElement.create(colourRenderer, textureRenderer, transforms, masked);
-
-      if (childElement instanceof Mask) {
-        const mask = childElement,  ///
-              element = this; ///
-
-        mask.maskElement(element);
-      }
-    }.bind(this));
-
-    if (!masked) {
-      this.render(colourRenderer, textureRenderer);
-    }
   }
 
   render(colourRenderer, textureRenderer) {
@@ -94,6 +67,33 @@ class CanvasElement extends Element {
     }, []);
 
     return vertexIndexes;
+  }
+
+  initialise(colourRenderer, textureRenderer, transforms, masked) {
+    transforms = [this.transform, ...transforms]; ///
+
+    this.facets.forEach(function(facet) {
+      facet.applyTransforms(transforms);
+    });
+
+    const childElements = this.getChildElements();
+
+    childElements.forEach(function(childElement) {
+      const masked = false; ///
+
+      childElement.initialise(colourRenderer, textureRenderer, transforms, masked);
+
+      if (childElement instanceof Mask) {
+        const mask = childElement,  ///
+              element = this; ///
+
+        mask.maskElement(element);
+      }
+    }.bind(this));
+
+    if (!masked) {
+      this.render(colourRenderer, textureRenderer);
+    }
   }
 
   static fromProperties(Class, properties, facets = [], ...remainingArguments) {

@@ -31,15 +31,6 @@ class Mask extends Element {
     return maskingFacets;          
   }
 
-  create(colourRenderer, textureRenderer, transforms) {
-    const childElements = this.getChildElements(),
-          masked = true;  ///
-
-    childElements.forEach(function(childElement) {
-      childElement.create(colourRenderer, textureRenderer, transforms, masked);
-    });
-  }
-  
   maskElement(element) {
     let facets = element.getFacets();
     
@@ -56,6 +47,15 @@ class Mask extends Element {
     });
     
     element.setFacets(facets);
+  }
+
+  initialise(colourRenderer, textureRenderer, transforms) {
+    const childElements = this.getChildElements(),
+          masked = true;  ///
+
+    childElements.forEach(function(childElement) {
+      childElement.initialise(colourRenderer, textureRenderer, transforms, masked);
+    });
   }
 
   static fromProperties(properties) { return Element.fromProperties(Mask, properties); }

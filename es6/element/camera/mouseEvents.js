@@ -5,8 +5,17 @@ const constants = require('../../constants');
 const { MOUSE_UP, MOUSE_DOWN, MOUSE_MOVE, MOUSE_WHEEL } = constants;
 
 class MouseEvents {
-  constructor(handlersMap) {
+  constructor(handlersMap, canvas) {
     this.handlersMap = handlersMap;
+    this.canvas = canvas;
+  }
+
+  getHandlersMap() {
+    return this.handlersMap;
+  }
+
+  getCanvas() {
+    return this.canvas;
   }
 
   addMouseUpHandler(mouseUpHandler) {
@@ -56,7 +65,7 @@ class MouseEvents {
             MOUSE_MOVE: [],
             MOUSE_WHEEL: []
           },
-          mouseEvents = new MouseEvents(handlersMap),
+          mouseEvents = new MouseEvents(handlersMap, canvas),
           domElement = canvas.getDOMElement();
 
     addMouseEventHandler(domElement, 'mouseup', function(event) { mouseEvents.onMouseEvent(MOUSE_UP, event); });

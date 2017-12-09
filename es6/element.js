@@ -1,16 +1,20 @@
 'use strict';
 
 class Element {
+  constructor(canvas) {
+    this.canvas = canvas;
+  }
+  
+  getCanvas() {
+    return this.canvas;
+  }
+  
   getChildElements() {
     return this.childElements;
   }
   
   setChildElements(childElements) {
     this.childElements = childElements;
-  }
-
-  create(colourRenderer, textureRenderer, transforms) {
-    ///
   }
 
   assignContext(names, thenDelete) {
@@ -59,8 +63,13 @@ class Element {
     delete childElement.context;
   }
 
+  initialise(colourRenderer, textureRenderer, transforms) {
+    ///
+  }
+
   static fromProperties(Class, properties, ...remainingArguments) {
-    const element = new Class(...remainingArguments),
+    const { canvas} = properties,
+          element = new Class(canvas, ...remainingArguments),
           childElements = childElementsFromElementOrProperties(element, properties);
 
     element.setChildElements(childElements);
