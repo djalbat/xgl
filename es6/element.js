@@ -68,15 +68,10 @@ class Element {
   }
 
   static fromProperties(Class, properties, ...remainingArguments) {
-    const { canvas} = properties,
-          element = new Class(canvas, ...remainingArguments),
-          childElements = childElementsFromElementOrProperties(element, properties);
+    const { canvas } = properties,
+          element = new Class(canvas, ...remainingArguments);
 
-    element.setChildElements(childElements);
-
-    childElements.forEach(function(childElement) {
-      element.updateContext(childElement);
-    });
+    applyProperties(element, properties);
 
     return element;
   }
@@ -84,11 +79,14 @@ class Element {
 
 module.exports = Element;
 
-function childElementsFromElementOrProperties(element, properties) {
+function applyProperties(element, properties) {
   const childElements = (typeof element.childElements === 'function') ?
                           element.childElements(properties) :
                             properties.childElements || [];
 
-  return childElements;
-}
+  element.setChildElements(childElements);
 
+  childElements.forEach(function(childElement) {
+    element.updateContext(childElement);
+  });
+}

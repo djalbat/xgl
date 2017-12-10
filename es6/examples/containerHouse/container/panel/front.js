@@ -9,7 +9,7 @@ const FrontPanel = (properties) => {
 
   return (
 
-      <Panel length={overallWidth} overallHeight={overallHeight} position={position} rotations={rotations} />  ///
+    <Panel length={overallWidth} overallHeight={overallHeight} position={position} rotations={rotations} />  ///
 
   );
 };

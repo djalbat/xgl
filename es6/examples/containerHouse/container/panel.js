@@ -6,9 +6,9 @@ const CanvasElement = require('../../../element/canvas'),
 class Panel extends CanvasElement {
   childElements(properties) {
     const { length, overallHeight } = properties,
-          width = 0.25,
+          width = 1.125,  ///
           height = overallHeight, ///
-          depth = 0.125,
+          depth = 0.25,
           rotations = [ 0, -90, 0 ],
           step = 1,
           indent = 0.25,

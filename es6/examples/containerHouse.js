@@ -9,6 +9,9 @@ const Canvas = require('../canvas'),
       Frame = require('./containerHouse/frame'),
       RoofGarden = require('./containerHouse/roofGarden'),
       Foundations = require('./containerHouse/foundations'),
+      FirstFloor = require('./containerHouse/floor/first'),
+      ThirdFloor = require('./containerHouse/floor/third'),
+      SecondFloor = require('./containerHouse/floor/second'),
       MainBalcony = require('./containerHouse/balcony/main'),
       LowerBalcony = require('./containerHouse/balcony/lower'),
       BedroomBalcony = require('./containerHouse/balcony/bedroom'),
@@ -23,6 +26,11 @@ const containerHouse = () => {
 
     <Scene canvas={canvas}>
       <Part canvas={canvas}>
+        <FirstFloor />
+        <SecondFloor />
+        <ThirdFloor />
+      </Part>
+      <Part canvas={canvas}>
         <MainBalcony />
         <LowerBalcony />
         <BedroomBalcony />
@@ -32,21 +40,10 @@ const containerHouse = () => {
         <RoofGarden />
         <Frame />
       </Part>
-      <Camera initialDistance={100} initialOffset={[ 0, 0, 0 ]} canvas={canvas} />
+      <Camera initialDistance={100} initialOffset={[ -18, 0, -16 ]} canvas={canvas} />
     </Scene>
 
   );
 };
 
 module.exports = containerHouse;
-
-/*
- FirstFloor = require('./containerHouse/floor/first'),
- ThirdFloor = require('./containerHouse/floor/third'),
- SecondFloor = require('./containerHouse/floor/second'),
-
- <FirstFloor />
- <SecondFloor />
- <ThirdFloor />
-
- */

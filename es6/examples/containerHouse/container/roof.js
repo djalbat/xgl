@@ -1,6 +1,6 @@
 'use strict';
 
-// const ColouredPlane = require('../../common/coloured/plane');
+const ColouredQuadrangle = require('../../common/coloured/quadrangle');
 
 const indent = 1/12;
 
@@ -12,11 +12,11 @@ const Roof = (properties) => {
         rotations = [ -90, 0, 0 ],
         colour = [ 1, 1, 1, 1 ];
 
-  // return (
-  //
-  //   <ColouredPlane colour={colour} width={width} height={height} position={position} rotations={rotations} />
-  //
-  // );
+  return (
+
+    <ColouredQuadrangle colour={colour} width={width} height={height} position={position} rotations={rotations} />
+
+  );
 };
 
 module.exports = Roof;
