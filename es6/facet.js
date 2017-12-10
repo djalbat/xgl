@@ -10,10 +10,10 @@ const Edge = require('./edge'),
 
 const { VERTICES_LENGTH } = constants,
       { first, second, third, permute } = arrayUtilities,
-      { calculateEdges, calculateNormal } = facetUtilities,
       { isApproximatelyEqualToZero } = approximateUtilities,
       { rotateVertices, rotateVertexAboutZAxis } = rotationUtilities,
-      { add3, subtract3, scale3, length3, normalise3 } = vectorUtilities;
+      { add3, subtract3, scale3, length3, normalise3 } = vectorUtilities,
+      { calculateEdges, calculateNormal, calculateArea } = facetUtilities;
 
 class Facet {
   constructor(vertices, normal, edges) {
@@ -79,9 +79,9 @@ class Facet {
   }
   
   isTooSmall() {
-    const normalLength = length3(this.normal),
-          normalLengthApproximatelyEqualToZero = isApproximatelyEqualToZero(normalLength),
-          tooSmall = normalLengthApproximatelyEqualToZero;  ///
+    const area = calculateArea(this.vertices),
+          areaApproximatelyEqualToZero = isApproximatelyEqualToZero(area),
+          tooSmall = areaApproximatelyEqualToZero;  ///
     
     return tooSmall;
   }

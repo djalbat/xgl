@@ -5,8 +5,8 @@ const constants = require('../constants'),
       vectorUtilities = require('../utilities/vector');
 
 const { VERTICES_LENGTH } = constants,
-      { subtract3, cross3 } = vectorUtilities,
-      { first, second, third } = arrayUtilities;
+      { first, second, third } = arrayUtilities,
+      { subtract3, cross3, length3 } = vectorUtilities;
 
 function cloneEdges(edges) {
   edges = edges.map(function(edge) {
@@ -59,10 +59,22 @@ function calculateNormal(vertices) {
   return normal;
 }
 
+function calculateArea(vertices) {
+  const firstVertex = first(vertices),
+        secondVertex = second(vertices),
+        thirdVertex = third(vertices),
+        firstEdge = subtract3(secondVertex, firstVertex),
+        secondEdge = subtract3(thirdVertex, firstVertex),
+        area = length3(cross3(firstEdge, secondEdge)) / 2;
+
+  return area;
+}
+
 module.exports = {
   cloneEdges: cloneEdges,
   cloneNormal: cloneNormal,
   cloneVertices: cloneVertices,
   calculateEdges: calculateEdges,
-  calculateNormal: calculateNormal
+  calculateNormal: calculateNormal,
+  calculateArea: calculateArea
 };
