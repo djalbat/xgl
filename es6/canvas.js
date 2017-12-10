@@ -1,16 +1,13 @@
 'use strict';
 
-const blendingMixin = require('./canvas/mixin/blending'),
-      programMixin = require('./canvas/mixin/program'),
-      textureMixin = require('./canvas/mixin/texture'),
+const depthMixin = require('./canvas/mixin/depth'),
       colourMixin = require('./canvas/mixin/colour'),
       shaderMixin = require('./canvas/mixin/shader'),
       bufferMixin = require('./canvas/mixin/buffer'),
       matrixMixin = require('./canvas/mixin/matrix'),
-      depthMixin = require('./canvas/mixin/depth'),
-      domUtilities = require('./utilities/dom');
-
-const { domElementFromSelector } = domUtilities;
+      programMixin = require('./canvas/mixin/program'),
+      textureMixin = require('./canvas/mixin/texture'),
+      blendingMixin = require('./canvas/mixin/blending');
 
 const defaultOffset = 0;
 
@@ -96,13 +93,21 @@ class Canvas {
   }
 }
 
-Object.assign(Canvas.prototype, blendingMixin);
-Object.assign(Canvas.prototype, programMixin);
-Object.assign(Canvas.prototype, textureMixin);
+Object.assign(Canvas.prototype, depthMixin);
 Object.assign(Canvas.prototype, colourMixin);
 Object.assign(Canvas.prototype, shaderMixin);
 Object.assign(Canvas.prototype, bufferMixin);
 Object.assign(Canvas.prototype, matrixMixin);
-Object.assign(Canvas.prototype, depthMixin);
+Object.assign(Canvas.prototype, programMixin);
+Object.assign(Canvas.prototype, textureMixin);
+Object.assign(Canvas.prototype, blendingMixin);
 
 module.exports = Canvas;
+
+function domElementFromSelector(selector) {
+  const domElement = (typeof selector === 'string') ?
+                       document.querySelectorAll(selector)[0] :  ///
+                         selector;  ///
+
+  return domElement;
+}

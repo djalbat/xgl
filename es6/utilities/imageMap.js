@@ -1,10 +1,8 @@
 'use strict';
 
-const constants = require('../../bin/constants'), ///
-      imageUtilities = require('../utilities/image');
+const constants = require('../../bin/constants');
 
-const { IMAGE_MAP_URL_PATH } = constants,
-      { preloadImage } = imageUtilities;
+const { IMAGE_MAP_URL_PATH } = constants;
 
 function preloadImageMap(callback) {
   const path = IMAGE_MAP_URL_PATH;
@@ -23,3 +21,13 @@ module.exports = {
   preloadImageMap: preloadImageMap,
   getImageDetails: getImageDetails
 };
+
+function preloadImage(path, callback) {
+  const image = new Image();
+
+  image.onload = function() {
+    callback(image);
+  };
+
+  image.src = path;  ///
+}

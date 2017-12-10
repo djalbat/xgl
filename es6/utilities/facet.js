@@ -1,15 +1,12 @@
 'use strict';
 
-const Edge = require('../edge'),
-      constants = require('../constants'),
+const constants = require('../constants'),
       arrayUtilities = require('../utilities/array'),
-      vectorUtilities = require('../utilities/vector'),
-      rotationUtilities = require('../utilities/rotation');
+      vectorUtilities = require('../utilities/vector');
 
 const { VERTICES_LENGTH } = constants,
-      { first, second, third } = arrayUtilities,
       { subtract3, cross3 } = vectorUtilities,
-      { calculateInverseRotationQuaternion, rotateImaginaryQuaternion } = rotationUtilities;
+      { first, second, third } = arrayUtilities;
 
 function cloneEdges(edges) {
   edges = edges.map(function(edge) {
@@ -21,7 +18,11 @@ function cloneEdges(edges) {
   return edges;
 }
 
-function cloneNormal(normal) { return normal.slice(); }
+function cloneNormal(normal) {
+  normal = normal.slice();  ///
+
+  return normal;
+}
 
 function cloneVertices(vertices) {
   vertices = vertices.map(function(vertex) {
@@ -33,7 +34,7 @@ function cloneVertices(vertices) {
   return vertices;
 }
 
-function calculateEdges(vertices) {
+function calculateEdges(vertices, Edge) {
   const edges = vertices.map(function(vertex, index) {
     const startIndex = index, ///
           endIndex = (startIndex + 1) % VERTICES_LENGTH,
@@ -58,33 +59,10 @@ function calculateNormal(vertices) {
   return normal;
 }
 
-function rotateVertices(vertices, rotationQuaternion) {
-  const inverseRotationQuaternion = calculateInverseRotationQuaternion(rotationQuaternion);
-
-  vertices = vertices.map(function(vertex) {
-    vertex = rotateVertex(vertex, rotationQuaternion, inverseRotationQuaternion);
-
-    return vertex;
-  });
-  
-  return vertices;
-}
-
 module.exports = {
   cloneEdges: cloneEdges,
   cloneNormal: cloneNormal,
   cloneVertices: cloneVertices,
   calculateEdges: calculateEdges,
-  calculateNormal: calculateNormal,
-  rotateVertices: rotateVertices
+  calculateNormal: calculateNormal
 };
-
-
-function rotateVertex(vertex, rotationQuaternion, inverseRotationQuaternion) {
-  const imaginaryQuaternion = [0, ...vertex], ///
-        rotatedImaginaryQuaternion = rotateImaginaryQuaternion(imaginaryQuaternion, rotationQuaternion, inverseRotationQuaternion);
-
-  vertex = rotatedImaginaryQuaternion.slice(1); ///
-
-  return vertex;
-}

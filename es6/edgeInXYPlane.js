@@ -2,16 +2,14 @@
 
 const Edge = require('./edge'),
       arrayUtilities = require('./utilities/array'),
-      vectorUtilities = require('./utilities/vector'),
-      vertexUtilities = require('./utilities/vertex');
+      vectorUtilities = require('./utilities/vector');
 
 const { third } = arrayUtilities,
-      { subtract3, cross3 } = vectorUtilities,
-      { projectOntoXYPlane } = vertexUtilities;
+      { subtract3, cross3 } = vectorUtilities;
 
 class EdgeInXYPlane extends Edge {
   isMidPointToTheLeft(midPoint) {
-    midPoint = projectOntoXYPlane(midPoint);
+    midPoint = projectOntoXYPlane(midPoint);  ///
 
     const position = this.getPosition(),
           extent = this.getExtent(),
@@ -41,3 +39,9 @@ class EdgeInXYPlane extends Edge {
 }
 
 module.exports = EdgeInXYPlane;
+
+function projectOntoXYPlane(vertex) {
+  vertex = [...vertex.slice(0, 2), 0];  ///
+
+  return vertex;
+}

@@ -8,7 +8,7 @@ const Element = require('../element'),
       MouseEvents = require('./camera/mouseEvents'),
       cameraUtilities = require('../utilities/camera');
 
-const { offsetMatrixFromOffset, rotationMatrixFromAngles, positionMatrixFromDistance, projectionMatrixFromWidthAndHeight, normalMatrixFromRotationMatrix } = cameraUtilities;
+const { calculateOffsetMatrix, calculateRotationMatrix, calculatePositionMatrix, calculateProjectionMatrix, calculateNormalMatrix } = cameraUtilities;
 
 class Camera extends Element {
   constructor(canvas, tilt, pan, zoom, handler, mouseDown) {
@@ -118,11 +118,11 @@ class Camera extends Element {
           offset = this.pan.getOffset(),
           angles = this.tilt.getAngles(),
           distance = this.zoom.getDistance(),
-          offsetMatrix = offsetMatrixFromOffset(offset),
-          rotationMatrix = rotationMatrixFromAngles(angles),
-          positionMatrix = positionMatrixFromDistance(distance),
-          projectionMatrix = projectionMatrixFromWidthAndHeight(width, height),
-          normalMatrix = normalMatrixFromRotationMatrix(rotationMatrix);
+          offsetMatrix = calculateOffsetMatrix(offset),
+          rotationMatrix = calculateRotationMatrix(angles),
+          positionMatrix = calculatePositionMatrix(distance),
+          projectionMatrix = calculateProjectionMatrix(width, height),
+          normalMatrix = calculateNormalMatrix(rotationMatrix);
     
     if (this.handler) {  ///
       this.handler(offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);

@@ -1,19 +1,22 @@
 'use strict';
 
-const Facet = require('../facet'),
+const Edge = require('../edge'),
+      Facet = require('../facet'),
       facetUtilities = require('../utilities/facet'),
       arrayUtilities = require('../utilities/array'),
       matrixUtilities = require('../utilities/matrix'),
       vectorUtilities = require('../utilities/vector'),
       imageMapUtilities = require('../utilities/imageMap'),
-      rotationUtilities = require('../utilities/rotation');
+      rotationUtilities = require('../utilities/rotation'),
+      quaternionUtilities = require('../utilities/quaternion');
 
-const { invert2, invert3 } = matrixUtilities,
+const { rotateVertices } = rotationUtilities,
+      { invert2, invert3 } = matrixUtilities,
       { getImageDetails } = imageMapUtilities,
-      { calculateRotationQuaternion } = rotationUtilities,
       { first, second, third, permute } = arrayUtilities,
-      { cloneEdges, cloneNormal, cloneVertices, calculateEdges, calculateNormal, rotateVertices } = facetUtilities,
-      { add2, multiply2, transform2, transform3 } = vectorUtilities;
+      { calculateRotationQuaternion } = quaternionUtilities,
+      { add2, multiply2, transform2, transform3 } = vectorUtilities,
+      { cloneEdges, cloneNormal, cloneVertices, calculateEdges, calculateNormal } = facetUtilities;
 
 class TexturedFacet extends Facet {
   constructor(vertices, normal, edges, imageName, textureCoordinates) {
@@ -67,7 +70,7 @@ class TexturedFacet extends Facet {
 
   fromVertices(vertices) {
     const normal = calculateNormal(vertices),
-          edges = calculateEdges(vertices),
+          edges = calculateEdges(vertices, Edge),
           imageName = this.imageName,
           parentVertices = this.vertices, ///
           textureCoordinates = textureCoordinatesFromVerticesParentVerticesAndTextureCoordinates(vertices, parentVertices, this.textureCoordinates),
@@ -82,7 +85,7 @@ class TexturedFacet extends Facet {
     textureCoordinates = textureCoordinatesFromTextureCoordinatesAndIndex(textureCoordinates, index);  ///
 
     const normal = calculateNormal(vertices),
-          edges = calculateEdges(vertices),
+          edges = calculateEdges(vertices, Edge),
           texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinates);
 
     return texturedFacet;

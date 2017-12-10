@@ -3,8 +3,6 @@
 class Element {
   constructor(canvas) {
     this.canvas = canvas;
-
-    this.childElements = undefined; ///
   }
   
   getCanvas() {

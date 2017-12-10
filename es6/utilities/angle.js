@@ -1,16 +1,8 @@
 'use strict';
 
-function calculateHalfAngleSine(angleCosine) {
-  const halfAngleSine = Math.sqrt((1 - angleCosine) / 2);
+function calculateHalfAngleSine(angleCosine) { return Math.sqrt((1 - angleCosine) / 2); }
 
-  return halfAngleSine;
-}
-
-function calculateHalfAngleCosine(angleCosine) {
-  const halfAngleCosine = Math.sqrt((1 + angleCosine) / 2);
-
-  return halfAngleCosine;
-}
+function calculateHalfAngleCosine(angleCosine) { return Math.sqrt((1 + angleCosine) / 2); }
 
 module.exports = {
   calculateHalfAngleSine: calculateHalfAngleSine,

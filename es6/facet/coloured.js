@@ -1,6 +1,7 @@
 'use strict';
 
-const Facet = require('../facet'),
+const Edge = require('../edge'),
+      Facet = require('../facet'),
       facetUtilities = require('../utilities/facet');
 
 const { cloneEdges, cloneNormal, cloneVertices, calculateEdges, calculateNormal } = facetUtilities;
@@ -49,7 +50,7 @@ class ColouredFacet extends Facet {
   fromVertices(vertices) {
     const colour = this.colour,
           normal = calculateNormal(vertices),
-          edges = calculateEdges(vertices),
+          edges = calculateEdges(vertices, Edge),
           colouredFacet = new ColouredFacet(vertices, normal, edges, colour);
 
     return colouredFacet;
@@ -63,7 +64,7 @@ class ColouredFacet extends Facet {
     });
 
     const normal = calculateNormal(vertices),
-          edges = calculateEdges(vertices),
+          edges = calculateEdges(vertices, Edge),
           colouredFacet = new ColouredFacet(vertices, normal, edges, colour);
     
     return colouredFacet;

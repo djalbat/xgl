@@ -1,73 +1,54 @@
 'use strict';
 
 const arrayUtilities = require('../utilities/array'),
-      angleUtilities = require('../utilities/angle'),
       vectorUtilities = require('../utilities/vector'),
-      approximateUtilities = require('../utilities/approximate');
+      quaternionUtilities = require('../utilities/quaternion');
 
-const { dot3, cross3, normalise3 } = vectorUtilities,
-      { first, second, third, fourth } = arrayUtilities,
-      { isApproximatelyEqualToOne } = approximateUtilities,
-      { calculateHalfAngleCosine, calculateHalfAngleSine } = angleUtilities;
+const { first, second, fourth } = arrayUtilities,
+      { transform3, normalise3 } = vectorUtilities,
+      { calculateInverseRotationQuaternion, rotateImaginaryQuaternion } = quaternionUtilities;
 
-function rotateImaginaryQuaternion(imaginaryQuaternion, rotationQuaternion, inverseRotationQuaternion) { return hamiltonProduct(hamiltonProduct(rotationQuaternion, imaginaryQuaternion), inverseRotationQuaternion); }
+function rotateVertices(vertices, rotationQuaternion) {
+  const inverseRotationQuaternion = calculateInverseRotationQuaternion(rotationQuaternion);
 
-function calculateRotationQuaternion(normal) {
-  const unitNormal = normalise3(normal),
-        zAxis = [ 0, 0, 1],
-        dotProductOfUnitNormalAndZAxis = dot3(unitNormal, zAxis),
-        crossProductOfUnitNormalAndZAxis = cross3(unitNormal, zAxis),
-        angleOfRotationCosine = dotProductOfUnitNormalAndZAxis, ///
-        angleOfRotationCosineAbsoluteValue = Math.abs(angleOfRotationCosine),
-        angleOfRotationCosineAbsoluteValueApproximatelyEqualToOne = isApproximatelyEqualToOne(angleOfRotationCosineAbsoluteValue),
-        axisOfRotation = angleOfRotationCosineAbsoluteValueApproximatelyEqualToOne ?
-                           [ 1, 0, 0 ] : ///
-                             crossProductOfUnitNormalAndZAxis,
-        unitAxisOfRotation = normalise3(axisOfRotation),
-        halfAngleOfRotationCosine = calculateHalfAngleCosine(angleOfRotationCosine),
-        halfAngleOfRotationSine = calculateHalfAngleSine(angleOfRotationCosine),
-        unitAxisOfRotationComponents = unitAxisOfRotation,  ///
-        firstAxisOfRotationComponent = first(unitAxisOfRotationComponents),
-        secondAxisOfRotationComponent = second(unitAxisOfRotationComponents),
-        thirdAxisOfRotationComponent = third(unitAxisOfRotationComponents),
-        rotationQuaternion = [
-          halfAngleOfRotationCosine,
-          firstAxisOfRotationComponent * halfAngleOfRotationSine,
-          secondAxisOfRotationComponent * halfAngleOfRotationSine,
-          thirdAxisOfRotationComponent * halfAngleOfRotationSine
-        ];
+  vertices = vertices.map(function(vertex) {
+    vertex = rotateVertex(vertex, rotationQuaternion, inverseRotationQuaternion);
 
-  return rotationQuaternion;
+    return vertex;
+  });
+
+  return vertices;
 }
 
-function calculateInverseRotationQuaternion(rotationQuaternion) {
-  const rotationQuaternionComponents = rotationQuaternion,  ///
-        firstRotationQuaternionComponent = first(rotationQuaternionComponents),
-        secondRotationQuaternionComponent = second(rotationQuaternionComponents),
-        thirdRotationQuaternionComponent = third(rotationQuaternionComponents),
-        fourthRotationQuaternionComponent = fourth(rotationQuaternionComponents),
-        inverseRotationQuaternion = [
-          firstRotationQuaternionComponent,
-          -secondRotationQuaternionComponent,
-          -thirdRotationQuaternionComponent,
-          -fourthRotationQuaternionComponent
-        ];
+function rotateVertexAboutZAxis(vertex, rotationAboutZAxisMatrix) {
+  const matrix = rotationAboutZAxisMatrix;  ///
 
-  return inverseRotationQuaternion;
+  vertex = transform3(vertex, matrix);
+
+  return vertex;
 }
 
-function calculateForwardsRotationQuaternion(rotationQuaternion) {
-  const forwardsRotationQuaternion = rotationQuaternion;  ///
+function rotatePositionAboutZAxis(position, rotationAboutZAxisMatrix) {
+  const matrix = rotationAboutZAxisMatrix;  ///
 
-  return forwardsRotationQuaternion;
+  position = transform3(position, matrix);
+
+  return position;
 }
 
-function calculateBackwardsRotationQuaternion(rotationQuaternion) {
-  const inverseRotationQuaternion = calculateInverseRotationQuaternion(rotationQuaternion),
-        backwardsRotationQuaternion = inverseRotationQuaternion;  ///
+function calculateRotationAboutZAxisMatrix(edgeInXYPlane) {
+  const edgeInXYPlaneExtent = edgeInXYPlane.getExtent(),
+        unitEdgeInXYPlaneExtent = normalise3(edgeInXYPlaneExtent),
+        unitEdgeInXYPlaneExtentComponents = unitEdgeInXYPlaneExtent,  ///
+        firstUnitEdgeInXYPlaneExtentComponent = first(unitEdgeInXYPlaneExtentComponents),
+        secondUnitEdgeInXYPlaneExtentComponent = second(unitEdgeInXYPlaneExtentComponents),
+        angleOfRotationCosine = +secondUnitEdgeInXYPlaneExtentComponent,  ///
+        angleOfRotationSine = -firstUnitEdgeInXYPlaneExtentComponent, ///
+        c = angleOfRotationCosine,
+        s = angleOfRotationSine,
+        rotationAboutZAxisMatrix = [ c, -s, 0, +s, c, 0, 0, 0, 1 ];  ///
 
-  return backwardsRotationQuaternion;
-
+  return rotationAboutZAxisMatrix;
 }
 
 function calculateForwardsRotationAboutZAxisMatrix(rotationAboutZAxisMatrix) {
@@ -88,39 +69,19 @@ function calculateBackwardsRotationAboutZAxisMatrix(rotationAboutZAxisMatrix) {
 }
 
 module.exports = {
-  rotateImaginaryQuaternion: rotateImaginaryQuaternion,
-  calculateRotationQuaternion: calculateRotationQuaternion,
-  calculateInverseRotationQuaternion: calculateInverseRotationQuaternion,
-  calculateForwardsRotationQuaternion: calculateForwardsRotationQuaternion,
-  calculateBackwardsRotationQuaternion: calculateBackwardsRotationQuaternion,
+  rotateVertices: rotateVertices,
+  rotateVertexAboutZAxis: rotateVertexAboutZAxis,
+  rotatePositionAboutZAxis: rotatePositionAboutZAxis,
+  calculateRotationAboutZAxisMatrix: calculateRotationAboutZAxisMatrix,
   calculateForwardsRotationAboutZAxisMatrix: calculateForwardsRotationAboutZAxisMatrix,
   calculateBackwardsRotationAboutZAxisMatrix: calculateBackwardsRotationAboutZAxisMatrix
 };
 
-function hamiltonProduct(quaternionA, quaternionB) {
-  const quaternionAComponents = quaternionA,  ///
-        quaternionBComponents = quaternionB,  ///
-        firstQuaternionAComponent = first(quaternionAComponents),
-        secondQuaternionAComponent = second(quaternionAComponents),
-        thirdQuaternionAComponent = third(quaternionAComponents),
-        fourthQuaternionAComponent = fourth(quaternionAComponents),
-        firstQuaternionBComponent = first(quaternionBComponents),
-        secondQuaternionBComponent = second(quaternionBComponents),
-        thirdQuaternionBComponent = third(quaternionBComponents),
-        fourthQuaternionBComponent = fourth(quaternionBComponents),
-        a1 = firstQuaternionAComponent, ///
-        b1 = secondQuaternionAComponent,  ///
-        c1 = thirdQuaternionAComponent, ///
-        d1 = fourthQuaternionAComponent,  ///
-        a2 = firstQuaternionBComponent, ///
-        b2 = secondQuaternionBComponent,  ///
-        c2 = thirdQuaternionBComponent, ///
-        d2 = fourthQuaternionBComponent,  ///
-        a = a1 * a2 - b1 * b2 - c1 * c2 - d1 * d2,
-        b = a1 * b2 + b1 * a2 + c1 * d2 - d1 * c2,
-        c = a1 * c2 - b1 * d2 + c1 * a2 + d1 * b2,
-        d = a1 * d2 + b1 * c2 - c1 * b2 + d1 * a2,
-        quaternion = [ a, b, c, d ];
+function rotateVertex(vertex, rotationQuaternion, inverseRotationQuaternion) {
+  const imaginaryQuaternion = [0, ...vertex], ///
+        rotatedImaginaryQuaternion = rotateImaginaryQuaternion(imaginaryQuaternion, rotationQuaternion, inverseRotationQuaternion);
 
-  return quaternion;
+  vertex = rotatedImaginaryQuaternion.slice(1); ///
+
+  return vertex;
 }

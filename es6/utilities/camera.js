@@ -4,11 +4,11 @@ const constants = require('../constants'),
       arrayUtilities = require('../utilities/array'),
       matrixUtilities = require('../utilities/matrix');
 
-const { FIELD_OF_VIEW, Z_NEAR, Z_FAR } = constants,
-      { first, second, third } = arrayUtilities,
+const { first, second, third } = arrayUtilities,
+      { FIELD_OF_VIEW, Z_NEAR, Z_FAR } = constants,
       { identity4, invert4, rotate4, translate4, transpose4, perspective4 } = matrixUtilities;
 
-function offsetMatrixFromOffset(offset) {
+function calculateOffsetMatrix(offset) {
   let offsetMatrix = identity4();
 
   offsetMatrix = translate4(offsetMatrix, offset);
@@ -16,7 +16,7 @@ function offsetMatrixFromOffset(offset) {
   return offsetMatrix;
 }
 
-function rotationMatrixFromAngles(angles) {
+function calculateRotationMatrix(angles) {
   const firstAngle = first(angles),
         secondAngle = second(angles),
         thirdAngle = third(angles),
@@ -33,7 +33,7 @@ function rotationMatrixFromAngles(angles) {
   return rotationMatrix;
 }
 
-function positionMatrixFromDistance(distance) {
+function calculatePositionMatrix(distance) {
   const x = 0,
         y = 0,
         z = -distance;
@@ -45,7 +45,7 @@ function positionMatrixFromDistance(distance) {
   return positionMatrix;
 }
 
-function projectionMatrixFromWidthAndHeight(width, height) {
+function calculateProjectionMatrix(width, height) {
   const fieldOfView = FIELD_OF_VIEW,
         aspectRatio = width / height,
         zNear = Z_NEAR,
@@ -55,7 +55,7 @@ function projectionMatrixFromWidthAndHeight(width, height) {
   return projectionMatrix;
 }
 
-function normalMatrixFromRotationMatrix(rotationMatrix) {
+function calculateNormalMatrix(rotationMatrix) {
   let normalMatrix = invert4(rotationMatrix);
 
   normalMatrix = transpose4(normalMatrix);
@@ -64,9 +64,9 @@ function normalMatrixFromRotationMatrix(rotationMatrix) {
 }
 
 module.exports = {
-  offsetMatrixFromOffset: offsetMatrixFromOffset,
-  rotationMatrixFromAngles: rotationMatrixFromAngles,
-  positionMatrixFromDistance: positionMatrixFromDistance,
-  projectionMatrixFromWidthAndHeight: projectionMatrixFromWidthAndHeight,
-  normalMatrixFromRotationMatrix: normalMatrixFromRotationMatrix
+  calculateOffsetMatrix: calculateOffsetMatrix,
+  calculateRotationMatrix: calculateRotationMatrix,
+  calculatePositionMatrix: calculatePositionMatrix,
+  calculateProjectionMatrix: calculateProjectionMatrix,
+  calculateNormalMatrix: calculateNormalMatrix
 };

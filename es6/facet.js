@@ -1,18 +1,19 @@
 'use strict';
 
-const constants = require('./constants'),
+const Edge = require('./edge'),
+      constants = require('./constants'),
       facetUtilities = require('./utilities/facet'),
       arrayUtilities = require('./utilities/array'),
       vectorUtilities = require('./utilities/vector'),
-      vertexUtilities = require('./utilities/vertex'),
+      rotationUtilities = require('./utilities/rotation'),
       approximateUtilities = require('./utilities/approximate');
 
 const { VERTICES_LENGTH } = constants,
-      { rotateAboutZAxis } = vertexUtilities,
       { first, second, third, permute } = arrayUtilities,
+      { calculateEdges, calculateNormal } = facetUtilities,
       { isApproximatelyEqualToZero } = approximateUtilities,
-      { add3, subtract3, scale3, length3, normalise3 } = vectorUtilities,
-      { calculateEdges, calculateNormal, rotateVertices } = facetUtilities;
+      { rotateVertices, rotateVertexAboutZAxis } = rotationUtilities,
+      { add3, subtract3, scale3, length3, normalise3 } = vectorUtilities;
 
 class Facet {
   constructor(vertices, normal, edges) {
@@ -105,7 +106,7 @@ class Facet {
 
     this.normal = calculateNormal(this.vertices);
 
-    this.edges = calculateEdges(this.vertices);
+    this.edges = calculateEdges(this.vertices, Edge);
   }
   
   rotate(rotationQuaternion) {
@@ -113,19 +114,19 @@ class Facet {
     
     this.normal = calculateNormal(this.vertices);
 
-    this.edges = calculateEdges(this.vertices);
+    this.edges = calculateEdges(this.vertices, Edge);
   }
 
   rotateAboutZAxis(rotationAboutZAxisMatrix) {
     this.vertices = this.vertices.map(function(vertex) {
-      vertex = rotateAboutZAxis(vertex, rotationAboutZAxisMatrix);
+      vertex = rotateVertexAboutZAxis(vertex, rotationAboutZAxisMatrix);
 
       return vertex;
     });
 
     this.normal = calculateNormal(this.vertices);
 
-    this.edges = calculateEdges(this.vertices);
+    this.edges = calculateEdges(this.vertices, Edge);
   }
   
   split(intersections, smallerFacets) {
@@ -346,3 +347,4 @@ function isMidPointToTheRightOfEdgesInXYPlane(midPoint, edgesInXYPlane) {
 
   return midPointToTheRightOfEdgesInXYPlane;
 }
+

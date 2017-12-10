@@ -1,16 +1,12 @@
 'use strict';
 
 const arrayUtilities = require('./utilities/array'),
-      vectorUtilities = require('./utilities/vector'),
-      vertexUtilities = require('./utilities/vertex'),
       rotationUtilities = require('./utilities/rotation'),
       approximateUtilities = require('./utilities/approximate');
 
-const { normalise3 } = vectorUtilities,
-      { first, second } = arrayUtilities,
-      { rotateAboutZAxis } = vertexUtilities,
+const { first, second } = arrayUtilities,
       { isApproximatelyEqualToZero } = approximateUtilities,
-      { calculateForwardsRotationAboutZAxisMatrix, calculateBackwardsRotationAboutZAxisMatrix } = rotationUtilities;
+      { rotatePositionAboutZAxis, calculateRotationAboutZAxisMatrix, calculateForwardsRotationAboutZAxisMatrix, calculateBackwardsRotationAboutZAxisMatrix } = rotationUtilities;
 
 class VerticalLineInXYPlane {
   constructor(firstPositionComponent, rotationAboutZAxisMatrix) {
@@ -93,7 +89,7 @@ class VerticalLineInXYPlane {
   static fromEdgeInXYPlane(edgeInXYPlane) {
     const edgeInXYPlanePosition = edgeInXYPlane.getPosition(),
           rotationAboutZAxisMatrix = calculateRotationAboutZAxisMatrix(edgeInXYPlane),
-          position = rotateAboutZAxis(edgeInXYPlanePosition, rotationAboutZAxisMatrix),
+          position = rotatePositionAboutZAxis(edgeInXYPlanePosition, rotationAboutZAxisMatrix),
           positionComponents = position, ///
           firstPositionComponent = first(positionComponents),
           verticalLineInXYPlane = new VerticalLineInXYPlane(firstPositionComponent, rotationAboutZAxisMatrix);
@@ -121,19 +117,4 @@ function isIntersectionNonTrivial(intersection) {
   const intersectionNonTrivial = ((intersection > 0 ) && (intersection < 1));
 
   return intersectionNonTrivial;
-}
-
-function calculateRotationAboutZAxisMatrix(edgeInXYPlane) {
-  const edgeInXYPlaneExtent = edgeInXYPlane.getExtent(),
-        unitEdgeInXYPlaneExtent = normalise3(edgeInXYPlaneExtent),
-        unitEdgeInXYPlaneExtentComponents = unitEdgeInXYPlaneExtent,  ///
-        firstUnitEdgeInXYPlaneExtentComponent = first(unitEdgeInXYPlaneExtentComponents),
-        secondUnitEdgeInXYPlaneExtentComponent = second(unitEdgeInXYPlaneExtentComponents),
-        angleOfRotationCosine = +secondUnitEdgeInXYPlaneExtentComponent,  ///
-        angleOfRotationSine = -firstUnitEdgeInXYPlaneExtentComponent, ///
-        c = angleOfRotationCosine,
-        s = angleOfRotationSine,
-        rotationAboutZAxisMatrix = [ c, -s, 0, +s, c, 0, 0, 0, 1 ];  ///
-
-  return rotationAboutZAxisMatrix;
 }
