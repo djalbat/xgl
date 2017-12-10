@@ -3,6 +3,8 @@
 class Element {
   constructor(canvas) {
     this.canvas = canvas;
+
+    this.childElements = undefined; ///
   }
   
   getCanvas() {
@@ -15,6 +17,16 @@ class Element {
   
   setChildElements(childElements) {
     this.childElements = childElements;
+  }
+
+  updateContext(childElement) {
+    const context = (typeof childElement.parentContext === 'function') ?
+                      childElement.parentContext() :
+                        childElement.context;
+
+    this.context = Object.assign({}, this.context, context);
+
+    delete childElement.context;
   }
 
   assignContext(names, thenDelete) {
@@ -51,16 +63,6 @@ class Element {
         delete this.context[name];
       }
     }.bind(this));
-  }
-
-  updateContext(childElement) {
-    const context = (typeof childElement.parentContext === 'function') ?
-                      childElement.parentContext() :
-                        childElement.context;
-
-    this.context = Object.assign({}, this.context, context);
-
-    delete childElement.context;
   }
 
   initialise(colourRenderer, textureRenderer, transforms) {
