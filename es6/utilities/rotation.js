@@ -6,13 +6,11 @@ const vectorMaths = require('../maths/vector'),
 
 const { first, second, fourth } = arrayUtilities,
       { transform3, normalise3 } = vectorMaths,
-      { calculateInverseRotationQuaternion, rotateImaginaryQuaternion } = quaternionUtilities;
+      { rotateImaginaryQuaternion, calculateInverseRotationQuaternion } = quaternionUtilities;
 
 function rotateVertices(vertices, rotationQuaternion) {
-  const inverseRotationQuaternion = calculateInverseRotationQuaternion(rotationQuaternion);
-
   vertices = vertices.map(function(vertex) {
-    vertex = rotateVertex(vertex, rotationQuaternion, inverseRotationQuaternion);
+   vertex = rotateVertex(vertex, rotationQuaternion);
 
     return vertex;
   });
@@ -20,18 +18,28 @@ function rotateVertices(vertices, rotationQuaternion) {
   return vertices;
 }
 
-function rotateVertexAboutZAxis(vertex, rotationAboutZAxisMatrix) {
-  const matrix = rotationAboutZAxisMatrix;  ///
+function rotatePosition(position, rotationQuaternion) {
+  const imaginaryQuaternion = imaginaryQuaternionFromPosition(position),
+        inverseRotationQuaternion = calculateInverseRotationQuaternion(rotationQuaternion),
+        rotatedImaginaryQuaternion = rotateImaginaryQuaternion(imaginaryQuaternion, rotationQuaternion, inverseRotationQuaternion);
 
-  vertex = transform3(vertex, matrix);
+  position = positionFromImaginaryQuaternion(rotatedImaginaryQuaternion);
 
-  return vertex;
+  return position;
+}
+
+function rotateVerticesAboutZAxis(vertices, rotationAboutZAxisMatrix) {
+  vertices = vertices.map(function(vertex) {
+    vertex = rotateVertexAboutZAxis(vertex, rotationAboutZAxisMatrix);
+
+    return vertex;
+  });
+
+  return vertices;
 }
 
 function rotatePositionAboutZAxis(position, rotationAboutZAxisMatrix) {
-  const matrix = rotationAboutZAxisMatrix;  ///
-
-  position = transform3(position, matrix);
+  position = transform3(position, rotationAboutZAxisMatrix);
 
   return position;
 }
@@ -70,18 +78,30 @@ function calculateBackwardsRotationAboutZAxisMatrix(rotationAboutZAxisMatrix) {
 
 module.exports = {
   rotateVertices: rotateVertices,
-  rotateVertexAboutZAxis: rotateVertexAboutZAxis,
+  rotatePosition: rotatePosition,
+  rotateVerticesAboutZAxis: rotateVerticesAboutZAxis,
   rotatePositionAboutZAxis: rotatePositionAboutZAxis,
   calculateRotationAboutZAxisMatrix: calculateRotationAboutZAxisMatrix,
   calculateForwardsRotationAboutZAxisMatrix: calculateForwardsRotationAboutZAxisMatrix,
   calculateBackwardsRotationAboutZAxisMatrix: calculateBackwardsRotationAboutZAxisMatrix
 };
 
-function rotateVertex(vertex, rotationQuaternion, inverseRotationQuaternion) {
-  const imaginaryQuaternion = [0, ...vertex], ///
-        rotatedImaginaryQuaternion = rotateImaginaryQuaternion(imaginaryQuaternion, rotationQuaternion, inverseRotationQuaternion);
+function rotateVertex(vertex, rotationQuaternion) {
+  vertex = vertex.clone();  ///
 
-  vertex = rotatedImaginaryQuaternion.slice(1); ///
+  vertex.rotate(rotationQuaternion);
 
   return vertex;
 }
+
+function rotateVertexAboutZAxis(vertex, rotationAboutZAxisMatrix) {
+  vertex = vertex.clone();
+
+  vertex.rotateAboutZAxis(rotationAboutZAxisMatrix);
+
+  return vertex;
+}
+
+function imaginaryQuaternionFromPosition(position) { return [0, ...position]; }  ///
+
+function positionFromImaginaryQuaternion(imaginaryQuaternion) { return imaginaryQuaternion.slice(1); }  ///

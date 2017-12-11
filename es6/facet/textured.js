@@ -2,6 +2,7 @@
 
 const Edge = require('../edge'),
       Facet = require('../facet'),
+      Vertex = require('../vertex'),
       matrixMaths = require('../maths/matrix'),
       vectorMaths = require('../maths/vector'),
       facetUtilities = require('../utilities/facet'),
@@ -79,8 +80,8 @@ class TexturedFacet extends Facet {
     return texturedFacet;
   }
 
-  static fromVerticesIndexesImageNameAndTextureCoordinates(vertices, indexes, imageName, textureCoordinates, index) {
-    vertices = verticesFromVerticesAndIndexes(vertices, indexes); ///
+  static fromVertexCoordinatesImageNameAndTextureCoordinates(vertexCoordinates, indexes, imageName, textureCoordinates, index) {
+    const vertices = verticesFromVertexCoordinatesAndIndexes(vertexCoordinates, indexes);
 
     textureCoordinates = textureCoordinatesFromTextureCoordinatesAndIndex(textureCoordinates, index);  ///
 
@@ -94,9 +95,10 @@ class TexturedFacet extends Facet {
 
 module.exports = TexturedFacet;
 
-function verticesFromVerticesAndIndexes(vertices, indexes) {  ///
-  vertices = indexes.map(function(index) {
-    const vertex = vertices[index];
+function verticesFromVertexCoordinatesAndIndexes(vertexCoordinates, indexes) {  ///
+  const vertices = indexes.map(function(index) {
+    const coordinates = vertexCoordinates[index], ///
+          vertex = Vertex.fromCoordinates(coordinates);
 
     return vertex;
   });

@@ -43,7 +43,7 @@ class VerticalLine {
   splitFacet(facet, smallerFacets) {
     const intersections = this.calculateIntersectionsWithFacet(facet);
 
-    facet.split(intersections, smallerFacets);
+    facet.splitWithIntersections(intersections, smallerFacets);
   }
 
   calculateIntersectionsWithFacet(facet) {

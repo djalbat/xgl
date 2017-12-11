@@ -1,18 +1,7 @@
 'use strict';
 
-const defaultVertices = [
-  
-        [ 0, 0, 0 ],
-        [ 1, 0, 0 ],
-        [ 1, 1, 0 ],
-        [ 0, 1, 0 ],
-
-        [ 0, 0, 1 ],
-        [ 1, 0, 1 ],
-        [ 1, 1, 1 ],
-        [ 0, 1, 1 ],
-
-      ],
+const defaultColour = [ 1, 0, 0, 1 ],
+      defaultImageName = "bricks.jpg",
       defaultIndexes = [
   
         [ 1, 0, 3 ],
@@ -34,8 +23,19 @@ const defaultVertices = [
         [ 1, 5, 4 ],
 
       ],
-      defaultColour = [ 1, 0, 0, 1 ],
-      defaultImageName = "bricks.jpg",
+      defaultVertexCoordinates = [
+  
+        [ 0, 0, 0 ],
+        [ 1, 0, 0 ],
+        [ 1, 1, 0 ],
+        [ 0, 1, 0 ],
+  
+        [ 0, 0, 1 ],
+        [ 1, 0, 1 ],
+        [ 1, 1, 1 ],
+        [ 0, 1, 1 ],
+  
+      ],
       defaultTextureCoordinates = [
 
         [ 0, 0 ], [ 1, 0 ], [ 1, 1 ],
@@ -59,9 +59,9 @@ const defaultVertices = [
       ];
 
 module.exports = {
-  defaultVertices: defaultVertices,
-  defaultIndexes: defaultIndexes,
   defaultColour: defaultColour,
   defaultImageName: defaultImageName,
+  defaultIndexes: defaultIndexes,
+  defaultVertexCoordinates: defaultVertexCoordinates,
   defaultTextureCoordinates: defaultTextureCoordinates
 };

@@ -3,12 +3,12 @@
 const quadrangle = require('../quadrangle'),
       ColouredCanvasElement = require('../../../element/canvas/coloured');
 
-const { defaultVertices, defaultIndexes, defaultColour } = quadrangle;
+const { defaultVertexCoordinates, defaultIndexes, defaultColour } = quadrangle;
 
 class ColouredQuadrangle extends ColouredCanvasElement {
   static fromProperties(properties) {
-    const { vertices = defaultVertices, indexes = defaultIndexes, colour = defaultColour } = properties,
-          colouredQuadrangle = ColouredCanvasElement.fromProperties(ColouredQuadrangle, properties, vertices, indexes, colour);
+    const { vertexCoordinates = defaultVertexCoordinates, indexes = defaultIndexes, colour = defaultColour } = properties,
+          colouredQuadrangle = ColouredCanvasElement.fromProperties(ColouredQuadrangle, properties, vertexCoordinates, indexes, colour);
 
     return colouredQuadrangle;
   }

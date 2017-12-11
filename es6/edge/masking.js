@@ -8,40 +8,34 @@ const { third } = arrayUtilities,
       { subtract3, cross3 } = vectorMaths;
 
 class MaskingEdge extends Edge {
-  isMidPointToTheLeft(midPoint) {
-    midPoint = projectOntoXYPlane(midPoint);  ///
+  isMidPointPositionToTheLeft(midPointPosition) {
+    midPointPosition = projectMidPointPositionOntoXYPlane(midPointPosition);  ///
 
-    const position = this.getPosition(),
-          extent = this.getExtent(),
-          midPointDirection = subtract3(midPoint, position),
-          crossProduct = cross3(extent, midPointDirection), ///
+    const extent = this.getExtent(),
+          position = this.getPosition(),
+          midPointRelativePosition = subtract3(midPointPosition, position), ///
+          crossProduct = cross3(extent, midPointRelativePosition), ///
           crossProductComponents = crossProduct,  ///
           thirdCrossProductComponent = third(crossProductComponents),
-          midPointToTheLeft = (thirdCrossProductComponent > 0);
+          midPointPositionToTheLeft = (thirdCrossProductComponent > 0);
 
-    return midPointToTheLeft;
+    return midPointPositionToTheLeft;
   }
   
-  isMidPointToTheRight(midPoint) {
-    const midPointToTheLeft = this.isMidPointToTheLeft(midPoint),
-          midPointToTheRight = !midPointToTheLeft;  ///
+  isMidPointPositionToTheRight(midPointPosition) {
+    const midPointPositionToTheLeft = this.isMidPointPositionToTheLeft(midPointPosition),
+          midPointPositionToTheRight = !midPointPositionToTheLeft;  ///
     
-    return midPointToTheRight;
+    return midPointPositionToTheRight;
   }
   
-  static fromStartVertexAndEndVertex(startVertex, endVertex) {
-    const position = startVertex.slice(), ///
-          extent = subtract3(endVertex, startVertex),
-          maskingEdge = new MaskingEdge(position, extent);
-
-    return maskingEdge;
-  }
+  static fromStartVertexAndEndVertex(startVertex, endVertex) { return Edge.fromStartVertexAndEndVertex(MaskingEdge, startVertex, endVertex); }
 }
 
 module.exports = MaskingEdge;
 
-function projectOntoXYPlane(vertex) {
-  vertex = [...vertex.slice(0, 2), 0];  ///
+function projectMidPointPositionOntoXYPlane(midPointPosition) {
+  midPointPosition = [...midPointPosition.slice(0, 2), 0];  ///
 
-  return vertex;
+  return midPointPosition;
 }

@@ -26,7 +26,7 @@ function cloneNormal(normal) {
 
 function cloneVertices(vertices) {
   vertices = vertices.map(function(vertex) {
-    vertex = vertex.slice();  ///
+    vertex = vertex.clone();
 
     return vertex;
   });
@@ -40,7 +40,7 @@ function calculateEdges(vertices, Edge) {
           endIndex = (startIndex + 1) % VERTICES_LENGTH,
           startVertex = vertices[startIndex],
           endVertex = vertices[endIndex],
-          edge = Edge.fromVertices(startVertex, endVertex);
+          edge = Edge.fromStartVertexAndEndVertex(startVertex, endVertex);
 
     return edge;
   });
@@ -52,9 +52,12 @@ function calculateNormal(vertices) {
   const firstVertex = first(vertices),
         secondVertex = second(vertices),
         thirdVertex = third(vertices),
-        firstEdge = subtract3(secondVertex, firstVertex),
-        secondEdge = subtract3(thirdVertex, firstVertex),
-        normal = cross3(firstEdge, secondEdge);
+        firstPosition = firstVertex.getPosition(),
+        secondPosition = secondVertex.getPosition(),
+        thirdPosition = thirdVertex.getPosition(),
+        firstExtent = subtract3(secondPosition, firstPosition),
+        secondExtent = subtract3(thirdPosition, firstPosition),
+        normal = cross3(firstExtent, secondExtent);
 
   return normal;
 }
@@ -63,9 +66,12 @@ function calculateArea(vertices) {
   const firstVertex = first(vertices),
         secondVertex = second(vertices),
         thirdVertex = third(vertices),
-        firstEdge = subtract3(secondVertex, firstVertex),
-        secondEdge = subtract3(thirdVertex, firstVertex),
-        area = length3(cross3(firstEdge, secondEdge)) / 2;
+        firstPosition = firstVertex.getPosition(),
+        secondPosition = secondVertex.getPosition(),
+        thirdPosition = thirdVertex.getPosition(),
+        firstExtent = subtract3(secondPosition, firstPosition),
+        secondExtent = subtract3(thirdPosition, firstPosition),
+        area = length3(cross3(firstExtent, secondExtent)) / 2;
 
   return area;
 }

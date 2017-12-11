@@ -1,6 +1,7 @@
 'use strict';
 
 const Edge = require('./edge'),
+      Vertex = require('./vertex'),
       constants = require('./constants'),
       vectorMaths = require('./maths/vector'),
       facetUtilities = require('./utilities/facet'),
@@ -12,7 +13,7 @@ const { VERTICES_LENGTH } = constants,
       { add3, subtract3, scale3, normalise3 } = vectorMaths,
       { first, second, third, permute } = arrayUtilities,
       { isApproximatelyEqualToZero } = approximateUtilities,
-      { rotateVertices, rotateVertexAboutZAxis } = rotationUtilities,
+      { rotateVertices, rotateVerticesAboutZAxis } = rotationUtilities,
       { calculateEdges, calculateNormal, calculateArea } = facetUtilities;
 
 class Facet {
@@ -34,21 +35,9 @@ class Facet {
     return this.edges;
   }
   
-  getMidPoint() {
-    const midPoint = this.vertices.reduce(function(midPoint, vertex) {
-      const scaledVertex = scale3(vertex, 1/3);
-      
-      midPoint = add3(midPoint, scaledVertex);
-      
-      return midPoint;
-    }, [ 0, 0, 0 ]);
-    
-    return midPoint;
-  }
-  
   getVertexPositions() {
     const vertexPositions = this.vertices.map(function(vertex) {
-      const vertexPosition = vertex.slice(); ///
+      const vertexPosition = vertex.getPosition();
       
       return vertexPosition;
     });
@@ -77,7 +66,20 @@ class Facet {
     
     return vertexIndexes;
   }
-  
+
+  getMidPointPosition() {
+    const midPointPosition = this.vertices.reduce(function(midPointPosition, vertex) {
+      const position = vertex.getPosition(),
+            scaledVertexPosition = scale3(position, 1/3);
+
+      midPointPosition = add3(midPointPosition, scaledVertexPosition);
+
+      return midPointPosition;
+    }, [ 0, 0, 0 ]);
+
+    return midPointPosition;
+  }
+
   isTooSmall() {
     const area = calculateArea(this.vertices),
           areaApproximatelyEqualToZero = isApproximatelyEqualToZero(area),
@@ -88,27 +90,17 @@ class Facet {
   
   isMasked(maskingFacet) {
     const maskingEdges = maskingFacet.getMaskingEdges(),
-          midPoint = this.getMidPoint(),
-          midPointToOneSideOfMaskingEdges = isMidPointToOneSideOfMaskingEdges(midPoint, maskingEdges),
-          masked = midPointToOneSideOfMaskingEdges;  ///
+          midPointPosition = this.getMidPointPosition(),
+          midPointPositionToOneSideOfMaskingEdges = isMidPointPositionToOneSideOfMaskingEdges(midPointPosition, maskingEdges),
+          masked = midPointPositionToOneSideOfMaskingEdges;  ///
     
     return masked;
   }
-  
-  applyTransforms(transforms) {
-    this.vertices = this.vertices.map(function(vertex) {
-      transforms.forEach(function(transform) {
-        vertex = transform(vertex);
-      });
 
-      return vertex;
-    });
-
-    this.normal = calculateNormal(this.vertices);
-
-    this.edges = calculateEdges(this.vertices, Edge);
+  permute(places) {
+    this.vertices = permute(this.vertices, places);
   }
-  
+
   rotate(rotationQuaternion) {
     this.vertices = rotateVertices(this.vertices, rotationQuaternion);
     
@@ -118,8 +110,18 @@ class Facet {
   }
 
   rotateAboutZAxis(rotationAboutZAxisMatrix) {
+    this.vertices = rotateVerticesAboutZAxis(this.vertices, rotationAboutZAxisMatrix);
+    
+    this.normal = calculateNormal(this.vertices);
+
+    this.edges = calculateEdges(this.vertices, Edge);
+  }
+
+  applyTransforms(transforms) {
     this.vertices = this.vertices.map(function(vertex) {
-      vertex = rotateVertexAboutZAxis(vertex, rotationAboutZAxisMatrix);
+      transforms.forEach(function(transform) {
+        vertex.applyTransform(transform);
+      });
 
       return vertex;
     });
@@ -128,8 +130,8 @@ class Facet {
 
     this.edges = calculateEdges(this.vertices, Edge);
   }
-  
-  split(intersections, smallerFacets) {
+
+  splitWithIntersections(intersections, smallerFacets) {
     const nonNullIntersections = calculateNonNullIntersections(intersections),
           nonNullIntersectionsLength = nonNullIntersections.length;
 
@@ -148,10 +150,6 @@ class Facet {
     }
   }
   
-  permute(places) {
-    this.vertices = permute(this.vertices, places);
-  }
-
   splitWithTwoNonNullIntersections(intersections, smallerFacets, facet) {
     const nullIntersectionIndex = calculateNullIntersectionIndex(intersections),
           places = (VERTICES_LENGTH - nullIntersectionIndex) % VERTICES_LENGTH;
@@ -246,25 +244,18 @@ class Facet {
 
     smallerFacets.push(smallerFacet);
   }
-
-  calculateIntersectionsWithVerticalLine(verticalLine) {
-    const edges = this.getEdges(),
-          intersections = edges.map(function(edge) {
-            const intersection = edge.calculateIntersectionWithVerticalLine(verticalLine);
-  
-            return intersection;
-          });
-
-    return intersections;
-  }
 }
 
 module.exports = Facet;
 
 function calculateIntermediateVertex(startVertex, endVertex, intersection) {
-  const direction = subtract3(endVertex, startVertex),
-        offset = scale3(direction, intersection),
-        intermediateVertex = add3(startVertex, offset);
+  const startPosition = startVertex.getPosition(),
+        endPosition = endVertex.getPosition(),
+        extent = subtract3(endPosition, startPosition),
+        offset = scale3(extent, intersection),
+        position = add3(startPosition, offset),
+        vertex = new Vertex(position),
+        intermediateVertex = vertex;  ///
 
   return intermediateVertex;
 }
@@ -311,39 +302,38 @@ function calculateNonNullIntersectionIndex(intersections) {
   return nullIntersectionIndex;
 }
 
-function isMidPointToOneSideOfMaskingEdges(midPoint, maskingEdges) {
-  const midPointToTheLeftOfMaskingEdges = isMidPointToTheLeftOfMaskingEdges(midPoint, maskingEdges),
-        midPointToTheRightOfMaskingEdges = isMidPointToTheRightOfMaskingEdges(midPoint, maskingEdges),
-        midPointToOneSideOfMaskingEdges = midPointToTheLeftOfMaskingEdges || midPointToTheRightOfMaskingEdges; ///
+function isMidPointPositionToOneSideOfMaskingEdges(midPointPosition, maskingEdges) {
+  const midPointPositionToTheLeftOfMaskingEdges = isMidPointPositionToTheLeftOfMaskingEdges(midPointPosition, maskingEdges),
+        midPointPositionToTheRightOfMaskingEdges = isMidPointPositionToTheRightOfMaskingEdges(midPointPosition, maskingEdges),
+        midPointPositionToOneSideOfMaskingEdges = midPointPositionToTheLeftOfMaskingEdges || midPointPositionToTheRightOfMaskingEdges; ///
 
-  return midPointToOneSideOfMaskingEdges;
+  return midPointPositionToOneSideOfMaskingEdges;
 }
 
-function isMidPointToTheLeftOfMaskingEdges(midPoint, maskingEdges) {
-  const midPointToTheLeftOfMaskingEdges = maskingEdges.reduce(function(midPointToTheLeftOfMaskingEdges, maskingEdge) {
-    if (midPointToTheLeftOfMaskingEdges) {
-      const midPointToTheLeftOfMaskingEdge = maskingEdge.isMidPointToTheLeft(midPoint);
+function isMidPointPositionToTheLeftOfMaskingEdges(midPointPosition, maskingEdges) {
+  const midPointPositionToTheLeftOfMaskingEdges = maskingEdges.reduce(function(midPointPositionToTheLeftOfMaskingEdges, maskingEdge) {
+    if (midPointPositionToTheLeftOfMaskingEdges) {
+      const midPointPositionToTheLeftOfMaskingEdge = maskingEdge.isMidPointPositionToTheLeft(midPointPosition);
 
-      midPointToTheLeftOfMaskingEdges = midPointToTheLeftOfMaskingEdge;
+      midPointPositionToTheLeftOfMaskingEdges = midPointPositionToTheLeftOfMaskingEdge;
     }
 
-    return midPointToTheLeftOfMaskingEdges;
+    return midPointPositionToTheLeftOfMaskingEdges;
   }, true);
 
-  return midPointToTheLeftOfMaskingEdges;
+  return midPointPositionToTheLeftOfMaskingEdges;
 }
 
-function isMidPointToTheRightOfMaskingEdges(midPoint, maskingEdges) {
-  const midPointToTheRightOfMaskingEdges = maskingEdges.reduce(function(midPointToTheRightOfMaskingEdges, maskingEdge) {
-    if (midPointToTheRightOfMaskingEdges) {
-      const midPointToTheRightOfMaskingEdge = maskingEdge.isMidPointToTheRight(midPoint);
+function isMidPointPositionToTheRightOfMaskingEdges(midPointPosition, maskingEdges) {
+  const midPointPositionToTheRightOfMaskingEdges = maskingEdges.reduce(function(midPointPositionToTheRightOfMaskingEdges, maskingEdge) {
+    if (midPointPositionToTheRightOfMaskingEdges) {
+      const midPointPositionToTheRightOfMaskingEdge = maskingEdge.isMidPointPositionToTheRight(midPointPosition);
 
-      midPointToTheRightOfMaskingEdges = midPointToTheRightOfMaskingEdge;
+      midPointPositionToTheRightOfMaskingEdges = midPointPositionToTheRightOfMaskingEdge;
     }
 
-    return midPointToTheRightOfMaskingEdges;
+    return midPointPositionToTheRightOfMaskingEdges;
   }, true);
 
-  return midPointToTheRightOfMaskingEdges;
+  return midPointPositionToTheRightOfMaskingEdges;
 }
-

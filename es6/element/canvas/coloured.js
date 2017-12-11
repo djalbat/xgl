@@ -35,7 +35,7 @@ class ColouredCanvasElement extends CanvasElement {
 
   static fromProperties(Class, properties, vertices, indexes, colour, ...remainingArguments) {
     const colouredFacets = indexes.map(function(indexes) {  ///
-            const colouredFacet = ColouredFacet.fromVerticesIndexesAndColour(vertices, indexes, colour);
+            const colouredFacet = ColouredFacet.fromVertexCoordinatesIndexesAndColour(vertices, indexes, colour);
   
             return colouredFacet;
           }),

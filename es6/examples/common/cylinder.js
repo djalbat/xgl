@@ -6,22 +6,22 @@ const constants = require('../../constants'),
 const { CYLINDER_SIDES } = constants,
       { push } = arrayUtilities;
 
-const defaultVertices = calculateDefaultVertices(),
-      defaultIndexes = calculateDefaultIndexes(),
-      defaultColour = [ 0, 0, 1, 1 ],
+const defaultColour = [ 0, 0, 1, 1 ],
       defaultImageName = "concrete.jpg",
+      defaultIndexes = calculateDefaultIndexes(),
+      defaultVertexCoordinates = calculateDefaultVertexCoordinates(),
       defaultTextureCoordinates = calculateDefaultTextureCoordinates();
 
 module.exports = {
-  defaultVertices: defaultVertices,
-  defaultIndexes: defaultIndexes,
   defaultColour: defaultColour,
   defaultImageName: defaultImageName,
+  defaultIndexes: defaultIndexes,
+  defaultVertexCoordinates: defaultVertexCoordinates,
   defaultTextureCoordinates: defaultTextureCoordinates
 };
 
-function calculateDefaultVertices() {
-  const defaultVertices = [],
+function calculateDefaultVertexCoordinates() {
+  const defaultVertexCoordinates = [],
         sides = CYLINDER_SIDES,
         step = 2 * Math.PI / sides;
 
@@ -29,22 +29,22 @@ function calculateDefaultVertices() {
     const angle = step * count,
           angleCosine = Math.cos(angle),
           angleSine = Math.sin(angle),
-          topDefaultVertex = [
+          topDefaultVertexCoordinates = [
             ( angleCosine + 1 ) / 2,
             ( angleSine + 1 ) / 2,
             0
           ],
-          bottomDefaultVertex = [
+          bottomDefaultVertexCoordinates = [
             ( angleCosine + 1 ) / 2,
             ( angleSine + 1 ) / 2,
             1
           ];
   
-    defaultVertices.push(topDefaultVertex);
-    defaultVertices.push(bottomDefaultVertex);
+    defaultVertexCoordinates.push(topDefaultVertexCoordinates);
+    defaultVertexCoordinates.push(bottomDefaultVertexCoordinates);
   }
 
-  return defaultVertices;
+  return defaultVertexCoordinates;
 }
 
 function calculateDefaultIndexes() {

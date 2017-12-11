@@ -33,9 +33,9 @@ class TexturedCanvasElement extends CanvasElement {
     return vertexTextureCoordinates;
   }
 
-  static fromProperties(Class, properties, vertices, indexes, imageName, textureCoordinates, ...remainingArguments) {
+  static fromProperties(Class, properties, vertexCoordinates, indexes, imageName, textureCoordinates, ...remainingArguments) {
     const texturedFacets = indexes.map(function(indexes, index) {  ///
-          const texturedFacet = TexturedFacet.fromVerticesIndexesImageNameAndTextureCoordinates(vertices, indexes, imageName, textureCoordinates, index);
+          const texturedFacet = TexturedFacet.fromVertexCoordinatesImageNameAndTextureCoordinates(vertexCoordinates, indexes, imageName, textureCoordinates, index);
   
             return texturedFacet;
           }),

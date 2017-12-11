@@ -2,6 +2,7 @@
 
 const Edge = require('../edge'),
       Facet = require('../facet'),
+      Vertex = require('../vertex'),
       facetUtilities = require('../utilities/facet');
 
 const { cloneEdges, cloneNormal, cloneVertices, calculateEdges, calculateNormal } = facetUtilities;
@@ -56,14 +57,14 @@ class ColouredFacet extends Facet {
     return colouredFacet;
   }
 
-  static fromVerticesIndexesAndColour(vertices, indexes, colour) {
-    vertices = indexes.map(function(index) {
-      const vertex = vertices[index];
+  static fromVertexCoordinatesIndexesAndColour(vertexCoordinates, indexes, colour) {
+    const vertices  = indexes.map(function(index) {
+            const coordinates = vertexCoordinates[index],
+                  vertex = Vertex.fromCoordinates(coordinates);
 
-      return vertex;
-    });
-
-    const normal = calculateNormal(vertices),
+            return vertex;
+          }),
+          normal = calculateNormal(vertices),
           edges = calculateEdges(vertices, Edge),
           colouredFacet = new ColouredFacet(vertices, normal, edges, colour);
     

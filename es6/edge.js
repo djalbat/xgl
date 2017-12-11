@@ -26,10 +26,18 @@ class Edge {
     return edge;
   }
 
-  static fromVertices(startVertex, endVertex) {
-    const position = startVertex.slice(), ///
-          extent = subtract3(endVertex, startVertex),
-          edge = new Edge(position, extent);
+  static fromStartVertexAndEndVertex(Class, startVertex, endVertex) {
+    if (endVertex === undefined) {
+      endVertex = startVertex;
+      startVertex = Class;
+      Class = Edge;
+    }
+    
+    const startPosition = startVertex.getPosition(),
+          endPosition = endVertex.getPosition(),
+          position = startPosition.slice(), ///
+          extent = subtract3(endPosition, startPosition),
+          edge = new Class(position, extent);
 
     return edge;
   }
