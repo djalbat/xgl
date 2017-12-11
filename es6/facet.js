@@ -2,17 +2,17 @@
 
 const Edge = require('./edge'),
       constants = require('./constants'),
+      vectorMaths = require('./maths/vector'),
       facetUtilities = require('./utilities/facet'),
       arrayUtilities = require('./utilities/array'),
-      vectorUtilities = require('./utilities/vector'),
       rotationUtilities = require('./utilities/rotation'),
       approximateUtilities = require('./utilities/approximate');
 
 const { VERTICES_LENGTH } = constants,
+      { add3, subtract3, scale3, normalise3 } = vectorMaths,
       { first, second, third, permute } = arrayUtilities,
       { isApproximatelyEqualToZero } = approximateUtilities,
       { rotateVertices, rotateVertexAboutZAxis } = rotationUtilities,
-      { add3, subtract3, scale3, length3, normalise3 } = vectorUtilities,
       { calculateEdges, calculateNormal, calculateArea } = facetUtilities;
 
 class Facet {

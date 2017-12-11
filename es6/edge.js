@@ -1,8 +1,8 @@
 'use strict';
 
-const vectorUtilities = require('./utilities/vector');
+const vectorMaths = require('./maths/vector');
 
-const { subtract3 } = vectorUtilities;
+const { subtract3 } = vectorMaths;
 
 class Edge {
   constructor(position, extent) {

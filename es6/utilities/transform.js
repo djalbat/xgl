@@ -1,14 +1,14 @@
 'use strict';
 
 const constants = require('../constants'),
-      arrayUtilities = require('../utilities/array'),
-      vectorUtilities = require('../utilities/vector'),
-      matrixUtilities = require('../utilities/matrix');
+      vectorMaths = require('../maths/vector'),
+      matrixMaths = require('../maths/matrix'),
+      arrayUtilities = require('../utilities/array');
 
 const { DEGREES_TO_RADIANS } = constants,
-      { transform4 } = vectorUtilities,
+      { transform4 } = vectorMaths,
       { first, second, third } = arrayUtilities,
-      { identity4, scale4, rotate4, translate4 } = matrixUtilities,
+      { identity4, scale4, rotate4, translate4 } = matrixMaths,
       xAxis = [ 1, 0, 0 ],
       yAxis = [ 0, 1, 0 ],
       zAxis = [ 0, 0, 1 ],

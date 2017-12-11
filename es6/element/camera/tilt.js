@@ -1,11 +1,11 @@
 'use strict';
 
 const constants = require('../../constants'),
-      arrayUtilities = require('../../utilities/array'),
-      vectorUtilities = require('../../utilities/vector');
+      vectorMaths = require('../../maths/vector'),
+      arrayUtilities = require('../../utilities/array');
 
 const { first, second } = arrayUtilities,
-      { add3, subtract3, scale3 } = vectorUtilities,
+      { add3, subtract3, scale3 } = vectorMaths,
       { ANGLE_COORDINATES_SCALAR, INITIAL_MOUSE_COORDINATES, INITIAL_ANGLE_COORDINATES } = constants;
 
 class Tilt {

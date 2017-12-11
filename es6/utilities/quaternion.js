@@ -1,11 +1,11 @@
 'use strict';
 
-const arrayUtilities = require('../utilities/array'),
+const vectorMaths = require('../maths/vector'),
+      arrayUtilities = require('../utilities/array'),
       angleUtilities = require('../utilities/angle'),
-      vectorUtilities = require('../utilities/vector'),
       approximateUtilities = require('../utilities/approximate');
 
-const { dot3, cross3, normalise3 } = vectorUtilities,
+const { dot3, cross3, normalise3 } = vectorMaths,
       { first, second, third, fourth } = arrayUtilities,
       { isApproximatelyEqualToOne } = approximateUtilities,
       { calculateHalfAngleCosine, calculateHalfAngleSine } = angleUtilities;

@@ -1,12 +1,12 @@
 'use strict';
 
 const constants = require('../constants'),
-      arrayUtilities = require('../utilities/array'),
-      vectorUtilities = require('../utilities/vector');
+      vectorMaths = require('../maths/vector'),
+      arrayUtilities = require('../utilities/array');
 
 const { VERTICES_LENGTH } = constants,
       { first, second, third } = arrayUtilities,
-      { subtract3, cross3, length3 } = vectorUtilities;
+      { subtract3, cross3, length3 } = vectorMaths;
 
 function cloneEdges(edges) {
   edges = edges.map(function(edge) {

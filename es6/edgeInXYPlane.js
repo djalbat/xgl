@@ -1,11 +1,11 @@
 'use strict';
 
 const Edge = require('./edge'),
-      arrayUtilities = require('./utilities/array'),
-      vectorUtilities = require('./utilities/vector');
+      vectorMaths = require('./maths/vector'),  
+      arrayUtilities = require('./utilities/array');
 
 const { third } = arrayUtilities,
-      { subtract3, cross3 } = vectorUtilities;
+      { subtract3, cross3 } = vectorMaths;
 
 class EdgeInXYPlane extends Edge {
   isMidPointToTheLeft(midPoint) {

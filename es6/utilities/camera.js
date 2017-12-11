@@ -1,12 +1,12 @@
 'use strict';
 
 const constants = require('../constants'),
-      arrayUtilities = require('../utilities/array'),
-      matrixUtilities = require('../utilities/matrix');
+      matrixMaths = require('../maths/matrix'),
+      arrayUtilities = require('../utilities/array');
 
 const { first, second, third } = arrayUtilities,
       { FIELD_OF_VIEW, Z_NEAR, Z_FAR } = constants,
-      { identity4, invert4, rotate4, translate4, transpose4, perspective4 } = matrixUtilities;
+      { identity4, invert4, rotate4, translate4, transpose4, perspective4 } = matrixMaths;
 
 function calculateOffsetMatrix(offset) {
   let offsetMatrix = identity4();

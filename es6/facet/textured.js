@@ -2,20 +2,20 @@
 
 const Edge = require('../edge'),
       Facet = require('../facet'),
+      matrixMaths = require('../maths/matrix'),
+      vectorMaths = require('../maths/vector'),
       facetUtilities = require('../utilities/facet'),
       arrayUtilities = require('../utilities/array'),
-      matrixUtilities = require('../utilities/matrix'),
-      vectorUtilities = require('../utilities/vector'),
       imageMapUtilities = require('../utilities/imageMap'),
       rotationUtilities = require('../utilities/rotation'),
       quaternionUtilities = require('../utilities/quaternion');
 
 const { rotateVertices } = rotationUtilities,
-      { invert2, invert3 } = matrixUtilities,
+      { invert2, invert3 } = matrixMaths,
       { getImageDetails } = imageMapUtilities,
       { first, second, third, permute } = arrayUtilities,
       { calculateRotationQuaternion } = quaternionUtilities,
-      { add2, multiply2, transform2, transform3 } = vectorUtilities,
+      { add2, multiply2, transform2, transform3 } = vectorMaths,
       { cloneEdges, cloneNormal, cloneVertices, calculateEdges, calculateNormal } = facetUtilities;
 
 class TexturedFacet extends Facet {

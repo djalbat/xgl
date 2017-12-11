@@ -1,10 +1,10 @@
 'use strict';
 
 const RendererData = require('../../renderer/data'),
-      arrayUtilities = require('../../utilities/array'),
-      vectorUtilities = require('../../utilities/vector');
+      vectorMaths = require('../../maths/vector'),
+      arrayUtilities = require('../../utilities/array');
 
-const { add2, multiply2 } = vectorUtilities,
+const { add2, multiply2 } = vectorMaths,
       { merge, flatten } = arrayUtilities,
       add = merge;  ///
 
