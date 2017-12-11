@@ -1,8 +1,8 @@
 'use strict';
 
 const constants = require('./constants'),
-      EdgeInXYPlane = require('./edgeInXYPlane'),
-      VerticalLineInXYPlane = require('./verticalLineInXYPlane'),
+      MaskingEdge = require('./edge/masking'),
+      VerticalLine = require('./verticalLine'),
       arrayUtilities = require('./utilities/array'),
       rotationUtilities = require('./utilities/rotation'),
       quaternionUtilities = require('./utilities/quaternion');
@@ -13,19 +13,19 @@ const { VERTICES_LENGTH } = constants,
       { calculateRotationQuaternion, calculateForwardsRotationQuaternion, calculateBackwardsRotationQuaternion } = quaternionUtilities;
 
 class MaskingFacet {
-  constructor(edgesInXYPlane, verticalLinesInXYPlane, forwardsRotationQuaternion, backwardsRotationQuaternion) {
-    this.edgesInXYPlane = edgesInXYPlane;
-    this.verticalLinesInXYPlane = verticalLinesInXYPlane;
+  constructor(maskingEdges, verticalLines, forwardsRotationQuaternion, backwardsRotationQuaternion) {
+    this.maskingEdges = maskingEdges;
+    this.verticalLines = verticalLines;
     this.forwardsRotationQuaternion = forwardsRotationQuaternion;
     this.backwardsRotationQuaternion = backwardsRotationQuaternion;
   }
 
-  getEdgesInXYPlane() {
-    return this.edgesInXYPlane;
+  getMaskingEdges() {
+    return this.maskingEdges;
   }
 
-  getVerticalLinesInXYPlane() {
-    return this.verticalLinesInXYPlane;
+  getVerticalLines() {
+    return this.verticalLines;
   }
 
   getForwardsRotationQuaternion() {
@@ -71,8 +71,8 @@ class MaskingFacet {
         ],
         smallerFacets = facets; ///
 
-    this.verticalLinesInXYPlane.forEach(function(verticalLineInXYPlane) {
-      smallerFacets = verticalLineInXYPlane.splitFacets(facets);
+    this.verticalLines.forEach(function(verticalLine) {
+      smallerFacets = verticalLine.splitFacets(facets);
 
       facets = smallerFacets; ///
     });
@@ -84,16 +84,16 @@ class MaskingFacet {
     const facetNormal = facet.getNormal(),
           facetVertices = facet.getVertices(),
           rotationQuaternion = calculateRotationQuaternion(facetNormal),
-          verticesInXYPlane = rotateVertices(facetVertices, rotationQuaternion),
-          edgesInXYPlane = calculateEdgesInXYPlane(verticesInXYPlane),
-          verticalLinesInXYPlane = edgesInXYPlane.map(function(edgeInXYPlane) {
-            const verticalLineInXYPlane = VerticalLineInXYPlane.fromEdgeInXYPlane(edgeInXYPlane);
+          vertices = rotateVertices(facetVertices, rotationQuaternion),
+          maskingEdges = calculateMaskingEdges(vertices),
+          verticalLines = maskingEdges.map(function(maskingEdge) {
+            const verticalLine = VerticalLine.fromMaskingEdge(maskingEdge);
             
-            return verticalLineInXYPlane;
+            return verticalLine;
           }),
           forwardsRotationQuaternion = calculateForwardsRotationQuaternion(rotationQuaternion),
           backwardsRotationQuaternion = calculateBackwardsRotationQuaternion(rotationQuaternion),
-          maskingFacet = new MaskingFacet(edgesInXYPlane, verticalLinesInXYPlane, forwardsRotationQuaternion, backwardsRotationQuaternion);
+          maskingFacet = new MaskingFacet(maskingEdges, verticalLines, forwardsRotationQuaternion, backwardsRotationQuaternion);
 
     return maskingFacet;
   }
@@ -101,16 +101,16 @@ class MaskingFacet {
 
 module.exports = MaskingFacet;
 
-function calculateEdgesInXYPlane(verticesInXYPlane) {
-  const edgesInXYPlane = verticesInXYPlane.map(function(vertex, index) {
+function calculateMaskingEdges(vertices) {
+  const maskingEdges = vertices.map(function(vertex, index) {
           const startIndex = index,
                 endIndex = (startIndex + 1) % VERTICES_LENGTH,
-                startVertexInXYPlane = verticesInXYPlane[startIndex],
-                endVertexInXYPlane = verticesInXYPlane[endIndex],
-                edgeInXYPlane = EdgeInXYPlane.fromStartVertexInXYPlaneAndEndVertexInXYPlane(startVertexInXYPlane, endVertexInXYPlane);
+                startVertex = vertices[startIndex],
+                endVertex = vertices[endIndex],
+                maskingEdge = MaskingEdge.fromStartVertexAndEndVertex(startVertex, endVertex);
 
-          return edgeInXYPlane;
+          return maskingEdge;
         }.bind(this));
 
-  return edgesInXYPlane;
+  return maskingEdges;
 }

@@ -132,13 +132,16 @@ function translateTextureCoordinates(textureCoordinates, left, bottom, width, he
 
 function textureCoordinatesFromVerticesParentVerticesAndTextureCoordinates(vertices, parentVertices, textureCoordinates) {
   const normal = calculateNormal(vertices),
-        rotationQuaternion = calculateRotationQuaternion(normal),
-        verticesInXYPlane = rotateVertices(vertices, rotationQuaternion),
-        parentVerticesInXYPlane = rotateVertices(parentVertices, rotationQuaternion),
-        textureCoordinatesMatrix = calculateTextureCoordinatesMatrix(textureCoordinates),
-        textureCoordinatesBasis = calculateTextureCoordinatesBasis(parentVerticesInXYPlane, textureCoordinatesMatrix);
+        rotationQuaternion = calculateRotationQuaternion(normal);
 
-  textureCoordinates = calculateTextureCoordinates(verticesInXYPlane, textureCoordinatesBasis);
+  vertices = rotateVertices(vertices, rotationQuaternion);
+
+  parentVertices = rotateVertices(parentVertices, rotationQuaternion);
+
+  const textureCoordinatesMatrix = calculateTextureCoordinatesMatrix(textureCoordinates),
+        textureCoordinatesBasis = calculateTextureCoordinatesBasis(parentVertices, textureCoordinatesMatrix);
+
+  textureCoordinates = calculateTextureCoordinates(vertices, textureCoordinatesBasis);
 
   return textureCoordinates;
 }
@@ -158,16 +161,16 @@ function calculateTextureCoordinatesMatrix(textureCoordinates) {
   return textureCoordinatesMatrix;
 }
 
-function calculateTextureCoordinatesBasis(parentVerticesInXYPlane, textureCoordinatesMatrix) {
-  const firstParentVertexInXYPlane = first(parentVerticesInXYPlane),
-        secondParentVertexInXYPlane = second(parentVerticesInXYPlane),
-        thirdParentVertexInXYPlane = third(parentVerticesInXYPlane),
-        P1x = firstParentVertexInXYPlane[0], ///
-        P1y = firstParentVertexInXYPlane[1], ///
-        P2x = secondParentVertexInXYPlane[0], ///
-        P2y = secondParentVertexInXYPlane[1], ///
-        P3x = thirdParentVertexInXYPlane[0], ///
-        P3y = thirdParentVertexInXYPlane[1], ///
+function calculateTextureCoordinatesBasis(parentVertices, textureCoordinatesMatrix) {
+  const firstParentVertex = first(parentVertices),
+        secondParentVertex = second(parentVertices),
+        thirdParentVertex = third(parentVertices),
+        P1x = firstParentVertex[0], ///
+        P1y = firstParentVertex[1], ///
+        P2x = secondParentVertex[0], ///
+        P2y = secondParentVertex[1], ///
+        P3x = thirdParentVertex[0], ///
+        P3y = thirdParentVertex[1], ///
         xVector = transform3([ P1x, P2x, P3x ], textureCoordinatesMatrix),
         yVector = transform3([ P1y, P2y, P3y ], textureCoordinatesMatrix),
         textureCoordinatesBasis = [].concat(xVector).concat(yVector);
@@ -175,16 +178,16 @@ function calculateTextureCoordinatesBasis(parentVerticesInXYPlane, textureCoordi
   return textureCoordinatesBasis;
 }
 
-function calculateTextureCoordinates(verticesInXYPlane, textureCoordinatesBasis) {
-  const firstVertexInXYPlane = first(verticesInXYPlane),
-        secondVertexInXYPlane = second(verticesInXYPlane),
-        thirdVertexInXYPlane = third(verticesInXYPlane),
-        R1x = firstVertexInXYPlane[0],  ///
-        R1y = firstVertexInXYPlane[1],  ///
-        R2x = secondVertexInXYPlane[0], ///
-        R2y = secondVertexInXYPlane[1], ///
-        R3x = thirdVertexInXYPlane[0],  ///
-        R3y = thirdVertexInXYPlane[1],  ///
+function calculateTextureCoordinates(vertices, textureCoordinatesBasis) {
+  const firstVertex = first(vertices),
+        secondVertex = second(vertices),
+        thirdVertex = third(vertices),
+        R1x = firstVertex[0],  ///
+        R1y = firstVertex[1],  ///
+        R2x = secondVertex[0], ///
+        R2y = secondVertex[1], ///
+        R3x = thirdVertex[0],  ///
+        R3y = thirdVertex[1],  ///
         Ox = textureCoordinatesBasis[0],  ///
         Oy = textureCoordinatesBasis[3],  ///
         Ux = textureCoordinatesBasis[1],  ///

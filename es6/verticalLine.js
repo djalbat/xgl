@@ -8,7 +8,7 @@ const { first, second } = arrayUtilities,
       { isApproximatelyEqualToZero } = approximateUtilities,
       { rotatePositionAboutZAxis, calculateRotationAboutZAxisMatrix, calculateForwardsRotationAboutZAxisMatrix, calculateBackwardsRotationAboutZAxisMatrix } = rotationUtilities;
 
-class VerticalLineInXYPlane {
+class VerticalLine {
   constructor(firstPositionComponent, rotationAboutZAxisMatrix) {
     this.firstPositionComponent = firstPositionComponent;
     this.rotationAboutZAxisMatrix = rotationAboutZAxisMatrix;
@@ -86,19 +86,19 @@ class VerticalLineInXYPlane {
     return edgeIntersection;
   }
 
-  static fromEdgeInXYPlane(edgeInXYPlane) {
-    const edgeInXYPlanePosition = edgeInXYPlane.getPosition(),
-          rotationAboutZAxisMatrix = calculateRotationAboutZAxisMatrix(edgeInXYPlane),
-          position = rotatePositionAboutZAxis(edgeInXYPlanePosition, rotationAboutZAxisMatrix),
+  static fromMaskingEdge(maskingEdge) {
+    const maskingEdgePosition = maskingEdge.getPosition(),
+          rotationAboutZAxisMatrix = calculateRotationAboutZAxisMatrix(maskingEdge),
+          position = rotatePositionAboutZAxis(maskingEdgePosition, rotationAboutZAxisMatrix),
           positionComponents = position, ///
           firstPositionComponent = first(positionComponents),
-          verticalLineInXYPlane = new VerticalLineInXYPlane(firstPositionComponent, rotationAboutZAxisMatrix);
+          verticalLine = new VerticalLine(firstPositionComponent, rotationAboutZAxisMatrix);
 
-    return verticalLineInXYPlane;
+    return verticalLine;
   }
 }
 
-module.exports = VerticalLineInXYPlane;
+module.exports = VerticalLine;
 
 function isEdgeNonParallel(edge) {
   const edgeExtent = edge.getExtent(),

@@ -36,14 +36,14 @@ function rotatePositionAboutZAxis(position, rotationAboutZAxisMatrix) {
   return position;
 }
 
-function calculateRotationAboutZAxisMatrix(edgeInXYPlane) {
-  const edgeInXYPlaneExtent = edgeInXYPlane.getExtent(),
-        unitEdgeInXYPlaneExtent = normalise3(edgeInXYPlaneExtent),
-        unitEdgeInXYPlaneExtentComponents = unitEdgeInXYPlaneExtent,  ///
-        firstUnitEdgeInXYPlaneExtentComponent = first(unitEdgeInXYPlaneExtentComponents),
-        secondUnitEdgeInXYPlaneExtentComponent = second(unitEdgeInXYPlaneExtentComponents),
-        angleOfRotationCosine = +secondUnitEdgeInXYPlaneExtentComponent,  ///
-        angleOfRotationSine = -firstUnitEdgeInXYPlaneExtentComponent, ///
+function calculateRotationAboutZAxisMatrix(maskingEdge) {
+  const maskingEdgeExtent = maskingEdge.getExtent(),
+        unitMaskingEdgeExtent = normalise3(maskingEdgeExtent),
+        unitMaskingEdgeExtentComponents = unitMaskingEdgeExtent,  ///
+        firstUnitMaskingEdgeExtentComponent = first(unitMaskingEdgeExtentComponents),
+        secondUnitMaskingEdgeExtentComponent = second(unitMaskingEdgeExtentComponents),
+        angleOfRotationCosine = +secondUnitMaskingEdgeExtentComponent,  ///
+        angleOfRotationSine = -firstUnitMaskingEdgeExtentComponent, ///
         c = angleOfRotationCosine,
         s = angleOfRotationSine,
         rotationAboutZAxisMatrix = [ c, -s, 0, +s, c, 0, 0, 0, 1 ];  ///

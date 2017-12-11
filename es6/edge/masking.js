@@ -1,13 +1,13 @@
 'use strict';
 
-const Edge = require('./edge'),
-      vectorMaths = require('./maths/vector'),  
-      arrayUtilities = require('./utilities/array');
+const Edge = require('../edge'),
+      vectorMaths = require('../maths/vector'),  
+      arrayUtilities = require('../utilities/array');
 
 const { third } = arrayUtilities,
       { subtract3, cross3 } = vectorMaths;
 
-class EdgeInXYPlane extends Edge {
+class MaskingEdge extends Edge {
   isMidPointToTheLeft(midPoint) {
     midPoint = projectOntoXYPlane(midPoint);  ///
 
@@ -29,16 +29,16 @@ class EdgeInXYPlane extends Edge {
     return midPointToTheRight;
   }
   
-  static fromStartVertexInXYPlaneAndEndVertexInXYPlane(startVertexInXYPlane, endVertexInXYPlane) {
-    const position = startVertexInXYPlane.slice(), ///
-          extent = subtract3(endVertexInXYPlane, startVertexInXYPlane),
-          edgeInXYPlane = new EdgeInXYPlane(position, extent);
+  static fromStartVertexAndEndVertex(startVertex, endVertex) {
+    const position = startVertex.slice(), ///
+          extent = subtract3(endVertex, startVertex),
+          maskingEdge = new MaskingEdge(position, extent);
 
-    return edgeInXYPlane;
+    return maskingEdge;
   }
 }
 
-module.exports = EdgeInXYPlane;
+module.exports = MaskingEdge;
 
 function projectOntoXYPlane(vertex) {
   vertex = [...vertex.slice(0, 2), 0];  ///
