@@ -27,6 +27,22 @@ class TexturedFacet extends Facet {
     this.textureCoordinates = textureCoordinates;
   }
 
+  clone() {
+    let vertices = this.getVertices(),
+        normal = this.getNormal(),
+        edges = this.getEdges();
+
+    vertices = cloneVertices(vertices);
+    normal = cloneNormal(normal);
+    edges = cloneEdges(edges);
+
+    const imageName = this.imageName,
+          textureCoordinates = cloneTextureCoordinates(this.textureCoordinates),
+          texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinates);
+
+    return texturedFacet;
+  }
+
   getImageName() {
     return this.imageName;
   }
@@ -49,26 +65,6 @@ class TexturedFacet extends Facet {
     this.textureCoordinates = permute(this.textureCoordinates, places);
   }
 
-  splitWithTwoNonNullIntersections(intersections, smallerFacets, Facet) { super.splitWithTwoNonNullIntersections(intersections, smallerFacets, this); } ///
-
-  splitWithOneNonNullIntersection(intersections, smallerFacets, Facet) { super.splitWithOneNonNullIntersection(intersections, smallerFacets, this); } ///
-
-  clone() {
-    let vertices = this.getVertices(),
-        normal = this.getNormal(),
-        edges = this.getEdges();
-    
-    vertices = cloneVertices(vertices);
-    normal = cloneNormal(normal);
-    edges = cloneEdges(edges);
-
-    const imageName = this.imageName,
-          textureCoordinates = cloneTextureCoordinates(this.textureCoordinates),
-          texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinates);
-
-    return texturedFacet;
-  }
-
   fromVertices(vertices) {
     const normal = calculateNormal(vertices),
           edges = calculateEdges(vertices, Edge),
@@ -81,11 +77,10 @@ class TexturedFacet extends Facet {
   }
 
   static fromVertexCoordinatesImageNameAndTextureCoordinates(vertexCoordinates, indexes, imageName, textureCoordinates, index) {
-    const vertices = verticesFromVertexCoordinatesAndIndexes(vertexCoordinates, indexes);
-
     textureCoordinates = textureCoordinatesFromTextureCoordinatesAndIndex(textureCoordinates, index);  ///
 
-    const normal = calculateNormal(vertices),
+    const vertices = verticesFromVertexCoordinatesAndIndexes(vertexCoordinates, indexes),
+          normal = calculateNormal(vertices),
           edges = calculateEdges(vertices, Edge),
           texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinates);
 

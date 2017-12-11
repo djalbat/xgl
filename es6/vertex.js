@@ -9,6 +9,13 @@ class Vertex {
     this.position = position;
   }
 
+  clone() {
+    const position = clonePosition(this.position),
+          vertex = new Vertex(position);
+
+    return vertex;
+  }
+
   getPosition() {
     return this.position;
   }
@@ -23,13 +30,6 @@ class Vertex {
   
   applyTransform(transform) {
     this.position = transform(this.position);
-  }
-
-  clone() {
-    const position = clonePosition(this.position),
-          vertex = new Vertex(position);
-    
-    return vertex;
   }
 
   static fromCoordinates(coordinates) {

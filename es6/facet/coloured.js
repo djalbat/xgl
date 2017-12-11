@@ -14,6 +14,21 @@ class ColouredFacet extends Facet {
     this.colour = colour;
   }
 
+  clone() {
+    let vertices = this.getVertices(),
+        normal = this.getNormal(),
+        edges = this.getEdges();
+
+    vertices = cloneVertices(vertices);
+    normal = cloneNormal(normal);
+    edges = cloneEdges(edges);
+
+    const colour = this.colour,
+          colouredFacet = new ColouredFacet(vertices, normal, edges, colour);
+
+    return colouredFacet;
+  }
+
   getColour() {
     return this.colour;
   }
@@ -29,25 +44,6 @@ class ColouredFacet extends Facet {
     return vertexColours;
   }
 
-  splitWithTwoNonNullIntersections(intersections, smallerFacets, Facet) { super.splitWithTwoNonNullIntersections(intersections, smallerFacets, this); } ///
-
-  splitWithOneNonNullIntersection(intersections, smallerFacets, Facet) { super.splitWithOneNonNullIntersection(intersections, smallerFacets, this); } ///
-
-  clone() {
-    let vertices = this.getVertices(),
-        normal = this.getNormal(),
-        edges = this.getEdges();
-    
-    vertices = cloneVertices(vertices);
-    normal = cloneNormal(normal);
-    edges = cloneEdges(edges);
-
-    const colour = this.colour.slice(),
-          colouredFacet = new ColouredFacet(vertices, normal, edges, colour);
-
-    return colouredFacet;
-  }
-
   fromVertices(vertices) {
     const colour = this.colour,
           normal = calculateNormal(vertices),
@@ -58,12 +54,7 @@ class ColouredFacet extends Facet {
   }
 
   static fromVertexCoordinatesIndexesAndColour(vertexCoordinates, indexes, colour) {
-    const vertices  = indexes.map(function(index) {
-            const coordinates = vertexCoordinates[index],
-                  vertex = Vertex.fromCoordinates(coordinates);
-
-            return vertex;
-          }),
+    const vertices = verticesFromVertexCoordinatesAndIndexes(vertexCoordinates, indexes),
           normal = calculateNormal(vertices),
           edges = calculateEdges(vertices, Edge),
           colouredFacet = new ColouredFacet(vertices, normal, edges, colour);
@@ -73,3 +64,14 @@ class ColouredFacet extends Facet {
 }
 
 module.exports = ColouredFacet;
+
+function verticesFromVertexCoordinatesAndIndexes(vertexCoordinates, indexes) {
+  const vertices = indexes.map(function(index) {
+    const coordinates = vertexCoordinates[index], ///
+        vertex = Vertex.fromCoordinates(coordinates);
+
+    return vertex;
+  });
+
+  return vertices;
+}

@@ -10,6 +10,14 @@ class Edge {
     this.extent = extent;
   }
 
+  clone() {
+    const position = clonePosition(this.position),
+          extent = cloneExtent(this.extent),
+          edge = new Edge(position, extent);
+
+    return edge;
+  }
+
   getPosition() {
     return this.position;
   }
@@ -18,14 +26,6 @@ class Edge {
     return this.extent;
   }
   
-  clone() {
-    const position = this.position.slice(),
-          extent = this.extent.slice(),
-          edge = new Edge(position, extent);
-    
-    return edge;
-  }
-
   static fromStartVertexAndEndVertex(Class, startVertex, endVertex) {
     if (endVertex === undefined) {
       endVertex = startVertex;
@@ -44,3 +44,7 @@ class Edge {
 }
 
 module.exports = Edge;
+
+function clonePosition(position) { return position.slice(); }
+
+function cloneExtent(extent) { return extent.slice(); }
