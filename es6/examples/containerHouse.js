@@ -40,7 +40,7 @@ const containerHouse = () => {
         <RoofGarden />
         <Frame />
       </Part>
-      <Camera initialDistance={100} initialOffset={[ -18, 0, -16 ]} canvas={canvas} />
+      <Camera initialDistance={100} initialOffset={[ -18, -9, -16 ]} canvas={canvas} />
     </Scene>
 
   );
