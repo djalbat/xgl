@@ -17,6 +17,12 @@ function calculateMidPointPosition(vertices) {
   return midPointPosition;
 }
 
+function projectMidPointPositionOntoXYPlane(midPointPosition) {
+  midPointPosition = [...midPointPosition.slice(0, 2), 0];  ///
+
+  return midPointPosition;
+}
+
 function isMidPointPositionToOneSideOfMaskingEdges(midPointPosition, maskingEdges) {
   const midPointPositionToTheLeftOfMaskingEdges = isMidPointPositionToTheLeftOfMaskingEdges(midPointPosition, maskingEdges),
         midPointPositionToTheRightOfMaskingEdges = isMidPointPositionToTheRightOfMaskingEdges(midPointPosition, maskingEdges),
@@ -27,6 +33,7 @@ function isMidPointPositionToOneSideOfMaskingEdges(midPointPosition, maskingEdge
 
 module.exports = module.exports = {
   calculateMidPointPosition: calculateMidPointPosition,
+  projectMidPointPositionOntoXYPlane: projectMidPointPositionOntoXYPlane,
   isMidPointPositionToOneSideOfMaskingEdges: isMidPointPositionToOneSideOfMaskingEdges
 };
 

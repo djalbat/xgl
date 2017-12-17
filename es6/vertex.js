@@ -28,12 +28,14 @@ class Vertex {
     this.position = rotatePositionAboutZAxis(this.position, rotationAboutZAxisMatrix);
   }
   
-  applyTransform(transform) {
-    this.position = transform(this.position);
+  applyTransforms(transforms) {
+    transforms.forEach(function(transform) {
+      this.position = transform(this.position);
+    }.bind(this));
   }
-
+  
   static fromCoordinates(coordinates) {
-    const position = coordinates.slice(), ///
+    const position = positionFromCoordinates(coordinates),
           vertex = new Vertex(position);
 
     return vertex;
@@ -43,3 +45,9 @@ class Vertex {
 module.exports = Vertex;
 
 function clonePosition(position) { return position.slice(); } ///
+
+function positionFromCoordinates(coordinates) { 
+  const position = coordinates.slice(); ///
+  
+  return position;
+}

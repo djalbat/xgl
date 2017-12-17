@@ -2,88 +2,56 @@
 
 const arrayUtilities = require('./utilities/array'),
       rotationUtilities = require('./utilities/rotation'),
-      approximateUtilities = require('./utilities/approximate');
+      intersectionUtilities = require('./utilities/intersection');
 
-const { first, second } = arrayUtilities,
-      { isApproximatelyEqualToZero } = approximateUtilities,
+const { first } = arrayUtilities,
+      { calculateIntersection } = intersectionUtilities,
       { rotatePositionAboutZAxis, calculateRotationAboutZAxisMatrix, calculateForwardsRotationAboutZAxisMatrix, calculateBackwardsRotationAboutZAxisMatrix } = rotationUtilities;
 
 class VerticalLine {
-  constructor(firstPositionComponent, rotationAboutZAxisMatrix) {
+  constructor(firstPositionComponent, forwardsRotationAboutZAxisMatrix, backwardsRotationAboutZAxisMatrix) {
     this.firstPositionComponent = firstPositionComponent;
-    this.rotationAboutZAxisMatrix = rotationAboutZAxisMatrix;
+    this.forwardsRotationAboutZAxisMatrix = forwardsRotationAboutZAxisMatrix;
+    this.backwardsRotationAboutZAxisMatrix = backwardsRotationAboutZAxisMatrix;
   }
 
   getFirstPositionComponent() {
     return this.firstPositionComponent;
   }
   
-  getRotationAboutZAxisMatrix() {
-    return this.rotationAboutZAxisMatrix;
+  getForwardsRotationAboutZAxisMatrix() {
+    return this.forwardsRotationAboutZAxisMatrix;
   }
 
-  splitFacets(facets) {
-    const smallerFacets = [],
-          forwardsRotationAboutZAxisMatrix = calculateForwardsRotationAboutZAxisMatrix(this.rotationAboutZAxisMatrix),
-          backwardsRotationAboutZAxisMatrix = calculateBackwardsRotationAboutZAxisMatrix(this.rotationAboutZAxisMatrix);
-    
-    facets.forEach(function(facet) {
-      facet.rotateAboutZAxis(forwardsRotationAboutZAxisMatrix);
-
-      this.splitFacet(facet, smallerFacets);
-    }.bind(this));
-    
-    smallerFacets.forEach(function(smallerFacet) {
-      smallerFacet.rotateAboutZAxis(backwardsRotationAboutZAxisMatrix);
-    });
-
-    return smallerFacets;    
+  getBackwardsRotationAboutZAxisMatrix() {
+    return this.backwardsRotationAboutZAxisMatrix;
   }
 
   splitFacet(facet, smallerFacets) {
-    const intersections = this.calculateIntersectionsWithFacet(facet);
-
-    facet.splitWithIntersections(intersections, smallerFacets);
-  }
-
-  calculateIntersectionsWithFacet(facet) {
     const edges = facet.getEdges(),
           intersections = edges.map(function(edge) {
-            const intersection = this.calculateIntersection(edge);
+            const intersection = calculateIntersection(edge, this.firstPositionComponent);
 
             return intersection;
           }.bind(this));
 
-    return intersections;
-  }
-  
-  calculateIntersection(edge) {
-    let intersection = null;
-
-    const edgeNonParallel = isEdgeNonParallel(edge);
-
-    if (edgeNonParallel) {
-      const edgeIntersection = this.calculateEdgeIntersection(edge),
-            edgeIntersectionNonTrivial = isIntersectionNonTrivial(edgeIntersection);
-
-      if (edgeIntersectionNonTrivial) {
-        intersection = edgeIntersection;  ///
-      }
-    }
-
-    return intersection;
+    facet.splitWithIntersections(intersections, smallerFacets);
   }
 
-  calculateEdgeIntersection(edge) {
-    const edgePosition = edge.getPosition(),
-          edgeExtent = edge.getExtent(),
-          edgePositionComponents = edgePosition, ///
-          edgeExtentComponents = edgeExtent, ///
-          firstEdgePositionComponent = first(edgePositionComponents),
-          firstEdgeExtentComponent = first(edgeExtentComponents),
-          edgeIntersection = (this.firstPositionComponent - firstEdgePositionComponent) / firstEdgeExtentComponent;
-    
-    return edgeIntersection;
+  splitFacets(facets) {
+    const smallerFacets = [];
+
+    facets.forEach(function(facet) {
+      facet.rotateAboutZAxis(this.forwardsRotationAboutZAxisMatrix);
+
+      this.splitFacet(facet, smallerFacets);
+    }.bind(this));
+
+    smallerFacets.forEach(function(smallerFacet) {
+      smallerFacet.rotateAboutZAxis(this.backwardsRotationAboutZAxisMatrix);
+    }.bind(this));
+
+    return smallerFacets;
   }
 
   static fromMaskingEdge(maskingEdge) {
@@ -92,29 +60,12 @@ class VerticalLine {
           position = rotatePositionAboutZAxis(maskingEdgePosition, rotationAboutZAxisMatrix),
           positionComponents = position, ///
           firstPositionComponent = first(positionComponents),
-          verticalLine = new VerticalLine(firstPositionComponent, rotationAboutZAxisMatrix);
+          forwardsRotationAboutZAxisMatrix = calculateForwardsRotationAboutZAxisMatrix(rotationAboutZAxisMatrix),
+          backwardsRotationAboutZAxisMatrix = calculateBackwardsRotationAboutZAxisMatrix(rotationAboutZAxisMatrix),
+          verticalLine = new VerticalLine(firstPositionComponent, forwardsRotationAboutZAxisMatrix, backwardsRotationAboutZAxisMatrix);
 
     return verticalLine;
   }
 }
 
 module.exports = VerticalLine;
-
-function isEdgeNonParallel(edge) {
-  const edgeExtent = edge.getExtent(),
-        edgeExtentComponents = edgeExtent, ///
-        firstEdgeExtentComponent = first(edgeExtentComponents),
-        secondEdgeExtentComponent = second(edgeExtentComponents),
-        edgeAngleTangent = firstEdgeExtentComponent / secondEdgeExtentComponent,
-        edgeAngleTangentApproximatelyEqualToZero = isApproximatelyEqualToZero(edgeAngleTangent),
-        edgeParallel = edgeAngleTangentApproximatelyEqualToZero, ///
-        edgeNonParallel = !edgeParallel;
-
-  return edgeNonParallel;
-}
-
-function isIntersectionNonTrivial(intersection) {
-  const intersectionNonTrivial = ((intersection > 0 ) && (intersection < 1));
-
-  return intersectionNonTrivial;
-}

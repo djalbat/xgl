@@ -1,9 +1,9 @@
 'use strict';
 
-const defaultColour = [ 1, 0, 0, 1 ],
-      defaultImageName = "bricks.jpg",
+const defaultImageName = "bricks.jpg",
+      defaultColour = [ 1, 0, 0, 1 ],
       defaultIndexes = [
-  
+
         [ 1, 0, 3 ],
         [ 3, 2, 1 ],
   
@@ -59,8 +59,8 @@ const defaultColour = [ 1, 0, 0, 1 ],
       ];
 
 module.exports = {
-  defaultColour: defaultColour,
   defaultImageName: defaultImageName,
+  defaultColour: defaultColour,
   defaultIndexes: defaultIndexes,
   defaultVertexCoordinates: defaultVertexCoordinates,
   defaultTextureCoordinates: defaultTextureCoordinates

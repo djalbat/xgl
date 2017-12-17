@@ -37,7 +37,7 @@ class MaskingFacet {
   }
 
   maskFacet(facet, unmaskedFacets) {
-    const unmaskedFacet = facet.clone();
+    const unmaskedFacet = facet.clone();  ///
 
     facet.rotate(this.forwardsRotationQuaternion);
 
@@ -111,7 +111,7 @@ function calculateMaskingEdges(vertices) {
                 maskingEdge = MaskingEdge.fromStartVertexAndEndVertex(startVertex, endVertex);
 
           return maskingEdge;
-        }.bind(this));
+        });
 
   return maskingEdges;
 }

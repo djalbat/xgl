@@ -13,8 +13,8 @@ const defaultColour = [ 0, 0, 1, 1 ],
       defaultTextureCoordinates = calculateDefaultTextureCoordinates();
 
 module.exports = {
-  defaultColour: defaultColour,
   defaultImageName: defaultImageName,
+  defaultColour: defaultColour,
   defaultIndexes: defaultIndexes,
   defaultVertexCoordinates: defaultVertexCoordinates,
   defaultTextureCoordinates: defaultTextureCoordinates

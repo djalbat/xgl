@@ -1,12 +1,12 @@
 'use strict';
 
-const defaultIndexes = [
+const defaultImageName = "graffiti.jpg",
+      defaultColour = [ 1, 0, 1, 1],
+      defaultIndexes = [
   
         [ 0, 1, 2 ],
   
       ],
-      defaultColour = [ 1, 0, 1, 1],
-      defaultImageName = "graffiti.jpg",
       defaultVertexCoordinates = [
   
         [ 0, 0, 0 ],
@@ -21,8 +21,8 @@ const defaultIndexes = [
       ];
 
 module.exports = {
-  defaultColour: defaultColour,
   defaultImageName: defaultImageName,
+  defaultColour: defaultColour,
   defaultIndexes: defaultIndexes,
   defaultVertexCoordinates: defaultVertexCoordinates,
   defaultTextureCoordinates: defaultTextureCoordinates

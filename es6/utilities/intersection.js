@@ -1,8 +1,29 @@
 'use strict';
 
-const vectorMaths = require('../maths/vector');
+const vectorMaths = require('../maths/vector'),
+      arrayUtilities = require('../utilities/array'),
+      approximateUtilities = require('../utilities/approximate');
 
-const { add3, subtract3, scale3 } = vectorMaths;
+const { add3, subtract3, scale3 } = vectorMaths,
+      { first, second } = arrayUtilities,
+      { isApproximatelyEqualToZero } = approximateUtilities;
+
+function calculateIntersection(edge, firstPositionComponent) {
+  let intersection = null;
+
+  const edgeNonParallel = isEdgeNonParallel(edge);
+
+  if (edgeNonParallel) {
+    const edgeIntersection = calculateEdgeIntersection(edge, firstPositionComponent),
+          edgeIntersectionNonTrivial = ((edgeIntersection > 0 ) && (edgeIntersection < 1));
+
+    if (edgeIntersectionNonTrivial) {
+      intersection = edgeIntersection;  ///
+    }
+  }
+
+  return intersection;
+}
 
 function calculateIntermediateVertex(startVertex, endVertex, intersection, Vertex) {
   const startPosition = startVertex.getPosition(),
@@ -59,8 +80,34 @@ function calculateNonNullIntersectionIndex(intersections) {
 }
 
 module.exports = module.exports = {
+  calculateIntersection: calculateIntersection,
   calculateIntermediateVertex: calculateIntermediateVertex,
   calculateNonNullIntersections: calculateNonNullIntersections,
   calculateNullIntersectionIndex: calculateNullIntersectionIndex,
   calculateNonNullIntersectionIndex: calculateNonNullIntersectionIndex
 };
+
+function isEdgeNonParallel(edge) {
+  const edgeExtent = edge.getExtent(),
+        edgeExtentComponents = edgeExtent, ///
+        firstEdgeExtentComponent = first(edgeExtentComponents),
+        secondEdgeExtentComponent = second(edgeExtentComponents),
+        edgeAngleTangent = firstEdgeExtentComponent / secondEdgeExtentComponent,
+        edgeAngleTangentApproximatelyEqualToZero = isApproximatelyEqualToZero(edgeAngleTangent),
+        edgeParallel = edgeAngleTangentApproximatelyEqualToZero, ///
+        edgeNonParallel = !edgeParallel;
+
+  return edgeNonParallel;
+}
+
+function calculateEdgeIntersection(edge, firstPositionComponent) {
+  const edgePosition = edge.getPosition(),
+        edgeExtent = edge.getExtent(),
+        edgePositionComponents = edgePosition, ///
+        edgeExtentComponents = edgeExtent, ///
+        firstEdgePositionComponent = first(edgePositionComponents),
+        firstEdgeExtentComponent = first(edgeExtentComponents),
+        edgeIntersection = (firstPositionComponent - firstEdgePositionComponent) / firstEdgeExtentComponent;
+
+  return edgeIntersection;
+}
