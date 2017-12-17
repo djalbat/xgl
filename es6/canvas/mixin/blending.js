@@ -1,11 +1,14 @@
 'use strict';
 
 function enableBlending() {
-  const { SRC_ALPHA, ONE, BLEND } = this.context;
+  const { SRC_ALPHA, ONE, BLEND } = this.context,
+        capacity = BLEND,
+        sourceFactor = SRC_ALPHA,
+        destinationFactor = ONE;
 
-  this.context.enable(BLEND);
+  this.context.enable(capacity);
 
-  this.context.blendFunc(SRC_ALPHA, ONE);
+  this.context.blendFunc(sourceFactor, destinationFactor);
 }
 
 module.exports = {

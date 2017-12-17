@@ -7,17 +7,20 @@ function clearDepth(depth = defaultDepth) {
 }
 
 function clearDepthBuffer() {
-  const { DEPTH_BUFFER_BIT } = this.context;
+  const { DEPTH_BUFFER_BIT } = this.context,
+        mask = DEPTH_BUFFER_BIT;
 
-  this.context.clear(DEPTH_BUFFER_BIT);
+  this.context.clear(mask);
 }
 
 function enableDepthTesting() {
-  const { DEPTH_TEST, LEQUAL } = this.context;
+  const { DEPTH_TEST, LEQUAL } = this.context,
+        capacity = DEPTH_TEST,
+        depthComparisonFunction = LEQUAL;
 
-  this.context.enable(DEPTH_TEST);
+  this.context.enable(capacity);
 
-  this.context.depthFunc(LEQUAL);
+  this.context.depthFunc(depthComparisonFunction);
 }
 
 module.exports = {
