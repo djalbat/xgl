@@ -1,22 +1,18 @@
 'use strict';
 
-const express = require('express');
+const express = require('express'),
+      necessary = require('necessary');
 
 const constants = require('./constants'),
       imageMap = require('./imageMap'),
-      indexPage = require('./page/index'),
-      defaultPage = require('./page/default');
+      examplePage = require('./page/example'),
+      examplesPage = require('./page/examples');
 
-const { IMAGE_MAP_URL_PATH, 
-        INDEX_PAGE_URL_PATH, 
-        SHAPES_PAGE_URL_PATH,
-        SHAPES_PAGE_FILE_NAME,
-        MASKING_PAGE_URL_PATH,
-        MASKING_PAGE_FILE_NAME,
-        CONTAINER_HOUSE_PAGE_URL_PATH, 
-        CONTAINER_HOUSE_PAGE_FILE_NAME,
-        TIMBER_FRAMED_HOUSE_PAGE_URL_PATH,
-        TIMBER_FRAMED_HOUSE_PAGE_FILE_NAME } = constants;
+const { arrayUtilities } = necessary,
+      { first } = arrayUtilities,
+      { IMAGE_MAP_URL_PATH,
+        EXAMPLE_PAGE_URL_PATH,
+        EXAMPLES_PAGE_URL_PATH } = constants;
 
 class routes {
   static router() {
@@ -28,40 +24,20 @@ class routes {
       imageMap.respond(response);
     });
 
-    router.get(INDEX_PAGE_URL_PATH, function(request, response, next) {
-      const html = indexPage.html();
+    router.get(EXAMPLE_PAGE_URL_PATH, function(request, response, next) {
+      const { query } = request,
+            keys = Object.keys(query),
+            firstKey = first(keys),
+            example = firstKey, ///
+            html = examplePage.html(example);
 
       response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
 
       response.end(html);
     });
 
-    router.get(SHAPES_PAGE_URL_PATH, function(request, response, next) {
-      const html = defaultPage.html(SHAPES_PAGE_FILE_NAME);
-
-      response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-
-      response.end(html);
-    });
-
-    router.get(MASKING_PAGE_URL_PATH, function(request, response, next) {
-      const html = defaultPage.html(MASKING_PAGE_FILE_NAME);
-
-      response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-
-      response.end(html);
-    });
-
-    router.get(CONTAINER_HOUSE_PAGE_URL_PATH, function(request, response, next) {
-      const html = defaultPage.html(CONTAINER_HOUSE_PAGE_FILE_NAME);
-
-      response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-
-      response.end(html);
-    });
-
-    router.get(TIMBER_FRAMED_HOUSE_PAGE_URL_PATH, function(request, response, next) {
-      const html = defaultPage.html(TIMBER_FRAMED_HOUSE_PAGE_FILE_NAME);
+    router.get(EXAMPLES_PAGE_URL_PATH, function(request, response, next) {
+      const html = examplesPage.html();
 
       response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
 
