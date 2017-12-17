@@ -6,13 +6,11 @@ const Edge = require('./edge'),
       constants = require('./constants'),
       facetUtilities = require('./utilities/facet'),
       arrayUtilities = require('./utilities/array'),
-      verticesUtilities = require('./utilities/vertices'),
       midPointUtilities = require('./utilities/midPoint'),
       approximateUtilities = require('./utilities/approximate'),
       intersectionUtilities = require('./utilities/intersection');
 
 const { VERTICES_LENGTH } = constants,
-      { cloneVertices } = verticesUtilities,
       { first, second, third, permute } = arrayUtilities,
       { isApproximatelyEqualToZero } = approximateUtilities,
       { calculateEdges, calculateNormal, calculateArea } = facetUtilities,
@@ -140,7 +138,7 @@ class Facet {
         break;
 
       case 0 :
-        this.splitWithZeroNonNullIntersections(intersections, smallerFacets);
+        this.splitWithNoNonNullIntersections(intersections, smallerFacets);
         break;
     }
   }
@@ -230,7 +228,7 @@ class Facet {
     });
   }
 
-  splitWithZeroNonNullIntersections(intersections, smallerFacets) {
+  splitWithNoNonNullIntersections(intersections, smallerFacets) {
     const smallerFacet = this.fromVertices(this.vertices);  ///
 
     smallerFacets.push(smallerFacet);

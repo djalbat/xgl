@@ -1,15 +1,5 @@
 'use strict';
 
-function cloneVertices(vertices) {
-  vertices = vertices.map(function(vertex) {
-    vertex = vertex.clone();
-    
-    return vertex;
-  });
-  
-  return vertices;
-}
-
 function rotateVertices(vertices, rotationQuaternion) {
   vertices = vertices.map(function(vertex) {
     vertex = rotateVertex(vertex, rotationQuaternion);
@@ -32,7 +22,6 @@ function verticesFromVertexCoordinatesAndIndexes(vertexCoordinates, indexes, Ver
 }
 
 module.exports = module.exports = {
-  cloneVertices: cloneVertices,
   rotateVertices: rotateVertices,
   verticesFromVertexCoordinatesAndIndexes: verticesFromVertexCoordinatesAndIndexes
 };
