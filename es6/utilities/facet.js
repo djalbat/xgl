@@ -19,8 +19,8 @@ function cloneEdges(edges) {
 }
 
 function cloneNormal(normal) {
-  normal = normal.slice();  ///
-
+  normal = normal.clone();
+  
   return normal;
 }
 
@@ -48,16 +48,8 @@ function calculateEdges(vertices, Edge) {
   return edges;
 }
 
-function calculateNormal(vertices) {
-  const firstVertex = first(vertices),
-        secondVertex = second(vertices),
-        thirdVertex = third(vertices),
-        firstPosition = firstVertex.getPosition(),
-        secondPosition = secondVertex.getPosition(),
-        thirdPosition = thirdVertex.getPosition(),
-        firstExtent = subtract3(secondPosition, firstPosition),
-        secondExtent = subtract3(thirdPosition, firstPosition),
-        normal = cross3(firstExtent, secondExtent);
+function calculateNormal(vertices, Normal) {
+  const normal = Normal.fromVertices(vertices);
 
   return normal;
 }

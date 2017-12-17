@@ -1,6 +1,7 @@
 'use strict';
 
 const Edge = require('./edge'),
+      Normal = require('./normal'),
       Vertex = require('./vertex'),
       constants = require('./constants'),
       vectorMaths = require('./maths/vector'),
@@ -46,7 +47,8 @@ class Facet {
   }
   
   getVertexNormals() {
-    const vertexNormal = normalise3(this.normal),
+    const extent = this.normal.getExtent(),
+          vertexNormal = extent,  ///
           vertexNormals = [
             vertexNormal,
             vertexNormal,
@@ -104,7 +106,7 @@ class Facet {
   rotate(rotationQuaternion) {
     this.vertices = rotateVertices(this.vertices, rotationQuaternion);
     
-    this.normal = calculateNormal(this.vertices);
+    this.normal = calculateNormal(this.vertices, Normal);
 
     this.edges = calculateEdges(this.vertices, Edge);
   }
@@ -112,7 +114,7 @@ class Facet {
   rotateAboutZAxis(rotationAboutZAxisMatrix) {
     this.vertices = rotateVerticesAboutZAxis(this.vertices, rotationAboutZAxisMatrix);
     
-    this.normal = calculateNormal(this.vertices);
+    this.normal = calculateNormal(this.vertices, Normal);
 
     this.edges = calculateEdges(this.vertices, Edge);
   }
@@ -126,7 +128,7 @@ class Facet {
       return vertex;
     });
 
-    this.normal = calculateNormal(this.vertices);
+    this.normal = calculateNormal(this.vertices, Normal);
 
     this.edges = calculateEdges(this.vertices, Edge);
   }

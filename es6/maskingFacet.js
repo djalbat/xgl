@@ -83,7 +83,8 @@ class MaskingFacet {
   static fromFacet(facet) {
     const facetNormal = facet.getNormal(),
           facetVertices = facet.getVertices(),
-          rotationQuaternion = calculateRotationQuaternion(facetNormal),
+          normal = facetNormal, ///
+          rotationQuaternion = calculateRotationQuaternion(normal),
           vertices = rotateVertices(facetVertices, rotationQuaternion),
           maskingEdges = calculateMaskingEdges(vertices),
           verticalLines = maskingEdges.map(function(maskingEdge) {

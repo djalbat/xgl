@@ -2,21 +2,24 @@
 
 const Edge = require('../edge'),
       Facet = require('../facet'),
+      Normal = require('../normal'),
       Vertex = require('../vertex'),
       matrixMaths = require('../maths/matrix'),
       vectorMaths = require('../maths/vector'),
       facetUtilities = require('../utilities/facet'),
       arrayUtilities = require('../utilities/array'),
+      textureUtilities = require('../utilities/texture'),
       imageMapUtilities = require('../utilities/imageMap'),
       rotationUtilities = require('../utilities/rotation'),
       quaternionUtilities = require('../utilities/quaternion');
 
 const { rotateVertices } = rotationUtilities,
       { invert2, invert3 } = matrixMaths,
+      { transform2, transform3 } = vectorMaths,
       { getImageDetails } = imageMapUtilities,
+      { cloneTextureCoordinates } = textureUtilities,
       { first, second, third, permute } = arrayUtilities,
       { calculateRotationQuaternion } = quaternionUtilities,
-      { add2, multiply2, transform2, transform3 } = vectorMaths,
       { cloneEdges, cloneNormal, cloneVertices, calculateEdges, calculateNormal } = facetUtilities;
 
 class TexturedFacet extends Facet {
@@ -66,7 +69,7 @@ class TexturedFacet extends Facet {
   }
 
   fromVertices(vertices) {
-    const normal = calculateNormal(vertices),
+    const normal = calculateNormal(vertices, Normal),
           edges = calculateEdges(vertices, Edge),
           imageName = this.imageName,
           parentVertices = this.vertices, ///
@@ -80,7 +83,7 @@ class TexturedFacet extends Facet {
     textureCoordinates = textureCoordinatesFromTextureCoordinatesAndIndex(textureCoordinates, index);  ///
 
     const vertices = verticesFromVertexCoordinatesAndIndexes(vertexCoordinates, indexes),
-          normal = calculateNormal(vertices),
+          normal = calculateNormal(vertices, Normal),
           edges = calculateEdges(vertices, Edge),
           texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinates);
 
@@ -101,34 +104,9 @@ function verticesFromVertexCoordinatesAndIndexes(vertexCoordinates, indexes) {  
   return vertices;
 }
 
-function textureCoordinatesFromTextureCoordinatesAndIndex(textureCoordinates, index) {  ///
-  textureCoordinates = textureCoordinates.slice(index * 3, index * 3 + 3);  ///
-
-  return textureCoordinates;
-}
-
-function cloneTextureCoordinates(textureCoordinates) {
-  textureCoordinates = textureCoordinates.map(function(textureCoordinates) {  ///
-    textureCoordinates = textureCoordinates.slice();
-
-    return textureCoordinates;
-  });
-
-  return textureCoordinates;
-}
-
-function translateTextureCoordinates(textureCoordinates, left, bottom, width, height ) {
-  textureCoordinates = textureCoordinates.map(function(textureCoordinates) {  ///
-    textureCoordinates = add2(multiply2(textureCoordinates, [ width, height ] ), [ left, bottom ]);
-
-    return textureCoordinates;
-  });
-
-  return textureCoordinates;
-}
 
 function textureCoordinatesFromVerticesParentVerticesAndTextureCoordinates(vertices, parentVertices, textureCoordinates) {
-  const normal = calculateNormal(vertices),
+  const normal = calculateNormal(vertices, Normal),
         rotationQuaternion = calculateRotationQuaternion(normal);
 
   vertices = rotateVertices(vertices, rotationQuaternion);

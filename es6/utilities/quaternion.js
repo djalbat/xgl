@@ -13,7 +13,8 @@ const { dot3, cross3, normalise3 } = vectorMaths,
 function rotateImaginaryQuaternion(imaginaryQuaternion, rotationQuaternion, inverseRotationQuaternion) { return hamiltonProduct(hamiltonProduct(rotationQuaternion, imaginaryQuaternion), inverseRotationQuaternion); }
 
 function calculateRotationQuaternion(normal) {
-  const unitNormal = normalise3(normal),
+  const extent = normal.getExtent(),
+        unitNormal = extent,  ///
         zAxis = [ 0, 0, 1],
         dotProductOfUnitNormalAndZAxis = dot3(unitNormal, zAxis),
         crossProductOfUnitNormalAndZAxis = cross3(unitNormal, zAxis),

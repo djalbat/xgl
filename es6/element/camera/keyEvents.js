@@ -68,11 +68,8 @@ class KeyEvents {
   }
 }
 
-const keyEvents = KeyEvents.fromNothing();
-
-module.exports = keyEvents;
-
-const documentDOMElement = document.documentElement;
+const keyEvents = KeyEvents.fromNothing(),
+      documentDOMElement = document.documentElement;
 
 documentDOMElement.onkeyup = function(event) {
   const keyCode = event.keyCode;
@@ -97,3 +94,5 @@ documentDOMElement.onkeydown = function(event) {
     keyEvents.onShiftKeyDown();
   }
 };
+
+module.exports = keyEvents;
