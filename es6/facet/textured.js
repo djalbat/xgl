@@ -9,6 +9,7 @@ const Edge = require('../edge'),
       facetUtilities = require('../utilities/facet'),
       arrayUtilities = require('../utilities/array'),
       textureUtilities = require('../utilities/texture'),
+      verticesUtilities = require('../utilities/vertices'),
       imageMapUtilities = require('../utilities/imageMap'),
       rotationUtilities = require('../utilities/rotation'),
       quaternionUtilities = require('../utilities/quaternion');
@@ -20,6 +21,7 @@ const { rotateVertices } = rotationUtilities,
       { cloneTextureCoordinates } = textureUtilities,
       { first, second, third, permute } = arrayUtilities,
       { calculateRotationQuaternion } = quaternionUtilities,
+      { verticesFromVertexCoordinatesAndIndexes } = verticesUtilities,
       { cloneEdges, cloneNormal, cloneVertices, calculateEdges, calculateNormal } = facetUtilities;
 
 class TexturedFacet extends Facet {
@@ -82,7 +84,7 @@ class TexturedFacet extends Facet {
   static fromVertexCoordinatesImageNameAndTextureCoordinates(vertexCoordinates, indexes, imageName, textureCoordinates, index) {
     textureCoordinates = textureCoordinatesFromTextureCoordinatesAndIndex(textureCoordinates, index);  ///
 
-    const vertices = verticesFromVertexCoordinatesAndIndexes(vertexCoordinates, indexes),
+    const vertices = verticesFromVertexCoordinatesAndIndexes(vertexCoordinates, indexes, Vertex),
           normal = calculateNormal(vertices, Normal),
           edges = calculateEdges(vertices, Edge),
           texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinates);
@@ -92,18 +94,6 @@ class TexturedFacet extends Facet {
 }
 
 module.exports = TexturedFacet;
-
-function verticesFromVertexCoordinatesAndIndexes(vertexCoordinates, indexes) {  ///
-  const vertices = indexes.map(function(index) {
-    const coordinates = vertexCoordinates[index], ///
-          vertex = Vertex.fromCoordinates(coordinates);
-
-    return vertex;
-  });
-
-  return vertices;
-}
-
 
 function textureCoordinatesFromVerticesParentVerticesAndTextureCoordinates(vertices, parentVertices, textureCoordinates) {
   const normal = calculateNormal(vertices, Normal),

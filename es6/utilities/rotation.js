@@ -8,16 +8,6 @@ const { first, second, fourth } = arrayUtilities,
       { transform3, normalise3 } = vectorMaths,
       { rotateImaginaryQuaternion, calculateInverseRotationQuaternion } = quaternionUtilities;
 
-function rotateVertices(vertices, rotationQuaternion) {
-  vertices = vertices.map(function(vertex) {
-   vertex = rotateVertex(vertex, rotationQuaternion);
-
-    return vertex;
-  });
-
-  return vertices;
-}
-
 function rotatePosition(position, rotationQuaternion) {
   const imaginaryQuaternion = imaginaryQuaternionFromPosition(position),
         inverseRotationQuaternion = calculateInverseRotationQuaternion(rotationQuaternion),
@@ -26,16 +16,6 @@ function rotatePosition(position, rotationQuaternion) {
   position = positionFromImaginaryQuaternion(rotatedImaginaryQuaternion);
 
   return position;
-}
-
-function rotateVerticesAboutZAxis(vertices, rotationAboutZAxisMatrix) {
-  vertices = vertices.map(function(vertex) {
-    vertex = rotateVertexAboutZAxis(vertex, rotationAboutZAxisMatrix);
-
-    return vertex;
-  });
-
-  return vertices;
 }
 
 function rotatePositionAboutZAxis(position, rotationAboutZAxisMatrix) {
@@ -77,30 +57,12 @@ function calculateBackwardsRotationAboutZAxisMatrix(rotationAboutZAxisMatrix) {
 }
 
 module.exports = {
-  rotateVertices: rotateVertices,
   rotatePosition: rotatePosition,
-  rotateVerticesAboutZAxis: rotateVerticesAboutZAxis,
   rotatePositionAboutZAxis: rotatePositionAboutZAxis,
   calculateRotationAboutZAxisMatrix: calculateRotationAboutZAxisMatrix,
   calculateForwardsRotationAboutZAxisMatrix: calculateForwardsRotationAboutZAxisMatrix,
   calculateBackwardsRotationAboutZAxisMatrix: calculateBackwardsRotationAboutZAxisMatrix
 };
-
-function rotateVertex(vertex, rotationQuaternion) {
-  vertex = vertex.clone();  ///
-
-  vertex.rotate(rotationQuaternion);
-
-  return vertex;
-}
-
-function rotateVertexAboutZAxis(vertex, rotationAboutZAxisMatrix) {
-  vertex = vertex.clone();
-
-  vertex.rotateAboutZAxis(rotationAboutZAxisMatrix);
-
-  return vertex;
-}
 
 function imaginaryQuaternionFromPosition(position) { return [0, ...position]; }  ///
 

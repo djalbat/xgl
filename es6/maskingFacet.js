@@ -4,12 +4,12 @@ const constants = require('./constants'),
       MaskingEdge = require('./edge/masking'),
       VerticalLine = require('./verticalLine'),
       arrayUtilities = require('./utilities/array'),
-      rotationUtilities = require('./utilities/rotation'),
+      verticesUtilities = require('./utilities/vertices'),
       quaternionUtilities = require('./utilities/quaternion');
 
 const { VERTICES_LENGTH } = constants,
       { push, separate } = arrayUtilities,
-      { rotateVertices } = rotationUtilities,
+      { rotateVertices } = verticesUtilities,
       { calculateRotationQuaternion, calculateForwardsRotationQuaternion, calculateBackwardsRotationQuaternion } = quaternionUtilities;
 
 class MaskingFacet {

@@ -4,18 +4,20 @@ const Edge = require('./edge'),
       Normal = require('./normal'),
       Vertex = require('./vertex'),
       constants = require('./constants'),
-      vectorMaths = require('./maths/vector'),
       facetUtilities = require('./utilities/facet'),
       arrayUtilities = require('./utilities/array'),
-      rotationUtilities = require('./utilities/rotation'),
-      approximateUtilities = require('./utilities/approximate');
+      verticesUtilities = require('./utilities/vertices'),
+      midPointUtilities = require('./utilities/midPoint'),
+      approximateUtilities = require('./utilities/approximate'),
+      intersectionUtilities = require('./utilities/intersection');
 
 const { VERTICES_LENGTH } = constants,
-      { add3, subtract3, scale3, normalise3 } = vectorMaths,
       { first, second, third, permute } = arrayUtilities,
       { isApproximatelyEqualToZero } = approximateUtilities,
-      { rotateVertices, rotateVerticesAboutZAxis } = rotationUtilities,
-      { calculateEdges, calculateNormal, calculateArea } = facetUtilities;
+      { calculateEdges, calculateNormal, calculateArea } = facetUtilities,
+      { rotateVertices, transformVertices, rotateVerticesAboutZAxis } = verticesUtilities,
+      { calculateMidPointPosition, isMidPointPositionToOneSideOfMaskingEdges } = midPointUtilities,
+      { calculateIntermediateVertex, calculateNonNullIntersections, calculateNullIntersectionIndex, calculateNonNullIntersectionIndex } = intersectionUtilities;
 
 class Facet {
   constructor(vertices, normal, edges) {
@@ -69,34 +71,21 @@ class Facet {
     return vertexIndexes;
   }
 
-  getMidPointPosition() {
-    const midPointPosition = this.vertices.reduce(function(midPointPosition, vertex) {
-      const position = vertex.getPosition(),
-            scaledVertexPosition = scale3(position, 1/3);
-
-      midPointPosition = add3(midPointPosition, scaledVertexPosition);
-
-      return midPointPosition;
-    }, [ 0, 0, 0 ]);
-
-    return midPointPosition;
+  isMasked(maskingFacet) {
+    const maskingEdges = maskingFacet.getMaskingEdges(),
+          midPointPosition = calculateMidPointPosition(this.vertices),
+          midPointPositionToOneSideOfMaskingEdges = isMidPointPositionToOneSideOfMaskingEdges(midPointPosition, maskingEdges),
+          masked = midPointPositionToOneSideOfMaskingEdges;  ///
+    
+    return masked;
   }
 
   isTooSmall() {
     const area = calculateArea(this.vertices),
           areaApproximatelyEqualToZero = isApproximatelyEqualToZero(area),
           tooSmall = areaApproximatelyEqualToZero;  ///
-    
+
     return tooSmall;
-  }
-  
-  isMasked(maskingFacet) {
-    const maskingEdges = maskingFacet.getMaskingEdges(),
-          midPointPosition = this.getMidPointPosition(),
-          midPointPositionToOneSideOfMaskingEdges = isMidPointPositionToOneSideOfMaskingEdges(midPointPosition, maskingEdges),
-          masked = midPointPositionToOneSideOfMaskingEdges;  ///
-    
-    return masked;
   }
 
   permute(places) {
@@ -120,13 +109,7 @@ class Facet {
   }
 
   applyTransforms(transforms) {
-    this.vertices = this.vertices.map(function(vertex) {
-      transforms.forEach(function(transform) {
-        vertex.applyTransform(transform);
-      });
-
-      return vertex;
-    });
+    this.vertices = transformVertices(this.vertices, transforms);
 
     this.normal = calculateNormal(this.vertices, Normal);
 
@@ -167,8 +150,8 @@ class Facet {
           thirdVertex = third(this.vertices),
           firstIntersection = first(intersections),
           secondIntersection = second(intersections),
-          firstIntermediateVertex = calculateIntermediateVertex(secondVertex, thirdVertex, firstIntersection),
-          secondIntermediateVertex = calculateIntermediateVertex(thirdVertex, firstVertex, secondIntersection),
+          firstIntermediateVertex = calculateIntermediateVertex(secondVertex, thirdVertex, firstIntersection, Vertex),
+          secondIntermediateVertex = calculateIntermediateVertex(thirdVertex, firstVertex, secondIntersection, Vertex),
           firstVertices = [
             firstVertex,
             secondVertex,
@@ -216,7 +199,7 @@ class Facet {
           secondVertex = second(this.vertices),
           thirdVertex = third(this.vertices),
           firstIntersection = first(intersections),
-          intermediateVertex = calculateIntermediateVertex(firstVertex, secondVertex, firstIntersection),
+          intermediateVertex = calculateIntermediateVertex(firstVertex, secondVertex, firstIntersection, Vertex),
           firstVertices = [
             firstVertex,
             intermediateVertex,
@@ -249,93 +232,3 @@ class Facet {
 }
 
 module.exports = Facet;
-
-function calculateIntermediateVertex(startVertex, endVertex, intersection) {
-  const startPosition = startVertex.getPosition(),
-        endPosition = endVertex.getPosition(),
-        extent = subtract3(endPosition, startPosition),
-        offset = scale3(extent, intersection),
-        position = add3(startPosition, offset),
-        vertex = new Vertex(position),
-        intermediateVertex = vertex;  ///
-
-  return intermediateVertex;
-}
-
-function calculateNonNullIntersections(intersections) {
-  const nonNullIntersections = intersections.reduce(function(nonNullIntersections, intersection) {
-    if (intersection !== null) {
-      const nonNullIntersection = intersection; ///
-
-      nonNullIntersections.push(nonNullIntersection);
-    }
-
-    return nonNullIntersections;
-  }, []);
-
-  return nonNullIntersections;
-}
-
-function calculateNullIntersectionIndex(intersections) {
-  const nullIntersectionIndex = intersections.reduce(function(nullIntersectionIndex, intersection, index) {
-    if (nullIntersectionIndex === null) {
-      if (intersection === null) {
-        nullIntersectionIndex = index;
-      }
-    }
-
-    return nullIntersectionIndex;
-  }, null);
-
-  return nullIntersectionIndex;
-}
-
-function calculateNonNullIntersectionIndex(intersections) {
-  const nullIntersectionIndex = intersections.reduce(function(nullIntersectionIndex, intersection, index) {
-    if (nullIntersectionIndex === null) {
-      if (intersection !== null) {
-        nullIntersectionIndex = index;
-      }
-    }
-
-    return nullIntersectionIndex;
-  }, null);
-
-  return nullIntersectionIndex;
-}
-
-function isMidPointPositionToOneSideOfMaskingEdges(midPointPosition, maskingEdges) {
-  const midPointPositionToTheLeftOfMaskingEdges = isMidPointPositionToTheLeftOfMaskingEdges(midPointPosition, maskingEdges),
-        midPointPositionToTheRightOfMaskingEdges = isMidPointPositionToTheRightOfMaskingEdges(midPointPosition, maskingEdges),
-        midPointPositionToOneSideOfMaskingEdges = midPointPositionToTheLeftOfMaskingEdges || midPointPositionToTheRightOfMaskingEdges; ///
-
-  return midPointPositionToOneSideOfMaskingEdges;
-}
-
-function isMidPointPositionToTheLeftOfMaskingEdges(midPointPosition, maskingEdges) {
-  const midPointPositionToTheLeftOfMaskingEdges = maskingEdges.reduce(function(midPointPositionToTheLeftOfMaskingEdges, maskingEdge) {
-    if (midPointPositionToTheLeftOfMaskingEdges) {
-      const midPointPositionToTheLeftOfMaskingEdge = maskingEdge.isMidPointPositionToTheLeft(midPointPosition);
-
-      midPointPositionToTheLeftOfMaskingEdges = midPointPositionToTheLeftOfMaskingEdge;
-    }
-
-    return midPointPositionToTheLeftOfMaskingEdges;
-  }, true);
-
-  return midPointPositionToTheLeftOfMaskingEdges;
-}
-
-function isMidPointPositionToTheRightOfMaskingEdges(midPointPosition, maskingEdges) {
-  const midPointPositionToTheRightOfMaskingEdges = maskingEdges.reduce(function(midPointPositionToTheRightOfMaskingEdges, maskingEdge) {
-    if (midPointPositionToTheRightOfMaskingEdges) {
-      const midPointPositionToTheRightOfMaskingEdge = maskingEdge.isMidPointPositionToTheRight(midPointPosition);
-
-      midPointPositionToTheRightOfMaskingEdges = midPointPositionToTheRightOfMaskingEdge;
-    }
-
-    return midPointPositionToTheRightOfMaskingEdges;
-  }, true);
-
-  return midPointPositionToTheRightOfMaskingEdges;
-}
