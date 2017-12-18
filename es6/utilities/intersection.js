@@ -67,16 +67,12 @@ function calculateNonNullIntersectionIndex(intersections) {
   return nullIntersectionIndex;
 }
 
-function calculateIntermediateVertex(startVertex, endVertex, intersection, Vertex) {
-  const startPosition = startVertex.getPosition(),
-        endPosition = endVertex.getPosition(),
-        extent = subtract3(endPosition, startPosition),
+function calculateIntermediateVertexPosition(startVertexPosition, endVertexPosition, intersection) {
+  const extent = subtract3(endVertexPosition, startVertexPosition),
         offset = scale3(extent, intersection),
-        position = add3(startPosition, offset),
-        vertex = new Vertex(position),
-        intermediateVertex = vertex;  ///
+        intermediateVertexPosition = add3(startVertexPosition, offset);
 
-  return intermediateVertex;
+  return intermediateVertexPosition;
 }
 
 module.exports = module.exports = {
@@ -84,7 +80,7 @@ module.exports = module.exports = {
   calculateNonNullIntersections: calculateNonNullIntersections,
   calculateNullIntersectionIndex: calculateNullIntersectionIndex,
   calculateNonNullIntersectionIndex: calculateNonNullIntersectionIndex,
-  calculateIntermediateVertex: calculateIntermediateVertex
+  calculateIntermediateVertexPosition: calculateIntermediateVertexPosition
 };
 
 function isEdgeNonParallel(edge) {

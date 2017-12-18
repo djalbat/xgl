@@ -11,11 +11,11 @@ const Edge = require('./edge'),
       intersectionUtilities = require('./utilities/intersection');
 
 const { VERTICES_LENGTH } = constants,
-      { first, second, third, permute } = arrayUtilities,
+      { push, permute } = arrayUtilities,
       { isApproximatelyEqualToZero } = approximateUtilities,
       { calculateEdges, calculateNormal, calculateArea } = facetUtilities,
       { calculateMidPointPosition, isMidPointPositionToOneSideOfMaskingEdges } = midPointUtilities,
-      { calculateIntermediateVertex, calculateNonNullIntersections, calculateNullIntersectionIndex, calculateNonNullIntersectionIndex } = intersectionUtilities;
+      { calculateIntermediateVertexPosition, calculateNonNullIntersections, calculateNullIntersectionIndex, calculateNonNullIntersectionIndex } = intersectionUtilities;
 
 class Facet {
   constructor(vertices, normal, edges) {
@@ -150,43 +150,20 @@ class Facet {
     intersections = permute(intersections, places);
 
     intersections = intersections.slice(1); ///
-    
+
     this.permute(places);
 
-    const firstVertex = first(this.vertices),
-          secondVertex = second(this.vertices),
-          thirdVertex = third(this.vertices),
-          firstIntersection = first(intersections),
-          secondIntersection = second(intersections),
-          firstIntermediateVertex = calculateIntermediateVertex(secondVertex, thirdVertex, firstIntersection, Vertex),
-          secondIntermediateVertex = calculateIntermediateVertex(thirdVertex, firstVertex, secondIntersection, Vertex),
-          fourthVertex = firstIntermediateVertex, ///
-          fifthVertex = secondIntermediateVertex, ///
+    const startVertexPositionIndices = [ 1, 2 ],
+          endVertexPositionIndices = [ 2, 0 ],
           smallerFacetsIndices = [
 
             [ 0, 1, 3 ],
             [ 3, 4, 0 ],
             [ 3, 2, 4 ],
 
-          ],
-          vertices = [
-            firstVertex,
-            secondVertex,
-            thirdVertex,
-            fourthVertex,
-            fifthVertex
-          ],
-          facet = this; ///
+          ];
 
-    smallerFacetsIndices.forEach(function(smallerFacetIndices) {
-      const indices = smallerFacetIndices,  ///
-            smallerFacet = smallerFacetFromVerticesAndIndices(vertices, indices, facet),
-            smallerFacetTooSmall = smallerFacet.isTooSmall();
-
-      if (!smallerFacetTooSmall) {
-        smallerFacets.push(smallerFacet);
-      }
-    });
+    this.splitWithIndicesAndIntersections(startVertexPositionIndices, endVertexPositionIndices, smallerFacetsIndices, intersections, smallerFacets);
   }
 
   splitWithOneNonNullIntersection(intersections, smallerFacets) {
@@ -195,37 +172,20 @@ class Facet {
 
     intersections = permute(intersections, places);
 
+    intersections = intersections.slice(0, 1);  ///
+
     this.permute(places);
 
-    const firstVertex = first(this.vertices),
-          secondVertex = second(this.vertices),
-          thirdVertex = third(this.vertices),
-          firstIntersection = first(intersections),
-          intermediateVertex = calculateIntermediateVertex(firstVertex, secondVertex, firstIntersection, Vertex),
-          fourthVertex = intermediateVertex,  ///
-          vertices = [
-            firstVertex,
-            secondVertex,
-            thirdVertex,
-            fourthVertex
-          ],
+    const startVertexPositionIndices = [ 0 ],
+          endVertexPositionIndices = [ 1 ],
           smallerFacetsIndices = [
 
             [ 0, 3, 2 ],
             [ 3, 1, 2 ],
 
-          ],
-          facet = this;
+          ];
 
-    smallerFacetsIndices.forEach(function(smallerFacetIndices) {
-      const indices = smallerFacetIndices,  ///
-            smallerFacet = smallerFacetFromVerticesAndIndices(vertices, indices, facet),
-            smallerFacetTooSmall = smallerFacet.isTooSmall();
-
-      if (!smallerFacetTooSmall) {
-        smallerFacets.push(smallerFacet);
-      }
-    });
+    this.splitWithIndicesAndIntersections(startVertexPositionIndices, endVertexPositionIndices, smallerFacetsIndices, intersections, smallerFacets);
   }
 
   splitWithNoNonNullIntersections(intersections, smallerFacets) {
@@ -233,20 +193,47 @@ class Facet {
 
     smallerFacets.push(smallerFacet);
   }
+
+  splitWithIndicesAndIntersections(startVertexPositionIndices, endVertexPositionIndices, smallerFacetsIndices, intersections, smallerFacets) {
+    const vertexPositions = this.getVertexPositions(),
+          intermediateVertexPositions = intersections.map(function(intersection, index) {
+            const startVertexPositionIndex = startVertexPositionIndices[index],
+                  endVertexPositionIndex = endVertexPositionIndices[index],
+                  startVertexPosition = vertexPositions[ startVertexPositionIndex ],
+                  endVertexPosition = vertexPositions[ endVertexPositionIndex ],
+                  intermediateVertexPosition = calculateIntermediateVertexPosition(startVertexPosition, endVertexPosition, intersection);
+
+            return intermediateVertexPosition;
+          });
+
+    push(vertexPositions, intermediateVertexPositions);
+
+    smallerFacetsIndices.forEach(function(smallerFacetIndices) {
+      const positions = vertexPositions,  ///
+            indices = smallerFacetIndices,  ///
+            facet = this, ///
+            smallerFacet = smallerFacetFromPositionsAndIndices(positions, indices, facet),
+            smallerFacetTooSmall = smallerFacet.isTooSmall();
+
+      if (!smallerFacetTooSmall) {
+        smallerFacets.push(smallerFacet);
+      }
+    }.bind(this));
+  }
 }
 
 module.exports = Facet;
 
-function smallerFacetFromVerticesAndIndices(vertices, indices, facet) {
-  vertices = indices.map(function(index) {
-    let vertex = vertices[index];
+function smallerFacetFromPositionsAndIndices(positions, indices, facet) {
+  const vertices = indices.map(function(index) {
+          const position = clonePosition(positions[index]),
+                vertex = Vertex.fromPosition(position);
 
-    vertex = vertex.clone();  ///
-
-    return vertex;
-  });
-
-  const smallerFacet = facet.fromVertices(vertices);
+          return vertex;
+        }),
+        smallerFacet = facet.fromVertices(vertices);
 
   return smallerFacet;
 }
+
+function clonePosition(position) { return position.slice(); } ///

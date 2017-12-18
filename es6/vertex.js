@@ -34,6 +34,12 @@ class Vertex {
     }.bind(this));
   }
   
+  static fromPosition(position) {
+    const vertex = new Vertex(position);
+    
+    return vertex;
+  }
+  
   static fromCoordinates(coordinates) {
     const position = positionFromCoordinates(coordinates),
           vertex = new Vertex(position);
