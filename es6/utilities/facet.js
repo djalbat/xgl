@@ -58,11 +58,11 @@ function calculateArea(vertices) {
   const firstVertex = first(vertices),
         secondVertex = second(vertices),
         thirdVertex = third(vertices),
-        firstPosition = firstVertex.getPosition(),
-        secondPosition = secondVertex.getPosition(),
-        thirdPosition = thirdVertex.getPosition(),
-        firstExtent = subtract3(secondPosition, firstPosition),
-        secondExtent = subtract3(thirdPosition, firstPosition),
+        firstVertexPosition = firstVertex.getPosition(),
+        secondVertexPosition = secondVertex.getPosition(),
+        thirdVertexPosition = thirdVertex.getPosition(),
+        firstExtent = subtract3(secondVertexPosition, firstVertexPosition),
+        secondExtent = subtract3(thirdVertexPosition, firstVertexPosition),
         area = length3(cross3(firstExtent, secondExtent)) / 2;
 
   return area;

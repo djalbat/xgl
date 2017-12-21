@@ -48,7 +48,7 @@ module.exports = Vertex;
 
 function clonePosition(position) { return position.slice(); } ///
 
-function positionFromCoordinates(coordinates) { 
+function positionFromCoordinates(coordinates) {
   const position = coordinates.slice(); ///
   
   return position;

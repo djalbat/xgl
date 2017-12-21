@@ -99,6 +99,4 @@ class Tilt {
   }
 }
 
-const tilt = Tilt.fromNothing();
-
-module.exports = tilt;
+module.exports = Tilt;

@@ -60,28 +60,10 @@ class Pan {
           scalar = OFFSET_SCALAR,
           relativeMouseCoordinates = subtract2(this.mouseCoordinates, this.previousMouseCoordinates),
           relativeOffset = scale2(relativeMouseCoordinates, scalar),
-          firstRelativeOffset = first(relativeOffset),
-          secondRelativeOffset = second(relativeOffset);
+          yAngleOffset = calculateYAngleOffset(yAngle, relativeOffset),
+          xAngleOffset = calculateXAngleOffset(xAngle, yAngle, relativeOffset);
 
-    let offset = this.previousOffset.slice(); ///
-
-    (function() {
-      const x = -Math.cos(yAngle) * firstRelativeOffset,
-            y = 0,
-            z = -Math.sin(yAngle) * firstRelativeOffset;
-
-      offset = add3(offset, [x, y, z]);
-    })();
-
-    (function() {
-      const x = -Math.sin(xAngle) * Math.sin(yAngle) * secondRelativeOffset,
-            y = -Math.cos(xAngle) * secondRelativeOffset,
-            z = +Math.sin(xAngle) * Math.cos(yAngle) * secondRelativeOffset;
-
-      offset = add3(offset, [x, y, z]);
-    })();
-
-    this.offset = offset;
+    this.offset = add3(add3(this.previousOffset, yAngleOffset), xAngleOffset);  ///
   }
 
   static fromInitialOffset(initialOffset) {
@@ -98,3 +80,25 @@ class Pan {
 }
 
 module.exports = Pan;
+
+function calculateYAngleOffset(yAngle, relativeOffset) {
+  const relativeOffsetComponents = relativeOffset,  ///
+        firstRelativeOffsetComponent = first(relativeOffsetComponents),
+        x = -Math.cos(yAngle) * firstRelativeOffsetComponent,
+        y = 0,
+        z = -Math.sin(yAngle) * firstRelativeOffsetComponent,
+        yAngleOffset = [x, y, z];
+
+  return yAngleOffset;
+}
+
+function calculateXAngleOffset(xAngle, yAngle, relativeOffset) {
+  const relativeOffsetComponents = relativeOffset,  ///
+        secondRelativeOffsetComponent = second(relativeOffsetComponents),
+        x = -Math.sin(xAngle) * Math.sin(yAngle) * secondRelativeOffsetComponent,
+        y = -Math.cos(xAngle) * secondRelativeOffsetComponent,
+        z = +Math.sin(xAngle) * Math.cos(yAngle) * secondRelativeOffsetComponent,
+        xAngleOffset = [x, y, z];
+
+  return xAngleOffset;
+}

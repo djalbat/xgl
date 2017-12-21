@@ -22,7 +22,7 @@ class Zoom {
   }
   
   static fromInitialDistance(initialDistance) {
-    const distance = initialDistance,
+    const distance = initialDistance, ///
           zoom = new Zoom(distance);
     
     return zoom;

@@ -1,18 +1,19 @@
 'use strict';
 
 function createTexture(image) {
-  const { TEXTURE_2D, RGBA, UNSIGNED_BYTE } = this.context,
+  const { RGBA, UNSIGNED_BYTE, TEXTURE_2D } = this.context,
+        target = TEXTURE_2D,
         level = 0,
         internalFormat = RGBA,
         format = RGBA,
         type = UNSIGNED_BYTE,
         texture = this.context.createTexture();
 
-  this.context.bindTexture(TEXTURE_2D, texture);
+  this.context.bindTexture(target, texture);
 
-  this.context.texImage2D(TEXTURE_2D, level, internalFormat, format, type, image);
+  this.context.texImage2D(target, level, internalFormat, format, type, image);
 
-  this.context.generateMipmap(TEXTURE_2D);
+  this.context.generateMipmap(target);
 }
 
 function activateTexture(target) { this.context.activeTexture(target); }

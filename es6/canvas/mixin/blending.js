@@ -1,7 +1,7 @@
 'use strict';
 
 function enableBlending() {
-  const { SRC_ALPHA, ONE, BLEND } = this.context,
+  const { BLEND, SRC_ALPHA, ONE } = this.context,
         capacity = BLEND,
         sourceFactor = SRC_ALPHA,
         destinationFactor = ONE;

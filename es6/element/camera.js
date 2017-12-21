@@ -1,7 +1,7 @@
 'use strict';
 
 const Element = require('../element'),
-      tilt = require('./camera/tilt'),
+      Tilt = require('./camera/tilt'),
       Pan = require('./camera/pan'),
       Zoom = require('./camera/zoom'),
       keyEvents = require('./camera/keyEvents'),
@@ -143,6 +143,7 @@ class Camera extends Element {
 
   static fromProperties(properties) {
     const { initialDistance, initialOffset } = properties,
+          tilt = Tilt.fromNothing(),
           pan = Pan.fromInitialOffset(initialOffset),
           zoom = Zoom.fromInitialDistance(initialDistance),
           handler = null,  ///
