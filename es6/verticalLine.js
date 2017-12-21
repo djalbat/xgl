@@ -2,29 +2,31 @@
 
 const arrayUtilities = require('./utilities/array'),
       rotationUtilities = require('./utilities/rotation'),
+      quaternionUtilities = require('./utilities/quaternion'),
       intersectionUtilities = require('./utilities/intersection');
 
 const { first } = arrayUtilities,
+      { rotatePosition } = rotationUtilities,
       { calculateIntersection } = intersectionUtilities,
-      { rotatePositionAboutZAxis, calculateRotationAboutZAxisMatrix, calculateForwardsRotationAboutZAxisMatrix, calculateBackwardsRotationAboutZAxisMatrix } = rotationUtilities;
+      { calculateRotationAboutZAxisQuaternion, calculateForwardsRotationQuaternion, calculateBackwardsRotationQuaternion } = quaternionUtilities;
 
 class VerticalLine {
-  constructor(firstPositionComponent, forwardsRotationAboutZAxisMatrix, backwardsRotationAboutZAxisMatrix) {
+  constructor(firstPositionComponent, forwardsRotationQuaternion, backwardsRotationQuaternion) {
     this.firstPositionComponent = firstPositionComponent;
-    this.forwardsRotationAboutZAxisMatrix = forwardsRotationAboutZAxisMatrix;
-    this.backwardsRotationAboutZAxisMatrix = backwardsRotationAboutZAxisMatrix;
+    this.forwardsRotationQuaternion = forwardsRotationQuaternion;
+    this.backwardsRotationQuaternion = backwardsRotationQuaternion;
   }
 
   getFirstPositionComponent() {
     return this.firstPositionComponent;
   }
   
-  getForwardsRotationAboutZAxisMatrix() {
-    return this.forwardsRotationAboutZAxisMatrix;
+  getForwardsRotationQuaternion() {
+    return this.forwardsRotationQuaternion;
   }
 
-  getBackwardsRotationAboutZAxisMatrix() {
-    return this.backwardsRotationAboutZAxisMatrix;
+  getBackwardsRotationQuaternion() {
+    return this.backwardsRotationQuaternion;
   }
 
   splitFacet(facet, smallerFacets) {
@@ -42,13 +44,13 @@ class VerticalLine {
     const smallerFacets = [];
 
     facets.forEach(function(facet) {
-      facet.rotateAboutZAxis(this.forwardsRotationAboutZAxisMatrix);
+      facet.rotate(this.forwardsRotationQuaternion);
 
       this.splitFacet(facet, smallerFacets);
     }.bind(this));
 
     smallerFacets.forEach(function(smallerFacet) {
-      smallerFacet.rotateAboutZAxis(this.backwardsRotationAboutZAxisMatrix);
+      smallerFacet.rotate(this.backwardsRotationQuaternion);
     }.bind(this));
 
     return smallerFacets;
@@ -56,13 +58,14 @@ class VerticalLine {
 
   static fromMaskingEdge(maskingEdge) {
     const maskingEdgePosition = maskingEdge.getPosition(),
-          rotationAboutZAxisMatrix = calculateRotationAboutZAxisMatrix(maskingEdge),
-          position = rotatePositionAboutZAxis(maskingEdgePosition, rotationAboutZAxisMatrix),
+          rotationAboutZAxisQuaternion = calculateRotationAboutZAxisQuaternion(maskingEdge),
+          rotationQuaternion = rotationAboutZAxisQuaternion,  ///
+          forwardsRotationQuaternion = calculateForwardsRotationQuaternion(rotationQuaternion),
+          backwardsRotationQuaternion = calculateBackwardsRotationQuaternion(rotationQuaternion),
+          position = rotatePosition(maskingEdgePosition, rotationQuaternion),
           positionComponents = position, ///
           firstPositionComponent = first(positionComponents),
-          forwardsRotationAboutZAxisMatrix = calculateForwardsRotationAboutZAxisMatrix(rotationAboutZAxisMatrix),
-          backwardsRotationAboutZAxisMatrix = calculateBackwardsRotationAboutZAxisMatrix(rotationAboutZAxisMatrix),
-          verticalLine = new VerticalLine(firstPositionComponent, forwardsRotationAboutZAxisMatrix, backwardsRotationAboutZAxisMatrix);
+          verticalLine = new VerticalLine(firstPositionComponent, forwardsRotationQuaternion, backwardsRotationQuaternion);
 
     return verticalLine;
   }

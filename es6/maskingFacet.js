@@ -10,7 +10,7 @@ const constants = require('./constants'),
 const { VERTICES_LENGTH } = constants,
       { push, separate } = arrayUtilities,
       { rotateVertices } = verticesUtilities,
-      { calculateRotationQuaternion, calculateForwardsRotationQuaternion, calculateBackwardsRotationQuaternion } = quaternionUtilities;
+      { calculateArbitraryRotationQuaternion, calculateForwardsRotationQuaternion, calculateBackwardsRotationQuaternion } = quaternionUtilities;
 
 class MaskingFacet {
   constructor(maskingEdges, verticalLines, forwardsRotationQuaternion, backwardsRotationQuaternion) {
@@ -84,7 +84,8 @@ class MaskingFacet {
     const facetNormal = facet.getNormal(),
           facetVertices = facet.getVertices(),
           normal = facetNormal, ///
-          rotationQuaternion = calculateRotationQuaternion(normal),
+          arbitraryRotationQuaternion = calculateArbitraryRotationQuaternion(normal),
+          rotationQuaternion = arbitraryRotationQuaternion, ///
           vertices = rotateVertices(facetVertices, rotationQuaternion),
           maskingEdges = calculateMaskingEdges(vertices),
           verticalLines = maskingEdges.map(function(maskingEdge) {

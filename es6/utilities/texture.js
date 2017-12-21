@@ -11,7 +11,7 @@ const { add2, multiply2 } = vectorMaths,
       { invert2, invert3 } = matrixMaths,
       { transform2, transform3 } = vectorMaths,
       { first, second, third } = arrayUtilities,
-      { calculateRotationQuaternion } = quaternionUtilities;
+      { calculateArbitraryRotationQuaternion } = quaternionUtilities;
 
 function cloneTextureCoordinates(textureCoordinates) {
   textureCoordinates = textureCoordinates.map(function(textureCoordinates) {  ///
@@ -34,7 +34,8 @@ function calculateVertexTextureCoordinates(textureCoordinates, left, bottom, wid
 }
 
 function calculateAdjustedTextureCoordinates(vertices, normal, parentVertices, textureCoordinates) {
-  const rotationQuaternion = calculateRotationQuaternion(normal);
+  const arbitraryRotationQuaternion = calculateArbitraryRotationQuaternion(normal),
+        rotationQuaternion = arbitraryRotationQuaternion;
 
   vertices = rotateVertices(vertices, rotationQuaternion);
 

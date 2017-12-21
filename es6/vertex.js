@@ -2,7 +2,7 @@
 
 const rotationUtilities = require('./utilities/rotation');
 
-const { rotatePosition, rotatePositionAboutZAxis } = rotationUtilities;
+const { rotatePosition } = rotationUtilities;
 
 class Vertex {
   constructor(position) {
@@ -24,10 +24,6 @@ class Vertex {
     this.position = rotatePosition(this.position, rotationQuaternion);
   }
 
-  rotateAboutZAxis(rotationAboutZAxisMatrix) {
-    this.position = rotatePositionAboutZAxis(this.position, rotationAboutZAxisMatrix);
-  }
-  
   applyTransforms(transforms) {
     transforms.forEach(function(transform) {
       this.position = transform(this.position);

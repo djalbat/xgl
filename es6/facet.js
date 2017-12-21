@@ -104,16 +104,6 @@ class Facet {
     this.edges = calculateEdges(this.vertices, Edge);
   }
 
-  rotateAboutZAxis(rotationAboutZAxisMatrix) {
-    this.vertices.forEach(function(vertex) {
-      vertex.rotateAboutZAxis(rotationAboutZAxisMatrix);
-    });
-
-    this.normal = calculateNormal(this.vertices, Normal);
-
-    this.edges = calculateEdges(this.vertices, Edge);
-  }
-
   applyTransforms(transforms) {
     this.vertices.forEach(function(vertex) {
       vertex.applyTransforms(transforms);
@@ -199,8 +189,8 @@ class Facet {
           intermediateVertexPositions = intersections.map(function(intersection, index) {
             const startVertexPositionIndex = startVertexPositionIndices[index],
                   endVertexPositionIndex = endVertexPositionIndices[index],
-                  startVertexPosition = vertexPositions[ startVertexPositionIndex ],
-                  endVertexPosition = vertexPositions[ endVertexPositionIndex ],
+                  startVertexPosition = vertexPositions[startVertexPositionIndex],
+                  endVertexPosition = vertexPositions[endVertexPositionIndex],
                   intermediateVertexPosition = calculateIntermediateVertexPosition(startVertexPosition, endVertexPosition, intersection);
 
             return intermediateVertexPosition;
@@ -211,8 +201,8 @@ class Facet {
     smallerFacetsIndices.forEach(function(smallerFacetIndices) {
       const positions = vertexPositions,  ///
             indices = smallerFacetIndices,  ///
-            facet = this, ///
-            smallerFacet = smallerFacetFromPositionsAndIndices(positions, indices, facet),
+            facet = this, 
+            smallerFacet = smallerFacetFromVerticesAndVertexPositions(positions, indices, facet),
             smallerFacetTooSmall = smallerFacet.isTooSmall();
 
       if (!smallerFacetTooSmall) {
@@ -224,10 +214,15 @@ class Facet {
 
 module.exports = Facet;
 
-function smallerFacetFromPositionsAndIndices(positions, indices, facet) {
+function smallerFacetFromVerticesAndVertexPositions(vertexPositions, indices, facet) {
   const vertices = indices.map(function(index) {
-          const position = clonePosition(positions[index]),
-                vertex = Vertex.fromPosition(position);
+          const vertexPosition = vertexPositions[index];
+    
+          let position = vertexPosition;  ///
+    
+          position = clonePosition(position);
+    
+          const vertex = Vertex.fromPosition(position);
 
           return vertex;
         }),

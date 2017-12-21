@@ -12,7 +12,7 @@ const { dot3, cross3, normalise3 } = vectorMaths,
 
 function rotateImaginaryQuaternion(imaginaryQuaternion, rotationQuaternion, inverseRotationQuaternion) { return hamiltonProduct(hamiltonProduct(rotationQuaternion, imaginaryQuaternion), inverseRotationQuaternion); }
 
-function calculateRotationQuaternion(normal) {
+function calculateArbitraryRotationQuaternion(normal) {
   const extent = normal.getExtent(),
         unitNormal = extent,  ///
         zAxis = [ 0, 0, 1],
@@ -31,14 +31,36 @@ function calculateRotationQuaternion(normal) {
         firstAxisOfRotationComponent = first(unitAxisOfRotationComponents),
         secondAxisOfRotationComponent = second(unitAxisOfRotationComponents),
         thirdAxisOfRotationComponent = third(unitAxisOfRotationComponents),
-        rotationQuaternion = [
+        arbitraryRotationQuaternion = [
           halfAngleOfRotationCosine,
           firstAxisOfRotationComponent * halfAngleOfRotationSine,
           secondAxisOfRotationComponent * halfAngleOfRotationSine,
           thirdAxisOfRotationComponent * halfAngleOfRotationSine
         ];
 
-  return rotationQuaternion;
+  return arbitraryRotationQuaternion;
+}
+
+function calculateRotationAboutZAxisQuaternion(maskingEdge) {
+  const maskingEdgeExtent = maskingEdge.getExtent(),
+        unitMaskingEdgeExtent = normalise3(maskingEdgeExtent),
+        unitMaskingEdgeExtentComponents = unitMaskingEdgeExtent,  ///
+        firstUnitMaskingEdgeExtentComponent = first(unitMaskingEdgeExtentComponents),
+        secondUnitMaskingEdgeExtentComponent = second(unitMaskingEdgeExtentComponents),
+        angleOfRotationSine = firstUnitMaskingEdgeExtentComponent,  ///
+        angleOfRotationCosine = secondUnitMaskingEdgeExtentComponent,  ///
+        halfAngleOfRotationCosine = calculateHalfAngleCosine(angleOfRotationCosine),
+        halfAngleOfRotationSine = (angleOfRotationSine > 0 ) ?
+            +calculateHalfAngleSine(angleOfRotationCosine) :
+            -calculateHalfAngleSine(angleOfRotationCosine),
+        rotationAboutZAxisQuaternion = [
+          halfAngleOfRotationCosine,
+          0,
+          0,
+          halfAngleOfRotationSine
+        ];
+
+  return rotationAboutZAxisQuaternion;
 }
 
 function calculateInverseRotationQuaternion(rotationQuaternion) {
@@ -73,7 +95,8 @@ function calculateBackwardsRotationQuaternion(rotationQuaternion) {
 
 module.exports = {
   rotateImaginaryQuaternion: rotateImaginaryQuaternion,
-  calculateRotationQuaternion: calculateRotationQuaternion,
+  calculateArbitraryRotationQuaternion: calculateArbitraryRotationQuaternion,
+  calculateRotationAboutZAxisQuaternion: calculateRotationAboutZAxisQuaternion,
   calculateInverseRotationQuaternion: calculateInverseRotationQuaternion,
   calculateForwardsRotationQuaternion: calculateForwardsRotationQuaternion,
   calculateBackwardsRotationQuaternion: calculateBackwardsRotationQuaternion
