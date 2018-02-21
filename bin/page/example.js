@@ -1,22 +1,28 @@
 'use strict';
 
-const template = require('../template'),
-      imageMap = require('../imageMap'),
-      runtimeConfiguration = require('../runtimeConfiguration');
+const necessary = require('necessary');
 
-class examplePage {
-  static html(example) {
-    const imageMapJSON = JSON.stringify(imageMap.json(), null, '\t'), ///
-          publicDirectoryPath = runtimeConfiguration.getPublicDirectoryPath(),
-          filePath = `${publicDirectoryPath}/example.html`,
-          args = {
-            example: example,
-            imageMapJSON: imageMapJSON
-          },
-          html = template.parseFile(filePath, args);
+const imageMap = require('../imageMap'),
+      constants = require('../constants');
 
-    return html;
-  }
+const { templateUtilities, miscellaneousUtilities } = necessary,
+      { parseFile } = templateUtilities,
+      { rc } = miscellaneousUtilities,
+      { EXAMPLE_PAGE_FILE_PATH } = constants;
+
+function html(example) {
+  const { templateDirectoryPath } = rc,
+        imageMapJSON = JSON.stringify(imageMap.json(), null, '\t'), ///
+        filePath = `${templateDirectoryPath}${EXAMPLE_PAGE_FILE_PATH}`,
+        args = {
+          example: example,
+          imageMapJSON: imageMapJSON
+        },
+        html = parseFile(filePath, args);
+
+  return html;
 }
 
-module.exports = examplePage;
+module.exports = {
+  html: html
+};

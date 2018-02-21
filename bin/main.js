@@ -8,6 +8,7 @@ const routes = require('./routes');
 const { miscellaneousUtilities } = necessary,
       { onETX, rc } = miscellaneousUtilities,
       { setRCBaseExtension } = rc,
+      { createRouter } = routes,
       { argv, exit } = process;
 
 setRCBaseExtension('jiggle');
@@ -20,7 +21,7 @@ createServer();
 
 function createServer() {
   const server = express(), ///
-        router = routes.router(),
+        router = createRouter(),
         { port, publicDirectoryPath } = rc;
 
   server.use(router);

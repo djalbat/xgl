@@ -4,48 +4,46 @@ const express = require('express'),
       necessary = require('necessary');
 
 const constants = require('./constants'),
-      imageMap = require('./imageMap'),
+      indexPage = require('./page/index'),
       examplePage = require('./page/example'),
-      examplesPage = require('./page/examples');
+      imageMap = require('./imageMap');
 
 const { arrayUtilities } = necessary,
       { first } = arrayUtilities,
-      { IMAGE_MAP_URL_PATH,
-        EXAMPLE_PAGE_URL_PATH,
-        EXAMPLES_PAGE_URL_PATH } = constants;
+      { INDEX_PAGE_URI, EXAMPLE_PAGE_URI, IMAGE_MAP_URI } = constants;
 
-class routes {
-  static router() {
-    const router = express.Router();
+function createRouter() {
+  const router = express.Router();
 
-    router.get(IMAGE_MAP_URL_PATH, function(request, response, next) {
-      response.writeHead(200, {'Content-Type': 'image/png; charset=utf-8'});
+  router.get(INDEX_PAGE_URI, function(request, response, next) {
+    const html = indexPage.html();
 
-      imageMap.respond(response);
-    });
+    response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
 
-    router.get(EXAMPLE_PAGE_URL_PATH, function(request, response, next) {
-      const { query } = request,
-            keys = Object.keys(query),
-            firstKey = first(keys),
-            example = firstKey, ///
-            html = examplePage.html(example);
+    response.end(html);
+  });
 
-      response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+  router.get(EXAMPLE_PAGE_URI, function(request, response, next) {
+    const { query } = request,
+          keys = Object.keys(query),
+          firstKey = first(keys),
+          example = firstKey, ///
+          html = examplePage.html(example);
 
-      response.end(html);
-    });
+    response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
 
-    router.get(EXAMPLES_PAGE_URL_PATH, function(request, response, next) {
-      const html = examplesPage.html();
+    response.end(html);
+  });
 
-      response.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+  router.get(IMAGE_MAP_URI, function(request, response, next) {
+    response.writeHead(200, {'Content-Type': 'image/png; charset=utf-8'});
 
-      response.end(html);
-    });
+    imageMap.respond(response);
+  });
 
-    return router;
-  }
+  return router;
 }
 
-module.exports = routes;
+module.exports = {
+  createRouter: createRouter
+};

@@ -23,17 +23,17 @@
     <script>
 
       var runtimeConfiguration = {
-        host: "[[host]]",
-        imageMapJSON: [[imageMapJSON]]
+        host: "${host}",
+        imageMapJSON: ${imageMapJSON}
       };
 
     </script>
     <script src="./script/examples.js"> </script>
     <script>
 
-      var { [[example]] } = examples;
+      var { ${example} } = examples;
 
-      [[example]]();
+      ${example}();
 
     </script>
   </body>

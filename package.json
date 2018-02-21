@@ -1,7 +1,7 @@
 {
   "name": "jiggle",
   "author": "James Smith",
-  "version": "0.0.249",
+  "version": "0.0.250",
   "license": "MIT",
   "homepage": "https://github.com/djalbat/Jiggle",
   "description": "Makes use of JSX to leverage WebGL.",
@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "express": "^4.15.4",
-    "necessary": "^1.9.6",
     "sharp": "^0.18.4"
   },
   "devDependencies": {
@@ -28,7 +27,7 @@
     "gl-vec2": "^1.0.0",
     "gl-vec3": "^1.0.3",
     "gl-vec4": "^1.0.1",
-    "necessary": "^1.7.7"
+    "necessary": "^2.5.0"
   },
   "scripts": {
     "clean": "rm -rf ./lib",

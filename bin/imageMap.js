@@ -3,57 +3,60 @@
 const sharp = require('sharp'),
       necessary = require('necessary');
 
-const constants = require('./constants'),
-      runtimeConfiguration = require('./runtimeConfiguration');
+const constants = require('./constants');
 
-const { fileSystemUtilities, asynchronousUtilities } = necessary,
+const { fileSystemUtilities, asynchronousUtilities, miscellaneousUtilities } = necessary,
       { IMAGE_SIZE } = constants,
+      { rc } = miscellaneousUtilities,
       { whilst } = asynchronousUtilities,
       { readDirectory } = fileSystemUtilities;
 
-const imageDirectoryPath = runtimeConfiguration.getImageDirectoryPath(),
-      names = readDirectory(imageDirectoryPath),
-      namesLength = names.length,
-      dimension = Math.ceil(Math.sqrt(namesLength)); ///
+function respond(response) {
+  const { imageDirectoryPath } = rc,
+        names = readDirectory(imageDirectoryPath);
 
-class imageMap {
-  static respond(response) {
-    createImageMap(function(buffer) {
-      const context = {
-        names: names,
-        buffer: buffer
-      };
-      
-      whilst(overlayCallback, function() {
-        const { buffer } = context;
-
-        sharp(buffer).pipe(response);
-      }, context);
-    });
-  }
-  
-  static json() {
-    const json = names.reduce(function(json, name, index) {
-      const left = (index % dimension) / dimension,
-            bottom = Math.floor(index / dimension) / dimension,
-            width = 1 / dimension,
-            height = 1 / dimension;
-
-      json[name] = {
-        left: left,
-        bottom: bottom,
-        width: width,
-        height: height
-      };
-
-      return json;
-    }, {});
+  createImageMap(function(buffer) {
+    const context = {
+      names: names,
+      buffer: buffer
+    };
     
-    return json;
-  }
+    whilst(overlayCallback, function() {
+      const { buffer } = context;
+
+      sharp(buffer).pipe(response);
+    }, context);
+  });
 }
 
-module.exports = imageMap;
+function json() {
+  const { imageDirectoryPath } = rc,
+        names = readDirectory(imageDirectoryPath),
+        namesLength = names.length,
+        dimension = Math.ceil(Math.sqrt(namesLength)), ///
+        json = names.reduce(function(json, name, index) {
+          const left = (index % dimension) / dimension,
+                bottom = Math.floor(index / dimension) / dimension,
+                width = 1 / dimension,
+                height = 1 / dimension;
+
+          json[name] = {
+            left: left,
+            bottom: bottom,
+            width: width,
+            height: height
+          };
+
+          return json;
+        }, {});
+        
+  return json;
+}
+
+module.exports = {
+  respond: respond,
+  json: json
+};
 
 function createImageMap(callback) {
   const width = IMAGE_SIZE * dimension,  ///
