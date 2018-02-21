@@ -13,9 +13,11 @@ const { fileSystemUtilities, asynchronousUtilities, miscellaneousUtilities } = n
 
 function respond(response) {
   const { imageDirectoryPath } = rc,
-        names = readDirectory(imageDirectoryPath);
+        names = readDirectory(imageDirectoryPath),
+        namesLength = names.length,
+        dimension = Math.ceil(Math.sqrt(namesLength)); ///
 
-  createImageMap(function(buffer) {
+  createImageMap(dimension, function(buffer) {
     const context = {
       names: names,
       buffer: buffer
@@ -58,7 +60,7 @@ module.exports = {
   json: json
 };
 
-function createImageMap(callback) {
+function createImageMap(dimension, callback) {
   const width = IMAGE_SIZE * dimension,  ///
         height = IMAGE_SIZE * dimension, ///
         channels = 4,
@@ -90,11 +92,14 @@ function overlayCallback(next, done, context, index) {
     return;
   }
   
-  const name = names[index],
+  const { imageDirectoryPath } = rc,
+        name = names[index],
         path = `${imageDirectoryPath}/${name}`;
 
   resizeImage(path, function(resizedImageBuffer) {
-    const top = ((dimension - 1) - Math.floor(index / dimension) ) * IMAGE_SIZE,
+    const namesLength = names.length,
+          dimension = Math.ceil(Math.sqrt(namesLength)), ///
+          top = ((dimension - 1) - Math.floor(index / dimension) ) * IMAGE_SIZE,
           left = (index % dimension) * IMAGE_SIZE,
           options = {
             top: top,
