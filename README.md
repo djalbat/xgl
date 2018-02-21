@@ -1,8 +1,10 @@
 # Jiggle
 
-**This project is barely started. Please come back another day.**
+Makes use of [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) to leverage [WebGL](https://github.com/djalbat/Easy).
 
-A combination of [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) and [WebGL](https://github.com/djalbat/Easy).
+The idea behind Jiggle is to provide a programmatic means to compose 3D scenes. It provides an almost opaque layer of abstraction on top of WebGL, so that no experience of the WebGL is needed. Since Jiggle is based around JSX, it allows you to build up scenes declaratively, adding splashes of imperative code as and when needed. A few basic 3D primitives are provided out of the box and there are instructions below to show you how to create more.
+
+Please bear in mind that this project is still in embryonic form.
 
 # Installation
 
@@ -10,7 +12,7 @@ You can clone the repository with [Git](https://git-scm.com/)...
 
     git clone https://github.com/djalbat/Jiggle.git
 
-...and then install the necessary modules with npm from within the project's root directory:
+...and then install the necessary modules with [npm](https://www.npmjs.com/) from within the project's root directory:
 
     npm install
     
