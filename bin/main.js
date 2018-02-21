@@ -1,20 +1,27 @@
 'use strict';
 
-const express = require('express');
+const express = require('express'),
+      necessary = require('necessary');
 
-const escape = require('./escape'),
-      routes = require('./routes'),
-      runtimeConfiguration = require('./runtimeConfiguration');
+const routes = require('./routes');
 
-escape();
+const { miscellaneousUtilities } = necessary,
+      { onETX, rc } = miscellaneousUtilities,
+      { setRCBaseExtension } = rc,
+      { argv, exit } = process;
+
+setRCBaseExtension('jiggle');
+
+onETX(exit);
+
+rc(argv);
 
 createServer();
 
 function createServer() {
   const server = express(), ///
-        port = runtimeConfiguration.getPort(),
-        publicDirectoryPath = runtimeConfiguration.getPublicDirectoryPath(),
-        router = routes.router();
+        router = routes.router(),
+        { port, publicDirectoryPath } = rc;
 
   server.use(router);
 

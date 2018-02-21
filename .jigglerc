@@ -1,0 +1,12 @@
+{
+  "environments": [
+    {
+      "name": "development",
+      "port": 8000,
+      "host": "http://localhost:8000",
+      "imageDirectoryPath": "image",
+      "publicDirectoryPath": "public",
+      "templateDirectoryPath": "template"
+    }
+  ]
+}

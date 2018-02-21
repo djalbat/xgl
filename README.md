@@ -2,7 +2,7 @@
 
 Makes use of [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) to leverage [WebGL](https://github.com/djalbat/Easy).
 
-Jiggle provides the *programmatic* means to compose 3D scenes. It provides an almost opaque layer of abstraction on top of WebGL so that no experience of WebGL is needed. Since it is based around JSX, you can compose scenes declaratively, adding splashes of imperative code as and when needed. A few basic 3D primitives are provided out of the box and there are instructions below to show you how to create more.
+Jiggle provides the *programmatic* means to compose 3D scenes. It provides an almost opaque layer of abstraction on top of WebGL so that no experience of WebGL is needed. Since it is based on JSX, you can compose scenes declaratively, adding splashes of imperative code as and when needed. A few basic 3D primitives are provided out of the box and there are instructions below to show you how to create more.
 
 Please bear in mind that this project is still in an embryonic state!
 
