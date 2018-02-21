@@ -1,4 +1,7 @@
-/node_modules
+
 .idea
 .DS_Store
-.npmrc
+node_modules
+npm-debug.log
+public/occam.zip
+package-lock.json
