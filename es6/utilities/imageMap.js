@@ -2,10 +2,10 @@
 
 const constants = require('../../bin/constants');
 
-const { IMAGE_MAP_URL_PATH } = constants;
+const { IMAGE_MAP_URI } = constants;
 
 function preloadImageMap(callback) {
-  const path = IMAGE_MAP_URL_PATH;
+  const path = IMAGE_MAP_URI;
 
   preloadImage(path, callback);
 }
