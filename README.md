@@ -18,7 +18,13 @@ You can clone the repository with [Git](https://git-scm.com/)...
 
 ## Example
 
-Launch the example/index.html file. There is a Redux as well as a vanilla example application.
+Launch the `example/index.html` file. Something like the following should appear:
+
+![Masked cube](https://github.com/djalbat/Jiggle/blob/master/assets/masked_cube.jpg)
+
+![Masked cube facets](https://github.com/djalbat/Jiggle/blob/master/assets/masked_cube_facets.jpg)
+
+
     
 ## Usage
 
@@ -78,10 +84,6 @@ const defaultVertices = [
           
 Note that array of indexes is partitioned into triples, with each triple corresponding to a facet. There are two facets for each side of the cuboid. Again, if you are familiar with WebGL, note that there is no need to define normals explicitly. Instead each facet has a normal which is calculated and then duplicated for each of the facet's vertices at the appropriate time. Again if you are not familiar with WebGL, don't worry about this. In either case you may have to play around with the order of triples that define each facet in order to get the normal to face the right way.
     
-![Masked cube](https://github.com/djalbat/Jiggle/blob/master/assets/masked_cube.jpg)
-
-![Masked cube facets](https://github.com/djalbat/Jiggle/blob/master/assets/masked_cube_facets.jpg)
-
 ## Compiling from source
 
 Automation is done with [npm scripts](https://docs.npmjs.com/misc/scripts), have a look at the `package.json` file. The pertinent commands are:
