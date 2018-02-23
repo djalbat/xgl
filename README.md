@@ -22,6 +22,8 @@ Launch the `example/index.html` file. Something like the following should appear
 
 ![Masked cube](https://github.com/djalbat/Jiggle/blob/master/assets/masked_cube.jpg)
 
+Here a cube is masked by a cube that it contains, that is itself masked by a cube that it contains. Masking could be considered the only functionality that Jiggle provides over and above WebGL functionality.
+
 It can be created with the following JSX:
 ```js
 <Scene canvas={canvas}>
@@ -37,8 +39,6 @@ It can be created with the following JSX:
   </ColouredCuboid>
 </Scene>
 ```
-Here a cube is masked by a cube that it contains, that is itself masked by a cube that it contains. Masking could be considered the only functionality that Jiggle provides over and above WebGL functionality.
-
 Jiggle's basic drawing primitive is a facet, essentially a triangle with a normal. The cuboid used above comprises twelve facets, for example, two for each side. Masking causes facets to be subdivided in some cases many times and should be used sparingly for that reason. Masking a cuboid just once with another cuboid results in around a hundred facets: 
 
 ![Masked cube facets](https://github.com/djalbat/Jiggle/blob/master/assets/masked_cube_facets.jpg)
