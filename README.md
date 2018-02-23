@@ -2,11 +2,11 @@
 
 Makes use of [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) to leverage [WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API).
 
-Jiggle provides the *programmatic* means to compose 3D scenes. It provides an almost opaque layer of abstraction on top of WebGL so that no experience of WebGL is needed. Since it is based on JSX, you can compose scenes declaratively, adding imperative code as and when needed. A few basic 3D primitives are provided out of the box and there are instructions below to show you how to create more.
+Jiggle provides the *programmatic* means to compose 3D scenes. It places an almost opaque layer of abstraction on top of WebGL so that no experience of WebGL is needed. Since it is based on JSX, you can compose scenes declaratively, adding imperative code as and when needed. A few basic 3D primitives are provided out of the box and there are instructions below to show you how to create more.
 
 Please bear in mind that this project is still in an embryonic state!
 
-# Installation
+## Installation
 
 You can clone the repository with [Git](https://git-scm.com/)...
 
@@ -15,8 +15,12 @@ You can clone the repository with [Git](https://git-scm.com/)...
 ...and then install the necessary modules with [npm](https://www.npmjs.com/) from within the project's root directory:
 
     npm install
+
+## Example
+
+Launch the example/index.html file. There is a Redux as well as a vanilla example application.
     
-# Usage
+## Usage
 
 ```js
 <Scene canvas={canvas}>

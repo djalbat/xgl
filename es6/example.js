@@ -1,15 +1,15 @@
 'use strict';
 
-require('../jiggle');
+require('./jiggle');
 
-const Canvas = require('../canvas'),
-      Mask = require('../element/mask'),
-      Part = require('../element/part'),
-      Scene = require('../element/scene'),
-      Camera = require('../element/camera'),
+const Canvas = require('./canvas'),
+      Mask = require('./element/mask'),
+      Part = require('./element/part'),
+      Scene = require('./element/scene'),
+      Camera = require('./element/camera'),
       ColouredCuboid = require('./common/coloured/cuboid');
 
-const masking = () => {
+const example = () => {
   const canvas = new Canvas();
 
   return (
@@ -32,4 +32,4 @@ const masking = () => {
   );
 };
 
-module.exports = masking;
+example();

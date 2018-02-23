@@ -1,7 +1,7 @@
 'use strict';
 
 const quadrangle = require('../quadrangle'),
-      ColouredCanvasElement = require('../../../element/canvas/coloured');
+      ColouredCanvasElement = require('../../element/canvas/coloured');
 
 const { defaultVertexCoordinates, defaultIndexes, defaultColour } = quadrangle;
 
