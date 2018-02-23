@@ -10,6 +10,5 @@ module.exports = {
   CanvasElement: require('./lib/element/canvas'),
   ColouredCanvasElement: require('./lib/element/canvas/coloured'),
   TexturedCanvasElement: require('./lib/element/canvas/textured'),
-  imageMapUtilities: require('./lib/utilities/imageMap'),
-  imageMap: require('./lib/imageMap')
+  imageMapUtilities: require('./lib/utilities/imageMap')
 };
