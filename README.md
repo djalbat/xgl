@@ -22,9 +22,7 @@ Launch the `example/index.html` file. Something like the following should appear
 
 ![Masked cube](https://github.com/djalbat/Jiggle/blob/master/assets/masked_cube.jpg)
 
-Here a cube is masked by a cube that it contains, that is itself masked by a cube that it contains. Masking could be considered the only functionality that Jiggle provides over and above WebGL functionality.
-
-It can be created with the following JSX:
+Here a cube is masked by a cube that it contains, that is itself masked by a cube that it contains. Masking could be considered the only functionality that Jiggle provides over and above WebGL functionality. Here is the JSX:
 ```js
 <Scene canvas={canvas}>
   <Camera initialDistance={5} initialOffset={[ 0, 0, 0 ]} canvas={canvas} />
