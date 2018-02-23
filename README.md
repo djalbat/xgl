@@ -2,9 +2,9 @@
 
 Makes use of [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) to leverage [WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API).
 
-Jiggle provides the *programmatic* means to create 3D scenes. It places an almost opaque layer of abstraction on top of WebGL so that no experience of WebGL is needed. Since it is based on JSX, you can create scenes declaratively, adding imperative code as and when needed. A few basic 3D primitives are provided out of the box and there are instructions below to show you how to create more.
+Jiggle provides the *programmatic* means to create 3D scenes. It places an almost opaque layer of abstraction on top of WebGL so that little or no experience of WebGL is needed. Since it is based on JSX, you can create scenes declaratively, adding imperative code as and when needed. A few basic 3D elements are provided out of the box and there are instructions below to show you how to create more.
 
-Please bear in mind that this project is still in an embryonic state!
+Please bear in mind that this project is still in embryonic form!
 
 ## Installation
 
@@ -24,24 +24,42 @@ Launch the `example/index.html` file. Something like the following should appear
 
 Here a cube is masked by a cube that it contains, that is itself masked by a cube that it contains. Masking could be considered the only functionality that Jiggle provides over and above WebGL functionality. Here is the JSX:
 ```js
-<Scene canvas={canvas}>
-  <Camera initialDistance={5} initialOffset={[ 0, 0, 0 ]} canvas={canvas} />
-  <ColouredCuboid colour={[ 1, 1, 0, 1 ]} position={[ -0.5, -0.5, -0.5 ]}>
-    <Mask>
-      <ColouredCuboid width={0.5} height={0.5} depth={0.5} position={[ 0.25, 0.25, 0.25 ]}>
-        <Mask>
-          <ColouredCuboid width={0.5} height={0.5} depth={0.5} position={[ 0.25, 0.25, 0.25 ]} />
-        </Mask>
-      </ColouredCuboid>
-    </Mask>
-  </ColouredCuboid>
-</Scene>
+const example = () => {
+  const canvas = new Canvas();
+
+  return (
+
+    <Scene canvas={canvas}>
+      <Part canvas={canvas}>
+        <ColouredCuboid colour={[ 1, 1, 0, 1 ]} position={[ -0.5, -0.5, -0.5 ]}>
+          <Mask>
+            <ColouredCuboid width={0.5} height={0.5} depth={0.5} position={[ 0.25, 0.25, 0.25 ]}>
+              <Mask>
+                <ColouredCuboid width={0.5} height={0.5} depth={0.5} position={[ 0.25, 0.25, 0.25 ]} />
+              </Mask>
+            </ColouredCuboid>
+          </Mask>
+        </ColouredCuboid>
+      </Part>
+      <Camera canvas={canvas} initialDistance={5} initialOffset={[ 0, 0, 0 ]} />
+    </Scene>
+
+  );
+};
 ```
 Jiggle's basic drawing primitive is a facet, essentially a triangle with a normal. The cuboid used above comprises twelve facets, for example, two for each side. Masking causes facets to be subdivided in some cases many times and should be used sparingly for that reason. Masking a cuboid just once with another cuboid results in around a hundred facets: 
 
 ![Masked cube facets](https://github.com/djalbat/Jiggle/blob/master/assets/masked_cube_facets.jpg)
     
 ## Usage
+
+### Creating a scene
+
+Jiggle also provides a `Canvas` class that represents an HTML canvas. Putting a scene together...
+
+### Vertices, facets and elements
+
+### Using Jiggles to preload an image map for textures
 
 If you are familiar with WebGL, note that with Jiggle you can and should re-use vertices. To define a cuboid, for example, only the minimum eight vertices need to be given, with each being used for three sides. New vertices are created to be added to the WebGL buffer at the appropriate time. If you are not familiar with WebGL, don't worry about this. Just define vertices as you would expect to, and the indexes to reference them, most likely multiple times if the vertices are shared between edges. Here are the default vertices and indexes for a cuboid, for example:  
    

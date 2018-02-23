@@ -1,7 +1,7 @@
 'use strict';
 
 const triangle = require('../triangle'),
-      ColouredCanvasElement = require('../../element/canvas/coloured');
+      ColouredCanvasElement = require('../../../element/canvas/coloured');
 
 const { defaultVertexCoordinates, defaultIndexes, defaultColour } = triangle;
 

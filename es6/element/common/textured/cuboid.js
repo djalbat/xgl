@@ -1,7 +1,7 @@
 'use strict';
 
 const cuboid = require('../cuboid'),
-      TexturedCanvasElement = require('../../element/canvas/textured');
+      TexturedCanvasElement = require('../../../element/canvas/textured');
 
 const { defaultVertexCoordinates, defaultIndexes, defaultImageName, defaultTextureCoordinates } = cuboid;
 

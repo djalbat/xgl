@@ -7,7 +7,7 @@ const Canvas = require('./canvas'),
       Part = require('./element/part'),
       Scene = require('./element/scene'),
       Camera = require('./element/camera'),
-      ColouredCuboid = require('./common/coloured/cuboid');
+      ColouredCuboid = require('./element/common/coloured/cuboid');
 
 const example = () => {
   const canvas = new Canvas();
@@ -26,7 +26,7 @@ const example = () => {
           </Mask>
         </ColouredCuboid>
       </Part>
-      <Camera initialDistance={5} initialOffset={[ 0, 0, 0 ]} canvas={canvas} />
+      <Camera canvas={canvas} initialDistance={5} initialOffset={[ 0, 0, 0 ]} />
     </Scene>
 
   );
