@@ -43,7 +43,7 @@ const example = () =>
 
 ;
 ```
-Jiggle's basic drawing primitive is a facet, essentially a triangle with a normal. The cuboid used above comprises twelve facets, two for each side. Masking can cause facets to be subdivided many times and should be used sparingly for that reason. Masking a cube just once with another cube results in around a hundred facets, for example:
+Jiggle's basic drawing primitive is a facet, essentially a triangle with a normal. The cube above comprises twelve facets, two for each side. Masking can cause facets to be subdivided many times and should be used sparingly for that reason. Masking a cube just once with another cube results in around a hundred facets, for example:
 
 ![Masked cube facets](https://github.com/djalbat/Jiggle/blob/master/assets/masked_cube_facets.jpg)
     
