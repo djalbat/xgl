@@ -14,7 +14,7 @@ const { permute } = arrayUtilities,
       { getImageDetails } = imageMapUtilities,
       { verticesFromVertexCoordinatesAndIndexes } = verticesUtilities,
       { cloneEdges, cloneNormal, cloneVertices, calculateEdges, calculateNormal } = facetUtilities,
-      { cloneTextureCoordinates, calculateVertexTextureCoordinates, calculateAdjustedTextureCoordinates, textureCoordinatesFromTextureCoordinatesAndIndex } = textureUtilities;
+      { cloneTextureCoordinates, calculateVertexTextureCoordinates, calculateAdjustedTextureCoordinates } = textureUtilities;
 
 class TexturedFacet extends Facet {
   constructor(vertices, normal, edges, imageName, textureCoordinates) {
@@ -74,9 +74,7 @@ class TexturedFacet extends Facet {
     return texturedFacet;
   }
 
-  static fromVertexCoordinatesImageNameAndTextureCoordinates(vertexCoordinates, indexes, imageName, textureCoordinates, index) {
-    textureCoordinates = textureCoordinatesFromTextureCoordinatesAndIndex(textureCoordinates, index);  ///
-
+  static fromVertexCoordinatesImageNameAndTextureCoordinates(vertexCoordinates, indexes, imageName, textureCoordinates) {
     const vertices = verticesFromVertexCoordinatesAndIndexes(vertexCoordinates, indexes, Vertex),
           normal = calculateNormal(vertices, Normal),
           edges = calculateEdges(vertices, Edge),
