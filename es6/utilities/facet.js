@@ -69,10 +69,10 @@ function calculateArea(vertices) {
 }
 
 module.exports = {
-  cloneEdges: cloneEdges,
-  cloneNormal: cloneNormal,
-  cloneVertices: cloneVertices,
-  calculateEdges: calculateEdges,
-  calculateNormal: calculateNormal,
-  calculateArea: calculateArea
+  cloneEdges,
+  cloneNormal,
+  cloneVertices,
+  calculateEdges,
+  calculateNormal,
+  calculateArea
 };

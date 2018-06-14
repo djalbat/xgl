@@ -16,6 +16,6 @@ function useProgram(program) {
 }
 
 module.exports = {
-  createProgram: createProgram,
-  useProgram: useProgram
+  createProgram,
+  useProgram
 };

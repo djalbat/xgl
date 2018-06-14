@@ -32,9 +32,9 @@ function isMidPointPositionToOneSideOfMaskingEdges(midPointPosition, maskingEdge
 }
 
 module.exports = module.exports = {
-  calculateMidPointPosition: calculateMidPointPosition,
-  projectMidPointPositionOntoXYPlane: projectMidPointPositionOntoXYPlane,
-  isMidPointPositionToOneSideOfMaskingEdges: isMidPointPositionToOneSideOfMaskingEdges
+  calculateMidPointPosition,
+  projectMidPointPositionOntoXYPlane,
+  isMidPointPositionToOneSideOfMaskingEdges
 };
 
 function isMidPointPositionToTheLeftOfMaskingEdges(midPointPosition, maskingEdges) {

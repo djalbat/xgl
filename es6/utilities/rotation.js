@@ -15,7 +15,7 @@ function rotatePosition(position, rotationQuaternion) {
 }
 
 module.exports = {
-  rotatePosition: rotatePosition
+  rotatePosition
 };
 
 function imaginaryQuaternionFromPosition(position) { return [0, ...position]; }  ///

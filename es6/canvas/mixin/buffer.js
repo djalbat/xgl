@@ -51,8 +51,8 @@ function bindBuffer(buffer, attributeLocation, components) {
 }
 
 module.exports = {
-  createElementBuffer: createElementBuffer,
-  bindElementBuffer: bindElementBuffer,
-  createBuffer: createBuffer,
-  bindBuffer: bindBuffer
+  createElementBuffer,
+  bindElementBuffer,
+  createBuffer,
+  bindBuffer
 };

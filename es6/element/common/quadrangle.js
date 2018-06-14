@@ -24,9 +24,9 @@ const defaultImageName = "grass.jpg",
       ];
 
 module.exports = {
-  defaultImageName: defaultImageName,
-  defaultColour: defaultColour,
-  defaultIndexes: defaultIndexes,
-  defaultVertexCoordinates: defaultVertexCoordinates,
-  defaultTextureCoordinates: defaultTextureCoordinates
+  defaultImageName,
+  defaultColour,
+  defaultIndexes,
+  defaultVertexCoordinates,
+  defaultTextureCoordinates
 };

@@ -35,7 +35,7 @@ function createFragmentShader(fragmentShaderSource, canvas) {
 }
 
 module.exports = {
-  createShader: createShader,
-  createVertexShader: createVertexShader,
-  createFragmentShader: createFragmentShader
+  createShader,
+  createVertexShader,
+  createFragmentShader
 };

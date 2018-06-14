@@ -102,8 +102,8 @@ function textureCoordinatesFromTextureCoordinatesAndIndex(textureCoordinates, in
 }
 
 module.exports = {
-  cloneTextureCoordinates: cloneTextureCoordinates,
-  calculateVertexTextureCoordinates: calculateVertexTextureCoordinates,
-  calculateAdjustedTextureCoordinates: calculateAdjustedTextureCoordinates,
-  textureCoordinatesFromTextureCoordinatesAndIndex: textureCoordinatesFromTextureCoordinatesAndIndex
+  cloneTextureCoordinates,
+  calculateVertexTextureCoordinates,
+  calculateAdjustedTextureCoordinates,
+  textureCoordinatesFromTextureCoordinatesAndIndex
 };

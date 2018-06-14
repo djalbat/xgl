@@ -61,7 +61,7 @@ function createProgram(vertexShaderSource, fragmentShaderSource, canvas) {
 }
 
 Object.assign(Renderer, {
-  createProgram: createProgram
+  createProgram
 });
 
 module.exports = Renderer;

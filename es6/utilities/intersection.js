@@ -76,11 +76,11 @@ function calculateIntermediateVertexPosition(startVertexPosition, endVertexPosit
 }
 
 module.exports = module.exports = {
-  calculateIntersection: calculateIntersection,
-  calculateNonNullIntersections: calculateNonNullIntersections,
-  calculateNullIntersectionIndex: calculateNullIntersectionIndex,
-  calculateNonNullIntersectionIndex: calculateNonNullIntersectionIndex,
-  calculateIntermediateVertexPosition: calculateIntermediateVertexPosition
+  calculateIntersection,
+  calculateNonNullIntersections,
+  calculateNullIntersectionIndex,
+  calculateNonNullIntersectionIndex,
+  calculateIntermediateVertexPosition
 };
 
 function isEdgeNonParallel(edge) {

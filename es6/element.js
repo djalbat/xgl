@@ -52,7 +52,7 @@ class Element {
       const value = this.context[name],
             propertyName = name,  ///
             descriptor = {
-              value: value
+              value
             };
   
       Object.defineProperty(this, propertyName, descriptor);

@@ -19,6 +19,6 @@ function createTexture(image) {
 function activateTexture(target) { this.context.activeTexture(target); }
 
 module.exports = {
-  createTexture: createTexture,
-  activateTexture: activateTexture
+  createTexture,
+  activateTexture
 };

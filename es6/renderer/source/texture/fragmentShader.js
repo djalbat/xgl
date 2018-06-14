@@ -18,7 +18,7 @@ const samplerName = 'uSampler',
       `);
 
 Object.assign(fragmentShaderSource, {
-  samplerName: samplerName
+  samplerName
 });
 
 module.exports = fragmentShaderSource;

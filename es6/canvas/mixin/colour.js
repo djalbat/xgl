@@ -15,6 +15,6 @@ function clearColourBuffer() {
 }
 
 module.exports = {
-  clearColour: clearColour,
-  clearColourBuffer: clearColourBuffer
+  clearColour,
+  clearColourBuffer
 };

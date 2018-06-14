@@ -24,11 +24,11 @@ const positionSource = new String(`
       `);
 
 Object.assign(positionSource, {
-  offsetMatrixName: offsetMatrixName,
-  rotationMatrixName: rotationMatrixName,
-  positionMatrixName: positionMatrixName,
-  projectionMatrixName: projectionMatrixName,
-  vertexPositionAttributeName: vertexPositionAttributeName
+  offsetMatrixName,
+  rotationMatrixName,
+  positionMatrixName,
+  projectionMatrixName,
+  vertexPositionAttributeName
 });
     
 module.exports = positionSource;

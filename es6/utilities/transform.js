@@ -29,7 +29,7 @@ function composeTransform(width, height, depth, position, rotations) {
 }
 
 module.exports = module.exports = {
-  composeTransform: composeTransform
+  composeTransform
 };
 
 function compose(matrix) {

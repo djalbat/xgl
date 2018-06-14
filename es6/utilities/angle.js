@@ -5,6 +5,6 @@ function calculateHalfAngleSine(angleCosine) { return Math.sqrt((1 - angleCosine
 function calculateHalfAngleCosine(angleCosine) { return Math.sqrt((1 + angleCosine) / 2); }
 
 module.exports = {
-  calculateHalfAngleSine: calculateHalfAngleSine,
-  calculateHalfAngleCosine: calculateHalfAngleCosine
+  calculateHalfAngleSine,
+  calculateHalfAngleCosine
 };

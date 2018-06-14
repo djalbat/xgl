@@ -13,8 +13,8 @@ function getImageDetails(imageName) {
 }
 
 module.exports = {
-  preloadImageMap: preloadImageMap,
-  getImageDetails: getImageDetails
+  preloadImageMap,
+  getImageDetails
 };
 
 function preloadImage(src, callback) {
@@ -24,7 +24,7 @@ function preloadImage(src, callback) {
         };
 
   Object.assign(image, {
-    src: src,
-    onload: onload
+    src,
+    onload
   });
 }

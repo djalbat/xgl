@@ -59,11 +59,15 @@ class MouseEvents {
   }
 
   static fromNothing(canvas) {
-    const handlersMap = {
-            MOUSE_UP: [],
-            MOUSE_DOWN: [],
-            MOUSE_MOVE: [],
-            MOUSE_WHEEL: []
+    const MOUSE_UP = [],
+			    MOUSE_DOWN = [],
+			    MOUSE_MOVE = [],
+			    MOUSE_WHEEL = [],
+			    handlersMap = {
+            MOUSE_UP,
+            MOUSE_DOWN,
+            MOUSE_MOVE,
+            MOUSE_WHEEL
           },
           mouseEvents = new MouseEvents(handlersMap, canvas),
           domElement = canvas.getDOMElement();

@@ -27,7 +27,7 @@ const textureCoordinateAttributeName = 'aTextureCoordinate',
       `);
 
 Object.assign(vertexShaderSource, {
-  textureCoordinateAttributeName: textureCoordinateAttributeName
+  textureCoordinateAttributeName
 });
 
 module.exports = vertexShaderSource;

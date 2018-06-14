@@ -27,7 +27,7 @@ const vertexColourAttributeName = 'aVertexColour',
       `);
 
 Object.assign(vertexShaderSource, {
-  vertexColourAttributeName: vertexColourAttributeName
+  vertexColourAttributeName
 });
 
 module.exports = vertexShaderSource;

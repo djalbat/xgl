@@ -39,21 +39,21 @@ function perspective4(fieldOfView, aspectRatio, zNear, zFar) { return mat4.persp
 function rotate4(matrix, angle, vector) { return mat4.rotate([], matrix, angle, vector); }
 
 module.exports = {
-  identity2: identity2,
-  identity3: identity3,
-  identity4: identity4,
-  invert2: invert2,
-  invert3: invert3,
-  invert4: invert4,
-  scale2: scale2,
-  scale3: scale3,
-  scale4: scale4,
-  transpose2: transpose2,
-  transpose3: transpose3,
-  transpose4: transpose4,
-  translate2: translate2,
-  translate3: translate3,
-  translate4: translate4,
-  perspective4: perspective4,
-  rotate4: rotate4
+  identity2,
+  identity3,
+  identity4,
+  invert2,
+  invert3,
+  invert4,
+  scale2,
+  scale3,
+  scale4,
+  transpose2,
+  transpose3,
+  transpose4,
+  translate2,
+  translate3,
+  translate4,
+  perspective4,
+  rotate4
 };

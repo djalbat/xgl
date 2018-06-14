@@ -7,5 +7,5 @@ function applyMatrix(uniformLocation, matrix) {
 }
 
 module.exports = {
-  applyMatrix: applyMatrix
+  applyMatrix
 };

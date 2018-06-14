@@ -25,8 +25,8 @@ const lightingSource = new String(`
       `);
 
 Object.assign(lightingSource, {
-  normalMatrixName: normalMatrixName,
-  vertexNormalAttributeName: vertexNormalAttributeName
+  normalMatrixName,
+  vertexNormalAttributeName
 });
 
 module.exports = lightingSource;

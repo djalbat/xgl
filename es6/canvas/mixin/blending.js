@@ -12,5 +12,5 @@ function enableBlending() {
 }
 
 module.exports = {
-  enableBlending: enableBlending
+  enableBlending
 };

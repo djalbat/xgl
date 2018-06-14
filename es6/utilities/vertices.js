@@ -22,8 +22,8 @@ function verticesFromVertexCoordinatesAndIndexes(vertexCoordinates, indexes, Ver
 }
 
 module.exports = module.exports = {
-  rotateVertices: rotateVertices,
-  verticesFromVertexCoordinatesAndIndexes: verticesFromVertexCoordinatesAndIndexes
+  rotateVertices,
+  verticesFromVertexCoordinatesAndIndexes
 };
 
 function rotateVertex(vertex, rotationQuaternion) {

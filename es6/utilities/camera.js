@@ -64,9 +64,9 @@ function calculateNormalMatrix(rotationMatrix) {
 }
 
 module.exports = {
-  calculateOffsetMatrix: calculateOffsetMatrix,
-  calculateRotationMatrix: calculateRotationMatrix,
-  calculatePositionMatrix: calculatePositionMatrix,
-  calculateProjectionMatrix: calculateProjectionMatrix,
-  calculateNormalMatrix: calculateNormalMatrix
+  calculateOffsetMatrix,
+  calculateRotationMatrix,
+  calculatePositionMatrix,
+  calculateProjectionMatrix,
+  calculateNormalMatrix
 };

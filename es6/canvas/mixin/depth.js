@@ -24,7 +24,7 @@ function enableDepthTesting() {
 }
 
 module.exports = {
-  clearDepth: clearDepth,
-  clearDepthBuffer: clearDepthBuffer,
-  enableDepthTesting: enableDepthTesting
+  clearDepth,
+  clearDepthBuffer,
+  enableDepthTesting
 };

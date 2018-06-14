@@ -22,6 +22,6 @@ function flatten(arrays) {
 }
 
 module.exports = Object.assign(arrayUtilities, {
-  permute: permute,
-  flatten: flatten  
+  permute,
+  flatten
 });

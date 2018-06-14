@@ -130,9 +130,12 @@ class Camera extends Element {
   }
 
   parentContext() {
+	  const onUpdate = this.onUpdate.bind(this),
+				  forceUpdate = this.forceUpdate.bind(this);
+
     return ({
-      onUpdate: this.onUpdate.bind(this),
-      forceUpdate: this.forceUpdate.bind(this)
+      onUpdate,
+      forceUpdate
     });
   }
   

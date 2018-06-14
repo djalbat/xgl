@@ -6,7 +6,7 @@ function createElement(firstArgument, properties, ...childElements) {
   let element;
 
   properties = Object.assign({
-    childElements: childElements
+    childElements
   }, properties);
 
   if (false) {

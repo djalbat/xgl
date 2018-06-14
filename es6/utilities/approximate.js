@@ -9,8 +9,8 @@ function isApproximatelyEqualToOne(value, marginOfError = DEFAULT_MARGIN_OF_ERRO
 function isApproximatelyEqualToZero(value, marginOfError = DEFAULT_MARGIN_OF_ERROR) { return isApproximatelyEqualTo(value, 0, marginOfError); }
 
 module.exports = {
-  isApproximatelyEqualToOne: isApproximatelyEqualToOne,
-  isApproximatelyEqualToZero: isApproximatelyEqualToZero
+  isApproximatelyEqualToOne,
+  isApproximatelyEqualToZero
 };
 
 function isApproximatelyEqualTo(valueA, valueB, marginOfError = DEFAULT_MARGIN_OF_ERROR) {

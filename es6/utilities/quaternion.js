@@ -94,12 +94,12 @@ function calculateBackwardsRotationQuaternion(rotationQuaternion) {
 }
 
 module.exports = {
-  rotateImaginaryQuaternion: rotateImaginaryQuaternion,
-  calculateArbitraryRotationQuaternion: calculateArbitraryRotationQuaternion,
-  calculateRotationAboutZAxisQuaternion: calculateRotationAboutZAxisQuaternion,
-  calculateInverseRotationQuaternion: calculateInverseRotationQuaternion,
-  calculateForwardsRotationQuaternion: calculateForwardsRotationQuaternion,
-  calculateBackwardsRotationQuaternion: calculateBackwardsRotationQuaternion
+  rotateImaginaryQuaternion,
+  calculateArbitraryRotationQuaternion,
+  calculateRotationAboutZAxisQuaternion,
+  calculateInverseRotationQuaternion,
+  calculateForwardsRotationQuaternion,
+  calculateBackwardsRotationQuaternion
 };
 
 function hamiltonProduct(quaternionA, quaternionB) {
