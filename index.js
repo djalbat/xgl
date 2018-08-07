@@ -9,6 +9,5 @@ module.exports = {
   Camera: require('./lib/element/camera'),
   CanvasElement: require('./lib/element/canvas'),
   ColouredCanvasElement: require('./lib/element/canvas/coloured'),
-  TexturedCanvasElement: require('./lib/element/canvas/textured'),
-  imageMapUtilities: require('./lib/utilities/imageMap')
+  TexturedCanvasElement: require('./lib/element/canvas/textured')
 };

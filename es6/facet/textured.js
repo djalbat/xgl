@@ -7,11 +7,9 @@ const Edge = require('../edge'),
       arrayUtilities = require('../utilities/array'),
       facetUtilities = require('../utilities/facet'),
       textureUtilities = require('../utilities/texture'),
-      verticesUtilities = require('../utilities/vertices'),
-      imageMapUtilities = require('../utilities/imageMap');
+      verticesUtilities = require('../utilities/vertices');
 
 const { permute } = arrayUtilities,
-      { getImageDetails } = imageMapUtilities,
       { verticesFromVertexCoordinatesAndIndexes } = verticesUtilities,
       { cloneEdges, cloneNormal, cloneVertices, calculateEdges, calculateNormal } = facetUtilities,
       { cloneTextureCoordinates, calculateVertexTextureCoordinates, calculateAdjustedTextureCoordinates } = textureUtilities;
@@ -21,6 +19,7 @@ class TexturedFacet extends Facet {
     super(vertices, normal, edges);
 
     this.imageName = imageName;
+
     this.textureCoordinates = textureCoordinates;
   }
 
@@ -48,9 +47,9 @@ class TexturedFacet extends Facet {
     return this.textureCoordinates;
   }
 
-  getVertexTextureCoordinates() {
-    const imageDetails = getImageDetails(this.imageName),
-          { left, bottom, width, height } = imageDetails,
+  getVertexTextureCoordinates(imageJSON) {
+    const extent = imageJSON[this.imageName],
+          { left, bottom, width, height } = extent,
           vertexTextureCoordinates = calculateVertexTextureCoordinates(this.textureCoordinates, left, bottom, width, height);
 
     return vertexTextureCoordinates;

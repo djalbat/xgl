@@ -59,14 +59,10 @@ class Part extends Element {
   }
 
   static fromProperties(properties) {
-    const { imageMap, canvas } = properties,
+    const { imageMap, imageJSON, canvas } = properties,
           colourRenderer = ColourRenderer.fromNothing(canvas),
-          textureRenderer = TextureRenderer.fromNothing(canvas),
+          textureRenderer = TextureRenderer.fromImageMapAndImageJSON(imageMap, imageJSON, canvas),
           part = Element.fromProperties(Part, properties, colourRenderer, textureRenderer);
-    
-    if (imageMap) {
-      textureRenderer.createTexture(imageMap, canvas);
-    }
     
     return part;
   }

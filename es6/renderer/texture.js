@@ -11,6 +11,16 @@ const Renderer = require('../renderer'),
 const { createProgram } = Renderer;
 
 class TextureRenderer extends Renderer {
+	constructor(program, rendererData, rendererBuffers, uniformLocations, attributeLocations, imageJSON) {
+		super(program, rendererData, rendererBuffers, uniformLocations, attributeLocations);
+
+		this.imageJSON = imageJSON;
+	}
+
+	getImageJSON() {
+		return this.imageJSON;
+	}
+
   getTextureCoordinateAttributeLocation() {
     const attributeLocations = this.getAttributeLocations(),
           textureCoordinateAttributeLocation = attributeLocations.getTextureCoordinateAttributeLocation();
@@ -40,10 +50,6 @@ class TextureRenderer extends Renderer {
     rendererBuffers.bindBuffers(vertexNormalAttributeLocation, vertexPositionAttributeLocation, textureCoordinateAttributeLocation, canvas);
   }
 
-  createTexture(image, canvas) {
-    canvas.createTexture(image);
-  }
-
   activateTexture(canvas) {
     const context = canvas.getContext(),
           { TEXTURE0 } = context,
@@ -57,7 +63,7 @@ class TextureRenderer extends Renderer {
     canvas.setUniformLocationIntegerValue(samplerUniformLocation, uSamplerUniformLocationIntegerValue);
   }
 
-  static fromNothing(canvas) {
+  static fromImageMapAndImageJSON(imageMap, imageJSON, canvas) {
     const program = createProgram(vertexShaderSource, fragmentShaderSource, canvas),
           textureRendererData = TextureRendererData.fromNothing(),
           textureRendererBuffers = TextureRendererBuffers.fromNothing(),
@@ -65,7 +71,11 @@ class TextureRenderer extends Renderer {
           rendererBuffers = textureRendererBuffers, ///
           uniformLocations = TextureUniformLocations.fromProgram(program, canvas),
           attributeLocations = TextureAttributeLocations.fromProgram(program, canvas),
-          textureRenderer = new TextureRenderer(program, rendererData, rendererBuffers, uniformLocations, attributeLocations);
+          textureRenderer = new TextureRenderer(program, rendererData, rendererBuffers, uniformLocations, attributeLocations, imageJSON);
+
+		const image = imageMap;	///
+
+		canvas.createTexture(image);
 
     return textureRenderer;
   }

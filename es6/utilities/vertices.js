@@ -21,7 +21,7 @@ function verticesFromVertexCoordinatesAndIndexes(vertexCoordinates, indexes, Ver
   return vertices;
 }
 
-module.exports = module.exports = {
+module.exports = {
   rotateVertices,
   verticesFromVertexCoordinatesAndIndexes
 };

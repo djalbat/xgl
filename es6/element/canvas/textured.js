@@ -10,10 +10,11 @@ const { push } = arrayUtilities,
 
 class TexturedCanvasElement extends CanvasElement {
   render(colourRenderer, textureRenderer) {
-    const vertexPositions = this.getVertexPositions(),
+    const imageJSON = textureRenderer.getImageJSON(),
+					vertexPositions = this.getVertexPositions(),
           vertexIndexes = this.getVertexIndexes(),
           vertexNormals = this.getVertexNormals(),
-          vertexTextureCoordinates = this.getVertexTextureCoordinates();
+					vertexTextureCoordinates = this.getVertexTextureCoordinates(imageJSON);
 
     textureRenderer.addVertexPositions(vertexPositions);
     textureRenderer.addVertexIndexes(vertexIndexes);
@@ -21,11 +22,11 @@ class TexturedCanvasElement extends CanvasElement {
     textureRenderer.addVertexTextureCoordinates(vertexTextureCoordinates);
   }
 
-  getVertexTextureCoordinates() {
+  getVertexTextureCoordinates(imageJSON) {
     const facets = this.getFacets(),
           vertexTextureCoordinates = facets.reduce(function(vertexTextureCoordinates, facet) {
             const texturedFacet = facet,  ///
-                  texturedFacetVertexTextureCoordinates = texturedFacet.getVertexTextureCoordinates();
+                  texturedFacetVertexTextureCoordinates = texturedFacet.getVertexTextureCoordinates(imageJSON);
   
             push(vertexTextureCoordinates, texturedFacetVertexTextureCoordinates);
   
