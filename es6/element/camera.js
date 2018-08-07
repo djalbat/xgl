@@ -97,10 +97,10 @@ class Camera extends Element {
           mouseMoveHandler = this.mouseMoveHandler.bind(this),
           mouseWheelHandler = this.mouseWheelHandler.bind(this);
 
-    mouseEvents.addMouseUpHandler(mouseUpHandler);
-    mouseEvents.addMouseDownHandler(mouseDownHandler);
-    mouseEvents.addMouseMoveHandler(mouseMoveHandler);
-    mouseEvents.addMouseWheelHandler(mouseWheelHandler);
+    mouseEvents.onMouseUp(mouseUpHandler);
+    mouseEvents.onMouseDown(mouseDownHandler);
+    mouseEvents.onMouseMove(mouseMoveHandler);
+    mouseEvents.onMouseWheel(mouseWheelHandler);
   }
 
   onUpdate(handler) {

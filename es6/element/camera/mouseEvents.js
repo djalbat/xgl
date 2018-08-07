@@ -18,19 +18,19 @@ class MouseEvents {
     return this.canvas;
   }
 
-  addMouseUpHandler(mouseUpHandler) {
+  onMouseUp(mouseUpHandler) {
     this.addHandler(MOUSE_UP, mouseUpHandler);
   }
 
-  addMouseDownHandler(mouseDownHandler) {
+  onMouseDown(mouseDownHandler) {
     this.addHandler(MOUSE_DOWN, mouseDownHandler);
   }
 
-  addMouseMoveHandler(mouseMoveHandler) {
+  onMouseMove(mouseMoveHandler) {
     this.addHandler(MOUSE_MOVE, mouseMoveHandler);
   }
 
-  addMouseWheelHandler(mouseWheelHandler) {
+  onMouseWheel(mouseWheelHandler) {
     this.addHandler(MOUSE_WHEEL, mouseWheelHandler);
   }
 
@@ -40,42 +40,52 @@ class MouseEvents {
     handlers.push(handler);
   }
 
-  onMouseEvent(eventType, event) {
-    const handlers = this.handlersMap[eventType],
-          mouseCoordinates = mouseCoordinatesFromEvent(event, this.canvas);
+	mouseUpEventHandler(event) { this.mouseEventHandler(event, MOUSE_UP); }
 
-    handlers.forEach(function(handler) {
-      handler(mouseCoordinates);
-    });
-  }
+	mouseDownEventHandler(event) { this.mouseEventHandler(event, MOUSE_DOWN); }
 
-  onMouseWheelEvent(event) {
+	mouseMoveEventHandler(event) { this.mouseEventHandler(event, MOUSE_MOVE); }
+
+  mouseWheelEventHandler(event) {
     const handlers = this.handlersMap[MOUSE_WHEEL],
           delta = deltaFromEvent(event);
 
     handlers.forEach(function(handler) {
       handler(delta);
     });
+
+		event.preventDefault();
   }
 
-  static fromNothing(canvas) {
-    const MOUSE_UP = [],
-			    MOUSE_DOWN = [],
-			    MOUSE_MOVE = [],
-			    MOUSE_WHEEL = [],
-			    handlersMap = {
-            MOUSE_UP,
-            MOUSE_DOWN,
-            MOUSE_MOVE,
-            MOUSE_WHEEL
-          },
-          mouseEvents = new MouseEvents(handlersMap, canvas),
-          domElement = canvas.getDOMElement();
+	mouseEventHandler(event, eventType) {
+		const handlers = this.handlersMap[eventType],
+					mouseCoordinates = mouseCoordinatesFromEvent(event, this.canvas);
 
-    addMouseEventHandler(domElement, 'mouseup', function(event) { mouseEvents.onMouseEvent(MOUSE_UP, event); });
-    addMouseEventHandler(domElement, 'mousedown', function(event) { mouseEvents.onMouseEvent(MOUSE_DOWN, event); });
-    addMouseEventHandler(domElement, 'mousemove', function(event) { mouseEvents.onMouseEvent(MOUSE_MOVE, event); });
-    addMouseEventHandler(domElement, 'mousewheel', function(event) { mouseEvents.onMouseWheelEvent(event); });
+		handlers.forEach(function(handler) {
+			handler(mouseCoordinates);
+		});
+
+		event.preventDefault();
+	}
+
+  static fromNothing(canvas) {
+    const handlersMap = {},
+					domElement = canvas.getDOMElement(),
+					mouseEvents = new MouseEvents(handlersMap, canvas),
+					mouseUpEventHandler = mouseEvents.mouseUpEventHandler.bind(mouseEvents),
+					mouseDownEventHandler = mouseEvents.mouseDownEventHandler.bind(mouseEvents),
+					mouseMoveEventHandler = mouseEvents.mouseMoveEventHandler.bind(mouseEvents),
+					mouseWheelEventHandler = mouseEvents.mouseWheelEventHandler.bind(mouseEvents);
+
+		handlersMap[MOUSE_UP] = [];
+		handlersMap[MOUSE_DOWN] = [];
+		handlersMap[MOUSE_MOVE] = [];
+		handlersMap[MOUSE_WHEEL] = [];
+
+    domElement.addEventListener('mouseup', mouseUpEventHandler);
+    domElement.addEventListener('mousedown', mouseDownEventHandler);
+    domElement.addEventListener('mousemove', mouseMoveEventHandler);
+    domElement.addEventListener('mousewheel', mouseWheelEventHandler);
 
     return mouseEvents;
   }
@@ -98,12 +108,4 @@ function mouseCoordinatesFromEvent(event) {
         ];
 
   return mouseCoordinates;
-}
-
-function addMouseEventHandler(domElement, type, handler) {
-  domElement.addEventListener(type, function(event) {
-    handler(event);
-
-    event.preventDefault();
-  });
 }
