@@ -4,6 +4,7 @@ require('./lib/jiggle');
 
 module.exports = {
   Canvas: require('./lib/canvas'),
+  Mask: require('./lib/element/mask'),
   Part: require('./lib/element/part'),
   Scene: require('./lib/element/scene'),
   Camera: require('./lib/element/camera'),
