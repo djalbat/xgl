@@ -198,7 +198,7 @@ class Facet {
 
     push(vertexPositions, intermediateVertexPositions);
 
-    smallerFacetsIndices.forEach(function(smallerFacetIndices) {
+    smallerFacetsIndices.forEach((smallerFacetIndices) => {
       const positions = vertexPositions,  ///
             indices = smallerFacetIndices,  ///
             facet = this, 
@@ -208,7 +208,7 @@ class Facet {
       if (!smallerFacetTooSmall) {
         smallerFacets.push(smallerFacet);
       }
-    }.bind(this));
+    });
   }
 }
 

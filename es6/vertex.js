@@ -25,9 +25,9 @@ class Vertex {
   }
 
   applyTransforms(transforms) {
-    transforms.forEach(function(transform) {
+    transforms.forEach((transform) => {
       this.position = transform(this.position);
-    }.bind(this));
+    });
   }
   
   static fromPosition(position) {

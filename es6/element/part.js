@@ -52,13 +52,13 @@ class Part extends Element {
           transforms = [],
           masked = false;
 
-    this.childElements.forEach(function(childElement) {
+    this.childElements.forEach((childElement) => {
       childElement.initialise(textureRenderer, colourRenderer, transforms, masked);
-    }.bind(this));
-
-    this.colourRenderer.createBuffers(this.canvas);
+    });
 
     this.textureRenderer.createBuffers(this.canvas);
+
+    this.colourRenderer.createBuffers(this.canvas);
   }
 
   static fromProperties(properties) {

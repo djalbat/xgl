@@ -78,7 +78,7 @@ class CanvasElement extends Element {
 
     const childElements = this.getChildElements();
 
-    childElements.forEach(function(childElement) {
+    childElements.forEach((childElement) => {
       const masked = false; ///
 
       childElement.initialise(textureRenderer, colourRenderer, transforms, masked);
@@ -89,7 +89,7 @@ class CanvasElement extends Element {
 
         mask.maskElement(element);
       }
-    }.bind(this));
+    });
 
     if (!masked) {
       this.render(textureRenderer, colourRenderer);

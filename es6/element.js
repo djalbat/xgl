@@ -44,7 +44,7 @@ class Element {
       thenDelete = true;
     }
   
-    names.forEach(function(name) {
+    names.forEach((name) => {
       const value = this.context[name],
             propertyName = name,  ///
             descriptor = {
@@ -56,7 +56,7 @@ class Element {
       if (thenDelete) {
         delete this.context[name];
       }
-    }.bind(this));
+    });
   }
 
   initialise(textureRenderer, colourRenderer, transforms, masked) {

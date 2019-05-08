@@ -31,11 +31,11 @@ class VerticalLine {
 
   splitFacet(facet, smallerFacets) {
     const edges = facet.getEdges(),
-          intersections = edges.map(function(edge) {
+          intersections = edges.map((edge) => {
             const intersection = calculateIntersection(edge, this.firstPositionComponent);
 
             return intersection;
-          }.bind(this));
+          });
 
     facet.splitWithIntersections(intersections, smallerFacets);
   }
@@ -43,15 +43,15 @@ class VerticalLine {
   splitFacets(facets) {
     const smallerFacets = [];
 
-    facets.forEach(function(facet) {
+    facets.forEach((facet) => {
       facet.rotate(this.forwardsRotationQuaternion);
 
       this.splitFacet(facet, smallerFacets);
-    }.bind(this));
+    });
 
-    smallerFacets.forEach(function(smallerFacet) {
+    smallerFacets.forEach((smallerFacet) => {
       smallerFacet.rotate(this.backwardsRotationQuaternion);
-    }.bind(this));
+    });
 
     return smallerFacets;
   }

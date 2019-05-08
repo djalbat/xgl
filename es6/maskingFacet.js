@@ -57,9 +57,9 @@ class MaskingFacet {
     if (maskedSmallerFacetsLength === 0) {
       unmaskedFacets.push(unmaskedFacet);
     } else {
-      unmaskedSmallerFacets.forEach(function(unmaskedSmallerFacet) {
+      unmaskedSmallerFacets.forEach((unmaskedSmallerFacet) => {
         unmaskedSmallerFacet.rotate(this.backwardsRotationQuaternion);
-      }.bind(this));
+      });
 
       push(unmaskedFacets, unmaskedSmallerFacets);
     }
