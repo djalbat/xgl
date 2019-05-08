@@ -1,13 +1,13 @@
 'use strict';
 
-const depthMixin = require('./canvas/mixin/depth'),
-      colourMixin = require('./canvas/mixin/colour'),
-      shaderMixin = require('./canvas/mixin/shader'),
-      bufferMixin = require('./canvas/mixin/buffer'),
-      matrixMixin = require('./canvas/mixin/matrix'),
-      programMixin = require('./canvas/mixin/program'),
-      textureMixin = require('./canvas/mixin/texture'),
-      blendingMixin = require('./canvas/mixin/blending');
+const depthMixin = require('./mixin/depth'),
+      colourMixin = require('./mixin/colour'),
+      shaderMixin = require('./mixin/shader'),
+      bufferMixin = require('./mixin/buffer'),
+      matrixMixin = require('./mixin/matrix'),
+      programMixin = require('./mixin/program'),
+      textureMixin = require('./mixin/texture'),
+      blendingMixin = require('./mixin/blending');
 
 const defaultOffset = 0;
 
