@@ -1,10 +1,10 @@
 'use strict';
 
 const Renderer = require('../renderer'),
-      TextureRendererBuffers = require('../renderer/buffers/texture'),
-      TextureRendererData = require('../renderer/data/texture'),
       vertexShaderSource = require('./source/texture/vertexShader'),
+      TextureRendererData = require('../renderer/data/texture'),
       fragmentShaderSource = require('./source/texture/fragmentShader'),
+      TextureRendererBuffers = require('../renderer/buffers/texture'),
       TextureUniformLocations = require('./locations/texture/uniform'),
       TextureAttributeLocations = require('./locations/texture/attribute');
 
@@ -63,7 +63,7 @@ class TextureRenderer extends Renderer {
     canvas.setUniformLocationIntegerValue(samplerUniformLocation, uSamplerUniformLocationIntegerValue);
   }
 
-  static fromImageMapAndImageJSON(imageMap, imageJSON, canvas) {
+  static fromImageMapAndImageJSON(imageMap = null, imageJSON = null, canvas) {
     const program = createProgram(vertexShaderSource, fragmentShaderSource, canvas),
           textureRendererData = TextureRendererData.fromNothing(),
           textureRendererBuffers = TextureRendererBuffers.fromNothing(),
@@ -73,9 +73,11 @@ class TextureRenderer extends Renderer {
           attributeLocations = TextureAttributeLocations.fromProgram(program, canvas),
           textureRenderer = new TextureRenderer(program, rendererData, rendererBuffers, uniformLocations, attributeLocations, imageJSON);
 
-		const image = imageMap;	///
+    if (imageMap !== null) {
+      const image = imageMap;	///
 
-		canvas.createTexture(image);
+      canvas.createTexture(image);
+    }
 
     return textureRenderer;
   }

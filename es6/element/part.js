@@ -9,6 +9,7 @@ class Part extends Element {
     super(canvas);
 
     this.colourRenderer = colourRenderer;
+
     this.textureRenderer = textureRenderer;
   }
   

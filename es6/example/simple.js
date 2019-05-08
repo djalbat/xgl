@@ -2,20 +2,16 @@
 
 const jiggle = require('../../index');
 
-const { Canvas, Part, Scene, Camera } = jiggle;
+const { Canvas, Scene, Camera } = jiggle;
 
-const simpleExample = () => {
-  const canvas = new Canvas();
+const canvas = new Canvas();
 
-  return (
+const simpleExample = () =>
 
-    <Scene canvas={canvas}>
-      <Part canvas={canvas}>
-      </Part>
-      <Camera canvas={canvas} initialDistance={5} initialOffset={[ 0, 0, 0 ]} />
-    </Scene>
+  <Scene canvas={canvas}>
+    <Camera canvas={canvas} initialDistance={5} initialOffset={[ 0, 0, 0 ]} />
+  </Scene>
 
-  );
-};
+;
 
 module.exports = simpleExample;

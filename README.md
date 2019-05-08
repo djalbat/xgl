@@ -18,7 +18,62 @@ You can clone the repository with [Git](https://git-scm.com/)...
 
 ## Getting started
 
-Launch the `example/index.html` file. Something like the following should appear:
+Launch the `index.html` file in the project's root directory, which contains links to the various examples. You can compile these yourself, see the section on compiling from source nearer the end. This section assumes that you are doing this and will work through some of the examples from scratch, starting with the simplest.
+
+In order to build your own 3D scene you need a `canvas` HTML element, see the `example.html` file:
+
+```html
+<html>
+  <head>
+
+    ...
+
+    <link href="css/example.css" rel="stylesheet" type="text/css" media="all">
+  </head>
+  <body>
+    <canvas></canvas>
+    <script src="example.js"> </script>
+  </body>
+</html>
+```
+
+It is recommended that you style the `canvas` element to take up the entire viewport, at least to begin with, see the `example.css` file:
+
+```css
+...
+
+canvas {
+  height: 100vh;
+  width: 100vw;
+  display: block;
+}
+```
+
+Within the example itself, the `canvas` element is encapsulated in an instance of the `Canvas` class and passed to the outermost `Scene` JSX element:
+
+```js
+const canvas = new Canvas();
+
+const simpleExample = () =>
+
+  <Scene canvas={canvas}>
+    ...
+  </Scene>
+
+;
+```
+Note that much of the boilerplate code within the actual `es6/example/simple.js` has been left out here. Also note that if you are compiling the example from within this project, it is correct to use the relative `require('../../index')`. Outside of this project, however, you would require the package itself, `require('jiggle')`.
+
+To continue, you can pass a CSS selector to the `Canvas` class constructor. To pick out a `canvas` element with an identifier, say `<canvas id="simple"></canvas>`, you would need the following:
+
+```js
+const canvas = new Canvas('canvas#simple');
+
+...
+```
+The default selector is just `canvas`.
+
+Something like the following should appear:
 
 ![Masked cube](https://github.com/djalbat/Jiggle/blob/master/assets/masked_cube.jpg)
 
@@ -109,7 +164,7 @@ Automation is done with [npm scripts](https://docs.npmjs.com/misc/scripts), have
     npm run build-debug
     npm run watch-debug
     
-As well as building the Jiggle library itself, this will build the examples. The source code for the two examples can be found in the `es6/examples` directory. To view the compiled examples, open the `examples/index.html` file.
+As well as building the Jiggle library itself, this will build the examples. The source code for the examples can be found in the `es6/example.js` file and the files in the `es6/example` directory.
     
 ## Contact
 
