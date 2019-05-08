@@ -23,6 +23,8 @@ class Canvas {
     this.context = context;
     
     this.domElement = domElement;
+
+    this.enableDepthTesting();  ///
   }
 
   getContext() {

@@ -12,6 +12,10 @@ class Element {
   getChildElements() {
     return this.childElements;
   }
+
+  setCanvas(canvas) {
+    this.canvas = canvas;
+  }
   
   setChildElements(childElements) {
     this.childElements = childElements;

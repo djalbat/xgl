@@ -46,10 +46,7 @@ class Scene extends Element {
   }
 
   static fromProperties(properties) {
-    const scene = Element.fromProperties(Scene, properties),
-          canvas = scene.getCanvas();
-
-    canvas.enableDepthTesting();  ///
+    const scene = Element.fromProperties(Scene, properties);
 
     scene.initialise();
 
