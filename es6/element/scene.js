@@ -3,18 +3,23 @@
 const Element = require('../element');
 
 class Scene extends Element {
+  constructor(canvas) {
+    super();
+
+    this.canvas = canvas;
+  }
+
   onResize(resizeHandler) {
     window.onresize = resizeHandler;
   }
 
   resizeHandler() {
-    const canvas = this.getCanvas(),
-          clientWidth = canvas.getClientWidth(),
-          clientHeight = canvas.getClientHeight(),
+    const clientWidth = this.canvas.getClientWidth(),
+          clientHeight = this.canvas.getClientHeight(),
           width = clientWidth,  ///
           height = clientHeight;  ///
 
-    canvas.resize(width, height);
+    this.canvas.resize(width, height);
 
     this.forceUpdate();
   }
@@ -24,9 +29,7 @@ class Scene extends Element {
   }
 
   render(offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix) {
-    const canvas = this.getCanvas();
-
-    canvas.clear(); ///
+    this.canvas.clear();
 
     this.childElements.forEach(function(childElement) {
       childElement.render(offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
@@ -47,7 +50,8 @@ class Scene extends Element {
   }
 
   static fromProperties(properties) {
-    const scene = Element.fromProperties(Scene, properties);
+    const { canvas } = properties,
+          scene = Element.fromProperties(Scene, properties, canvas);
 
     scene.initialise();
 

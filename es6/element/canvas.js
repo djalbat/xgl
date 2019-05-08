@@ -9,8 +9,8 @@ const { push } = arrayUtilities,
       { composeTransform } = transformUtilities;
 
 class CanvasElement extends Element {
-  constructor(canvas, facets, transform) {
-    super(canvas);
+  constructor(facets, transform) {
+    super();
 
     this.facets = facets;
     

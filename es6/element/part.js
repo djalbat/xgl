@@ -5,12 +5,14 @@ const Element = require('../element'),
       TextureRenderer = require('../renderer/texture');
 
 class Part extends Element {
-  constructor(canvas, colourRenderer, textureRenderer) {
-    super(canvas);
+  constructor(colourRenderer, textureRenderer, canvas) {
+    super();
 
     this.colourRenderer = colourRenderer;
 
     this.textureRenderer = textureRenderer;
+
+    this.canvas = canvas;
   }
   
   getColourRenderer() {
@@ -26,44 +28,42 @@ class Part extends Element {
   }
 
   render(offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix) {
-    const canvas = this.getCanvas(),
-          colourRendererProgram = this.colourRenderer.getProgram(),
+    const colourRendererProgram = this.colourRenderer.getProgram(),
           textureRendererProgram = this.textureRenderer.getProgram();
 
-    canvas.useProgram(colourRendererProgram);
+    this.canvas.useProgram(colourRendererProgram);
 
-    this.colourRenderer.bindBuffers(canvas);
+    this.colourRenderer.bindBuffers(this.canvas);
 
-    canvas.render(this.colourRenderer, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
+    this.canvas.render(this.colourRenderer, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
 
-    canvas.useProgram(textureRendererProgram);
+    this.canvas.useProgram(textureRendererProgram);
     
-    this.textureRenderer.bindBuffers(canvas);
+    this.textureRenderer.bindBuffers(this.canvas);
     
-    this.textureRenderer.activateTexture(canvas);
+    this.textureRenderer.activateTexture(this.canvas);
     
-    canvas.render(this.textureRenderer, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
+    this.canvas.render(this.textureRenderer, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
   }
   
   initialise() {
-    const canvas = this.getCanvas(),
-          transforms = [],
+    const transforms = [],
           masked = false;
 
     this.childElements.forEach(function(childElement) {
       childElement.initialise(this.colourRenderer, this.textureRenderer, transforms, masked);
     }.bind(this));
 
-    this.colourRenderer.createBuffers(canvas);
+    this.colourRenderer.createBuffers(this.canvas);
 
-    this.textureRenderer.createBuffers(canvas);
+    this.textureRenderer.createBuffers(this.canvas);
   }
 
   static fromProperties(properties) {
     const { imageMap, imageJSON, canvas } = properties,
           colourRenderer = ColourRenderer.fromNothing(canvas),
           textureRenderer = TextureRenderer.fromImageMapAndImageJSON(imageMap, imageJSON, canvas),
-          part = Element.fromProperties(Part, properties, colourRenderer, textureRenderer);
+          part = Element.fromProperties(Part, properties, colourRenderer, textureRenderer, canvas);
 
     part.initialise();
     

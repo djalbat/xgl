@@ -1,22 +1,14 @@
 'use strict';
 
 class Element {
-  constructor(canvas) {
-    this.canvas = canvas;
+  constructor() {
+    this.childElements = null;  ///
   }
-  
-  getCanvas() {
-    return this.canvas;
-  }
-  
+
   getChildElements() {
     return this.childElements;
   }
 
-  setCanvas(canvas) {
-    this.canvas = canvas;
-  }
-  
   setChildElements(childElements) {
     this.childElements = childElements;
   }
@@ -72,8 +64,7 @@ class Element {
   }
 
   static fromProperties(Class, properties, ...remainingArguments) {
-    const { canvas } = properties,
-          element = new Class(canvas, ...remainingArguments);
+    const element = new Class(...remainingArguments);
 
     applyProperties(element, properties);
 

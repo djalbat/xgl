@@ -2,9 +2,9 @@
 
 const Renderer = require('../renderer'),
       ColourRendererData = require('../renderer/data/colour'),
-      ColourRendererBuffers = require('../renderer/buffers/colour'),
       vertexShaderSource = require('./source/colour/vertexShader'),
       fragmentShaderSource = require('./source/colour/fragmentShader'),
+      ColourRendererBuffers = require('../renderer/buffers/colour'),
       ColourUniformLocations = require('./locations/colour/uniform'),
       ColourAttributeLocations = require('./locations/colour/attribute');
 
