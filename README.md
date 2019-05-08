@@ -52,6 +52,8 @@ canvas {
 Within the examples themselves, the `canvas` element is encapsulated in an instance of the `Canvas` class and passed to the outermost `Scene` JSX element:
 
 ```js
+...
+
 const canvas = new Canvas();
 
 const simpleExample = () =>
@@ -61,9 +63,21 @@ const simpleExample = () =>
   </Scene>
 
 ;
-```
-Note that much of the boilerplate code in the actual `es6/example/simple.js` file has been left out here. Also note that if you are compiling the example from within this project, it is correct to use the relative `require('../../index')`. Outside of this project, however, you would require the package itself, `require('jiggle')`.
 
+...
+```
+Note that some of the boilerplate code in the actual `es6/example/simple.js` file has been left out here. Also note that if you are compiling the example from within this project, it is correct to use the relative `require('../../index')`. Outside of this project, however, you would require the package itself, `require('jiggle')`.
+
+The scene itself consists of one or more parts containing the various rendered elements, together with a camera to view them:
+
+```js
+<Scene canvas={canvas}>
+  <Part>
+    <ColouredTriangle />
+  </Part>
+  <Camera />
+</Scene>
+```
 
 Something like the following should appear:
 
