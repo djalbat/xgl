@@ -3,6 +3,10 @@
 const Element = require('../element');
 
 class Scene extends Element {
+  onResize(resizeHandler) {
+    window.onresize = resizeHandler;
+  }
+
   resizeHandler() {
     const canvas = this.getCanvas(),
           clientWidth = canvas.getClientWidth(),
@@ -15,6 +19,10 @@ class Scene extends Element {
     this.forceUpdate();
   }
 
+  updateHandler(offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix) {
+    this.render(offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
+  }
+
   render(offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix) {
     const canvas = this.getCanvas();
 
@@ -25,19 +33,15 @@ class Scene extends Element {
     });
   }
 
-  updateHandler(offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix) {
-    this.render(offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
-  }
-
   initialise() {
     const resizeHandler = this.resizeHandler.bind(this),
           updateHandler = this.updateHandler.bind(this);
 
     this.assignContext();
 
-    this.onUpdate(updateHandler);
+    this.onResize(resizeHandler);
 
-    window.onresize = resizeHandler;
+    this.onUpdate(updateHandler);
 
     this.resizeHandler(); ///
   }
