@@ -47,9 +47,7 @@ class RendererData {
   addVertexIndexes(vertexIndexes) {
     const offset = this.maximumVertexIndex + 1;
 
-    vertexIndexes = vertexIndexes.map(function(vertexIndex) {
-      return vertexIndex + offset;
-    });
+    vertexIndexes = vertexIndexes.map((vertexIndex) => (vertexIndex + offset));
 
     this.maximumVertexIndex = Math.max(this.maximumVertexIndex, ...vertexIndexes);
 

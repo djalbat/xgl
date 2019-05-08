@@ -13,36 +13,28 @@ class KeyEvents {
     const ctrlKeyDown = false,
           ctrlKeyHandlers = this.handlers[CTRL_KEY_CODE];
 
-    ctrlKeyHandlers.forEach(function(ctrlKeyHandler) {
-      ctrlKeyHandler(ctrlKeyDown);
-    });
+    ctrlKeyHandlers.forEach((ctrlKeyHandler) => ctrlKeyHandler(ctrlKeyDown));
   }
 
   onShiftKeyUp() {
     const shiftKeyDown = false,
           shiftKeyHandlers = this.handlers[SHIFT_KEY_CODE];
 
-    shiftKeyHandlers.forEach(function(shiftKeyHandler) {
-      shiftKeyHandler(shiftKeyDown);
-    });
+    shiftKeyHandlers.forEach((shiftKeyHandler) => shiftKeyHandler(shiftKeyDown));
   }
 
   onCtrlKeyDown() {
     const ctrlKeyDown = true,
           ctrlKeyHandlers = this.handlers[CTRL_KEY_CODE];
 
-    ctrlKeyHandlers.forEach(function(ctrlKeyHandler) {
-      ctrlKeyHandler(ctrlKeyDown);
-    });
+    ctrlKeyHandlers.forEach((ctrlKeyHandler) => ctrlKeyHandler(ctrlKeyDown));
   }
 
   onShiftKeyDown() {
     const shiftKeyDown = true,
           shiftKeyHandlers = this.handlers[SHIFT_KEY_CODE];
 
-    shiftKeyHandlers.forEach(function(shiftKeyHandler) {
-      shiftKeyHandler(shiftKeyDown);
-    });
+    shiftKeyHandlers.forEach((shiftKeyHandler) => shiftKeyHandler(shiftKeyDown));
   }
 
   addCtrlKeyHandler(ctrlKeyHandler) {
@@ -71,11 +63,11 @@ class KeyEvents {
 const keyEvents = KeyEvents.fromNothing(),
       documentDOMElement = document.documentElement;
 
-documentDOMElement.onkeyup = function(event) {
+documentDOMElement.onkeyup = (event) => {
   const keyCode = event.keyCode;
 
   if (false) {
-
+    ///
   } else if (keyCode === CTRL_KEY_CODE) {
     keyEvents.onCtrlKeyUp();
   } else if (keyCode === SHIFT_KEY_CODE) {
@@ -83,7 +75,7 @@ documentDOMElement.onkeyup = function(event) {
   }
 };
 
-documentDOMElement.onkeydown = function(event) {
+documentDOMElement.onkeydown = (event) => {
   const keyCode = event.keyCode;
 
   if (false) {

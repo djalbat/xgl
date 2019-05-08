@@ -26,7 +26,7 @@ function calculateIntersection(edge, firstPositionComponent) {
 }
 
 function calculateNonNullIntersections(intersections) {
-  const nonNullIntersections = intersections.reduce(function(nonNullIntersections, intersection) {
+  const nonNullIntersections = intersections.reduce((nonNullIntersections, intersection) => {
     if (intersection !== null) {
       const nonNullIntersection = intersection; ///
 
@@ -40,7 +40,7 @@ function calculateNonNullIntersections(intersections) {
 }
 
 function calculateNullIntersectionIndex(intersections) {
-  const nullIntersectionIndex = intersections.reduce(function(nullIntersectionIndex, intersection, index) {
+  const nullIntersectionIndex = intersections.reduce((nullIntersectionIndex, intersection, index) => {
     if (nullIntersectionIndex === null) {
       if (intersection === null) {
         nullIntersectionIndex = index;
@@ -54,7 +54,7 @@ function calculateNullIntersectionIndex(intersections) {
 }
 
 function calculateNonNullIntersectionIndex(intersections) {
-  const nullIntersectionIndex = intersections.reduce(function(nullIntersectionIndex, intersection, index) {
+  const nullIntersectionIndex = intersections.reduce((nullIntersectionIndex, intersection, index) => {
     if (nullIntersectionIndex === null) {
       if (intersection !== null) {
         nullIntersectionIndex = index;

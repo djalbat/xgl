@@ -37,11 +37,7 @@ class Facet {
   }
   
   getVertexPositions() {
-    const vertexPositions = this.vertices.map(function(vertex) {
-      const vertexPosition = vertex.getPosition();
-      
-      return vertexPosition;
-    });
+    const vertexPositions = this.vertices.map((vertex) => vertex.getPosition());
     
     return vertexPositions;
   }
@@ -95,9 +91,7 @@ class Facet {
   }
 
   rotate(rotationQuaternion) {
-    this.vertices.forEach(function(vertex) {
-      vertex.rotate(rotationQuaternion);
-    });
+    this.vertices.forEach((vertex) => vertex.rotate(rotationQuaternion));
 
     this.normal = calculateNormal(this.vertices, Normal);
 
@@ -105,9 +99,7 @@ class Facet {
   }
 
   applyTransforms(transforms) {
-    this.vertices.forEach(function(vertex) {
-      vertex.applyTransforms(transforms);
-    });
+    this.vertices.forEach((vertex) => vertex.applyTransforms(transforms));
 
     this.normal = calculateNormal(this.vertices, Normal);
 
@@ -186,7 +178,7 @@ class Facet {
 
   splitWithIndicesAndIntersections(startVertexPositionIndices, endVertexPositionIndices, smallerFacetsIndices, intersections, smallerFacets) {
     const vertexPositions = this.getVertexPositions(),
-          intermediateVertexPositions = intersections.map(function(intersection, index) {
+          intermediateVertexPositions = intersections.map((intersection, index) => {
             const startVertexPositionIndex = startVertexPositionIndices[index],
                   endVertexPositionIndex = endVertexPositionIndices[index],
                   startVertexPosition = vertexPositions[startVertexPositionIndex],
@@ -215,7 +207,7 @@ class Facet {
 module.exports = Facet;
 
 function smallerFacetFromVerticesAndVertexPositions(vertexPositions, indices, facet) {
-  const vertices = indices.map(function(index) {
+  const vertices = indices.map((index) => {
           const vertexPosition = vertexPositions[index];
     
           let position = vertexPosition;  ///

@@ -21,7 +21,7 @@ class ColouredCanvasElement extends CanvasElement {
 
   getVertexColours() {
     const facets = this.getFacets(),
-          vertexColours = facets.reduce(function(vertexColours, facet) {
+          vertexColours = facets.reduce((vertexColours, facet) => {
             const colouredFacet = facet,  ///
                   colouredFacetVertexColours = colouredFacet.getVertexColours();
 
@@ -34,7 +34,7 @@ class ColouredCanvasElement extends CanvasElement {
   }
 
   static fromProperties(Class, properties, vertices, indexes, colour, ...remainingArguments) {
-    const colouredFacets = indexes.map(function(indexes) {  ///
+    const colouredFacets = indexes.map((indexes) => {  ///
             const colouredFacet = ColouredFacet.fromVertexCoordinatesIndexesAndColour(vertices, indexes, colour);
   
             return colouredFacet;

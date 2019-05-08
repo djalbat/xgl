@@ -20,7 +20,7 @@ class TextureRendererData extends RendererData {
   }
 
   addVertexTextureCoordinates(vertexTextureCoordinates) {
-    vertexTextureCoordinates = vertexTextureCoordinates.map(function(vertexTextureCoordinates) {  ///
+    vertexTextureCoordinates = vertexTextureCoordinates.map((vertexTextureCoordinates) => {  ///
       vertexTextureCoordinates =  verticallyFlipVertexTextureCoordinates(vertexTextureCoordinates);
 
       return vertexTextureCoordinates;

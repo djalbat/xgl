@@ -9,7 +9,7 @@ const { push } = arrayUtilities;
 class Mask extends Element {
   getFacets() {
     const childElements = this.getChildElements(),
-          facets =  childElements.reduce(function(facets, childElement) {
+          facets =  childElements.reduce((facets, childElement) => {
             const childElementFacets = childElement.getFacets();
             
             push(facets, childElementFacets);
@@ -22,7 +22,7 @@ class Mask extends Element {
   
   getMaskingFacets() {
     const facets = this.getFacets(),
-          maskingFacets = facets.map(function(facet) {
+          maskingFacets = facets.map((facet) => {
             const maskingFacet = MaskingFacet.fromFacet(facet);
             
             return maskingFacet;
@@ -36,10 +36,10 @@ class Mask extends Element {
     
     const maskingFacets = this.getMaskingFacets();
 
-    maskingFacets.forEach(function(maskingFacet) {
+    maskingFacets.forEach((maskingFacet) => {
       const unmaskedFacets = [];
 
-      facets.forEach(function(facet) {
+      facets.forEach((facet) => {
         maskingFacet.maskFacet(facet, unmaskedFacets);
       });
 
@@ -54,7 +54,7 @@ class Mask extends Element {
 
     masked = true;  ///
 
-    childElements.forEach(function(childElement) {
+    childElements.forEach((childElement) => {
       childElement.initialise(textureRenderer, colourRenderer, transforms, masked);
     });
   }

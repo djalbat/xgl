@@ -34,7 +34,7 @@ class CanvasElement extends Element {
   }
 
   getVertexPositions() {
-    const vertexPositions = this.facets.reduce(function(vertexPositions, facet) {
+    const vertexPositions = this.facets.reduce((vertexPositions, facet) => {
       const facetVertexPositions = facet.getVertexPositions();
       
       push(vertexPositions, facetVertexPositions);
@@ -46,7 +46,7 @@ class CanvasElement extends Element {
   }
 
   getVertexNormals() {
-    const vertexNormals = this.facets.reduce(function(vertexNormals, facet) {
+    const vertexNormals = this.facets.reduce((vertexNormals, facet) => {
       const facetVertexNormals = facet.getVertexNormals();
       
       push(vertexNormals, facetVertexNormals);
@@ -58,7 +58,7 @@ class CanvasElement extends Element {
   }
 
   getVertexIndexes() {
-    const vertexIndexes = this.facets.reduce(function(vertexIndexes, facet, index) {
+    const vertexIndexes = this.facets.reduce((vertexIndexes, facet, index) => {
       const facetVertexIndexes = facet.getVertexIndexes(index);
       
       push(vertexIndexes, facetVertexIndexes);
@@ -72,9 +72,7 @@ class CanvasElement extends Element {
   initialise(textureRenderer, colourRenderer, transforms, masked) {
     transforms = [this.transform, ...transforms]; ///
 
-    this.facets.forEach(function(facet) {
-      facet.applyTransforms(transforms);
-    });
+    this.facets.forEach((facet) => facet.applyTransforms(transforms));
 
     const childElements = this.getChildElements();
 

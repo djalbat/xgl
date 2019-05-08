@@ -24,7 +24,7 @@ class TexturedCanvasElement extends CanvasElement {
 
   getVertexTextureCoordinates(imageJSON) {
     const facets = this.getFacets(),
-          vertexTextureCoordinates = facets.reduce(function(vertexTextureCoordinates, facet) {
+          vertexTextureCoordinates = facets.reduce((vertexTextureCoordinates, facet) => {
             const texturedFacet = facet,  ///
                   texturedFacetVertexTextureCoordinates = texturedFacet.getVertexTextureCoordinates(imageJSON);
   
@@ -38,7 +38,7 @@ class TexturedCanvasElement extends CanvasElement {
 
   static fromProperties(Class, properties, vertexCoordinates, indexes, imageName, textureCoordinates, ...remainingArguments) {
     const textureCoordinatess = textureCoordinates, ///
-          texturedFacets = indexes.map(function(indexes, index) {  ///
+          texturedFacets = indexes.map((indexes, index) => {  ///
             const textureCoordinates = textureCoordinatesFromTextureCoordinatesAndIndex(textureCoordinatess, index),  ///
                   texturedFacet = TexturedFacet.fromVertexCoordinatesImageNameAndTextureCoordinates(vertexCoordinates, indexes, imageName, textureCoordinates, index);
 

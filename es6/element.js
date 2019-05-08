@@ -81,7 +81,7 @@ function applyProperties(element, properties) {
 
   element.setChildElements(childElements);
 
-  childElements.forEach(function(childElement) {
+  childElements.forEach((childElement) => {
     element.updateContext(childElement);
   });
 }

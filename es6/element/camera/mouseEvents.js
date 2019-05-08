@@ -50,9 +50,7 @@ class MouseEvents {
     const handlers = this.handlersMap[MOUSE_WHEEL],
           delta = deltaFromEvent(event);
 
-    handlers.forEach(function(handler) {
-      handler(delta);
-    });
+    handlers.forEach((handler) => handler(delta));
 
 		event.preventDefault();
   }
@@ -61,9 +59,7 @@ class MouseEvents {
 		const handlers = this.handlersMap[eventType],
 					mouseCoordinates = mouseCoordinatesFromEvent(event, this.canvas);
 
-		handlers.forEach(function(handler) {
-			handler(mouseCoordinates);
-		});
+		handlers.forEach((handler) => handler(mouseCoordinates));
 
 		event.preventDefault();
 	}

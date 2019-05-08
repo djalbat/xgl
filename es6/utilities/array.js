@@ -16,9 +16,7 @@ function permute(array, places) {
 }
 
 function flatten(arrays) {
-  return arrays.reduce(function(elements, array) {
-    return elements.concat(array);
-  }, []);
+  return arrays.reduce((elements, array) => elements.concat(array), []);
 }
 
 module.exports = Object.assign(arrayUtilities, {

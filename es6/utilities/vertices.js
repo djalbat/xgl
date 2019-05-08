@@ -1,7 +1,7 @@
 'use strict';
 
 function rotateVertices(vertices, rotationQuaternion) {
-  vertices = vertices.map(function(vertex) {
+  vertices = vertices.map((vertex) => {
     vertex = rotateVertex(vertex, rotationQuaternion);
 
     return vertex;
@@ -11,7 +11,7 @@ function rotateVertices(vertices, rotationQuaternion) {
 }
 
 function verticesFromVertexCoordinatesAndIndexes(vertexCoordinates, indexes, Vertex) {  ///
-  const vertices = indexes.map(function(index) {
+  const vertices = indexes.map((index) => {
     const coordinates = vertexCoordinates[index], ///
           vertex = Vertex.fromCoordinates(coordinates);
 

@@ -23,9 +23,7 @@ function composeTransform(width, height, depth, position, rotations) {
         rotate = composeRotate(rotations),
         translate = composeTranslate(position);
 
-  return function(vector) {
-    return translate(rotate(scale(vector)));
-  };
+  return (vector) => translate(rotate(scale(vector)));
 }
 
 module.exports = module.exports = {
@@ -33,9 +31,7 @@ module.exports = module.exports = {
 };
 
 function compose(matrix) {
-  return function(vector) {
-    return transform4([...vector, 1], matrix).slice(0, 3);
-  };
+  return (vector) => transform4([...vector, 1], matrix).slice(0, 3);
 }
 
 function composeScale(width = defaultWidth, height = defaultHeight, depth = defaultDepth) {

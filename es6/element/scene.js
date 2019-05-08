@@ -31,9 +31,7 @@ class Scene extends Element {
   render(offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix) {
     this.canvas.clear();
 
-    this.childElements.forEach(function(childElement) {
-      childElement.render(offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
-    });
+    this.childElements.forEach((childElement) => childElement.render(offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix));
   }
 
   initialise() {

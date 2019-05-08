@@ -46,7 +46,7 @@ class MaskingFacet {
           maskedSmallerFacets = [],
           unmaskedSmallerFacets = [];
 
-    separate(smallerFacets, maskedSmallerFacets, unmaskedSmallerFacets, function(smallerFacet) {
+    separate(smallerFacets, maskedSmallerFacets, unmaskedSmallerFacets, (smallerFacet) => {
       const smallerFacetMasked = smallerFacet.isMasked(maskingFacet);
 
       return smallerFacetMasked;
@@ -71,7 +71,7 @@ class MaskingFacet {
         ],
         smallerFacets = facets; ///
 
-    this.verticalLines.forEach(function(verticalLine) {
+    this.verticalLines.forEach((verticalLine) => {
       smallerFacets = verticalLine.splitFacets(facets);
 
       facets = smallerFacets; ///
@@ -88,7 +88,7 @@ class MaskingFacet {
           rotationQuaternion = arbitraryRotationQuaternion, ///
           vertices = rotateVertices(facetVertices, rotationQuaternion),
           maskingEdges = calculateMaskingEdges(vertices),
-          verticalLines = maskingEdges.map(function(maskingEdge) {
+          verticalLines = maskingEdges.map((maskingEdge) => {
             const verticalLine = VerticalLine.fromMaskingEdge(maskingEdge);
             
             return verticalLine;
@@ -104,7 +104,7 @@ class MaskingFacet {
 module.exports = MaskingFacet;
 
 function calculateMaskingEdges(vertices) {
-  const maskingEdges = vertices.map(function(vertex, index) {
+  const maskingEdges = vertices.map((vertex, index) => {
           const startIndex = index,
                 endIndex = (startIndex + 1) % VERTICES_LENGTH,
                 startVertex = vertices[startIndex],

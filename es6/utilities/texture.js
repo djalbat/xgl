@@ -13,7 +13,7 @@ const { invert2, invert3 } = matrixMaths,
       { calculateArbitraryRotationQuaternion } = quaternionUtilities;
 
 function cloneTextureCoordinates(textureCoordinates) {
-  textureCoordinates = textureCoordinates.map(function(textureCoordinates) {  ///
+  textureCoordinates = textureCoordinates.map((textureCoordinates) => {  ///
     textureCoordinates = textureCoordinates.slice();
 
     return textureCoordinates;
@@ -23,7 +23,7 @@ function cloneTextureCoordinates(textureCoordinates) {
 }
 
 function calculateVertexTextureCoordinates(textureCoordinates, left, bottom, width, height) {
-  textureCoordinates = textureCoordinates.map(function(textureCoordinates) {  ///
+  textureCoordinates = textureCoordinates.map((textureCoordinates) => {  ///
     textureCoordinates = add2(multiply2(textureCoordinates, [ width, height ] ), [ left, bottom ]);
 
     return textureCoordinates;

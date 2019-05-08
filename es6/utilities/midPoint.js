@@ -5,7 +5,7 @@ const vectorMaths = require('../maths/vector');
 const { add3, scale3 } = vectorMaths;
 
 function calculateMidPointPosition(vertices) {
-  const midPointPosition = vertices.reduce(function(midPointPosition, vertex) {
+  const midPointPosition = vertices.reduce((midPointPosition, vertex) => {
     const vertexPosition = vertex.getPosition(),
           scaledVertexPosition = scale3(vertexPosition, 1/3);
 
@@ -38,7 +38,7 @@ module.exports = module.exports = {
 };
 
 function isMidPointPositionToTheLeftOfMaskingEdges(midPointPosition, maskingEdges) {
-  const midPointPositionToTheLeftOfMaskingEdges = maskingEdges.reduce(function(midPointPositionToTheLeftOfMaskingEdges, maskingEdge) {
+  const midPointPositionToTheLeftOfMaskingEdges = maskingEdges.reduce((midPointPositionToTheLeftOfMaskingEdges, maskingEdge) => {
     if (midPointPositionToTheLeftOfMaskingEdges) {
       const midPointPositionToTheLeftOfMaskingEdge = maskingEdge.isMidPointPositionToTheLeft(midPointPosition);
 
@@ -52,7 +52,7 @@ function isMidPointPositionToTheLeftOfMaskingEdges(midPointPosition, maskingEdge
 }
 
 function isMidPointPositionToTheRightOfMaskingEdges(midPointPosition, maskingEdges) {
-  const midPointPositionToTheRightOfMaskingEdges = maskingEdges.reduce(function(midPointPositionToTheRightOfMaskingEdges, maskingEdge) {
+  const midPointPositionToTheRightOfMaskingEdges = maskingEdges.reduce((midPointPositionToTheRightOfMaskingEdges, maskingEdge) => {
     if (midPointPositionToTheRightOfMaskingEdges) {
       const midPointPositionToTheRightOfMaskingEdge = maskingEdge.isMidPointPositionToTheRight(midPointPosition);
 
