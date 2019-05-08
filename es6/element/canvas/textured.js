@@ -9,7 +9,7 @@ const { push } = arrayUtilities,
       { textureCoordinatesFromTextureCoordinatesAndIndex } = textureUtilities;
 
 class TexturedCanvasElement extends CanvasElement {
-  render(colourRenderer, textureRenderer) {
+  render(textureRenderer, colourRenderer) {
     const imageJSON = textureRenderer.getImageJSON(),
 					vertexPositions = this.getVertexPositions(),
           vertexIndexes = this.getVertexIndexes(),

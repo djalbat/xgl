@@ -49,12 +49,13 @@ class Mask extends Element {
     element.setFacets(facets);
   }
 
-  initialise(colourRenderer, textureRenderer, transforms) {
-    const childElements = this.getChildElements(),
-          masked = true;  ///
+  initialise(textureRenderer, colourRenderer, transforms, masked) {
+    const childElements = this.getChildElements();
+
+    masked = true;  ///
 
     childElements.forEach(function(childElement) {
-      childElement.initialise(colourRenderer, textureRenderer, transforms, masked);
+      childElement.initialise(textureRenderer, colourRenderer, transforms, masked);
     });
   }
 

@@ -5,12 +5,12 @@ const Element = require('../element'),
       TextureRenderer = require('../renderer/texture');
 
 class Part extends Element {
-  constructor(colourRenderer, textureRenderer, canvas) {
+  constructor(textureRenderer, colourRenderer, canvas) {
     super();
 
-    this.colourRenderer = colourRenderer;
-
     this.textureRenderer = textureRenderer;
+
+    this.colourRenderer = colourRenderer;
 
     this.canvas = canvas;
   }
@@ -47,11 +47,13 @@ class Part extends Element {
   }
   
   initialise() {
-    const transforms = [],
+    const textureRenderer = this.textureRenderer,
+          colourRenderer = this.colourRenderer,
+          transforms = [],
           masked = false;
 
     this.childElements.forEach(function(childElement) {
-      childElement.initialise(this.colourRenderer, this.textureRenderer, transforms, masked);
+      childElement.initialise(textureRenderer, colourRenderer, transforms, masked);
     }.bind(this));
 
     this.colourRenderer.createBuffers(this.canvas);
@@ -63,7 +65,7 @@ class Part extends Element {
     const { imageMap, imageJSON, canvas } = properties,
           colourRenderer = ColourRenderer.fromNothing(canvas),
           textureRenderer = TextureRenderer.fromImageMapAndImageJSON(imageMap, imageJSON, canvas),
-          part = Element.fromProperties(Part, properties, colourRenderer, textureRenderer, canvas);
+          part = Element.fromProperties(Part, properties, textureRenderer, colourRenderer, canvas);
 
     part.initialise();
     

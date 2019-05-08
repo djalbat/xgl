@@ -7,7 +7,7 @@ const ColouredFacet = require('../../facet/coloured'),
 const { push } = arrayUtilities;
 
 class ColouredCanvasElement extends CanvasElement {
-  render(colourRenderer, textureRenderer) {
+  render(textureRenderer, colourRenderer) {
     const vertexPositions = this.getVertexPositions(),
           vertexIndexes = this.getVertexIndexes(),
           vertexNormals = this.getVertexNormals(),

@@ -29,7 +29,7 @@ class CanvasElement extends Element {
     this.facets = facets;
   }
 
-  render(colourRenderer, textureRenderer) {
+  render(textureRenderer, colourRenderer) {
     ///
   }
 
@@ -69,7 +69,7 @@ class CanvasElement extends Element {
     return vertexIndexes;
   }
 
-  initialise(colourRenderer, textureRenderer, transforms, masked) {
+  initialise(textureRenderer, colourRenderer, transforms, masked) {
     transforms = [this.transform, ...transforms]; ///
 
     this.facets.forEach(function(facet) {
@@ -81,7 +81,7 @@ class CanvasElement extends Element {
     childElements.forEach(function(childElement) {
       const masked = false; ///
 
-      childElement.initialise(colourRenderer, textureRenderer, transforms, masked);
+      childElement.initialise(textureRenderer, colourRenderer, transforms, masked);
 
       if (childElement instanceof Mask) {
         const mask = childElement,  ///
@@ -92,7 +92,7 @@ class CanvasElement extends Element {
     }.bind(this));
 
     if (!masked) {
-      this.render(colourRenderer, textureRenderer);
+      this.render(textureRenderer, colourRenderer);
     }
   }
 

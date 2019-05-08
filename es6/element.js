@@ -59,7 +59,7 @@ class Element {
     }.bind(this));
   }
 
-  initialise(colourRenderer, textureRenderer, transforms) {
+  initialise(textureRenderer, colourRenderer, transforms, masked) {
     ///
   }
 
