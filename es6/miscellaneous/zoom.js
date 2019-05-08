@@ -1,6 +1,6 @@
 'use strict';
 
-const constants = require('../../constants');
+const constants = require('../constants');
 
 const { DISTANCE_SCALAR, MINIMUM_DISTANCE } = constants; 
 

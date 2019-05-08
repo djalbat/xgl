@@ -1,6 +1,6 @@
 'use strict';
 
-const constants = require('../../constants');
+const constants = require('../constants');
 
 const { MOUSE_UP, MOUSE_DOWN, MOUSE_MOVE, MOUSE_WHEEL } = constants;
 

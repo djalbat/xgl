@@ -1,11 +1,11 @@
 'use strict';
 
 const Element = require('../element'),
-      Tilt = require('./camera/tilt'),
-      Pan = require('./camera/pan'),
-      Zoom = require('./camera/zoom'),
-      keyEvents = require('./camera/keyEvents'),
-      MouseEvents = require('./camera/mouseEvents'),
+      Pan = require('../miscellaneous/pan'),
+      Tilt = require('../miscellaneous/tilt'),
+      Zoom = require('../miscellaneous/zoom'),
+      keyEvents = require('../miscellaneous/keyEvents'),
+      MouseEvents = require('../miscellaneous/mouseEvents'),
       cameraUtilities = require('../utilities/camera');
 
 const { calculateOffsetMatrix, calculateRotationMatrix, calculatePositionMatrix, calculateProjectionMatrix, calculateNormalMatrix } = cameraUtilities;
