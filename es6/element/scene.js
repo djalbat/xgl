@@ -3,7 +3,7 @@
 const Element = require('../element');
 
 class Scene extends Element {
-  resize() {
+  resizeHandler() {
     const canvas = this.getCanvas(),
           clientWidth = canvas.getClientWidth(),
           clientHeight = canvas.getClientHeight(),
@@ -30,19 +30,21 @@ class Scene extends Element {
   }
 
   initialise() {
+    const childElements = this.getChildElements(),
+          resizeHandler = this.resizeHandler.bind(this),
+          updateHandler = this.updateHandler.bind(this);
+
     this.assignContext();
 
-    const childElements = this.getChildElements();
+    this.onUpdate(updateHandler);
+
+    window.onresize = resizeHandler;
 
     childElements.forEach(function(childElement) {
       childElement.initialise();
     });
 
-    this.onUpdate(this.updateHandler.bind(this));
-
-    window.onresize = this.resize.bind(this);
-
-    this.resize();
+    this.resizeHandler(); ///
   }
 
   static fromProperties(properties) {
