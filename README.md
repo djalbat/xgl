@@ -18,7 +18,7 @@ You can clone the repository with [Git](https://git-scm.com/)...
 
 ## Getting started
 
-Launch the `index.html` file in the project's root directory, which contains links to the various examples. You can compile these yourself, see the section on compiling from source nearer the end. This section assumes that you are doing this and will work through some of the examples from scratch, starting with the simplest.
+Launch the `index.html` file in the project's root directory, which contains links to the various examples. You can compile these yourself, see the section on compiling from source near to the end. This section assumes that you are doing this and will work through some of the examples from scratch, starting with the simplest.
 
 In order to build your own 3D scene you need a `canvas` HTML element, see the `example.html` file:
 
@@ -37,7 +37,7 @@ In order to build your own 3D scene you need a `canvas` HTML element, see the `e
 </html>
 ```
 
-It is recommended that you style the `canvas` element to take up the entire viewport, at least to begin with, see the `example.css` file:
+It is recommended that you style the `canvas` element to take up the entire viewport, at least to begin with:
 
 ```css
 ...
@@ -49,7 +49,7 @@ canvas {
 }
 ```
 
-Within the example itself, the `canvas` element is encapsulated in an instance of the `Canvas` class and passed to the outermost `Scene` JSX element:
+Within the examples themselves, the `canvas` element is encapsulated in an instance of the `Canvas` class and passed to the outermost `Scene` JSX element:
 
 ```js
 const canvas = new Canvas();
@@ -62,16 +62,8 @@ const simpleExample = () =>
 
 ;
 ```
-Note that much of the boilerplate code within the actual `es6/example/simple.js` has been left out here. Also note that if you are compiling the example from within this project, it is correct to use the relative `require('../../index')`. Outside of this project, however, you would require the package itself, `require('jiggle')`.
+Note that much of the boilerplate code in the actual `es6/example/simple.js` file has been left out here. Also note that if you are compiling the example from within this project, it is correct to use the relative `require('../../index')`. Outside of this project, however, you would require the package itself, `require('jiggle')`.
 
-To continue, you can pass a CSS selector to the `Canvas` class constructor. To pick out a `canvas` element with an identifier, say `<canvas id="simple"></canvas>`, you would need the following:
-
-```js
-const canvas = new Canvas('canvas#simple');
-
-...
-```
-The default selector is just `canvas`.
 
 Something like the following should appear:
 
