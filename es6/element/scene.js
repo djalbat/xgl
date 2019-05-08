@@ -30,8 +30,7 @@ class Scene extends Element {
   }
 
   initialise() {
-    const childElements = this.getChildElements(),
-          resizeHandler = this.resizeHandler.bind(this),
+    const resizeHandler = this.resizeHandler.bind(this),
           updateHandler = this.updateHandler.bind(this);
 
     this.assignContext();
@@ -39,10 +38,6 @@ class Scene extends Element {
     this.onUpdate(updateHandler);
 
     window.onresize = resizeHandler;
-
-    childElements.forEach(function(childElement) {
-      childElement.initialise();
-    });
 
     this.resizeHandler(); ///
   }

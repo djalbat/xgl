@@ -64,6 +64,8 @@ class Part extends Element {
           colourRenderer = ColourRenderer.fromNothing(canvas),
           textureRenderer = TextureRenderer.fromImageMapAndImageJSON(imageMap, imageJSON, canvas),
           part = Element.fromProperties(Part, properties, colourRenderer, textureRenderer);
+
+    part.initialise();
     
     return part;
   }

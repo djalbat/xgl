@@ -152,6 +152,8 @@ class Camera extends Element {
           handler = null,  ///
           mouseDown = false,
           camera = Element.fromProperties(Camera, properties, tilt, pan, zoom, handler, mouseDown);
+
+    camera.initialise();
     
     return camera;
   }
