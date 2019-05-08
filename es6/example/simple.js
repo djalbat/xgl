@@ -14,7 +14,7 @@ const simpleExample = () =>
     <Part canvas={canvas}>
       <ColouredTriangle />
     </Part>
-    <Camera canvas={canvas} initialDistance={5} initialOffset={[ 0, 0, 0 ]} />
+    <Camera canvas={canvas} />
   </Scene>
 
 ;

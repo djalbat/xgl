@@ -10,6 +10,9 @@ const Element = require('../element'),
 
 const { calculateOffsetMatrix, calculateRotationMatrix, calculatePositionMatrix, calculateProjectionMatrix, calculateNormalMatrix } = cameraUtilities;
 
+const defaultInitialDistance = 5,
+      defaultInitialOffset = [ 0, 0, 0 ];
+
 class Camera extends Element {
   constructor(tilt, pan, zoom, handler, mouseDown, canvas) {
     super();
@@ -145,7 +148,7 @@ class Camera extends Element {
   }
 
   static fromProperties(properties) {
-    const { initialDistance, initialOffset, canvas } = properties,
+    const { initialDistance = defaultInitialDistance, initialOffset = defaultInitialOffset, canvas } = properties,
           tilt = Tilt.fromNothing(),
           pan = Pan.fromInitialOffset(initialOffset),
           zoom = Zoom.fromInitialDistance(initialDistance),
