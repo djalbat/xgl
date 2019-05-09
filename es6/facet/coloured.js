@@ -11,10 +11,10 @@ const { verticesFromCoordinateTuplesAndIndexTuple } = verticesUtilities,
       { cloneEdges, cloneNormal, cloneVertices, calculateEdges, calculateNormal } = facetUtilities;
 
 class ColouredFacet extends Facet {
-  constructor(vertices, normal, edges, colour) {
+  constructor(vertices, normal, edges, rgba) {
     super(vertices, normal, edges);
     
-    this.colour = colour;
+    this.rgba = rgba;
   }
 
   clone() {
@@ -26,18 +26,14 @@ class ColouredFacet extends Facet {
     normal = cloneNormal(normal);
     edges = cloneEdges(edges);
 
-    const colour = this.colour,
-          colouredFacet = new ColouredFacet(vertices, normal, edges, colour);
+    const rgba = this.rgba,
+          colouredFacet = new ColouredFacet(vertices, normal, edges, rgba);
 
     return colouredFacet;
   }
 
-  getColour() {
-    return this.colour;
-  }
-  
   getVertexColours() {
-    const vertexColour = this.colour, ///
+    const vertexColour = this.rgba, ///
           vertexColours = [
             vertexColour,
             vertexColour,
@@ -48,10 +44,10 @@ class ColouredFacet extends Facet {
   }
 
   fromVertices(vertices) {
-    const colour = this.colour,
+    const rgba = this.rgba,
           normal = calculateNormal(vertices, Normal),
           edges = calculateEdges(vertices, Edge),
-          colouredFacet = new ColouredFacet(vertices, normal, edges, colour);
+          colouredFacet = new ColouredFacet(vertices, normal, edges, rgba);
 
     return colouredFacet;
   }
@@ -60,7 +56,8 @@ class ColouredFacet extends Facet {
     const vertices = verticesFromCoordinateTuplesAndIndexTuple(coordinateTuples, indexTuple, Vertex),
           normal = calculateNormal(vertices, Normal),
           edges = calculateEdges(vertices, Edge),
-          colouredFacet = new ColouredFacet(vertices, normal, edges, colour);
+          rgba = [...colour, 1],  ///
+          colouredFacet = new ColouredFacet(vertices, normal, edges, rgba);
     
     return colouredFacet;
   }
