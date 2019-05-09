@@ -34,7 +34,7 @@ In order to build your own 3D scene you need a `canvas` HTML element:
 </html>
 ```
 
-You could style the `canvas` element to take up the entire viewport, at least to begin with:
+You could style the `canvas` HTML element to take up the entire viewport, at least to begin with:
 
 ```css
 canvas {
@@ -43,9 +43,9 @@ canvas {
   display: block;
 }
 ```
-Note that in what follows some of the boilerplate code in the actual example is left out. Also note that if you are compiling the examples from within this project, it is correct to use the relative `require('../../index')`. Outside of this project, however, you would require the package itself, `require('jiggle')`.
+Note that in what follows some of the boilerplate code in the actual examples is left out. Also note that if you are compiling the examples from within this project, it is correct to use the relative require. Outside of this project, however, you would require the Jiggle package itself.
 
-To continue, the `canvas` element is encapsulated in an instance of the `Canvas` class and passed to the outermost `Scene` JSX element:
+To continue, the `canvas` HTML element is encapsulated in an instance of the `Canvas` class and passed to the outermost `Scene` JSX element, which itself contains a `Camera` JSX element and one or more `Part` JSX elements. The `Part` JSX elements themselves contain the JSX elements that are actually rendered, in this case a single `ColouredSquare` element:
 
 ```js
 const canvas = new Canvas();
