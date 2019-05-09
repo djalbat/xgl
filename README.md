@@ -2,7 +2,7 @@
 
 Makes use of [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) to leverage [WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API).
 
-Jiggle provides the *programmatic* means to create 3D scenes. It puts an almost opaque layer of abstraction over WebGL so that little or no experience of WebGL is needed. You create scenes declaratively using JSX, adding imperative code as and when needed. A few basic 3D elements are provided out of the box and there are instructions below to show you how to create more.
+Jiggle provides the *programmatic* means to create 3D scenes. It puts an almost opaque layer of abstraction over WebGL so that little or no experience of WebGL is needed. You create scenes declaratively using JSX, adding imperative code as and when needed.
 
 Please bear in mind that this project is still in embryonic form!
 
@@ -20,14 +20,11 @@ You can clone the repository with [Git](https://git-scm.com/)...
 
 Launch the `index.html` file in the project's root directory, which contains links to the various examples. You can compile these yourself, see the section on compiling from source near to the end. This section assumes that you are doing this and will work through some of the examples from scratch, starting with the simplest.
 
-In order to build your own 3D scene you need a `canvas` HTML element, see the `example.html` file:
+In order to build your own 3D scene you need a `canvas` HTML element:
 
 ```html
 <html>
   <head>
-
-    ...
-
     <link href="css/example.css" rel="stylesheet" type="text/css" media="all">
   </head>
   <body>
@@ -37,23 +34,20 @@ In order to build your own 3D scene you need a `canvas` HTML element, see the `e
 </html>
 ```
 
-It is recommended that you style the `canvas` element to take up the entire viewport, at least to begin with:
+You could style the `canvas` element to take up the entire viewport, at least to begin with:
 
 ```css
-...
-
 canvas {
   height: 100vh;
   width: 100vw;
   display: block;
 }
 ```
+Note that in what follows some of the boilerplate code in the actual example is left out. Also note that if you are compiling the examples from within this project, it is correct to use the relative `require('../../index')`. Outside of this project, however, you would require the package itself, `require('jiggle')`.
 
-Within the examples themselves, the `canvas` element is encapsulated in an instance of the `Canvas` class and passed to the outermost `Scene` JSX element:
+To continue, the `canvas` element is encapsulated in an instance of the `Canvas` class and passed to the outermost `Scene` JSX element:
 
 ```js
-...
-
 const canvas = new Canvas();
 
 const simpleExample = () =>
@@ -63,12 +57,8 @@ const simpleExample = () =>
   </Scene>
 
 ;
-
-...
 ```
-Note that some of the boilerplate code in the actual `es6/example/simple.js` file has been left out here. Also note that if you are compiling the example from within this project, it is correct to use the relative `require('../../index')`. Outside of this project, however, you would require the package itself, `require('jiggle')`.
-
-The scene itself consists of one or more parts containing the various rendered elements, together with a camera to view them:
+The scene itself consists of one or more parts containing the various canvas elements, together with a camera to view them:
 
 ```js
 <Scene canvas={canvas}>
