@@ -59,7 +59,7 @@ class MouseEvents {
 		const handlers = this.handlersMap[eventType],
 					mouseCoordinates = mouseCoordinatesFromEvent(event, this.canvas);
 
-		handlers.forEach((handler) => handler(mouseCoordinates));
+		handlers.forEach((handler) => handler(mouseCoordinates, this.canvas));
 
 		event.preventDefault();
 	}

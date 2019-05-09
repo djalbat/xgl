@@ -21,7 +21,7 @@ class Scene extends Element {
 
     this.canvas.resize(width, height);
 
-    this.forceUpdate();
+    this.forceUpdate(this.canvas);
   }
 
   updateHandler(offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix) {

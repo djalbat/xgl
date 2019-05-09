@@ -14,7 +14,7 @@ const simpleExample = () =>
     <Part>
       <ColouredTriangle />
     </Part>
-    <Camera canvas={canvas} />
+    <Camera />
   </Scene>
 
 ;
