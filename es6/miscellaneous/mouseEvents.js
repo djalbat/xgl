@@ -5,17 +5,10 @@ const constants = require('../constants');
 const { MOUSE_UP, MOUSE_DOWN, MOUSE_MOVE, MOUSE_WHEEL } = constants;
 
 class MouseEvents {
-  constructor(handlersMap, canvas) {
+  constructor(handlersMap, mouseDown, canvas) {
     this.handlersMap = handlersMap;
+    this.mouseDown = mouseDown;
     this.canvas = canvas;
-  }
-
-  getHandlersMap() {
-    return this.handlersMap;
-  }
-
-  getCanvas() {
-    return this.canvas;
   }
 
   onMouseUp(mouseUpHandler) {
@@ -40,15 +33,25 @@ class MouseEvents {
     handlers.push(handler);
   }
 
-	mouseUpEventHandler(event) { this.mouseEventHandler(event, MOUSE_UP); }
+	mouseUpEventHandler(event) {
+    this.mouseDown = false;
 
-	mouseDownEventHandler(event) { this.mouseEventHandler(event, MOUSE_DOWN); }
+    this.mouseEventHandler(event, MOUSE_UP);
+  }
 
-	mouseMoveEventHandler(event) { this.mouseEventHandler(event, MOUSE_MOVE); }
+	mouseDownEventHandler(event) {
+    this.mouseDown = true;
+
+    this.mouseEventHandler(event, MOUSE_DOWN);
+  }
+
+	mouseMoveEventHandler(event) {
+    this.mouseEventHandler(event, MOUSE_MOVE);
+  }
 
   mouseWheelEventHandler(event) {
-    const handlers = this.handlersMap[MOUSE_WHEEL],
-          delta = deltaFromEvent(event);
+    const delta = deltaFromEvent(event),
+          handlers = this.handlersMap[MOUSE_WHEEL];
 
     handlers.forEach((handler) => handler(delta));
 
@@ -59,15 +62,16 @@ class MouseEvents {
 		const handlers = this.handlersMap[eventType],
 					mouseCoordinates = mouseCoordinatesFromEvent(event, this.canvas);
 
-		handlers.forEach((handler) => handler(mouseCoordinates, this.canvas));
+		handlers.forEach((handler) => handler(mouseCoordinates, this.mouseDown, this.canvas));
 
 		event.preventDefault();
 	}
 
   static fromNothing(canvas) {
     const handlersMap = {},
+          mouseDown = false,  ///
 					domElement = canvas.getDOMElement(),
-					mouseEvents = new MouseEvents(handlersMap, canvas),
+					mouseEvents = new MouseEvents(handlersMap, mouseDown, canvas),
 					mouseUpEventHandler = mouseEvents.mouseUpEventHandler.bind(mouseEvents),
 					mouseDownEventHandler = mouseEvents.mouseDownEventHandler.bind(mouseEvents),
 					mouseMoveEventHandler = mouseEvents.mouseMoveEventHandler.bind(mouseEvents),
