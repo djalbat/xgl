@@ -53,20 +53,13 @@ const canvas = new Canvas();
 const simpleExample = () =>
 
   <Scene canvas={canvas}>
-    ...
+    <Part>
+      <ColouredSquare />
+    </Part>
+    <Camera />
   </Scene>
 
 ;
-```
-The scene itself consists of one or more parts containing the various canvas elements, together with a camera to view them:
-
-```js
-<Scene canvas={canvas}>
-  <Part>
-    <ColouredSquare />
-  </Part>
-  <Camera />
-</Scene>
 ```
 
 Something like the following should appear:
