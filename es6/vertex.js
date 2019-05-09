@@ -10,7 +10,7 @@ class Vertex {
   }
 
   clone() {
-    const position = clonePosition(this.position),
+    const position = this.position.slice(), ///
           vertex = new Vertex(position);
 
     return vertex;
@@ -36,8 +36,8 @@ class Vertex {
     return vertex;
   }
   
-  static fromCoordinates(coordinates) {
-    const position = positionFromCoordinates(coordinates),
+  static fromCoordinateTuple(coordinateTuple) {
+    const position = coordinateTuple.slice(), ///
           vertex = new Vertex(position);
 
     return vertex;
@@ -45,11 +45,3 @@ class Vertex {
 }
 
 module.exports = Vertex;
-
-function clonePosition(position) { return position.slice(); } ///
-
-function positionFromCoordinates(coordinates) {
-  const position = coordinates.slice(); ///
-  
-  return position;
-}
