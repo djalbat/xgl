@@ -41,7 +41,7 @@ class Part extends Element {
     this.textureRenderer = TextureRenderer.fromImageMapAndImageJSON(this.imageMap, this.imageJSON, canvas);
 
     this.childElements.forEach((childElement) => {
-      childElement.initialise(this.textureRenderer, this.colourRenderer, transforms, masked);
+      childElement.initialise(this.colourRenderer, this.textureRenderer, transforms, masked);
     });
 
     this.colourRenderer.createBuffers(canvas);

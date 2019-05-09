@@ -59,7 +59,7 @@ class Element {
     });
   }
 
-  initialise(textureRenderer, colourRenderer, transforms, masked) {
+  initialise(colourRenderer, textureRenderer, transforms, masked) {
     ///
   }
 
