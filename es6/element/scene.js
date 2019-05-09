@@ -31,11 +31,12 @@ class Scene extends Element {
   render(offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix) {
     this.canvas.clear();
 
-    this.childElements.forEach((childElement) => childElement.render(offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix));
+    this.childElements.forEach((childElement) => childElement.render(this.canvas, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix));
   }
 
   initialise() {
-    const resizeHandler = this.resizeHandler.bind(this),
+    const childElements = this.getChildElements(),
+          resizeHandler = this.resizeHandler.bind(this),
           updateHandler = this.updateHandler.bind(this);
 
     this.assignContext();
@@ -43,6 +44,10 @@ class Scene extends Element {
     this.onResize(resizeHandler);
 
     this.onUpdate(updateHandler);
+
+    childElements.forEach((childElement) => {
+      childElement.initialise(this.canvas);
+    });
 
     this.resizeHandler(); ///
   }

@@ -5,70 +5,55 @@ const Element = require('../element'),
       TextureRenderer = require('../renderer/texture');
 
 class Part extends Element {
-  constructor(textureRenderer, colourRenderer, canvas) {
+  constructor(imageMap, imageJSON, colourRenderer, textureRenderer) {
     super();
 
-    this.textureRenderer = textureRenderer;
-
+    this.imageMap = imageMap;
+    this.imageJSON = imageJSON;
     this.colourRenderer = colourRenderer;
-
-    this.canvas = canvas;
+    this.textureRenderer = textureRenderer;
   }
   
-  getColourRenderer() {
-    return this.colourRenderer;
-  }
-  
-  getTextureRenderer() {
-    return this.textureRenderer;
-  }
-
-  getChildElements() {
-    return this.childElements;
-  }
-
-  render(offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix) {
+  render(canvas, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix) {
     const colourRendererProgram = this.colourRenderer.getProgram(),
           textureRendererProgram = this.textureRenderer.getProgram();
 
-    this.canvas.useProgram(colourRendererProgram);
+    canvas.useProgram(colourRendererProgram);
 
-    this.colourRenderer.bindBuffers(this.canvas);
+    this.colourRenderer.bindBuffers(canvas);
 
-    this.canvas.render(this.colourRenderer, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
+    canvas.render(this.colourRenderer, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
 
-    this.canvas.useProgram(textureRendererProgram);
+    canvas.useProgram(textureRendererProgram);
     
-    this.textureRenderer.bindBuffers(this.canvas);
+    this.textureRenderer.bindBuffers(canvas);
     
-    this.textureRenderer.activateTexture(this.canvas);
+    this.textureRenderer.activateTexture(canvas);
     
-    this.canvas.render(this.textureRenderer, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
+    canvas.render(this.textureRenderer, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
   }
   
-  initialise() {
-    const textureRenderer = this.textureRenderer,
-          colourRenderer = this.colourRenderer,
-          transforms = [],
+  initialise(canvas) {
+    const transforms = [],
           masked = false;
 
+    this.colourRenderer = ColourRenderer.fromNothing(canvas);
+    this.textureRenderer = TextureRenderer.fromImageMapAndImageJSON(this.imageMap, this.imageJSON, canvas);
+
     this.childElements.forEach((childElement) => {
-      childElement.initialise(textureRenderer, colourRenderer, transforms, masked);
+      childElement.initialise(this.textureRenderer, this.colourRenderer, transforms, masked);
     });
 
-    this.textureRenderer.createBuffers(this.canvas);
-
-    this.colourRenderer.createBuffers(this.canvas);
+    this.colourRenderer.createBuffers(canvas);
+    this.textureRenderer.createBuffers(canvas);
   }
 
   static fromProperties(properties) {
-    const { imageMap, imageJSON, canvas } = properties,
-          colourRenderer = ColourRenderer.fromNothing(canvas),
-          textureRenderer = TextureRenderer.fromImageMapAndImageJSON(imageMap, imageJSON, canvas),
-          part = Element.fromProperties(Part, properties, textureRenderer, colourRenderer, canvas);
+    const { imageMap, imageJSON } = properties,
+          colourRenderer = null,
+          textureRenderer = null,
+          part = Element.fromProperties(Part, properties, imageMap, imageJSON, colourRenderer, textureRenderer);
 
-    part.initialise();
-    
     return part;
   }
 }

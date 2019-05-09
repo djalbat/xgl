@@ -11,7 +11,7 @@ const canvas = new Canvas();
 const simpleExample = () =>
 
   <Scene canvas={canvas}>
-    <Part canvas={canvas}>
+    <Part>
       <ColouredTriangle />
     </Part>
     <Camera canvas={canvas} />

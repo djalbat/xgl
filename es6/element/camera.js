@@ -46,7 +46,7 @@ class Camera extends Element {
     return this.mouseDown;
   }
   
-  render(offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix) {
+  render(canvas, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix) {
     ///
   }
 
@@ -156,8 +156,6 @@ class Camera extends Element {
           mouseDown = false,
           camera = Element.fromProperties(Camera, properties, tilt, pan, zoom, handler, mouseDown, canvas);
 
-    camera.initialise();
-    
     return camera;
   }
 }
