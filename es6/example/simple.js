@@ -2,7 +2,7 @@
 
 const jiggle = require('../../index');
 
-const ColouredTriangle = require('../element/common/coloured/triangle');
+const ColouredSquare = require('./element/colouredSquare');
 
 const { Canvas, Scene, Part, Camera } = jiggle;
 
@@ -12,7 +12,7 @@ const simpleExample = () =>
 
   <Scene canvas={canvas}>
     <Part>
-      <ColouredTriangle />
+      <ColouredSquare />
     </Part>
     <Camera />
   </Scene>

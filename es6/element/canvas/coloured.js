@@ -8,14 +8,17 @@ const { push } = arrayUtilities;
 
 class ColouredCanvasElement extends CanvasElement {
   render(colourRenderer, textureRenderer) {
-    const vertexPositions = this.getVertexPositions(),
-          vertexIndexes = this.getVertexIndexes(),
+    const vertexIndexes = this.getVertexIndexes(),
           vertexNormals = this.getVertexNormals(),
-          vertexColours = this.getVertexColours();
+          vertexColours = this.getVertexColours(),
+          vertexPositions = this.getVertexPositions();
 
     colourRenderer.addVertexPositions(vertexPositions);
+
     colourRenderer.addVertexIndexes(vertexIndexes);
+
     colourRenderer.addVertexNormals(vertexNormals);
+
     colourRenderer.addVertexColours(vertexColours);
   }
 

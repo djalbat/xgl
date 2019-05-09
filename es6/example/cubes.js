@@ -2,15 +2,17 @@
 
 const jiggle = require('../../index');
 
-const ColouredCuboid = require('../element/common/coloured/cuboid');
+// const ColouredCuboid = require('../element/common/coloured/cuboid');
 
 const { Canvas, Mask, Part, Scene, Camera } = jiggle;
 
 const canvas = new Canvas();
 
+const cubesExample = () => {};
 
-const cubesExample = () =>
+module.exports = cubesExample;
 
+/*
   <Scene canvas={canvas}>
     <Part canvas={canvas}>
       <ColouredCuboid colour={[ 1, 1, 0, 1 ]} position={[ -0.5, -0.5, -0.5 ]}>
@@ -26,6 +28,4 @@ const cubesExample = () =>
     <Camera canvas={canvas} initialDistance={5} initialOffset={[ 0, 0, 0 ]} />
   </Scene>
 
-;
-
-module.exports = cubesExample;
+ */

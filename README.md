@@ -73,7 +73,7 @@ The scene itself consists of one or more parts containing the various rendered e
 ```js
 <Scene canvas={canvas}>
   <Part>
-    <ColouredTriangle />
+    <ColouredSquare />
   </Part>
   <Camera />
 </Scene>

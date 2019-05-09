@@ -11,14 +11,17 @@ const { push } = arrayUtilities,
 class TexturedCanvasElement extends CanvasElement {
   render(colourRenderer, textureRenderer) {
     const imageJSON = textureRenderer.getImageJSON(),
-					vertexPositions = this.getVertexPositions(),
-          vertexIndexes = this.getVertexIndexes(),
+					vertexIndexes = this.getVertexIndexes(),
           vertexNormals = this.getVertexNormals(),
-					vertexTextureCoordinates = this.getVertexTextureCoordinates(imageJSON);
+          vertexPositions = this.getVertexPositions(),
+          vertexTextureCoordinates = this.getVertexTextureCoordinates(imageJSON);
 
     textureRenderer.addVertexPositions(vertexPositions);
+
     textureRenderer.addVertexIndexes(vertexIndexes);
+
     textureRenderer.addVertexNormals(vertexNormals);
+
     textureRenderer.addVertexTextureCoordinates(vertexTextureCoordinates);
   }
 
