@@ -16,7 +16,7 @@ You can clone the repository with [Git](https://git-scm.com/)...
 
     npm install
 
-## Getting started
+## Tutorial
 
 Launch the `index.html` file in the project's root directory, which contains links to the various examples. You can compile these yourself, see the section on compiling from source near to the end. This section assumes that you are doing this and will work through some of the examples from scratch, starting with the simplest.
 
@@ -63,6 +63,7 @@ const simpleExample = () =>
 
 ;
 ```
+Whilst the `Scene`, `Camera` and `Part` JSX elements are built in, you have to create the JSX elements that are rendered.
 
 Something like the following should appear:
 

@@ -10,7 +10,7 @@ const Edge = require('../edge'),
       verticesUtilities = require('../utilities/vertices');
 
 const { permute } = arrayUtilities,
-      { verticesFromVertexCoordinatesAndIndexes } = verticesUtilities,
+      { verticesFromCoordinateTuplesAndIndexTuple } = verticesUtilities,
       { cloneEdges, cloneNormal, cloneVertices, calculateEdges, calculateNormal } = facetUtilities,
       { cloneTextureCoordinates, calculateVertexTextureCoordinates, calculateAdjustedTextureCoordinates } = textureUtilities;
 
@@ -73,8 +73,8 @@ class TexturedFacet extends Facet {
     return texturedFacet;
   }
 
-  static fromVertexCoordinatesImageNameAndTextureCoordinates(vertexCoordinates, indexes, imageName, textureCoordinates) {
-    const vertices = verticesFromVertexCoordinatesAndIndexes(vertexCoordinates, indexes, Vertex),
+  static fromTextureCoordinateTupleCoordinateTuplesIndexTupleAndImageName(textureCoordinateTuple, coordinateTuples, indexTuple, imageName) {
+    const vertices = verticesFromCoordinateTuplesAndIndexTuple(coordinateTuples, indexTuple, Vertex),
           normal = calculateNormal(vertices, Normal),
           edges = calculateEdges(vertices, Edge),
           texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinates);

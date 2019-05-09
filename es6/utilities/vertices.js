@@ -10,20 +10,22 @@ function rotateVertices(vertices, rotationQuaternion) {
   return vertices;
 }
 
-function verticesFromVertexCoordinatesAndIndexes(vertexCoordinates, indexes, Vertex) {  ///
-  const vertices = indexes.map((index) => {
-    const coordinates = vertexCoordinates[index], ///
-          vertex = Vertex.fromCoordinates(coordinates);
+function verticesFromCoordinateTuplesAndIndexTuple(coordinateTuples, indexTuple, Vertex) {  ///
+  const indexes = indexTuple, ///
+        vertices = indexes.map((index) => {
+          const coordinateTuple = coordinateTuples[index],
+                coordinates = coordinateTuple, ///
+                vertex = Vertex.fromCoordinates(coordinates);
 
-    return vertex;
-  });
+          return vertex;
+        });
 
   return vertices;
 }
 
 module.exports = {
   rotateVertices,
-  verticesFromVertexCoordinatesAndIndexes
+  verticesFromCoordinateTuplesAndIndexTuple
 };
 
 function rotateVertex(vertex, rotationQuaternion) {

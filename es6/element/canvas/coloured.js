@@ -36,10 +36,12 @@ class ColouredCanvasElement extends CanvasElement {
     return vertexColours;
   }
 
-  static fromProperties(Class, properties, vertices, indexes, colour, ...remainingArguments) {
-    const colouredFacets = indexes.map((indexes) => {  ///
-            const colouredFacet = ColouredFacet.fromVertexCoordinatesIndexesAndColour(vertices, indexes, colour);
-  
+  static fromProperties(Class, properties, coordinates, indexes, colour, ...remainingArguments) {
+    const indexTuples = indexes,  ///
+          coordinateTuples = coordinates, ///
+          colouredFacets = indexTuples.map((indexTuple) => {
+            const colouredFacet = ColouredFacet.fromCoordinateTuplesIndexTupleAndColour(coordinateTuples, indexTuple, colour);
+
             return colouredFacet;
           }),
           facets = colouredFacets,  ///

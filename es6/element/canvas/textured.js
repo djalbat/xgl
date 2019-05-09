@@ -2,11 +2,9 @@
 
 const TexturedFacet = require('../../facet/textured'),
       CanvasElement = require('../../element/canvas'),
-      arrayUtilities = require('../../utilities/array'),
-      textureUtilities = require('../../utilities/texture');
+      arrayUtilities = require('../../utilities/array');
 
-const { push } = arrayUtilities,
-      { textureCoordinatesFromTextureCoordinatesAndIndex } = textureUtilities;
+const { push } = arrayUtilities;
 
 class TexturedCanvasElement extends CanvasElement {
   render(colourRenderer, textureRenderer) {
@@ -39,11 +37,13 @@ class TexturedCanvasElement extends CanvasElement {
     return vertexTextureCoordinates;
   }
 
-  static fromProperties(Class, properties, vertexCoordinates, indexes, imageName, textureCoordinates, ...remainingArguments) {
-    const textureCoordinatess = textureCoordinates, ///
-          texturedFacets = indexes.map((indexes, index) => {  ///
-            const textureCoordinates = textureCoordinatesFromTextureCoordinatesAndIndex(textureCoordinatess, index),  ///
-                  texturedFacet = TexturedFacet.fromVertexCoordinatesImageNameAndTextureCoordinates(vertexCoordinates, indexes, imageName, textureCoordinates, index);
+  static fromProperties(Class, properties, coordinates, indexes, imageName, textureCoordinates, ...remainingArguments) {
+    const indexTuples = indexes,  ///
+          coordinateTuples = coordinates, ///
+          textureCoordinateTuples = textureCoordinates, ///
+          texturedFacets = indexTuples.map((indexTuple, index) => {
+            const textureCoordinateTuple = textureCoordinateTuples[index],
+                  texturedFacet = TexturedFacet.fromTextureCoordinateTupleCoordinateTuplesIndexTupleAndImageName(textureCoordinateTuple, coordinateTuples, indexTuple, imageName);
 
             return texturedFacet;
           }),

@@ -95,15 +95,8 @@ function calculateAdjustedTextureCoordinates(vertices, normal, parentVertices, t
   return adjustedTextureCoordinates;
 }
 
-function textureCoordinatesFromTextureCoordinatesAndIndex(textureCoordinates, index) {  ///
-  textureCoordinates = textureCoordinates.slice(index * 3, index * 3 + 3);  ///
-
-  return textureCoordinates;
-}
-
 module.exports = {
   cloneTextureCoordinates,
   calculateVertexTextureCoordinates,
-  calculateAdjustedTextureCoordinates,
-  textureCoordinatesFromTextureCoordinatesAndIndex
+  calculateAdjustedTextureCoordinates
 };

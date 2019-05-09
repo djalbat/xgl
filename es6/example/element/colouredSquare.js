@@ -4,7 +4,7 @@ const jiggle = require('../../../index');
 
 const { ColouredCanvasElement } = jiggle;
 
-const vertexCoordinates = [
+const coordinates = [
 
         [ 0, 0, 0 ],
         [ 1, 0, 0 ],
@@ -21,7 +21,7 @@ const vertexCoordinates = [
       colour = [ 1, 0, 0, 1 ];
 
 class ColouredSquare extends ColouredCanvasElement {
-  static fromProperties(properties) { return ColouredCanvasElement.fromProperties(ColouredSquare, properties, vertexCoordinates, indexes, colour); }
+  static fromProperties(properties) { return ColouredCanvasElement.fromProperties(ColouredSquare, properties, coordinates, indexes, colour); }
 }
 
 module.exports = ColouredSquare;
