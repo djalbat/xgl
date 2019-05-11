@@ -85,11 +85,14 @@ const coordinates = [
       colour = [ 1, 0, 0 ];
 
 class ColouredSquare extends ColouredCanvasElement {
-  static fromProperties(properties) { return ColouredCanvasElement.fromProperties(ColouredSquare, properties, coordinates, indexes, colour); }
+  static fromProperties(properties) {
+    return ColouredCanvasElement.fromProperties(ColouredSquare, properties, coordinates, indexes, colour);
+  }
 }
 
 module.exports = ColouredSquare;
 ```
+The `ColouredCanvasElement` class is provided for you and all you have to do is extend it, adding your own static `fromProperties(...)` static method, passing the requisite coordinates, indexes and colour.
 
 Something like the following should appear:
 
