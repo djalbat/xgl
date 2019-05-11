@@ -112,7 +112,7 @@ const cubesExample = () =>
 
 ;
 ```
-There are a couple of small changes to the coloured square to make it easier to rotate and to support multiple colours. Note the change in coordinates and the extraction of the colour from the `properties` argument, the latter meaning that a `colour` attribute can be added:
+There are a couple of small to the coloured square to make it easier to rotate and to support multiple colours, namely the change in coordinates and the extraction of the colour from the `properties` argument, the latter meaning that a `colour` attribute can be added to the JSX elements:
 
 ```js
 const coordinates = [
