@@ -98,7 +98,7 @@ Before moving on it is worth a moment to study Jiggle's coordinate system. Obvio
 
 ### The cubes example
 
-Because creating more than a handful of facets can be problematic, it is recommended that you build up more complex elements using simple elements rather than increasing numbers of coordinates and indexes. There is little or no overhead in doing so, in particular the rendered scene will not run any slower once the buffers have been populated. In this example the cube consists of six coloured squares rather than a dozen facets:
+Because creating more than a handful of facets can be problematic, it is recommended that you build up more complex elements using simple elements rather than increasing numbers of coordinates and indexes. There is little or no overhead in doing so, in particular the rendered scene will not run any slower once the buffers have been populated. In this example there is a cube consisting of six coloured squares rather than a dozen facets:
 
 ```js
 const cubesExample = () =>
@@ -133,10 +133,10 @@ const coordinates = [
 
 class ColouredSquare extends ColouredCanvasElement {
   static fromProperties(properties) {
-  	const { colour = defaultColour } = properties,
+    const { colour = defaultColour } = properties,
           colouredSquare = ColouredCanvasElement.fromProperties(ColouredSquare, properties, coordinates, indexes, colour);
 
-  	return colouredSquare;
+    return colouredSquare;
   }
 }
 ```
