@@ -2,7 +2,7 @@
 
 Makes use of [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) to leverage [WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API).
 
-Jiggle provides the *programmatic* means to create 3D scenes. It puts an almost opaque layer of abstraction over WebGL so that little or no experience of WebGL is needed. You create scenes declaratively using JSX, adding imperative code as and when needed.
+Jiggle provides the *programmatic* means to create 3D scenes. It puts an almost opaque layer of abstraction over WebGL so that little or no experience of WebGL is needed. You create scenes declaratively using JSX, adding imperative code as and when.
 
 Please bear in mind that this project is still in embryonic form!
 
@@ -45,7 +45,7 @@ canvas {
   display: block;
 }
 ```
-Note that in what follows some of the boilerplate code in the actual examples is left out. Also note that if you are compiling the examples from within the cloned repository, it is correct to use the relative require. However, normally you would require the package itself.
+Note that in what follows some of the boilerplate code in the actual examples is left out of the listings here. Also note that if you are compiling the examples from within the cloned repository, it is correct to use the relative require. However, normally you would require the package itself.
 
 To continue, the `canvas` HTML element is encapsulated by an instance of the `Canvas` class and passed to the outermost `Scene` JSX element, which itself contains a `Camera` JSX element and one or more `Part` JSX elements. The `Part` JSX elements contain JSX elements that are actually rendered, in this case a single `ColouredSquare` element:
 
