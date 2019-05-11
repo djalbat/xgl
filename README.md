@@ -112,7 +112,7 @@ const cubesExample = () =>
 
 ;
 ```
-There is a small change to the coloured square to make it easier to rotate and to support multiple colours:
+There is a small change to the coloured square to make it easier to rotate and to support multiple colours. Note the change in coordinates and the extraction of the colour from the `properties` argument, the latter meaning that a `colour` attribute can be added:
 
 ```js
 const coordinates = [
@@ -140,7 +140,7 @@ class ColouredSquare extends ColouredCanvasElement {
   }
 }
 ```
-Note the change in coordinates and the extraction of the colour from the `properties` argument, the latter meaning that a `colour` attribute can be added. The compound `Cube` element need only extend the `CanvasElement` class and provide its own `fromProperties(...)` static method in a similar vein to before:
+The compound `Cube` element need only extend the `CanvasElement` class and provide its own `fromProperties(...)` static method in a similar vein to before:
 
 ```js
 const { CanvasElement } = jiggle;
