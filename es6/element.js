@@ -2,7 +2,7 @@
 
 class Element {
   constructor() {
-    this.childElements = null;  ///
+		///
   }
 
   getChildElements() {
