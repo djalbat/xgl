@@ -90,6 +90,8 @@ class ColouredSquare extends ColouredCanvasElement {
 ```
 The `ColouredCanvasElement` class is provided for you and all you have to do, initially at least, is to extend it, adding your own static `fromProperties(...)` static method and passing the requisite coordinates, indexes and colour to the parent `fromProperties(...)` method. Note that the class itself is passed as the first argument.
 
+The important arguments are the coordinates and indexes. Underneath the hood, Jiggle works with facets. These are triangles with colour or texture, and a normal. The normal is used for shading. Facets are defined by passing tripes of indexes that refer to the coordinates given. In this case there are four coordinates, one for each corner of the square. Two facts need to be created to cover the square. Note that the first and third coordinates are re-used. It is essential that you get the coordinates and indexes right for any canvas element. This information is used to populate the WebGL rendering buffers and if it is wrong, weird WebGL errors will likely surface.
+
 
 
 
