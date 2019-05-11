@@ -90,7 +90,7 @@ class ColouredSquare extends ColouredCanvasElement {
   }
 }
 ```
-The `ColouredCanvasElement` class is provided for you and all you have to do, initially at least, is to extend it, adding your own static `fromProperties(...)` static method and passing the requisite coordinates, indexes and colour to the parent `fromProperties(...)` method. Note that the class itself is passed as the first argument.
+The `ColouredCanvasElement` class is provided for you and all you have to do, initially at least, is to extend it, adding your own static `fromProperties()` static method and passing the requisite coordinates, indexes and colour to the parent `fromProperties()` method. Note that the class itself is passed as the first argument.
 
 The `coordinates` and `indexes` arguments are the important ones. Jiggle works with facets underneath the hood, which are triangles with a colour or texture together with a normal. Facets are defined by triples of indexes that refer to specific coordinates. In this case there are four coordinates, one for each corner of the square. Two facets have been created in order to make the square. Note that the first and third coordinates are re-used. It is essential that you get the coordinates and indexes right for any canvas element. They are used to populate the WebGL rendering buffers and if they are wrong, weird WebGL errors will likely result.
 
@@ -140,7 +140,7 @@ class ColouredSquare extends ColouredCanvasElement {
   }
 }
 ```
-The compound `Cube` element need only extend the `CanvasElement` class and provide its own `fromProperties(...)` static method in a similar vein to before:
+The compound `Cube` element need only extend the `CanvasElement` class and provide its own `fromProperties()` static method in a similar vein to before. The `childElements()` method specifies the six coloured squares that are needed:
 
 ```js
 const { CanvasElement } = jiggle;
