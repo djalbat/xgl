@@ -66,8 +66,6 @@ const simpleExample = () =>
 Whilst the `Scene`, `Camera` and `Part` JSX elements are built in, you have to create the JSX elements that are rendered. Here is a bare bones implementation of the `ColouredSquare` element:
 
 ```js
-const { ColouredCanvasElement } = jiggle;
-
 const coordinates = [
 
         [ 0, 0, 0 ],
@@ -89,10 +87,18 @@ class ColouredSquare extends ColouredCanvasElement {
     return ColouredCanvasElement.fromProperties(ColouredSquare, properties, coordinates, indexes, colour);
   }
 }
-
-module.exports = ColouredSquare;
 ```
-The `ColouredCanvasElement` class is provided for you and all you have to do is extend it, adding your own static `fromProperties(...)` static method, passing the requisite coordinates, indexes and colour.
+The `ColouredCanvasElement` class is provided for you and all you have to do, initially at least, is to extend it, adding your own static `fromProperties(...)` static method and passing the requisite coordinates, indexes and colour to the parent `fromProperties(...)` method. Note that the class itself is passed as the first argument.
+
+
+
+
+
+
+
+
+
+
 
 Something like the following should appear:
 
