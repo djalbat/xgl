@@ -45,7 +45,7 @@ canvas {
   display: block;
 }
 ```
-Note that in what follows some of the boilerplate code in the actual examples is left out of the listings here. Also note that if you are compiling the examples from within the cloned repository, it is correct to use the relative require. However, normally you would require the package itself.
+Note that in what follows some of the boilerplate code in the actual examples is left out of the listings here. Also note that if you are compiling the examples from within the cloned repository, it is correct to use the relative require. Normally you would require the package itself, however.
 
 To continue, the `canvas` HTML element is encapsulated by an instance of the `Canvas` class and passed to the outermost `Scene` JSX element, which itself contains a `Camera` JSX element and one or more `Part` JSX elements. The `Part` JSX elements contain JSX elements that are actually rendered, in this case a single `ColouredSquare` element:
 
