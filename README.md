@@ -63,7 +63,33 @@ const simpleExample = () =>
 
 ;
 ```
-Whilst the `Scene`, `Camera` and `Part` JSX elements are built in, you have to create the JSX elements that are rendered.
+Whilst the `Scene`, `Camera` and `Part` JSX elements are built in, you have to create the JSX elements that are rendered. Here is a bare bones implementation of the `ColouredSquare` element:
+
+```js
+const { ColouredCanvasElement } = jiggle;
+
+const coordinates = [
+
+        [ 0, 0, 0 ],
+        [ 1, 0, 0 ],
+        [ 1, 1, 0 ],
+        [ 0, 1, 0 ],
+
+      ],
+      indexes = [
+
+        [ 0, 1, 2 ],
+        [ 2, 3, 0 ],
+
+      ],
+      colour = [ 1, 0, 0 ];
+
+class ColouredSquare extends ColouredCanvasElement {
+  static fromProperties(properties) { return ColouredCanvasElement.fromProperties(ColouredSquare, properties, coordinates, indexes, colour); }
+}
+
+module.exports = ColouredSquare;
+```
 
 Something like the following should appear:
 
