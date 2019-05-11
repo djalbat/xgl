@@ -163,7 +163,7 @@ class Cube extends CanvasElement {
   static fromProperties(properties) { return CanvasElement.fromProperties(Cube, properties); }
 }
 ```
-
+Rotations are specified as triples giving three rotations around the x, y and z axes, respectively. Rotations are right handed, meaning that if you point the thumb of your right hand down the requisite axis, your curled fingers give the direction of the rotation. They can be fiddlesome, in particular rotations are not communtative.
 
 
 
