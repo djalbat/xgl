@@ -94,14 +94,75 @@ The `ColouredCanvasElement` class is provided for you and all you have to do, in
 
 The `coordinates` and `indexes` arguments are the important ones. Jiggle works with facets underneath the hood, which are triangles with a colour or texture together with a normal. Facets are defined by triples of indexes that refer to specific coordinates. In this case there are four coordinates, one for each corner of the square. Two facets have been created in order to make the square. Note that the first and third coordinates are re-used. It is essential that you get the coordinates and indexes right for any canvas element. They are used to populate the WebGL rendering buffers and if they are wrong, weird WebGL errors will likely result.
 
-Before moving on it is worth a moment to study Jiggle's coordinate system. Obviously there are three dimensions, with the first, second and third coordinates of coordinate triples specifying signed distances along the x, y and z axes. Initially the camera is positioned at coordinates [ 0, 0, -10 ], for example, pointing back down the z axis in the direction of increasing z values. The axes are left-handed, which means that if you let the thumb and first finger of your left hand represent the x and y axes, your second finger will point in the direction of the z axis. Facets on the other hand are right handed, which means that if you let the fingers of your right hand curl around to represent the coordinates of each facet, your thumb will point in the direction of its normal. In this case your thumb will point back towards the camera. Note that the indexes for the two facets of the square are chosen in such as way that the normals of each point in the same direction.
+Before moving on it is worth a moment to study Jiggle's coordinate system. Obviously there are three dimensions, with the first, second and third coordinates of coordinate triples specifying signed distances along the x, y and z axes. Initially the camera is positioned at coordinates [ 0, 0, -10 ], for example, pointing back down the z axis in the direction of increasing z values. The axes are left-handed, which means that if you let the thumb and first finger of your left hand represent the x and y axes, your second finger will point in the direction of the z axis. Facets on the other hand are right handed, which means that if you let the fingers of your right hand curl around to represent the coordinates of each facet, your thumb will point in the direction of its normal. In this case your thumb will point back towards the camera. Note that the indexes for the two facets of the square are chosen so that the normals of each point in the same direction.
 
 ### The cubes example
 
-Because creating more than the simplest of canvas elements can be problematic, it is recommended that you build up more complex elements using compound elements rather than increasing numbers of coordinates and indexes. There is little or no overhead to doing so, in particular the rendered scene will not run any slower once the buffers have been populated.
+Because creating more than a handful of facets can be problematic, it is recommended that you build up more complex elements using simple elements rather than increasing numbers of coordinates and indexes. There is little or no overhead in doing so, in particular the rendered scene will not run any slower once the buffers have been populated. In this example the cube consists of six coloured squares rather than a dozen facets:
 
+```js
+const cubesExample = () =>
 
+  <Scene canvas={canvas}>
+    <Part>
+      <Cube />
+    </Part>
+    <Camera />
+  </Scene>
 
+;
+```
+There is a small change to the coloured square to make it easier to rotate and to support multiple colours:
+
+```js
+const coordinates = [
+
+        [ -0.5, -0.5, +0.5 ],
+        [ +0.5, -0.5, +0.5 ],
+        [ +0.5, +0.5, +0.5 ],
+        [ -0.5, +0.5, +0.5 ],
+
+      ],
+      indexes = [
+
+        [ 0, 1, 2 ],
+        [ 2, 3, 0 ],
+
+      ],
+      defaultColour = [ 1, 0, 0 ];
+
+class ColouredSquare extends ColouredCanvasElement {
+  static fromProperties(properties) {
+  	const { colour = defaultColour } = properties,
+          colouredSquare = ColouredCanvasElement.fromProperties(ColouredSquare, properties, coordinates, indexes, colour);
+
+  	return colouredSquare;
+  }
+}
+```
+Note the change in coordinates and the extraction of the colour from the `properties` argument, the latter meaning that a `colour` attribute can be added. The compound `Cube` element need only extend the `CanvasElement` class and provide its own `fromProperties(...)` static method in a similar vein to before:
+
+```js
+const { CanvasElement } = jiggle;
+
+class Cube extends CanvasElement {
+  childElements() {
+    return ([
+
+      <ColouredSquare colour={[ 1, 0, 0 ]} rotations={[   0,   0, 0 ]} />,
+      <ColouredSquare colour={[ 0, 1, 0 ]} rotations={[ +90,   0, 0 ]} />,
+      <ColouredSquare colour={[ 0, 0, 1 ]} rotations={[   0, +90, 0 ]} />,
+
+      <ColouredSquare colour={[ 0, 1, 1 ]} rotations={[ 180,   0, 0 ]} />,
+      <ColouredSquare colour={[ 1, 0, 1 ]} rotations={[ -90,   0, 0 ]} />,
+      <ColouredSquare colour={[ 1, 1, 0 ]} rotations={[   0, -90, 0 ]} />,
+
+    ]);
+  }
+
+  static fromProperties(properties) { return CanvasElement.fromProperties(Cube, properties); }
+}
+```
 
 
 
