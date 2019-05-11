@@ -63,6 +63,8 @@ const simpleExample = () =>
 
 ;
 ```
+### Creating canvas elements
+
 Whilst the `Scene`, `Camera` and `Part` JSX elements are built in, you have to create the JSX elements that are rendered. Here is a bare bones implementation of the `ColouredSquare` element:
 
 ```js
@@ -92,7 +94,11 @@ The `ColouredCanvasElement` class is provided for you and all you have to do, in
 
 The `coordinates` and `indexes` arguments are the important ones. Jiggle works with facets underneath the hood, which are triangles with a colour or texture together with a normal. Facets are defined by triples of indexes that refer to specific coordinates. In this case there are four coordinates, one for each corner of the square. Two facets have been created in order to make the square. Note that the first and third coordinates are re-used. It is essential that you get the coordinates and indexes right for any canvas element. They are used to populate the WebGL rendering buffers and if they are wrong, weird WebGL errors will likely result.
 
+Before moving on it is worth a moment to study Jiggle's coordinate system. Obviously there are three dimensions, with the first, second and third coordinates of any coordinate triple specifying signed distances along the x, y and z axes. Initially the camera is positioned at the `[ 0, 0, -10 ]` coordinate and points back down the z axis in the direction of increasing z values. The axes are left-handed, which means that if let the thumb and first finger of your left hand represent the x and y axes, your second finger will point in the direction of the z axis. Facets on the other hand are right handed, which means that if you let the fingers of your right hand curl to represent the coordinates of each fact, your thumb will point in the direction of the normal. In this case your thumb will point back towards the camera. Note that the indexes are chosen so that the normals of both facets point in the same direction.
 
+### The cubes example
+
+Because creating more than the simplest of canvas elements can be problematic, it is recommended that you build up more complex elements using compound elements rather than increasing numbers of coordinates and indexes. There is little or no overhead to doing so, in particular the rendered scene will not run any slower once the buffers have been populated.
 
 
 
