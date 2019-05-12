@@ -145,7 +145,51 @@ Masking is something specific to Jiggle, it is not part of WebGL. A screenshot o
 
 ![Masked cube](https://github.com/djalbat/Jiggle/blob/master/assets/masked_cube.jpg)
 
-Here a cube is masked by a cube that it contains, that is itself masked by a cube that it contains. Masking could be considered as the only functionality that Jiggle provides over and above WebGL, by the way. Here is the JSX:
+Here a cube has been masked by a cube that it contains, that has itself been masked by a cube that it contains. The listing below is an abridged version with only two nested cubes rather than three:
+
+```js
+const { Canvas, Scene, Mask, Part, Camera } = jiggle;
+
+const canvas = new Canvas();
+
+const maskingExample = () => {
+  const SmallCube =
+
+          <Cube size={[ 1/4, 1/4, 1/4 ]} />
+
+        ,
+        smallCubeMask =
+
+          <Mask>
+            <SmallCube />
+          </Mask>
+
+        ,
+        MediumCube =
+
+          <Cube size={[ 1/2, 1/2, 1/2 ]} mask={smallCubeMask} />
+
+        ;
+
+  return (
+
+    <Scene canvas={canvas}>
+      <Part>
+        <MediumCube />
+      </Part>
+      <Camera />
+    </Scene>
+
+  );
+};
+```
+Here is the scene that results, with the facets coloured randomly so that each is visible:
+
+![Masked cube facets](https://github.com/djalbat/Jiggle/blob/master/assets/masked_cube_facets.jpg)
+
+
+
+Masking could be considered as the only functionality that Jiggle provides over and above WebGL, by the way. Here is the JSX:
 ```js
 const example = () =>
 
@@ -173,7 +217,6 @@ Jiggle's basic drawing primitive is a facet, which is essentially a triangle wit
 
 Masking can cause facets to be subdivided many times and should be used sparingly for that reason. Masking a cube just once with another cube results in around a hundred facets, for example:
 
-![Masked cube facets](https://github.com/djalbat/Jiggle/blob/master/assets/masked_cube_facets.jpg)
 
 
 ## Usage

@@ -33,7 +33,11 @@ const maskingExample = () => {
           </Mask>
 
         ,
-        LargeCube = <Cube mask={mediumCubeMask} />;
+        LargeCube =
+
+          <Cube mask={mediumCubeMask} />
+
+        ;
 
   return (
 
