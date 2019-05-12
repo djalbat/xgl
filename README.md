@@ -187,38 +187,6 @@ Here is the scene that results, with the facets coloured randomly so that each i
 
 ![Masked cube facets](https://github.com/djalbat/Jiggle/blob/master/assets/masked_cube_facets.jpg)
 
-
-
-Masking could be considered as the only functionality that Jiggle provides over and above WebGL, by the way. Here is the JSX:
-```js
-const example = () =>
-
-  <Scene canvas={canvas}>
-    <Part canvas={canvas}>
-      <ColouredCuboid colour={[ 1, 1, 0, 1 ]} position={[ -0.5, -0.5, -0.5 ]}>
-        <Mask>
-          <ColouredCuboid width={0.5} height={0.5} depth={0.5} position={[ 0.25, 0.25, 0.25 ]}>
-            <Mask>
-              <ColouredCuboid width={0.5} height={0.5} depth={0.5} position={[ 0.25, 0.25, 0.25 ]} />
-            </Mask>
-          </ColouredCuboid>
-        </Mask>
-      </ColouredCuboid>
-    </Part>
-    <Camera canvas={canvas} initialDistance={5} initialOffset={[ 0, 0, 0 ]} />
-  </Scene>
-
-;
-```
-### Vertices, facets and elements
-
-Jiggle's basic drawing primitive is a facet, which is essentially a triangle with a normal. The cube above comprises twelve facets, for example, two for each side. If masked with another cube
-
-
-Masking can cause facets to be subdivided many times and should be used sparingly for that reason. Masking a cube just once with another cube results in around a hundred facets, for example:
-
-
-
 ## Usage
 
 ### Creating a scene
