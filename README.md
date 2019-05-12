@@ -189,53 +189,6 @@ Here is the scene that results, with the facets coloured randomly so that each i
 
 The small-sized cube is used to make the mask for the medium-sized cube. Each facet of the small-sized cube forms a prism that cuts through each facet of the medium-sized cube. In practice, however, most of the prisms formed from the masking element do not intersect any prism in the masked element and are quickly discarded. Nonetheless masking is computationally expensive and less than optimal. Masking the original two facets of the masked cube results in sixteen facets when half that number would be optimal. It is a cube of this form, with each face already masked, that masks the large-sized cube in the full example, hopefully this is now clear.
 
-### Creating a scene
-
-Jiggle also provides a `Canvas` class that represents an HTML canvas. Putting a scene together...
-
-### Using Jiggles to preload an image map for textures
-
-If you are familiar with WebGL, note that with Jiggle you can and should re-use vertices. To define a cuboid, for example, only the minimum eight vertices need to be given, with each being used for three sides. New vertices are created to be added to the WebGL buffer at the appropriate time. If you are not familiar with WebGL, don't worry about this. Just define vertices as you would expect to, and the indexes to reference them, most likely multiple times if the vertices are shared between edges. Here are the default vertices and indexes for a cuboid, for example:  
-   
-```js
-const defaultVertices = [
-        
-        [ 0, 0, 0 ],
-        [ 1, 0, 0 ],
-        [ 1, 1, 0 ],
-        [ 0, 1, 0 ],
-    
-        [ 0, 0, 1 ],
-        [ 1, 0, 1 ],
-        [ 1, 1, 1 ],
-        [ 0, 1, 1 ],
-    
-      ],
-      defaultIndexes = [
-    
-        [ 1, 0, 3 ],
-        [ 3, 2, 1 ],
-    
-        [ 4, 5, 6 ],
-        [ 6, 7, 4 ],
-    
-        [ 0, 4, 7 ],
-        [ 7, 3, 0 ],
-    
-        [ 5, 1, 2 ],
-        [ 2, 6, 5 ],
-    
-        [ 7, 6, 2 ],
-        [ 2, 3, 7 ],
-    
-        [ 4, 0, 1 ],
-        [ 1, 5, 4 ],
-    
-      ], ...   
-```
-          
-Note that array of indexes is partitioned into triples, with each triple corresponding to a facet. There are two facets for each side of the cuboid. Again, if you are familiar with WebGL, note that there is no need to define normals explicitly. Instead each facet has a normal which is calculated and then duplicated for each of the facet's vertices at the appropriate time. Again if you are not familiar with WebGL, don't worry about this. In either case you may have to play around with the order of triples that define each facet in order to get the normal to face the right way.
-    
 ## Compiling from source
 
 Automation is done with [npm scripts](https://docs.npmjs.com/misc/scripts), have a look at the `package.json` file. The pertinent commands are:
@@ -243,7 +196,7 @@ Automation is done with [npm scripts](https://docs.npmjs.com/misc/scripts), have
     npm run build-debug
     npm run watch-debug
     
-As well as building the Jiggle library itself, this will build the examples. The source code for the examples can be found in the `es6/example.js` file and the files in the `es6/example` directory.
+As well as building the Jiggle library itself, this will build the examples. The source code for the examples can be found in the `es6/example.js` file and in the files and sub-directories in the `es6/example` directory.
     
 ## Contact
 
