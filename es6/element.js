@@ -9,16 +9,6 @@ class Element {
     this.childElements = childElements;
   }
 
-  updateContext(childElement) {
-    const context = (typeof childElement.parentContext === 'function') ?
-                      childElement.parentContext() :
-                        childElement.context;
-
-    this.context = Object.assign({}, this.context, context);
-
-    delete childElement.context;
-  }
-
   assignContext(names, thenDelete) {
     const argumentsLength = arguments.length;
   
@@ -55,8 +45,14 @@ class Element {
     });
   }
 
-  initialise(colourRenderer, textureRenderer, transforms, masking) {
-    ///
+  updateContext(childElement) {
+    const context = (typeof childElement.parentContext === 'function') ?
+                      childElement.parentContext() :
+                        childElement.context;
+
+    this.context = Object.assign({}, this.context, context);
+
+    delete childElement.context;
   }
 
   static fromProperties(Class, properties, ...remainingArguments) {

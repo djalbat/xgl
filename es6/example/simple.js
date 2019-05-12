@@ -12,7 +12,7 @@ const simpleExample = () =>
 
   <Scene canvas={canvas}>
     <Part>
-      <ColouredSquare />
+      <ColouredSquare colour={[ 0, 0, 1 ]} />
     </Part>
     <Camera />
   </Scene>

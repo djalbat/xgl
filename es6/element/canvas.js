@@ -26,22 +26,6 @@ class CanvasElement extends Element {
     this.facets = facets;
   }
 
-  render(colourRenderer, textureRenderer) {
-    ///
-  }
-
-  getVertexPositions() {
-    const vertexPositions = this.facets.reduce((vertexPositions, facet) => {
-      const facetVertexPositions = facet.getVertexPositions();
-      
-      push(vertexPositions, facetVertexPositions);
-
-      return vertexPositions;
-    }, []);
-
-    return vertexPositions;
-  }
-
   getVertexNormals() {
     const vertexNormals = this.facets.reduce((vertexNormals, facet) => {
       const facetVertexNormals = facet.getVertexNormals();
@@ -64,6 +48,22 @@ class CanvasElement extends Element {
     }, []);
 
     return vertexIndexes;
+  }
+
+  getVertexPositions() {
+    const vertexPositions = this.facets.reduce((vertexPositions, facet) => {
+      const facetVertexPositions = facet.getVertexPositions();
+
+      push(vertexPositions, facetVertexPositions);
+
+      return vertexPositions;
+    }, []);
+
+    return vertexPositions;
+  }
+
+  render(colourRenderer, textureRenderer) {
+    ///
   }
 
   initialise(colourRenderer, textureRenderer, transforms, masking) {
