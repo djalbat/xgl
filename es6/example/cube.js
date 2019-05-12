@@ -8,7 +8,7 @@ const { Canvas, Scene, Part, Camera } = jiggle;
 
 const canvas = new Canvas();
 
-const cubesExample = () =>
+const cubeExample = () =>
 
 	<Scene canvas={canvas}>
 		<Part>
@@ -19,4 +19,4 @@ const cubesExample = () =>
 
 ;
 
-module.exports = cubesExample;
+module.exports = cubeExample;

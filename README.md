@@ -45,9 +45,9 @@ canvas {
   display: block;
 }
 ```
-Note that in what follows some of the boilerplate code in the actual examples is left out of the listings here. Also note that if you are compiling the examples from within the cloned repository, it is correct to use the relative require. Normally you would require the package itself, however.
+Note that in what follows some of the boilerplate code in the actual examples is left out of the listings. Also note that if you are compiling the examples from within the cloned repository, it is correct to use the relative require. Normally you would require the package itself, however.
 
-To continue, the `canvas` HTML element is encapsulated by an instance of the `Canvas` class and passed as an attribute to the outermost `Scene` JSX element, which itself contains a `Camera` JSX element and one or more `Part` JSX elements. The `Part` JSX elements contain JSX elements that are actually rendered, in this case a single `ColouredSquare` element:
+To continue, the `canvas` HTML element is encapsulated by an instance of the `Canvas` class and passed as an attribute to the outermost `Scene` JSX element, which itself contains a `Camera` JSX element and one or more `Part` JSX elements. The `Part` JSX elements contain JSX elements that are rendered on the canvas, called canvas elements, in this case a single `ColouredSquare` element:
 
 ```js
 const canvas = new Canvas();
@@ -65,7 +65,7 @@ const simpleExample = () =>
 ```
 ### Creating canvas elements
 
-Whilst the `Scene`, `Camera` and `Part` JSX elements are built in, you have to create the JSX elements that are rendered. Here is a bare bones implementation of the `ColouredSquare` element:
+Whilst the `Scene`, `Camera` and `Part` JSX elements are built in, you have to create the canvas elements. Here is a bare bones implementation of the `ColouredSquare` element:
 
 ```js
 const coordinates = [
@@ -90,18 +90,18 @@ class ColouredSquare extends ColouredCanvasElement {
   }
 }
 ```
-The `ColouredCanvasElement` class is provided for you and all you have to do, initially at least, is to extend it, adding your own static `fromProperties()` static method and passing the requisite coordinates, indexes and colour to the parent `fromProperties()` method. Note that the class itself is passed as the first argument.
+The `ColouredCanvasElement` class is provided for you and all you have to do, initially at least, is to extend it, adding your own `fromProperties()` static method and passing the requisite coordinates, indexes and colour to the `fromProperties()` static method of the parent class. Note that the `ColouredSquare` class itself is passed as the first argument.
 
-The `coordinates` and `indexes` arguments are the important ones. Jiggle works with facets underneath the hood, which are triangles with a colour or texture together with a normal. Facets are defined by triples of indexes that refer to specific coordinates. In this case there are four coordinates, one for each corner of the square. Two facets have been created in order to make the square. Note that the first and third coordinates are re-used. It is essential that you get the coordinates and indexes right for any canvas element. They are used to populate the WebGL rendering buffers and if they are wrong, weird WebGL errors will likely result.
+The `coordinates` and `indexes` arguments are the important ones. Jiggle works with facets underneath the hood, which are triangles with a colour or texture together with a normal. Facets are defined by triples of indexes that refer to specific coordinates. In this case there are four coordinates, one for each corner of the square. Two facets have been created in order to make the square. Note that the first and third coordinates are re-used. It is essential that you get the coordinates and indexes right for any canvas element. They are used to populate the WebGL rendering buffers and if they are wrong, inscrutable WebGL errors will likely result.
 
 Before moving on it is worth a moment to study Jiggle's coordinate system. Obviously there are three dimensions, with the first, second and third coordinates of coordinate triples specifying signed distances along the x, y and z axes. Initially the camera is positioned at coordinates [ 0, 0, -10 ], for example, pointing back down the z axis in the direction of increasing z values. The axes are left-handed, which means that if you let the thumb and first finger of your left hand represent the x and y axes, your second finger will point in the direction of the z axis. Facets on the other hand are right handed, which means that if you let the fingers of your right hand curl around to represent the coordinates of each facet, your thumb will point in the direction of its normal. In this case your thumb will point back towards the camera. Note that the indexes for the two facets of the square are chosen so that the normals of each point in the same direction.
 
-### The cubes example
+### The cube example
 
-Because creating more than a handful of facets can be problematic, it is recommended that you build up more complex elements using simple elements rather than increasing numbers of coordinates and indexes. There is little or no overhead in doing so, in particular the rendered scene will not run any slower once the buffers have been populated. In this example there is a cube consisting of six coloured squares rather than a dozen facets:
+Because creating more than a handful of facets can be problematic, it is recommended that you build up complex canvas elements using simpler ones rather than increasing numbers of coordinates and indexes. There is little or no overhead in doing so, in particular the rendered scene will not run any slower once the buffers have been populated. This example has a cube canvas element built up from six coloured squares rather than a dozen facets:
 
 ```js
-const cubesExample = () =>
+const cubeExample = () =>
 
   <Scene canvas={canvas}>
     <Part>
@@ -112,7 +112,7 @@ const cubesExample = () =>
 
 ;
 ```
-There are a couple of small to the coloured square to make it easier to rotate and to support multiple colours, namely the change in coordinates and the extraction of the colour from the `properties` argument, the latter meaning that a `colour` attribute can be added to the JSX elements:
+There are a couple of small amends to the coloured square to make it easier to rotate and to support multiple colours, namely the change in coordinates and the extraction of the colour from the `properties` argument, the latter meaning that a `colour` attribute can be added to the JSX elements:
 
 ```js
 const coordinates = [
