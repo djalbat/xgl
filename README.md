@@ -101,7 +101,7 @@ Before moving on it is worth a moment to study Jiggle's coordinate system. Obvio
 
 ### The cube example
 
-Because creating more than a handful of facets can be problematic, it is recommended that you build up complex canvas elements using simpler ones rather than increasing numbers of coordinates and indexes. There is little or no overhead in doing so, in particular the rendered scene will not run any slower once the WebGL buffers have been populated. This example has a cube canvas element built up from face elements rather than a dozen facets:
+Because creating more than a handful of facets can be problematic, it is recommended that you build up complex canvas elements using simpler ones rather than increasing numbers of coordinates and indexes. There is little or no overhead in doing so, in particular the rendered scene will not run any slower once the WebGL buffers have been populated. This example has a cube canvas element built up from six child elements rather than a dozen of its own facets:
 
 ```js
 const defaultC0lour = [ 1, 1, 0 ];
@@ -125,59 +125,21 @@ class Cube extends CanvasElement {
 
   static fromProperties(properties) { return CanvasElement.fromProperties(Cube, properties); }
 }
-
-module.exports = Cube;
 ```
-There are a couple of small amendments to the coloured square. The coordinates have been adjusted to make it easier to rotate and a colour variable has been extracted from the `properties` argument in the `fromProperties()` static method so that a `colour` attribute can be added to the JSX elements:
+This time the `Cube` element need only extend the `CanvasElement` class with the `childElements()` method return the six faces.
+
+The face elements themselves result from pure functions. These are useful for collecting together several elements under a common name or making cursory adjustments to a single, existing canvas element. Here the coordinates of the `ColouredSquare` element are adjusted to make it simpler to rotate:
 
 ```js
-const coordinates = [
+const Face = (properties) => {
+  const { colour } = properties;
 
-        [ -0.5, -0.5, +0.5 ],
-        [ +0.5, -0.5, +0.5 ],
-        [ +0.5, +0.5, +0.5 ],
-        [ -0.5, +0.5, +0.5 ],
+  return (
 
-      ],
-      indexes = [
+    <ColouredSquare colour={colour} position={[ -0.5, -0.5, +0.5 ]} />
 
-        [ 0, 1, 2 ],
-        [ 2, 3, 0 ],
-
-      ],
-      defaultColour = [ 1, 0, 0 ];
-
-class ColouredSquare extends ColouredCanvasElement {
-  static fromProperties(properties) {
-    const { colour = defaultColour } = properties,
-          colouredSquare = ColouredCanvasElement.fromProperties(ColouredSquare, properties, coordinates, indexes, colour);
-
-    return colouredSquare;
-  }
-}
-```
-The compound `Cube` element need only extend the `CanvasElement` class and provide its own `fromProperties()` static method. The `childElements()` method specifies the six coloured squares that are needed:
-
-```js
-const { CanvasElement } = jiggle;
-
-class Cube extends CanvasElement {
-  childElements(properties) {
-    return ([
-
-      <ColouredSquare colour={[ 1, 0, 0 ]} rotations={[   0,   0, 0 ]} />,
-      <ColouredSquare colour={[ 0, 1, 0 ]} rotations={[ +90,   0, 0 ]} />,
-      <ColouredSquare colour={[ 0, 0, 1 ]} rotations={[   0, +90, 0 ]} />,
-
-      <ColouredSquare colour={[ 0, 1, 1 ]} rotations={[ 180,   0, 0 ]} />,
-      <ColouredSquare colour={[ 1, 0, 1 ]} rotations={[ -90,   0, 0 ]} />,
-      <ColouredSquare colour={[ 1, 1, 0 ]} rotations={[   0, -90, 0 ]} />,
-
-    ]);
-  }
-
-  static fromProperties(properties) { return CanvasElement.fromProperties(Cube, properties); }
-}
+  );
+};
 ```
 Rotations are specified as triples giving three rotations around the x, y and z axes, respectively. Rotations are right handed, which means that if you point the thumb of your right hand in the direction of the chosen axis, your curled fingers give the direction of the rotation about it. Rotations can be hard to work out, particularly when they are compounded. Note that the rotations here are chosen so that the normals of each face of the cube are directed outwards.
 
