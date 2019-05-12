@@ -9,31 +9,21 @@ const { push } = arrayUtilities,
       { composeTransform } = transformUtilities;
 
 class Mask extends Element {
-  constructor(transform) {
+  constructor(transform, facets) {
     super();
 
     this.transform = transform;
-  }
 
-  getTransform() {
-    return this.transform;
+    this.facets = facets;
   }
 
   getFacets() {
-    const childElements = this.getChildElements(),
-          facets =  childElements.reduce((facets, childElement) => {
-            const childElementFacets = childElement.getFacets();
-            
-            push(facets, childElementFacets);
-
-            return facets;
-          }, []);
-
-    return facets;
+    return this.facets;
   }
-  
-  getMaskingFacets() {
-    const facets = this.getFacets(),
+
+  retrieveMaskingFacets() {
+    const element = this, ///
+          facets = retrieveFacets(element),
           maskingFacets = facets.map((facet) => {
             const maskingFacet = MaskingFacet.fromFacet(facet);
             
@@ -44,9 +34,9 @@ class Mask extends Element {
   }
 
   maskElement(element) {
-    let facets = element.getFacets();
+    let facets = retrieveFacets(element);
     
-    const maskingFacets = this.getMaskingFacets();
+    const maskingFacets = this.retrieveMaskingFacets();
 
     maskingFacets.forEach((maskingFacet) => {
       const unmaskedFacets = [];
@@ -72,7 +62,8 @@ class Mask extends Element {
   static fromProperties(properties) {
     const { size, position, rotations } = properties,
           transform = composeTransform(size, position, rotations),
-          mask = Element.fromProperties(Mask, properties, transform);
+          facets = [],
+          mask = Element.fromProperties(Mask, properties, transform, facets);
 
     mask.initialise();
 
@@ -81,3 +72,18 @@ class Mask extends Element {
 }
 
 module.exports = Mask;
+
+function retrieveFacets(element, facets = []) {
+  const elementFacets = element.getFacets(),
+        childElements = element.getChildElements();
+
+  childElements.forEach((childElement) => {
+    const element = childElement; ///
+
+    retrieveFacets(element, facets);
+  });
+
+  push(facets, elementFacets);
+
+  return facets;
+}
