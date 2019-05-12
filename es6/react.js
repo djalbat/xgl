@@ -2,7 +2,7 @@
 
 const Element = require('./element'),
       arrayUtilities = require('./utilities/array'),
-      FunctionElement = require('./element/function');
+      FunctionCanvasElement = require('./element/canvas/function');
 
 const { guarantee } = arrayUtilities;
 
@@ -29,7 +29,7 @@ function createElement(firstArgument, properties, ...childElements) {
       childElements
     });
 
-    element = FunctionElement.fromProperties(properties);
+    element = FunctionCanvasElement.fromProperties(properties);
   }
 
   return element;

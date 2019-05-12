@@ -21,6 +21,8 @@ class TexturedCanvasElement extends CanvasElement {
     textureRenderer.addVertexNormals(vertexNormals);
 
     textureRenderer.addVertexTextureCoordinates(vertexTextureCoordinates);
+
+    super.render(colourRenderer, textureRenderer);
   }
 
   getVertexTextureCoordinates(imageJSON) {

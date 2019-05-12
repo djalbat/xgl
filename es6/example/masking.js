@@ -8,10 +8,22 @@ const { Canvas, Scene, Mask, Part, Camera } = jiggle;
 
 const canvas = new Canvas();
 
+const MaskedSquare = (properties) =>
+
+  <ColouredSquare colour={[ 0, 1, 0 ]} />
+
+;
+
+const MaskingSquare = (properties) =>
+
+  <ColouredSquare colour={[ 0, 0, 1 ]} size={[ 0.333333, 0.333333, 1 ]} position={[ 0.333333, 0.333333, 1 ]} />
+
+;
+
 const mask =
 
-  <Mask size={[ 0.333333, 0.333333, 1 ]} position={[ 0.333333, 0.333333, 1 ]}>
-    <ColouredSquare />
+  <Mask>
+    <MaskingSquare />
   </Mask>
 
 ;
@@ -20,7 +32,7 @@ const maskingExample = () =>
 
   <Scene canvas={canvas}>
     <Part>
-      <ColouredSquare mask={mask} />
+      <MaskedSquare mask={mask} />
     </Part>
     <Camera />
   </Scene>

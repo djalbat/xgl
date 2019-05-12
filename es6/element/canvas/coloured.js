@@ -20,6 +20,8 @@ class ColouredCanvasElement extends CanvasElement {
     colourRenderer.addVertexNormals(vertexNormals);
 
     colourRenderer.addVertexColours(vertexColours);
+
+    super.render(colourRenderer, textureRenderer);
   }
 
   getVertexColours() {

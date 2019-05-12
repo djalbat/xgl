@@ -2,28 +2,14 @@
 
 const Element = require('../element'),
       MaskingFacet = require('../maskingFacet'),
-      arrayUtilities = require('../utilities/array'),
-      transformUtilities = require('../utilities/transform');
+      arrayUtilities = require('../utilities/array');
 
-const { push } = arrayUtilities,
-      { composeTransform } = transformUtilities;
+const { push } = arrayUtilities;
 
 class Mask extends Element {
-  constructor(transform, facets) {
-    super();
-
-    this.transform = transform;
-
-    this.facets = facets;
-  }
-
-  getFacets() {
-    return this.facets;
-  }
-
   retrieveMaskingFacets() {
-    const element = this, ///
-          facets = retrieveFacets(element),
+    const childElements = this.getChildElements(),
+          facets = retrieveFacets(childElements),
           maskingFacets = facets.map((facet) => {
             const maskingFacet = MaskingFacet.fromFacet(facet);
             
@@ -34,36 +20,20 @@ class Mask extends Element {
   }
 
   maskElement(element) {
-    let facets = retrieveFacets(element);
-    
     const maskingFacets = this.retrieveMaskingFacets();
 
-    maskingFacets.forEach((maskingFacet) => {
-      const unmaskedFacets = [];
-
-      facets.forEach((facet) => maskingFacet.maskFacet(facet, unmaskedFacets));
-
-      facets = unmaskedFacets;  ///
-    });
-    
-    element.setFacets(facets);
+    maskElement(element, maskingFacets);
   }
 
   initialise() {
-    const childElements = this.getChildElements(),
-          colourRenderer = null, ///
-          textureRenderer = null, ///
-          transforms = [this.transform], ///
-          masking = true; ///
+    const transforms = [],
+          childElements = this.getChildElements();
 
-    childElements.forEach((childElement) => childElement.initialise(colourRenderer, textureRenderer, transforms, masking));
+    childElements.forEach((childElement) => childElement.applyTransforms(transforms));
   }
 
   static fromProperties(properties) {
-    const { size, position, rotations } = properties,
-          transform = composeTransform(size, position, rotations),
-          facets = [],
-          mask = Element.fromProperties(Mask, properties, transform, facets);
+    const mask = Element.fromProperties(Mask, properties);
 
     mask.initialise();
 
@@ -73,17 +43,38 @@ class Mask extends Element {
 
 module.exports = Mask;
 
-function retrieveFacets(element, facets = []) {
-  const elementFacets = element.getFacets(),
-        childElements = element.getChildElements();
+function retrieveFacets(childElements, facets = []) {
+  childElements.forEach((childElement) => {
+    const element = childElement, ///
+          elementFacets = element.getFacets(),
+          childElements = element.getChildElements();
+
+    push(facets, elementFacets);
+
+    retrieveFacets(childElements, facets);
+  });
+
+  return facets;
+}
+
+function maskElement(element, maskingFacets) {
+  let facets = element.getFacets();
+
+  maskingFacets.forEach((maskingFacet) => {
+    const unmaskedFacets = [];
+
+    facets.forEach((facet) => maskingFacet.maskFacet(facet, unmaskedFacets));
+
+    facets = unmaskedFacets;  ///
+  });
+
+  element.setFacets(facets);
+
+  const childElements = element.getChildElements();
 
   childElements.forEach((childElement) => {
     const element = childElement; ///
 
-    retrieveFacets(element, facets);
+    maskElement(element, maskingFacets);
   });
-
-  push(facets, elementFacets);
-
-  return facets;
 }
