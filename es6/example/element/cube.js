@@ -6,17 +6,21 @@ const ColouredSquare = require('./colouredSquare');
 
 const { CanvasElement } = jiggle;
 
+const defaultC0lour = [ 1, 1, 0 ];
+
 class Cube extends CanvasElement {
 	childElements(properties) {
+	  const { colour = defaultC0lour } = properties;
+
 		return ([
 
-			<ColouredSquare colour={[ 1, 0, 0 ]} rotations={[   0,   0, 0 ]} />,
-			<ColouredSquare colour={[ 0, 1, 0 ]} rotations={[ +90,   0, 0 ]} />,
-			<ColouredSquare colour={[ 0, 0, 1 ]} rotations={[   0, +90, 0 ]} />,
+			<ColouredSquare colour={colour} rotations={[   0,   0, 0 ]} />,
+			<ColouredSquare colour={colour} rotations={[ +90,   0, 0 ]} />,
+			<ColouredSquare colour={colour} rotations={[   0, +90, 0 ]} />,
 
-			<ColouredSquare colour={[ 0, 1, 1 ]} rotations={[ 180,   0, 0 ]} />,
-			<ColouredSquare colour={[ 1, 0, 1 ]} rotations={[ -90,   0, 0 ]} />,
-			<ColouredSquare colour={[ 1, 1, 0 ]} rotations={[   0, -90, 0 ]} />,
+			<ColouredSquare colour={colour} rotations={[ 180,   0, 0 ]} />,
+			<ColouredSquare colour={colour} rotations={[ -90,   0, 0 ]} />,
+			<ColouredSquare colour={colour} rotations={[   0, -90, 0 ]} />,
 
 		]);
 	}

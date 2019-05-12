@@ -53,7 +53,7 @@ class MouseEvents {
     const delta = deltaFromEvent(event),
           handlers = this.handlersMap[MOUSE_WHEEL];
 
-    handlers.forEach((handler) => handler(delta));
+    handlers.forEach((handler) => handler(delta, this.canvas));
 
 		event.preventDefault();
   }

@@ -2,15 +2,24 @@
 
 const jiggle = require('../../index');
 
-// const ColouredCuboid = require('../element/common/coloured/cuboid');
+const Rectangle = require('./element/rectangle');
 
-const { Canvas, Mask, Part, Scene, Camera } = jiggle;
+const { Canvas, Scene, Part, Camera } = jiggle;
 
 const canvas = new Canvas();
 
-const cubesExample = () => {};
+const maskingExample = () =>
 
-module.exports = cubesExample;
+  <Scene canvas={canvas}>
+    <Part>
+      <Rectangle />
+    </Part>
+    <Camera />
+  </Scene>
+
+;
+
+module.exports = maskingExample;
 
 /*
   <Scene canvas={canvas}>
