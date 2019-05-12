@@ -63,8 +63,6 @@ const simpleExample = () =>
 
 ;
 ```
-### Creating canvas elements
-
 Whilst the `Scene`, `Camera` and `Part` JSX elements are built in, you have to create the canvas elements:
 
 ```js
