@@ -141,7 +141,7 @@ Rotations are specified as triples giving three rotations around the x, y and z 
 
 ### The masking example
 
-Masking is something specific to Jiggle, it is not part of WebTGL. Jiggle's `Mask` element creates a prism from each facet of its child elements that will cut a hole in any facet of any element that is masks. A screenshot of the masking example is better than words:
+Masking is something specific to Jiggle, it is not part of WebGL. Jiggle's `Mask` element creates prisms from each facet of its child elements that will cut a hole in any facet of any element that is masks. A screenshot of the masking example is better than words:
 
 ![Masked cube](https://github.com/djalbat/Jiggle/blob/master/assets/masked_cube.jpg)
 
