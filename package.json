@@ -1,7 +1,7 @@
 {
   "name": "jiggle",
   "author": "James Smith",
-  "version": "0.0.291",
+  "version": "0.0.292",
   "license": "MIT",
   "homepage": "https://github.com/djalbat/jiggle",
   "description": "Makes use of JSX to leverage WebGL.",

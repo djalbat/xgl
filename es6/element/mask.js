@@ -30,6 +30,8 @@ class Mask extends Element {
           childElements = this.getChildElements();
 
     childElements.forEach((childElement) => childElement.applyTransforms(transforms));
+
+    childElements.forEach((childElement) => childElement.applyMask());
   }
 
   static fromProperties(properties) {

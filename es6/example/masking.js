@@ -2,28 +2,30 @@
 
 const jiggle = require('../../index');
 
-const ColouredSquare = require('./element/colouredSquare');
+const Cube = require('./element/cube');
 
 const { Canvas, Scene, Mask, Part, Camera } = jiggle;
 
 const canvas = new Canvas();
 
-const MaskedSquare = (properties) =>
+const SmallCube = (properties) => <Cube size={[ 1/3, 1/3, 1/3 ]} /> ;
 
-  <ColouredSquare colour={[ 0, 1, 0 ]} />
+const MediumCube = (properties) => <Cube size={[ 2/3, 2/3, 2/3 ]} mask={smallCubeMask} /> ;
 
-;
+const LargeCube = (properties) => <Cube mask={mediumCubeMask} /> ;
 
-const MaskingSquare = (properties) =>
-
-  <ColouredSquare colour={[ 0, 0, 1 ]} size={[ 0.333333, 0.333333, 1 ]} position={[ 0.333333, 0.333333, 1 ]} />
-
-;
-
-const mask =
+const smallCubeMask =
 
   <Mask>
-    <MaskingSquare />
+    <SmallCube />
+  </Mask>
+
+;
+
+const mediumCubeMask =
+
+  <Mask>
+    <MediumCube />
   </Mask>
 
 ;
@@ -32,7 +34,7 @@ const maskingExample = () =>
 
   <Scene canvas={canvas}>
     <Part>
-      <MaskedSquare mask={mask} />
+      <LargeCube />
     </Part>
     <Camera />
   </Scene>
@@ -40,22 +42,3 @@ const maskingExample = () =>
 ;
 
 module.exports = maskingExample;
-
-/*
-
-  <Scene canvas={canvas}>
-    <Part canvas={canvas}>
-      <ColouredCuboid colour={[ 1, 1, 0, 1 ]} position={[ -0.5, -0.5, -0.5 ]}>
-        <Mask>
-          <ColouredCuboid width={0.5} height={0.5} depth={0.5} position={[ 0.25, 0.25, 0.25 ]}>
-            <Mask>
-              <ColouredCuboid width={0.5} height={0.5} depth={0.5} position={[ 0.25, 0.25, 0.25 ]} />
-            </Mask>
-          </ColouredCuboid>
-        </Mask>
-      </ColouredCuboid>
-    </Part>
-    <Camera canvas={canvas} initialDistance={5} initialOffset={[ 0, 0, 0 ]} />
-  </Scene>
-
- */
