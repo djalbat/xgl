@@ -65,7 +65,7 @@ const simpleExample = () =>
 ```
 ### Creating canvas elements
 
-Whilst the `Scene`, `Camera` and `Part` JSX elements are built in, you have to create the canvas elements. Here is a bare bones implementation of the `ColouredSquare` element:
+Whilst the `Scene`, `Camera` and `Part` JSX elements are built in, you have to create the canvas elements. Here is the implementation of the `ColouredSquare` element:
 
 ```js
 const coordinates = [
@@ -82,15 +82,18 @@ const coordinates = [
         [ 2, 3, 0 ],
 
       ],
-      colour = [ 1, 0, 0 ];
+      defaultColour = [ 1, 0, 0 ];
 
 class ColouredSquare extends ColouredCanvasElement {
   static fromProperties(properties) {
-    return ColouredCanvasElement.fromProperties(ColouredSquare, properties, coordinates, indexes, colour);
+    const { colour = defaultColour } = properties,
+          colouredSquare = ColouredCanvasElement.fromProperties(ColouredSquare, properties, coordinates, indexes, colour);
+
+    return colouredSquare;
   }
 }
 ```
-The `ColouredCanvasElement` class is provided for you and all you have to do, initially at least, is to extend it, adding your own `fromProperties()` static method and passing the requisite coordinates, indexes and colour to the `fromProperties()` static method of the parent class. Note that the `ColouredSquare` class itself is passed as the first argument.
+The `ColouredCanvasElement` class is provided and all you have to do, initially at least, is to extend it, adding your own `fromProperties()` static method and passing the requisite coordinates, indexes and colour to the `fromProperties()` static method of the parent class. Note that the `ColouredSquare` class itself is passed as the first argument. Also note that a `colour` variable is extracted from the `properties` argument, including a default. This allows you to set a `colour` attribute on the corresponding JSX elements.
 
 The `coordinates` and `indexes` arguments are the important ones. Jiggle works with facets underneath the hood, which are triangles with a colour or texture together with a normal. Facets are defined by triples of indexes that refer to specific coordinates. In this case there are four coordinates, one for each corner of the square. Two facets have been created in order to make the square. Note that the first and third coordinates are re-used. It is essential that you get the coordinates and indexes right for any canvas element. They are used to populate the WebGL rendering buffers and if they are wrong, inscrutable WebGL errors will likely result.
 
@@ -98,19 +101,32 @@ Before moving on it is worth a moment to study Jiggle's coordinate system. Obvio
 
 ### The cube example
 
-Because creating more than a handful of facets can be problematic, it is recommended that you build up complex canvas elements using simpler ones rather than increasing numbers of coordinates and indexes. There is little or no overhead in doing so, in particular the rendered scene will not run any slower once the buffers have been populated. This example has a cube canvas element built up from six coloured squares rather than a dozen facets:
+Because creating more than a handful of facets can be problematic, it is recommended that you build up complex canvas elements using simpler ones rather than increasing numbers of coordinates and indexes. There is little or no overhead in doing so, in particular the rendered scene will not run any slower once the WebGL buffers have been populated. This example has a cube canvas element built up from face elements rather than a dozen facets:
 
 ```js
-const cubeExample = () =>
+const defaultC0lour = [ 1, 1, 0 ];
 
-  <Scene canvas={canvas}>
-    <Part>
-      <Cube />
-    </Part>
-    <Camera />
-  </Scene>
+class Cube extends CanvasElement {
+  childElements(properties) {
+    const { colour = defaultC0lour } = properties;
 
-;
+    return ([
+
+      <Face colour={colour} rotations={[   0,   0, 0 ]} />,
+      <Face colour={colour} rotations={[ +90,   0, 0 ]} />,
+      <Face colour={colour} rotations={[   0, +90, 0 ]} />,
+
+      <Face colour={colour} rotations={[ 180,   0, 0 ]} />,
+      <Face colour={colour} rotations={[ -90,   0, 0 ]} />,
+      <Face colour={colour} rotations={[   0, -90, 0 ]} />,
+
+    ]);
+  }
+
+  static fromProperties(properties) { return CanvasElement.fromProperties(Cube, properties); }
+}
+
+module.exports = Cube;
 ```
 There are a couple of small amendments to the coloured square. The coordinates have been adjusted to make it easier to rotate and a colour variable has been extracted from the `properties` argument in the `fromProperties()` static method so that a `colour` attribute can be added to the JSX elements:
 
