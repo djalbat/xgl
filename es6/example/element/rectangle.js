@@ -4,7 +4,7 @@ const ColouredSquare = require('./colouredSquare');
 
 const Rectangle = (properties) =>
 
-  <ColouredSquare width={2} height={3} depth={4} />
+  <ColouredSquare size={[ 2, 3, 4 ]} />
 
 ;
 

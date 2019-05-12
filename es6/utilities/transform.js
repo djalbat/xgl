@@ -2,24 +2,21 @@
 
 const constants = require('../constants'),
       vectorMaths = require('../maths/vector'),
-      matrixMaths = require('../maths/matrix'),
-      arrayUtilities = require('../utilities/array');
+      matrixMaths = require('../maths/matrix');
 
-const { DEGREES_TO_RADIANS } = constants,
-      { transform4 } = vectorMaths,
-      { first, second, third } = arrayUtilities,
-      { identity4, scale4, rotate4, translate4 } = matrixMaths,
-      xAxis = [ 1, 0, 0 ],
+const { transform4 } = vectorMaths,
+      { DEGREES_TO_RADIANS } = constants,
+      { identity4, scale4, rotate4, translate4 } = matrixMaths;
+
+const xAxis = [ 1, 0, 0 ],
       yAxis = [ 0, 1, 0 ],
       zAxis = [ 0, 0, 1 ],
-      defaultWidth = 1,
-      defaultDepth = 1,
-      defaultHeight = 1,
+      defaultSize = [ 1, 1, 1 ],
       defaultPosition = [ 0, 0, 0 ],
       defaultRotations = [ 0, 0, 0 ];
 
-function composeTransform(width, height, depth, position, rotations) {
-  const scale = composeScale(width, height, depth),
+function composeTransform(size, position, rotations) {
+  const scale = composeScale(size),
         rotate = composeRotate(rotations),
         translate = composeTranslate(position);
 
@@ -34,23 +31,20 @@ function compose(matrix) {
   return (vector) => transform4([...vector, 1], matrix).slice(0, 3);
 }
 
-function composeScale(width = defaultWidth, height = defaultHeight, depth = defaultDepth) {
+function composeScale(size = defaultSize) {
   let matrix = identity4();
 
-  matrix = scale4(matrix, [ width, height, depth ]);
+  matrix = scale4(matrix, size);
 
   return compose(matrix);
 }
 
 function composeRotate(rotations = defaultRotations) {
-  const firstRotation = first(rotations),
-        secondRotation = second(rotations),
-        thirdRotation = third(rotations),
-        xAngle = firstRotation * DEGREES_TO_RADIANS,  ///
-        yAngle = secondRotation * DEGREES_TO_RADIANS, ///
-        zAngle = thirdRotation * DEGREES_TO_RADIANS;  ///
-
   let matrix = identity4();
+
+  const xAngle = rotations[ 0 ] * DEGREES_TO_RADIANS, ///
+        yAngle = rotations[ 1 ] * DEGREES_TO_RADIANS, ///
+        zAngle = rotations[ 2 ] * DEGREES_TO_RADIANS; ///
 
   matrix = rotate4(matrix, xAngle, xAxis);
   matrix = rotate4(matrix, yAngle, yAxis);
