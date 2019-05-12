@@ -139,13 +139,9 @@ Note that the previous `Cube` function returned an array of child elements where
 
 Rotations are specified as triples giving three rotations around the x, y and z axes, respectively. Rotations are right handed, which means that if you point the thumb of your right hand in the direction of the chosen axis, your curled fingers give the direction of the rotation about it. Rotations can be hard to work out, particularly when they are compounded. Note that the rotations here are chosen so that the normals of each face of the cube are directed outwards.
 
-### Masking
+### The masking example
 
-
-
-
-
-Something like the following should appear:
+Masking is something specific to Jiggle, it is not part of WebTGL. Jiggle's `Mask` element creates a prism from each facet of its child elements that will cut a hole in any facet of any element that is masks. A screenshot of the masking example is better than words:
 
 ![Masked cube](https://github.com/djalbat/Jiggle/blob/master/assets/masked_cube.jpg)
 
