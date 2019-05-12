@@ -101,7 +101,7 @@ Before moving on it is worth a moment to study Jiggle's coordinate system. Obvio
 
 ### The cube example
 
-Because creating more than a handful of facets can be problematic, it is recommended that you create complex canvas elements as composites of simpler ones rather than increasing the number of coordinates and indexes. There is little or no overhead in creating composite elements, in particular the rendered scene will not run any slower. This example has a cube element composed of six child face elements rather than a dozen of its own facets. A pure function is used, there is no need to implement a class:
+Because creating more than a handful of facets can be problematic, it is recommended that you create complex canvas elements as composites of simpler ones rather than increasing the number of coordinates and indexes. There is little or no overhead in creating composite elements, in particular the rendered scene will not run more slowly. This example has a `Cube` element composed of six child `Face` elements rather than a dozen of its own facets. A pure function is used and so there is no need to implement a class:
 
 ```js
 const defaultC0lour = [ 1, 1, 0 ];
@@ -122,7 +122,7 @@ const Cube = (properties) => {
   ]);
 };
 ```
-The face elements themselves also result from pure functions, which are useful not only for composing several elements but also for making cursory adjustments to a single element. Here the coordinates of the `ColouredSquare` element are adjusted to make it simpler to rotate:
+The `Face` elements themselves also result from pure functions, which are useful not only for composing several elements but also for making cursory adjustments to them. Here the coordinates of the `ColouredSquare` element are adjusted to make it simpler to rotate:
 
 ```js
 const Face = (properties) => {
@@ -135,6 +135,8 @@ const Face = (properties) => {
   );
 };
 ```
+Note that the previous `Cube` function returned an array of child elements whereas the `Face` function returns just one. In the latter cases, single elements are coerced into arrays automatically.
+
 Rotations are specified as triples giving three rotations around the x, y and z axes, respectively. Rotations are right handed, which means that if you point the thumb of your right hand in the direction of the chosen axis, your curled fingers give the direction of the rotation about it. Rotations can be hard to work out, particularly when they are compounded. Note that the rotations here are chosen so that the normals of each face of the cube are directed outwards.
 
 ### Masking
