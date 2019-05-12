@@ -2,6 +2,8 @@
 
 const ColouredSquare = require('./colouredSquare');
 
+
+
 const Face = (properties) => {
   const { colour } = properties;
 

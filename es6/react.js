@@ -7,6 +7,8 @@ const Element = require('./element'),
 const { guarantee } = arrayUtilities;
 
 function createElement(firstArgument, properties, ...childElements) {
+  properties = properties || {};  ///
+
   let element;
 
   if (false) {
@@ -14,9 +16,9 @@ function createElement(firstArgument, properties, ...childElements) {
   } else if (isSubclassOf(firstArgument, Element)) {
     const Class = firstArgument;  ///
 
-    properties = Object.assign({
+    Object.assign(properties, {
       childElements
-    }, properties);
+    });
 
     element = Class.fromProperties(properties);
   } else if (typeof firstArgument === 'function') {

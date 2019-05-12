@@ -101,34 +101,28 @@ Before moving on it is worth a moment to study Jiggle's coordinate system. Obvio
 
 ### The cube example
 
-Because creating more than a handful of facets can be problematic, it is recommended that you build up complex canvas elements using simpler ones rather than increasing numbers of coordinates and indexes. There is little or no overhead in doing so, in particular the rendered scene will not run any slower once the WebGL buffers have been populated. This example has a cube canvas element built up from six child elements rather than a dozen of its own facets:
+Because creating more than a handful of facets can be problematic, it is recommended that you create complex canvas elements as composites of simpler ones rather than increasing numbers of coordinates and indexes. There is little or no overhead in doing so, in particular the rendered scene will not run any slower. This example has a cube element built up from six child elements rather than a dozen of its own facets. A pure function is used, there is no need to implement a class:
 
 ```js
 const defaultC0lour = [ 1, 1, 0 ];
 
-class Cube extends CanvasElement {
-  childElements(properties) {
-    const { colour = defaultC0lour } = properties;
+const Cube = (properties) => {
+  const { colour = defaultC0lour } = properties;
 
-    return ([
+  return ([
 
-      <Face colour={colour} rotations={[   0,   0, 0 ]} />,
-      <Face colour={colour} rotations={[ +90,   0, 0 ]} />,
-      <Face colour={colour} rotations={[   0, +90, 0 ]} />,
+    <Face colour={colour} rotations={[   0,   0, 0 ]} />,
+    <Face colour={colour} rotations={[ +90,   0, 0 ]} />,
+    <Face colour={colour} rotations={[   0, +90, 0 ]} />,
 
-      <Face colour={colour} rotations={[ 180,   0, 0 ]} />,
-      <Face colour={colour} rotations={[ -90,   0, 0 ]} />,
-      <Face colour={colour} rotations={[   0, -90, 0 ]} />,
+    <Face colour={colour} rotations={[ 180,   0, 0 ]} />,
+    <Face colour={colour} rotations={[ -90,   0, 0 ]} />,
+    <Face colour={colour} rotations={[   0, -90, 0 ]} />,
 
-    ]);
-  }
-
-  static fromProperties(properties) { return CanvasElement.fromProperties(Cube, properties); }
-}
+  ]);
+};
 ```
-This time the `Cube` element need only extend the `CanvasElement` class with the `childElements()` method return the six faces.
-
-The face elements themselves result from pure functions. These are useful for collecting together several elements under a common name or making cursory adjustments to a single, existing canvas element. Here the coordinates of the `ColouredSquare` element are adjusted to make it simpler to rotate:
+The face elements themselves also result from pure functions, which are useful not only for composing several elements but also for making cursory adjustments to a single element. Here the coordinates of the `ColouredSquare` element are adjusted to make it simpler to rotate:
 
 ```js
 const Face = (properties) => {
