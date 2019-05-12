@@ -2,11 +2,23 @@
 
 const Element = require('../element'),
       MaskingFacet = require('../maskingFacet'),
-      arrayUtilities = require('../utilities/array');
+      arrayUtilities = require('../utilities/array'),
+      transformUtilities = require('../utilities/transform');
 
-const { push } = arrayUtilities;
+const { push } = arrayUtilities,
+      { composeTransform } = transformUtilities;
 
 class Mask extends Element {
+  constructor(transform) {
+    super();
+
+    this.transform = transform;
+  }
+
+  getTransform() {
+    return this.transform;
+  }
+
   getFacets() {
     const childElements = this.getChildElements(),
           facets =  childElements.reduce((facets, childElement) => {
@@ -39,9 +51,7 @@ class Mask extends Element {
     maskingFacets.forEach((maskingFacet) => {
       const unmaskedFacets = [];
 
-      facets.forEach((facet) => {
-        maskingFacet.maskFacet(facet, unmaskedFacets);
-      });
+      facets.forEach((facet) => maskingFacet.maskFacet(facet, unmaskedFacets));
 
       facets = unmaskedFacets;  ///
     });
@@ -49,17 +59,25 @@ class Mask extends Element {
     element.setFacets(facets);
   }
 
-  initialise(colourRenderer, textureRenderer, transforms, masked) {
-    const childElements = this.getChildElements();
+  initialise() {
+    const childElements = this.getChildElements(),
+          colourRenderer = null, ///
+          textureRenderer = null, ///
+          transforms = [this.transform], ///
+          masking = true; ///
 
-    masked = true;  ///
-
-    childElements.forEach((childElement) => {
-      childElement.initialise(colourRenderer, textureRenderer, transforms, masked);
-    });
+    childElements.forEach((childElement) => childElement.initialise(colourRenderer, textureRenderer, transforms, masking));
   }
 
-  static fromProperties(properties) { return Element.fromProperties(Mask, properties); }
+  static fromProperties(properties) {
+    const { size, position, rotations } = properties,
+          transform = composeTransform(size, position, rotations),
+          mask = Element.fromProperties(Mask, properties, transform);
+
+    mask.initialise();
+
+    return mask;
+  }
 }
 
 module.exports = Mask;

@@ -59,7 +59,7 @@ class Element {
     });
   }
 
-  initialise(colourRenderer, textureRenderer, transforms, masked) {
+  initialise(colourRenderer, textureRenderer, transforms, masking) {
     ///
   }
 
@@ -81,7 +81,5 @@ function applyProperties(element, properties) {
 
   element.setChildElements(childElements);
 
-  childElements.forEach((childElement) => {
-    element.updateContext(childElement);
-  });
+  childElements.forEach((childElement) => element.updateContext(childElement));
 }

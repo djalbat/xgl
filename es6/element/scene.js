@@ -45,9 +45,7 @@ class Scene extends Element {
 
     this.onUpdate(updateHandler);
 
-    childElements.forEach((childElement) => {
-      childElement.initialise(this.canvas);
-    });
+    childElements.forEach((childElement) => childElement.initialise(this.canvas));
 
     this.resizeHandler(); ///
   }

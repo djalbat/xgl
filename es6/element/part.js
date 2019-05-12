@@ -35,17 +35,19 @@ class Part extends Element {
   
   initialise(canvas) {
     const transforms = [],
-          masked = false;
+          masking = false,
+          colourRenderer = ColourRenderer.fromNothing(canvas),
+          textureRenderer = TextureRenderer.fromImageMapAndImageJSON(this.imageMap, this.imageJSON, canvas);
 
-    this.colourRenderer = ColourRenderer.fromNothing(canvas);
-    this.textureRenderer = TextureRenderer.fromImageMapAndImageJSON(this.imageMap, this.imageJSON, canvas);
+    this.childElements.forEach((childElement) => childElement.initialise(colourRenderer, textureRenderer, transforms, masking));
 
-    this.childElements.forEach((childElement) => {
-      childElement.initialise(this.colourRenderer, this.textureRenderer, transforms, masked);
-    });
+    colourRenderer.createBuffers(canvas);
 
-    this.colourRenderer.createBuffers(canvas);
-    this.textureRenderer.createBuffers(canvas);
+    textureRenderer.createBuffers(canvas);
+
+    this.colourRenderer = colourRenderer;
+
+    this.textureRenderer = textureRenderer;
   }
 
   static fromProperties(properties) {

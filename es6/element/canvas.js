@@ -1,7 +1,6 @@
 'use strict';
 
-const Mask = require('../element/mask'),
-      Element = require('../element'),
+const Element = require('../element'),
       arrayUtilities = require('../utilities/array'),
       transformUtilities = require('../utilities/transform');
 
@@ -9,12 +8,16 @@ const { push } = arrayUtilities,
       { composeTransform } = transformUtilities;
 
 class CanvasElement extends Element {
-  constructor(facets, transform) {
+  constructor(mask, facets, transform) {
     super();
 
+    this.mask = mask;
     this.facets = facets;
-    
     this.transform = transform;
+  }
+
+  getMask() {
+    return this.mask;
   }
 
   getFacets() {
@@ -69,35 +72,30 @@ class CanvasElement extends Element {
     return vertexIndexes;
   }
 
-  initialise(colourRenderer, textureRenderer, transforms, masked) {
+  initialise(colourRenderer, textureRenderer, transforms, masking) {
     transforms = [this.transform, ...transforms]; ///
-
-    this.facets.forEach((facet) => facet.applyTransforms(transforms));
 
     const childElements = this.getChildElements();
 
-    childElements.forEach((childElement) => {
-      const masked = false; ///
+    childElements.forEach((childElement) => childElement.initialise(colourRenderer, textureRenderer, transforms, masking));
 
-      childElement.initialise(colourRenderer, textureRenderer, transforms, masked);
+    this.facets.forEach((facet) => facet.applyTransforms(transforms));
 
-      if (childElement instanceof Mask) {
-        const mask = childElement,  ///
-              element = this; ///
+    if (this.mask) {
+      const element = this; ///
 
-        mask.maskElement(element);
-      }
-    });
+      this.mask.maskElement(element);
+    }
 
-    if (!masked) {
+    if (!masking) {
       this.render(colourRenderer, textureRenderer);
     }
   }
 
   static fromProperties(Class, properties, facets = [], ...remainingArguments) {
-    const { size, position, rotations } = properties,
+    const { size, position, rotations, mask } = properties,
           transform = composeTransform(size, position, rotations),
-          canvasElement = Element.fromProperties(Class, properties, facets, transform, ...remainingArguments);
+          canvasElement = Element.fromProperties(Class, properties, mask, facets, transform, ...remainingArguments);
 
     return canvasElement;
   }

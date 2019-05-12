@@ -2,21 +2,27 @@
 
 const jiggle = require('../../index');
 
-const SmallRectangle = require('./element/smallRectangle'),
-      LargeRectangle = require('./element/largeRectangle');
+const ColouredSquare = require('./element/colouredSquare');
 
 const { Canvas, Scene, Mask, Part, Camera } = jiggle;
 
 const canvas = new Canvas();
 
+const mask =
+
+  <Mask size={[ 0.333333, 0.333333, 1 ]} position={[ 0.333333, 0.333333, 1 ]}>
+    <ColouredSquare />
+  </Mask>
+
+;
+
 const maskingExample = () =>
 
   <Scene canvas={canvas}>
     <Part>
-      <LargeRectangle />
-      <SmallRectangle />
+      <ColouredSquare mask={mask} />
     </Part>
-    <Camera initialDistance={40} />
+    <Camera />
   </Scene>
 
 ;
@@ -24,6 +30,7 @@ const maskingExample = () =>
 module.exports = maskingExample;
 
 /*
+
   <Scene canvas={canvas}>
     <Part canvas={canvas}>
       <ColouredCuboid colour={[ 1, 1, 0, 1 ]} position={[ -0.5, -0.5, -0.5 ]}>
