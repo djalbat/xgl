@@ -7,7 +7,7 @@ const ColouredSquare = require('./colouredSquare');
 const { CanvasElement } = jiggle;
 
 class Cube extends CanvasElement {
-	childElements() {
+	childElements(properties) {
 		return ([
 
 			<ColouredSquare colour={[ 1, 0, 0 ]} rotations={[   0,   0, 0 ]} />,

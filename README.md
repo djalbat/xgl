@@ -140,13 +140,13 @@ class ColouredSquare extends ColouredCanvasElement {
   }
 }
 ```
-The compound `Cube` element need only extend the `CanvasElement` class and provide its own `fromProperties()` static method in a similar vein to before. The `childElements()` method specifies the six coloured squares that are needed:
+The compound `Cube` element need only extend the `CanvasElement` class and provide its own `fromProperties()` static method. The `childElements()` method specifies the six coloured squares that are needed:
 
 ```js
 const { CanvasElement } = jiggle;
 
 class Cube extends CanvasElement {
-  childElements() {
+  childElements(properties) {
     return ([
 
       <ColouredSquare colour={[ 1, 0, 0 ]} rotations={[   0,   0, 0 ]} />,
@@ -163,7 +163,9 @@ class Cube extends CanvasElement {
   static fromProperties(properties) { return CanvasElement.fromProperties(Cube, properties); }
 }
 ```
-Rotations are specified as triples giving three rotations around the x, y and z axes, respectively. Rotations are right handed, meaning that if you point the thumb of your right hand down the requisite axis, your curled fingers give the direction of the rotation. They can be fiddlesome, in particular rotations are not communtative.
+Rotations are specified as triples giving three rotations around the x, y and z axes, respectively. Rotations are right handed, meaning that if you point the thumb of your right hand down the requisite axis, your curled fingers give the direction of the rotation. Rotations can be hard to work out, in particular when they are compounded. Note that the rotations here are chosen to have the normals of each face of the cube facing outwards.
+
+### Masking
 
 
 
