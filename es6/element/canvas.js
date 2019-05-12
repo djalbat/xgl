@@ -1,7 +1,7 @@
 'use strict';
 
-const Element = require('../element'),
-      Mask = require('../element/mask'),
+const Mask = require('../element/mask'),
+      Element = require('../element'),
       arrayUtilities = require('../utilities/array'),
       transformUtilities = require('../utilities/transform');
 

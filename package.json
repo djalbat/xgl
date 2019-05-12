@@ -20,6 +20,7 @@
     "necessary": "^2.5.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.4",
     "babel": "^6.5.2",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-react-jsx": "^6.7.5",

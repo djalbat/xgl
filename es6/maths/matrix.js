@@ -28,6 +28,8 @@ function scale3(matrix, vector) { return mat3.scale([], matrix, vector); }
 
 function scale4(matrix, vector) { return mat4.scale([], matrix, vector); }
 
+function rotate4(matrix, angle, vector) { return mat4.rotate([], matrix, angle, vector); }
+
 function translate2(matrix, vector) { return mat2.translate([], matrix, vector); }
 
 function translate3(matrix, vector) { return mat3.translate([], matrix, vector); }
@@ -35,8 +37,6 @@ function translate3(matrix, vector) { return mat3.translate([], matrix, vector);
 function translate4(matrix, vector) { return mat4.translate([], matrix, vector); }
 
 function perspective4(fieldOfView, aspectRatio, zNear, zFar) { return mat4.perspective([], fieldOfView, aspectRatio, zNear, zFar); }
-
-function rotate4(matrix, angle, vector) { return mat4.rotate([], matrix, angle, vector); }
 
 module.exports = {
   identity2,
@@ -48,12 +48,12 @@ module.exports = {
   scale2,
   scale3,
   scale4,
+  rotate4,
   transpose2,
   transpose3,
   transpose4,
   translate2,
   translate3,
   translate4,
-  perspective4,
-  rotate4
+  perspective4
 };

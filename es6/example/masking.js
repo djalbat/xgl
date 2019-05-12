@@ -2,9 +2,10 @@
 
 const jiggle = require('../../index');
 
-const Rectangle = require('./element/rectangle');
+const SmallRectangle = require('./element/smallRectangle'),
+      LargeRectangle = require('./element/largeRectangle');
 
-const { Canvas, Scene, Part, Camera } = jiggle;
+const { Canvas, Scene, Mask, Part, Camera } = jiggle;
 
 const canvas = new Canvas();
 
@@ -12,9 +13,10 @@ const maskingExample = () =>
 
   <Scene canvas={canvas}>
     <Part>
-      <Rectangle />
+      <LargeRectangle />
+      <SmallRectangle />
     </Part>
-    <Camera />
+    <Camera initialDistance={40} />
   </Scene>
 
 ;
