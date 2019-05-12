@@ -8,37 +8,43 @@ const { Canvas, Scene, Mask, Part, Camera } = jiggle;
 
 const canvas = new Canvas();
 
-const SmallCube = (properties) => <Cube size={[ 1/3, 1/3, 1/3 ]} /> ;
+const maskingExample = () => {
+  const SmallCube =
 
-const MediumCube = (properties) => <Cube size={[ 2/3, 2/3, 2/3 ]} mask={smallCubeMask} /> ;
+          <Cube size={[ 1/4, 1/4, 1/4 ]} />
 
-const LargeCube = (properties) => <Cube mask={mediumCubeMask} /> ;
+        ,
+        smallCubeMask =
 
-const smallCubeMask =
+          <Mask>
+            <SmallCube />
+          </Mask>
 
-  <Mask>
-    <SmallCube />
-  </Mask>
+        ,
+        MediumCube =
 
-;
+          <Cube size={[ 1/2, 1/2, 1/2 ]} mask={smallCubeMask} />
 
-const mediumCubeMask =
+        ,
+        mediumCubeMask =
 
-  <Mask>
-    <MediumCube />
-  </Mask>
+          <Mask>
+            <MediumCube />
+          </Mask>
 
-;
+        ,
+        LargeCube = <Cube mask={mediumCubeMask} />;
 
-const maskingExample = () =>
+  return (
 
-  <Scene canvas={canvas}>
-    <Part>
-      <LargeCube />
-    </Part>
-    <Camera />
-  </Scene>
+    <Scene canvas={canvas}>
+      <Part>
+        <LargeCube />
+      </Part>
+      <Camera />
+    </Scene>
 
-;
+  );
+};
 
 module.exports = maskingExample;
