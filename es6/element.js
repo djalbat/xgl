@@ -1,10 +1,6 @@
 'use strict';
 
 class Element {
-  constructor() {
-		///
-  }
-
   getChildElements() {
     return this.childElements;
   }

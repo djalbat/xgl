@@ -2,7 +2,7 @@
 
 const jiggle = require('../../../index');
 
-const ColouredSquare = require('./colouredSquare');
+const Face = require('./face');
 
 const { CanvasElement } = jiggle;
 
@@ -14,13 +14,13 @@ class Cube extends CanvasElement {
 
 		return ([
 
-			<ColouredSquare colour={colour} rotations={[   0,   0, 0 ]} />,
-			<ColouredSquare colour={colour} rotations={[ +90,   0, 0 ]} />,
-			<ColouredSquare colour={colour} rotations={[   0, +90, 0 ]} />,
+			<Face colour={colour} rotations={[   0,   0, 0 ]} />,
+			<Face colour={colour} rotations={[ +90,   0, 0 ]} />,
+			<Face colour={colour} rotations={[   0, +90, 0 ]} />,
 
-			<ColouredSquare colour={colour} rotations={[ 180,   0, 0 ]} />,
-			<ColouredSquare colour={colour} rotations={[ -90,   0, 0 ]} />,
-			<ColouredSquare colour={colour} rotations={[   0, -90, 0 ]} />,
+			<Face colour={colour} rotations={[ 180,   0, 0 ]} />,
+			<Face colour={colour} rotations={[ -90,   0, 0 ]} />,
+			<Face colour={colour} rotations={[   0, -90, 0 ]} />,
 
 		]);
 	}

@@ -1,24 +1,33 @@
 'use strict';
 
-const Element = require('./element');
+const Element = require('./element'),
+      arrayUtilities = require('./utilities/array'),
+      FunctionElement = require('./element/function');
+
+const { guarantee } = arrayUtilities;
 
 function createElement(firstArgument, properties, ...childElements) {
   let element;
 
-  properties = Object.assign({
-    childElements
-  }, properties);
-
   if (false) {
-
+    ///
   } else if (isSubclassOf(firstArgument, Element)) {
     const Class = firstArgument;  ///
 
+    properties = Object.assign({
+      childElements
+    }, properties);
+
     element = Class.fromProperties(properties);
   } else if (typeof firstArgument === 'function') {
-    const func = firstArgument;  ///
+    const func = firstArgument,  ///
+          childElements = guarantee(func(properties));
 
-    element = func(properties);
+    Object.assign(properties, {
+      childElements
+    });
+
+    element = FunctionElement.fromProperties(properties);
   }
 
   return element;

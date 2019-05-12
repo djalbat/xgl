@@ -19,7 +19,16 @@ function flatten(arrays) {
   return arrays.reduce((elements, array) => elements.concat(array), []);
 }
 
+function guarantee(arrayOrElement) {
+  arrayOrElement = arrayOrElement || [];
+
+  return (arrayOrElement instanceof Array) ?
+           arrayOrElement :
+            [arrayOrElement];
+}
+
 module.exports = Object.assign(arrayUtilities, {
   permute,
-  flatten
+  flatten,
+  guarantee
 });
