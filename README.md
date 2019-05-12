@@ -122,7 +122,7 @@ const Cube = (properties) => {
   ]);
 };
 ```
-The `Face` elements themselves also result from pure functions, which are useful not only for composing several elements but also for making cursory adjustments to them. Here the coordinates of the `ColouredSquare` element are adjusted to make it simpler to rotate:
+The `Face` elements themselves also result from a pure function. Here the coordinates of the `ColouredSquare` element are adjusted to make it simpler to rotate:
 
 ```js
 const Face = (properties) => {
