@@ -65,7 +65,7 @@ const simpleExample = () =>
 ```
 ### Creating canvas elements
 
-Whilst the `Scene`, `Camera` and `Part` JSX elements are built in, you have to create the canvas elements. Here is the implementation of the class for the `ColouredSquare` canvas element:
+Whilst the `Scene`, `Camera` and `Part` JSX elements are built in, you have to create the canvas elements:
 
 ```js
 const coordinates = [
@@ -93,7 +93,7 @@ class ColouredSquare extends ColouredCanvasElement {
   }
 }
 ```
-The `ColouredCanvasElement` class is provided and all you have to do, initially at least, is to extend it, adding your own `fromProperties()` static method and passing the requisite coordinates, indexes and colour along with the `properties` argument to the `fromProperties()` static method of the parent class. Note that the `ColouredSquare` class itself is passed as the first argument. Also note that a `colour` variable is extracted from the `properties` argument, including a default. This allows you to set a `colour` attribute on the corresponding JSX elements.
+The `ColouredCanvasElement` class is provided and all you have to do is to extend it, adding your own `fromProperties()` static method and passing the requisite coordinates, indexes and colour variables along with the `properties` argument to the `fromProperties()` static method of the parent class. Note that the `ColouredSquare` class itself is also passed as the first argument. Also note that a `colour` variable is extracted from the `properties` argument. This allows you to set a `colour` attribute on the corresponding JSX elements, otherwise a default is used.
 
 The `coordinates` and `indexes` arguments are the important ones. Jiggle works with facets underneath the hood, which are triangles with a colour or texture together with a normal. Facets are defined by triples of indexes that refer to specific coordinates. In this case there are four coordinates, one for each corner of the square. Two facets have been created in order to make the square. Note that the first and third coordinates are re-used. It is essential that you get the coordinates and indexes right for any canvas element. They are used to populate the WebGL rendering buffers and if they are wrong, inscrutable WebGL errors will likely result.
 
