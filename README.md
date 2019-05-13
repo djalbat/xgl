@@ -99,7 +99,7 @@ Before moving on it is worth a moment to study Jiggle's coordinate system. Obvio
 
 ### The cube example
 
-Because creating more than a handful of facets can be problematic, it is recommended that you create complex canvas elements as composites of simpler ones rather than increasing the number of coordinates and indexes. There is little or no overhead in creating composite elements, in particular the rendered scene will not run more slowly. This example has a `Cube` element composed of six child `Face` elements rather than a dozen of its own facets. A pure function is used and so there is no need to implement a class:
+Because creating more than a handful of facets can be problematic, it is recommended that you create complex canvas elements as composites of simpler ones rather than increasing the number of coordinates and indexes. There is little or no overhead in creating composite elements, in particular the rendered scene will not run any more slowly. This example creates a `Cube` element composed of six child `Face` elements rather than a dozen of its own facets. A pure function is used and so there is no need to implement a class:
 
 ```js
 const defaultC0lour = [ 1, 1, 0 ];
