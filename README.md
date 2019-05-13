@@ -18,11 +18,11 @@ You can clone the repository with [Git](https://git-scm.com/)...
 
 ## Tutorial
 
-Launch the `index.html` file in the project's root directory, which contains links to the various examples. You can compile these yourself, see the section on compiling from source near to the end. This section assumes that you are doing this and will work through some of the examples from scratch, starting with the simplest.
+Launch the `index.html` file in the project's root directory, which contains links to the various examples. You can compile these yourself, see the section on compiling from source near to the end. This section assumes that you are doing this and will work through the examples, starting with the simplest.
 
 ### The simple example
 
-In order to build your own 3D scene you need a `canvas` HTML element:
+In order to create a scene you need a `canvas` HTML element:
 
 ```html
 <html>
@@ -45,7 +45,7 @@ canvas {
   display: block;
 }
 ```
-Note that in what follows some of the boilerplate code in the actual examples is left out of the listings. Also note that if you are compiling the examples from within the cloned repository, it is correct to use the relative require. Normally you would require the package itself, however.
+Note that in what follows most of the boilerplate code has been left out of the listings. Also note that if you are compiling the examples from within the cloned repository, it is correct to use the relative require. Normally you would require the package itself, however.
 
 To continue, the `canvas` HTML element is encapsulated by an instance of the `Canvas` class and passed as an attribute to the outermost `Scene` JSX element, which itself contains a `Camera` JSX element and one or more `Part` JSX elements. The `Part` JSX elements contain JSX elements that are rendered on the canvas, called canvas elements, in this case a single `ColouredSquare` element:
 
