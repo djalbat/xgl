@@ -65,8 +65,8 @@ class Pan {
   static fromInitialOffset(initialOffset) {
     const offset = initialOffset, ///
           previousOffset = offset,  ///
-          mouseCoordinates = INITIAL_MOUSE_COORDINATES,
-          previousMouseCoordinates = mouseCoordinates,
+          mouseCoordinates = INITIAL_MOUSE_COORDINATES, ///
+          previousMouseCoordinates = mouseCoordinates,  ///
           pan = new Pan(offset, previousOffset, mouseCoordinates, previousMouseCoordinates);
     
     return pan;
