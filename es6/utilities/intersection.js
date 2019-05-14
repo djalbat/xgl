@@ -97,12 +97,12 @@ function isEdgeNonParallel(edge) {
 }
 
 function calculateEdgeIntersection(edge, firstPositionComponent) {
-  const edgePosition = edge.getPosition(),
-        edgeExtent = edge.getExtent(),
-        edgePositionComponents = edgePosition, ///
+  const edgeExtent = edge.getExtent(),
+        edgePosition = edge.getPosition(),
         edgeExtentComponents = edgeExtent, ///
-        firstEdgePositionComponent = first(edgePositionComponents),
+        edgePositionComponents = edgePosition, ///
         firstEdgeExtentComponent = first(edgeExtentComponents),
+        firstEdgePositionComponent = first(edgePositionComponents),
         edgeIntersection = (firstPositionComponent - firstEdgePositionComponent) / firstEdgeExtentComponent;
 
   return edgeIntersection;

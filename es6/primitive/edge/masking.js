@@ -15,9 +15,8 @@ class MaskingEdge extends Edge {
 
     const extent = this.getExtent(),
           position = this.getPosition(),
-          midPointRelativePosition = subtract3(midPointPosition, position), ///
-          crossProduct = cross3(extent, midPointRelativePosition), ///
-          crossProductComponents = crossProduct,  ///
+          midPointRelativePosition = subtract3(midPointPosition, position),
+          crossProductComponents = cross3(extent, midPointRelativePosition), ///
           thirdCrossProductComponent = third(crossProductComponents),
           midPointPositionToTheLeft = (thirdCrossProductComponent > 0);
 

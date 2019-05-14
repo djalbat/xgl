@@ -15,7 +15,7 @@ function rotateImaginaryQuaternion(imaginaryQuaternion, rotationQuaternion, inve
 function calculateArbitraryRotationQuaternion(normal) {
   const extent = normal.getExtent(),
         unitNormal = extent,  ///
-        zAxis = [ 0, 0, 1],
+        zAxis = [ 0, 0, 1 ],
         dotProductOfUnitNormalAndZAxis = dot3(unitNormal, zAxis),
         crossProductOfUnitNormalAndZAxis = cross3(unitNormal, zAxis),
         angleOfRotationCosine = dotProductOfUnitNormalAndZAxis, ///
@@ -51,8 +51,8 @@ function calculateRotationAboutZAxisQuaternion(maskingEdge) {
         angleOfRotationCosine = secondUnitMaskingEdgeExtentComponent,  ///
         halfAngleOfRotationCosine = calculateHalfAngleCosine(angleOfRotationCosine),
         halfAngleOfRotationSine = (angleOfRotationSine > 0 ) ?
-            +calculateHalfAngleSine(angleOfRotationCosine) :
-            -calculateHalfAngleSine(angleOfRotationCosine),
+                                    +calculateHalfAngleSine(angleOfRotationCosine) :
+                                      -calculateHalfAngleSine(angleOfRotationCosine),
         rotationAboutZAxisQuaternion = [
           halfAngleOfRotationCosine,
           0,

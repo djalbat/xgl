@@ -43,8 +43,8 @@ class Facet {
   }
   
   getVertexNormals() {
-    const extent = this.normal.getExtent(),
-          vertexNormal = extent,  ///
+    const normalExtent = this.normal.getExtent(),
+          vertexNormal = normalExtent,  ///
           vertexNormals = [
             vertexNormal,
             vertexNormal,

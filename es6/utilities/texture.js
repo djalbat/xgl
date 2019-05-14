@@ -6,11 +6,11 @@ const matrixMaths = require('../maths/matrix'),
       verticesUtilities = require('../utilities/vertices'),
       quaternionUtilities = require('../utilities/quaternion');
 
-const { invert2, invert3 } = matrixMaths,
-      { rotateVertices } = verticesUtilities,
+const { rotateVertices } = verticesUtilities,
+      { invert2, invert3 } = matrixMaths,
       { first, second, third } = arrayUtilities,
-      { add2, multiply2, transform2, transform3 } = vectorMaths,
-      { calculateArbitraryRotationQuaternion } = quaternionUtilities;
+      { calculateArbitraryRotationQuaternion } = quaternionUtilities,
+      { add2, multiply2, transform2, transform3 } = vectorMaths;
 
 function cloneTextureCoordinates(textureCoordinates) {
   textureCoordinates = textureCoordinates.map((textureCoordinates) => {  ///
