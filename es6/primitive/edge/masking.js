@@ -1,9 +1,9 @@
 'use strict';
 
 const Edge = require('../edge'),
-      vectorMaths = require('../maths/vector'),  
-      arrayUtilities = require('../utilities/array'),
-      midPointUtilities = require('../utilities/midPoint');
+      vectorMaths = require('../../maths/vector'),
+      arrayUtilities = require('../../utilities/array'),
+      midPointUtilities = require('../../utilities/midPoint');
 
 const { third } = arrayUtilities,
       { subtract3, cross3 } = vectorMaths,

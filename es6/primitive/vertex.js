@@ -1,6 +1,6 @@
 'use strict';
 
-const rotationUtilities = require('./utilities/rotation');
+const rotationUtilities = require('../utilities/rotation');
 
 const { rotatePosition } = rotationUtilities;
 
@@ -9,15 +9,15 @@ class Vertex {
     this.position = position;
   }
 
+  getPosition() {
+    return this.position;
+  }
+
   clone() {
     const position = this.position.slice(), ///
           vertex = new Vertex(position);
 
     return vertex;
-  }
-
-  getPosition() {
-    return this.position;
   }
 
   rotate(rotationQuaternion) {

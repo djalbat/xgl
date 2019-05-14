@@ -1,7 +1,7 @@
 'use strict';
 
 const Element = require('../element'),
-      MaskingFacet = require('../maskingFacet'),
+      MaskingFacet = require('../primitive/maskingFacet'),
       arrayUtilities = require('../utilities/array');
 
 const { push } = arrayUtilities;

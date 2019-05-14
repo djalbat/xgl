@@ -4,10 +4,10 @@ const Edge = require('../edge'),
       Facet = require('../facet'),
       Normal = require('../normal'),
       Vertex = require('../vertex'),
-      arrayUtilities = require('../utilities/array'),
-      facetUtilities = require('../utilities/facet'),
-      textureUtilities = require('../utilities/texture'),
-      verticesUtilities = require('../utilities/vertices');
+      arrayUtilities = require('../../utilities/array'),
+      facetUtilities = require('../../utilities/facet'),
+      textureUtilities = require('../../utilities/texture'),
+      verticesUtilities = require('../../utilities/vertices');
 
 const { permute } = arrayUtilities,
       { verticesFromCoordinateTuplesAndIndexTuple } = verticesUtilities,

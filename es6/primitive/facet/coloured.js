@@ -4,8 +4,8 @@ const Edge = require('../edge'),
       Facet = require('../facet'),
       Normal = require('../normal'),
       Vertex = require('../vertex'),
-      facetUtilities = require('../utilities/facet'),
-      verticesUtilities = require('../utilities/vertices');
+      facetUtilities = require('../../utilities/facet'),
+      verticesUtilities = require('../../utilities/vertices');
 
 const { verticesFromCoordinateTuplesAndIndexTuple } = verticesUtilities,
       { cloneEdges, cloneNormal, cloneVertices, calculateEdges, calculateNormal } = facetUtilities;

@@ -1,9 +1,9 @@
 'use strict';
 
-const arrayUtilities = require('./utilities/array'),
-      rotationUtilities = require('./utilities/rotation'),
-      quaternionUtilities = require('./utilities/quaternion'),
-      intersectionUtilities = require('./utilities/intersection');
+const arrayUtilities = require('../utilities/array'),
+      rotationUtilities = require('../utilities/rotation'),
+      quaternionUtilities = require('../utilities/quaternion'),
+      intersectionUtilities = require('../utilities/intersection');
 
 const { first } = arrayUtilities,
       { rotatePosition } = rotationUtilities,
@@ -49,9 +49,7 @@ class VerticalLine {
       this.splitFacet(facet, smallerFacets);
     });
 
-    smallerFacets.forEach((smallerFacet) => {
-      smallerFacet.rotate(this.backwardsRotationQuaternion);
-    });
+    smallerFacets.forEach((smallerFacet) => smallerFacet.rotate(this.backwardsRotationQuaternion));
 
     return smallerFacets;
   }

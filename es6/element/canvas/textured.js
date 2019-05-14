@@ -1,6 +1,6 @@
 'use strict';
 
-const TexturedFacet = require('../../facet/textured'),
+const TexturedFacet = require('../../primitive/facet/textured'),
       CanvasElement = require('../../element/canvas'),
       arrayUtilities = require('../../utilities/array');
 

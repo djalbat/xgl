@@ -1,11 +1,11 @@
 'use strict';
 
-const constants = require('./constants'),
+const constants = require('../constants'),
       MaskingEdge = require('./edge/masking'),
       VerticalLine = require('./verticalLine'),
-      arrayUtilities = require('./utilities/array'),
-      verticesUtilities = require('./utilities/vertices'),
-      quaternionUtilities = require('./utilities/quaternion');
+      arrayUtilities = require('../utilities/array'),
+      verticesUtilities = require('../utilities/vertices'),
+      quaternionUtilities = require('../utilities/quaternion');
 
 const { VERTICES_LENGTH } = constants,
       { push, separate } = arrayUtilities,
