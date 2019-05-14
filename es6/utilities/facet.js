@@ -9,11 +9,7 @@ const { VERTICES_LENGTH } = constants,
       { subtract3, cross3, length3 } = vectorMaths;
 
 function cloneEdges(edges) {
-  edges = edges.map((edge) => {
-    edge = edge.clone();
-
-    return edge;
-  });
+  edges = edges.map((edge) => edge.clone());
 
   return edges;
 }
@@ -25,11 +21,7 @@ function cloneNormal(normal) {
 }
 
 function cloneVertices(vertices) {
-  vertices = vertices.map((vertex) => {
-    vertex = vertex.clone();
-
-    return vertex;
-  });
+  vertices = vertices.map((vertex) => vertex.clone());
 
   return vertices;
 }

@@ -135,9 +135,9 @@ class Facet {
 
     this.permute(places);
 
-    const startVertexPositionIndices = [ 1, 2 ],
-          endVertexPositionIndices = [ 2, 0 ],
-          smallerFacetsIndices = [
+    const startVertexPositionIndexes = [ 1, 2 ],
+          endVertexPositionIndexes = [ 2, 0 ],
+          indexTuples = [
 
             [ 0, 1, 3 ],
             [ 3, 4, 0 ],
@@ -145,7 +145,7 @@ class Facet {
 
           ];
 
-    this.splitWithIndicesAndIntersections(startVertexPositionIndices, endVertexPositionIndices, smallerFacetsIndices, intersections, smallerFacets);
+    this.splitWithIndexTuplesAndIntersections(startVertexPositionIndexes, endVertexPositionIndexes, indexTuples, intersections, smallerFacets);
   }
 
   splitWithOneNonNullIntersection(intersections, smallerFacets) {
@@ -158,16 +158,16 @@ class Facet {
 
     this.permute(places);
 
-    const startVertexPositionIndices = [ 0 ],
-          endVertexPositionIndices = [ 1 ],
-          smallerFacetsIndices = [
+    const startVertexPositionIndexes = [ 0 ],
+          endVertexPositionIndexes = [ 1 ],
+          indexTuples = [
 
             [ 0, 3, 2 ],
             [ 3, 1, 2 ],
 
           ];
 
-    this.splitWithIndicesAndIntersections(startVertexPositionIndices, endVertexPositionIndices, smallerFacetsIndices, intersections, smallerFacets);
+    this.splitWithIndexTuplesAndIntersections(startVertexPositionIndexes, endVertexPositionIndexes, indexTuples, intersections, smallerFacets);
   }
 
   splitWithNoNonNullIntersections(intersections, smallerFacets) {
@@ -176,11 +176,11 @@ class Facet {
     smallerFacets.push(smallerFacet);
   }
 
-  splitWithIndicesAndIntersections(startVertexPositionIndices, endVertexPositionIndices, smallerFacetsIndices, intersections, smallerFacets) {
+  splitWithIndexTuplesAndIntersections(startVertexPositionIndexes, endVertexPositionIndexes, indexTuples, intersections, smallerFacets) {
     const vertexPositions = this.getVertexPositions(),
           intermediateVertexPositions = intersections.map((intersection, index) => {
-            const startVertexPositionIndex = startVertexPositionIndices[index],
-                  endVertexPositionIndex = endVertexPositionIndices[index],
+            const startVertexPositionIndex = startVertexPositionIndexes[index],
+                  endVertexPositionIndex = endVertexPositionIndexes[index],
                   startVertexPosition = vertexPositions[startVertexPositionIndex],
                   endVertexPosition = vertexPositions[endVertexPositionIndex],
                   intermediateVertexPosition = calculateIntermediateVertexPosition(startVertexPosition, endVertexPosition, intersection);
@@ -190,11 +190,11 @@ class Facet {
 
     push(vertexPositions, intermediateVertexPositions);
 
-    smallerFacetsIndices.forEach((smallerFacetIndices) => {
+    indexTuples.forEach((indexTuple) => {
       const positions = vertexPositions,  ///
-            indices = smallerFacetIndices,  ///
+            indexes = indexTuple,  ///
             facet = this, 
-            smallerFacet = smallerFacetFromVerticesAndVertexPositions(positions, indices, facet),
+            smallerFacet = smallerFacetFromPositionsIndexesAndFacet(positions, indexes, facet),
             smallerFacetTooSmall = smallerFacet.isTooSmall();
 
       if (!smallerFacetTooSmall) {
@@ -206,13 +206,11 @@ class Facet {
 
 module.exports = Facet;
 
-function smallerFacetFromVerticesAndVertexPositions(vertexPositions, indices, facet) {
-  const vertices = indices.map((index) => {
-          const vertexPosition = vertexPositions[index];
+function smallerFacetFromPositionsIndexesAndFacet(positions, indexes, facet) {
+  const vertices = indexes.map((index) => {
+          let position = positions[index];
     
-          let position = vertexPosition;  ///
-    
-          position = clonePosition(position);
+          position = position.slice(); ///
     
           const vertex = Vertex.fromPosition(position);
 
@@ -222,5 +220,3 @@ function smallerFacetFromVerticesAndVertexPositions(vertexPositions, indices, fa
 
   return smallerFacet;
 }
-
-function clonePosition(position) { return position.slice(); } ///
