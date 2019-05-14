@@ -46,7 +46,7 @@ class Pan {
   shiftKeyHandler(shiftKeyDown) {
     this.shiftKeyDown = shiftKeyDown;
 
-    if (this.shiftKeyDown) {
+    if (shiftKeyDown) {
       this.previousOffset = this.offset;
 
       this.previousMouseCoordinates = this.mouseCoordinates;

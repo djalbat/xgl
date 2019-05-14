@@ -4,7 +4,7 @@ const Element = require('../element'),
       Pan = require('../miscellaneous/pan'),
       Tilt = require('../miscellaneous/tilt'),
       Zoom = require('../miscellaneous/zoom'),
-      keyEvents = require('../miscellaneous/keyEvents'),
+      KeyEvents = require('../miscellaneous/keyEvents'),
       MouseEvents = require('../miscellaneous/mouseEvents'),
       cameraUtilities = require('../utilities/camera');
 
@@ -14,13 +14,14 @@ const defaultInitialDistance = 10,
       defaultInitialOffset = [ 0, 0, 0 ];
 
 class Camera extends Element {
-  constructor(pan, tilt, zoom, updateHandler) {
+  constructor(pan, tilt, zoom, keyEvents, mouseEvents, updateHandler) {
     super();
 
     this.pan = pan;
     this.tilt = tilt;
     this.zoom = zoom;
-
+    this.keyEvents = keyEvents;
+    this.mouseEvents = mouseEvents;
     this.updateHandler = updateHandler;
   }
 
@@ -56,25 +57,6 @@ class Camera extends Element {
     this.zoom.mouseWheelEventHandler(delta);
 
     this.update(canvas);
-  }
-
-  addKeyEventHandlers(canvas) {
-    const shiftKeyHandler = this.shiftKeyHandler.bind(this);
-
-    keyEvents.addShiftKeyHandler(shiftKeyHandler);
-  }
-  
-  addMouseEventHandlers(canvas) {
-    const mouseEvents = MouseEvents.fromNothing(canvas),
-          mouseUpHandler = this.mouseUpHandler.bind(this),
-          mouseDownHandler = this.mouseDownHandler.bind(this),
-          mouseMoveHandler = this.mouseMoveHandler.bind(this),
-          mouseWheelHandler = this.mouseWheelHandler.bind(this);
-
-    mouseEvents.onMouseUp(mouseUpHandler);
-    mouseEvents.onMouseDown(mouseDownHandler);
-    mouseEvents.onMouseMove(mouseMoveHandler);
-    mouseEvents.onMouseWheel(mouseWheelHandler);
   }
 
   forceUpdate(canvas) {
@@ -115,9 +97,24 @@ class Camera extends Element {
   }
   
   initialise(canvas) {
-    this.addKeyEventHandlers(canvas);
+    const keyEvents = KeyEvents.fromNothing(canvas),
+          mouseEvents = MouseEvents.fromNothing(canvas),
+          shiftKeyHandler = this.shiftKeyHandler.bind(this),
+          mouseUpHandler = this.mouseUpHandler.bind(this),
+          mouseDownHandler = this.mouseDownHandler.bind(this),
+          mouseMoveHandler = this.mouseMoveHandler.bind(this),
+          mouseWheelHandler = this.mouseWheelHandler.bind(this);
 
-    this.addMouseEventHandlers(canvas);
+    keyEvents.addShiftKeyHandler(shiftKeyHandler);
+
+    mouseEvents.onMouseUp(mouseUpHandler);
+    mouseEvents.onMouseDown(mouseDownHandler);
+    mouseEvents.onMouseMove(mouseMoveHandler);
+    mouseEvents.onMouseWheel(mouseWheelHandler);
+
+    this.keyEvents = keyEvents;
+
+    this.mouseEvents = mouseEvents;
   }
 
   static fromProperties(properties) {
@@ -125,8 +122,10 @@ class Camera extends Element {
           pan = Pan.fromInitialOffset(initialOffset),
           tilt = Tilt.fromNothing(),
           zoom = Zoom.fromInitialDistance(initialDistance),
+          keyEvents = null, ///
+          mouseEvents = null, ///
           updateHandler = null,  ///
-          camera = Element.fromProperties(Camera, properties, pan, tilt, zoom, updateHandler);
+          camera = Element.fromProperties(Camera, properties, pan, tilt, zoom, keyEvents, mouseEvents, updateHandler);
 
     return camera;
   }

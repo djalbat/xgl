@@ -68,24 +68,25 @@ class MouseEvents {
 	}
 
   static fromNothing(canvas) {
-    const handlersMap = {},
-          mouseDown = false,  ///
-					domElement = canvas.getDOMElement(),
+    const handlersMap = {};
+
+    handlersMap[ MOUSE_UP ] = [];
+    handlersMap[ MOUSE_DOWN ] = [];
+    handlersMap[ MOUSE_MOVE ] = [];
+    handlersMap[ MOUSE_WHEEL ] = [];
+
+    const mouseDown = false,  ///
 					mouseEvents = new MouseEvents(handlersMap, mouseDown, canvas),
+          canvasDOMElement = canvas.getDOMElement(),
 					mouseUpEventHandler = mouseEvents.mouseUpEventHandler.bind(mouseEvents),
 					mouseDownEventHandler = mouseEvents.mouseDownEventHandler.bind(mouseEvents),
 					mouseMoveEventHandler = mouseEvents.mouseMoveEventHandler.bind(mouseEvents),
 					mouseWheelEventHandler = mouseEvents.mouseWheelEventHandler.bind(mouseEvents);
 
-		handlersMap[MOUSE_UP] = [];
-		handlersMap[MOUSE_DOWN] = [];
-		handlersMap[MOUSE_MOVE] = [];
-		handlersMap[MOUSE_WHEEL] = [];
-
-    domElement.addEventListener('mouseup', mouseUpEventHandler);
-    domElement.addEventListener('mousedown', mouseDownEventHandler);
-    domElement.addEventListener('mousemove', mouseMoveEventHandler);
-    domElement.addEventListener('mousewheel', mouseWheelEventHandler);
+    canvasDOMElement.addEventListener('mouseup', mouseUpEventHandler);
+    canvasDOMElement.addEventListener('mousedown', mouseDownEventHandler);
+    canvasDOMElement.addEventListener('mousemove', mouseMoveEventHandler);
+    canvasDOMElement.addEventListener('mousewheel', mouseWheelEventHandler);
 
     return mouseEvents;
   }
@@ -100,8 +101,8 @@ function deltaFromEvent(event) {
 }
 
 function mouseCoordinatesFromEvent(event) {
-  const domElement = event.target,  ///
-        domElementBoundingClientRect = domElement.getBoundingClientRect(),
+  const canvasDOMElement = event.target,  ///
+        domElementBoundingClientRect = canvasDOMElement.getBoundingClientRect(),
         mouseCoordinates = [
           +(event.clientX - domElementBoundingClientRect.left),
           -(event.clientY - domElementBoundingClientRect.top)
