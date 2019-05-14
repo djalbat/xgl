@@ -5,74 +5,88 @@ const constants = require('../constants');
 const { CTRL_KEY_CODE, SHIFT_KEY_CODE } = constants;
 
 class KeyEvents {
-  constructor(handlersMap) {
+  constructor(handlersMap, ctrlKeyDown, shiftKeyDown) {
     this.handlersMap = handlersMap;
+    this.ctrlKeyDown = ctrlKeyDown;
+    this.shiftKeyDown = shiftKeyDown;
   }
 
-  keyUpHandler(event) {
+  isCtrlKeyDown() {
+    return this.ctrlKeyDown;
+  }
+
+  isShiftKeyDown() {
+    return this.shiftKeyDown;
+  }
+
+  keyUpEventListener(event) {
     const keyCode = event.keyCode;
 
     switch (keyCode) {
       case CTRL_KEY_CODE :
-        this.ctrlKeyUpHandler();
+        this.ctrlKeyUpEventListener();
         break;
 
       case SHIFT_KEY_CODE :
-        this.shiftKeyUpHandler();
+        this.shiftKeyUpEventListener();
         break;
     }
   }
 
-  keyDownHandler(event) {
+  keyDownEventListener(event) {
     const keyCode = event.keyCode;
 
     switch (keyCode) {
       case CTRL_KEY_CODE :
-        this.ctrlKeyDownHandler();
+        this.ctrlKeyDownEventListener();
         break;
 
       case SHIFT_KEY_CODE :
-        this.shiftKeyDownHandler();
+        this.shiftKeyDownEventListener();
         break;
     }
   }
   
-  ctrlKeyUpHandler() {
-    const ctrlKeyDown = false,
-          ctrlKeyHandlers = this.handlersMap[CTRL_KEY_CODE];
+  ctrlKeyUpEventListener() {
+    this.ctrlKeyDown = false;
 
-    ctrlKeyHandlers.forEach((ctrlKeyHandler) => ctrlKeyHandler(ctrlKeyDown));
+    const ctrlKeyHandlers = this.handlersMap[CTRL_KEY_CODE];
+
+    ctrlKeyHandlers.forEach((ctrlKeyHandler) => ctrlKeyHandler(this.ctrlKeyDown));
   }
 
-  shiftKeyUpHandler() {
-    const shiftKeyDown = false,
-          shiftKeyHandlers = this.handlersMap[SHIFT_KEY_CODE];
+  shiftKeyUpEventListener() {
+    this.shiftKeyDown = false;
 
-    shiftKeyHandlers.forEach((shiftKeyHandler) => shiftKeyHandler(shiftKeyDown));
+    const shiftKeyHandlers = this.handlersMap[SHIFT_KEY_CODE];
+
+    shiftKeyHandlers.forEach((shiftKeyHandler) => shiftKeyHandler(this.shiftKeyDown));
   }
 
-  ctrlKeyDownHandler() {
-    const ctrlKeyDown = true,
-          ctrlKeyHandlers = this.handlersMap[CTRL_KEY_CODE];
+  ctrlKeyDownEventListener() {
+    this.ctrlKeyDown = true;
 
-    ctrlKeyHandlers.forEach((ctrlKeyHandler) => ctrlKeyHandler(ctrlKeyDown));
+    const ctrlKeyHandlers = this.handlersMap[CTRL_KEY_CODE];
+
+    ctrlKeyHandlers.forEach((ctrlKeyHandler) => ctrlKeyHandler(this.ctrlKeyDown));
   }
 
-  shiftKeyDownHandler() {
-    const shiftKeyDown = true,
-          shiftKeyHandlers = this.handlersMap[SHIFT_KEY_CODE];
+  shiftKeyDownEventListener() {
+    this.shiftKeyDown = true;
 
-    shiftKeyHandlers.forEach((shiftKeyHandler) => shiftKeyHandler(shiftKeyDown));
+    const shiftKeyHandlers = this.handlersMap[SHIFT_KEY_CODE];
+
+    shiftKeyHandlers.forEach((shiftKeyHandler) => shiftKeyHandler(this.shiftKeyDown));
   }
 
   addCtrlKeyHandler(ctrlKeyHandler) {
-    const ctrlKeyHandlers = this.handlersMap[CTRL_KEY_CODE];
+    const ctrlKeyHandlers = this.handlersMap[ CTRL_KEY_CODE ];
 
     ctrlKeyHandlers.push(ctrlKeyHandler);
   }
 
   addShiftKeyHandler(shiftKeyHandler) {
-    const shiftKeyHandlers = this.handlersMap[SHIFT_KEY_CODE];
+    const shiftKeyHandlers = this.handlersMap[ SHIFT_KEY_CODE ];
 
     shiftKeyHandlers.push(shiftKeyHandler);
   }
@@ -83,13 +97,15 @@ class KeyEvents {
     handlersMap[ CTRL_KEY_CODE ] = [];
     handlersMap[ SHIFT_KEY_CODE ] = [];
 
-    const keyEvents = new KeyEvents(handlersMap),
-          keyUpHandler = keyEvents.keyUpHandler.bind(keyEvents),
-          keyDownHandler = keyEvents.keyDownHandler.bind(keyEvents),
+    const ctrlKeyDown = false,  ///
+          shiftKeyDown = false,  ///
+          keyEvents = new KeyEvents(handlersMap, ctrlKeyDown, shiftKeyDown),
+          keyUpEventListener = keyEvents.keyUpEventListener.bind(keyEvents),
+          keyDownEventListener = keyEvents.keyDownEventListener.bind(keyEvents),
           documentDOMElement = document.documentElement;  ///
 
-    documentDOMElement.addEventListener('keyup', keyUpHandler);
-    documentDOMElement.addEventListener('keydown', keyDownHandler);
+    documentDOMElement.addEventListener('keyup', keyUpEventListener);
+    documentDOMElement.addEventListener('keydown', keyDownEventListener);
 
     return keyEvents;
   }

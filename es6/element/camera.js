@@ -107,10 +107,10 @@ class Camera extends Element {
 
     keyEvents.addShiftKeyHandler(shiftKeyHandler);
 
-    mouseEvents.onMouseUp(mouseUpHandler);
-    mouseEvents.onMouseDown(mouseDownHandler);
-    mouseEvents.onMouseMove(mouseMoveHandler);
-    mouseEvents.onMouseWheel(mouseWheelHandler);
+    mouseEvents.addMouseUpHandler(mouseUpHandler);
+    mouseEvents.addMouseDownHandler(mouseDownHandler);
+    mouseEvents.addMouseMoveHandler(mouseMoveHandler);
+    mouseEvents.addMouseWheelHandler(mouseWheelHandler);
 
     this.keyEvents = keyEvents;
 
