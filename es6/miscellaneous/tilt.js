@@ -5,7 +5,7 @@ const constants = require('../constants'),
       arrayUtilities = require('../utilities/array');
 
 const { first, second } = arrayUtilities,
-      { add3, subtract3, scale3 } = vectorMaths,
+      { add2, scale2, subtract2 } = vectorMaths,
       { ANGLES_SCALAR, INITIAL_ANGLES, INITIAL_MOUSE_COORDINATES } = constants;
 
 class Tilt {
@@ -36,7 +36,7 @@ class Tilt {
     return zAngle;
   }
   
-  getAngles() {
+  getAngles() { ///
     const xAngle = this.getXAngle(),
           yAngle = this.getYAngle(),
           zAngle = this.getZAngle(),
@@ -75,10 +75,10 @@ class Tilt {
 
   updateAngles() {
     const scalar = ANGLES_SCALAR,
-          relativeMouseCoordinates = subtract3(this.mouseCoordinates, this.previousMouseCoordinates),
-          relativeAngles = scale3(relativeMouseCoordinates, scalar);
+          relativeMouseCoordinates = subtract2(this.mouseCoordinates, this.previousMouseCoordinates),
+          relativeAngles = scale2(relativeMouseCoordinates, scalar);
 
-    this.angles = add3(this.previousAngles, relativeAngles);
+    this.angles = add2(this.previousAngles, relativeAngles);
   }
 
   static fromNothing() {
