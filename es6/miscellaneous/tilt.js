@@ -6,26 +6,26 @@ const constants = require('../constants'),
 
 const { first, second } = arrayUtilities,
       { add3, subtract3, scale3 } = vectorMaths,
-      { ANGLE_COORDINATES_SCALAR, INITIAL_MOUSE_COORDINATES, INITIAL_ANGLE_COORDINATES } = constants;
+      { ANGLES_SCALAR, INITIAL_ANGLES, INITIAL_MOUSE_COORDINATES } = constants;
 
 class Tilt {
-  constructor(mouseCoordinates, angleCoordinates, previousMouseCoordinates, previousAngleCoordinates) {
+  constructor(angles, previousAngles, mouseCoordinates, previousMouseCoordinates) {
+    this.angles = angles;
+    this.previousAngles = previousAngles;
     this.mouseCoordinates = mouseCoordinates;
-    this.angleCoordinates = angleCoordinates;
     this.previousMouseCoordinates = previousMouseCoordinates;
-    this.previousAngleCoordinates = previousAngleCoordinates;
   }
 
   getXAngle() {
-    const secondAngleCoordinate = second(this.angleCoordinates),
-          xAngle = secondAngleCoordinate; ///
+    const secondAngle = second(this.angles),
+          xAngle = secondAngle; ///
 
     return xAngle;
   }
   
   getYAngle() {
-    const firstAngleCoordinate = first(this.angleCoordinates),
-          yAngle = -firstAngleCoordinate; ///
+    const firstAngle = first(this.angles),
+          yAngle = -firstAngle; ///
 
     return yAngle;
   }
@@ -50,7 +50,7 @@ class Tilt {
   }
   
   mouseUpHandler() {
-    this.previousAngleCoordinates = this.angleCoordinates;
+    this.previousAngles = this.angles;
   }
 
   mouseDownHandler() {
@@ -61,32 +61,32 @@ class Tilt {
     this.mouseCoordinates = mouseCoordinates;
 
     if (mouseDown && !shiftKeyDown) {
-      this.updateAngleCoordinates();
+      this.updateAngles();
     }
   }
 
   shiftKeyHandler(shiftKeyDown) {
     if (!shiftKeyDown) {
-      this.previousMouseCoordinates = this.mouseCoordinates;
+      this.previousAngles = this.angles;
 
-      this.previousAngleCoordinates = this.angleCoordinates;
+      this.previousMouseCoordinates = this.mouseCoordinates;
     }
   }
 
-  updateAngleCoordinates() {
-    const scalar = ANGLE_COORDINATES_SCALAR,
+  updateAngles() {
+    const scalar = ANGLES_SCALAR,
           relativeMouseCoordinates = subtract3(this.mouseCoordinates, this.previousMouseCoordinates),
-          relativeAngleCoordinates = scale3(relativeMouseCoordinates, scalar);
+          relativeAngles = scale3(relativeMouseCoordinates, scalar);
 
-    this.angleCoordinates = add3(this.previousAngleCoordinates, relativeAngleCoordinates);
+    this.angles = add3(this.previousAngles, relativeAngles);
   }
 
   static fromNothing() {
-    const mouseCoordinates = INITIAL_MOUSE_COORDINATES,
-          angleCoordinates = INITIAL_ANGLE_COORDINATES,
-          previousAngleCoordinates = angleCoordinates,  ///
+    const angles = INITIAL_ANGLES,
+          previousAngles = angles,  ///
+          mouseCoordinates = INITIAL_MOUSE_COORDINATES,
           previousMouseCoordinates = mouseCoordinates,  ///
-          tilt = new Tilt(mouseCoordinates, angleCoordinates, previousMouseCoordinates, previousAngleCoordinates);
+          tilt = new Tilt(angles, previousAngles, mouseCoordinates, previousMouseCoordinates);
 
     return tilt;
   }
