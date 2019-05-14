@@ -46,7 +46,7 @@ class Camera extends Element {
   mouseMoveHandler(mouseCoordinates, mouseDown, canvas) {
     const shiftKeyDown = this.keyEvents.isShiftKeyDown();
 
-    this.tilt.mouseMoveHandler(mouseCoordinates, mouseDown);
+    this.tilt.mouseMoveHandler(mouseCoordinates, mouseDown, shiftKeyDown);
 
     this.pan.mouseMoveHandler(mouseCoordinates, mouseDown, shiftKeyDown, this.tilt);
 

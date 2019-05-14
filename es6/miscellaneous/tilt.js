@@ -9,8 +9,7 @@ const { first, second } = arrayUtilities,
       { ANGLE_COORDINATES_SCALAR, INITIAL_MOUSE_COORDINATES, INITIAL_ANGLE_COORDINATES } = constants;
 
 class Tilt {
-  constructor(shiftKeyDown, mouseCoordinates, angleCoordinates, previousMouseCoordinates, previousAngleCoordinates) {
-    this.shiftKeyDown = shiftKeyDown;
+  constructor(mouseCoordinates, angleCoordinates, previousMouseCoordinates, previousAngleCoordinates) {
     this.mouseCoordinates = mouseCoordinates;
     this.angleCoordinates = angleCoordinates;
     this.previousMouseCoordinates = previousMouseCoordinates;
@@ -58,17 +57,15 @@ class Tilt {
     this.previousMouseCoordinates = this.mouseCoordinates;
   }
 
-  mouseMoveHandler(mouseCoordinates, mouseDown) {
+  mouseMoveHandler(mouseCoordinates, mouseDown, shiftKeyDown) {
     this.mouseCoordinates = mouseCoordinates;
 
-    if (mouseDown && !this.shiftKeyDown) {
+    if (mouseDown && !shiftKeyDown) {
       this.updateAngleCoordinates();
     }
   }
 
   shiftKeyHandler(shiftKeyDown) {
-    this.shiftKeyDown = shiftKeyDown;
-
     if (!shiftKeyDown) {
       this.previousMouseCoordinates = this.mouseCoordinates;
 
@@ -85,12 +82,11 @@ class Tilt {
   }
 
   static fromNothing() {
-    const shiftKeyDown = false,
-          mouseCoordinates = INITIAL_MOUSE_COORDINATES,
+    const mouseCoordinates = INITIAL_MOUSE_COORDINATES,
           angleCoordinates = INITIAL_ANGLE_COORDINATES,
           previousAngleCoordinates = angleCoordinates,  ///
           previousMouseCoordinates = mouseCoordinates,  ///
-          tilt = new Tilt(shiftKeyDown, mouseCoordinates, angleCoordinates, previousMouseCoordinates, previousAngleCoordinates);
+          tilt = new Tilt(mouseCoordinates, angleCoordinates, previousMouseCoordinates, previousAngleCoordinates);
 
     return tilt;
   }
