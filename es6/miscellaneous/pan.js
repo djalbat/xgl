@@ -9,8 +9,7 @@ const { first, second } = arrayUtilities,
       { OFFSET_SCALAR, INITIAL_MOUSE_COORDINATES } = constants;
 
 class Pan {
-  constructor(shiftKeyDown, offset, previousOffset, mouseCoordinates, previousMouseCoordinates) {
-    this.shiftKeyDown = shiftKeyDown;
+  constructor(offset, previousOffset, mouseCoordinates, previousMouseCoordinates) {
     this.offset = offset;
     this.previousOffset = previousOffset;
     this.mouseCoordinates = mouseCoordinates;
@@ -19,6 +18,14 @@ class Pan {
 
   getOffset() {
     return this.offset;
+  }
+
+  shiftKeyHandler(shiftKeyDown) {
+    if (shiftKeyDown) {
+      this.previousOffset = this.offset;
+
+      this.previousMouseCoordinates = this.mouseCoordinates;
+    }
   }
 
   mouseUpHandler() {
@@ -35,21 +42,11 @@ class Pan {
     }
   }
 
-  mouseMoveHandler(mouseCoordinates, mouseDown, tilt) {
+  mouseMoveHandler(mouseCoordinates, mouseDown, shiftKeyDown, tilt) {
     this.mouseCoordinates = mouseCoordinates;
 
-    if (mouseDown && this.shiftKeyDown) {
+    if (mouseDown && shiftKeyDown) {
       this.updateOffset(tilt);
-    }
-  }
-
-  shiftKeyHandler(shiftKeyDown) {
-    this.shiftKeyDown = shiftKeyDown;
-
-    if (shiftKeyDown) {
-      this.previousOffset = this.offset;
-
-      this.previousMouseCoordinates = this.mouseCoordinates;
     }
   }
 
@@ -67,11 +64,10 @@ class Pan {
 
   static fromInitialOffset(initialOffset) {
     const offset = initialOffset, ///
-          shiftKeyDown = false,
           previousOffset = offset,  ///
           mouseCoordinates = INITIAL_MOUSE_COORDINATES,
           previousMouseCoordinates = mouseCoordinates,
-          pan = new Pan(shiftKeyDown, offset, previousOffset, mouseCoordinates, previousMouseCoordinates);
+          pan = new Pan(offset, previousOffset, mouseCoordinates, previousMouseCoordinates);
     
     return pan;
   }
