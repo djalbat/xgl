@@ -9,8 +9,7 @@ const { first, second } = arrayUtilities,
       { OFFSET_SCALAR, INITIAL_MOUSE_COORDINATES } = constants;
 
 class Pan {
-  constructor(mouseDown, shiftKeyDown, offset, previousOffset, mouseCoordinates, previousMouseCoordinates) {
-    this.mouseDown = mouseDown;
+  constructor(shiftKeyDown, offset, previousOffset, mouseCoordinates, previousMouseCoordinates) {
     this.shiftKeyDown = shiftKeyDown;
     this.offset = offset;
     this.previousOffset = previousOffset;
@@ -23,25 +22,24 @@ class Pan {
   }
 
   mouseUpHandler() {
-    this.mouseDown = false;
     this.previousMouseCoordinates = this.mouseCoordinates;
   }
 
   mouseDownHandler() {
-    this.mouseDown = true;
     this.previousOffset = this.offset;
 
     if (this.shiftKeyDown) {
-      this.previousMouseCoordinates = this.mouseCoordinates;
       this.previousOffset = this.offset;
+
+      this.previousMouseCoordinates = this.mouseCoordinates;
     }
   }
 
-  mouseMoveHandler(mouseCoordinates, angles) {
+  mouseMoveHandler(mouseCoordinates, mouseDown, tilt) {
     this.mouseCoordinates = mouseCoordinates;
 
-    if (this.mouseDown && this.shiftKeyDown) {
-      this.updateOffset(angles);
+    if (mouseDown && this.shiftKeyDown) {
+      this.updateOffset(tilt);
     }
   }
 
@@ -49,14 +47,15 @@ class Pan {
     this.shiftKeyDown = shiftKeyDown;
 
     if (this.shiftKeyDown) {
-      this.previousMouseCoordinates = this.mouseCoordinates;
       this.previousOffset = this.offset;
+
+      this.previousMouseCoordinates = this.mouseCoordinates;
     }
   }
 
-  updateOffset(angles) {
-    const xAngle = angles.getXAngle(),
-          yAngle = angles.getYAngle(),
+  updateOffset(tilt) {
+    const xAngle = tilt.getXAngle(),
+          yAngle = tilt.getYAngle(),
           scalar = OFFSET_SCALAR,
           relativeMouseCoordinates = subtract2(this.mouseCoordinates, this.previousMouseCoordinates),
           relativeOffset = scale2(relativeMouseCoordinates, scalar),
@@ -67,13 +66,12 @@ class Pan {
   }
 
   static fromInitialOffset(initialOffset) {
-    const offset = initialOffset,
-          mouseDown = false,
+    const offset = initialOffset, ///
           shiftKeyDown = false,
           previousOffset = offset,  ///
           mouseCoordinates = INITIAL_MOUSE_COORDINATES,
           previousMouseCoordinates = mouseCoordinates,
-          pan = new Pan(mouseDown, shiftKeyDown, offset, previousOffset, mouseCoordinates, previousMouseCoordinates);
+          pan = new Pan(shiftKeyDown, offset, previousOffset, mouseCoordinates, previousMouseCoordinates);
     
     return pan;
   }
@@ -84,10 +82,11 @@ module.exports = Pan;
 function calculateYAngleOffset(yAngle, relativeOffset) {
   const relativeOffsetComponents = relativeOffset,  ///
         firstRelativeOffsetComponent = first(relativeOffsetComponents),
-        x = -Math.cos(yAngle) * firstRelativeOffsetComponent,
-        y = 0,
-        z = -Math.sin(yAngle) * firstRelativeOffsetComponent,
-        yAngleOffset = [x, y, z];
+        yAngleOffset = [
+          -Math.cos(yAngle) * firstRelativeOffsetComponent,
+          +0,
+          -Math.sin(yAngle) * firstRelativeOffsetComponent
+        ];
 
   return yAngleOffset;
 }
@@ -95,10 +94,11 @@ function calculateYAngleOffset(yAngle, relativeOffset) {
 function calculateXAngleOffset(xAngle, yAngle, relativeOffset) {
   const relativeOffsetComponents = relativeOffset,  ///
         secondRelativeOffsetComponent = second(relativeOffsetComponents),
-        x = -Math.sin(xAngle) * Math.sin(yAngle) * secondRelativeOffsetComponent,
-        y = -Math.cos(xAngle) * secondRelativeOffsetComponent,
-        z = +Math.sin(xAngle) * Math.cos(yAngle) * secondRelativeOffsetComponent,
-        xAngleOffset = [x, y, z];
+        xAngleOffset = [
+          -Math.sin(xAngle) * Math.sin(yAngle) * secondRelativeOffsetComponent,
+          -Math.cos(xAngle) * secondRelativeOffsetComponent,
+          +Math.sin(xAngle) * Math.cos(yAngle) * secondRelativeOffsetComponent
+        ];
 
   return xAngleOffset;
 }

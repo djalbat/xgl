@@ -79,7 +79,7 @@ documentDOMElement.onkeydown = (event) => {
   const keyCode = event.keyCode;
 
   if (false) {
-
+    ///
   } else if (keyCode === CTRL_KEY_CODE) {
     keyEvents.onCtrlKeyDown();
   } else if (keyCode === SHIFT_KEY_CODE) {
