@@ -7,13 +7,11 @@ const Edge = require('./edge'),
       facetUtilities = require('../utilities/facet'),
       arrayUtilities = require('../utilities/array'),
       midPointUtilities = require('../utilities/midPoint'),
-      approximateUtilities = require('../utilities/approximate'),
       intersectionUtilities = require('../utilities/intersection');
 
 const { VERTICES_LENGTH } = constants,
       { push, permute } = arrayUtilities,
-      { isApproximatelyEqualToZero } = approximateUtilities,
-      { calculateEdges, calculateNormal, calculateArea } = facetUtilities,
+      { calculateEdges, calculateNormal } = facetUtilities,
       { calculateMidPointPosition, isMidPointPositionToOneSideOfMaskingEdges } = midPointUtilities,
       { calculateIntermediateVertexPosition, calculateNonNullIntersections, calculateNullIntersectionIndex, calculateNonNullIntersectionIndex } = intersectionUtilities;
 
@@ -63,14 +61,6 @@ class Facet {
           ];
     
     return vertexIndexes;
-  }
-
-  isTooSmall() {
-    const area = calculateArea(this.vertices),
-          areaApproximatelyEqualToZero = isApproximatelyEqualToZero(area),
-          tooSmall = areaApproximatelyEqualToZero;  ///
-
-    return tooSmall;
   }
 
   isMasked(maskingFacet) {
@@ -194,10 +184,9 @@ class Facet {
       const positions = vertexPositions,  ///
             indexes = indexTuple,  ///
             facet = this, 
-            smallerFacet = smallerFacetFromPositionsIndexesAndFacet(positions, indexes, facet),
-            smallerFacetTooSmall = smallerFacet.isTooSmall();
+            smallerFacet = smallerFacetFromPositionsIndexesAndFacet(positions, indexes, facet);
 
-      if (!smallerFacetTooSmall) {
+      if (smallerFacet !== null) {
         smallerFacets.push(smallerFacet);
       }
     });

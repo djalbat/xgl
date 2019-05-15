@@ -28,9 +28,11 @@ function calculateAdjustedTextureCoordinatesTuple(vertices, normal, parentVertic
   const arbitraryRotationQuaternion = calculateArbitraryRotationQuaternion(normal),
         rotationQuaternion = arbitraryRotationQuaternion; ///
 
-  vertices = rotateVertices(vertices, rotationQuaternion);
+  const tempVertices = rotateVertices(vertices, rotationQuaternion);
 
   parentVertices = rotateVertices(parentVertices, rotationQuaternion);
+
+  vertices = tempVertices;  ///
 
   const firstVertex = first(vertices),
         secondVertex = second(vertices),

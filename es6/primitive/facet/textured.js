@@ -7,11 +7,13 @@ const Edge = require('../edge'),
       arrayUtilities = require('../../utilities/array'),
       facetUtilities = require('../../utilities/facet'),
       textureUtilities = require('../../utilities/texture'),
-      verticesUtilities = require('../../utilities/vertices');
+      verticesUtilities = require('../../utilities/vertices'),
+      approximateUtilities = require('../../utilities/approximate');
 
 const { permute } = arrayUtilities,
+      { isApproximatelyEqualToZero } = approximateUtilities,
       { verticesFromCoordinateTuplesAndIndexTuple } = verticesUtilities,
-      { cloneEdges, cloneNormal, cloneVertices, calculateEdges, calculateNormal } = facetUtilities,
+      { cloneEdges, cloneNormal, cloneVertices, calculateArea, calculateEdges, calculateNormal } = facetUtilities,
       { cloneTextureCoordinatesTuple, calculateVertexTextureCoordinatesTuple, calculateAdjustedTextureCoordinatesTuple } = textureUtilities;
 
 class TexturedFacet extends Facet {
@@ -63,22 +65,40 @@ class TexturedFacet extends Facet {
   }
 
   fromVertices(vertices) {
-    const normal = calculateNormal(vertices, Normal),
-          parentVertices = this.vertices, ///
-          adjustedTextureCoordinatesTuple = calculateAdjustedTextureCoordinatesTuple(vertices, normal, parentVertices, this.textureCoordinatesTuple),
-          edges = calculateEdges(vertices, Edge),
-          imageName = this.imageName,
-          textureCoordinatesTuple = adjustedTextureCoordinatesTuple,  ///
-          texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinatesTuple);
+    let texturedFacet = null;
+
+    const area = calculateArea(vertices),
+          areaApproximatelyEqualToZero = isApproximatelyEqualToZero(area),
+          largeEnough = !areaApproximatelyEqualToZero;  ///
+
+    if (largeEnough) {
+      const normal = calculateNormal(vertices, Normal),
+            parentVertices = this.vertices, ///
+            adjustedTextureCoordinatesTuple = calculateAdjustedTextureCoordinatesTuple(vertices, normal, parentVertices, this.textureCoordinatesTuple),
+            edges = calculateEdges(vertices, Edge),
+            imageName = this.imageName,
+            textureCoordinatesTuple = adjustedTextureCoordinatesTuple;  ///
+
+      texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinatesTuple);
+    }
 
     return texturedFacet;
   }
 
   static fromTextureCoordinateTupleCoordinatesTuplesIndexTupleAndImageName(textureCoordinatesTuple, coordinateTuples, indexTuple, imageName) {
+    let texturedFacet = null;
+
     const vertices = verticesFromCoordinateTuplesAndIndexTuple(coordinateTuples, indexTuple, Vertex),
-          normal = calculateNormal(vertices, Normal),
-          edges = calculateEdges(vertices, Edge),
-          texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinatesTuple);
+          area = calculateArea(vertices),
+          areaApproximatelyEqualToZero = isApproximatelyEqualToZero(area),
+          largeEnough = !areaApproximatelyEqualToZero;  ///
+
+    if (largeEnough) {
+      const normal = calculateNormal(vertices, Normal),
+            edges = calculateEdges(vertices, Edge);
+
+      texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinatesTuple);
+    }
 
     return texturedFacet;
   }
