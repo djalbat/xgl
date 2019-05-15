@@ -8,11 +8,11 @@ const { push } = arrayUtilities;
 
 class TexturedCanvasElement extends CanvasElement {
   render(colourRenderer, textureRenderer) {
-    const imageJSON = textureRenderer.getImageJSON(),
+    const imageMapJSON = textureRenderer.getImageMapJSON(),
 					vertexIndexes = this.getVertexIndexes(),
           vertexNormals = this.getVertexNormals(),
           vertexPositions = this.getVertexPositions(),
-          vertexTextureCoordinates = this.getVertexTextureCoordinates(imageJSON);
+          vertexTextureCoordinatesTuples = this.getVertexTextureCoordinatesTuples(imageMapJSON);
 
     textureRenderer.addVertexPositions(vertexPositions);
 
@@ -20,32 +20,32 @@ class TexturedCanvasElement extends CanvasElement {
 
     textureRenderer.addVertexNormals(vertexNormals);
 
-    textureRenderer.addVertexTextureCoordinates(vertexTextureCoordinates);
+    textureRenderer.addVertexTextureCoordinates(vertexTextureCoordinatesTuples);
 
     super.render(colourRenderer, textureRenderer);
   }
 
-  getVertexTextureCoordinates(imageJSON) {
+  getVertexTextureCoordinatesTuples(imageMapJSON) {
     const facets = this.getFacets(),
-          vertexTextureCoordinates = facets.reduce((vertexTextureCoordinates, facet) => {
+          vertexTextureCoordinatesTuples = facets.reduce((vertexTextureCoordinatesTuples, facet) => {
             const texturedFacet = facet,  ///
-                  texturedFacetVertexTextureCoordinates = texturedFacet.getVertexTextureCoordinates(imageJSON);
+                  texturedFacetVertexTextureCoordinatesTuples = texturedFacet.getVertexTextureCoordinatesTuple(imageMapJSON);
   
-            push(vertexTextureCoordinates, texturedFacetVertexTextureCoordinates);
+            push(vertexTextureCoordinatesTuples, texturedFacetVertexTextureCoordinatesTuples);
   
-            return vertexTextureCoordinates;
+            return vertexTextureCoordinatesTuples;
           }, []);
 
-    return vertexTextureCoordinates;
+    return vertexTextureCoordinatesTuples;
   }
 
   static fromProperties(Class, properties, coordinates, indexes, imageName, textureCoordinates, ...remainingArguments) {
     const indexTuples = indexes,  ///
           coordinateTuples = coordinates, ///
-          textureCoordinateTuples = textureCoordinates, ///
+          textureCoordinatesTuples = textureCoordinates, ///
           texturedFacets = indexTuples.map((indexTuple, index) => {
-            const textureCoordinateTuple = textureCoordinateTuples[index],
-                  texturedFacet = TexturedFacet.fromTextureCoordinateTupleCoordinateTuplesIndexTupleAndImageName(textureCoordinateTuple, coordinateTuples, indexTuple, imageName);
+            const textureCoordinatesTuple = textureCoordinatesTuples[index],
+                  texturedFacet = TexturedFacet.fromTextureCoordinateTupleCoordinatesTuplesIndexTupleAndImageName(textureCoordinatesTuple, coordinateTuples, indexTuple, imageName);
 
             return texturedFacet;
           }),

@@ -12,15 +12,15 @@ const Edge = require('../edge'),
 const { permute } = arrayUtilities,
       { verticesFromCoordinateTuplesAndIndexTuple } = verticesUtilities,
       { cloneEdges, cloneNormal, cloneVertices, calculateEdges, calculateNormal } = facetUtilities,
-      { cloneTextureCoordinates, calculateVertexTextureCoordinates, calculateAdjustedTextureCoordinates } = textureUtilities;
+      { cloneTextureCoordinatesTuple, calculateVertexTextureCoordinatesTuple, calculateAdjustedTextureCoordinatesTuple } = textureUtilities;
 
 class TexturedFacet extends Facet {
-  constructor(vertices, normal, edges, imageName, textureCoordinates) {
+  constructor(vertices, normal, edges, imageName, textureCoordinatesTuple) {
     super(vertices, normal, edges);
 
     this.imageName = imageName;
 
-    this.textureCoordinates = textureCoordinates;
+    this.textureCoordinatesTuple = textureCoordinatesTuple;
   }
 
   clone() {
@@ -33,8 +33,8 @@ class TexturedFacet extends Facet {
     edges = cloneEdges(edges);
 
     const imageName = this.imageName,
-          textureCoordinates = cloneTextureCoordinates(this.textureCoordinates),
-          texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinates);
+          textureCoordinatesTuple = cloneTextureCoordinatesTuple(this.textureCoordinatesTuple),
+          texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinatesTuple);
 
     return texturedFacet;
   }
@@ -44,40 +44,41 @@ class TexturedFacet extends Facet {
   }
 
   getTextureCoordinates() {
-    return this.textureCoordinates;
+    return this.textureCoordinatesTuple;
   }
 
-  getVertexTextureCoordinates(imageJSON) {
-    const extent = imageJSON[this.imageName],
+  getVertexTextureCoordinatesTuple(imageMapJSON) {
+    const json = imageMapJSON[this.imageName],
+          extent = json,  ///
           { left, bottom, width, height } = extent,
-          vertexTextureCoordinates = calculateVertexTextureCoordinates(this.textureCoordinates, left, bottom, width, height);
+          vertexTextureCoordinatesTuple = calculateVertexTextureCoordinatesTuple(this.textureCoordinatesTuple, left, bottom, width, height);
 
-    return vertexTextureCoordinates;
+    return vertexTextureCoordinatesTuple;
   }
 
   permute(places) {
     super.permute(places);
 
-    this.textureCoordinates = permute(this.textureCoordinates, places);
+    this.textureCoordinatesTuple = permute(this.textureCoordinatesTuple, places);
   }
 
   fromVertices(vertices) {
     const normal = calculateNormal(vertices, Normal),
           parentVertices = this.vertices, ///
-          adjustedTextureCoordinates = calculateAdjustedTextureCoordinates(vertices, normal, parentVertices, this.textureCoordinates),
+          adjustedTextureCoordinatesTuple = calculateAdjustedTextureCoordinatesTuple(vertices, normal, parentVertices, this.textureCoordinatesTuple),
           edges = calculateEdges(vertices, Edge),
           imageName = this.imageName,
-          textureCoordinates = adjustedTextureCoordinates,  ///
-          texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinates);
+          textureCoordinatesTuple = adjustedTextureCoordinatesTuple,  ///
+          texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinatesTuple);
 
     return texturedFacet;
   }
 
-  static fromTextureCoordinateTupleCoordinateTuplesIndexTupleAndImageName(textureCoordinateTuple, coordinateTuples, indexTuple, imageName) {
+  static fromTextureCoordinateTupleCoordinatesTuplesIndexTupleAndImageName(textureCoordinatesTuple, coordinateTuples, indexTuple, imageName) {
     const vertices = verticesFromCoordinateTuplesAndIndexTuple(coordinateTuples, indexTuple, Vertex),
           normal = calculateNormal(vertices, Normal),
           edges = calculateEdges(vertices, Edge),
-          texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinates);
+          texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinatesTuple);
 
     return texturedFacet;
   }

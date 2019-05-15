@@ -11,14 +11,14 @@ const Renderer = require('../renderer'),
 const { createProgram } = Renderer;
 
 class TextureRenderer extends Renderer {
-	constructor(program, rendererData, rendererBuffers, uniformLocations, attributeLocations, imageJSON) {
+	constructor(program, rendererData, rendererBuffers, uniformLocations, attributeLocations, imageMapJSON) {
 		super(program, rendererData, rendererBuffers, uniformLocations, attributeLocations);
 
-		this.imageJSON = imageJSON;
+		this.imageMapJSON = imageMapJSON;
 	}
 
-	getImageJSON() {
-		return this.imageJSON;
+	getImageMapJSON() {
+		return this.imageMapJSON;
 	}
 
   getTextureCoordinateAttributeLocation() {
@@ -63,7 +63,7 @@ class TextureRenderer extends Renderer {
     canvas.setUniformLocationIntegerValue(samplerUniformLocation, uSamplerUniformLocationIntegerValue);
   }
 
-  static fromImageMapAndImageJSON(imageMap = null, imageJSON = null, canvas) {
+  static fromImageMapAndImageMapJSON(imageMap = null, imageMapJSON = null, canvas) {
     const program = createProgram(vertexShaderSource, fragmentShaderSource, canvas),
           textureRendererData = TextureRendererData.fromNothing(),
           textureRendererBuffers = TextureRendererBuffers.fromNothing(),
@@ -71,7 +71,7 @@ class TextureRenderer extends Renderer {
           rendererBuffers = textureRendererBuffers, ///
           uniformLocations = TextureUniformLocations.fromProgram(program, canvas),
           attributeLocations = TextureAttributeLocations.fromProgram(program, canvas),
-          textureRenderer = new TextureRenderer(program, rendererData, rendererBuffers, uniformLocations, attributeLocations, imageJSON);
+          textureRenderer = new TextureRenderer(program, rendererData, rendererBuffers, uniformLocations, attributeLocations, imageMapJSON);
 
     if (imageMap !== null) {
       const image = imageMap;	///

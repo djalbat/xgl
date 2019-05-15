@@ -1,0 +1,11 @@
+{
+  "environments": [
+    {
+      "name": "development",
+      "port": 8000,
+      "imageDirectoryPath": "image",
+      "publicDirectoryPath": "public",
+      "templateDirectoryPath": "template"
+    }
+  ]
+}

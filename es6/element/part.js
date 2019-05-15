@@ -5,11 +5,11 @@ const Element = require('../element'),
       TextureRenderer = require('../renderer/texture');
 
 class Part extends Element {
-  constructor(imageMap, imageJSON, colourRenderer, textureRenderer) {
+  constructor(imageMap, imageMapJSON, colourRenderer, textureRenderer) {
     super();
 
     this.imageMap = imageMap;
-    this.imageJSON = imageJSON;
+    this.imageMapJSON = imageMapJSON;
     this.colourRenderer = colourRenderer;
     this.textureRenderer = textureRenderer;
   }
@@ -37,7 +37,7 @@ class Part extends Element {
     const transforms = [],
           childElements = this.getChildElements(),
           colourRenderer = ColourRenderer.fromNothing(canvas),
-          textureRenderer = TextureRenderer.fromImageMapAndImageJSON(this.imageMap, this.imageJSON, canvas);
+          textureRenderer = TextureRenderer.fromImageMapAndImageMapJSON(this.imageMap, this.imageMapJSON, canvas);
 
     childElements.forEach((childElement) => childElement.applyTransforms(transforms));
 
@@ -55,10 +55,10 @@ class Part extends Element {
   }
 
   static fromProperties(properties) {
-    const { imageMap, imageJSON } = properties,
+    const { imageMap, imageMapJSON } = properties,
           colourRenderer = null,  ///
           textureRenderer = null, ///
-          part = Element.fromProperties(Part, properties, imageMap, imageJSON, colourRenderer, textureRenderer);
+          part = Element.fromProperties(Part, properties, imageMap, imageMapJSON, colourRenderer, textureRenderer);
 
     return part;
   }

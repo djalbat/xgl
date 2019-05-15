@@ -181,13 +181,17 @@ const maskingExample = () => {
   );
 };
 ```
-Note that the cubes are created directly with JSX elements. If you have no need of the `properties` argument, you can use this abbreviated form that does away with a function.
+Note that the cubes are created directly with JSX elements. If you have no need of the `properties` argument, you can use this abbreviated form, doing away with a function call.
 
 Here is the scene that results, with the facets coloured randomly so that each is visible:
 
 ![Masked cube facets](https://github.com/djalbat/Jiggle/blob/master/assets/masked_cube_facets.jpg)
 
 The small-sized cube is used to make the mask for the medium-sized cube. Each facet of the small-sized cube forms a prism that cuts through each facet of the medium-sized cube. In practice, however, most of the prisms formed from the masking element do not intersect any prism in the masked element and are quickly discarded. Nonetheless masking is computationally expensive and less than optimal. Masking the original two facets of the masked cube results in sixteen facets when half that number would be optimal. It is a cube of this form, with each face already masked, that masks the large-sized cube in the full example.
+
+### The textures example
+
+
 
 ## Compiling from source
 
