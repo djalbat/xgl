@@ -18,7 +18,7 @@ const coordinates = [
         [ 2, 3, 0 ],
 
       ],
-      defaultImageName = "grass.jpg",
+      defaultImageName = "gravel.jpg",
       defaultTextureCoordinates = [
 
         [ [ 0, 0 ], [ 1, 0 ], [ 1, 1 ] ],
