@@ -2,22 +2,22 @@
 
 const jiggle = require('../../index');
 
-const configuration = require('../miscellaneous/configuration'),
-      TexturedSquare = require('./element/texturedSquare');
+const Pyramid = require('./element/pyramid'),
+      configuration = require('../miscellaneous/configuration');
 
-const { imageMapURI, imageMapJSON } = configuration,
-      { Canvas, Scene, Mask, Part, Camera } = jiggle;
+const { Canvas, Scene, Part, Camera } = jiggle;
 
 const canvas = new Canvas();
 
-const texturesExample = () => {
+const pyramidExample = () => {
   preloadImageMap((imageMap) => {
+    const { imageMapJSON } = configuration;
 
     return (
 
       <Scene canvas={canvas}>
         <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
-          <TexturedSquare />
+          <Pyramid />
         </Part>
         <Camera />
       </Scene>
@@ -26,10 +26,11 @@ const texturesExample = () => {
   });
 };
 
-module.exports = texturesExample;
+module.exports = pyramidExample;
 
 function preloadImageMap(callback) {
-  const imageMap = new Image(),	///
+  const { imageMapURI } = configuration,
+        imageMap = new Image(),	///
         src = imageMapURI;  ///
 
   Object.assign(imageMap, {
@@ -41,4 +42,3 @@ function preloadImageMap(callback) {
     callback(imageMap);
   }
 }
-

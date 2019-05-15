@@ -2,10 +2,10 @@
 
 const Face = require('./face');
 
-const defaultC0lour = [ 1, 1, 0 ];
+const defaultColour = [ 1, 1, 0 ];
 
 const Cube = (properties) => {
-  const { colour = defaultC0lour } = properties;
+  const { colour = defaultColour } = properties;
 
   return ([
 
