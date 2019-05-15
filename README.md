@@ -18,7 +18,7 @@ You can clone the repository with [Git](https://git-scm.com/)...
 
 ## Tutorial
 
-Launch the `index.html` file in the project's root directory, which contains links to the various examples. You can compile these yourself, see the section on compiling from source near to the end. This section assumes that you are doing this and will work through the examples, starting with the simplest.
+Open the `index.html` file in the project's root directory, which contains links to the various examples. You can compile these yourself, see the section on compiling from source near to the end. This section assumes that you are doing so and will work through the examples, starting with the simplest.
 
 ### The simple example
 
