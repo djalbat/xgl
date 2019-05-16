@@ -4,8 +4,6 @@ Makes use of [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) to l
 
 Jiggle provides the *programmatic* means to create 3D scenes. It puts an almost opaque layer of abstraction over WebGL so that little or no experience of WebGL is needed. You create scenes declaratively using JSX, adding imperative code as and when.
 
-Please bear in mind that this project is still in embryonic form!
-
 ## Installation
 
 You can clone the repository with [Git](https://git-scm.com/)...
