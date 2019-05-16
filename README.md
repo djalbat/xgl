@@ -195,7 +195,112 @@ Here is the scene that results, with the facets coloured randomly so that each i
 
 The small-sized cube is used to make the mask for the medium-sized cube. Each facet of the small-sized cube forms a prism that cuts through each facet of the medium-sized cube. In practice, however, most of the prisms formed from the masking element do not intersect any prism in the masked element and are quickly discarded. Nonetheless masking is computationally expensive and less than optimal. Masking the original two facets of the masked cube results in sixteen facets when half that number would be optimal. It is a cube of this form, with each face already masked, that masks the large-sized cube in the full example.
 
-### The textures example
+### The pyramid example
+
+This example makes use of the image map provided by the small Express application, which can itself be seen at http://localhost:8000/imageMap. If you inspect the example HTML, you will also see that the JSON describing the image map has been embedded within it:
+
+```
+<script>
+
+      window.__configuration__ = {
+        imageMapURI: '/imageMap',
+        imageMapJSON: {
+
+          ...
+
+          "stripes.jpg": {
+            "left": 0.501953125,
+            "bottom": 0.501953125,
+            "width": 0.49609375,
+            "height": 0.49609375
+          }
+        }
+      };
+
+    </script>
+```
+As explained in the Jiggles tutorial, assigning a `__configuration__` property to the global `window` object makes its values easily accessible to the bundled application running in the browser. With the image map URI and JSON to hand, the pyramid example can load the image and pass both that and the JSON to any `Part` element that makes use of textures:
+
+```js
+const pyramidExample = () => {
+  preloadImageMap((imageMap) => {
+    const { imageMapJSON } = configuration;
+
+    return (
+
+      <Scene canvas={canvas}>
+        <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
+          <Pyramid />
+        </Part>
+        <Camera />
+      </Scene>
+
+    );
+  });
+};
+
+module.exports = pyramidExample;
+
+function preloadImageMap(callback) {
+  const { imageMapURI } = configuration,
+        imageMap = new Image(),	///
+        src = imageMapURI;  ///
+
+  Object.assign(imageMap, {
+    src,
+    onload
+  });
+
+  function onload(event) {
+    callback(imageMap);
+  }
+}
+```
+
+builds up a compound element from simper elements in a similar fashion to the cube example. Rather than six facets, however, the pyramid has four sides, three of which are rotated around the y-axis as you would expect:
+
+```js
+const Pyramid = (properties) => [
+
+  <Side />,
+  <Side rotations={[ 0,  90, 0 ]} />,
+  <Side rotations={[ 0, 180, 0 ]} />,
+  <Side rotations={[ 0, 270, 0 ]} />,
+
+];
+```
+Each side consists of a textured triangle:
+
+```js
+const coordinates = [
+
+        [   0, 0, 0 ],
+        [   1, 0, 0 ],
+        [ 0.5, 1, 0 ],
+
+      ],
+      indexes = [
+
+        [ 0, 1, 2 ],
+
+      ],
+      defaultImageName = "stripes.jpg",
+      defaultTextureCoordinates = [
+
+        [ [ 0, 0 ], [ 1, 0 ], [ 0.5, 1 ] ],
+
+      ];
+
+class TexturedTriangle extends TexturedCanvasElement {
+  static fromProperties(properties) {
+    const { imageName = defaultImageName, textureCoordinates = defaultTextureCoordinates } = properties,
+          texturedTriangle = TexturedCanvasElement.fromProperties(TexturedTriangle, properties, coordinates, indexes, imageName, textureCoordinates);
+
+    return texturedTriangle;
+  }
+}
+```
+This extends the `TexturedCanvasElement` class, which takes an image name and texture coordinates
 
 ![Textures](https://github.com/djalbat/Jiggle/blob/master/assets/textures.png)
 
