@@ -256,8 +256,7 @@ function preloadImageMap(callback) {
   }
 }
 ```
-
-builds up a compound element from simper elements in a similar fashion to the cube example. Rather than six facets, however, the pyramid has four sides, three of which are rotated around the y-axis as you would expect:
+The `Pyramid` element is a compound element consisting of four sides, three of which are rotated around the y-axis as you would expect:
 
 ```js
 const Pyramid = (properties) => [
@@ -300,7 +299,7 @@ class TexturedTriangle extends TexturedCanvasElement {
   }
 }
 ```
-This extends the `TexturedCanvasElement` class, which takes an image name and texture coordinates
+This extends the `TexturedCanvasElement` class, which takes an image name and texture coordinates rather than a colour. The texture coordinates are worth some further explanation, consider the following montage:
 
 ![Textures](https://github.com/djalbat/Jiggle/blob/master/assets/textures.png)
 
