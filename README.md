@@ -315,6 +315,17 @@ The coordinates and indexes define a triangle with the third vertex half way bet
 ```
 ...then the it is the rightmost corner of the texture that is mapped to the topmost vertex of the triangle, as in the last screen shot.
 
+The textured triangles themselves are adjusted to make the sides...
+
+```js
+const Side = (properties) =>
+
+  <TexturedTriangle size={[ 1, 1/Math.sqrt(2), 1 ]} position={[ -0.5, 0, 0.5 ]} rotations={[ -45, 0, 0 ]} />
+
+;
+```
+...meaning that the sides themselves need only be rotated about the y axis to form the pyramid, as already shown.
+
 ## Compiling from source
 
 Automation is done with [npm scripts](https://docs.npmjs.com/misc/scripts), have a look at the `package.json` file. The pertinent commands are:
