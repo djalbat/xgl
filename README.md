@@ -303,16 +303,17 @@ This extends the `TexturedCanvasElement` class, which takes an image name and te
 
 The coordinates and indexes define a triangle with the third vertex horizontally half way between the first and second. Therefore the part of the square texture that is utilised should match this:
 
-![Textures](https://github.com/djalbat/Jiggle/blob/master/assets/texture_map_centre.png =320x160)
+<img src="https://github.com/djalbat/Jiggle/blob/master/assets/texture_map_centre.png" width="320" height="160">
 
 However, if we alter the texture coordinates thus...
 
 ```
 [ 0, 0 ], [ 1, 0 ], [ 0, 1 ]
+
 ```
 ...then the leftmost corner of the texture is mapped to the topmost vertex of the triangle:
 
-![Textures](https://github.com/djalbat/Jiggle/blob/master/assets/texture_map_left.png =320x160)
+<img src="https://github.com/djalbat/Jiggle/blob/master/assets/texture_map_left.png" width="320" height="160">
 
 On the other hand, if we alter the texture coordinates thus...
 
@@ -321,7 +322,7 @@ On the other hand, if we alter the texture coordinates thus...
 ```
 ...then the it is the rightmost corner of the texture that is mapped to the topmost vertex of the triangle:
 
-![Textures](https://github.com/djalbat/Jiggle/blob/master/assets/texture_map_right.png =320x160)
+<img src="https://github.com/djalbat/Jiggle/blob/master/assets/texture_map_right.png" width="320" height="160">
 
 The textured triangles themselves are adjusted to make the sides...
 
