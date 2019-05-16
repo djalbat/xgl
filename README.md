@@ -299,21 +299,29 @@ class TexturedTriangle extends TexturedCanvasElement {
   }
 }
 ```
-This extends the `TexturedCanvasElement` class, which takes an image name and texture coordinates rather than a colour. The texture coordinates are worth further explanation, consider the following montage:
+This extends the `TexturedCanvasElement` class, which takes an image name and texture coordinates rather than a colour.
 
-![Textures](https://github.com/djalbat/Jiggle/blob/master/assets/textures.png)
+The coordinates and indexes define a triangle with the third vertex horizontally half way between the first and second. Therefore the part of the square texture that is utilised should match this:
 
-The coordinates and indexes define a triangle with the third vertex half way between the first and second. Therefore the part of the square texture that is utilised should match this, as indeed it does. If we alter the texture coordinates thus...
+![Textures](https://github.com/djalbat/Jiggle/blob/master/assets/texture_map_centre.png)
+
+However, if we alter the texture coordinates thus...
 
 ```
 [ 0, 0 ], [ 1, 0 ], [ 0, 1 ]
 ```
-...then the leftmost corner of the texture that is mapped to the topmost vertex of the triangle, as in the first screen shot. On the other hand, if we alter the texture coordinates thus...
+...then the leftmost corner of the texture is mapped to the topmost vertex of the triangle:
+
+![Textures](https://github.com/djalbat/Jiggle/blob/master/assets/texture_map_left.png)
+
+On the other hand, if we alter the texture coordinates thus...
 
 ```
 [ 0, 0 ], [ 1, 0 ], [ 1, 1 ]
 ```
-...then the it is the rightmost corner of the texture that is mapped to the topmost vertex of the triangle, as in the last screen shot.
+...then the it is the rightmost corner of the texture that is mapped to the topmost vertex of the triangle:
+
+![Textures](https://github.com/djalbat/Jiggle/blob/master/assets/texture_map_right.png)
 
 The textured triangles themselves are adjusted to make the sides...
 
