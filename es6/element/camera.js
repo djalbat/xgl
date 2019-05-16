@@ -10,7 +10,7 @@ const Element = require('../element'),
 
 const { calculateOffsetMatrix, calculateRotationMatrix, calculatePositionMatrix, calculateProjectionMatrix, calculateNormalMatrix } = cameraUtilities;
 
-const defaultInitialDistance = 10,
+const defaultInitialDistance = 5,
       defaultInitialOffset = [ 0, 0, 0 ];
 
 class Camera extends Element {

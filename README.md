@@ -191,6 +191,7 @@ The small-sized cube is used to make the mask for the medium-sized cube. Each fa
 
 ### The textures example
 
+![Textures](https://github.com/djalbat/Jiggle/blob/master/assets/textures.png)
 
 
 ## Compiling from source
