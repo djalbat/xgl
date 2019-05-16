@@ -24,9 +24,7 @@ The examples are available via a small [Express](https://expressjs.com/) applica
 node ./bin/main.js
 ```
 
-The index page for the examples will then be available at http://localhost:8000.
-
-You can compile the examples yourself, see the section on compiling from source near to the end. This section assumes that you are doing so and will work through each of them, starting with the simplest.
+The index page for the examples will then be available at http://localhost:8000. You can compile the examples yourself, see the section on compiling from source near to the end. This section assumes that you are doing so and will work through each of them, starting with the simplest.
 
 ### The simple example
 
