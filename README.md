@@ -197,7 +197,7 @@ The small-sized cube is used to make the mask for the medium-sized cube. Each fa
 
 ### The pyramid example
 
-This example makes use of the image map provided by the small Express application, available at http://localhost:8000/imageMap. If you inspect the example HTML, you will also see that the JSON describing the image map has been embedded within it:
+This example utilities the image map provided by the small Express application, available at http://localhost:8000/imageMap. If you inspect the example HTML, you will also see that the JSON describing the image map has been embedded within it:
 
 ```
 <script>
