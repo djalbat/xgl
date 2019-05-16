@@ -18,7 +18,15 @@ You can clone the repository with [Git](https://git-scm.com/)...
 
 ## Tutorial
 
-Open the `index.html` file in the project's root directory, which contains links to the various examples. You can compile these yourself, see the section on compiling from source near to the end. This section assumes that you are doing so and will work through the examples, starting with the simplest.
+The examples are available via a small [Express](https://expressjs.com/) application that makes use of [Jiggles](https://github.com/djalbat/jiggles) application. Once the dependencies are installed, this can be launched with the following command from the root of the repository:
+
+```
+node ./bin/main.js
+```
+
+The index page for the examples will then be available at [http://localhost:8000].
+
+You can compile the examples yourself, see the section on compiling from source near to the end. This section assumes that you are doing so and will work through each of them, starting with the simplest.
 
 ### The simple example
 
