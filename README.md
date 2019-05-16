@@ -219,7 +219,7 @@ This example utilities the image map provided by the small Express application, 
 
 </script>
 ```
-As explained in the Jiggles tutorial, assigning a `__configuration__` property to the global `window` object makes its values easily accessible to the bundled application running in the browser. With the image map URI and JSON to hand, the pyramid example can load the image and pass both that and the JSON to any `Part` element that makes use of textures:
+As explained in the Jiggles tutorial, assigning a `__configuration__` property to the global `window` object makes its values accessible to the bundled application running in the browser. With the image map URI and corresponding JSON to hand, the pyramid example can load the image map and pass both that and the JSON to any `Part` element that needs to make use of textures:
 
 ```js
 const pyramidExample = () => {
