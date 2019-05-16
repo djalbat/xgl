@@ -197,27 +197,27 @@ The small-sized cube is used to make the mask for the medium-sized cube. Each fa
 
 ### The pyramid example
 
-This example utilities the image map provided by the small Express application, available at http://localhost:8000/imageMap. If you inspect the example HTML, you will also see that the JSON describing the image map has been embedded within it:
+This example utilities the image map provided by the small Express application, available at http://localhost:8000/imageMap. If you inspect the example HTML, you will also see that the JSON describing the image map has been embedded within:
 
 ```
 <script>
 
-      window.__configuration__ = {
-        imageMapURI: '/imageMap',
-        imageMapJSON: {
+  window.__configuration__ = {
+    imageMapURI: '/imageMap',
+    imageMapJSON: {
 
-          ...
+      ...
 
-          "stripes.jpg": {
-            "left": 0.501953125,
-            "bottom": 0.501953125,
-            "width": 0.49609375,
-            "height": 0.49609375
-          }
-        }
-      };
+      "stripes.jpg": {
+        "left": 0.501953125,
+        "bottom": 0.501953125,
+        "width": 0.49609375,
+        "height": 0.49609375
+      }
+    }
+  };
 
-    </script>
+</script>
 ```
 As explained in the Jiggles tutorial, assigning a `__configuration__` property to the global `window` object makes its values easily accessible to the bundled application running in the browser. With the image map URI and JSON to hand, the pyramid example can load the image and pass both that and the JSON to any `Part` element that makes use of textures:
 
