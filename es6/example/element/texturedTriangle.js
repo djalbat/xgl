@@ -19,7 +19,7 @@ const coordinates = [
       defaultImageName = "stripes.jpg",
       defaultTextureCoordinates = [
 
-        [ [ 0, 0 ], [ 1, 0 ], [ 1, 1 ] ],
+        [ [ 0, 0 ], [ 1, 0 ], [ 0.5, 1 ] ],
 
       ];
 
