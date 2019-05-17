@@ -1,6 +1,6 @@
 'use strict';
 
-const jiggles = require('jiggles'),
+const xglserver = require('xgl-server'),
       necessary = require('necessary');
 
 const constants = require('./constants');
@@ -8,7 +8,7 @@ const constants = require('./constants');
 const { templateUtilities, miscellaneousUtilities } = necessary,
       { rc } = miscellaneousUtilities,
       { parseFile } = templateUtilities,
-      { imageMapPNG, imageMapJSON } = jiggles,
+      { imageMapPNG, imageMapJSON } = xglserver,
       { IMAGE_MAP_URI, OVERLAY_IMAGE_SIZE, INDEX_PAGE_FILE_NAME, EXAMPLE_PAGE_FILE_NAME } = constants;
 
 function imageMap(request, response) {
