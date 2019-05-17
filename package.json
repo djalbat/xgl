@@ -1,13 +1,13 @@
 {
-  "name": "jiggle",
+  "name": "xgl",
   "author": "James Smith",
-  "version": "0.0.309",
+  "version": "0.0.1",
   "license": "MIT",
-  "homepage": "https://github.com/djalbat/jiggle",
+  "homepage": "https://github.com/djalbat/xgl",
   "description": "Makes use of JSX to leverage WebGL.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/djalbat/jiggle"
+    "url": "https://github.com/djalbat/xgl"
   },
   "dependencies": {
     "gl-mat2": "^1.0.1",

@@ -1,14 +1,14 @@
-# Jiggle
+# XGL
 
 Makes use of [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) to leverage [WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API).
 
-Jiggle provides the *programmatic* means to create 3D scenes. It puts an almost opaque layer of abstraction over WebGL so that little or no experience of WebGL is needed. You create scenes declaratively using JSX, adding imperative code as and when.
+XGL provides the *programmatic* means to create 3D scenes. It puts an almost opaque layer of abstraction over WebGL so that little or no experience of WebGL is needed. You create scenes declaratively using JSX, adding imperative code as and when.
 
 ## Installation
 
 You can clone the repository with [Git](https://git-scm.com/)...
 
-    git clone https://github.com/djalbat/jiggle.git
+    git clone https://github.com/djalbat/xgl.git
 
 ...and then install the necessary modules with [npm](https://www.npmjs.com/) from within the project's root directory:
 
@@ -16,7 +16,7 @@ You can clone the repository with [Git](https://git-scm.com/)...
 
 ## Tutorial
 
-The examples are available via a small [Express](https://expressjs.com/) application that makes use of [Jiggles](https://github.com/djalbat/jiggles). Once the dependencies are installed, this can be launched with the following command from the root of the repository:
+The examples are available via a small [Express](https://expressjs.com/) application that makes use of [XGL Server](https://github.com/djalbat/xgl-server). Once the dependencies are installed, this can be launched with the following command from the root of the repository:
 
 ```
 node ./bin/main.js
@@ -97,9 +97,9 @@ class ColouredSquare extends ColouredCanvasElement {
 ```
 The `ColouredCanvasElement` class is provided and all you have to do is to extend it, adding your own `fromProperties()` static method and passing the requisite coordinates, indexes and colour variables along with the `properties` argument to the `fromProperties()` static method of the parent class. Note that the `ColouredSquare` class itself is also passed as the first argument. Also note that a `colour` variable is extracted from the `properties` argument, allowing a `colour` attribute on the corresponding JSX elements. If none is provided, a default is used.
 
-The `coordinates` and `indexes` arguments are the important ones. Jiggle works with facets underneath the hood, which are triangles with a colour or texture together with a normal. Facets are defined by triples of indexes that refer to specific coordinates. In this case there are four coordinates, one for each corner of the square. Two facets have been created in order to make the square. Note that the first and third coordinates are re-used. It is essential that you get the coordinates and indexes right for any canvas element. They are used to populate the WebGL rendering buffers and if they are wrong, inscrutable WebGL errors will likely result.
+The `coordinates` and `indexes` arguments are the important ones. XGL works with facets underneath the hood, which are triangles with a colour or texture together with a normal. Facets are defined by triples of indexes that refer to specific coordinates. In this case there are four coordinates, one for each corner of the square. Two facets have been created in order to make the square. Note that the first and third coordinates are re-used. It is essential that you get the coordinates and indexes right for any canvas element. They are used to populate the WebGL rendering buffers and if they are wrong, inscrutable WebGL errors will likely result.
 
-Before moving on it is worth a moment to study Jiggle's coordinate system. Obviously there are three dimensions, with the first, second and third coordinates of coordinate triples specifying signed distances along the x, y and z axes. The axes are right-handed, meaning that if you let the thumb and first finger of your right hand represent the x and y axes, your second finger will point in the direction of the z axis. Facets are also right handed, which means that if you let the fingers of your right hand curl around to represent the coordinates of each facet, your thumb will point in the direction of its normal. In this case your thumb will point back towards the camera. Note that the indexes for the two facets of the square are chosen so that the normals of each point in the same direction.
+Before moving on it is worth a moment to study XGL's coordinate system. Obviously there are three dimensions, with the first, second and third coordinates of coordinate triples specifying signed distances along the x, y and z axes. The axes are right-handed, meaning that if you let the thumb and first finger of your right hand represent the x and y axes, your second finger will point in the direction of the z axis. Facets are also right handed, which means that if you let the fingers of your right hand curl around to represent the coordinates of each facet, your thumb will point in the direction of its normal. In this case your thumb will point back towards the camera. Note that the indexes for the two facets of the square are chosen so that the normals of each point in the same direction.
 
 ### The cube example
 
@@ -143,14 +143,14 @@ Rotations are specified as triples giving three rotations around the x, y and z 
 
 ### The masking example
 
-Masking is something specific to Jiggle, it is not part of WebGL. A screenshot of the masking example is better than words:
+Masking is something specific to XGL, it is not part of WebGL. A screenshot of the masking example is better than words:
 
-![Masked cube](https://github.com/djalbat/Jiggle/blob/master/assets/masked_cube.jpg)
+![Masked cube](https://github.com/djalbat/XGL/blob/master/assets/masked_cube.jpg)
 
 Here a cube has been masked by a cube that it contains, that has itself been masked by a cube that it contains. The listing below is an abridged version of the example, with only two nested cubes rather than three:
 
 ```js
-const { Canvas, Scene, Mask, Part, Camera } = jiggle;
+const { Canvas, Scene, Mask, Part, Camera } = xgl;
 
 const canvas = new Canvas();
 
@@ -189,7 +189,7 @@ Note that the cubes are created directly with JSX elements. If you have no need 
 
 Here is the scene that results, with the facets coloured randomly so that each is visible:
 
-![Masked cube facets](https://github.com/djalbat/Jiggle/blob/master/assets/masked_cube_facets.jpg)
+![Masked cube facets](https://github.com/djalbat/XGL/blob/master/assets/masked_cube_facets.jpg)
 
 The small-sized cube is used to make the mask for the medium-sized cube. Each facet of the small-sized cube forms a prism that cuts through each facet of the medium-sized cube. In practice, however, most of the prisms formed from the masking element do not intersect any prism in the masked element and are quickly discarded. Nonetheless masking is computationally expensive and less than optimal. Masking the original two facets of the masked cube results in sixteen facets when half that number would be optimal. It is a cube of this form, with each face already masked, that masks the large-sized cube in the full example.
 
@@ -217,7 +217,7 @@ This example utilities the image map provided by the small Express application, 
 
 </script>
 ```
-As explained in the Jiggles tutorial, assigning a `__configuration__` property to the global `window` object makes its values accessible to the bundled application running in the browser. With the image map URI and corresponding JSON to hand, the pyramid example can load the image map and pass both that and the JSON to any `Part` element that uses textures:
+As explained in the XGL Server tutorial, assigning a `__configuration__` property to the global `window` object makes its values accessible to the bundled application running in the browser. With the image map URI and corresponding JSON to hand, the pyramid example can load the image map and pass both that and the JSON to any `Part` element that uses textures:
 
 ```js
 const pyramidExample = () => {
@@ -301,7 +301,7 @@ This extends the `TexturedCanvasElement` class, which takes an image name and te
 
 The coordinates and indexes define a triangle with the third vertex horizontally half way between the first and second. Therefore the part of the square texture that is utilised should match this:
 
-<img src="https://github.com/djalbat/Jiggle/blob/master/assets/texture_map_centre.png" width="320" height="160">
+<img src="https://github.com/djalbat/XGL/blob/master/assets/texture_map_centre.png" width="320" height="160">
 
 However, if we alter the texture coordinates thus...
 
@@ -311,7 +311,7 @@ However, if we alter the texture coordinates thus...
 ```
 ...then the leftmost corner of the texture is mapped to the topmost vertex of the triangle:
 
-<img src="https://github.com/djalbat/Jiggle/blob/master/assets/texture_map_left.png" width="320" height="160">
+<img src="https://github.com/djalbat/XGL/blob/master/assets/texture_map_left.png" width="320" height="160">
 
 On the other hand, if we alter the texture coordinates thus...
 
@@ -320,7 +320,7 @@ On the other hand, if we alter the texture coordinates thus...
 ```
 ...then the it is the rightmost corner of the texture that is mapped to the topmost vertex of the triangle:
 
-<img src="https://github.com/djalbat/Jiggle/blob/master/assets/texture_map_right.png" width="320" height="160">
+<img src="https://github.com/djalbat/XGL/blob/master/assets/texture_map_right.png" width="320" height="160">
 
 The textured triangles themselves are adjusted to make the sides...
 
@@ -340,7 +340,7 @@ Automation is done with [npm scripts](https://docs.npmjs.com/misc/scripts), have
     npm run build-debug
     npm run watch-debug
     
-As well as building the Jiggle library itself, this will build the examples. The source code for the examples can be found in the `es6/example.js` file and in the files and sub-directories in the `es6/example` directory.
+As well as building the XGL library itself, this will build the examples. The source code for the examples can be found in the `es6/example.js` file and in the files and sub-directories in the `es6/example` directory.
     
 ## Contact
 
