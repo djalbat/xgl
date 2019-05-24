@@ -1,8 +1,8 @@
 'use strict';
 
-const jiggle = require('../../../index');
+const xgl = require('../../../index');  ///
 
-const { TexturedCanvasElement } = jiggle;
+const { TexturedCanvasElement } = xgl;
 
 const coordinates = [
 

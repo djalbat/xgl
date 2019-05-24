@@ -1,6 +1,6 @@
 'use strict';
 
-require('./lib/jiggle');
+require('./lib/xgl');
 
 module.exports = {
   Canvas: require('./lib/canvas'),

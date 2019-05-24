@@ -1,7 +1,7 @@
 {
   "name": "xgl",
   "author": "James Smith",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "homepage": "https://github.com/djalbat/xgl",
   "description": "Makes use of JSX to leverage WebGL.",
@@ -27,7 +27,6 @@
     "browserify": "^13.0.0",
     "chokidar-cli": "^1.2.0",
     "express": "^4.16.4",
-    "jiggles": "0.0.28",
     "necessary": "^2.6.4",
     "xgl-server": "^1.0.0"
   },

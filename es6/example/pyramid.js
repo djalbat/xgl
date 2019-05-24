@@ -1,11 +1,11 @@
 'use strict';
 
-const jiggle = require('../../index');
+const xgl = require('../../index'); ///
 
 const Pyramid = require('./element/pyramid'),
       configuration = require('../miscellaneous/configuration');
 
-const { Canvas, Scene, Part, Camera } = jiggle;
+const { Canvas, Scene, Part, Camera } = xgl;
 
 const canvas = new Canvas();
 

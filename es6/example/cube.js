@@ -1,10 +1,10 @@
 'use strict';
 
-const jiggle = require('../../index');
+const xgl = require('../../index'); ///
 
 const Cube = require('./element/cube');
 
-const { Canvas, Scene, Part, Camera } = jiggle;
+const { Canvas, Scene, Part, Camera } = xgl;
 
 const canvas = new Canvas();
 
