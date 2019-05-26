@@ -1,7 +1,7 @@
 {
   "name": "xgl",
   "author": "James Smith",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "license": "MIT",
   "homepage": "https://github.com/djalbat/xgl",
   "description": "Makes use of JSX to leverage WebGL.",
@@ -12,10 +12,7 @@
   "dependencies": {
     "gl-mat2": "^1.0.1",
     "gl-mat3": "^1.0.0",
-    "gl-mat4": "^1.1.4",
-    "gl-vec2": "^1.0.0",
-    "gl-vec3": "^1.0.3",
-    "gl-vec4": "^1.0.1"
+    "gl-mat4": "^1.1.4"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",

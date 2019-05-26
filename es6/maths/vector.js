@@ -1,58 +1,260 @@
 'use strict';
 
-const vec2 = require('gl-vec2');
-const vec3 = require('gl-vec3');
-const vec4 = require('gl-vec4');
+function length2(vector) {
+  const x = vector[0],
+        y = vector[1];
 
-function length2(vector) { return vec2.length(vector); }
+  return Math.sqrt(x*x + y*y);
+}
 
-function length3(vector) { return vec3.length(vector); }
+function length3(vector) {
+  const x = vector[0],
+        y = vector[1],
+        z = vector[2];
 
-function length4(vector) { return vec4.length(vector); }
+  return Math.sqrt(x*x + y*y + z*z);
+}
 
-function dot2(vectorA, vectorB) { return vec2.dot(vectorA, vectorB); }
+function length4(vector) {
+  const x = vector[0],
+        y = vector[1],
+        z = vector[2],
+        w = vector[3];
 
-function dot3(vectorA, vectorB) { return vec3.dot(vectorA, vectorB); }
+  return Math.sqrt(x*x + y*y + z*z + w*w);
+}
 
-function dot4(vectorA, vectorB) { return vec4.dot(vectorA, vectorB); }
+function dot2(vectorA, vectorB) { return (vectorA[0] * vectorB[0] + vectorA[1] * vectorB[1]); }
 
-function cross3(vectorA, vectorB) { return vec3.cross([], vectorA, vectorB); }
+function dot3(vectorA, vectorB) { return (vectorA[0] * vectorB[0] + vectorA[1] * vectorB[1] + vectorA[2] * vectorB[2]); }
 
-function normalise2(vector) { return vec2.normalize([], vector); }  ///
+function dot4(vectorA, vectorB) { return (vectorA[0] * vectorB[0] + vectorA[1] * vectorB[1] + vectorA[2] * vectorB[2] + vectorA[3] * vectorB[3]); }
 
-function normalise3(vector) { return vec3.normalize([], vector); }  ///
+function cross3(vectorA, vectorB) {
+  const ax = vectorA[0], ay = vectorA[1], az = vectorA[2],
+        bx = vectorB[0], by = vectorB[1], bz = vectorB[2];
 
-function normalise4(vector) { return vec4.normalize([], vector); }  ///
+  return ([
 
-function scale2(vector, scalar) { return vec2.scale([], vector, scalar); }
+    ay * bz - az * by,
+    az * bx - ax * bz,
+    ax * by - ay * bx,
 
-function scale3(vector, scalar) { return vec3.scale([], vector, scalar); }
+  ])
+}
 
-function scale4(vector, scalar) { return vec4.scale([], vector, scalar); }
+function normalise2(vector) {
+  const x = vector[0],
+        y = vector[1],
+        length = Math.sqrt(x*x + y*y);
 
-function add2(vectorA, vectorB) { return vec2.add([], vectorA, vectorB); }
+  if (length > 0) {
+    return ([
 
-function add3(vectorA, vectorB) { return vec3.add([], vectorA, vectorB); }
+      x / length,
+      y / length,
 
-function add4(vectorA, vectorB) { return vec4.add([], vectorA, vectorB); }
+    ]);
+  }
+}
 
-function subtract2(vectorA, vectorB) { return vec2.subtract([], vectorA, vectorB); }
+function normalise3(vector) {
+  const x = vector[0],
+        y = vector[1],
+        z = vector[2],
+        length = Math.sqrt(x*x + y*y + z*z);
 
-function subtract3(vectorA, vectorB) { return vec3.subtract([], vectorA, vectorB); }
+  if (length > 0) {
+    return ([
 
-function subtract4(vectorA, vectorB) { return vec4.subtract([], vectorA, vectorB); }
+      x / length,
+      y / length,
+      z / length,
 
-function multiply2(vectorA, vectorB) { return vec2.multiply([], vectorA, vectorB); }
+    ]);
+  }
+}
 
-function multiply3(vectorA, vectorB) { return vec3.multiply([], vectorA, vectorB); }
+function normalise4(vector) {
+  const x = vector[0],
+        y = vector[1],
+        z = vector[2],
+        w = vector[3],
+        length = Math.sqrt(x*x + y*y + z*z + w*w);
 
-function multiply4(vectorA, vectorB) { return vec4.multiply([], vectorA, vectorB); }
+  if (length > 0) {
+    return ([
 
-function transform2(vector, matrix) { return vec2.transformMat2([], vector, matrix); }  ///
+      x / length,
+      y / length,
+      z / length,
+      w / length,
 
-function transform3(vector, matrix) { return vec3.transformMat3([], vector, matrix); }  ///
+    ]);
+  }
+}
 
-function transform4(vector, matrix) { return vec4.transformMat4([], vector, matrix); }  ///
+function scale2(vector, scalar) {
+  return ([
+
+    vector[0] * scalar,
+    vector[1] * scalar,
+
+  ]);
+}
+
+function scale3(vector, scalar) {
+  return ([
+
+    vector[0] * scalar,
+    vector[1] * scalar,
+    vector[2] * scalar,
+
+  ]);
+}
+
+function scale4(vector, scalar) {
+  return ([
+
+    vector[0] * scalar,
+    vector[1] * scalar,
+    vector[2] * scalar,
+    vector[3] * scalar,
+
+  ]);
+}
+
+function add2(vectorA, vectorB) {
+  return ([
+
+    vectorA[0] + vectorB[0],
+    vectorA[1] + vectorB[1],
+
+  ]);
+}
+
+function add3(vectorA, vectorB) {
+  return ([
+
+    vectorA[0] + vectorB[0],
+    vectorA[1] + vectorB[1],
+    vectorA[2] + vectorB[2],
+
+  ]);
+}
+
+function add4(vectorA, vectorB) {
+  return ([
+
+    vectorA[0] + vectorB[0],
+    vectorA[1] + vectorB[1],
+    vectorA[2] + vectorB[2],
+    vectorA[3] + vectorB[3],
+
+  ]);
+}
+
+function subtract2(vectorA, vectorB) {
+  return ([
+
+    vectorA[0] - vectorB[0],
+    vectorA[1] - vectorB[1],
+
+  ]);
+}
+
+function subtract3(vectorA, vectorB) {
+  return ([
+
+    vectorA[0] - vectorB[0],
+    vectorA[1] - vectorB[1],
+    vectorA[2] - vectorB[2],
+
+  ]);
+}
+
+function subtract4(vectorA, vectorB) {
+  return ([
+
+    vectorA[0] - vectorB[0],
+    vectorA[1] - vectorB[1],
+    vectorA[2] - vectorB[2],
+    vectorA[3] - vectorB[3],
+
+  ]);
+}
+
+function multiply2(vectorA, vectorB) {
+  return ([
+
+    vectorA[0] * vectorB[0],
+    vectorA[1] * vectorB[1],
+
+  ]);
+}
+
+function multiply3(vectorA, vectorB) {
+  return ([
+
+    vectorA[0] * vectorB[0],
+    vectorA[1] * vectorB[1],
+    vectorA[2] * vectorB[2],
+
+  ]);
+}
+
+function multiply4(vectorA, vectorB) {
+  return ([
+
+    vectorA[0] * vectorB[0],
+    vectorA[1] * vectorB[1],
+    vectorA[2] * vectorB[2],
+    vectorA[3] * vectorB[3],
+
+  ]);
+}
+
+function transform2(vector, matrix) {
+  const x = vector[0],
+        y = vector[1];
+
+  return ([
+
+    matrix[0] * x + matrix[2] * y,
+    matrix[1] * x + matrix[3] * y,
+
+  ]);
+}
+
+function transform3(vector, matrix) {
+  const x = vector[0],
+        y = vector[1],
+        z = vector[2];
+
+  return ([
+
+    matrix[0] * x + matrix[3] * y + matrix[6] * z,
+    matrix[1] * x + matrix[4] * y + matrix[7] * z,
+    matrix[2] * x + matrix[5] * y + matrix[8] * z,
+
+  ]);
+}
+
+function transform4(vector, matrix) {
+  const x = vector[0],
+        y = vector[1],
+        z = vector[2],
+        w = vector[3];
+
+  return ([
+
+    matrix[ 0] * x + matrix[ 4] * y + matrix[ 8] * z + matrix[12] * w,
+    matrix[ 1] * x + matrix[ 5] * y + matrix[ 9] * z + matrix[13] * w,
+    matrix[ 2] * x + matrix[ 6] * y + matrix[10] * z + matrix[14] * w,
+    matrix[ 3] * x + matrix[ 7] * y + matrix[11] * z + matrix[15] * w,
+
+  ]);
+}
 
 module.exports = {
   length2,
