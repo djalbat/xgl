@@ -342,6 +342,10 @@ Automation is done with [npm scripts](https://docs.npmjs.com/misc/scripts), have
     
 As well as building the XGL library itself, this will build the examples. The source code for the examples can be found in the `es6/example.js` file and in the files and sub-directories in the `es6/example` directory.
     
+## Acknowledgements
+
+* The primitive vector and matrix calculations are taken from [gl-matrix](https://github.com/toji/gl-matrix).
+
 ## Contact
 
 - james.smith@djalbat.com
