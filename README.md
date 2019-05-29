@@ -157,7 +157,7 @@ const canvas = new Canvas();
 const maskingExample = () => {
   const SmallCube =
 
-          <Cube size={[ 1/4, 1/4, 1/4 ]} />
+          <Cube scale={[ 1/4, 1/4, 1/4 ]} />
 
         ,
         smallCubeMask =
@@ -169,7 +169,7 @@ const maskingExample = () => {
         ,
         MediumCube =
 
-          <Cube size={[ 1/2, 1/2, 1/2 ]} mask={smallCubeMask} />
+          <Cube scale={[ 1/2, 1/2, 1/2 ]} mask={smallCubeMask} />
 
         ;
 
@@ -327,7 +327,7 @@ The textured triangles themselves are adjusted to make the sides...
 ```js
 const Side = (properties) =>
 
-  <TexturedTriangle size={[ 1, 1/Math.sqrt(2), 1 ]} position={[ -0.5, 0, 0.5 ]} rotations={[ -45, 0, 0 ]} />
+  <TexturedTriangle scale={[ 1, 1/Math.sqrt(2), 1 ]} position={[ -0.5, 0, 0.5 ]} rotations={[ -45, 0, 0 ]} />
 
 ;
 ```
