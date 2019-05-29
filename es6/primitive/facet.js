@@ -88,8 +88,8 @@ class Facet {
     this.edges = calculateEdges(this.vertices, Edge);
   }
 
-  applyTransforms(transforms) {
-    this.vertices.forEach((vertex) => vertex.applyTransforms(transforms));
+  applyTransform(transform) {
+    this.vertices.forEach((vertex) => vertex.applyTransform(transform));
 
     this.normal = calculateNormal(this.vertices, Normal);
 

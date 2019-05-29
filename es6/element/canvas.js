@@ -12,14 +12,20 @@ class CanvasElement extends Element {
     super();
 
     this.transform = transform;
-
     this.facets = facets;
-
     this.mask = mask;
+  }
+
+  getTransform() {
+    return this.transform;
   }
 
   getFacets() {
     return this.facets;
+  }
+
+  getMask() {
+    return this.mask;
   }
 
   setFacets(facets) {
@@ -62,26 +68,30 @@ class CanvasElement extends Element {
     return vertexPositions;
   }
 
-  applyTransforms(transforms) {
-    transforms = [this.transform, ...transforms]; ///
-
-    this.facets.forEach((facet) => facet.applyTransforms(transforms));
-
-    const childElements = this.getChildElements();
-
-    childElements.forEach((childElement) => childElement.applyTransforms(transforms));
-  }
-
-  applyMask() {
-    if (this.mask) {
+  applyMask(mask) {
+    if (mask) {
       const element = this; ///
 
-      this.mask.maskElement(element);
+      mask.maskElement(element);
     }
+  }
+
+  applyTransform(transform) {
+    this.facets.forEach((facet) => facet.applyTransform(transform));
 
     const childElements = this.getChildElements();
 
-    childElements.forEach((childElement) => childElement.applyMask());
+    childElements.forEach((childElement) => childElement.applyTransform(transform));
+  }
+
+  applyTransformsAndMasks() {
+    const childElements = this.getChildElements();
+
+    childElements.forEach((childElement) => childElement.applyTransformsAndMasks());
+
+    this.applyTransform(this.transform);
+
+    this.applyMask(this.mask);
   }
 
   render(colourRenderer, textureRenderer) {

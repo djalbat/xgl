@@ -24,12 +24,10 @@ class Vertex {
     this.position = rotatePosition(this.position, rotationQuaternion);
   }
 
-  applyTransforms(transforms) {
-    transforms.forEach((transform) => {
-      this.position = transform(this.position);
-    });
+  applyTransform(transform) {
+    this.position = transform(this.position);
   }
-  
+
   static fromPosition(position) {
     const vertex = new Vertex(position);
     

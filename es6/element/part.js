@@ -34,14 +34,11 @@ class Part extends Element {
   }
   
   initialise(canvas) {
-    const transforms = [],
-          childElements = this.getChildElements(),
+    const childElements = this.getChildElements(),
           colourRenderer = ColourRenderer.fromNothing(canvas),
           textureRenderer = TextureRenderer.fromImageMapAndImageMapJSON(this.imageMap, this.imageMapJSON, canvas);
 
-    childElements.forEach((childElement) => childElement.applyTransforms(transforms));
-
-    childElements.forEach((childElement) => childElement.applyMask());
+    childElements.forEach((childElement) => childElement.applyTransformsAndMasks());
 
     childElements.forEach((childElement) => childElement.render(colourRenderer, textureRenderer));
 

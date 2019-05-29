@@ -20,18 +20,18 @@ class Mask extends Element {
   }
 
   maskElement(element) {
-    const maskingFacets = this.retrieveMaskingFacets();
+    const maskingFacets = this.retrieveMaskingFacets(),
+          childElements = element.getChildElements();
 
     maskElement(element, maskingFacets);
+
+    childElements.forEach((childElement) => maskElement(childElement, maskingFacets));
   }
 
   initialise() {
-    const transforms = [],
-          childElements = this.getChildElements();
+    const childElements = this.getChildElements();
 
-    childElements.forEach((childElement) => childElement.applyTransforms(transforms));
-
-    childElements.forEach((childElement) => childElement.applyMask());
+    childElements.forEach((childElement) => childElement.applyTransformsAndMasks());
   }
 
   static fromProperties(properties) {
