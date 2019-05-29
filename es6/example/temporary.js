@@ -11,7 +11,7 @@ const canvas = new Canvas();
 const mask =
 
   <Mask>
-    <ColouredSquare size={[ 0.5, 0.5, 0 ]} />
+    <ColouredSquare scale={[ 0.5, 0.5, 0 ]} />
   </Mask>
 
 ;
@@ -26,7 +26,7 @@ const MaskedColouredSquare = (properties) =>
 
   <Scene canvas={canvas}>
     <Part>
-      <MaskedColouredSquare size={[ 2, 2, 0 ]} rotations={[ 0, 45, 0 ]} />
+      <MaskedColouredSquare scale={[ 2, 2, 0 ]} rotations={[ 0, 45, 0 ]} />
     </Part>
     <Camera />
   </Scene>

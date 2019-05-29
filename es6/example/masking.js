@@ -11,7 +11,7 @@ const canvas = new Canvas();
 const maskingExample = () => {
   const SmallCube =
 
-          <Cube size={[ 1/4, 1/4, 1/4 ]} />
+          <Cube scale={[ 1/4, 1/4, 1/4 ]} />
 
         ,
         smallCubeMask =
@@ -23,7 +23,7 @@ const maskingExample = () => {
         ,
         MediumCube =
 
-          <Cube size={[ 1/2, 1/2, 1/2 ]} mask={smallCubeMask} />
+          <Cube scale={[ 1/2, 1/2, 1/2 ]} mask={smallCubeMask} />
 
         ,
         mediumCubeMask =

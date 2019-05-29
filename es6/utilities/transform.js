@@ -11,13 +11,14 @@ const { transform4 } = vectorMaths,
 const xAxis = [ 1, 0, 0 ],
       yAxis = [ 0, 1, 0 ],
       zAxis = [ 0, 0, 1 ],
-      defaultSize = [ 1, 1, 1 ],
+      defaultScale = [ 1, 1, 1 ],
       defaultPosition = [ 0, 0, 0 ],
       defaultRotations = [ 0, 0, 0 ];
 
-function composeTransform(size, position, rotations) {
-  const scale = composeScale(size),
-        rotate = composeRotate(rotations),
+function composeTransform(scale, position, rotations) {
+  scale = composeScale(scale);  ///
+
+  const rotate = composeRotate(rotations),
         translate = composeTranslate(position);
 
   return (vector) => translate(rotate(scale(vector)));
@@ -31,10 +32,10 @@ function compose(matrix) {
   return (vector) => transform4([...vector, 1], matrix).slice(0, 3);
 }
 
-function composeScale(size = defaultSize) {
+function composeScale(scale = defaultScale) {
   let matrix = identity4();
 
-  matrix = scale4(matrix, size);
+  matrix = scale4(matrix, scale);
 
   return compose(matrix);
 }
