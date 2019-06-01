@@ -344,7 +344,7 @@ As well as building the XGL library itself, this will build the examples. The so
     
 ## Acknowledgements
 
-* The primitive vector and matrix functions are taken from [gl-matrix](https://github.com/toji/gl-matrix).
+* The primitive vector and matrix functions are taken from Brandon Jones' [gl-matrix](https://github.com/toji/gl-matrix).
 
 ## Contact
 
