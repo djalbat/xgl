@@ -77,6 +77,8 @@ class TextureRenderer extends Renderer {
       const image = imageMap;	///
 
       canvas.createTexture(image);
+
+      canvas.enableAnisotropicFiltering();  ///
     }
 
     return textureRenderer;
