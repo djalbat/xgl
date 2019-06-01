@@ -13,7 +13,19 @@ function createTexture(image) {
 
 	this.context.bindTexture(target, texture);
 
-	this.context.texImage2D(target, level, internalFormat, format, type, image);
+  const extension = (
+    this.context.getExtension('EXT_texture_filter_anisotropic') ||
+    this.context.getExtension('MOZ_EXT_texture_filter_anisotropic') ||
+    this.context.getExtension('WEBKIT_EXT_texture_filter_anisotropic')
+  );
+
+  if (extension) {
+    const maximum = this.context.getParameter(extension.MAX_TEXTURE_MAX_ANISOTROPY_EXT);
+
+    this.context.texParameterf(this.context.TEXTURE_2D, extension.TEXTURE_MAX_ANISOTROPY_EXT, maximum);
+  }
+
+  this.context.texImage2D(target, level, internalFormat, format, type, image);
 
 	this.context.texParameteri(target, pname, param);
 }
