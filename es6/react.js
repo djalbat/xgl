@@ -5,10 +5,12 @@ const Element = require('./element'),
       arrayUtilities = require('./utilities/array'),
       FunctionCanvasElement = require('./element/canvas/function');
 
-const { guarantee } = arrayUtilities;
+const { flatten, guarantee } = arrayUtilities;
 
 function createElement(firstArgument, properties, ...childElements) {
   properties = properties || {};  ///
+
+  childElements = flatten(childElements); ///
 
   let element;
 
