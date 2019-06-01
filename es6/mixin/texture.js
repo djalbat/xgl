@@ -1,7 +1,7 @@
 'use strict';
 
 function createTexture(image) {
-	const { RGBA, LINEAR, UNSIGNED_BYTE, TEXTURE_2D, TEXTURE_WRAP_R, TEXTURE_WRAP_S, TEXTURE_WRAP_T, CLAMP_TO_EDGE, TEXTURE_MIN_FILTER } = this.context,
+	const { RGBA, LINEAR, UNSIGNED_BYTE, TEXTURE_2D, TEXTURE_WRAP_S, TEXTURE_WRAP_T, CLAMP_TO_EDGE, TEXTURE_MIN_FILTER } = this.context,
 				target = TEXTURE_2D,
 				level = 0,
 				internalFormat = RGBA,
@@ -13,12 +13,9 @@ function createTexture(image) {
 
   this.context.texImage2D(target, level, internalFormat, format, type, image);
 
-  this.context.generateMipmap(TEXTURE_2D);
-
-  // this.context.texParameteri(target, TEXTURE_WRAP_R, CLAMP_TO_EDGE);
-  // this.context.texParameteri(target, TEXTURE_WRAP_S, CLAMP_TO_EDGE);
-  // this.context.texParameteri(target, TEXTURE_WRAP_T, CLAMP_TO_EDGE);
-	// this.context.texParameteri(target, TEXTURE_MIN_FILTER, LINEAR);
+  this.context.texParameteri(target, TEXTURE_WRAP_S, CLAMP_TO_EDGE);
+  this.context.texParameteri(target, TEXTURE_WRAP_T, CLAMP_TO_EDGE);
+	this.context.texParameteri(target, TEXTURE_MIN_FILTER, LINEAR);
 }
 
 function activateTexture(target) { this.context.activeTexture(target); }
