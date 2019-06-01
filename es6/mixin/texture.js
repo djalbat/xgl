@@ -13,10 +13,12 @@ function createTexture(image) {
 
   this.context.texImage2D(target, level, internalFormat, format, type, image);
 
-  this.context.texParameteri(target, TEXTURE_WRAP_R, CLAMP_TO_EDGE);
-  this.context.texParameteri(target, TEXTURE_WRAP_S, CLAMP_TO_EDGE);
-  this.context.texParameteri(target, TEXTURE_WRAP_T, CLAMP_TO_EDGE);
-	this.context.texParameteri(target, TEXTURE_MIN_FILTER, LINEAR);
+  this.context.generateMipmap(TEXTURE_2D);
+
+  // this.context.texParameteri(target, TEXTURE_WRAP_R, CLAMP_TO_EDGE);
+  // this.context.texParameteri(target, TEXTURE_WRAP_S, CLAMP_TO_EDGE);
+  // this.context.texParameteri(target, TEXTURE_WRAP_T, CLAMP_TO_EDGE);
+	// this.context.texParameteri(target, TEXTURE_MIN_FILTER, LINEAR);
 }
 
 function activateTexture(target) { this.context.activeTexture(target); }
