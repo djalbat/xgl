@@ -1,7 +1,7 @@
 {
   "name": "xgl",
   "author": "James Smith",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "license": "MIT",
   "homepage": "https://github.com/djalbat/xgl",
   "description": "Makes use of JSX to leverage WebGL.",

@@ -13,18 +13,6 @@ function createTexture(image) {
 
 	this.context.bindTexture(target, texture);
 
-  const extension = (
-    this.context.getExtension('EXT_texture_filter_anisotropic') ||
-    this.context.getExtension('MOZ_EXT_texture_filter_anisotropic') ||
-    this.context.getExtension('WEBKIT_EXT_texture_filter_anisotropic')
-  );
-
-  if (extension) {
-    const maximum = this.context.getParameter(extension.MAX_TEXTURE_MAX_ANISOTROPY_EXT);
-
-    this.context.texParameterf(this.context.TEXTURE_2D, extension.TEXTURE_MAX_ANISOTROPY_EXT, maximum);
-  }
-
   this.context.texImage2D(target, level, internalFormat, format, type, image);
 
 	this.context.texParameteri(target, pname, param);
@@ -32,7 +20,24 @@ function createTexture(image) {
 
 function activateTexture(target) { this.context.activeTexture(target); }
 
+function enableAnisotropicFiltering() {
+  const extension = (
+    this.context.getExtension('EXT_texture_filter_anisotropic') ||
+    this.context.getExtension('MOZ_EXT_texture_filter_anisotropic') ||
+    this.context.getExtension('WEBKIT_EXT_texture_filter_anisotropic')
+  );
+
+  if (extension) {
+    const { TEXTURE_2D } = this.context,
+          { MAX_TEXTURE_MAX_ANISOTROPY_EXT, TEXTURE_MAX_ANISOTROPY_EXT } = extension,
+          maximum = this.context.getParameter(MAX_TEXTURE_MAX_ANISOTROPY_EXT);
+
+    this.context.texParameterf(TEXTURE_2D, TEXTURE_MAX_ANISOTROPY_EXT, maximum);
+  }
+}
+
 module.exports = {
   createTexture,
-  activateTexture
+  activateTexture,
+  enableAnisotropicFiltering
 };

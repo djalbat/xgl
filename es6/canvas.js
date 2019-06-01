@@ -25,6 +25,8 @@ class Canvas {
     this.domElement = domElement;
 
     this.enableDepthTesting();  ///
+
+    this.enableAnisotropicFiltering();  ///
   }
 
   getContext() {
