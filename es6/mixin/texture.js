@@ -1,6 +1,6 @@
 'use strict';
 
-function createTexture(image, index = 0) {
+function createTexture(image, index) {
 	const { RGBA, LINEAR, UNSIGNED_BYTE, TEXTURE0, TEXTURE_2D, TEXTURE_WRAP_S, TEXTURE_WRAP_T, UNPACK_FLIP_Y_WEBGL, CLAMP_TO_EDGE, NEAREST, REPEAT, TEXTURE_MIN_FILTER } = this.context,
 				target = TEXTURE0 + index,
 				level = 0,
@@ -13,12 +13,16 @@ function createTexture(image, index = 0) {
 
   this.context.bindTexture(TEXTURE_2D, texture);
 
+  this.context.pixelStorei(UNPACK_FLIP_Y_WEBGL, true);
+
   this.context.texImage2D(TEXTURE_2D, level, internalFormat, format, type, image);
 
-  this.context.pixelStorei(UNPACK_FLIP_Y_WEBGL, 1);
+  // this.context.texParameteri(TEXTURE_2D, TEXTURE_WRAP_S, REPEAT);
+  // this.context.texParameteri(TEXTURE_2D, TEXTURE_WRAP_T, REPEAT);
 
-  this.context.texParameteri(TEXTURE_2D, TEXTURE_WRAP_S, REPEAT);
-  this.context.texParameteri(TEXTURE_2D, TEXTURE_WRAP_T, REPEAT);
+  this.context.texParameteri(TEXTURE_2D, TEXTURE_WRAP_S, CLAMP_TO_EDGE);
+  this.context.texParameteri(TEXTURE_2D, TEXTURE_WRAP_T, CLAMP_TO_EDGE);
+
 	this.context.texParameteri(TEXTURE_2D, TEXTURE_MIN_FILTER, LINEAR);
 
 	return texture;

@@ -2,7 +2,8 @@
 
 const Element = require('../element'),
       ColourRenderer = require('../renderer/colour'),
-      TextureRenderer = require('../renderer/texture');
+      ImagesTextureRenderer = require('../renderer/texture/images'),
+      ImageMapTextureRenderer = require('../renderer/texture/imageMap');
 
 class Part extends Element {
   constructor(images, imageMap, imageNames, imageMapJSON, colourRenderer, textureRenderer) {
@@ -29,18 +30,23 @@ class Part extends Element {
   }
   
   initialise(canvas) {
-    const childElements = this.getChildElements(),
-          colourRenderer = ColourRenderer.fromNothing(canvas);
+    const colourRenderer = ColourRenderer.fromNothing(canvas);
 
     let textureRenderer = null;
 
     if (this.images) {
-      textureRenderer = TextureRenderer.fromImagesAndImageNames(this.images, this.imageNames, canvas);
+      const imagesTextureRenderer = ImagesTextureRenderer.fromImagesAndImageNames(this.images, this.imageNames, canvas);
+
+      textureRenderer = imagesTextureRenderer;  ///
     }
 
     if (this.imageMap) {
-      textureRenderer = TextureRenderer.fromImageMapAndImageMapJSON(this.imageMap, this.imageMapJSON, canvas);
+      const imageMapTextureRenderer = ImageMapTextureRenderer.fromImageMapAndImageMapJSON(this.imageMap, this.imageMapJSON, canvas);
+
+      textureRenderer = imageMapTextureRenderer;  ///
     }
+
+    const childElements = this.getChildElements();
 
     childElements.forEach((childElement) => childElement.applyTransformsAndMasks());
 

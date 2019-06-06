@@ -49,20 +49,10 @@ class TexturedFacet extends Facet {
     return this.textureCoordinateTuples;
   }
 
-  getVertexTextureCoordinateTuples(imageMapJSON) {
-    let vertexTextureCoordinateTuples ;
+  getMappedTextureCoordinateTuples(extent) {
+    const mappedTextureCoordinateTuples = calculateMappedTextureCoordinateTuples(this.textureCoordinateTuples, extent);
 
-    if (imageMapJSON === null) {
-      vertexTextureCoordinateTuples = this.textureCoordinateTuples; ///
-    } else {
-      const json = imageMapJSON[this.imageName],
-            extent = json,  ///
-            mappedTextureCoordinateTuples = calculateMappedTextureCoordinateTuples(this.textureCoordinateTuples, extent);
-
-      vertexTextureCoordinateTuples = mappedTextureCoordinateTuples; ///
-    }
-
-    return vertexTextureCoordinateTuples;
+    return mappedTextureCoordinateTuples;
   }
 
   permute(places) {
