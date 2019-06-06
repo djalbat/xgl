@@ -114,8 +114,10 @@ class ImagesTextureRenderer extends TextureRenderer {
     });
   }
 
-  static fromImagesAndImageNames(images, imageNames, canvas) {
-    images.map((image, index) => canvas.createTexture(image, index));
+  static fromImagesImageNamesAndImageTiling(images, imageNames, imageTiling, canvas) {
+	  const repeat = imageTiling; ///
+
+    images.map((image, index) => canvas.createTexture(image, index, repeat));
 
     const textureOffsets = [],
           imagesTextureRenderer = TextureRenderer.fromNothing(ImagesTextureRenderer, canvas, imageNames, textureOffsets);

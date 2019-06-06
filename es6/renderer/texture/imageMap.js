@@ -89,9 +89,10 @@ class ImageMapTextureRenderer extends TextureRenderer {
 
   static fromImageMapAndImageMapJSON(imageMap, imageMapJSON, canvas) {
     const image = imageMap, ///
-          index = 0;
+          index = 0,
+          repeat = false;
 
-    canvas.createTexture(image, index);
+    canvas.createTexture(image, index, repeat);
 
     const imageMapTextureRenderer = TextureRenderer.fromNothing(ImageMapTextureRenderer, canvas, imageMapJSON);
 
