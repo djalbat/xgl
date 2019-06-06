@@ -17,11 +17,15 @@ class Part extends Element {
   }
   
   render(canvas, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix) {
-    this.colourRenderer.render(canvas, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
+    this.colourRenderer && this.colourRenderer.render(canvas, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);  ///
 
-    if (this.textureRenderer !== null) {
-      this.textureRenderer.render(canvas, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
-    }
+    this.textureRenderer && this.textureRenderer.render(canvas, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);  ///
+  }
+
+  createBuffers(canvas) {
+    this.colourRenderer && this.colourRenderer.createBuffers(canvas); ///
+
+    this.textureRenderer && this.textureRenderer.createBuffers(canvas); ///
   }
   
   initialise(canvas) {
@@ -42,15 +46,11 @@ class Part extends Element {
 
     childElements.forEach((childElement) => childElement.render(colourRenderer, textureRenderer));
 
-    colourRenderer.createBuffers(canvas);
-
-    if (textureRenderer !== null) {
-      textureRenderer.createBuffers(canvas);
-    }
-
     this.colourRenderer = colourRenderer;
 
     this.textureRenderer = textureRenderer;
+
+    this.createBuffers(canvas);
   }
 
   static fromProperties(properties) {
