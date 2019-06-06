@@ -139,6 +139,31 @@ class TextureRenderer extends Renderer {
     canvas.setUniformLocationIntegerValue(samplerUniformLocation, samplerUniformLocationIntegerValue);
   }
 
+  render(canvas, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix) {
+    const program = this.getProgram();
+
+    canvas.useProgram(program);
+
+    this.bindBuffers(canvas);
+
+    const renderer = this;  ///
+
+    canvas.render(renderer, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix)
+
+    let start,
+        finish = 0;  ///
+
+    this.textureOffsets.forEach((textureOffset, index) => {
+      start = finish; ///
+
+      finish += textureOffset;  ///
+
+      this.useTexture(index, canvas);
+
+      canvas.drawElements(start, finish);
+    });
+  }
+
   static fromImageNamesImageMapJSONAndTextureOffsets(imageNames, imageMapJSON, textureOffsets, canvas) {
     const facets = [],
           program = createProgram(vertexShaderSource, fragmentShaderSource, canvas),

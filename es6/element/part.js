@@ -17,43 +17,10 @@ class Part extends Element {
   }
   
   render(canvas, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix) {
-    const colourRendererProgram = this.colourRenderer.getProgram();
-
-    canvas.useProgram(colourRendererProgram);
-
-    this.colourRenderer.bindBuffers(canvas);
-
-    canvas.render(this.colourRenderer, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
-
-    const count = this.colourRenderer.getCount(),
-          start = 0,
-          finish = count; ///
-
-    canvas.drawElements(start, finish);
+    this.colourRenderer.render(canvas, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
 
     if (this.textureRenderer !== null) {
-      const textureRendererProgram = this.textureRenderer.getProgram();
-
-      canvas.useProgram(textureRendererProgram);
-
-      this.textureRenderer.bindBuffers(canvas);
-
-      canvas.render(this.textureRenderer, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
-
-      const textureOffsets = this.textureRenderer.getTextureOffsets();
-
-      let start,
-          finish = 0;  ///
-
-      textureOffsets.forEach((textureOffset, index) => {
-        start = finish; ///
-
-        finish += textureOffset;  ///
-
-        this.textureRenderer.useTexture(index, canvas);
-
-        canvas.drawElements(start, finish);
-      });
+      this.textureRenderer.render(canvas, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
     }
   }
   

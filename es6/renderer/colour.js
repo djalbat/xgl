@@ -67,6 +67,24 @@ class ColourRenderer extends Renderer {
     rendererBuffers.bindBuffers(vertexNormalAttributeLocation, vertexPositionAttributeLocation, vertexColourAttributeLocation, canvas);
   }
 
+  render(canvas, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix) {
+    const program = this.getProgram();
+
+    canvas.useProgram(program);
+
+    this.bindBuffers(canvas);
+
+    const renderer = this;  ///
+
+    canvas.render(renderer, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix)
+
+    const count = this.getCount(),
+          start = 0,
+          finish = count; ///
+
+    canvas.drawElements(start, finish);
+  }
+
   static fromNothing(canvas) {
     const facets = [],
           program = createProgram(vertexShaderSource, fragmentShaderSource, canvas),
