@@ -7,18 +7,14 @@ const textureCoordinateComponents = 2;
 class TextureRendererBuffers extends RendererBuffers {
   constructor(vertexPositionsBuffer, vertexNormalsBuffer, vertexIndexesElementBuffer, textureCoordinatesBuffer) {
     super(vertexPositionsBuffer, vertexNormalsBuffer, vertexIndexesElementBuffer);
-    
+
     this.textureCoordinatesBuffer = textureCoordinatesBuffer;
   }
-  
-  getTextureCoordinatesBuffer() {
-    return this.textureCoordinatesBuffer;
-  }
-  
+
   createTextureCoordinatesBuffer(textureCoordinatesData, canvas) {
     this.textureCoordinatesBuffer = canvas.createBuffer(textureCoordinatesData);
   }
-  
+
   bindTextureCoordinatesBuffer(textureCoordinateAttributeLocation, canvas) {
     canvas.bindBuffer(this.textureCoordinatesBuffer, textureCoordinateAttributeLocation, textureCoordinateComponents);
   }

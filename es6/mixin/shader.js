@@ -29,9 +29,9 @@ function createVertexShader(vertexShaderSource, canvas) {
 function createFragmentShader(fragmentShaderSource, canvas) {
   const { FRAGMENT_SHADER } = this.context,
         type = FRAGMENT_SHADER,
-        vertexShader = this.createShader(type, fragmentShaderSource);
+        fragmentShader = this.createShader(type, fragmentShaderSource);
 
-  return vertexShader;
+  return fragmentShader;
 }
 
 module.exports = {

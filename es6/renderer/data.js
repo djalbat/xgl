@@ -51,11 +51,11 @@ class RendererData {
 
     this.maximumVertexIndex = Math.max(this.maximumVertexIndex, ...vertexIndexes);
 
-    const vertexIndexesData = vertexIndexes;
+    const vertexIndexesData = vertexIndexes;  ///
 
     add(this.vertexIndexesData, vertexIndexesData);
   }
-  
+
   static fromNothing(Class, ...remainingArguments) {
     const vertexPositionsData = [],
           vertexNormalsData = [],

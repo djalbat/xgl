@@ -12,19 +12,20 @@ const { rotateVertices } = verticesUtilities,
       { calculateArbitraryRotationQuaternion } = quaternionUtilities,
       { add2, multiply2, transform2, transform3 } = vectorMaths;
 
-function cloneTextureCoordinatesTuple(textureCoordinatesTuple) {
-  textureCoordinatesTuple = textureCoordinatesTuple.map((textureCoordinates) => textureCoordinates.slice());  ///
+function cloneTextureCoordinateTuples(textureCoordinateTuples) {
+  textureCoordinateTuples = textureCoordinateTuples.map((textureCoordinateTuple) => textureCoordinateTuple.slice());  ///
 
-  return textureCoordinatesTuple;
+  return textureCoordinateTuples;
 }
 
-function calculateVertexTextureCoordinatesTuple(textureCoordinatesTuple, left, bottom, width, height) {
-  const vertexTextureCoordinatesTuple = textureCoordinatesTuple.map((textureCoordinates) => add2(multiply2(textureCoordinates, [ width, height ] ), [ left, bottom ])); ///
+function calculateMappedTextureCoordinateTuples(textureCoordinateTuples, extent) {
+  const { left, bottom, width, height } = extent,
+        mappedTextureCoordinateTuples = textureCoordinateTuples.map((textureCoordinateTuple) => add2(multiply2(textureCoordinateTuple, [ width, height ] ), [ left, bottom ])); ///
 
-  return vertexTextureCoordinatesTuple;
+  return mappedTextureCoordinateTuples;
 }
 
-function calculateAdjustedTextureCoordinatesTuple(vertices, normal, parentVertices, textureCoordinatesTuple) {
+function calculateAdjustedTextureCoordinateTuples(vertices, normal, parentVertices, textureCoordinateTuples) {
   const arbitraryRotationQuaternion = calculateArbitraryRotationQuaternion(normal),
         rotationQuaternion = arbitraryRotationQuaternion; ///
 
@@ -40,9 +41,9 @@ function calculateAdjustedTextureCoordinatesTuple(vertices, normal, parentVertic
         firstParentVertex = first(parentVertices),
         secondParentVertex = second(parentVertices),
         thirdParentVertex = third(parentVertices),
-        firstTextureCoordinates = first(textureCoordinatesTuple),
-        secondTextureCoordinates = second(textureCoordinatesTuple),
-        thirdTextureCoordinates = third(textureCoordinatesTuple),
+        firstTextureCoordinateTuple = first(textureCoordinateTuples),
+        secondTextureCoordinateTuple = second(textureCoordinateTuples),
+        thirdTextureCoordinateTuple = third(textureCoordinateTuples),
         firstVertexPosition = firstVertex.getPosition(),
         secondVertexPosition = secondVertex.getPosition(),
         thirdVertexPosition = thirdVertex.getPosition(),
@@ -61,12 +62,12 @@ function calculateAdjustedTextureCoordinatesTuple(vertices, normal, parentVertic
         P1y = firstParentVertexPosition[1], ///
         P2y = secondParentVertexPosition[1], ///
         P3y = thirdParentVertexPosition[1], ///
-        P1u = firstTextureCoordinates[0], ///
-        P1v = firstTextureCoordinates[1], ///
-        P2u = secondTextureCoordinates[0], ///
-        P2v = secondTextureCoordinates[1], ///
-        P3u = thirdTextureCoordinates[0], ///
-        P3v = thirdTextureCoordinates[1], ///
+        P1u = firstTextureCoordinateTuple[0], ///
+        P1v = firstTextureCoordinateTuple[1], ///
+        P2u = secondTextureCoordinateTuple[0], ///
+        P2v = secondTextureCoordinateTuple[1], ///
+        P3u = thirdTextureCoordinateTuple[0], ///
+        P3v = thirdTextureCoordinateTuple[1], ///
         textureCoordinatesMatrix = invert3([ 1, 1, 1, P1u, P2u, P3u, P1v, P2v, P3v ]),
         firstTransformedParentVerticesComponent = transform3([ P1x, P2x, P3x ], textureCoordinatesMatrix),
         secondTransformedParentVerticesComponent = transform3([ P1y, P2y, P3y ], textureCoordinatesMatrix),
@@ -77,20 +78,20 @@ function calculateAdjustedTextureCoordinatesTuple(vertices, normal, parentVertic
         Uy = secondTransformedParentVerticesComponent[1],  ///
         Vy = secondTransformedParentVerticesComponent[2],  ///
         transformedParentVerticesMatrix = invert2([ Ux, Uy, Vx, Vy ]),
-        firstAdjustedTextureCoordinatesComponent = transform2([ R1x - Ox, R1y - Oy ], transformedParentVerticesMatrix),
-        secondAdjustedTextureCoordinatesComponent = transform2([ R2x - Ox, R2y - Oy ], transformedParentVerticesMatrix),
-        thirdAdjustedTextureCoordinatesComponent = transform2([ R3x - Ox, R3y - Oy ], transformedParentVerticesMatrix),
-        adjustedTextureCoordinatesTuple = [
-          firstAdjustedTextureCoordinatesComponent,
-          secondAdjustedTextureCoordinatesComponent,
-          thirdAdjustedTextureCoordinatesComponent,
+        firstAdjustedTextureCoordinate = transform2([ R1x - Ox, R1y - Oy ], transformedParentVerticesMatrix),
+        secondAdjustedTextureCoordinate = transform2([ R2x - Ox, R2y - Oy ], transformedParentVerticesMatrix),
+        thirdAdjustedTextureCoordinate = transform2([ R3x - Ox, R3y - Oy ], transformedParentVerticesMatrix),
+        adjustedTextureCoordinateTuple = [
+          firstAdjustedTextureCoordinate,
+          secondAdjustedTextureCoordinate,
+          thirdAdjustedTextureCoordinate,
         ];
 
-  return adjustedTextureCoordinatesTuple;
+  return adjustedTextureCoordinateTuple;
 }
 
 module.exports = {
-  cloneTextureCoordinatesTuple,
-  calculateVertexTextureCoordinatesTuple,
-  calculateAdjustedTextureCoordinatesTuple
+  cloneTextureCoordinateTuples,
+  calculateMappedTextureCoordinateTuples,
+  calculateAdjustedTextureCoordinateTuples
 };

@@ -3,8 +3,9 @@
 const RendererData = require('../../renderer/data'),
       arrayUtilities = require('../../utilities/array');
 
-const { merge, flatten } = arrayUtilities,
-      add = merge;  ///
+const { merge, flatten } = arrayUtilities;
+
+const add = merge;  ///
 
 class ColourRendererData extends RendererData {
   constructor(vertexPositionsData, vertexNormalsData, vertexIndexesData, maximumVertexIndex, vertexColoursData) {

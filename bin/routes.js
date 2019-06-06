@@ -32,19 +32,23 @@ function indexPage(request, response) {
 }
 
 function examplePage(request, response) {
-  const { imageDirectoryPath, templateDirectoryPath } = rc,
+  const { imageDirectoryURI, imageDirectoryPath, templateDirectoryPath } = rc,
         names = [],
         overlayImageSize = OVERLAY_IMAGE_SIZE,
         examplePageFileName = EXAMPLE_PAGE_FILE_NAME;
 
   imageMapJSON(names, imageDirectoryPath, overlayImageSize, function (imageMapJSON) {
+    const imageNames = JSON.stringify(Object.keys(imageMapJSON)); ///
+
     imageMapJSON = JSON.stringify(imageMapJSON, null, '\t'); ///
 
     const imageMapURI = IMAGE_MAP_URI,  ///
           filePath = `${templateDirectoryPath}/${examplePageFileName}`, ///
           args = {
+            imageNames,
             imageMapURI,
-            imageMapJSON
+            imageMapJSON,
+            imageDirectoryURI
           },
           html = parseFile(filePath, args);
 

@@ -1,11 +1,9 @@
 'use strict';
 
 const Element = require('../element'),
-      arrayUtilities = require('../utilities/array'),
       transformUtilities = require('../utilities/transform');
 
-const { push } = arrayUtilities,
-      { composeTransform } = transformUtilities;
+const { composeTransform } = transformUtilities;
 
 class CanvasElement extends Element {
   constructor(transform, facets, mask) {
@@ -30,42 +28,6 @@ class CanvasElement extends Element {
 
   setFacets(facets) {
     this.facets = facets;
-  }
-
-  getVertexIndexes() {
-    const vertexIndexes = this.facets.reduce((vertexIndexes, facet, index) => {
-      const facetVertexIndexes = facet.getVertexIndexes(index);
-      
-      push(vertexIndexes, facetVertexIndexes);
-
-      return vertexIndexes;
-    }, []);
-
-    return vertexIndexes;
-  }
-
-  getVertexNormals() {
-    const vertexNormals = this.facets.reduce((vertexNormals, facet) => {
-      const facetVertexNormals = facet.getVertexNormals();
-
-      push(vertexNormals, facetVertexNormals);
-
-      return vertexNormals;
-    }, []);
-
-    return vertexNormals;
-  }
-
-  getVertexPositions() {
-    const vertexPositions = this.facets.reduce((vertexPositions, facet) => {
-      const facetVertexPositions = facet.getVertexPositions();
-
-      push(vertexPositions, facetVertexPositions);
-
-      return vertexPositions;
-    }, []);
-
-    return vertexPositions;
   }
 
   applyMask(mask) {

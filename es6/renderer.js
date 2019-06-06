@@ -1,12 +1,23 @@
 'use strict';
 
+const arrayUtilities = require('./utilities/array');
+
+const { push } = arrayUtilities;
+
+const add = push; ///
+
 class Renderer {
-  constructor(program, rendererData, rendererBuffers, uniformLocations, attributeLocations) {
+  constructor(facets, program, rendererData, rendererBuffers, uniformLocations, attributeLocations) {
+    this.facets = facets;
     this.program = program;
     this.rendererData = rendererData;
     this.rendererBuffers = rendererBuffers;
     this.uniformLocations = uniformLocations;
     this.attributeLocations = attributeLocations;
+  }
+
+  getFacets() {
+    return this.facets;
   }
 
   getProgram() {
@@ -45,11 +56,9 @@ class Renderer {
 
   getVertexNormalAttributeLocation() { return this.attributeLocations.getVertexNormalAttributeLocation(); }
 
-  addVertexPositions(vertexPositions) { this.rendererData.addVertexPositions(vertexPositions); }
-
-  addVertexNormals(vertexNormals) { this.rendererData.addVertexNormals(vertexNormals); }
-
-  addVertexIndexes(vertexIndexes) { this.rendererData.addVertexIndexes(vertexIndexes); }
+  addFacets(facets) {
+    add(this.facets, facets);
+  }
 }
 
 function createProgram(vertexShaderSource, fragmentShaderSource, canvas) {

@@ -14,15 +14,15 @@ const { permute } = arrayUtilities,
       { isApproximatelyEqualToZero } = approximateUtilities,
       { verticesFromCoordinateTuplesAndIndexTuple } = verticesUtilities,
       { cloneEdges, cloneNormal, cloneVertices, calculateArea, calculateEdges, calculateNormal } = facetUtilities,
-      { cloneTextureCoordinatesTuple, calculateVertexTextureCoordinatesTuple, calculateAdjustedTextureCoordinatesTuple } = textureUtilities;
+      { cloneTextureCoordinateTuples, calculateMappedTextureCoordinateTuples, calculateAdjustedTextureCoordinateTuples } = textureUtilities;
 
 class TexturedFacet extends Facet {
-  constructor(vertices, normal, edges, imageName, textureCoordinatesTuple) {
+  constructor(vertices, normal, edges, imageName, textureCoordinateTuples) {
     super(vertices, normal, edges);
 
     this.imageName = imageName;
 
-    this.textureCoordinatesTuple = textureCoordinatesTuple;
+    this.textureCoordinateTuples = textureCoordinateTuples;
   }
 
   clone() {
@@ -34,9 +34,9 @@ class TexturedFacet extends Facet {
     normal = cloneNormal(normal);
     edges = cloneEdges(edges);
 
-    const imageName = this.imageName,
-          textureCoordinatesTuple = cloneTextureCoordinatesTuple(this.textureCoordinatesTuple),
-          texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinatesTuple);
+    const imageName = this.imageName, ///
+          textureCoordinateTuples = cloneTextureCoordinateTuples(this.textureCoordinateTuples),
+          texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinateTuples);
 
     return texturedFacet;
   }
@@ -45,23 +45,30 @@ class TexturedFacet extends Facet {
     return this.imageName;
   }
 
-  getTextureCoordinates() {
-    return this.textureCoordinatesTuple;
+  getTextureCoordinateTuples() {
+    return this.textureCoordinateTuples;
   }
 
-  getVertexTextureCoordinatesTuple(imageMapJSON) {
-    const json = imageMapJSON[this.imageName],
-          extent = json,  ///
-          { left, bottom, width, height } = extent,
-          vertexTextureCoordinatesTuple = calculateVertexTextureCoordinatesTuple(this.textureCoordinatesTuple, left, bottom, width, height);
+  getVertexTextureCoordinateTuples(imageMapJSON) {
+    let vertexTextureCoordinateTuples ;
 
-    return vertexTextureCoordinatesTuple;
+    if (imageMapJSON === null) {
+      vertexTextureCoordinateTuples = this.textureCoordinateTuples; ///
+    } else {
+      const json = imageMapJSON[this.imageName],
+            extent = json,  ///
+            mappedTextureCoordinateTuples = calculateMappedTextureCoordinateTuples(this.textureCoordinateTuples, extent);
+
+      vertexTextureCoordinateTuples = mappedTextureCoordinateTuples; ///
+    }
+
+    return vertexTextureCoordinateTuples;
   }
 
   permute(places) {
     super.permute(places);
 
-    this.textureCoordinatesTuple = permute(this.textureCoordinatesTuple, places);
+    this.textureCoordinateTuples = permute(this.textureCoordinateTuples, places);
   }
 
   fromVertices(vertices) {
@@ -74,18 +81,18 @@ class TexturedFacet extends Facet {
     if (largeEnough) {
       const normal = calculateNormal(vertices, Normal),
             parentVertices = this.vertices, ///
-            adjustedTextureCoordinatesTuple = calculateAdjustedTextureCoordinatesTuple(vertices, normal, parentVertices, this.textureCoordinatesTuple),
+            adjustedTextureCoordinateTuple = calculateAdjustedTextureCoordinateTuples(vertices, normal, parentVertices, this.textureCoordinateTuples),
             edges = calculateEdges(vertices, Edge),
             imageName = this.imageName,
-            textureCoordinatesTuple = adjustedTextureCoordinatesTuple;  ///
+            textureCoordinateTuples = adjustedTextureCoordinateTuple;  ///
 
-      texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinatesTuple);
+      texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinateTuples);
     }
 
     return texturedFacet;
   }
 
-  static fromTextureCoordinateTupleCoordinatesTuplesIndexTupleAndImageName(textureCoordinatesTuple, coordinateTuples, indexTuple, imageName) {
+  static fromTextureCoordinateTuplesCoordinatesTuplesIndexTupleAndImageName(textureCoordinateTuples, coordinateTuples, indexTuple, imageName) {
     let texturedFacet = null;
 
     const vertices = verticesFromCoordinateTuplesAndIndexTuple(coordinateTuples, indexTuple, Vertex),
@@ -97,7 +104,7 @@ class TexturedFacet extends Facet {
       const normal = calculateNormal(vertices, Normal),
             edges = calculateEdges(vertices, Edge);
 
-      texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinatesTuple);
+      texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinateTuples);
     }
 
     return texturedFacet;

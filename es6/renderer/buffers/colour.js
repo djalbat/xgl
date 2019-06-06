@@ -11,10 +11,6 @@ class ColourRendererBuffers extends RendererBuffers {
     this.vertexColoursBuffer = vertexColoursBuffer;
   }
 
-  getVertexColoursBuffer() {
-    return this.vertexColoursBuffer;
-  }
-
   createVertexColoursBuffer(vertexColoursData, canvas) {
     this.vertexColoursBuffer = canvas.createBuffer(vertexColoursData);
   }

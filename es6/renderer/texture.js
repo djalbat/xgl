@@ -1,6 +1,7 @@
 'use strict';
 
 const Renderer = require('../renderer'),
+      arrayUtilities = require('../utilities/array'),
       vertexShaderSource = require('./source/texture/vertexShader'),
       TextureRendererData = require('../renderer/data/texture'),
       fragmentShaderSource = require('./source/texture/fragmentShader'),
@@ -8,18 +9,33 @@ const Renderer = require('../renderer'),
       TextureUniformLocations = require('./locations/texture/uniform'),
       TextureAttributeLocations = require('./locations/texture/attribute');
 
-const { createProgram } = Renderer;
+const { push } = arrayUtilities,
+      { createProgram } = Renderer;
+
+const add = push; ///
 
 class TextureRenderer extends Renderer {
-	constructor(program, rendererData, rendererBuffers, uniformLocations, attributeLocations, imageMapJSON) {
-		super(program, rendererData, rendererBuffers, uniformLocations, attributeLocations);
+	constructor(facets, program, rendererData, rendererBuffers, uniformLocations, attributeLocations, imageNames, imageMapJSON, textureOffsets) {
+		super(facets, program, rendererData, rendererBuffers, uniformLocations, attributeLocations);
+
+		this.imageNames = imageNames;
 
 		this.imageMapJSON = imageMapJSON;
+
+		this.textureOffsets = textureOffsets;
 	}
+
+	getImageNames() {
+	  return this.imageNames;
+  }
 
 	getImageMapJSON() {
 		return this.imageMapJSON;
 	}
+
+	getTextureOffsets() {
+	  return this.textureOffsets;
+  }
 
   getTextureCoordinateAttributeLocation() {
     const attributeLocations = this.getAttributeLocations(),
@@ -28,17 +44,82 @@ class TextureRenderer extends Renderer {
     return textureCoordinateAttributeLocation;
   }
 
-  addVertexTextureCoordinates(vertexTextureCoordinates) { this.rendererData.addVertexTextureCoordinates(vertexTextureCoordinates); }
-
   createBuffers(canvas) {
+    const facets = this.getFacets(),
+          vertexIndexesMap = {},
+          vertexNormalsMap = {},
+          vertexPositionsMap = {},
+          vertexTextureCoordinateTuplesMap = {};
+
+    this.imageNames.forEach((imageName) => {
+      vertexIndexesMap[imageName] = [];
+      vertexNormalsMap[imageName] = [];
+      vertexPositionsMap[imageName] = [];
+      vertexTextureCoordinateTuplesMap[imageName] = [];
+    });
+
+    facets.forEach((facet, index) => {
+      const texturedFacet = facet,  ///
+            facetVertexIndexes = facet.getVertexIndexes(index),
+            facetVertexNormals = facet.getVertexNormals(),
+            facetVertexPositions = facet.getVertexPositions(),
+            texturedFacetImageName = texturedFacet.getImageName(),
+            texturedFacetVertexTextureCoordinateTuples = texturedFacet.getVertexTextureCoordinateTuples(this.imageMapJSON),
+            imageName = texturedFacetImageName, ///
+            vertexIndexes = vertexIndexesMap[imageName],
+            vertexNormals = vertexNormalsMap[imageName],
+            vertexPositions = vertexPositionsMap[imageName],
+            vertexTextureCoordinateTuples = vertexTextureCoordinateTuplesMap[imageName];
+
+      add(vertexIndexes, facetVertexIndexes);
+      add(vertexNormals, facetVertexNormals);
+      add(vertexPositions, facetVertexPositions);
+      add(vertexTextureCoordinateTuples, texturedFacetVertexTextureCoordinateTuples);
+    });
+
+    const combinedVertexIndexes = [],
+          combinedVertexNormals = [],
+          combinedVertexPositions = [],
+          combinedVertexTextureCoordinateTuples = [];
+
+    let textureOffset = 0;
+
+    this.imageNames.forEach((imageName) => {
+      const vertexIndexes = vertexIndexesMap[imageName],
+            vertexNormals = vertexNormalsMap[imageName],
+            vertexPositions = vertexPositionsMap[imageName],
+            vertexTextureCoordinateTuples = vertexTextureCoordinateTuplesMap[imageName];
+
+      add(combinedVertexIndexes, vertexIndexes);
+      add(combinedVertexNormals, vertexNormals);
+      add(combinedVertexPositions, vertexPositions);
+      add(combinedVertexTextureCoordinateTuples, vertexTextureCoordinateTuples);
+
+      const vertexIndexLength = vertexIndexes.length;
+
+      textureOffset = vertexIndexLength;  ///
+
+      this.textureOffsets.push(textureOffset);
+    });
+
     const rendererData = this.getRendererData(),
-          rendererBuffers = this.getRendererBuffers(),
+          vertexIndexes = combinedVertexIndexes,
+          vertexNormals = combinedVertexNormals,
+          vertexPositions = combinedVertexPositions,
+          vertexTextureCoordinateTuples = combinedVertexTextureCoordinateTuples;
+
+    rendererData.addVertexIndexes(vertexIndexes);
+    rendererData.addVertexNormals(vertexNormals);
+    rendererData.addVertexPositions(vertexPositions);
+    rendererData.addVertexTextureCoordinateTuples(vertexTextureCoordinateTuples);
+
+    const rendererBuffers = this.getRendererBuffers(),
           vertexPositionsData = rendererData.getVertexPositionsData(),
           vertexNormalsData = rendererData.getVertexNormalsData(),
           vertexIndexesData = rendererData.getVertexIndexesData(),
-          textureCoordinatesData = rendererData.getVertexTextureCoordinatesData();
+          vertexTextureCoordinatesData = rendererData.getVertexTextureCoordinatesData();
 
-    rendererBuffers.createBuffers(vertexPositionsData, vertexNormalsData, vertexIndexesData, textureCoordinatesData, canvas);
+    rendererBuffers.createBuffers(vertexPositionsData, vertexNormalsData, vertexIndexesData, vertexTextureCoordinatesData, canvas);
   }
 
   bindBuffers(canvas) {
@@ -50,36 +131,50 @@ class TextureRenderer extends Renderer {
     rendererBuffers.bindBuffers(vertexNormalAttributeLocation, vertexPositionAttributeLocation, textureCoordinateAttributeLocation, canvas);
   }
 
-  activateTexture(canvas) {
-    const context = canvas.getContext(),
-          { TEXTURE0 } = context,
-          target = TEXTURE0,  ///
-          uniformLocations = this.getUniformLocations(),
+  useTexture(index, canvas) {
+    const uniformLocations = this.getUniformLocations(),
           samplerUniformLocation = uniformLocations.getSamplerUniformLocation(),
-          uSamplerUniformLocationIntegerValue = 0;
+          samplerUniformLocationIntegerValue = index; ///
 
-    canvas.activateTexture(target);
-
-    canvas.setUniformLocationIntegerValue(samplerUniformLocation, uSamplerUniformLocationIntegerValue);
+    canvas.setUniformLocationIntegerValue(samplerUniformLocation, samplerUniformLocationIntegerValue);
   }
 
-  static fromImageMapAndImageMapJSON(imageMap = null, imageMapJSON = null, canvas) {
-    const program = createProgram(vertexShaderSource, fragmentShaderSource, canvas),
+  static fromImageNamesImageMapJSONAndTextureOffsets(imageNames, imageMapJSON, textureOffsets, canvas) {
+    const facets = [],
+          program = createProgram(vertexShaderSource, fragmentShaderSource, canvas),
           textureRendererData = TextureRendererData.fromNothing(),
           textureRendererBuffers = TextureRendererBuffers.fromNothing(),
+          textureUniformLocations = TextureUniformLocations.fromProgram(program, canvas),
+          textureAttributeLocations = TextureAttributeLocations.fromProgram(program, canvas),
           rendererData = textureRendererData,  ///
           rendererBuffers = textureRendererBuffers, ///
-          uniformLocations = TextureUniformLocations.fromProgram(program, canvas),
-          attributeLocations = TextureAttributeLocations.fromProgram(program, canvas),
-          textureRenderer = new TextureRenderer(program, rendererData, rendererBuffers, uniformLocations, attributeLocations, imageMapJSON);
+          uniformLocations = textureUniformLocations, ///
+          attributeLocations = textureAttributeLocations, ///
+          textureRenderer = new TextureRenderer(facets, program, rendererData, rendererBuffers, uniformLocations, attributeLocations, imageNames, imageMapJSON, textureOffsets);
 
-    if (imageMap !== null) {
-      const image = imageMap;	///
+    canvas.enableAnisotropicFiltering();  ///
 
-      canvas.createTexture(image);
+    return textureRenderer;
+  }
 
-      canvas.enableAnisotropicFiltering();  ///
-    }
+  static fromImagesAndImageNames(images, imageNames, canvas) {
+    images.map((image, index) => canvas.createTexture(image, index));
+
+    const imageMapJSON = null,
+          textureOffsets = [],
+          textureRenderer = TextureRenderer.fromImageNamesImageMapJSONAndTextureOffsets(imageNames, imageMapJSON, textureOffsets, canvas);
+
+    return textureRenderer;
+  }
+
+  static fromImageMapAndImageMapJSON(imageMap, imageMapJSON, canvas) {
+    const image = imageMap; ///
+
+    canvas.createTexture(image);
+
+    const imageNames = null,
+          textureOffsets = null,
+          textureRenderer = TextureRenderer.fromImageNamesImageMapJSONAndTextureOffsets(imageNames, imageMapJSON, textureOffsets, canvas);
 
     return textureRenderer;
   }

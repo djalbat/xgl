@@ -3,7 +3,8 @@
     {
       "name": "development",
       "port": 8000,
-      "imageDirectoryPath": "image",
+      "imageDirectoryURI": "image",
+      "imageDirectoryPath": "public/image",
       "publicDirectoryPath": "public",
       "templateDirectoryPath": "template"
     }

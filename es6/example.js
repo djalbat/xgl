@@ -3,7 +3,8 @@
 const cubeExample = require('./example/cube'),
       simpleExample = require('./example/simple'),
       maskingExample = require('./example/masking'),
-      pyramidExample = require('./example/pyramid');
+      pyramidExample = require('./example/pyramid'),
+      tilingExample = require('./example/tiling');
 
 const example = window.location.search.substring(1);  ///
 
@@ -22,5 +23,9 @@ switch (example) {
 
   case 'pyramid':
     pyramidExample();
+    break;
+
+  case 'tiling':
+    tilingExample();
     break;
 }

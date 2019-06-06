@@ -9,8 +9,6 @@ const depthMixin = require('./mixin/depth'),
       textureMixin = require('./mixin/texture'),
       blendingMixin = require('./mixin/blending');
 
-const defaultOffset = 0;
-
 class Canvas {
   constructor(selector = 'canvas') {
     const domElement = domElementFromSelector(selector),
@@ -80,16 +78,14 @@ class Canvas {
     this.applyMatrix(positionMatrixUniformLocation, positionMatrix);
     this.applyMatrix(projectionMatrixUniformLocation, projectionMatrix);
     this.applyMatrix(normalMatrixUniformLocation, normalMatrix);
-
-    const count = shader.getCount();
-
-    this.drawElements(count);
   }
 
-  drawElements(count, offset = defaultOffset) {
+  drawElements(start, finish) {
     const { TRIANGLES, UNSIGNED_SHORT } = this.context,
           mode = TRIANGLES,
-          type = UNSIGNED_SHORT;
+          type = UNSIGNED_SHORT,
+          count = finish - start,
+          offset = start * 2; ///
 
     this.context.drawElements(mode, count, type, offset)
   }

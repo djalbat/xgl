@@ -1,24 +1,28 @@
 'use strict';
 
-function createTexture(image) {
-	const { RGBA, LINEAR, UNSIGNED_BYTE, TEXTURE_2D, TEXTURE_WRAP_S, TEXTURE_WRAP_T, CLAMP_TO_EDGE, TEXTURE_MIN_FILTER } = this.context,
-				target = TEXTURE_2D,
+function createTexture(image, index = 0) {
+	const { RGBA, LINEAR, UNSIGNED_BYTE, TEXTURE0, TEXTURE_2D, TEXTURE_WRAP_S, TEXTURE_WRAP_T, UNPACK_FLIP_Y_WEBGL, CLAMP_TO_EDGE, NEAREST, REPEAT, TEXTURE_MIN_FILTER } = this.context,
+				target = TEXTURE0 + index,
 				level = 0,
 				internalFormat = RGBA,
 				format = RGBA,
 				type = UNSIGNED_BYTE,
 				texture = this.context.createTexture();
 
-	this.context.bindTexture(target, texture);
+  this.context.activeTexture(target);
 
-  this.context.texImage2D(target, level, internalFormat, format, type, image);
+  this.context.bindTexture(TEXTURE_2D, texture);
 
-  this.context.texParameteri(target, TEXTURE_WRAP_S, CLAMP_TO_EDGE);
-  this.context.texParameteri(target, TEXTURE_WRAP_T, CLAMP_TO_EDGE);
-	this.context.texParameteri(target, TEXTURE_MIN_FILTER, LINEAR);
+  this.context.texImage2D(TEXTURE_2D, level, internalFormat, format, type, image);
+
+  this.context.pixelStorei(UNPACK_FLIP_Y_WEBGL, 1);
+
+  this.context.texParameteri(TEXTURE_2D, TEXTURE_WRAP_S, REPEAT);
+  this.context.texParameteri(TEXTURE_2D, TEXTURE_WRAP_T, REPEAT);
+	this.context.texParameteri(TEXTURE_2D, TEXTURE_MIN_FILTER, LINEAR);
+
+	return texture;
 }
-
-function activateTexture(target) { this.context.activeTexture(target); }
 
 function enableAnisotropicFiltering() {
   const extension = (
@@ -38,6 +42,5 @@ function enableAnisotropicFiltering() {
 
 module.exports = {
   createTexture,
-  activateTexture,
   enableAnisotropicFiltering
 };
