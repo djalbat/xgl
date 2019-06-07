@@ -355,12 +355,14 @@ function preloadImages(imageNames, imageDirectoryURI, callback) {
 
     Object.assign(image, {
       src,
-      onload: (event) => {
-        images.push(image);
-
-        next();
-      }
+      onload
     });
+
+    function onload() {
+      images.push(image);
+
+      next();
+    }
   }, done, context);
 
   function done() {
