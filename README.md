@@ -239,7 +239,7 @@ const pyramidExample = () => {
 
 module.exports = pyramidExample;
 
-function preloadImageMap(callback) {
+const preloadImageMap = (callback) => {
   const { imageMapURI } = configuration,
         imageMap = new Image(),	///
         src = imageMapURI;  ///
@@ -332,6 +332,92 @@ const Side = (properties) =>
 ;
 ```
 ...meaning that the sides themselves need only be rotated about the y axis to form the pyramid, as already shown.
+
+### The tiling example
+
+This example also makes use of images, but there are loaded individually rather than being parts of an image map. The `imageNames` and `imageDirectoryURI` variables are again made available by way of the configuration, allowing the images to be loaded sequentially:
+
+```js
+const necessary = require('necessary');
+
+const { asynchronousUtilities } = necessary,
+      { forEach } = asynchronousUtilities;
+
+function preloadImages(imageNames, imageDirectoryURI, callback) {
+  const images = [],
+        context = {
+          images
+        };
+
+  forEach(imageNames, (imageName, next, done, context) => {
+    const image = new Image(),
+          src = `${imageDirectoryURI}/${imageName}`;
+
+    Object.assign(image, {
+      src,
+      onload: (event) => {
+        images.push(image);
+
+        next();
+      }
+    });
+  }, done, context);
+
+  function done() {
+    const { images } = context;
+
+    callback(images);
+  }
+}
+```
+Now the resultant `images` and `imageNames` are passed to the `Part` element and otherwise, nothing else effectively has to change from the previous example:
+
+```js
+const tilingExample = () => {
+  const { imageNames, imageDirectoryURI } = configuration;
+
+  preloadImages(imageNames, imageDirectoryURI, (images) => {
+    return (
+
+      <Scene canvas={canvas}>
+        <Part images={images} imageNames={imageNames} imageTiling={true} >
+          <TexturedQuadrangle position={[ 0, 0, 0 ]} imageName={'paving.jpg'} mask={mask} />
+          <TexturedQuadrangle position={[ -0.5, -0.5, -0.5 ]} imageName={'plaster.jpg'} mask={mask} />
+        </Part>
+        <Camera />
+      </Scene>
+
+    );
+  });
+};
+```
+One advantage of loading images individually is that since whole images are mapped to textures rather than just part of an image, you can tile the textures. If you wish to do so, you must add a boolean `imageTiling` attribute to the `Part` element. Additionally, you **must** ensure that the length of the sides of the images are powers fo two.
+
+In order to tile textures, you simply have to extend the texture coordinates past the usual [ 0, 1 ] range, for example:
+
+```js
+const coordinates = ...,
+      indexes = ...,
+      defaultImageName = ...,
+      defaultTextureCoordinates = [
+
+        [ [ 0, 0 ], [ 2, 0 ], [ 2, 2 ] ],
+        [ [ 2, 2 ], [ 0, 2 ], [ 0, 0 ] ],
+
+      ];
+
+class TexturedQuadrangle extends TexturedCanvasElement {
+  static fromProperties(properties) {
+    const { imageName = defaultImageName, textureCoordinates = defaultTextureCoordinates } = properties,
+          texturedQuadrangle = TexturedCanvasElement.fromProperties(TexturedQuadrangle, properties, coordinates, indexes, imageName, textureCoordinates);
+
+    return texturedQuadrangle;
+  }
+}
+```
+A mask has also been included in this example, to demonstrate that masking works with textures without further ado:
+
+<img src="https://github.com/djalbat/XGL/blob/master/assets/tiling_example.png" width="400" height="auto">
 
 ## Compiling from source
 
