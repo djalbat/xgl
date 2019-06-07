@@ -382,7 +382,7 @@ const tilingExample = () => {
       <Scene canvas={canvas}>
         <Part images={images} imageNames={imageNames} imageTiling={true} >
           <TexturedQuadrangle position={[ 0, 0, 0 ]} imageName={'paving.jpg'} mask={mask} />
-          <TexturedQuadrangle position={[ -0.5, -0.5, -0.5 ]} imageName={'plaster.jpg'} mask={mask} />
+          <TexturedQuadrangle position={[ -0.5, -0.5, -0.5 ]} imageName={'floorboards.jpg'} mask={mask} />
         </Part>
         <Camera />
       </Scene>
@@ -417,7 +417,7 @@ class TexturedQuadrangle extends TexturedCanvasElement {
 ```
 A mask has also been included in this example, to demonstrate that masking works with textures without further ado:
 
-<img src="https://github.com/djalbat/XGL/blob/master/assets/tiling_example.png" width="400" height="auto">
+<img src="https://github.com/djalbat/XGL/blob/master/assets/tiling_example.png" width="640" height="auto">
 
 ## Compiling from source
 
