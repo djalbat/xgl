@@ -26,10 +26,7 @@ class ImageMapTextureRenderer extends TextureRenderer {
             facetVertexIndexes = facet.getVertexIndexes(index),
             facetVertexNormals = facet.getVertexNormals(),
             facetVertexPositions = facet.getVertexPositions(),
-            texturedFacetImageName = texturedFacet.getImageName(),
-            json = this.imageMapJSON[texturedFacetImageName],
-            extent = json,  ///
-            mappedTextureCoordinateTuples = texturedFacet.getMappedTextureCoordinateTuples(extent),
+            mappedTextureCoordinateTuples = texturedFacet.getMappedTextureCoordinateTuples(this.imageMapJSON),
             texturedFacetVertexTextureCoordinateTuples = mappedTextureCoordinateTuples; ///
 
       add(vertexIndexes, facetVertexIndexes);

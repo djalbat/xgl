@@ -8,8 +8,8 @@ const { merge, flatten } = arrayUtilities;
 const add = merge;  ///
 
 class TextureRendererData extends RendererData {
-  constructor(vertexPositionsData, vertexNormalsData, vertexIndexesData, maximumVertexIndex, vertexTextureCoordinatesData) {
-    super(vertexPositionsData, vertexNormalsData, vertexIndexesData, maximumVertexIndex);
+  constructor(vertexPositionsData, vertexNormalsData, vertexIndexesData, vertexTextureCoordinatesData) {
+    super(vertexPositionsData, vertexNormalsData, vertexIndexesData);
 
     this.vertexTextureCoordinatesData = vertexTextureCoordinatesData;
   }

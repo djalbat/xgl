@@ -52,7 +52,7 @@ class Facet {
     return vertexNormals;
   }
   
-  getVertexIndexes(index) { ///
+  getVertexIndexes(index) {
     const vertexIndex = index * 3,
           vertexIndexes = [
             vertexIndex + 0,

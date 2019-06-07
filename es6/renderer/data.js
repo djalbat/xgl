@@ -6,11 +6,10 @@ const { flatten, merge } = arrayUtilities,
       add = merge;  ///
 
 class RendererData {
-  constructor(vertexPositionsData, vertexNormalsData, vertexIndexesData, maximumVertexIndex) {
+  constructor(vertexPositionsData, vertexNormalsData, vertexIndexesData) {
     this.vertexPositionsData = vertexPositionsData;
     this.vertexNormalsData = vertexNormalsData;
     this.vertexIndexesData = vertexIndexesData;
-    this.maximumVertexIndex = maximumVertexIndex;
   }
 
   getCount() {
@@ -45,12 +44,6 @@ class RendererData {
   }
 
   addVertexIndexes(vertexIndexes) {
-    const offset = this.maximumVertexIndex + 1;
-
-    vertexIndexes = vertexIndexes.map((vertexIndex) => (vertexIndex + offset));
-
-    this.maximumVertexIndex = Math.max(this.maximumVertexIndex, ...vertexIndexes);
-
     const vertexIndexesData = vertexIndexes;  ///
 
     add(this.vertexIndexesData, vertexIndexesData);
@@ -60,8 +53,7 @@ class RendererData {
     const vertexPositionsData = [],
           vertexNormalsData = [],
           vertexIndexesData = [],
-          maximumVertexIndex = -1,  ///
-          rendererData = new Class(vertexPositionsData, vertexNormalsData, vertexIndexesData, maximumVertexIndex, ...remainingArguments);
+          rendererData = new Class(vertexPositionsData, vertexNormalsData, vertexIndexesData, ...remainingArguments);
     
     return rendererData;
   }

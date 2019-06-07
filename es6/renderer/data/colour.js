@@ -8,8 +8,8 @@ const { merge, flatten } = arrayUtilities;
 const add = merge;  ///
 
 class ColourRendererData extends RendererData {
-  constructor(vertexPositionsData, vertexNormalsData, vertexIndexesData, maximumVertexIndex, vertexColoursData) {
-    super(vertexPositionsData, vertexNormalsData, vertexIndexesData, maximumVertexIndex);
+  constructor(vertexPositionsData, vertexNormalsData, vertexIndexesData, vertexColoursData) {
+    super(vertexPositionsData, vertexNormalsData, vertexIndexesData);
 
     this.vertexColoursData = vertexColoursData;
   }

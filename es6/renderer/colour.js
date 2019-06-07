@@ -76,7 +76,7 @@ class ColourRenderer extends Renderer {
 
     const renderer = this;  ///
 
-    canvas.render(renderer, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix)
+    canvas.render(renderer, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
 
     const count = this.getCount(),
           start = 0,
