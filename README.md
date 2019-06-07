@@ -380,7 +380,7 @@ const tilingExample = () => {
     return (
 
       <Scene canvas={canvas}>
-        <Part images={images} imageNames={imageNames} imageTiling={true} >
+        <Part images={images} imageNames={imageNames} imageTiling >
           <TexturedQuadrangle position={[ 0, 0, 0 ]} imageName={'paving.jpg'} mask={mask} />
           <TexturedQuadrangle position={[ -0.5, -0.5, -0.5 ]} imageName={'floorboards.jpg'} mask={mask} />
         </Part>
