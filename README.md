@@ -417,7 +417,7 @@ class TexturedQuadrangle extends TexturedCanvasElement {
 ```
 A mask has also been included in this example. Masking works with tiling without fuss:
 
-<img src="https://github.com/djalbat/XGL/blob/master/assets/tiling_example.png" width="640" height="auto">
+<img src="https://github.com/djalbat/XGL/blob/master/assets/tiling_example.png" width="480" height="auto">
 
 Note that the floorboards texture works well whereas the edges of paving texture are out of alignment. To find textures that are suitable for tiling, type something like 'seamless floorboards texture' into Google images, rather than just 'paving texture'.
 
