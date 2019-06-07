@@ -415,7 +415,7 @@ class TexturedQuadrangle extends TexturedCanvasElement {
   }
 }
 ```
-A mask has also been included in this example. Masking works with textures without further ado:
+A mask has also been included in this example. Masking works with tiling without fuss:
 
 <img src="https://github.com/djalbat/XGL/blob/master/assets/tiling_example.png" width="640" height="auto">
 
