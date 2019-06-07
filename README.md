@@ -419,6 +419,10 @@ A mask has also been included in this example, to demonstrate that masking works
 
 <img src="https://github.com/djalbat/XGL/blob/master/assets/tiling_example.png" width="640" height="auto">
 
+Note that the floorboards texture works well whereas the edges of paving texture are out of alignment. To find textures that are suitable for tiling, trying typing something like 'floorboards seamless texture' into Google images, rather than just 'paving texture'.
+
+It is reasonable to ask, if loading images directly allows them to be tiled and also does away with the need for an image map and the routes that go with it, why choose the latter? The reason is that there is limit on the number images that can be passed to a `Part` element. This is not a drawback of XGL but WebGL, or rather OpenGL. The lower bound on the number of images that texture renderers must support is 8, although on modern systems this number is likely to be in the region of hundreds. Also bear in mind that individual images all have to be loaded over a network and this may become problematic for large numbers of them. Since the work of creating an image map from any number of images is done for you, image maps are recommended unless you need tiling.
+
 ## Compiling from source
 
 Automation is done with [npm scripts](https://docs.npmjs.com/misc/scripts), have a look at the `package.json` file. The pertinent commands are:
