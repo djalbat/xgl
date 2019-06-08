@@ -12,7 +12,7 @@ class Part extends Element {
     this.images = images;
     this.imageMap = imageMap;
     this.imageNames = imageNames;
-    this.imageTiling = imageTiling; ///
+    this.imageTiling = imageTiling;
     this.imageMapJSON = imageMapJSON;
     this.colourRenderer = colourRenderer;
     this.textureRenderer = textureRenderer;
@@ -24,16 +24,10 @@ class Part extends Element {
     this.textureRenderer && this.textureRenderer.render(canvas, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);  ///
   }
 
-  createBuffers(canvas) {
-    this.colourRenderer && this.colourRenderer.createBuffers(canvas); ///
-
-    this.textureRenderer && this.textureRenderer.createBuffers(canvas); ///
-  }
-  
   initialise(canvas) {
-    const colourRenderer = ColourRenderer.fromNothing(canvas);
-
     let textureRenderer = null;
+
+    const colourRenderer = ColourRenderer.fromNothing(canvas);
 
     if (this.images) {
       const imagesTextureRenderer = ImagesTextureRenderer.fromImagesImageNamesAndImageTiling(this.images, this.imageNames, this.imageTiling, canvas);
@@ -53,11 +47,13 @@ class Part extends Element {
 
     childElements.forEach((childElement) => childElement.render(colourRenderer, textureRenderer));
 
+    colourRenderer && colourRenderer.createBuffers(canvas); ///
+
+    textureRenderer && textureRenderer.createBuffers(canvas); ///
+
     this.colourRenderer = colourRenderer;
 
     this.textureRenderer = textureRenderer;
-
-    this.createBuffers(canvas);
   }
 
   static fromProperties(properties) {

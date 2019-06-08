@@ -3,35 +3,36 @@
 const arrayUtilities = require('../../utilities/array'),
       TextureRenderer = require('../../renderer/texture');
 
-const { push } = arrayUtilities;
+const { push, first } = arrayUtilities;
 
 const add = push; ///
 
 class ImagesTextureRenderer extends TextureRenderer {
-	constructor(facets, program, rendererData, rendererBuffers, uniformLocations, attributeLocations, imageNames, offsets) {
+	constructor(facets, program, rendererData, rendererBuffers, uniformLocations, attributeLocations, imageNames, facetsMap, offsets) {
 		super(facets, program, rendererData, rendererBuffers, uniformLocations, attributeLocations);
 
 		this.imageNames = imageNames;
 
+		this.facetsMap = facetsMap;
+
 		this.offsets = offsets;
 	}
 
-  createBuffers(canvas) {
-    const facets = this.getFacets(),
-          facetsMap = {};
+	addFacets(facets) {
+	  const texturedFacets = facets,  ///
+          texturedFacetsLength = texturedFacets.length;
 
-    this.imageNames.forEach((imageName) => {
-      facetsMap[imageName] = [];
-    });
-
-    facets.forEach((facet) => {
-      const texturedFacet = facet,  ///
+	  if (texturedFacetsLength > 0) {
+	    const firstTexturedFacet = first(texturedFacets),
+            texturedFacet = firstTexturedFacet, ///
             imageName = texturedFacet.getImageName(),
-            facets = facetsMap[imageName];
+            facets = this.facetsMap[imageName];
 
-      facets.push(facet);
-    });
+	    add(facets, texturedFacets)
+    }
+  }
 
+  createBuffers(canvas) {
     const vertexIndexes = [],
           vertexNormals = [],
           vertexPositions = [],
@@ -40,7 +41,7 @@ class ImagesTextureRenderer extends TextureRenderer {
     let index = 0;
 
     this.imageNames.forEach((imageName) => {
-      const facets = facetsMap[imageName];
+      const facets = this.facetsMap[imageName];
 
       facets.forEach((facet) => {
         const texturedFacet = facet,  ///
@@ -99,12 +100,20 @@ class ImagesTextureRenderer extends TextureRenderer {
   }
 
   static fromImagesImageNamesAndImageTiling(images, imageNames, imageTiling, canvas) {
-	  const repeat = imageTiling; ///
-
-    images.map((image, index) => canvas.createTexture(image, index, repeat));
-
     const offsets = [],
-          imagesTextureRenderer = TextureRenderer.fromNothing(ImagesTextureRenderer, canvas, imageNames, offsets);
+          facetsMap = {};
+
+    images.forEach((image, index) => {
+      const facets = [],
+            repeat = imageTiling, ///
+            imageName = imageNames[index];
+
+      facetsMap[imageName] = facets;
+
+      canvas.createTexture(image, index, repeat);
+    });
+
+    const imagesTextureRenderer = TextureRenderer.fromNothing(ImagesTextureRenderer, canvas, imageNames, facetsMap, offsets);
 
     return imagesTextureRenderer;
   }
