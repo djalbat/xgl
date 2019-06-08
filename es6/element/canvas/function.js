@@ -4,8 +4,7 @@ const CanvasElement = require('../../element/canvas');
 
 class FunctionCanvasElement extends CanvasElement {
   static fromProperties(properties) {
-    const facets = [],
-          functionElement = CanvasElement.fromProperties(FunctionCanvasElement, properties, facets);
+    const functionElement = CanvasElement.fromProperties(FunctionCanvasElement, properties);
 
     return functionElement;
   }

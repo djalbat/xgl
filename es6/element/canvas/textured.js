@@ -13,7 +13,8 @@ class TexturedCanvasElement extends CanvasElement {
   }
 
   static fromProperties(Class, properties, coordinates, indexes, imageName, textureCoordinates, ...remainingArguments) {
-    const indexTuples = indexes,  ///
+    const texturedCanvasElement = CanvasElement.fromProperties(Class, properties, facets, ...remainingArguments),
+          indexTuples = indexes,  ///
           facets = indexTuples.map((indexTuple, index) => {
             const coordinateTuples = coordinates, ///
                   vertexTextureCoordinateTuples = textureCoordinates[index], ///
@@ -21,9 +22,10 @@ class TexturedCanvasElement extends CanvasElement {
                   facet = texturedFacet;  ///
 
             return facet;
-          }),
-          texturedCanvasElement = CanvasElement.fromProperties(Class, properties, facets, ...remainingArguments);
-    
+          });
+
+    texturedCanvasElement.setFacets(facets);
+
     return texturedCanvasElement;
   }
 }

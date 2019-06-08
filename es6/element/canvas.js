@@ -62,9 +62,10 @@ class CanvasElement extends Element {
     childElements.forEach((childElement) => childElement.render(colourRenderer, textureRenderer));
   }
 
-  static fromProperties(Class, properties, facets = [], ...remainingArguments) {
+  static fromProperties(Class, properties, ...remainingArguments) {
     const { scale, position, rotations, mask = null } = properties,
           transform = composeTransform(scale, position, rotations),
+          facets = [],
           canvasElement = Element.fromProperties(Class, properties, transform, facets, mask, ...remainingArguments);
 
     return canvasElement;

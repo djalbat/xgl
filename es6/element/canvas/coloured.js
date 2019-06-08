@@ -13,15 +13,17 @@ class ColouredCanvasElement extends CanvasElement {
   }
 
   static fromProperties(Class, properties, coordinates, indexes, colour, ...remainingArguments) {
-    const indexTuples = indexes,  ///
+    const colouredCanvasElement = CanvasElement.fromProperties(Class, properties, ...remainingArguments),
+          indexTuples = indexes,  ///
           facets = indexTuples.map((indexTuple) => {
             const coordinateTuples = coordinates, ///
                   colouredFacet = ColouredFacet.fromCoordinateTuplesIndexTupleAndColour(coordinateTuples, indexTuple, colour),
                   facet = colouredFacet;  ///
 
             return facet;
-          }),
-          colouredCanvasElement = CanvasElement.fromProperties(Class, properties, facets, ...remainingArguments);
+          });
+
+    colouredCanvasElement.setFacets(facets);
 
     return colouredCanvasElement;
   }
