@@ -34,7 +34,7 @@ class Scene extends Element {
     this.childElements.forEach((childElement) => childElement.render(this.canvas, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix));
   }
 
-  initialise() {
+  initialise(done) {
     const childElements = this.getChildElements(),
           resizeHandler = this.resizeHandler.bind(this),
           updateHandler = this.updateHandler.bind(this);
@@ -48,13 +48,15 @@ class Scene extends Element {
     childElements.forEach((childElement) => childElement.initialise(this.canvas));
 
     this.resizeHandler(); ///
+
+    done && done(); ///
   }
 
   static fromProperties(properties) {
-    const { canvas } = properties,
+    const { canvas, done } = properties,
           scene = Element.fromProperties(Scene, properties, canvas);
 
-    scene.initialise();
+    scene.initialise(done);
 
     return scene;
   }
