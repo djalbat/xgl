@@ -65,12 +65,12 @@ class Tilt {
     }
   }
 
-  shiftKeyHandler(shiftKeyDown) {
-    if (!shiftKeyDown) {
-      this.previousAngles = this.angles;
+  updatePreviousAngles() {
+    this.previousAngles = this.angles;
+  }
 
-      this.previousMouseCoordinates = this.mouseCoordinates;
-    }
+  updatePreviousMouseCoordinates() {
+    this.previousMouseCoordinates = this.mouseCoordinates;
   }
 
   updateAngles() {
@@ -82,9 +82,9 @@ class Tilt {
   }
 
   static fromNothing() {
-    const angles = INITIAL_ANGLES,
+    const angles = INITIAL_ANGLES,  ///
           previousAngles = angles,  ///
-          mouseCoordinates = INITIAL_MOUSE_COORDINATES,
+          mouseCoordinates = INITIAL_MOUSE_COORDINATES, ///
           previousMouseCoordinates = mouseCoordinates,  ///
           tilt = new Tilt(angles, previousAngles, mouseCoordinates, previousMouseCoordinates);
 

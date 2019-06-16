@@ -4,8 +4,6 @@ const Pan = require('../../miscellaneous/pan'),
       Tilt = require('../../miscellaneous/tilt'),
       Zoom = require('../../miscellaneous/zoom'),
       Camera = require('../camera'),
-      KeyEvents = require('../../miscellaneous/keyEvents'),
-      MouseEvents = require('../../miscellaneous/mouseEvents'),
       cameraUtilities = require('../../utilities/camera');
 
 const { calculateOffsetMatrix, calculateRotationMatrix, calculatePositionMatrix, calculateProjectionMatrix, calculateNormalMatrix } = cameraUtilities;
@@ -14,21 +12,24 @@ const defaultInitialDistance = 5,
       defaultInitialOffset = [ 0, 0, 0 ];
 
 class DesignCamera extends Camera {
-  constructor(pan, tilt, zoom, keyEvents, mouseEvents, updateHandler) {
-    super();
+  constructor(keyEvents, mouseEvents, updateHandler, pan, tilt, zoom) {
+    super(keyEvents, mouseEvents, updateHandler);
 
     this.pan = pan;
+
     this.tilt = tilt;
+
     this.zoom = zoom;
-    this.keyEvents = keyEvents;
-    this.mouseEvents = mouseEvents;
-    this.updateHandler = updateHandler;
   }
 
   shiftKeyHandler(shiftKeyDown) {
     this.pan.shiftKeyHandler(shiftKeyDown);
 
-    this.tilt.shiftKeyHandler(shiftKeyDown);
+    if (!shiftKeyDown) {
+      this.tilt.updatePreviousAngles();
+
+      this.tilt.updatePreviousMouseCoordinates();
+    }
   }
 
   mouseUpHandler(mouseCoordinates, mouseDown, canvas) {
@@ -38,9 +39,11 @@ class DesignCamera extends Camera {
   }
 
   mouseDownHandler(mouseCoordinates, mouseDown, canvas) {
+    const shiftKeyDown = this.keyEvents.isShiftKeyDown();
+
     this.tilt.mouseDownHandler();
 
-    this.pan.mouseDownHandler();
+    this.pan.mouseDownHandler(shiftKeyDown);
   }
 
   mouseMoveHandler(mouseCoordinates, mouseDown, canvas) {
@@ -71,30 +74,10 @@ class DesignCamera extends Camera {
           rotationMatrix = calculateRotationMatrix(angles),
           positionMatrix = calculatePositionMatrix(distance),
           projectionMatrix = calculateProjectionMatrix(width, height),
-          normalMatrix = calculateNormalMatrix(rotationMatrix);
-    
-    this.updateHandler(offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
-  }
+          normalMatrix = calculateNormalMatrix(rotationMatrix),
+          updateHandler = this.getUpdateHandler();
 
-  initialise(canvas) {
-    const keyEvents = KeyEvents.fromNothing(canvas),
-          mouseEvents = MouseEvents.fromNothing(canvas),
-          shiftKeyHandler = this.shiftKeyHandler.bind(this),
-          mouseUpHandler = this.mouseUpHandler.bind(this),
-          mouseDownHandler = this.mouseDownHandler.bind(this),
-          mouseMoveHandler = this.mouseMoveHandler.bind(this),
-          mouseWheelHandler = this.mouseWheelHandler.bind(this);
-
-    keyEvents.addShiftKeyHandler(shiftKeyHandler);
-
-    mouseEvents.addMouseUpHandler(mouseUpHandler);
-    mouseEvents.addMouseDownHandler(mouseDownHandler);
-    mouseEvents.addMouseMoveHandler(mouseMoveHandler);
-    mouseEvents.addMouseWheelHandler(mouseWheelHandler);
-
-    this.keyEvents = keyEvents;
-
-    this.mouseEvents = mouseEvents;
+    updateHandler(offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
   }
 
   static fromProperties(properties) {
@@ -102,10 +85,7 @@ class DesignCamera extends Camera {
           pan = Pan.fromInitialOffset(initialOffset),
           tilt = Tilt.fromNothing(),
           zoom = Zoom.fromInitialDistance(initialDistance),
-          keyEvents = null, ///
-          mouseEvents = null, ///
-          updateHandler = null,  ///
-          designCamera = Camera.fromProperties(DesignCamera, properties, pan, tilt, zoom, keyEvents, mouseEvents, updateHandler);
+          designCamera = Camera.fromProperties(DesignCamera, properties, pan, tilt, zoom);
 
     return designCamera;
   }

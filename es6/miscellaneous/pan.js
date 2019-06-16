@@ -32,10 +32,8 @@ class Pan {
     this.previousMouseCoordinates = this.mouseCoordinates;
   }
 
-  mouseDownHandler() {
-    this.previousOffset = this.offset;
-
-    if (this.shiftKeyDown) {
+  mouseDownHandler(shiftKeyDown) {
+    if (shiftKeyDown) {
       this.previousOffset = this.offset;
 
       this.previousMouseCoordinates = this.mouseCoordinates;
@@ -53,7 +51,7 @@ class Pan {
   updateOffset(tilt) {
     const xAngle = tilt.getXAngle(),
           yAngle = tilt.getYAngle(),
-          scalar = OFFSET_SCALAR,
+          scalar = OFFSET_SCALAR, ///
           relativeMouseCoordinates = subtract2(this.mouseCoordinates, this.previousMouseCoordinates),
           relativeOffset = scale2(relativeMouseCoordinates, scalar),
           yAngleOffset = calculateYAngleOffset(yAngle, relativeOffset),

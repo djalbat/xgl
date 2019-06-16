@@ -3,11 +3,27 @@
 const Camera = require('../camera');
 
 class GamingCamera extends Camera {
-  update(canvas) {
-    ///
+  shiftKeyHandler(shiftKeyDown) {
+
   }
 
-  initialise(canvas) {
+  mouseUpHandler(mouseCoordinates, mouseDown, canvas) {
+
+  }
+
+  mouseDownHandler(mouseCoordinates, mouseDown, canvas) {
+
+  }
+
+  mouseMoveHandler(mouseCoordinates, mouseDown, canvas) {
+
+  }
+
+  mouseWheelHandler(delta, canvas) {
+
+  }
+
+  update(canvas) {
     ///
   }
 
