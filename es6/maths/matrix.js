@@ -41,10 +41,8 @@ function invert2(matrix) {
   if (determinant !== 0) {
     return ([
 
-      +m3 / determinant,
-      -m1 / determinant,
-      -m2 / determinant,
-      +m0 / determinant,
+      +m3 / determinant, -m1 / determinant,
+      -m2 / determinant, +m0 / determinant,
 
     ]);
   }
@@ -55,24 +53,18 @@ function invert3(matrix) {
         a10 = matrix[3], a11 = matrix[4], a12 = matrix[5],
         a20 = matrix[6], a21 = matrix[7], a22 = matrix[8],
 
-        b01 = a22 * a11 - a12 * a21,
+        b01 =  a22 * a11 - a12 * a21,
         b11 = -a22 * a10 + a12 * a20,
-        b21 = a21 * a10 - a11 * a20,
+        b21 =  a21 * a10 - a11 * a20,
 
         determinant = a00 * b01 + a01 * b11 + a02 * b21;
 
   if (determinant !== 0) {
     return ([
 
-      b01 / determinant,
-      (-a22 * a01 + a02 * a21) / determinant,
-      (a12 * a01 - a02 * a11) / determinant,
-      b11 / determinant,
-      (a22 * a00 - a02 * a20) / determinant,
-      (-a12 * a00 + a02 * a10) / determinant,
-      b21 / determinant,
-      (-a21 * a00 + a01 * a20) / determinant,
-      (a11 * a00 - a01 * a10) / determinant,
+      b01 / determinant, (-a22 * a01 + a02 * a21) / determinant, ( a12 * a01 - a02 * a11) / determinant,
+      b11 / determinant, ( a22 * a00 - a02 * a20) / determinant, (-a12 * a00 + a02 * a10) / determinant,
+      b21 / determinant, (-a21 * a00 + a01 * a20) / determinant, ( a11 * a00 - a01 * a10) / determinant,
 
     ]);
   }
@@ -102,22 +94,10 @@ function invert4(matrix) {
   if (determinant !== 0) {
     return ([
 
-      (a11 * b11 - a12 * b10 + a13 * b09) / determinant,
-      (a02 * b10 - a01 * b11 - a03 * b09) / determinant,
-      (a31 * b05 - a32 * b04 + a33 * b03) / determinant,
-      (a22 * b04 - a21 * b05 - a23 * b03) / determinant,
-      (a12 * b08 - a10 * b11 - a13 * b07) / determinant,
-      (a00 * b11 - a02 * b08 + a03 * b07) / determinant,
-      (a32 * b02 - a30 * b05 - a33 * b01) / determinant,
-      (a20 * b05 - a22 * b02 + a23 * b01) / determinant,
-      (a10 * b10 - a11 * b08 + a13 * b06) / determinant,
-      (a01 * b08 - a00 * b10 - a03 * b06) / determinant,
-      (a30 * b04 - a31 * b02 + a33 * b00) / determinant,
-      (a21 * b02 - a20 * b04 - a23 * b00) / determinant,
-      (a11 * b07 - a10 * b09 - a12 * b06) / determinant,
-      (a00 * b09 - a01 * b07 + a02 * b06) / determinant,
-      (a31 * b01 - a30 * b03 - a32 * b00) / determinant,
-      (a20 * b03 - a21 * b01 + a22 * b00) / determinant,
+      (a11 * b11 - a12 * b10 + a13 * b09) / determinant, (a02 * b10 - a01 * b11 - a03 * b09) / determinant, (a31 * b05 - a32 * b04 + a33 * b03) / determinant, (a22 * b04 - a21 * b05 - a23 * b03) / determinant,
+      (a12 * b08 - a10 * b11 - a13 * b07) / determinant, (a00 * b11 - a02 * b08 + a03 * b07) / determinant, (a32 * b02 - a30 * b05 - a33 * b01) / determinant, (a20 * b05 - a22 * b02 + a23 * b01) / determinant,
+      (a10 * b10 - a11 * b08 + a13 * b06) / determinant, (a01 * b08 - a00 * b10 - a03 * b06) / determinant, (a30 * b04 - a31 * b02 + a33 * b00) / determinant, (a21 * b02 - a20 * b04 - a23 * b00) / determinant,
+      (a11 * b07 - a10 * b09 - a12 * b06) / determinant, (a00 * b09 - a01 * b07 + a02 * b06) / determinant, (a31 * b01 - a30 * b03 - a32 * b00) / determinant, (a20 * b03 - a21 * b01 + a22 * b00) / determinant,
 
     ]);
   }
@@ -160,25 +140,10 @@ function scale4(matrix, vector) {
 
   return ([
 
-    matrix[ 0] * x,
-    matrix[ 1] * x,
-    matrix[ 2] * x,
-    matrix[ 3] * x,
-
-    matrix[ 4] * y,
-    matrix[ 5] * y,
-    matrix[ 6] * y,
-    matrix[ 7] * y,
-
-    matrix[ 8] * z,
-    matrix[ 9] * z,
-    matrix[10] * z,
-    matrix[11] * z,
-
-    matrix[12],
-    matrix[13],
-    matrix[14],
-    matrix[15],
+    matrix[ 0] * x, matrix[ 1] * x, matrix[ 2] * x, matrix[ 3] * x,
+    matrix[ 4] * y, matrix[ 5] * y, matrix[ 6] * y, matrix[ 7] * y,
+    matrix[ 8] * z, matrix[ 9] * z, matrix[10] * z, matrix[11] * z,
+    matrix[12] * 1, matrix[13] * 1, matrix[14] * 1, matrix[15] * 1,
 
   ]);
 }
@@ -222,22 +187,10 @@ function rotate4(matrix, angle, vector) {
 
     return ([
 
-      a00 * b00 + a10 * b01 + a20 * b02,
-      a01 * b00 + a11 * b01 + a21 * b02,
-      a02 * b00 + a12 * b01 + a22 * b02,
-      a03 * b00 + a13 * b01 + a23 * b02,
-      a00 * b10 + a10 * b11 + a20 * b12,
-      a01 * b10 + a11 * b11 + a21 * b12,
-      a02 * b10 + a12 * b11 + a22 * b12,
-      a03 * b10 + a13 * b11 + a23 * b12,
-      a00 * b20 + a10 * b21 + a20 * b22,
-      a01 * b20 + a11 * b21 + a21 * b22,
-      a02 * b20 + a12 * b21 + a22 * b22,
-      a03 * b20 + a13 * b21 + a23 * b22,
-      matrix[12],
-      matrix[13],
-      matrix[14],
-      matrix[15],
+      a00 * b00 + a10 * b01 + a20 * b02, a01 * b00 + a11 * b01 + a21 * b02, a02 * b00 + a12 * b01 + a22 * b02, a03 * b00 + a13 * b01 + a23 * b02,
+      a00 * b10 + a10 * b11 + a20 * b12, a01 * b10 + a11 * b11 + a21 * b12, a02 * b10 + a12 * b11 + a22 * b12, a03 * b10 + a13 * b11 + a23 * b12,
+      a00 * b20 + a10 * b21 + a20 * b22, a01 * b20 + a11 * b21 + a21 * b22, a02 * b20 + a12 * b21 + a22 * b22, a03 * b20 + a13 * b21 + a23 * b22,
+                             matrix[12],                        matrix[13],                        matrix[14],                        matrix[15],
 
     ]);
   }
@@ -262,22 +215,10 @@ function translate4(matrix, vector) {
 
   return ([
 
-    a00,
-    a01,
-    a02,
-    a03,
-    a10,
-    a11,
-    a12,
-    a13,
-    a20,
-    a21,
-    a22,
-    a23,
-    a00 * x + a10 * y + a20 * z + matrix[12],
-    a01 * x + a11 * y + a21 * z + matrix[13],
-    a02 * x + a12 * y + a22 * z + matrix[14],
-    a03 * x + a13 * y + a23 * z + matrix[15],
+                                         a00,                                      a01,                                      a02,                                      a03,
+                                         a10,                                      a11,                                      a12,                                      a13,
+                                         a20,                                      a21,                                      a22,                                      a23,
+    a00 * x + a10 * y + a20 * z + matrix[12], a01 * x + a11 * y + a21 * z + matrix[13], a02 * x + a12 * y + a22 * z + matrix[14], a03 * x + a13 * y + a23 * z + matrix[15],
 
   ]);
 }
