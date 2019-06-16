@@ -6,8 +6,10 @@ const Element = require('../element'),
       ImageMapTextureRenderer = require('../renderer/texture/imageMap');
 
 class Part extends Element {
-  constructor(images, imageMap, imageNames, imageTiling, imageMapJSON, colourRenderer, textureRenderer) {
+  constructor(hidden, images, imageMap, imageNames, imageTiling, imageMapJSON, colourRenderer, textureRenderer) {
     super();
+
+    this.hidden = hidden;
 
     this.images = images;
     this.imageMap = imageMap;
@@ -25,6 +27,10 @@ class Part extends Element {
   }
 
   initialise(canvas) {
+    if (this.hidden) {
+      return;
+    }
+
     let textureRenderer = null;
 
     const colourRenderer = ColourRenderer.fromNothing(canvas);
@@ -57,10 +63,10 @@ class Part extends Element {
   }
 
   static fromProperties(properties) {
-    const { images = null, imageMap = null, imageNames = null, imageTiling = false, imageMapJSON = null} = properties,
+    const { hidden = false, images = null, imageMap = null, imageNames = null, imageTiling = false, imageMapJSON = null} = properties,
           colourRenderer = null,  ///
           textureRenderer = null, ///
-          part = Element.fromProperties(Part, properties, images, imageMap, imageNames, imageTiling, imageMapJSON, colourRenderer, textureRenderer);
+          part = Element.fromProperties(Part, properties, hidden, images, imageMap, imageNames, imageTiling, imageMapJSON, colourRenderer, textureRenderer);
 
     return part;
   }
