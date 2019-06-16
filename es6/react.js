@@ -1,7 +1,6 @@
 'use strict';
 
 const Element = require('./element'),
-      CanvasElement = require('./element/canvas'),
       arrayUtilities = require('./utilities/array'),
       FunctionCanvasElement = require('./element/canvas/function');
 
@@ -14,9 +13,7 @@ function createElement(firstArgument, properties, ...childElements) {
 
   let element;
 
-  if (firstArgument instanceof CanvasElement) {
-    element = firstArgument;  ///
-  } else if (isSubclassOf(firstArgument, Element)) {
+  if (isSubclassOf(firstArgument, Element)) {
     const Class = firstArgument;  ///
 
     Object.assign(properties, {

@@ -155,7 +155,7 @@ const { Canvas, Scene, Mask, Part, Camera } = xgl;
 const canvas = new Canvas();
 
 const maskingExample = () => {
-  const SmallCube =
+  const SmallCube = (properties) =>
 
           <Cube scale={[ 1/4, 1/4, 1/4 ]} />
 
@@ -167,7 +167,7 @@ const maskingExample = () => {
           </Mask>
 
         ,
-        MediumCube =
+        MediumCube = (properties) =>
 
           <Cube scale={[ 1/2, 1/2, 1/2 ]} mask={smallCubeMask} />
 
@@ -185,8 +185,6 @@ const maskingExample = () => {
   );
 };
 ```
-Note that the cubes are created directly with JSX elements. If you have no need of the `properties` argument, you can use this abbreviated form, doing away with a function call.
-
 Here is the scene that results, with the facets coloured randomly so that each is visible:
 
 ![Masked cube facets](https://github.com/djalbat/XGL/blob/master/assets/masked_cube_facets.jpg)
