@@ -226,7 +226,7 @@ const pyramidExample = () => {
 
     return (
 
-      <Scene canvas={canvas} ... >
+      <Scene canvas={canvas}>
         <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
           <Pyramid />
         </Part>
@@ -429,7 +429,7 @@ It is reasonable to ask, if loading images directly allows them to be tiled and 
 
 You can hide any elements bar `Scene` elements , including masks and parts, by adding a `hidden` attribute. This saves commenting out or removing elements during development. For example:
 ```js
-<Scene canvas={canvas} ... >
+<Scene canvas={canvas}>
   <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
     <Pyramid hidden />
   </Part>
@@ -439,7 +439,7 @@ You can hide any elements bar `Scene` elements , including masks and parts, by a
 
 You can pass callbacks to `Scene` elements to keep an eye on rendering progress by way of `update` and `done` attributes. For example:
 ```js
-<Scene canvas={canvas} ... update={update} done={done} >
+<Scene canvas={canvas} update={update} done={done} >
   <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
     <Pyramid />
   </Part>
