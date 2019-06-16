@@ -47,7 +47,7 @@ class Scene extends Element {
     this.onUpdate(updateHandler);
 
     childElements.forEach((childElement, index) => {
-      const progress = index / childElementsLength;
+      const progress = ( index + 1 ) / childElementsLength;
 
       childElement.initialise(canvas);
 
