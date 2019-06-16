@@ -71,7 +71,7 @@ class DesignCamera extends Camera {
   }
 
   mouseWheelHandler(delta, canvas) {
-    this.zoom.mouseWheelEventHandler(delta);
+    this.zoom.updateDistance(delta);
 
     this.update(canvas);
   }

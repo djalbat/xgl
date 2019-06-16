@@ -13,8 +13,8 @@ class Zoom {
     return this.distance;
   }
 
-  mouseWheelEventHandler(delta) {
-    const scalar = DISTANCE_SCALAR;
+  updateDistance(delta) {
+    const scalar = DISTANCE_SCALAR; ///
     
     this.distance -= delta * scalar;
 
