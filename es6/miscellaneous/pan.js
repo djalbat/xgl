@@ -20,32 +20,16 @@ class Pan {
     return this.offset;
   }
 
-  shiftKeyHandler(shiftKeyDown) {
-    if (shiftKeyDown) {
-      this.previousOffset = this.offset;
-
-      this.previousMouseCoordinates = this.mouseCoordinates;
-    }
+  setMouseCoordinates(mouseCoordinates) {
+    this.mouseCoordinates = mouseCoordinates;
   }
 
-  mouseUpHandler() {
+  updatePreviousMouseCoordinates() {
     this.previousMouseCoordinates = this.mouseCoordinates;
   }
 
-  mouseDownHandler(shiftKeyDown) {
-    if (shiftKeyDown) {
-      this.previousOffset = this.offset;
-
-      this.previousMouseCoordinates = this.mouseCoordinates;
-    }
-  }
-
-  mouseMoveHandler(mouseCoordinates, mouseDown, shiftKeyDown, tilt) {
-    this.mouseCoordinates = mouseCoordinates;
-
-    if (mouseDown && shiftKeyDown) {
-      this.updateOffset(tilt);
-    }
+  updatePreviousOffset() {
+    this.previousOffset = this.offset;
   }
 
   updateOffset(tilt) {

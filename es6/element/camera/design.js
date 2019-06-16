@@ -23,9 +23,11 @@ class DesignCamera extends Camera {
   }
 
   shiftKeyHandler(shiftKeyDown) {
-    this.pan.shiftKeyHandler(shiftKeyDown);
+    if (shiftKeyDown) {
+      this.pan.updatePreviousOffset();
 
-    if (!shiftKeyDown) {
+      this.pan.updatePreviousMouseCoordinates();
+    } else {
       this.tilt.updatePreviousAngles();
 
       this.tilt.updatePreviousMouseCoordinates();
@@ -33,31 +35,37 @@ class DesignCamera extends Camera {
   }
 
   mouseUpHandler(mouseCoordinates, mouseDown, canvas) {
-    this.tilt.updatePreviousAngles();
+    this.pan.updatePreviousMouseCoordinates();
 
-    this.pan.mouseUpHandler();
+    this.tilt.updatePreviousAngles();
   }
 
   mouseDownHandler(mouseCoordinates, mouseDown, canvas) {
     const shiftKeyDown = this.keyEvents.isShiftKeyDown();
 
-    this.tilt.updatePreviousMouseCoordinates();
+    if (shiftKeyDown) {
+      this.pan.updatePreviousOffset();
 
-    this.pan.mouseDownHandler(shiftKeyDown);
+      this.pan.updatePreviousMouseCoordinates();
+    }
+
+    this.tilt.updatePreviousMouseCoordinates();
   }
 
   mouseMoveHandler(mouseCoordinates, mouseDown, canvas) {
     const shiftKeyDown = this.keyEvents.isShiftKeyDown();
 
+    this.pan.setMouseCoordinates(mouseCoordinates);
+
     this.tilt.setMouseCoordinates(mouseCoordinates);
 
-    if (mouseDown && !shiftKeyDown) {
-      this.tilt.updateAngles();
-    }
-
-    this.pan.mouseMoveHandler(mouseCoordinates, mouseDown, shiftKeyDown, this.tilt);
-
     if (mouseDown) {
+      if (shiftKeyDown) {
+        this.pan.updateOffset(this.tilt);
+      } else {
+        this.tilt.updateAngles();
+      }
+
       this.update(canvas);
     }
   }

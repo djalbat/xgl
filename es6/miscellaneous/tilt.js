@@ -53,12 +53,12 @@ class Tilt {
     this.mouseCoordinates = mouseCoordinates;
   }
 
-  updatePreviousAngles() {
-    this.previousAngles = this.angles;
-  }
-
   updatePreviousMouseCoordinates() {
     this.previousMouseCoordinates = this.mouseCoordinates;
+  }
+
+  updatePreviousAngles() {
+    this.previousAngles = this.angles;
   }
 
   updateAngles() {
