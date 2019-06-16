@@ -49,9 +49,11 @@ class Part extends Element {
 
     const childElements = this.getChildElements();
 
+    childElements.forEach((childElement) => childElement.createFacets());
+
     childElements.forEach((childElement) => childElement.applyTransformsAndMasks());
 
-    childElements.forEach((childElement) => childElement.initialise(colourRenderer, textureRenderer));
+    childElements.forEach((childElement) => childElement.addFacets(colourRenderer, textureRenderer));
 
     colourRenderer && colourRenderer.createBuffers(canvas); ///
 

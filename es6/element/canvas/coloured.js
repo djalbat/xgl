@@ -4,33 +4,44 @@ const ColouredFacet = require('../../primitive/facet/coloured'),
       CanvasElement = require('../../element/canvas');
 
 class ColouredCanvasElement extends CanvasElement {
-  initialise(colourRenderer, textureRenderer) {
-    const facets = this.getFacets();
+  constructor(transform, facets, mask, hidden, coordinates, indexes, colour) {
+    super(transform, facets, mask, hidden);
 
-    colourRenderer.addFacets(facets);
+    this.coordinates = coordinates;
 
-    super.initialise(colourRenderer, textureRenderer);
+    this.indexes = indexes;
+
+    this.colour = colour;
   }
 
-  static fromProperties(Class, properties, coordinates, indexes, colour, ...remainingArguments) {
-    const colouredCanvasElement = CanvasElement.fromProperties(Class, properties, ...remainingArguments),
-          { hidden } = properties;
+  createFacets() {
+    const hidden = this.isHidden();
 
     if (!hidden) {
-      const indexTuples = indexes,  ///
+      const indexTuples = this.indexes,  ///
             facets = indexTuples.map((indexTuple) => {
-              const coordinateTuples = coordinates, ///
-                    colouredFacet = ColouredFacet.fromCoordinateTuplesIndexTupleAndColour(coordinateTuples, indexTuple, colour),
+              const coordinateTuples = this.coordinates, ///
+                    colouredFacet = ColouredFacet.fromCoordinateTuplesIndexTupleAndColour(coordinateTuples, indexTuple, this.colour),
                     facet = colouredFacet;  ///
 
               return facet;
             });
 
-      colouredCanvasElement.setFacets(facets);
+      this.setFacets(facets);
     }
 
-    return colouredCanvasElement;
+    super.createFacets();
   }
+
+  addFacets(colourRenderer, textureRenderer) {
+    const facets = this.getFacets();
+
+    colourRenderer.addFacets(facets);
+
+    super.addFacets(colourRenderer, textureRenderer);
+  }
+
+  static fromProperties(Class, properties, coordinates, indexes, colour, ...remainingArguments) { return CanvasElement.fromProperties(Class, properties, coordinates, indexes, colour, ...remainingArguments); }
 }
 
 module.exports = ColouredCanvasElement;

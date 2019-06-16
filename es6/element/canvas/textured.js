@@ -4,34 +4,47 @@ const TexturedFacet = require('../../primitive/facet/textured'),
       CanvasElement = require('../../element/canvas');
 
 class TexturedCanvasElement extends CanvasElement {
-  initialise(colourRenderer, textureRenderer) {
-    const facets = this.getFacets();
+  constructor(transform, facets, mask, hidden, coordinates, indexes, imageName, textureCoordinates) {
+    super(transform, facets, mask, hidden);
 
-    textureRenderer.addFacets(facets);
+    this.coordinates = coordinates;
 
-    super.initialise(colourRenderer, textureRenderer);
+    this.indexes = indexes;
+
+    this.imageName = imageName;
+
+    this.textureCoordinates = textureCoordinates;
   }
 
-  static fromProperties(Class, properties, coordinates, indexes, imageName, textureCoordinates, ...remainingArguments) {
-    const texturedCanvasElement = CanvasElement.fromProperties(Class, properties, ...remainingArguments),
-          { hidden } = properties;
+  createFacets() {
+    const hidden = this.isHidden();
 
     if (!hidden) {
-      const indexTuples = indexes,  ///
+      const indexTuples = this.indexes,  ///
             facets = indexTuples.map((indexTuple, index) => {
-              const vertexTextureCoordinateTuples = textureCoordinates[index], ///
-                    coordinateTuples = coordinates, ///
-                    texturedFacet = TexturedFacet.fromTextureCoordinateTuplesCoordinatesTuplesIndexTupleAndImageName(vertexTextureCoordinateTuples, coordinateTuples, indexTuple, imageName),
+              const vertexTextureCoordinateTuples = this.textureCoordinates[index], ///
+                    coordinateTuples = this.coordinates, ///
+                    texturedFacet = TexturedFacet.fromTextureCoordinateTuplesCoordinatesTuplesIndexTupleAndImageName(vertexTextureCoordinateTuples, coordinateTuples, indexTuple, this.imageName),
                     facet = texturedFacet;  ///
 
               return facet;
             });
 
-      texturedCanvasElement.setFacets(facets);
+      this.setFacets(facets);
     }
 
-    return texturedCanvasElement;
+    super.createFacets();
   }
+
+  addFacets(colourRenderer, textureRenderer) {
+    const facets = this.getFacets();
+
+    textureRenderer.addFacets(facets);
+
+    super.addFacets(colourRenderer, textureRenderer);
+  }
+
+  static fromProperties(Class, properties, coordinates, indexes, imageName, textureCoordinates, ...remainingArguments) { return CanvasElement.fromProperties(Class, properties, coordinates, indexes, imageName, textureCoordinates, ...remainingArguments); }
 }
 
 module.exports = TexturedCanvasElement;

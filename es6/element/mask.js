@@ -31,6 +31,8 @@ class Mask extends Element {
   initialise() {
     const childElements = this.getChildElements();
 
+    childElements.forEach((childElement) => childElement.createFacets());
+
     childElements.forEach((childElement) => childElement.applyTransformsAndMasks());
   }
 
