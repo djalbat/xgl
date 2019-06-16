@@ -27,10 +27,6 @@ class Part extends Element {
   }
 
   initialise(canvas) {
-    if (this.hidden) {
-      return;
-    }
-
     let textureRenderer = null;
 
     const colourRenderer = ColourRenderer.fromNothing(canvas);
@@ -49,7 +45,7 @@ class Part extends Element {
 
     const childElements = this.getChildElements();
 
-    childElements.forEach((childElement) => childElement.createFacets());
+    childElements.forEach((childElement) => childElement.createFacets(this.hidden));
 
     childElements.forEach((childElement) => childElement.applyTransformsAndMasks());
 

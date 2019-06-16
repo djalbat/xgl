@@ -14,8 +14,8 @@ class ColouredCanvasElement extends CanvasElement {
     this.colour = colour;
   }
 
-  createFacets() {
-    const hidden = this.isHidden();
+  createFacets(hidden) {
+    hidden = super.createFacets(hidden);  ///
 
     if (!hidden) {
       const indexTuples = this.indexes,  ///
@@ -29,8 +29,6 @@ class ColouredCanvasElement extends CanvasElement {
 
       this.setFacets(facets);
     }
-
-    super.createFacets();
   }
 
   addFacets(colourRenderer, textureRenderer) {

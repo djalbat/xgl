@@ -9,7 +9,7 @@ const { Canvas, Scene, Mask, Part, Camera } = xgl;
 const canvas = new Canvas();
 
 const maskingExample = () => {
-  const SmallCube =
+  const SmallCube = (properties) =>
 
           <Cube scale={[ 1/4, 1/4, 1/4 ]} />
 
@@ -21,7 +21,7 @@ const maskingExample = () => {
           </Mask>
 
         ,
-        MediumCube =
+        MediumCube = (properties) =>
 
           <Cube scale={[ 1/2, 1/2, 1/2 ]} mask={smallCubeMask} />
 
@@ -33,7 +33,7 @@ const maskingExample = () => {
           </Mask>
 
         ,
-        LargeCube =
+        LargeCube = (properties) =>
 
           <Cube mask={mediumCubeMask} />
 

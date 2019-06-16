@@ -28,10 +28,6 @@ class CanvasElement extends Element {
     return this.mask;
   }
 
-  isHidden() {
-    return this.hidden;
-  }
-
   setFacets(facets) {
     this.facets = facets;
   }
@@ -45,9 +41,9 @@ class CanvasElement extends Element {
   }
 
   applyTransform(transform) {
-    this.facets.forEach((facet) => facet.applyTransform(transform));
-
     const childElements = this.getChildElements();
+
+    this.facets.forEach((facet) => facet.applyTransform(transform));
 
     childElements.forEach((childElement) => childElement.applyTransform(transform));
   }
@@ -62,10 +58,14 @@ class CanvasElement extends Element {
     this.applyMask(this.mask);
   }
 
-  createFacets() {
+  createFacets(hidden) {
     const childElements = this.getChildElements();
 
-    childElements.forEach((childElement) => childElement.createFacets());
+    hidden = hidden || this.hidden; ///
+
+    childElements.forEach((childElement) => childElement.createFacets(hidden));
+
+    return hidden;
   }
 
   addFacets(colourRenderer, textureRenderer) {

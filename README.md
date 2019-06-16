@@ -427,17 +427,34 @@ It is reasonable to ask, if loading images directly allows them to be tiled and 
 
 ## Useful features
 
-You can hide parts by adding a `hidden` attribute. This saves commenting out or removing elements during development. For example:
-
+You can hide any elements bar `Scene` elements , including masks and parts, by adding a `hidden` attribute. This saves commenting out or removing elements during development. For example:
 ```js
 <Scene canvas={canvas} ... >
-  <Part imageMap={imageMap} imageMapJSON={imageMapJSON} hidden >
-    <Pyramid />
+  <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
+    <Pyramid hidden />
   </Part>
   <Camera />
 </Scene>
 ```
-This will hide the pyramid altogether. In general, you cannot  
+
+You can pass callbacks to `Scene` elements to keep an eye on rendering progress by adding `update` and `done` attributes. For example:
+```js
+<Scene canvas={canvas} ... update={update} done={done} >
+  <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
+    <Pyramid />
+  </Part>
+  <Camera />
+</Scene>
+
+function update(progress) {
+  ...
+}
+
+function done() {
+  ...
+}
+```
+The `done()` callback will be called immediately after the scene is fully rendered and has appeared on the canvas. The `update` callback will be called as each child element of a scene is initialised, in other words all of its facets have been added to the rendering buffers. The `progress` argument returns a number between zero and one which is the fraction of the number of child elements initialised over the total number. Cameras are trivially included and take virtually no time to initialise.
 
 ## Compiling from source
 

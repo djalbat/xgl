@@ -7,6 +7,12 @@ const Element = require('../element'),
 const { push } = arrayUtilities;
 
 class Mask extends Element {
+  constructor(hidden) {
+    super();
+
+    this.hidden = hidden;
+  }
+
   retrieveMaskingFacets() {
     const childElements = this.getChildElements(),
           facets = retrieveFacets(childElements),
@@ -31,13 +37,14 @@ class Mask extends Element {
   initialise() {
     const childElements = this.getChildElements();
 
-    childElements.forEach((childElement) => childElement.createFacets());
+    childElements.forEach((childElement) => childElement.createFacets(this.hidden));
 
     childElements.forEach((childElement) => childElement.applyTransformsAndMasks());
   }
 
   static fromProperties(properties) {
-    const mask = Element.fromProperties(Mask, properties);
+    const { hidden = false } = properties,
+          mask = Element.fromProperties(Mask, properties, hidden);
 
     mask.initialise();
 
