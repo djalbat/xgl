@@ -437,7 +437,7 @@ You can hide any elements bar `Scene` elements , including masks and parts, by a
 </Scene>
 ```
 
-You can pass callbacks to `Scene` elements to keep an eye on rendering progress by adding `update` and `done` attributes. For example:
+You can pass callbacks to `Scene` elements to keep an eye on rendering progress by way of `update` and `done` attributes. For example:
 ```js
 <Scene canvas={canvas} ... update={update} done={done} >
   <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
@@ -454,7 +454,7 @@ function done() {
   ...
 }
 ```
-The `done()` callback will be called immediately after the scene is fully rendered and has appeared on the canvas. The `update` callback will be called as each child element of a scene is initialised, in other words all of its facets have been added to the rendering buffers. The `progress` argument returns a number between zero and one which is the fraction of the number of child elements initialised over the total number. Cameras are trivially included and take virtually no time to initialise.
+The `update` callback will be called as each child element of a scene is initialised, in other words all of its facets have been added to the rendering buffers. The `progress` argument returns a number between zero and one which is the fraction of the number of child elements initialised over the total number. Cameras are trivially included and take virtually no time to initialise. The `done()` callback will be called immediately after the scene is fully rendered and has appeared on the canvas. 
 
 ## Compiling from source
 
