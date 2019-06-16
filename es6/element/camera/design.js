@@ -33,7 +33,7 @@ class DesignCamera extends Camera {
   }
 
   mouseUpHandler(mouseCoordinates, mouseDown, canvas) {
-    this.tilt.mouseUpHandler();
+    this.tilt.updatePreviousAngles();
 
     this.pan.mouseUpHandler();
   }
@@ -41,7 +41,7 @@ class DesignCamera extends Camera {
   mouseDownHandler(mouseCoordinates, mouseDown, canvas) {
     const shiftKeyDown = this.keyEvents.isShiftKeyDown();
 
-    this.tilt.mouseDownHandler();
+    this.tilt.updatePreviousMouseCoordinates();
 
     this.pan.mouseDownHandler(shiftKeyDown);
   }
@@ -49,7 +49,11 @@ class DesignCamera extends Camera {
   mouseMoveHandler(mouseCoordinates, mouseDown, canvas) {
     const shiftKeyDown = this.keyEvents.isShiftKeyDown();
 
-    this.tilt.mouseMoveHandler(mouseCoordinates, mouseDown, shiftKeyDown);
+    this.tilt.setMouseCoordinates(mouseCoordinates);
+
+    if (mouseDown && !shiftKeyDown) {
+      this.tilt.updateAngles();
+    }
 
     this.pan.mouseMoveHandler(mouseCoordinates, mouseDown, shiftKeyDown, this.tilt);
 

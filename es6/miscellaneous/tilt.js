@@ -49,20 +49,8 @@ class Tilt {
     return angles;
   }
   
-  mouseUpHandler() {
-    this.previousAngles = this.angles;
-  }
-
-  mouseDownHandler() {
-    this.previousMouseCoordinates = this.mouseCoordinates;
-  }
-
-  mouseMoveHandler(mouseCoordinates, mouseDown, shiftKeyDown) {
+  setMouseCoordinates(mouseCoordinates) {
     this.mouseCoordinates = mouseCoordinates;
-
-    if (mouseDown && !shiftKeyDown) {
-      this.updateAngles();
-    }
   }
 
   updatePreviousAngles() {
@@ -74,7 +62,7 @@ class Tilt {
   }
 
   updateAngles() {
-    const scalar = ANGLES_SCALAR,
+    const scalar = ANGLES_SCALAR, ///
           relativeMouseCoordinates = subtract2(this.mouseCoordinates, this.previousMouseCoordinates),
           relativeAngles = scale2(relativeMouseCoordinates, scalar);
 
