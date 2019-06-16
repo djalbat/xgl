@@ -439,7 +439,7 @@ You can hide any elements bar `Scene` elements , including masks and parts, by a
 
 You can pass callbacks to `Scene` elements to keep an eye on rendering progress by way of `update` and `done` attributes. For example:
 ```js
-<Scene canvas={canvas} update={update} done={done} >
+<Scene canvas={canvas} update={update} done={done}>
   <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
     <Pyramid />
   </Part>
