@@ -26,7 +26,7 @@ const tilingExample = () => {
   preloadImages(imageNames, imageDirectoryURI, (images) => {
     return (
 
-      <Scene canvas={canvas} update={update} done={done} >
+      <Scene canvas={canvas}>
         <Part images={images} imageNames={imageNames} imageTiling >
           <TexturedQuadrangle position={[ 0, 0, 0 ]} imageName={'floorboards.jpg'} mask={mask} />
           <TexturedQuadrangle position={[ -0.5, -0.5, -0.5 ]} imageName={'paving.jpg'} mask={mask} />
@@ -67,12 +67,4 @@ function preloadImages(imageNames, imageDirectoryURI, callback) {
 
     callback(images);
   }
-}
-
-function update(progress) {
-  console.log(progress);
-}
-
-function done() {
-  console.log('Done.');
 }
