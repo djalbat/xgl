@@ -5,7 +5,7 @@ const xgl = require('../../index'); ///
 const Pyramid = require('./element/pyramid'),
       configuration = require('../miscellaneous/configuration');
 
-const { Canvas, Scene, Part, Camera } = xgl;
+const { Canvas, Scene, Part, DesignCamera } = xgl;
 
 const canvas = new Canvas();
 
@@ -19,7 +19,7 @@ const pyramidExample = () => {
         <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
           <Pyramid />
         </Part>
-        <Camera />
+        <DesignCamera />
       </Scene>
 
     );

@@ -4,7 +4,7 @@ const xgl = require('../../index'); ///
 
 const ColouredSquare = require('./element/colouredSquare');
 
-const { Canvas, Scene, Part, Camera } = xgl;
+const { Canvas, Scene, Part, DesignCamera } = xgl;
 
 const canvas = new Canvas();
 
@@ -14,7 +14,7 @@ const simpleExample = () =>
     <Part>
       <ColouredSquare colour={[ 0, 0, 1 ]} />
     </Part>
-    <Camera />
+    <DesignCamera />
   </Scene>
 
 ;

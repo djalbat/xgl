@@ -57,7 +57,7 @@ class Scene extends Element {
       childElement.initialise(canvas);
 
       defer(() => {
-        update && update(progress);
+        update && update(progress); ///
 
         next();
       });
