@@ -51,7 +51,7 @@ class Part extends Element {
 
     childElements.forEach((childElement) => childElement.applyTransformsAndMasks());
 
-    childElements.forEach((childElement) => childElement.render(colourRenderer, textureRenderer));
+    childElements.forEach((childElement) => childElement.initialise(colourRenderer, textureRenderer));
 
     colourRenderer && colourRenderer.createBuffers(canvas); ///
 

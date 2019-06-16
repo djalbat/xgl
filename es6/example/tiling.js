@@ -74,5 +74,5 @@ function update(progress) {
 }
 
 function done() {
-  console.log('Done!');
+  console.log('Done.');
 }

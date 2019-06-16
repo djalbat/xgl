@@ -17,7 +17,7 @@ const pyramidExample = () => {
 
       <Scene canvas={canvas} update={update} done={done}>
         <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
-          <Pyramid />
+          <Pyramid hidden />
         </Part>
         <Camera />
       </Scene>
@@ -48,5 +48,5 @@ function update(progress) {
 }
 
 function done() {
-  console.log('Done!');
+  console.log('Done.');
 }

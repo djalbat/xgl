@@ -56,10 +56,10 @@ class CanvasElement extends Element {
     this.applyMask(this.mask);
   }
 
-  render(colourRenderer, textureRenderer) {
+  initialise(colourRenderer, textureRenderer) {
     const childElements = this.getChildElements();
 
-    childElements.forEach((childElement) => childElement.render(colourRenderer, textureRenderer));
+    childElements.forEach((childElement) => childElement.initialise(colourRenderer, textureRenderer));
   }
 
   static fromProperties(Class, properties, ...remainingArguments) {
