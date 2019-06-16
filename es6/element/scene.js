@@ -1,6 +1,11 @@
 'use strict';
 
+const necessary = require('necessary');
+
 const Element = require('../element');
+
+const { asynchronousUtilities } = necessary,
+      { forEach } = asynchronousUtilities;
 
 class Scene extends Element {
   constructor(canvas) {
@@ -37,8 +42,7 @@ class Scene extends Element {
   initialise(canvas, update, done) {
     const childElements = this.getChildElements(),
           resizeHandler = this.resizeHandler.bind(this),
-          updateHandler = this.updateHandler.bind(this),
-          childElementsLength = childElements.length;
+          updateHandler = this.updateHandler.bind(this);
 
     this.assignContext();
 
@@ -46,17 +50,22 @@ class Scene extends Element {
 
     this.onUpdate(updateHandler);
 
-    childElements.forEach((childElement, index) => {
-      const progress = ( index + 1 ) / childElementsLength;
+    forEach(childElements, (childElement, next, done, context, index) => {
+      const childElementsLength = childElements.length,
+            progress = ( index + 1 ) / childElementsLength;
 
       childElement.initialise(canvas);
 
-      update && update(progress);
+      defer(() => {
+        update && update(progress);
+
+        next();
+      });
+    }, () => {
+      this.resizeHandler(); ///
+
+      done && done(); ///
     });
-
-    this.resizeHandler(); ///
-
-    done && done(); ///
   }
 
   static fromProperties(properties) {
@@ -70,3 +79,7 @@ class Scene extends Element {
 }
 
 module.exports = Scene;
+
+function defer(callback) {
+  setTimeout(callback, 0);
+}
