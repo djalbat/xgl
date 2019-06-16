@@ -15,7 +15,7 @@ const pyramidExample = () => {
 
     return (
 
-      <Scene canvas={canvas} done={done}>
+      <Scene canvas={canvas} update={update} done={done}>
         <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
           <Pyramid />
         </Part>
@@ -41,6 +41,10 @@ function preloadImageMap(callback) {
   function onload(event) {
     callback(imageMap);
   }
+}
+
+function update(progress) {
+  console.log(progress);
 }
 
 function done() {

@@ -226,7 +226,7 @@ const pyramidExample = () => {
 
     return (
 
-      <Scene canvas={canvas} done={done}>
+      <Scene canvas={canvas} ...>
         <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
           <Pyramid />
         </Part>
@@ -253,13 +253,7 @@ function preloadImageMap(callback) {
     callback(imageMap);
   }
 }
-
-function done() {
-  console.log('Done!');
-}
 ```
-A `done` attribute has also been added to the `Scene` element, the value of which should be a function that will get called when the scene has been rendered.
-
 The `Pyramid` element is a compound element consisting of four sides, three of which are rotated around the y-axis as you would expect:
 
 ```js
@@ -387,7 +381,7 @@ const tilingExample = () => {
   preloadImages(imageNames, imageDirectoryURI, (images) => {
     return (
 
-      <Scene canvas={canvas} done={done}>
+      <Scene canvas={canvas} ...>
         <Part images={images} imageNames={imageNames} imageTiling >
           <TexturedQuadrangle position={[ 0, 0, 0 ]} imageName={'floorboards.jpg'} mask={mask} />
           <TexturedQuadrangle position={[ -0.5, -0.5, -0.5 ]} imageName={'paving.jpg'} mask={mask} />

@@ -34,10 +34,11 @@ class Scene extends Element {
     this.childElements.forEach((childElement) => childElement.render(this.canvas, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix));
   }
 
-  initialise(done) {
+  initialise(canvas, update, done) {
     const childElements = this.getChildElements(),
           resizeHandler = this.resizeHandler.bind(this),
-          updateHandler = this.updateHandler.bind(this);
+          updateHandler = this.updateHandler.bind(this),
+          childElementsLength = childElements.length;
 
     this.assignContext();
 
@@ -45,7 +46,13 @@ class Scene extends Element {
 
     this.onUpdate(updateHandler);
 
-    childElements.forEach((childElement) => childElement.initialise(this.canvas));
+    childElements.forEach((childElement, index) => {
+      const progress = index / childElementsLength;
+
+      childElement.initialise(canvas);
+
+      update && update(progress);
+    });
 
     this.resizeHandler(); ///
 
@@ -53,10 +60,10 @@ class Scene extends Element {
   }
 
   static fromProperties(properties) {
-    const { canvas, done } = properties,
+    const { canvas, update, done } = properties,
           scene = Element.fromProperties(Scene, properties, canvas);
 
-    scene.initialise(done);
+    scene.initialise(canvas, update, done);
 
     return scene;
   }
