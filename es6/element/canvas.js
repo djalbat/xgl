@@ -6,12 +6,14 @@ const Element = require('../element'),
 const { composeTransform } = transformUtilities;
 
 class CanvasElement extends Element {
-  constructor(transform, facets, mask) {
+  constructor(transform, facets, mask, hidden) {
     super();
 
     this.transform = transform;
     this.facets = facets;
     this.mask = mask;
+
+    this.hidden = hidden;
   }
 
   getTransform() {
@@ -24,6 +26,10 @@ class CanvasElement extends Element {
 
   getMask() {
     return this.mask;
+  }
+
+  isHidden() {
+    return this.hidden;
   }
 
   setFacets(facets) {
@@ -63,10 +69,10 @@ class CanvasElement extends Element {
   }
 
   static fromProperties(Class, properties, ...remainingArguments) {
-    const { scale, position, rotations, mask = null } = properties,
+    const { scale, position, rotations, mask = null, hidden = false } = properties,
           transform = composeTransform(scale, position, rotations),
           facets = [],
-          canvasElement = Element.fromProperties(Class, properties, transform, facets, mask, ...remainingArguments);
+          canvasElement = Element.fromProperties(Class, properties, transform, facets, mask, hidden, ...remainingArguments);
 
     return canvasElement;
   }
