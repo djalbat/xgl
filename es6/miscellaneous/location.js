@@ -1,12 +1,12 @@
 'use strict';
 
 const constants = require('../constants'),
-    vectorMaths = require('../maths/vector'),
-    arrayUtilities = require('../utilities/array');
+      vectorMaths = require('../maths/vector'),
+      offsetUtilities = require('../utilities/offset');
 
-const { first, second } = arrayUtilities,
-      { add3, subtract2, scale2 } = vectorMaths,
-      { OFFSET_SCALAR, INITIAL_MOUSE_COORDINATES } = constants;
+const { add3, subtract2, scale2 } = vectorMaths,
+      { DELTA_SCALAR, OFFSET_SCALAR, INITIAL_MOUSE_COORDINATES } = constants,
+      { calculateXAngleOffset, calculateYAngleOffset, calculateZAngleOffset } = offsetUtilities;
 
 class Location {
   constructor(offset, previousOffset, mouseCoordinates, previousMouseCoordinates) {
@@ -32,7 +32,7 @@ class Location {
     this.previousOffset = this.offset;
   }
 
-  updateOffset(tilt) {
+  updateXYOffset(tilt) {
     const xAngle = tilt.getXAngle(),
           yAngle = tilt.getYAngle(),
           scalar = OFFSET_SCALAR, ///
@@ -41,7 +41,18 @@ class Location {
           yAngleOffset = calculateYAngleOffset(yAngle, relativeOffset),
           xAngleOffset = calculateXAngleOffset(xAngle, yAngle, relativeOffset);
 
-    this.offset = add3(add3(this.previousOffset, yAngleOffset), xAngleOffset);  ///
+    this.offset = add3(add3(this.previousOffset, yAngleOffset), xAngleOffset);
+  }
+
+  updateZOffset(tilt, delta) {
+    const xAngle = tilt.getXAngle(),
+          yAngle = tilt.getYAngle(),
+          thirdRelativeOffset = delta * DELTA_SCALAR,
+          zAngleOffset = calculateZAngleOffset(xAngle, yAngle, thirdRelativeOffset);
+
+    this.previousOffset = add3(this.previousOffset, zAngleOffset);
+
+    this.updateXYOffset(tilt);
   }
 
   static fromInitialOffset(initialOffset) {
@@ -57,26 +68,3 @@ class Location {
 
 module.exports = Location;
 
-function calculateYAngleOffset(yAngle, relativeOffset) {
-  const relativeOffsetComponents = relativeOffset,  ///
-      firstRelativeOffsetComponent = first(relativeOffsetComponents),
-      yAngleOffset = [
-        -Math.cos(yAngle) * firstRelativeOffsetComponent,
-        +0,
-        -Math.sin(yAngle) * firstRelativeOffsetComponent
-      ];
-
-  return yAngleOffset;
-}
-
-function calculateXAngleOffset(xAngle, yAngle, relativeOffset) {
-  const relativeOffsetComponents = relativeOffset,  ///
-      secondRelativeOffsetComponent = second(relativeOffsetComponents),
-      xAngleOffset = [
-        -Math.sin(xAngle) * Math.sin(yAngle) * secondRelativeOffsetComponent,
-        -Math.cos(xAngle) * secondRelativeOffsetComponent,
-        +Math.sin(xAngle) * Math.cos(yAngle) * secondRelativeOffsetComponent
-      ];
-
-  return xAngleOffset;
-}

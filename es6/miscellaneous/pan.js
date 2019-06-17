@@ -2,11 +2,11 @@
 
 const constants = require('../constants'),
       vectorMaths = require('../maths/vector'),
-      arrayUtilities = require('../utilities/array');
+      offsetUtilities = require('../utilities/offset');
 
-const { first, second } = arrayUtilities,
-      { add3, subtract2, scale2 } = vectorMaths,
-      { OFFSET_SCALAR, INITIAL_MOUSE_COORDINATES } = constants;
+const { add3, subtract2, scale2 } = vectorMaths,
+      { OFFSET_SCALAR, INITIAL_MOUSE_COORDINATES } = constants,
+      { calculateXAngleOffset, calculateYAngleOffset } = offsetUtilities;
 
 class Pan {
   constructor(offset, previousOffset, mouseCoordinates, previousMouseCoordinates) {
@@ -37,9 +37,9 @@ class Pan {
           yAngle = tilt.getYAngle(),
           scalar = OFFSET_SCALAR, ///
           relativeMouseCoordinates = subtract2(this.mouseCoordinates, this.previousMouseCoordinates),
-          relativeOffset = scale2(relativeMouseCoordinates, scalar),
-          yAngleOffset = calculateYAngleOffset(yAngle, relativeOffset),
-          xAngleOffset = calculateXAngleOffset(xAngle, yAngle, relativeOffset);
+          relativeOffsets = scale2(relativeMouseCoordinates, scalar),
+          yAngleOffset = calculateYAngleOffset(yAngle, relativeOffsets),
+          xAngleOffset = calculateXAngleOffset(xAngle, yAngle, relativeOffsets);
 
     this.offset = add3(add3(this.previousOffset, yAngleOffset), xAngleOffset);  ///
   }
@@ -56,27 +56,3 @@ class Pan {
 }
 
 module.exports = Pan;
-
-function calculateYAngleOffset(yAngle, relativeOffset) {
-  const relativeOffsetComponents = relativeOffset,  ///
-        firstRelativeOffsetComponent = first(relativeOffsetComponents),
-        yAngleOffset = [
-          -Math.cos(yAngle) * firstRelativeOffsetComponent,
-          +0,
-          -Math.sin(yAngle) * firstRelativeOffsetComponent
-        ];
-
-  return yAngleOffset;
-}
-
-function calculateXAngleOffset(xAngle, yAngle, relativeOffset) {
-  const relativeOffsetComponents = relativeOffset,  ///
-        secondRelativeOffsetComponent = second(relativeOffsetComponents),
-        xAngleOffset = [
-          -Math.sin(xAngle) * Math.sin(yAngle) * secondRelativeOffsetComponent,
-          -Math.cos(xAngle) * secondRelativeOffsetComponent,
-          +Math.sin(xAngle) * Math.cos(yAngle) * secondRelativeOffsetComponent
-        ];
-
-  return xAngleOffset;
-}

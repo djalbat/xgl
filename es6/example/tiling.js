@@ -7,7 +7,7 @@ const configuration = require('../miscellaneous/configuration'),
       ColouredSquare = require('./element/colouredSquare'),
       TexturedQuadrangle = require('./element/texturedQuadrangle');
 
-const { Canvas, Scene, Part, Mask, DesignCamera } = xgl,
+const { Canvas, Scene, Part, Mask, GamingCamera } = xgl,
       { asynchronousUtilities } = necessary,
       { forEach } = asynchronousUtilities;
 
@@ -31,7 +31,7 @@ const tilingExample = () => {
           <TexturedQuadrangle position={[ 0, 0, 0 ]} imageName={'floorboards.jpg'} mask={mask} />
           <TexturedQuadrangle position={[ -0.5, -0.5, -0.5 ]} imageName={'paving.jpg'} mask={mask} />
         </Part>
-        <DesignCamera initialDistance={25} />
+        <GamingCamera initialDistance={25} />
       </Scene>
 
     );
