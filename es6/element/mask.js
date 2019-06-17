@@ -39,7 +39,7 @@ class Mask extends Element {
 
     childElements.forEach((childElement) => childElement.createFacets(this.hidden));
 
-    childElements.forEach((childElement) => childElement.applyTransformsAndMasks());
+    childElements.forEach((childElement) => childElement.amendFacets());
   }
 
   static fromProperties(properties) {

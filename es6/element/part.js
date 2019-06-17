@@ -6,10 +6,8 @@ const Element = require('../element'),
       ImageMapTextureRenderer = require('../renderer/texture/imageMap');
 
 class Part extends Element {
-  constructor(hidden, images, imageMap, imageNames, imageTiling, imageMapJSON, colourRenderer, textureRenderer) {
+  constructor(images, imageMap, imageNames, imageTiling, imageMapJSON, colourRenderer, textureRenderer, hidden) {
     super();
-
-    this.hidden = hidden;
 
     this.images = images;
     this.imageMap = imageMap;
@@ -18,6 +16,8 @@ class Part extends Element {
     this.imageMapJSON = imageMapJSON;
     this.colourRenderer = colourRenderer;
     this.textureRenderer = textureRenderer;
+
+    this.hidden = hidden;
   }
   
   render(canvas, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix) {
@@ -47,7 +47,7 @@ class Part extends Element {
 
     childElements.forEach((childElement) => childElement.createFacets(this.hidden));
 
-    childElements.forEach((childElement) => childElement.applyTransformsAndMasks());
+    childElements.forEach((childElement) => childElement.amendFacets());
 
     childElements.forEach((childElement) => childElement.addFacets(colourRenderer, textureRenderer));
 
@@ -61,10 +61,10 @@ class Part extends Element {
   }
 
   static fromProperties(properties) {
-    const { hidden = false, images = null, imageMap = null, imageNames = null, imageTiling = false, imageMapJSON = null} = properties,
+    const { images = null, imageMap = null, imageNames = null, imageTiling = false, imageMapJSON = null, hidden = false } = properties,
           colourRenderer = null,  ///
           textureRenderer = null, ///
-          part = Element.fromProperties(Part, properties, hidden, images, imageMap, imageNames, imageTiling, imageMapJSON, colourRenderer, textureRenderer);
+          part = Element.fromProperties(Part, properties, images, imageMap, imageNames, imageTiling, imageMapJSON, colourRenderer, textureRenderer, hidden);
 
     return part;
   }

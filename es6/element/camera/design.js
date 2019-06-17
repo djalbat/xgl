@@ -6,7 +6,7 @@ const Pan = require('../../miscellaneous/pan'),
       Camera = require('../camera'),
       cameraUtilities = require('../../utilities/camera');
 
-const { calculateOffsetMatrix, calculateRotationMatrix, calculatePositionMatrix, calculateProjectionMatrix, calculateNormalMatrix } = cameraUtilities;
+const { offsetMatrixFromOffset, rotationMatrixFromAngles, positionMatrixFromDistance, projectionMatrixFromWidthAndHeight, normalMatrixFromRotationMatrix } = cameraUtilities;
 
 const defaultInitialDistance = 5,
       defaultInitialOffset = [ 0, 0, 0 ];
@@ -82,11 +82,11 @@ class DesignCamera extends Camera {
           offset = this.pan.getOffset(),
           angles = this.tilt.getAngles(),
           distance = this.zoom.getDistance(),
-          offsetMatrix = calculateOffsetMatrix(offset),
-          rotationMatrix = calculateRotationMatrix(angles),
-          positionMatrix = calculatePositionMatrix(distance),
-          projectionMatrix = calculateProjectionMatrix(width, height),
-          normalMatrix = calculateNormalMatrix(rotationMatrix),
+          offsetMatrix = offsetMatrixFromOffset(offset),
+          rotationMatrix = rotationMatrixFromAngles(angles),
+          positionMatrix = positionMatrixFromDistance(distance),
+          projectionMatrix = projectionMatrixFromWidthAndHeight(width, height),
+          normalMatrix = normalMatrixFromRotationMatrix(rotationMatrix),
           updateHandler = this.getUpdateHandler();
 
     updateHandler(offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);

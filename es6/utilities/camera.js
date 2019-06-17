@@ -8,23 +8,23 @@ const { first, second, third } = arrayUtilities,
       { FIELD_OF_VIEW, Z_NEAR, Z_FAR } = constants,
       { identity4, invert4, rotate4, translate4, transpose4, perspective4 } = matrixMaths;
 
-function calculateOffsetMatrix(offset) {
-  let offsetMatrix = identity4();
+function offsetMatrixFromOffset(offset) {
+  let offsetMatrix = identity4(); ///
 
   offsetMatrix = translate4(offsetMatrix, offset);
 
   return offsetMatrix;
 }
 
-function calculateRotationMatrix(angles) {
+function rotationMatrixFromAngles(angles) {
+  let rotationMatrix = identity4(); ///
+
   const firstAngle = first(angles),
         secondAngle = second(angles),
         thirdAngle = third(angles),
         xAngle = firstAngle,
         yAngle = secondAngle,
         zAngle = thirdAngle;
-
-  let rotationMatrix = identity4();
 
   rotationMatrix = rotate4(rotationMatrix, xAngle, [1, 0, 0]);
   rotationMatrix = rotate4(rotationMatrix, yAngle, [0, 1, 0]);
@@ -33,19 +33,27 @@ function calculateRotationMatrix(angles) {
   return rotationMatrix;
 }
 
-function calculatePositionMatrix(distance) {
+function positionMatrixFromDistance(distance) {
+  let positionMatrix = identity4(); ///
+
   const x = 0,
         y = 0,
         z = -distance;
-
-  let positionMatrix = identity4();
 
   positionMatrix = translate4(positionMatrix, [ x, y, z ]);
 
   return positionMatrix;
 }
 
-function calculateProjectionMatrix(width, height) {
+function positionMatrixFromPosition(position) {
+  let positionMatrix = identity4(); ///
+
+  positionMatrix = translate4(positionMatrix, position);
+
+  return positionMatrix;
+}
+
+function projectionMatrixFromWidthAndHeight(width, height) {
   const fieldOfView = FIELD_OF_VIEW,
         aspectRatio = width / height,
         zNear = Z_NEAR,
@@ -55,7 +63,7 @@ function calculateProjectionMatrix(width, height) {
   return projectionMatrix;
 }
 
-function calculateNormalMatrix(rotationMatrix) {
+function normalMatrixFromRotationMatrix(rotationMatrix) {
   let normalMatrix = invert4(rotationMatrix);
 
   normalMatrix = transpose4(normalMatrix);
@@ -64,9 +72,10 @@ function calculateNormalMatrix(rotationMatrix) {
 }
 
 module.exports = {
-  calculateOffsetMatrix,
-  calculateRotationMatrix,
-  calculatePositionMatrix,
-  calculateProjectionMatrix,
-  calculateNormalMatrix
+  offsetMatrixFromOffset,
+  rotationMatrixFromAngles,
+  positionMatrixFromDistance,
+  positionMatrixFromPosition,
+  projectionMatrixFromWidthAndHeight,
+  normalMatrixFromRotationMatrix
 };

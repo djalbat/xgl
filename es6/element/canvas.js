@@ -48,16 +48,6 @@ class CanvasElement extends Element {
     childElements.forEach((childElement) => childElement.applyTransform(transform));
   }
 
-  applyTransformsAndMasks() {
-    const childElements = this.getChildElements();
-
-    childElements.forEach((childElement) => childElement.applyTransformsAndMasks());
-
-    this.applyTransform(this.transform);
-
-    this.applyMask(this.mask);
-  }
-
   createFacets(hidden) {
     const childElements = this.getChildElements();
 
@@ -66,6 +56,16 @@ class CanvasElement extends Element {
     childElements.forEach((childElement) => childElement.createFacets(hidden));
 
     return hidden;
+  }
+
+  amendFacets() {
+    const childElements = this.getChildElements();
+
+    childElements.forEach((childElement) => childElement.amendFacets());
+
+    this.applyTransform(this.transform);
+
+    this.applyMask(this.mask);
   }
 
   addFacets(colourRenderer, textureRenderer) {
