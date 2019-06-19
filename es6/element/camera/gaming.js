@@ -5,9 +5,9 @@ const Tilt = require('../../miscellaneous/tilt'),
       Location = require('../../miscellaneous/location'),
       cameraUtilities = require('../../utilities/camera');
 
-const { offsetMatrixFromOffset, rotationMatrixFromAngles, positionMatrixFromDistance, projectionMatrixFromWidthAndHeight, normalMatrixFromRotationMatrix } = cameraUtilities;
+const { offsetMatrixFromOffset, rotationMatrixFromAngles, positionMatrixFromNothing, projectionMatrixFromWidthAndHeight, normalMatrixFromRotationMatrix } = cameraUtilities;
 
-const defaultInitialOffset = [ 0, 0, 0 ];
+const defaultInitialOffset = [ 0, 0, -5 ];
 
 class GamingCamera extends Camera {
   constructor(keyEvents, mouseEvents, updateHandler, tilt, location) {
@@ -24,38 +24,50 @@ class GamingCamera extends Camera {
 
       this.location.updatePreviousMouseCoordinates();
     } else {
-      // this.tilt.updatePreviousAngles();
-      //
-      // this.tilt.updatePreviousMouseCoordinates();
+      this.tilt.updatePreviousAngles();
+
+      this.tilt.updatePreviousMouseCoordinates();
     }
   }
 
   mouseUpHandler(mouseCoordinates, mouseDown, canvas) {
+    this.location.updatePreviousMouseCoordinates();
 
+    this.tilt.updatePreviousAngles();
   }
 
   mouseDownHandler(mouseCoordinates, mouseDown, canvas) {
+    const shiftKeyDown = this.keyEvents.isShiftKeyDown();
 
+    if (shiftKeyDown) {
+      this.location.updatePreviousOffset();
+
+      this.location.updatePreviousMouseCoordinates();
+    }
+
+    this.tilt.updatePreviousMouseCoordinates();
   }
 
   mouseMoveHandler(mouseCoordinates, mouseDown, canvas) {
     const shiftKeyDown = this.keyEvents.isShiftKeyDown();
 
-    this.tilt.setMouseCoordinates(mouseCoordinates);
-
     this.location.setMouseCoordinates(mouseCoordinates);
 
-    if (shiftKeyDown) {
-      this.location.updateXYOffset(this.tilt);
-    } else {
-      // this.tilt.updateAngles();
-    }
+    this.tilt.setMouseCoordinates(mouseCoordinates);
 
-    this.update(canvas);
+    if (mouseDown) {
+      if (shiftKeyDown) {
+        this.location.updateOffset(this.tilt);
+      } else {
+        this.tilt.updateAngles();
+      }
+
+      this.update(canvas);
+    }
   }
 
   mouseWheelHandler(delta, canvas) {
-    this.location.updateZOffset(this.tilt, delta);
+    ///
 
     this.update(canvas);
   }
@@ -63,24 +75,22 @@ class GamingCamera extends Camera {
   update(canvas) {
     const width = canvas.getWidth(),
           height = canvas.getHeight(),
-          angles = this.tilt.getAngles(),
           offset = this.location.getOffset(),
-          distance = 5,  ///
+          angles = this.tilt.getAngles(),
           offsetMatrix = offsetMatrixFromOffset(offset),
           rotationMatrix = rotationMatrixFromAngles(angles),
-          positionMatrix = positionMatrixFromDistance(distance),
+          positionMatrix = positionMatrixFromNothing(),
           projectionMatrix = projectionMatrixFromWidthAndHeight(width, height),
           normalMatrix = normalMatrixFromRotationMatrix(rotationMatrix),
           updateHandler = this.getUpdateHandler();
-
-    console.log(offset)
 
     updateHandler(offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
   }
 
   static fromProperties(properties) {
-    const { initialOffset = defaultInitialOffset } = properties,
-          tilt = Tilt.fromNothing(),
+    const { initialOffset = defaultInitialOffset} = properties,
+          flipped = true,
+          tilt = Tilt.fromFlipped(flipped),
           location = Location.fromInitialOffset(initialOffset),
           gamingCamera = Camera.fromProperties(GamingCamera, properties, tilt, location);
 

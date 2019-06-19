@@ -5,8 +5,8 @@ const constants = require('../constants'),
       offsetUtilities = require('../utilities/offset');
 
 const { add3, subtract2, scale2 } = vectorMaths,
-      { DELTA_SCALAR, OFFSET_SCALAR, INITIAL_MOUSE_COORDINATES } = constants,
-      { calculateXAngleOffset, calculateYAngleOffset, calculateZAngleOffset } = offsetUtilities;
+      { OFFSET_SCALAR, INITIAL_MOUSE_COORDINATES } = constants,
+      { calculateXAngleOffset, calculateYAngleOffset } = offsetUtilities;
 
 class Location {
   constructor(offset, previousOffset, mouseCoordinates, previousMouseCoordinates) {
@@ -32,27 +32,16 @@ class Location {
     this.previousOffset = this.offset;
   }
 
-  updateXYOffset(tilt) {
+  updateOffset(tilt) {
     const xAngle = tilt.getXAngle(),
           yAngle = tilt.getYAngle(),
           scalar = OFFSET_SCALAR, ///
           relativeMouseCoordinates = subtract2(this.mouseCoordinates, this.previousMouseCoordinates),
-          relativeOffset = scale2(relativeMouseCoordinates, scalar),
-          yAngleOffset = calculateYAngleOffset(yAngle, relativeOffset),
-          xAngleOffset = calculateXAngleOffset(xAngle, yAngle, relativeOffset);
+          relativeOffsets = scale2(relativeMouseCoordinates, scalar),
+          yAngleOffset = calculateYAngleOffset(yAngle, relativeOffsets),
+          xAngleOffset = calculateXAngleOffset(xAngle, yAngle, relativeOffsets);
 
-    this.offset = add3(add3(this.previousOffset, yAngleOffset), xAngleOffset);
-  }
-
-  updateZOffset(tilt, delta) {
-    const xAngle = tilt.getXAngle(),
-          yAngle = tilt.getYAngle(),
-          thirdRelativeOffset = delta * DELTA_SCALAR,
-          zAngleOffset = calculateZAngleOffset(xAngle, yAngle, thirdRelativeOffset);
-
-    this.previousOffset = add3(this.previousOffset, zAngleOffset);
-
-    this.updateXYOffset(tilt);
+    this.offset = add3(add3(this.previousOffset, yAngleOffset), xAngleOffset);  ///
   }
 
   static fromInitialOffset(initialOffset) {
@@ -61,10 +50,9 @@ class Location {
           mouseCoordinates = INITIAL_MOUSE_COORDINATES, ///
           previousMouseCoordinates = mouseCoordinates,  ///
           location = new Location(offset, previousOffset, mouseCoordinates, previousMouseCoordinates);
-
+    
     return location;
   }
 }
 
 module.exports = Location;
-

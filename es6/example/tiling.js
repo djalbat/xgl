@@ -31,7 +31,7 @@ const tilingExample = () => {
           <TexturedQuadrangle position={[ 0, 0, 0 ]} imageName={'floorboards.jpg'} mask={mask} />
           <TexturedQuadrangle position={[ -0.5, -0.5, -0.5 ]} imageName={'paving.jpg'} mask={mask} />
         </Part>
-        <GamingCamera initialDistance={25} />
+        <GamingCamera />
       </Scene>
 
     );

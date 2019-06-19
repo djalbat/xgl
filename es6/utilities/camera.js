@@ -16,6 +16,12 @@ function offsetMatrixFromOffset(offset) {
   return offsetMatrix;
 }
 
+function offsetMatrixFromNothing() {
+  let offsetMatrix = identity4(); ///
+
+  return offsetMatrix;
+}
+
 function rotationMatrixFromAngles(angles) {
   let rotationMatrix = identity4(); ///
 
@@ -31,6 +37,20 @@ function rotationMatrixFromAngles(angles) {
   rotationMatrix = rotate4(rotationMatrix, zAngle, [0, 0, 1]);
 
   return rotationMatrix;
+}
+
+function positionMatrixFromNothing() {
+  let positionMatrix = identity4(); ///
+
+  return positionMatrix;
+}
+
+function positionMatrixFromOffset(offset) {
+  let positionMatrix = identity4(); ///
+
+  positionMatrix = translate4(positionMatrix, offset);
+
+  return positionMatrix;
 }
 
 function positionMatrixFromDistance(distance) {
@@ -73,7 +93,10 @@ function normalMatrixFromRotationMatrix(rotationMatrix) {
 
 module.exports = {
   offsetMatrixFromOffset,
+  offsetMatrixFromNothing,
   rotationMatrixFromAngles,
+  positionMatrixFromNothing,
+  positionMatrixFromOffset,
   positionMatrixFromDistance,
   positionMatrixFromPosition,
   projectionMatrixFromWidthAndHeight,

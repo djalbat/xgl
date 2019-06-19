@@ -94,8 +94,9 @@ class DesignCamera extends Camera {
 
   static fromProperties(properties) {
     const { initialOffset = defaultInitialOffset, initialDistance = defaultInitialDistance } = properties,
+          flipped = false,
           pan = Pan.fromInitialOffset(initialOffset),
-          tilt = Tilt.fromNothing(),
+          tilt = Tilt.fromFlipped(flipped),
           zoom = Zoom.fromInitialDistance(initialDistance),
           designCamera = Camera.fromProperties(DesignCamera, properties, pan, tilt, zoom);
 

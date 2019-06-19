@@ -9,7 +9,8 @@ const { first, second } = arrayUtilities,
       { ANGLES_SCALAR, INITIAL_ANGLES, INITIAL_MOUSE_COORDINATES } = constants;
 
 class Tilt {
-  constructor(angles, previousAngles, mouseCoordinates, previousMouseCoordinates) {
+  constructor(flipped, angles, previousAngles, mouseCoordinates, previousMouseCoordinates) {
+    this.flipped = flipped;
     this.angles = angles;
     this.previousAngles = previousAngles;
     this.mouseCoordinates = mouseCoordinates;
@@ -18,14 +19,18 @@ class Tilt {
 
   getXAngle() {
     const secondAngle = second(this.angles),
-          xAngle = secondAngle; ///
+          xAngle = this.flipped ?
+                    -secondAngle :
+                      secondAngle;
 
     return xAngle;
   }
   
   getYAngle() {
     const firstAngle = first(this.angles),
-          yAngle = -firstAngle; ///
+          yAngle = this.flipped ?
+                     firstAngle :
+                      -firstAngle;
 
     return yAngle;
   }
@@ -69,12 +74,12 @@ class Tilt {
     this.angles = add2(this.previousAngles, relativeAngles);
   }
 
-  static fromNothing() {
+  static fromFlipped(flipped) {
     const angles = INITIAL_ANGLES,  ///
           previousAngles = angles,  ///
           mouseCoordinates = INITIAL_MOUSE_COORDINATES, ///
           previousMouseCoordinates = mouseCoordinates,  ///
-          tilt = new Tilt(angles, previousAngles, mouseCoordinates, previousMouseCoordinates);
+          tilt = new Tilt(flipped, angles, previousAngles, mouseCoordinates, previousMouseCoordinates);
 
     return tilt;
   }
