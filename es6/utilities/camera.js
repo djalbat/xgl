@@ -8,16 +8,10 @@ const { first, second, third } = arrayUtilities,
       { FIELD_OF_VIEW, Z_NEAR, Z_FAR } = constants,
       { identity4, invert4, rotate4, translate4, transpose4, perspective4 } = matrixMaths;
 
-function offsetMatrixFromOffset(offset) {
+function offsetMatrixFromOffsets(offsets) {
   let offsetMatrix = identity4(); ///
 
-  offsetMatrix = translate4(offsetMatrix, offset);
-
-  return offsetMatrix;
-}
-
-function offsetMatrixFromNothing() {
-  let offsetMatrix = identity4(); ///
+  offsetMatrix = translate4(offsetMatrix, offsets);
 
   return offsetMatrix;
 }
@@ -45,14 +39,6 @@ function positionMatrixFromNothing() {
   return positionMatrix;
 }
 
-function positionMatrixFromOffset(offset) {
-  let positionMatrix = identity4(); ///
-
-  positionMatrix = translate4(positionMatrix, offset);
-
-  return positionMatrix;
-}
-
 function positionMatrixFromDistance(distance) {
   let positionMatrix = identity4(); ///
 
@@ -73,16 +59,6 @@ function positionMatrixFromPosition(position) {
   return positionMatrix;
 }
 
-function projectionMatrixFromWidthAndHeight(width, height) {
-  const fieldOfView = FIELD_OF_VIEW,
-        aspectRatio = width / height,
-        zNear = Z_NEAR,
-        zFar = Z_FAR,
-        projectionMatrix = perspective4(fieldOfView, aspectRatio, zNear, zFar);
-
-  return projectionMatrix;
-}
-
 function normalMatrixFromRotationMatrix(rotationMatrix) {
   let normalMatrix = invert4(rotationMatrix);
 
@@ -91,14 +67,22 @@ function normalMatrixFromRotationMatrix(rotationMatrix) {
   return normalMatrix;
 }
 
+function projectionMatrixFromWidthAndHeight(width, height) {
+  const fieldOfView = FIELD_OF_VIEW,  ///
+        aspectRatio = width / height,
+        zNear = Z_NEAR, ///
+        zFar = Z_FAR, ///
+        projectionMatrix = perspective4(fieldOfView, aspectRatio, zNear, zFar);
+
+  return projectionMatrix;
+}
+
 module.exports = {
-  offsetMatrixFromOffset,
-  offsetMatrixFromNothing,
+  offsetMatrixFromOffsets,
   rotationMatrixFromAngles,
   positionMatrixFromNothing,
-  positionMatrixFromOffset,
   positionMatrixFromDistance,
   positionMatrixFromPosition,
-  projectionMatrixFromWidthAndHeight,
-  normalMatrixFromRotationMatrix
+  normalMatrixFromRotationMatrix,
+  projectionMatrixFromWidthAndHeight
 };

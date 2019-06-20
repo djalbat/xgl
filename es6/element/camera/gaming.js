@@ -5,7 +5,7 @@ const Tilt = require('../../miscellaneous/tilt'),
       Location = require('../../miscellaneous/location'),
       cameraUtilities = require('../../utilities/camera');
 
-const { offsetMatrixFromOffset, rotationMatrixFromAngles, positionMatrixFromNothing, projectionMatrixFromWidthAndHeight, normalMatrixFromRotationMatrix } = cameraUtilities;
+const { offsetMatrixFromOffsets, rotationMatrixFromAngles, positionMatrixFromNothing, projectionMatrixFromWidthAndHeight, normalMatrixFromRotationMatrix } = cameraUtilities;
 
 const defaultInitialOffset = [ 0, 0, -5 ];
 
@@ -20,7 +20,7 @@ class GamingCamera extends Camera {
 
   shiftKeyHandler(shiftKeyDown) {
     if (shiftKeyDown) {
-      this.location.updatePreviousOffset();
+      this.location.updatePreviousOffsets();
 
       this.location.updatePreviousMouseCoordinates();
     } else {
@@ -40,7 +40,7 @@ class GamingCamera extends Camera {
     const shiftKeyDown = this.keyEvents.isShiftKeyDown();
 
     if (shiftKeyDown) {
-      this.location.updatePreviousOffset();
+      this.location.updatePreviousOffsets();
 
       this.location.updatePreviousMouseCoordinates();
     }
@@ -57,7 +57,7 @@ class GamingCamera extends Camera {
 
     if (mouseDown) {
       if (shiftKeyDown) {
-        this.location.updateOffset(this.tilt);
+        this.location.updateXYOffset(this.tilt);
       } else {
         this.tilt.updateAngles();
       }
@@ -67,7 +67,7 @@ class GamingCamera extends Camera {
   }
 
   mouseWheelHandler(delta, canvas) {
-    ///
+    this.location.updateZOffset(delta, this.tilt);
 
     this.update(canvas);
   }
@@ -75,9 +75,9 @@ class GamingCamera extends Camera {
   update(canvas) {
     const width = canvas.getWidth(),
           height = canvas.getHeight(),
-          offset = this.location.getOffset(),
+          offsets = this.location.getOffsets(),
           angles = this.tilt.getAngles(),
-          offsetMatrix = offsetMatrixFromOffset(offset),
+          offsetMatrix = offsetMatrixFromOffsets(offsets),
           rotationMatrix = rotationMatrixFromAngles(angles),
           positionMatrix = positionMatrixFromNothing(),
           projectionMatrix = projectionMatrixFromWidthAndHeight(width, height),

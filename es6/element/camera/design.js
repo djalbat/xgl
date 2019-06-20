@@ -6,7 +6,7 @@ const Pan = require('../../miscellaneous/pan'),
       Camera = require('../camera'),
       cameraUtilities = require('../../utilities/camera');
 
-const { offsetMatrixFromOffset, rotationMatrixFromAngles, positionMatrixFromDistance, projectionMatrixFromWidthAndHeight, normalMatrixFromRotationMatrix } = cameraUtilities;
+const { offsetMatrixFromOffsets, rotationMatrixFromAngles, positionMatrixFromDistance, projectionMatrixFromWidthAndHeight, normalMatrixFromRotationMatrix } = cameraUtilities;
 
 const defaultInitialDistance = 5,
       defaultInitialOffset = [ 0, 0, 0 ];
@@ -24,7 +24,7 @@ class DesignCamera extends Camera {
 
   shiftKeyHandler(shiftKeyDown) {
     if (shiftKeyDown) {
-      this.pan.updatePreviousOffset();
+      this.pan.updatePreviousOffsets();
 
       this.pan.updatePreviousMouseCoordinates();
     } else {
@@ -44,7 +44,7 @@ class DesignCamera extends Camera {
     const shiftKeyDown = this.keyEvents.isShiftKeyDown();
 
     if (shiftKeyDown) {
-      this.pan.updatePreviousOffset();
+      this.pan.updatePreviousOffsets();
 
       this.pan.updatePreviousMouseCoordinates();
     }
@@ -79,10 +79,10 @@ class DesignCamera extends Camera {
   update(canvas) {
     const width = canvas.getWidth(),
           height = canvas.getHeight(),
-          offset = this.pan.getOffset(),
           angles = this.tilt.getAngles(),
+          offsets = this.pan.getOffsets(),
           distance = this.zoom.getDistance(),
-          offsetMatrix = offsetMatrixFromOffset(offset),
+          offsetMatrix = offsetMatrixFromOffsets(offsets),
           rotationMatrix = rotationMatrixFromAngles(angles),
           positionMatrix = positionMatrixFromDistance(distance),
           projectionMatrix = projectionMatrixFromWidthAndHeight(width, height),

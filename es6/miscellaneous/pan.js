@@ -9,15 +9,15 @@ const { add3, subtract2, scale2 } = vectorMaths,
       { calculateXAngleOffset, calculateYAngleOffset } = offsetUtilities;
 
 class Pan {
-  constructor(offset, previousOffset, mouseCoordinates, previousMouseCoordinates) {
-    this.offset = offset;
-    this.previousOffset = previousOffset;
+  constructor(offsets, previousOffsets, mouseCoordinates, previousMouseCoordinates) {
+    this.offsets = offsets;
+    this.previousOffsets = previousOffsets;
     this.mouseCoordinates = mouseCoordinates;
     this.previousMouseCoordinates = previousMouseCoordinates;
   }
 
-  getOffset() {
-    return this.offset;
+  getOffsets() {
+    return this.offsets;
   }
 
   setMouseCoordinates(mouseCoordinates) {
@@ -28,8 +28,8 @@ class Pan {
     this.previousMouseCoordinates = this.mouseCoordinates;
   }
 
-  updatePreviousOffset() {
-    this.previousOffset = this.offset;
+  updatePreviousOffsets() {
+    this.previousOffsets = this.offsets;
   }
 
   updateOffset(tilt) {
@@ -41,15 +41,15 @@ class Pan {
           yAngleOffset = calculateYAngleOffset(yAngle, relativeOffsets),
           xAngleOffset = calculateXAngleOffset(xAngle, yAngle, relativeOffsets);
 
-    this.offset = add3(add3(this.previousOffset, yAngleOffset), xAngleOffset);  ///
+    this.offsets = add3(add3(this.previousOffsets, yAngleOffset), xAngleOffset);  ///
   }
 
   static fromInitialOffset(initialOffset) {
-    const offset = initialOffset, ///
-          previousOffset = offset,  ///
+    const offsets = initialOffset, ///
+          previousOffsets = offsets,  ///
           mouseCoordinates = INITIAL_MOUSE_COORDINATES, ///
           previousMouseCoordinates = mouseCoordinates,  ///
-          pan = new Pan(offset, previousOffset, mouseCoordinates, previousMouseCoordinates);
+          pan = new Pan(offsets, previousOffsets, mouseCoordinates, previousMouseCoordinates);
     
     return pan;
   }
