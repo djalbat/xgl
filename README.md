@@ -62,7 +62,7 @@ const simpleExample = () =>
     <Part>
       <ColouredSquare colour={[ 0, 0, 1 ]} />
     </Part>
-    <Camera />
+    <DesignCamera />
   </Scene>
 
 ;
@@ -179,7 +179,7 @@ const maskingExample = () => {
       <Part>
         <MediumCube />
       </Part>
-      <Camera />
+      <GamingCamera />
     </Scene>
 
   );
@@ -228,7 +228,7 @@ const pyramidExample = () => {
         <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
           <Pyramid />
         </Part>
-        <Camera />
+        <DesignCamera />
       </Scene>
 
     );
@@ -384,7 +384,7 @@ const tilingExample = () => {
           <TexturedQuadrangle position={[ 0, 0, 0 ]} imageName={'floorboards.jpg'} mask={mask} />
           <TexturedQuadrangle position={[ -0.5, -0.5, -0.5 ]} imageName={'paving.jpg'} mask={mask} />
         </Part>
-        <Camera />
+        <DesignCamera />
       </Scene>
 
     );
@@ -423,6 +423,17 @@ Note that the floorboards texture works well whereas the edges of paving texture
 
 It is reasonable to ask, if loading images directly allows them to be tiled and at the same time does away with the need for an image map, why choose the latter? The reason is that there is limit on the number images that can be passed to a `Part` element. This is not a drawback of XGL but WebGL, or rather OpenGL. The number of images that texture renderers must support is only 8, although admittedly on modern systems this number is likely to be in the region of hundreds. Also bear in mind that individual images all have to be loaded over a network and this may become problematic for large numbers of them. Since the work of creating image maps is done for you, image maps are recommended unless you need tiling.
 
+## Cameras
+
+Two cameras come as standard, namely the design camera and the gaming camera. The design camera stays pointing at the same place, with mouse movements or gestures moving inward and outward or around that point. If you hold the shift key down, you can change the offset, that is the place at which it points. You set the initial distance and offset by way of attributes, for example:
+
+```js
+<Scene canvas={canvas}>
+  ...
+  <DesignCamera initialDistance={10} initialOffset={[ -10, 0 ]} />
+</Scene>
+```
+
 ## Useful features
 
 You can hide any elements bar `Scene` elements , including masks and parts, by adding a `hidden` attribute. This saves commenting out or removing elements during development. For example:
@@ -431,7 +442,7 @@ You can hide any elements bar `Scene` elements , including masks and parts, by a
   <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
     <Pyramid hidden />
   </Part>
-  <Camera />
+  <DesignCamera />
 </Scene>
 ```
 
@@ -441,7 +452,7 @@ You can pass callbacks to `Scene` elements to keep an eye on rendering progress 
   <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
     <Pyramid />
   </Part>
-  <Camera />
+  <DesignCamera />
 </Scene>
 
 function update(progress) {

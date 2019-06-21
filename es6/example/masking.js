@@ -4,7 +4,7 @@ const xgl = require('../../index'); ///
 
 const Cube = require('./element/cube');
 
-const { Canvas, Scene, Mask, Part, DesignCamera } = xgl;
+const { Canvas, Scene, Mask, Part, GamingCamera } = xgl;
 
 const canvas = new Canvas();
 
@@ -45,7 +45,7 @@ const maskingExample = () => {
       <Part>
         <LargeCube />
       </Part>
-      <DesignCamera />
+      <GamingCamera />
     </Scene>
 
   );

@@ -10,8 +10,8 @@ const Pan = require('../../miscellaneous/pan'),
 const { zero3 } = vectorMaths,
       { offsetMatrixFromOffsets, rotationMatrixFromAngles, positionMatrixFromDistance, projectionMatrixFromWidthAndHeight, normalMatrixFromRotationMatrix } = cameraUtilities;
 
-const defaultInitialDistance = 5,
-      defaultInitialOffsets = zero3();
+const defaultInitialOffset = zero3(),
+      defaultInitialDistance = 5;
 
 class DesignCamera extends Camera {
   constructor(keyEvents, mouseEvents, updateHandler, pan, tilt, zoom) {
@@ -95,7 +95,8 @@ class DesignCamera extends Camera {
   }
 
   static fromProperties(properties) {
-    const { initialOffsets = defaultInitialOffsets, initialDistance = defaultInitialDistance } = properties,
+    const { initialOffset = defaultInitialOffset, initialDistance = defaultInitialDistance } = properties,
+          initialOffsets = initialOffset, ///
           pan = Pan.fromInitialOffsets(initialOffsets),
           tilt = Tilt.fromNothing(),
           zoom = Zoom.fromInitialDistance(initialDistance),
