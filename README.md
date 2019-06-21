@@ -435,7 +435,7 @@ The design camera points at the same place, with mouse movements moving it towar
   <DesignCamera initialDistance={10} initialOffset={[ -10, 0 ]} />
 </Scene>
 ```
-The gaming camera allows you to freely move around around a scene. Holding the shift key down allows you to pan, the mouse wheel allows you to move backwards and forwards. You can set the initial position and angles by way of attributes:
+The gaming camera allows you to freely move around around a scene. If you hold the mouse down you can look around with mouse movements. Holding the shift key down at the same time allows you to pan, whilst the mouse wheel allows you to move backwards and forwards. You can set the initial position and angles by way of attributes:
 
 ```js
 <Scene canvas={canvas}>
