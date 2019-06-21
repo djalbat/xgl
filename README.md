@@ -433,6 +433,15 @@ Two cameras come as standard, the design camera and the gaming camera. The desig
   <DesignCamera initialDistance={10} initialOffset={[ -10, 0 ]} />
 </Scene>
 ```
+The gaming camera allows you to freely move around around a scene. Holding the shift key down allows you to pan, the mouse wheel allows you to move backwards and forwards. You can set the initial position and angles by way of attributes:
+
+```js
+<Scene canvas={canvas}>
+  ...
+  <DesignCamera initialPosition={[ 0, 0, 10 ]} initialAngles={[ 45, 0 ]} />
+</Scene>
+```
+You can create your own cameras by extending the `Camera` class, but it is not for neophytes.
 
 ## Useful features
 
