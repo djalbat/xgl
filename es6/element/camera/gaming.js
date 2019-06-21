@@ -7,7 +7,7 @@ const Tilt = require('../../miscellaneous/tilt'),
 
 const { offsetMatrixFromOffsets, rotationMatrixFromAngles, positionMatrixFromNothing, projectionMatrixFromWidthAndHeight, normalMatrixFromRotationMatrix } = cameraUtilities;
 
-const defaultInitialOffset = [ 0, 0, -5 ];
+const defaultInitialOffsets = [ 0, 0, -5 ];
 
 class GamingCamera extends Camera {
   constructor(keyEvents, mouseEvents, updateHandler, tilt, location) {
@@ -88,10 +88,10 @@ class GamingCamera extends Camera {
   }
 
   static fromProperties(properties) {
-    const { initialOffset = defaultInitialOffset} = properties,
+    const { initialOffsets = defaultInitialOffsets } = properties,
           flipped = true,
           tilt = Tilt.fromFlipped(flipped),
-          location = Location.fromInitialOffset(initialOffset),
+          location = Location.fromInitialOffsets(initialOffsets),
           gamingCamera = Camera.fromProperties(GamingCamera, properties, tilt, location);
 
     return gamingCamera;

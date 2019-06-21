@@ -44,8 +44,8 @@ class Pan {
     this.offsets = add3(add3(this.previousOffsets, yAngleOffset), xAngleOffset);  ///
   }
 
-  static fromInitialOffset(initialOffset) {
-    const offsets = initialOffset, ///
+  static fromInitialOffsets(initialOffsets) {
+    const offsets = initialOffsets, ///
           previousOffsets = offsets,  ///
           mouseCoordinates = zero2(),
           previousMouseCoordinates = mouseCoordinates,  ///

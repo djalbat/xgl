@@ -45,8 +45,8 @@ class Location {
 
     this.scaledRelativeMouseCoordinates = scale2(relativeMouseCoordinates, scalar);
 
-    const yAngleOffset = calculateYAngleOffset(yAngle, scaledRelativeMouseCoordinates),
-          xAngleOffset = calculateXAngleOffset(xAngle, yAngle, scaledRelativeMouseCoordinates);
+    const yAngleOffset = calculateYAngleOffset(yAngle, this.scaledRelativeMouseCoordinates),
+          xAngleOffset = calculateXAngleOffset(xAngle, yAngle, this.scaledRelativeMouseCoordinates);
 
     this.offsets = add3(add3(this.previousOffsets, yAngleOffset), xAngleOffset);  ///
   }
@@ -63,8 +63,8 @@ class Location {
     this.updateXYOffset(tilt);
   }
 
-  static fromInitialOffset(initialOffset) {
-    const offsets = initialOffset, ///
+  static fromInitialOffsets(initialOffsets) {
+    const offsets = initialOffsets, ///
           previousOffsets = offsets,  ///
           mouseCoordinates = zero2(),
           previousMouseCoordinates = mouseCoordinates,  ///

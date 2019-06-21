@@ -69,9 +69,9 @@ class Tilt {
   updateAngles() {
     const scalar = ANGLES_SCALAR, ///
           relativeMouseCoordinates = subtract2(this.mouseCoordinates, this.previousMouseCoordinates),
-          relativeAngles = scale2(relativeMouseCoordinates, scalar);
+          scaledRelativeMouseCoordinates = scale2(relativeMouseCoordinates, scalar);
 
-    this.angles = add2(this.previousAngles, relativeAngles);
+    this.angles = add2(this.previousAngles, scaledRelativeMouseCoordinates);
   }
 
   static fromFlipped(flipped) {
