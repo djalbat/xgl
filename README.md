@@ -430,7 +430,7 @@ Two cameras come as standard, the design camera and the gaming camera.
 The design camera points at the same place, with mouse movements moving it toward, away from or around that place when the mouse button is held down. If you hold the shift key down as well, you can alter the offset, namely the place at which it points. You can set the initial distance and offset by way of attributes:
 
 ```js
-<Scene canvas={canvas}>
+<Scene ... >
   ...
   <DesignCamera initialDistance={10} initialOffset={[ -10, 0 ]} />
 </Scene>
@@ -438,7 +438,7 @@ The design camera points at the same place, with mouse movements moving it towar
 The gaming camera allows you to freely move around around a scene. If you hold the mouse down you can look around with mouse movements. Holding the shift key down at the same time allows you to pan, whilst the mouse wheel allows you to move backwards and forwards. You can set the initial position and angles by way of attributes:
 
 ```js
-<Scene canvas={canvas}>
+<Scene ... >
   ...
   <GamingCamera initialPosition={[ 0, 0, 10 ]} initialAngles={[ 45, 0 ]} />
 </Scene>
