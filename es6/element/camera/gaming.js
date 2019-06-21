@@ -3,11 +3,14 @@
 const Tilt = require('../../miscellaneous/tilt'),
       Camera = require('../camera'),
       Location = require('../../miscellaneous/location'),
+      vectorMaths = require('../../maths/vector'),
       cameraUtilities = require('../../utilities/camera');
 
-const { offsetMatrixFromOffsets, rotationMatrixFromAngles, positionMatrixFromNothing, projectionMatrixFromWidthAndHeight, normalMatrixFromRotationMatrix } = cameraUtilities;
+const { zero2 } = vectorMaths,
+      { offsetMatrixFromOffsets, rotationMatrixFromAngles, positionMatrixFromNothing, projectionMatrixFromWidthAndHeight, normalMatrixFromRotationMatrix } = cameraUtilities;
 
-const defaultInitialOffsets = [ 0, 0, -5 ];
+const defaultInitialAngles = zero2(),
+      defaultInitialPosition = [ 0, 0, 5 ];
 
 class GamingCamera extends Camera {
   constructor(keyEvents, mouseEvents, updateHandler, tilt, location) {
@@ -80,10 +83,9 @@ class GamingCamera extends Camera {
   }
 
   static fromProperties(properties) {
-    const { initialOffsets = defaultInitialOffsets } = properties,
-          flipped = true,
-          tilt = Tilt.fromFlipped(flipped),
-          location = Location.fromInitialOffsets(initialOffsets),
+    const { initialPosition = defaultInitialPosition, initialAngles = defaultInitialAngles } = properties,
+          tilt = Tilt.fromInitialAngles(initialAngles),
+          location = Location.fromInitialPosition(initialPosition),
           gamingCamera = Camera.fromProperties(GamingCamera, properties, tilt, location);
 
     return gamingCamera;

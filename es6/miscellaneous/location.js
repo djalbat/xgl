@@ -4,7 +4,7 @@ const constants = require('../constants'),
       vectorMaths = require('../maths/vector'),
       offsetUtilities = require('../utilities/offset');
 
-const { add3, subtract2, scale2 } = vectorMaths,
+const { add3, subtract2, scale2, scale3 } = vectorMaths,
       { DELTA_SCALAR, OFFSET_SCALAR } = constants,
       { calculateXAngleOffset, calculateYAngleOffset, calculateZAngleOffset } = offsetUtilities;
 
@@ -51,8 +51,8 @@ class Location {
     this.offsets = add3(this.offsets, zAngleOffset);
   }
 
-  static fromInitialOffsets(initialOffsets) {
-    const offsets = initialOffsets, ///
+  static fromInitialPosition(initialPosition) {
+    const offsets = scale3(initialPosition, -1),
           mouseCoordinates = null,  ///
           previousMouseCoordinates = null,  ///
           location = new Location(offsets, mouseCoordinates, previousMouseCoordinates);
