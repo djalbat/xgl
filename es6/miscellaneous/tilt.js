@@ -4,9 +4,9 @@ const constants = require('../constants'),
       vectorMaths = require('../maths/vector'),
       arrayUtilities = require('../utilities/array');
 
-const { first, second } = arrayUtilities,
-      { add2, scale2, subtract2 } = vectorMaths,
-      { ANGLES_SCALAR, INITIAL_ANGLES, INITIAL_MOUSE_COORDINATES } = constants;
+const { ANGLES_SCALAR } = constants,
+      { first, second } = arrayUtilities,
+      { zero2, add2, scale2, subtract2 } = vectorMaths;
 
 class Tilt {
   constructor(flipped, angles, previousAngles, mouseCoordinates, previousMouseCoordinates) {
@@ -58,11 +58,11 @@ class Tilt {
     this.mouseCoordinates = mouseCoordinates;
   }
 
-  updatePreviousMouseCoordinates() {
+  resetPreviousMouseCoordinates() {
     this.previousMouseCoordinates = this.mouseCoordinates;
   }
 
-  updatePreviousAngles() {
+  resetPreviousAngles() {
     this.previousAngles = this.angles;
   }
 
@@ -75,9 +75,9 @@ class Tilt {
   }
 
   static fromFlipped(flipped) {
-    const angles = INITIAL_ANGLES,  ///
+    const angles = zero2(),
           previousAngles = angles,  ///
-          mouseCoordinates = INITIAL_MOUSE_COORDINATES, ///
+          mouseCoordinates = zero2(),
           previousMouseCoordinates = mouseCoordinates,  ///
           tilt = new Tilt(flipped, angles, previousAngles, mouseCoordinates, previousMouseCoordinates);
 

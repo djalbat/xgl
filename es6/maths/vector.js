@@ -1,5 +1,35 @@
 'use strict';
 
+function zero2() {
+  return ([
+
+    0,
+    0,
+
+  ]);
+}
+
+function zero3() {
+  return ([
+
+    0,
+    0,
+    0,
+
+  ]);
+}
+
+function zero4() {
+  return ([
+
+    0,
+    0,
+    0,
+    0,
+
+  ]);
+}
+
 function length2(vector) {
   const x = vector[0],
         y = vector[1];
@@ -257,6 +287,9 @@ function transform4(vector, matrix) {
 }
 
 module.exports = {
+  zero2,
+  zero3,
+  zero4,
   length2,
   length3,
   length4,

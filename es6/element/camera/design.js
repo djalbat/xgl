@@ -4,12 +4,14 @@ const Pan = require('../../miscellaneous/pan'),
       Tilt = require('../../miscellaneous/tilt'),
       Zoom = require('../../miscellaneous/zoom'),
       Camera = require('../camera'),
+      vectorMaths = require('../../maths/vector'),
       cameraUtilities = require('../../utilities/camera');
 
-const { offsetMatrixFromOffsets, rotationMatrixFromAngles, positionMatrixFromDistance, projectionMatrixFromWidthAndHeight, normalMatrixFromRotationMatrix } = cameraUtilities;
+const { zero3 } = vectorMaths,
+      { offsetMatrixFromOffsets, rotationMatrixFromAngles, positionMatrixFromDistance, projectionMatrixFromWidthAndHeight, normalMatrixFromRotationMatrix } = cameraUtilities;
 
 const defaultInitialDistance = 5,
-      defaultInitialOffset = [ 0, 0, 0 ];
+      defaultInitialOffset = zero3();
 
 class DesignCamera extends Camera {
   constructor(keyEvents, mouseEvents, updateHandler, pan, tilt, zoom) {
@@ -24,32 +26,32 @@ class DesignCamera extends Camera {
 
   shiftKeyHandler(shiftKeyDown) {
     if (shiftKeyDown) {
-      this.pan.updatePreviousOffsets();
+      this.pan.resetreviousOffsets();
 
-      this.pan.updatePreviousMouseCoordinates();
+      this.pan.resetPreviousMouseCoordinates();
     } else {
-      this.tilt.updatePreviousAngles();
+      this.tilt.resetPreviousAngles();
 
-      this.tilt.updatePreviousMouseCoordinates();
+      this.tilt.resetPreviousMouseCoordinates();
     }
   }
 
   mouseUpHandler(mouseCoordinates, mouseDown, canvas) {
-    this.pan.updatePreviousMouseCoordinates();
+    this.pan.resetPreviousMouseCoordinates();
 
-    this.tilt.updatePreviousAngles();
+    this.tilt.resetPreviousAngles();
   }
 
   mouseDownHandler(mouseCoordinates, mouseDown, canvas) {
     const shiftKeyDown = this.keyEvents.isShiftKeyDown();
 
     if (shiftKeyDown) {
-      this.pan.updatePreviousOffsets();
+      this.pan.resetreviousOffsets();
 
-      this.pan.updatePreviousMouseCoordinates();
+      this.pan.resetPreviousMouseCoordinates();
     }
 
-    this.tilt.updatePreviousMouseCoordinates();
+    this.tilt.resetPreviousMouseCoordinates();
   }
 
   mouseMoveHandler(mouseCoordinates, mouseDown, canvas) {

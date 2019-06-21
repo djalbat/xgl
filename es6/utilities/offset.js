@@ -4,33 +4,33 @@ const arrayUtilities = require('../utilities/array');
 
 const { first, second } = arrayUtilities;
 
-function calculateXAngleOffset(xAngle, yAngle, relativeOffsets) {
-  const secondRelativeOffset = second(relativeOffsets),
+function calculateXAngleOffset(xAngle, yAngle, scaledRelativeMouseCoordinates) {
+  const secondScaledRelativeMouseCoordinate = second(scaledRelativeMouseCoordinates),
         xAngleOffset = [
-          -Math.sin(yAngle) * Math.sin(xAngle) * secondRelativeOffset,
-                            - Math.cos(xAngle) * secondRelativeOffset,
-          +Math.cos(yAngle) * Math.sin(xAngle) * secondRelativeOffset
+          -Math.sin(yAngle) * Math.sin(xAngle) * secondScaledRelativeMouseCoordinate,
+                            - Math.cos(xAngle) * secondScaledRelativeMouseCoordinate,
+          +Math.cos(yAngle) * Math.sin(xAngle) * secondScaledRelativeMouseCoordinate
         ];
 
   return xAngleOffset;
 }
 
-function calculateYAngleOffset(yAngle, relativeOffsets) {
-  const firstRelativeOffset = first(relativeOffsets),
+function calculateYAngleOffset(yAngle, scaledRelativeMouseCoordinates) {
+  const firstScaledRelativeMouseCoordinate = first(scaledRelativeMouseCoordinates),
         yAngleOffset = [
-          -Math.cos(yAngle) * firstRelativeOffset,
+          -Math.cos(yAngle) * firstScaledRelativeMouseCoordinate,
           +0,
-          -Math.sin(yAngle) * firstRelativeOffset
+          -Math.sin(yAngle) * firstScaledRelativeMouseCoordinate
         ];
 
   return yAngleOffset;
 }
 
-function calculateZAngleOffset(xAngle, yAngle, thirdRelativeOffset) {
+function calculateZAngleOffset(xAngle, yAngle, thirdScaledRelativeMouseCoordinate) {
   const zAngleOffset = [
-          -Math.sin(yAngle) * Math.cos(xAngle) * thirdRelativeOffset,
-                              Math.sin(xAngle) * thirdRelativeOffset,
-          +Math.cos(yAngle) * Math.cos(xAngle) * thirdRelativeOffset
+          -Math.sin(yAngle) * Math.cos(xAngle) * thirdScaledRelativeMouseCoordinate,
+                              Math.sin(xAngle) * thirdScaledRelativeMouseCoordinate,
+          +Math.cos(yAngle) * Math.cos(xAngle) * thirdScaledRelativeMouseCoordinate
         ];
 
   return zAngleOffset;

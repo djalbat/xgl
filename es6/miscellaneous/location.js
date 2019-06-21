@@ -4,16 +4,17 @@ const constants = require('../constants'),
       vectorMaths = require('../maths/vector'),
       offsetUtilities = require('../utilities/offset');
 
-const { add3, subtract2, scale2 } = vectorMaths,
-      { DELTA_SCALAR, OFFSET_SCALAR, INITIAL_MOUSE_COORDINATES } = constants,
+const { DELTA_SCALAR, OFFSET_SCALAR } = constants,
+      { zero2, add3, subtract2, scale2 } = vectorMaths,
       { calculateXAngleOffset, calculateYAngleOffset, calculateZAngleOffset } = offsetUtilities;
 
 class Location {
-  constructor(offsets, previousOffsets, mouseCoordinates, previousMouseCoordinates) {
+  constructor(offsets, previousOffsets, mouseCoordinates, previousMouseCoordinates, scaledRelativeMouseCoordinates) {
     this.offsets = offsets;
     this.previousOffsets = previousOffsets;
     this.mouseCoordinates = mouseCoordinates;
     this.previousMouseCoordinates = previousMouseCoordinates;
+    this.scaledRelativeMouseCoordinates = scaledRelativeMouseCoordinates;
   }
 
   getOffsets() {
@@ -24,11 +25,15 @@ class Location {
     this.mouseCoordinates = mouseCoordinates;
   }
 
-  updatePreviousMouseCoordinates() {
+  resetScaledRelativeMouseCoordinates() {
+    this.scaledRelativeMouseCoordinates = zero2();
+  }
+
+  resetPreviousMouseCoordinates() {
     this.previousMouseCoordinates = this.mouseCoordinates;
   }
 
-  updatePreviousOffsets() {
+  resetPreviousOffsets() {
     this.previousOffsets = this.offsets;
   }
 
@@ -36,10 +41,12 @@ class Location {
     const xAngle = tilt.getXAngle(),
           yAngle = tilt.getYAngle(),
           scalar = OFFSET_SCALAR, ///
-          relativeMouseCoordinates = subtract2(this.mouseCoordinates, this.previousMouseCoordinates),
-          relativeOffsets = scale2(relativeMouseCoordinates, scalar),
-          yAngleOffset = calculateYAngleOffset(yAngle, relativeOffsets),
-          xAngleOffset = calculateXAngleOffset(xAngle, yAngle, relativeOffsets);
+          relativeMouseCoordinates = subtract2(this.mouseCoordinates, this.previousMouseCoordinates);
+
+    this.scaledRelativeMouseCoordinates = scale2(relativeMouseCoordinates, scalar);
+
+    const yAngleOffset = calculateYAngleOffset(yAngle, scaledRelativeMouseCoordinates),
+          xAngleOffset = calculateXAngleOffset(xAngle, yAngle, scaledRelativeMouseCoordinates);
 
     this.offsets = add3(add3(this.previousOffsets, yAngleOffset), xAngleOffset);  ///
   }
@@ -59,9 +66,10 @@ class Location {
   static fromInitialOffset(initialOffset) {
     const offsets = initialOffset, ///
           previousOffsets = offsets,  ///
-          mouseCoordinates = INITIAL_MOUSE_COORDINATES, ///
+          mouseCoordinates = zero2(),
           previousMouseCoordinates = mouseCoordinates,  ///
-          location = new Location(offsets, previousOffsets, mouseCoordinates, previousMouseCoordinates);
+          scaledRelativeMouseCoordinates = zero2(),
+          location = new Location(offsets, previousOffsets, mouseCoordinates, previousMouseCoordinates, scaledRelativeMouseCoordinates);
     
     return location;
   }
