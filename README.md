@@ -440,7 +440,7 @@ The gaming camera allows you to freely move around around a scene. If you hold t
 ```js
 <Scene canvas={canvas}>
   ...
-  <DesignCamera initialPosition={[ 0, 0, 10 ]} initialAngles={[ 45, 0 ]} />
+  <GamingCamera initialPosition={[ 0, 0, 10 ]} initialAngles={[ 45, 0 ]} />
 </Scene>
 ```
 You can create your own cameras by extending the `Camera` class, but it is not for neophytes.
