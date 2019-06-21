@@ -20,30 +20,20 @@ class GamingCamera extends Camera {
 
   shiftKeyHandler(shiftKeyDown) {
     if (shiftKeyDown) {
-      this.location.resetPreviousOffsets();
-
       this.location.resetPreviousMouseCoordinates();
     } else {
-      this.tilt.resetPreviousAngles();
-
       this.tilt.resetPreviousMouseCoordinates();
+
+      this.tilt.resetPreviousAngles();
     }
   }
 
   mouseUpHandler(mouseCoordinates, mouseDown, canvas) {
-    this.location.resetPreviousMouseCoordinates();
-
     this.tilt.resetPreviousAngles();
   }
 
   mouseDownHandler(mouseCoordinates, mouseDown, canvas) {
-    const shiftKeyDown = this.keyEvents.isShiftKeyDown();
-
-    if (shiftKeyDown) {
-      this.location.resetPreviousOffsets();
-
-      this.location.resetPreviousMouseCoordinates();
-    }
+    this.location.resetPreviousMouseCoordinates();
 
     this.tilt.resetPreviousMouseCoordinates();
   }
@@ -51,13 +41,15 @@ class GamingCamera extends Camera {
   mouseMoveHandler(mouseCoordinates, mouseDown, canvas) {
     const shiftKeyDown = this.keyEvents.isShiftKeyDown();
 
+    this.location.resetPreviousMouseCoordinates();
+
     this.location.setMouseCoordinates(mouseCoordinates);
 
     this.tilt.setMouseCoordinates(mouseCoordinates);
 
     if (mouseDown) {
       if (shiftKeyDown) {
-        this.location.updateXYOffset(this.tilt);
+        this.location.updateXYOffset(mouseCoordinates, this.tilt);
       } else {
         this.tilt.updateAngles();
       }
