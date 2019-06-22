@@ -47,7 +47,7 @@ class DesignCamera extends Camera {
     const shiftKeyDown = this.keyEvents.isShiftKeyDown();
 
     if (shiftKeyDown) {
-      this.pan.resetreviousOffsets();
+      this.pan.resetPreviousOffsets();
 
       this.pan.resetPreviousMouseCoordinates();
     }
