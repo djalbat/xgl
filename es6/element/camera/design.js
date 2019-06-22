@@ -26,7 +26,7 @@ class DesignCamera extends Camera {
 
   shiftKeyHandler(shiftKeyDown) {
     if (shiftKeyDown) {
-      this.pan.resetreviousOffsets();
+      this.pan.resetPreviousOffsets();
 
       this.pan.resetPreviousMouseCoordinates();
     } else {
