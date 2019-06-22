@@ -7,10 +7,11 @@ const Pan = require('../../miscellaneous/pan'),
       vectorMaths = require('../../maths/vector'),
       cameraUtilities = require('../../utilities/camera');
 
-const { zero3 } = vectorMaths,
+const { zero2, zero3 } = vectorMaths,
       { offsetMatrixFromOffsets, rotationMatrixFromAngles, positionMatrixFromDistance, projectionMatrixFromWidthAndHeight, normalMatrixFromRotationMatrix } = cameraUtilities;
 
-const defaultInitialOffset = zero3(),
+const defaultInitialAngles = zero2(),
+      defaultInitialOffset = zero3(),
       defaultInitialDistance = 5;
 
 class DesignCamera extends Camera {
@@ -95,10 +96,11 @@ class DesignCamera extends Camera {
   }
 
   static fromProperties(properties) {
-    const { initialOffset = defaultInitialOffset, initialDistance = defaultInitialDistance } = properties,
+    const { initialAngles = defaultInitialAngles, initialOffset = defaultInitialOffset, initialDistance = defaultInitialDistance } = properties,
           initialOffsets = initialOffset, ///
+          flipped = false,
           pan = Pan.fromInitialOffsets(initialOffsets),
-          tilt = Tilt.fromNothing(),
+          tilt = Tilt.fromInitialAnglesAndFlipped(initialAngles, flipped),
           zoom = Zoom.fromInitialDistance(initialDistance),
           designCamera = Camera.fromProperties(DesignCamera, properties, pan, tilt, zoom);
 

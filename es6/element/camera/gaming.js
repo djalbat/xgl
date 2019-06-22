@@ -84,7 +84,8 @@ class GamingCamera extends Camera {
 
   static fromProperties(properties) {
     const { initialPosition = defaultInitialPosition, initialAngles = defaultInitialAngles } = properties,
-          tilt = Tilt.fromInitialAngles(initialAngles),
+          flipped = true,
+          tilt = Tilt.fromInitialAnglesAndFlipped(initialAngles, flipped),
           location = Location.fromInitialPosition(initialPosition),
           gamingCamera = Camera.fromProperties(GamingCamera, properties, tilt, location);
 

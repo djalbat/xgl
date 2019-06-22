@@ -427,14 +427,16 @@ It is reasonable to ask, if loading images directly allows them to be tiled and 
 
 Two cameras come as standard, the design camera and the gaming camera.
 
-The design camera points at the same place, with mouse movements moving it toward, away from or around that place when the mouse button is held down. If you hold the shift key down as well, you can alter the offset, namely the place at which it points. You can set the initial distance and offset by way of attributes:
+The design camera points at the same place, with mouse movements moving it toward, away from or around that place when the mouse button is held down. If you hold the shift key down as well, you can alter the offset, namely the place at which it points. You can set the initial angles, distance and offset by way of attributes:
 
 ```js
 <Scene ... >
   ...
-  <DesignCamera initialDistance={10} initialOffset={[ -10, 0 ]} />
+  <DesignCamera initialAngles={[ 225, 45 ]} initialDistance={10} initialOffset={[ -10, 0 ]} />
 </Scene>
 ```
+Here the initial angles are set so each of the three axes points back towards the camera.
+
 The gaming camera allows you to freely move around around a scene. If you hold the mouse down you can look around with mouse movements. Holding the shift key down at the same time allows you to pan, whilst the mouse wheel allows you to move backwards and forwards. You can set the initial position and angles by way of attributes:
 
 ```js
