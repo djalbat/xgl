@@ -432,10 +432,10 @@ The design camera points at the same place, with mouse movements moving it towar
 ```js
 <Scene ... >
   ...
-  <DesignCamera initialAngles={[ 225, 45 ]} initialDistance={10} initialOffset={[ -10, 0 ]} />
+  <DesignCamera initialAngles={[ 225, 22.5 ]} initialDistance={10} initialOffset={[ -10, 0 ]} />
 </Scene>
 ```
-Here the initial angles are set so each of the three axes points back towards the camera.
+Here the initial angles are chosen so each of the three axes points away from the camera.
 
 The gaming camera allows you to freely move around around a scene. If you hold the mouse down you can look around with mouse movements. Holding the shift key down at the same time allows you to pan, whilst the mouse wheel allows you to move backwards and forwards. You can set the initial position and angles by way of attributes:
 
