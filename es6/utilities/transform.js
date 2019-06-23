@@ -6,58 +6,77 @@ const constants = require('../constants'),
 
 const { transform4 } = vectorMaths,
       { DEGREES_TO_RADIANS } = constants,
-      { identity4, scale4, rotate4, translate4 } = matrixMaths;
+      { identity4, scale4, rotate4, translate4, multiply4 } = matrixMaths;
 
 const xAxis = [ 1, 0, 0 ],
       yAxis = [ 0, 1, 0 ],
-      zAxis = [ 0, 0, 1 ],
-      defaultScale = [ 1, 1, 1 ],
-      defaultPosition = [ 0, 0, 0 ],
-      defaultRotations = [ 0, 0, 0 ];
+      zAxis = [ 0, 0, 1 ];
 
 function composeTransform(scale, position, rotations) {
-  scale = composeScale(scale);  ///
+  let matrix = null;
 
-  const rotate = composeRotate(rotations),
-        translate = composeTranslate(position);
+  if (scale !== null) {
+    const scaleMatrix = calculateScaleMatrix(scale);
 
-  return (vector) => translate(rotate(scale(vector)));
+    matrix = (matrix === null) ?
+               scaleMatrix :
+                 multiply4(scaleMatrix, matrix);
+  }
+
+  if (rotations !== null) {
+    const rotationsMatrix = calculateRotationsMatrix(rotations);
+
+    matrix = (matrix === null) ?
+               rotationsMatrix :
+                 multiply4(rotationsMatrix, matrix);
+
+  }
+
+  if (position !== null) {
+    const positionMatrix = calculatePositionMatrix(position);
+
+    matrix = (matrix === null) ?
+                positionMatrix :
+                  multiply4(positionMatrix, matrix);
+  }
+
+  const transform = (matrix === null) ?
+                      (vector) => vector :
+                        (vector) => transform4([...vector, 1], matrix).slice(0, 3);
+
+  return transform;
 }
 
 module.exports = module.exports = {
   composeTransform
 };
 
-function compose(matrix) {
-  return (vector) => transform4([...vector, 1], matrix).slice(0, 3);
+function calculateScaleMatrix(scale) {
+  let scaleMatrix = identity4();
+
+  scaleMatrix = scale4(scaleMatrix, scale);
+
+  return scaleMatrix;
 }
 
-function composeScale(scale = defaultScale) {
-  let matrix = identity4();
+function calculatePositionMatrix(position) {
+  let positionMatrix = identity4();
 
-  matrix = scale4(matrix, scale);
+  positionMatrix = translate4(positionMatrix, position);
 
-  return compose(matrix);
+  return positionMatrix;
 }
 
-function composeRotate(rotations = defaultRotations) {
-  let matrix = identity4();
+function calculateRotationsMatrix(rotations) {
+  let rotationsMatrix = identity4();
 
-  const xAngle = rotations[ 0 ] * DEGREES_TO_RADIANS, ///
-        yAngle = rotations[ 1 ] * DEGREES_TO_RADIANS, ///
-        zAngle = rotations[ 2 ] * DEGREES_TO_RADIANS; ///
+  const xAngle = rotations[ 0 ] * DEGREES_TO_RADIANS,
+        yAngle = rotations[ 1 ] * DEGREES_TO_RADIANS,
+        zAngle = rotations[ 2 ] * DEGREES_TO_RADIANS;
 
-  matrix = rotate4(matrix, xAngle, xAxis);
-  matrix = rotate4(matrix, yAngle, yAxis);
-  matrix = rotate4(matrix, zAngle, zAxis);
+  rotationsMatrix = rotate4(rotationsMatrix, xAngle, xAxis);
+  rotationsMatrix = rotate4(rotationsMatrix, yAngle, yAxis);
+  rotationsMatrix = rotate4(rotationsMatrix, zAngle, zAxis);
 
-  return compose(matrix);
-}
-
-function composeTranslate(position = defaultPosition) {
-  let matrix = identity4();
-
-  matrix = translate4(matrix, position);
-
-  return compose(matrix);
+  return rotationsMatrix;
 }

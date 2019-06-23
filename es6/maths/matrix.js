@@ -30,6 +30,126 @@ function identity4() {
   ]);
 }
 
+function multiply2(matrixA, matrixB) {
+  const a0 = matrixA[0],
+        a1 = matrixA[1],
+        a2 = matrixA[2],
+        a3 = matrixA[3],
+
+        b0 = matrixB[0],
+        b1 = matrixB[1],
+        b2 = matrixB[2],
+        b3 = matrixB[3];
+
+  return ([
+
+    a0 * b0 + a2 * b1,
+    a1 * b0 + a3 * b1,
+
+    a0 * b2 + a2 * b3,
+    a1 * b2 + a3 * b3,
+
+  ]);
+}
+
+function multiply3(matrixA, matrixB) {
+  const a0 = matrixA[0],
+        a1 = matrixA[1],
+        a2 = matrixA[2],
+        a3 = matrixA[3],
+        a4 = matrixA[4],
+        a5 = matrixA[5],
+        a6 = matrixA[6],
+        a7 = matrixA[7],
+        a8 = matrixA[8],
+
+        b0 = matrixB[0],
+        b1 = matrixB[1],
+        b2 = matrixB[2],
+        b3 = matrixB[3],
+        b4 = matrixB[4],
+        b5 = matrixB[5],
+        b6 = matrixB[6],
+        b7 = matrixB[7],
+        b8 = matrixB[8];
+
+  return ([
+
+    a0 * b0 + a3 * b1 + a6 * b2,
+    a1 * b0 + a4 * b1 + a7 * b2,
+    a2 * b0 + a5 * b1 + a8 * b2,
+
+    a0 * b3 + a3 * b4 + a6 * b5,
+    a1 * b3 + a4 * b4 + a7 * b5,
+    a2 * b3 + a5 * b4 + a8 * b5,
+
+    a0 * b6 + a3 * b7 + a6 * b8,
+    a1 * b6 + a4 * b7 + a7 * b8,
+    a2 * b6 + a5 * b7 + a8 * b8,
+
+  ]);
+}
+
+function multiply4(matrixA, matrixB) {
+  const  a0 = matrixA[ 0],
+         a1 = matrixA[ 1],
+         a2 = matrixA[ 2],
+         a3 = matrixA[ 3],
+         a4 = matrixA[ 4],
+         a5 = matrixA[ 5],
+         a6 = matrixA[ 6],
+         a7 = matrixA[ 7],
+         a8 = matrixA[ 8],
+         a9 = matrixA[ 9],
+        a10 = matrixA[10],
+        a11 = matrixA[11],
+        a12 = matrixA[12],
+        a13 = matrixA[13],
+        a14 = matrixA[14],
+        a15 = matrixA[15],
+
+         b0 = matrixB[ 0],
+         b1 = matrixB[ 1],
+         b2 = matrixB[ 2],
+         b3 = matrixB[ 3],
+         b4 = matrixB[ 4],
+         b5 = matrixB[ 5],
+         b6 = matrixB[ 6],
+         b7 = matrixB[ 7],
+         b8 = matrixB[ 8],
+         b9 = matrixB[ 9],
+        b10 = matrixB[10],
+        b11 = matrixB[11],
+        b12 = matrixB[12],
+        b13 = matrixB[13],
+        b14 = matrixB[14],
+        b15 = matrixB[15];
+
+  return ([
+
+    a0 *  b0 +  a4 *  b1 +  a8 *  b2 + a12 *  b3,
+    a1 *  b0 +  a5 *  b1 +  a9 *  b2 + a13 *  b3,
+    a2 *  b0 +  a6 *  b1 + a10 *  b2 + a14 *  b3,
+    a3 *  b0 +  a7 *  b1 + a11 *  b2 + a15 *  b3,
+
+    a0 *  b4 +  a4 *  b5 +  a8 *  b6 + a12 *  b7,
+    a1 *  b4 +  a5 *  b5 +  a9 *  b6 + a13 *  b7,
+    a2 *  b4 +  a6 *  b5 + a10 *  b6 + a14 *  b7,
+    a3 *  b4 +  a7 *  b5 + a11 *  b6 + a15 *  b7,
+
+    a0 *  b8 +  a4 *  b9 +  a8 * b10 + a12 * b11,
+    a1 *  b8 +  a5 *  b9 +  a9 * b10 + a13 * b11,
+    a2 *  b8 +  a6 *  b9 + a10 * b10 + a14 * b11,
+    a3 *  b8 +  a7 *  b9 + a11 * b10 + a15 * b11,
+
+    a0 * b12 +  a4 * b13 +  a8 * b14 + a12 * b15,
+    a1 * b12 +  a5 * b13 +  a9 * b14 + a13 * b15,
+    a2 * b12 +  a6 * b13 + a10 * b14 + a14 * b15,
+    a3 * b12 +  a7 * b13 + a11 * b14 + a15 * b15,
+
+  ]);
+}
+
 function invert2(matrix) {
   const m0 = matrix[0],
         m1 = matrix[1],
@@ -163,6 +283,7 @@ function rotate4(matrix, angle, vector) {
     const s = Math.sin(angle),
           c = Math.cos(angle),
           t = 1 - c,
+
           m00 = matrix[ 0],
           m01 = matrix[ 1],
           m02 = matrix[ 2],
@@ -175,6 +296,7 @@ function rotate4(matrix, angle, vector) {
           m21 = matrix[ 9],
           m22 = matrix[10],
           m23 = matrix[11],
+
           b00 = x * x * t + c,
           b01 = y * x * t + z * s,
           b02 = z * x * t - y * s,
@@ -197,21 +319,22 @@ function rotate4(matrix, angle, vector) {
 }
 
 function translate4(matrix, vector) {
-  let x = vector[0],
-      y = vector[1],
-      z = vector[2],
-      m00 = matrix[0],
-      m01 = matrix[1],
-      m02 = matrix[2],
-      m03 = matrix[3],
-      m10 = matrix[4],
-      m11 = matrix[5],
-      m12 = matrix[6],
-      m13 = matrix[7],
-      m20 = matrix[8],
-      m21 = matrix[9],
-      m22 = matrix[10],
-      m23 = matrix[11];
+  const x = vector[0],
+        y = vector[1],
+        z = vector[2],
+
+        m00 = matrix[ 0],
+        m01 = matrix[ 1],
+        m02 = matrix[ 2],
+        m03 = matrix[ 3],
+        m10 = matrix[ 4],
+        m11 = matrix[ 5],
+        m12 = matrix[ 6],
+        m13 = matrix[ 7],
+        m20 = matrix[ 8],
+        m21 = matrix[ 9],
+        m22 = matrix[10],
+        m23 = matrix[11];
 
   return ([
 
@@ -241,6 +364,9 @@ module.exports = {
   identity2,
   identity3,
   identity4,
+  multiply2,
+  multiply3,
+  multiply4,
   invert2,
   invert3,
   invert4,

@@ -75,7 +75,7 @@ class CanvasElement extends Element {
   }
 
   static fromProperties(Class, properties, ...remainingArguments) {
-    const { scale, position, rotations, mask = null, hidden = false } = properties,
+    const { scale = null, position = null, rotations = null, mask = null, hidden = false } = properties,
           transform = composeTransform(scale, position, rotations),
           facets = [],
           canvasElement = Element.fromProperties(Class, properties, transform, facets, mask, hidden, ...remainingArguments);
