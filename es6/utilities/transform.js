@@ -8,10 +8,6 @@ const { transform4 } = vectorMaths,
       { DEGREES_TO_RADIANS } = constants,
       { identity4, scale4, rotate4, translate4, multiply4 } = matrixMaths;
 
-const xAxis = [ 1, 0, 0 ],
-      yAxis = [ 0, 1, 0 ],
-      zAxis = [ 0, 0, 1 ];
-
 function composeTransform(scale, position, rotations) {
   let matrix = null;
 
@@ -72,7 +68,11 @@ function calculateRotationsMatrix(rotations) {
 
   const xAngle = rotations[ 0 ] * DEGREES_TO_RADIANS,
         yAngle = rotations[ 1 ] * DEGREES_TO_RADIANS,
-        zAngle = rotations[ 2 ] * DEGREES_TO_RADIANS;
+        zAngle = rotations[ 2 ] * DEGREES_TO_RADIANS,
+
+        xAxis = [ 1, 0, 0 ],
+        yAxis = [ 0, 1, 0 ],
+        zAxis = [ 0, 0, 1 ];
 
   rotationsMatrix = rotate4(rotationsMatrix, xAngle, xAxis);
   rotationsMatrix = rotate4(rotationsMatrix, yAngle, yAxis);
