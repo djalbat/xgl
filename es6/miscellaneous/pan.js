@@ -37,9 +37,9 @@ class Pan {
           yAngle = tilt.getYAngle(),
           scalar = OFFSET_SCALAR, ///
           relativeMouseCoordinates = subtract2(this.mouseCoordinates, this.previousMouseCoordinates),
-          scaledRelativeMouseCoordinates = scale2(relativeMouseCoordinates, scalar),
-          yAngleOffset = calculateYAngleOffset(yAngle, scaledRelativeMouseCoordinates),
-          xAngleOffset = calculateXAngleOffset(xAngle, yAngle, scaledRelativeMouseCoordinates);
+          relativeOffsets = scale2(relativeMouseCoordinates, scalar),
+          yAngleOffset = calculateYAngleOffset(yAngle, relativeOffsets),
+          xAngleOffset = calculateXAngleOffset(xAngle, yAngle, relativeOffsets);
 
     this.offsets = add3(add3(this.previousOffsets, yAngleOffset), xAngleOffset);  ///
   }
