@@ -74,7 +74,7 @@ class ColouredFacet extends Facet {
     if (largeEnough) {
       const normal = calculateNormal(vertices, Normal),
             edges = calculateEdges(vertices, Edge),
-            rgba = [...colour, 1];  ///
+            rgba = [ ...colour, 1 ];  ///
 
       colouredFacet = new ColouredFacet(vertices, normal, edges, rgba);
     }

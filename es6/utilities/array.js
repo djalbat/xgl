@@ -10,7 +10,7 @@ function permute(array, places) {
         leadingElements = array.slice(0, cut),
         trailingElements = array.slice(cut);
 
-  array = [...trailingElements, ...leadingElements];
+  array = [ ...trailingElements, ...leadingElements ];
 
   return array;
 }

@@ -18,7 +18,7 @@ function calculateMidPointPosition(vertices) {
 }
 
 function projectMidPointPositionOntoXYPlane(midPointPosition) {
-  midPointPosition = [...midPointPosition.slice(0, 2), 0];  ///
+  midPointPosition = [ ...midPointPosition.slice(0, 2), 0 ];  ///
 
   return midPointPosition;
 }

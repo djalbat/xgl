@@ -38,7 +38,7 @@ function composeTransform(scale, rotations, position) {
 
   const transform = (matrix === null) ?
                       (vector) => vector :
-                        (vector) => transform4([...vector, 1], matrix).slice(0, 3);
+                        (vector) => transform4([ ...vector, 1 ], matrix).slice(0, 3);
 
   return transform;
 }
