@@ -2,10 +2,12 @@
 
 const constants = require('../constants'),
       matrixMaths = require('../maths/matrix'),
+      vectorMaths = require('../maths/vector'),
       arrayUtilities = require('../utilities/array');
 
-const { first, second, third } = arrayUtilities,
-      { DEGREES_TO_RADIANS, FIELD_OF_VIEW, Z_NEAR, Z_FAR } = constants,
+const { scale3 } = vectorMaths,
+      { first, second, third } = arrayUtilities,
+      { DEGREES_TO_RADIANS_SCALAR, FIELD_OF_VIEW, Z_NEAR, Z_FAR } = constants,
       { identity4, scale4, invert4, rotate4, translate4, transpose4, perspective4 } = matrixMaths;
 
 function scaleMatrixFromScale(scale) {
@@ -72,13 +74,8 @@ function rotationsMatrixFromAngles(angles) {
 }
 
 function rotationsMatrixFromRotations(rotations) {
-  const angles = [
-
-          rotations[ 0 ] * DEGREES_TO_RADIANS,
-          rotations[ 1 ] * DEGREES_TO_RADIANS,
-          rotations[ 2 ] * DEGREES_TO_RADIANS,
-
-        ],
+  const scalar = DEGREES_TO_RADIANS_SCALAR,
+        angles = scale3(rotations, scalar),
         rotationsMatrix = rotationsMatrixFromAngles(angles);
 
   return rotationsMatrix;
