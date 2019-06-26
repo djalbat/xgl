@@ -5,10 +5,10 @@ const Pan = require('../../miscellaneous/pan'),
       Zoom = require('../../miscellaneous/zoom'),
       Camera = require('../camera'),
       vectorMaths = require('../../maths/vector'),
-      cameraUtilities = require('../../utilities/camera');
+      matrixUtilities = require('../../utilities/matrix');
 
 const { zero2, zero3 } = vectorMaths,
-      { offsetMatrixFromOffsets, rotationsMatrixFromAngles, positionMatrixFromDistance, projectionMatrixFromWidthAndHeight, normalsMatrixFromRotationsMatrix } = cameraUtilities;
+      { offsetMatrixFromOffsets, rotationsMatrixFromAngles, positionMatrixFromDistance, projectionMatrixFromWidthAndHeight, normalsMatrixFromRotationsMatrix } = matrixUtilities;
 
 const defaultInitialAngles = zero2(),
       defaultInitialOffset = zero3(),

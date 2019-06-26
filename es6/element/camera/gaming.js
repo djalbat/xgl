@@ -4,10 +4,10 @@ const Tilt = require('../../miscellaneous/tilt'),
       Camera = require('../camera'),
       Location = require('../../miscellaneous/location'),
       vectorMaths = require('../../maths/vector'),
-      cameraUtilities = require('../../utilities/camera');
+      matrixUtilities = require('../../utilities/matrix');
 
 const { zero2 } = vectorMaths,
-      { offsetMatrixFromOffsets, rotationsMatrixFromAngles, positionMatrixFromNothing, projectionMatrixFromWidthAndHeight, normalsMatrixFromRotationsMatrix } = cameraUtilities;
+      { offsetMatrixFromOffsets, rotationsMatrixFromAngles, positionMatrixFromNothing, projectionMatrixFromWidthAndHeight, normalsMatrixFromRotationsMatrix } = matrixUtilities;
 
 const defaultInitialAngles = zero2(),
       defaultInitialPosition = [ 0, 0, 5 ];

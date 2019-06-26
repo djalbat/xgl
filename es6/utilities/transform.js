@@ -2,17 +2,19 @@
 
 const constants = require('../constants'),
       vectorMaths = require('../maths/vector'),
-      matrixMaths = require('../maths/matrix');
+      matrixMaths = require('../maths/matrix'),
+      matrixUtilities = require('../utilities/matrix');
 
 const { transform4 } = vectorMaths,
       { DEGREES_TO_RADIANS } = constants,
-      { identity4, scale4, rotate4, translate4, multiply4 } = matrixMaths;
+      { rotationsMatrixFromAngles } = matrixUtilities,
+      { identity4, scale4, translate4, multiply4 } = matrixMaths;
 
 function composeTransform(scale, rotations, position) {
   let matrix = null;
 
   if (scale !== null) {
-    const scaleMatrix = calculateScaleMatrix(scale);
+    const scaleMatrix = scaleMatrixFromScale(scale);
 
     matrix = (matrix === null) ?
                scaleMatrix :
@@ -20,7 +22,7 @@ function composeTransform(scale, rotations, position) {
   }
 
   if (rotations !== null) {
-    const rotationsMatrix = calculateRotationsMatrix(rotations);
+    const rotationsMatrix = rotationsMatrixFromRotations(rotations);
 
     matrix = (matrix === null) ?
                rotationsMatrix :
@@ -29,7 +31,7 @@ function composeTransform(scale, rotations, position) {
   }
 
   if (position !== null) {
-    const positionMatrix = calculatePositionMatrix(position);
+    const positionMatrix = positionMatrixFromPosition(position);
 
     matrix = (matrix === null) ?
                 positionMatrix :
@@ -47,7 +49,7 @@ module.exports = module.exports = {
   composeTransform
 };
 
-function calculateScaleMatrix(scale) {
+function scaleMatrixFromScale(scale) {
   let scaleMatrix = identity4();
 
   scaleMatrix = scale4(scaleMatrix, scale);
@@ -55,7 +57,7 @@ function calculateScaleMatrix(scale) {
   return scaleMatrix;
 }
 
-function calculatePositionMatrix(position) {
+function positionMatrixFromPosition(position) {
   let positionMatrix = identity4();
 
   positionMatrix = translate4(positionMatrix, position);
@@ -63,20 +65,15 @@ function calculatePositionMatrix(position) {
   return positionMatrix;
 }
 
-function calculateRotationsMatrix(rotations) {
-  let rotationsMatrix = identity4();
+function rotationsMatrixFromRotations(rotations) {
+  const angles = [
 
-  const xAngle = rotations[ 0 ] * DEGREES_TO_RADIANS,
-        yAngle = rotations[ 1 ] * DEGREES_TO_RADIANS,
-        zAngle = rotations[ 2 ] * DEGREES_TO_RADIANS,
+          rotations[ 0 ] * DEGREES_TO_RADIANS,
+          rotations[ 1 ] * DEGREES_TO_RADIANS,
+          rotations[ 2 ] * DEGREES_TO_RADIANS,
 
-        xAxis = [ 1, 0, 0 ],
-        yAxis = [ 0, 1, 0 ],
-        zAxis = [ 0, 0, 1 ];
-
-  rotationsMatrix = rotate4(rotationsMatrix, xAngle, xAxis);
-  rotationsMatrix = rotate4(rotationsMatrix, yAngle, yAxis);
-  rotationsMatrix = rotate4(rotationsMatrix, zAngle, zAxis);
+        ],
+        rotationsMatrix = rotationsMatrixFromAngles(angles);
 
   return rotationsMatrix;
 }
