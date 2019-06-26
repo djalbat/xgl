@@ -2,11 +2,11 @@
 
 const constants = require('../constants'),
       vectorMaths = require('../maths/vector'),
-      offsetUtilities = require('../utilities/offset');
+      matrixUtilities = require('../utilities/matrix');
 
-const { add3, scale2, scale3, subtract2 } = vectorMaths,
+const { rotationsMatrixFromAngles } = matrixUtilities,
       { DELTA_SCALAR, INVERT_SCALAR, OFFSET_SCALAR } = constants,
-      { calculateXAngleOffset, calculateYAngleOffset, calculateZAngleOffset } = offsetUtilities;
+      { add3, scale2, reflect2, scale3, reflect3, subtract2, transform4 } = vectorMaths;
 
 class Location {
   constructor(offsets, mouseCoordinates, previousMouseCoordinates) {
@@ -28,25 +28,26 @@ class Location {
   }
 
   updateXYOffset(mouseCoordinates, tilt) {
-    const xAngle = tilt.getXAngle(),
-          yAngle = tilt.getYAngle(),
+    const angles = tilt.getAngles(),
           scalar = OFFSET_SCALAR, ///
           relativeMouseCoordinates = subtract2(mouseCoordinates, this.previousMouseCoordinates),
-          relativeOffsets = scale2(relativeMouseCoordinates, scalar),
-          yAngleOffset = calculateYAngleOffset(yAngle, relativeOffsets),
-          xAngleOffset = calculateXAngleOffset(xAngle, yAngle, relativeOffsets);
+          reflectedScaledRelativeMouseCoordinates = reflect2(scale2(relativeMouseCoordinates, scalar)),
+          reflectedAngles = reflect3(angles),
+          rotationsMatrix = rotationsMatrixFromAngles(reflectedAngles),
+          relativeOffsets = transform4([ ...reflectedScaledRelativeMouseCoordinates, 0, 0], rotationsMatrix).slice(0, 3); ///
 
-    this.offsets = add3(add3(this.offsets, yAngleOffset), xAngleOffset);
+    this.offsets = add3(this.offsets, relativeOffsets);
   }
 
   updateZOffset(delta, tilt) {
-    const xAngle = tilt.getXAngle(),
-          yAngle = tilt.getYAngle(),
+    const angles = tilt.getAngles(),
           scalar = DELTA_SCALAR, ///
-          thirdRelativeOffset = delta * scalar,
-          zAngleOffset = calculateZAngleOffset(xAngle, yAngle, thirdRelativeOffset);
+          scaledDelta = delta * scalar,
+          reflectedAngles = reflect3(angles),
+          rotationsMatrix = rotationsMatrixFromAngles(reflectedAngles),
+          relativeOffsets = transform4([ 0, 0, scaledDelta, 0 ], rotationsMatrix).slice(0, 3); ///
 
-    this.offsets = add3(this.offsets, zAngleOffset);
+    this.offsets = add3(this.offsets, relativeOffsets);
   }
 
   static fromInitialPosition(initialPosition) {
