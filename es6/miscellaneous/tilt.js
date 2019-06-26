@@ -68,8 +68,6 @@ class Tilt {
           relativeAngles = transform3([ ...relativeMouseCoordinates, 0 ], matrix);  ///
 
     this.angles = add3(this.previousAngles, relativeAngles);
-
-    console.log(this.angles)
   }
 
   static fromInitialAnglesAndFlipped(initialAngles, flipped) {
