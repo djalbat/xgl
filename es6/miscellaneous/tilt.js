@@ -5,7 +5,7 @@ const constants = require('../constants'),
       arrayUtilities = require('../utilities/array');
 
 const { first, second } = arrayUtilities,
-      { zero2, add3, transform3, scale3, subtract2 } = vectorMaths,
+      { zero2, add3, subtract2, transform3 } = vectorMaths,
       { ANGLES_SCALAR, DEGREES_TO_RADIANS_SCALAR } = constants;
 
 class Tilt {
@@ -55,9 +55,8 @@ class Tilt {
 
   updateAngles() {
     const scalar = this.flipped ?
-                     ANGLES_SCALAR :
-                      -ANGLES_SCALAR,
-          relativeMouseCoordinates = subtract2(this.mouseCoordinates, this.previousMouseCoordinates),
+                     +ANGLES_SCALAR :
+                       -ANGLES_SCALAR,
           matrix = [
 
                   0, scalar, 0,
@@ -65,6 +64,7 @@ class Tilt {
                   0,      0, 0,
 
           ],
+          relativeMouseCoordinates = subtract2(this.mouseCoordinates, this.previousMouseCoordinates),
           relativeAngles = transform3([ ...relativeMouseCoordinates, 0 ], matrix);  ///
 
     this.angles = add3(this.previousAngles, relativeAngles);
@@ -72,9 +72,16 @@ class Tilt {
 
   static fromInitialAnglesAndFlipped(initialAngles, flipped) {
     const scalar = flipped ?
-                    -DEGREES_TO_RADIANS_SCALAR :
-                      +DEGREES_TO_RADIANS_SCALAR,
-          angles = scale3([ ...initialAngles, 0 ], scalar), ///
+                     +DEGREES_TO_RADIANS_SCALAR :
+                       -DEGREES_TO_RADIANS_SCALAR,
+          matrix = [
+
+                  0, scalar, 0,
+            -scalar,      0, 0,
+                  0,      0, 0,
+
+          ],
+          angles = transform3([ ...initialAngles, 0 ], matrix), ///
           previousAngles = angles,  ///
           mouseCoordinates = zero2(),
           previousMouseCoordinates = mouseCoordinates,  ///
