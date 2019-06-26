@@ -1,14 +1,12 @@
 'use strict';
 
-const constants = require('../constants'),
-      vectorMaths = require('../maths/vector'),
+const vectorMaths = require('../maths/vector'),
       matrixMaths = require('../maths/matrix'),
       matrixUtilities = require('../utilities/matrix');
 
-const { transform4 } = vectorMaths,
-      { DEGREES_TO_RADIANS } = constants,
-      { rotationsMatrixFromAngles } = matrixUtilities,
-      { identity4, scale4, translate4, multiply4 } = matrixMaths;
+const { multiply4 } = matrixMaths,
+      { transform4 } = vectorMaths,
+      { scaleMatrixFromScale, positionMatrixFromPosition, rotationsMatrixFromRotations } = matrixUtilities;
 
 function composeTransform(scale, rotations, position) {
   let matrix = null;
@@ -48,32 +46,3 @@ function composeTransform(scale, rotations, position) {
 module.exports = module.exports = {
   composeTransform
 };
-
-function scaleMatrixFromScale(scale) {
-  let scaleMatrix = identity4();
-
-  scaleMatrix = scale4(scaleMatrix, scale);
-
-  return scaleMatrix;
-}
-
-function positionMatrixFromPosition(position) {
-  let positionMatrix = identity4();
-
-  positionMatrix = translate4(positionMatrix, position);
-
-  return positionMatrix;
-}
-
-function rotationsMatrixFromRotations(rotations) {
-  const angles = [
-
-          rotations[ 0 ] * DEGREES_TO_RADIANS,
-          rotations[ 1 ] * DEGREES_TO_RADIANS,
-          rotations[ 2 ] * DEGREES_TO_RADIANS,
-
-        ],
-        rotationsMatrix = rotationsMatrixFromAngles(angles);
-
-  return rotationsMatrix;
-}
