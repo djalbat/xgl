@@ -2,11 +2,11 @@
 
 const constants = require('../constants'),
       vectorMaths = require('../maths/vector'),
-      offsetUtilities = require('../utilities/offset');
+      matrixUtilities = require('../utilities/matrix');
 
 const { OFFSET_SCALAR } = constants,
-      { zero2, add3, subtract2, scale2 } = vectorMaths,
-      { calculateXAngleOffset, calculateYAngleOffset } = offsetUtilities;
+      { rotationsMatrixFromAngles } = matrixUtilities,
+      { zero2, add3, scale2, reflect2, reflect3, subtract2, transform4 } = vectorMaths;
 
 class Pan {
   constructor(offsets, previousOffsets, mouseCoordinates, previousMouseCoordinates) {
@@ -33,15 +33,15 @@ class Pan {
   }
 
   updateOffset(tilt) {
-    const xAngle = tilt.getXAngle(),
-          yAngle = tilt.getYAngle(),
+    const angles = tilt.getAngles().slice(),
           scalar = OFFSET_SCALAR, ///
           relativeMouseCoordinates = subtract2(this.mouseCoordinates, this.previousMouseCoordinates),
-          relativeOffsets = scale2(relativeMouseCoordinates, scalar),
-          yAngleOffset = calculateYAngleOffset(yAngle, relativeOffsets),
-          xAngleOffset = calculateXAngleOffset(xAngle, yAngle, relativeOffsets);
+          reflectedScaledRelativeMouseCoordinates = reflect2(scale2(relativeMouseCoordinates, scalar)),
+          reflectedAngles = reflect3(angles),
+          rotationsMatrix = rotationsMatrixFromAngles(reflectedAngles),
+          relativeOffsets = transform4([ ...reflectedScaledRelativeMouseCoordinates, 0, 0], rotationsMatrix).slice(0, 3); ///
 
-    this.offsets = add3(add3(this.previousOffsets, yAngleOffset), xAngleOffset);  ///
+    this.offsets = add3(this.previousOffsets, relativeOffsets);
   }
 
   static fromInitialOffsets(initialOffsets) {

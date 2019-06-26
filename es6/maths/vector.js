@@ -124,6 +124,36 @@ function normalise4(vector) {
   }
 }
 
+function reflect2(vector) {
+  return ([
+
+    vector[0] * -1,
+    vector[1] * -1,
+
+  ]);
+}
+
+function reflect3(vector) {
+  return ([
+
+    vector[0] * -1,
+    vector[1] * -1,
+    vector[2] * -1,
+
+  ]);
+}
+
+function reflect4(vector) {
+  return ([
+
+    vector[0] * -1,
+    vector[1] * -1,
+    vector[2] * -1,
+    vector[3] * -1,
+
+  ]);
+}
+
 function scale2(vector, scalar) {
   return ([
 
@@ -300,6 +330,9 @@ module.exports = {
   normalise2,
   normalise3,
   normalise4,
+  reflect2,
+  reflect3,
+  reflect4,
   scale2,
   scale3,
   scale4,

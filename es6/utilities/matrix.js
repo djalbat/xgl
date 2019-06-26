@@ -66,9 +66,11 @@ function rotationsMatrixFromAngles(angles) {
         yAxis = [ 0, 1, 0 ],
         zAxis = [ 0, 0, 1 ];
 
-  rotationsMatrix = rotate4(rotationsMatrix, xAngle, xAxis);
-  rotationsMatrix = rotate4(rotationsMatrix, yAngle, yAxis);
   rotationsMatrix = rotate4(rotationsMatrix, zAngle, zAxis);
+
+  rotationsMatrix = rotate4(rotationsMatrix, yAngle, yAxis);
+
+  rotationsMatrix = rotate4(rotationsMatrix, xAngle, xAxis);
 
   return rotationsMatrix;
 }
