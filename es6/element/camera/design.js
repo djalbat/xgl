@@ -11,7 +11,7 @@ const { zero2, zero3 } = vectorMaths,
       { offsetsMatrixFromOffsets, rotationsMatrixFromAngles, positionMatrixFromDistance, projectionMatrixFromWidthAndHeight, normalsMatrixFromRotationsMatrix } = matrixUtilities;
 
 const defaultInitialAngles = zero2(),
-      defaultInitialOffset = zero3(),
+      defaultInitialOffsets = zero3(),
       defaultInitialDistance = 5;
 
 class DesignCamera extends Camera {
@@ -96,12 +96,11 @@ class DesignCamera extends Camera {
   }
 
   static fromProperties(properties) {
-    const { initialAngles = defaultInitialAngles, initialOffset = defaultInitialOffset, initialDistance = defaultInitialDistance } = properties,
-          initialOffsets = initialOffset, ///
+    const { initialAngles = defaultInitialAngles, initialOffsets = defaultInitialOffsets, initialDistance = defaultInitialDistance } = properties,
           flipped = false,
           pan = Pan.fromInitialOffsets(initialOffsets),
-          tilt = Tilt.fromInitialAnglesAndFlipped(initialAngles, flipped),
           zoom = Zoom.fromInitialDistance(initialDistance),
+          tilt = Tilt.fromInitialAnglesAndFlipped(initialAngles, flipped),
           designCamera = Camera.fromProperties(DesignCamera, properties, pan, tilt, zoom);
 
     return designCamera;
