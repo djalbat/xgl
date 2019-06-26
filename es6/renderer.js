@@ -42,7 +42,7 @@ class Renderer {
 
   getCount() { return this.rendererData.getCount(); }
 
-  getOffsetMatrixUniformLocation() { return this.uniformLocations.getOffsetMatrixUniformLocation(); }
+  getOffsetsMatrixUniformLocation() { return this.uniformLocations.getOffsetsMatrixUniformLocation(); }
 
   getRotationsMatrixUniformLocation() { return this.uniformLocations.getRotationsMatrixUniformLocation(); }
 

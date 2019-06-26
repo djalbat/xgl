@@ -16,12 +16,12 @@ function scaleMatrixFromScale(scale) {
   return scaleMatrix;
 }
 
-function offsetMatrixFromOffsets(offsets) {
-  let offsetMatrix = identity4(); ///
+function offsetsMatrixFromOffsets(offsets) {
+  let offsetsMatrix = identity4(); ///
 
-  offsetMatrix = translate4(offsetMatrix, offsets);
+  offsetsMatrix = translate4(offsetsMatrix, offsets);
 
-  return offsetMatrix;
+  return offsetsMatrix;
 }
 
 function positionMatrixFromNothing() {
@@ -104,7 +104,7 @@ function projectionMatrixFromWidthAndHeight(width, height) {
 
 module.exports = {
   scaleMatrixFromScale,
-  offsetMatrixFromOffsets,
+  offsetsMatrixFromOffsets,
   positionMatrixFromNothing,
   positionMatrixFromDistance,
   positionMatrixFromPosition,

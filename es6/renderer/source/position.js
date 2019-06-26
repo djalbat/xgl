@@ -1,6 +1,6 @@
 'use strict';
 
-const offsetMatrixName = 'uOffsetMatrix',
+const offsetsMatrixName = 'uOffsetsMatrix',
       positionMatrixName = 'uPositionMatrix',
       rotationsMatrixName = 'uRotationsMatrix',
       projectionMatrixName = 'uPerspectiveMatrix',
@@ -8,7 +8,7 @@ const offsetMatrixName = 'uOffsetMatrix',
 
 const positionSource = new String(`
   
-        uniform mat4 ${offsetMatrixName},
+        uniform mat4 ${offsetsMatrixName},
                      ${rotationsMatrixName},
                      ${positionMatrixName},
                      ${projectionMatrixName};
@@ -16,7 +16,7 @@ const positionSource = new String(`
         attribute vec4 ${vertexPositionAttributeName};
 
         vec4 calculatePosition() {
-          vec4 position = ${projectionMatrixName} * ${positionMatrixName} * ${rotationsMatrixName} * ${offsetMatrixName} * ${vertexPositionAttributeName};
+          vec4 position = ${projectionMatrixName} * ${positionMatrixName} * ${rotationsMatrixName} * ${offsetsMatrixName} * ${vertexPositionAttributeName};
           
           return position;
         }
@@ -24,7 +24,7 @@ const positionSource = new String(`
       `);
 
 Object.assign(positionSource, {
-  offsetMatrixName,
+  offsetsMatrixName,
   positionMatrixName,
   rotationsMatrixName,
   projectionMatrixName,

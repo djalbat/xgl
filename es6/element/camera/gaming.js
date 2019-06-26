@@ -7,7 +7,7 @@ const Tilt = require('../../miscellaneous/tilt'),
       matrixUtilities = require('../../utilities/matrix');
 
 const { zero2 } = vectorMaths,
-      { offsetMatrixFromOffsets, rotationsMatrixFromAngles, positionMatrixFromNothing, projectionMatrixFromWidthAndHeight, normalsMatrixFromRotationsMatrix } = matrixUtilities;
+      { offsetsMatrixFromOffsets, rotationsMatrixFromAngles, positionMatrixFromNothing, projectionMatrixFromWidthAndHeight, normalsMatrixFromRotationsMatrix } = matrixUtilities;
 
 const defaultInitialAngles = zero2(),
       defaultInitialPosition = [ 0, 0, 5 ];
@@ -72,14 +72,14 @@ class GamingCamera extends Camera {
           height = canvas.getHeight(),
           offsets = this.location.getOffsets(),
           angles = this.tilt.getAngles(),
-          offsetMatrix = offsetMatrixFromOffsets(offsets),
+          offsetsMatrix = offsetsMatrixFromOffsets(offsets),
           positionMatrix = positionMatrixFromNothing(),
           rotationsMatrix = rotationsMatrixFromAngles(angles),
           projectionMatrix = projectionMatrixFromWidthAndHeight(width, height),
           normalsMatrix = normalsMatrixFromRotationsMatrix(rotationsMatrix),
           updateHandler = this.getUpdateHandler();
 
-    updateHandler(offsetMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);
+    updateHandler(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);
   }
 
   static fromProperties(properties) {

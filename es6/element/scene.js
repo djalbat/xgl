@@ -29,14 +29,14 @@ class Scene extends Element {
     this.forceUpdate(this.canvas);
   }
 
-  updateHandler(offsetMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix) {
-    this.render(offsetMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);
+  updateHandler(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix) {
+    this.render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);
   }
 
-  render(offsetMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix) {
+  render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix) {
     this.canvas.clear();
 
-    this.childElements.forEach((childElement) => childElement.render(this.canvas, offsetMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix));
+    this.childElements.forEach((childElement) => childElement.render(this.canvas, offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix));
   }
 
   initialise(canvas, update, done) {

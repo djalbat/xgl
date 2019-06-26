@@ -67,7 +67,7 @@ class ColourRenderer extends Renderer {
     rendererBuffers.bindBuffers(vertexNormalAttributeLocation, vertexPositionAttributeLocation, vertexColourAttributeLocation, canvas);
   }
 
-  render(canvas, offsetMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix) {
+  render(canvas, offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix) {
     const program = this.getProgram();
 
     canvas.useProgram(program);
@@ -76,7 +76,7 @@ class ColourRenderer extends Renderer {
 
     const renderer = this;  ///
 
-    canvas.render(renderer, offsetMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);
+    canvas.render(renderer, offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);
 
     const count = this.getCount(),
           start = 0,

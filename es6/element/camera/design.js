@@ -8,7 +8,7 @@ const Pan = require('../../miscellaneous/pan'),
       matrixUtilities = require('../../utilities/matrix');
 
 const { zero2, zero3 } = vectorMaths,
-      { offsetMatrixFromOffsets, rotationsMatrixFromAngles, positionMatrixFromDistance, projectionMatrixFromWidthAndHeight, normalsMatrixFromRotationsMatrix } = matrixUtilities;
+      { offsetsMatrixFromOffsets, rotationsMatrixFromAngles, positionMatrixFromDistance, projectionMatrixFromWidthAndHeight, normalsMatrixFromRotationsMatrix } = matrixUtilities;
 
 const defaultInitialAngles = zero2(),
       defaultInitialOffset = zero3(),
@@ -85,14 +85,14 @@ class DesignCamera extends Camera {
           angles = this.tilt.getAngles(),
           offsets = this.pan.getOffsets(),
           distance = this.zoom.getDistance(),
-          offsetMatrix = offsetMatrixFromOffsets(offsets),
+          offsetsMatrix = offsetsMatrixFromOffsets(offsets),
           positionMatrix = positionMatrixFromDistance(distance),
           rotationsMatrix = rotationsMatrixFromAngles(angles),
           projectionMatrix = projectionMatrixFromWidthAndHeight(width, height),
           normalsMatrix = normalsMatrixFromRotationsMatrix(rotationsMatrix),
           updateHandler = this.getUpdateHandler();
 
-    updateHandler(offsetMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);
+    updateHandler(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);
   }
 
   static fromProperties(properties) {
