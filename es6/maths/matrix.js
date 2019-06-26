@@ -318,6 +318,20 @@ function rotate4(matrix, angle, vector) {
   }
 }
 
+function rotate4x(matrix, angle) {
+  const s = Math.sin(angle),
+        c = Math.cos(angle);
+
+  return ([
+
+    1,  0,  0, 0,
+    0, +c, -s, 0,
+    0, +s, +c, 0,
+    0,  0,  0, 1,
+
+  ]);
+}
+
 function translate4(matrix, vector) {
   const x = vector[0],
         y = vector[1],
@@ -372,6 +386,7 @@ module.exports = {
   invert4,
   scale4,
   rotate4,
+  rotate4x,
   transpose2,
   transpose3,
   transpose4,

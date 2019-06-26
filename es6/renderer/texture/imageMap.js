@@ -62,7 +62,7 @@ class ImageMapTextureRenderer extends TextureRenderer {
     canvas.setUniformLocationIntegerValue(samplerUniformLocation, samplerUniformLocationIntegerValue);
   }
 
-  render(canvas, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix) {
+  render(canvas, offsetMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix) {
     const program = this.getProgram();
 
     canvas.useProgram(program);
@@ -71,7 +71,7 @@ class ImageMapTextureRenderer extends TextureRenderer {
 
     const renderer = this;  ///
 
-    canvas.render(renderer, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
+    canvas.render(renderer, offsetMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);
 
     const rendererData = this.getRendererData(),
           count = rendererData.getCount(),

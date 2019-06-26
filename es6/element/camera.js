@@ -27,7 +27,7 @@ class Camera extends Element {
     this.updateHandler = updateHandler;
   }
 
-  render(canvas, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix) {
+  render(canvas, offsetMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix) {
     ///
   }
 

@@ -44,13 +44,13 @@ class Renderer {
 
   getOffsetMatrixUniformLocation() { return this.uniformLocations.getOffsetMatrixUniformLocation(); }
 
-  getRotationMatrixUniformLocation() { return this.uniformLocations.getRotationMatrixUniformLocation(); }
+  getRotationsMatrixUniformLocation() { return this.uniformLocations.getRotationsMatrixUniformLocation(); }
 
   getPositionMatrixUniformLocation() { return this.uniformLocations.getPositionMatrixUniformLocation(); }
 
   getProjectionMatrixUniformLocation() { return this.uniformLocations.getProjectionMatrixUniformLocation(); }
 
-  getNormalMatrixUniformLocation() { return this.uniformLocations.getNormalMatrixUniformLocation(); }
+  getNormalsMatrixUniformLocation() { return this.uniformLocations.getNormalsMatrixUniformLocation(); }
 
   getVertexPositionAttributeLocation() { return this.attributeLocations.getVertexPositionAttributeLocation(); }
 

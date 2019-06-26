@@ -6,8 +6,8 @@ const UniformLocations = require('../../locations/uniform'),
 const { samplerName } = fragmentShaderSource;
 
 class TextureUniformLocations extends UniformLocations {
-  constructor(offsetMatrixUniformLocation, rotationMatrixUniformLocation, positionMatrixUniformLocation, projectionMatrixUniformLocation, normalMatrixUniformLocation, samplerUniformLocation) {
-    super(offsetMatrixUniformLocation, rotationMatrixUniformLocation, positionMatrixUniformLocation, projectionMatrixUniformLocation, normalMatrixUniformLocation);
+  constructor(offsetMatrixUniformLocation, rotationsMatrixUniformLocation, positionMatrixUniformLocation, projectionMatrixUniformLocation, normalsMatrixUniformLocation, samplerUniformLocation) {
+    super(offsetMatrixUniformLocation, rotationsMatrixUniformLocation, positionMatrixUniformLocation, projectionMatrixUniformLocation, normalsMatrixUniformLocation);
     
     this.samplerUniformLocation = samplerUniformLocation;
   }

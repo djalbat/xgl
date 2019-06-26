@@ -74,7 +74,7 @@ class ImagesTextureRenderer extends TextureRenderer {
     super.createBuffers(canvas);
   }
 
-  render(canvas, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix) {
+  render(canvas, offsetMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix) {
     const program = this.getProgram();
 
     canvas.useProgram(program);
@@ -83,7 +83,7 @@ class ImagesTextureRenderer extends TextureRenderer {
 
     const renderer = this;  ///
 
-    canvas.render(renderer, offsetMatrix, rotationMatrix, positionMatrix, projectionMatrix, normalMatrix);
+    canvas.render(renderer, offsetMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);
 
     let start,
         finish = 0;  ///

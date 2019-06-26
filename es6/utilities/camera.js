@@ -16,21 +16,25 @@ function offsetMatrixFromOffsets(offsets) {
   return offsetMatrix;
 }
 
-function rotationMatrixFromAngles(angles) {
-  let rotationMatrix = identity4(); ///
+function rotationsMatrixFromAngles(angles) {
+  let rotationsMatrix = identity4(); ///
 
   const firstAngle = first(angles),
         secondAngle = second(angles),
         thirdAngle = third(angles),
         xAngle = firstAngle,
         yAngle = secondAngle,
-        zAngle = thirdAngle;
+        zAngle = thirdAngle,
 
-  rotationMatrix = rotate4(rotationMatrix, xAngle, [1, 0, 0]);
-  rotationMatrix = rotate4(rotationMatrix, yAngle, [0, 1, 0]);
-  rotationMatrix = rotate4(rotationMatrix, zAngle, [0, 0, 1]);
+        xAxis = [ 1, 0, 0 ],
+        yAxis = [ 0, 1, 0 ],
+        zAxis = [ 0, 0, 1 ];
 
-  return rotationMatrix;
+  rotationsMatrix = rotate4(rotationsMatrix, xAngle, xAxis);
+  rotationsMatrix = rotate4(rotationsMatrix, yAngle, yAxis);
+  rotationsMatrix = rotate4(rotationsMatrix, zAngle, zAxis);
+
+  return rotationsMatrix;
 }
 
 function positionMatrixFromNothing() {
@@ -59,12 +63,12 @@ function positionMatrixFromPosition(position) {
   return positionMatrix;
 }
 
-function normalMatrixFromRotationMatrix(rotationMatrix) {
-  let normalMatrix = invert4(rotationMatrix);
+function normalsMatrixFromRotationsMatrix(rotationsMatrix) {
+  let normalsMatrix = invert4(rotationsMatrix);
 
-  normalMatrix = transpose4(normalMatrix);
+  normalsMatrix = transpose4(normalsMatrix);
 
-  return normalMatrix;
+  return normalsMatrix;
 }
 
 function projectionMatrixFromWidthAndHeight(width, height) {
@@ -79,10 +83,10 @@ function projectionMatrixFromWidthAndHeight(width, height) {
 
 module.exports = {
   offsetMatrixFromOffsets,
-  rotationMatrixFromAngles,
+  rotationsMatrixFromAngles,
   positionMatrixFromNothing,
   positionMatrixFromDistance,
   positionMatrixFromPosition,
-  normalMatrixFromRotationMatrix,
+  normalsMatrixFromRotationsMatrix,
   projectionMatrixFromWidthAndHeight
 };
