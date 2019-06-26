@@ -19,8 +19,4 @@ const simpleExample = () =>
 
 ;
 
-const matrixMaths = require('../maths/matrix'),
-      { rotate4, rotate4x, identity4 } = matrixMaths,
-      angle = Math.PI / 3;
-
 module.exports = simpleExample;
