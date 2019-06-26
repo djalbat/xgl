@@ -52,12 +52,13 @@ function positionMatrixFromPosition(position) {
   return positionMatrix;
 }
 
-function rotationsMatrixFromAngles(angles) {
+function rotationsMatrixFromAngles(angles, reverseOrder) {
   let rotationsMatrix = identity4(); ///
 
   const firstAngle = first(angles),
         secondAngle = second(angles),
         thirdAngle = third(angles),
+
         xAngle = firstAngle,
         yAngle = secondAngle,
         zAngle = thirdAngle,
@@ -66,11 +67,19 @@ function rotationsMatrixFromAngles(angles) {
         yAxis = [ 0, 1, 0 ],
         zAxis = [ 0, 0, 1 ];
 
-  rotationsMatrix = rotate4(rotationsMatrix, zAngle, zAxis);
+  if (reverseOrder) {
+    rotationsMatrix = rotate4(rotationsMatrix, zAngle, zAxis);
 
-  rotationsMatrix = rotate4(rotationsMatrix, yAngle, yAxis);
+    rotationsMatrix = rotate4(rotationsMatrix, yAngle, yAxis);
 
-  rotationsMatrix = rotate4(rotationsMatrix, xAngle, xAxis);
+    rotationsMatrix = rotate4(rotationsMatrix, xAngle, xAxis);
+  } else {
+    rotationsMatrix = rotate4(rotationsMatrix, xAngle, xAxis);
+
+    rotationsMatrix = rotate4(rotationsMatrix, yAngle, yAxis);
+
+    rotationsMatrix = rotate4(rotationsMatrix, zAngle, zAxis);
+  }
 
   return rotationsMatrix;
 }
@@ -78,7 +87,8 @@ function rotationsMatrixFromAngles(angles) {
 function rotationsMatrixFromRotations(rotations) {
   const scalar = DEGREES_TO_RADIANS_SCALAR,
         angles = scale3(rotations, scalar),
-        rotationsMatrix = rotationsMatrixFromAngles(angles);
+        reverseOrder = false,
+        rotationsMatrix = rotationsMatrixFromAngles(angles, reverseOrder);
 
   return rotationsMatrix;
 }

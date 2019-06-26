@@ -30,10 +30,11 @@ class Location {
   updateXYOffset(mouseCoordinates, tilt) {
     const angles = tilt.getAngles(),
           scalar = OFFSET_SCALAR, ///
+          reverseOrder = true,
           relativeMouseCoordinates = subtract2(mouseCoordinates, this.previousMouseCoordinates),
           reflectedScaledRelativeMouseCoordinates = reflect2(scale2(relativeMouseCoordinates, scalar)),
           reflectedAngles = reflect3(angles),
-          rotationsMatrix = rotationsMatrixFromAngles(reflectedAngles),
+          rotationsMatrix = rotationsMatrixFromAngles(reflectedAngles, reverseOrder),
           relativeOffsets = transform4([ ...reflectedScaledRelativeMouseCoordinates, 0, 0], rotationsMatrix).slice(0, 3); ///
 
     this.offsets = add3(this.offsets, relativeOffsets);
@@ -42,9 +43,10 @@ class Location {
   updateZOffset(delta, tilt) {
     const angles = tilt.getAngles(),
           scalar = DELTA_SCALAR, ///
+          reverseOrder = true,
           scaledDelta = delta * scalar,
           reflectedAngles = reflect3(angles),
-          rotationsMatrix = rotationsMatrixFromAngles(reflectedAngles),
+          rotationsMatrix = rotationsMatrixFromAngles(reflectedAngles, reverseOrder),
           relativeOffsets = transform4([ 0, 0, scaledDelta, 0 ], rotationsMatrix).slice(0, 3); ///
 
     this.offsets = add3(this.offsets, relativeOffsets);

@@ -35,10 +35,11 @@ class Pan {
   updateOffset(tilt) {
     const angles = tilt.getAngles(),
           scalar = OFFSET_SCALAR, ///
+          reverseOrder = true,
           relativeMouseCoordinates = subtract2(this.mouseCoordinates, this.previousMouseCoordinates),
           scaledReflectedRelativeMouseCoordinates = reflect2(scale2(relativeMouseCoordinates, scalar)),
           reflectedAngles = reflect3(angles),
-          rotationsMatrix = rotationsMatrixFromAngles(reflectedAngles),
+          rotationsMatrix = rotationsMatrixFromAngles(reflectedAngles, reverseOrder),
           relativeOffsets = transform4([ ...scaledReflectedRelativeMouseCoordinates, 0, 0 ], rotationsMatrix).slice(0, 3); ///
 
     this.offsets = add3(this.previousOffsets, relativeOffsets);
