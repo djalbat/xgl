@@ -33,7 +33,7 @@ class Pan {
   }
 
   updateOffset(tilt) {
-    const angles = tilt.getAngles().slice(),
+    const angles = tilt.getAngles(),
           scalar = OFFSET_SCALAR, ///
           relativeMouseCoordinates = subtract2(this.mouseCoordinates, this.previousMouseCoordinates),
           reflectedScaledRelativeMouseCoordinates = reflect2(scale2(relativeMouseCoordinates, scalar)),
