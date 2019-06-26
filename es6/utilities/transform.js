@@ -8,7 +8,7 @@ const { transform4 } = vectorMaths,
       { DEGREES_TO_RADIANS } = constants,
       { identity4, scale4, rotate4, translate4, multiply4 } = matrixMaths;
 
-function composeTransform(scale, position, rotations) {
+function composeTransform(scale, rotations, position) {
   let matrix = null;
 
   if (scale !== null) {
