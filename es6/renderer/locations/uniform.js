@@ -7,41 +7,41 @@ const { normalsMatrixName } = lightingSource,
       { offsetsMatrixName, rotationsMatrixName, positionMatrixName, projectionMatrixName } = positionSource;
 
 class UniformLocations {
-  constructor(offsetsMatrixUniformLocation, rotationsMatrixUniformLocation, positionMatrixUniformLocation, projectionMatrixUniformLocation, normalsMatrixUniformLocation) {
+  constructor(offsetsMatrixUniformLocation, normalsMatrixUniformLocation, positionMatrixUniformLocation, rotationsMatrixUniformLocation, projectionMatrixUniformLocation) {
     this.offsetsMatrixUniformLocation = offsetsMatrixUniformLocation;
-    this.rotationsMatrixUniformLocation = rotationsMatrixUniformLocation;
-    this.positionMatrixUniformLocation = positionMatrixUniformLocation;
-    this.projectionMatrixUniformLocation = projectionMatrixUniformLocation;
     this.normalsMatrixUniformLocation = normalsMatrixUniformLocation;
+    this.positionMatrixUniformLocation = positionMatrixUniformLocation;
+    this.rotationsMatrixUniformLocation = rotationsMatrixUniformLocation;
+    this.projectionMatrixUniformLocation = projectionMatrixUniformLocation;
   }
 
   getOffsetsMatrixUniformLocation() {
     return this.offsetsMatrixUniformLocation;
-  }
-  
-  getRotationsMatrixUniformLocation() {
-    return this.rotationsMatrixUniformLocation;
-  }
-
-  getPositionMatrixUniformLocation() {
-    return this.positionMatrixUniformLocation;
-  }
-
-  getProjectionMatrixUniformLocation() {
-    return this.projectionMatrixUniformLocation;
   }
 
   getNormalsMatrixUniformLocation() {
     return this.normalsMatrixUniformLocation;
   }
 
+  getPositionMatrixUniformLocation() {
+    return this.positionMatrixUniformLocation;
+  }
+
+  getRotationsMatrixUniformLocation() {
+    return this.rotationsMatrixUniformLocation;
+  }
+
+  getProjectionMatrixUniformLocation() {
+    return this.projectionMatrixUniformLocation;
+  }
+
   static fromProgram(Class, program, canvas, ...remainingArguments) {
     const offsetsMatrixUniformLocation = canvas.getUniformLocation(program, offsetsMatrixName),
-          rotationsMatrixUniformLocation = canvas.getUniformLocation(program, rotationsMatrixName),
-          positionMatrixUniformLocation = canvas.getUniformLocation(program, positionMatrixName),
-          projectionMatrixUniformLocation = canvas.getUniformLocation(program, projectionMatrixName),
           normalsMatrixUniformLocation = canvas.getUniformLocation(program, normalsMatrixName),
-          uniformLocations = new Class(offsetsMatrixUniformLocation, rotationsMatrixUniformLocation, positionMatrixUniformLocation, projectionMatrixUniformLocation, normalsMatrixUniformLocation, ...remainingArguments);
+          positionMatrixUniformLocation = canvas.getUniformLocation(program, positionMatrixName),
+          rotationsMatrixUniformLocation = canvas.getUniformLocation(program, rotationsMatrixName),
+          projectionMatrixUniformLocation = canvas.getUniformLocation(program, projectionMatrixName),
+          uniformLocations = new Class(offsetsMatrixUniformLocation, normalsMatrixUniformLocation, positionMatrixUniformLocation, rotationsMatrixUniformLocation, projectionMatrixUniformLocation, ...remainingArguments);
     
     return uniformLocations;       
   }
