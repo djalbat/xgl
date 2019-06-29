@@ -1,9 +1,9 @@
 'use strict';
 
-const Pan = require('../../miscellaneous/pan'),
-      Tilt = require('../../miscellaneous/tilt'),
+const Tilt = require('../../miscellaneous/tilt'),
       Zoom = require('../../miscellaneous/zoom'),
       Camera = require('../camera'),
+      Location = require('../../miscellaneous/location'),
       vectorMaths = require('../../maths/vector'),
       matrixUtilities = require('../../utilities/matrix');
 
@@ -15,30 +15,28 @@ const defaultInitialAngles = zero2(),
       defaultInitialDistance = 5;
 
 class DesignCamera extends Camera {
-  constructor(keyEvents, mouseEvents, updateHandler, pan, tilt, zoom) {
+  constructor(keyEvents, mouseEvents, updateHandler, zoom, tilt, location) {
     super(keyEvents, mouseEvents, updateHandler);
 
-    this.pan = pan;
+    this.zoom = zoom;
 
     this.tilt = tilt;
 
-    this.zoom = zoom;
+    this.location = location;
   }
 
   shiftKeyHandler(shiftKeyDown) {
     if (shiftKeyDown) {
-      this.pan.resetPreviousOffsets();
-
-      this.pan.resetPreviousMouseCoordinates();
+      this.location.resetPreviousMouseCoordinates();
     } else {
-      this.tilt.resetPreviousAngles();
-
       this.tilt.resetPreviousMouseCoordinates();
+
+      this.tilt.resetPreviousAngles();
     }
   }
 
   mouseUpHandler(mouseCoordinates, mouseDown, canvas) {
-    this.pan.resetPreviousMouseCoordinates();
+    this.location.resetPreviousMouseCoordinates();
 
     this.tilt.resetPreviousAngles();
   }
@@ -47,9 +45,7 @@ class DesignCamera extends Camera {
     const shiftKeyDown = this.keyEvents.isShiftKeyDown();
 
     if (shiftKeyDown) {
-      this.pan.resetPreviousOffsets();
-
-      this.pan.resetPreviousMouseCoordinates();
+      this.location.resetPreviousMouseCoordinates();
     }
 
     this.tilt.resetPreviousMouseCoordinates();
@@ -58,13 +54,15 @@ class DesignCamera extends Camera {
   mouseMoveHandler(mouseCoordinates, mouseDown, canvas) {
     const shiftKeyDown = this.keyEvents.isShiftKeyDown();
 
-    this.pan.setMouseCoordinates(mouseCoordinates);
+    this.location.resetPreviousMouseCoordinates();
+
+    this.location.setMouseCoordinates(mouseCoordinates);
 
     this.tilt.setMouseCoordinates(mouseCoordinates);
 
     if (mouseDown) {
       if (shiftKeyDown) {
-        this.pan.updateOffset(this.tilt);
+        this.location.updateXYOffset(this.tilt);
       } else {
         this.tilt.updateAngles();
       }
@@ -83,7 +81,7 @@ class DesignCamera extends Camera {
     const width = canvas.getWidth(),
           height = canvas.getHeight(),
           angles = this.tilt.getAngles(),
-          offsets = this.pan.getOffsets(),
+          offsets = this.location.getOffsets(),
           distance = this.zoom.getDistance(),
           offsetsMatrix = offsetsMatrixFromOffsets(offsets),
           positionMatrix = positionMatrixFromDistance(distance),
@@ -98,10 +96,10 @@ class DesignCamera extends Camera {
   static fromProperties(properties) {
     const { initialAngles = defaultInitialAngles, initialOffsets = defaultInitialOffsets, initialDistance = defaultInitialDistance } = properties,
           flipped = false,
-          pan = Pan.fromInitialOffsets(initialOffsets),
           zoom = Zoom.fromInitialDistance(initialDistance),
           tilt = Tilt.fromInitialAnglesAndFlipped(initialAngles, flipped),
-          designCamera = Camera.fromProperties(DesignCamera, properties, pan, tilt, zoom);
+          location = Location.fromInitialOffsets(initialOffsets),
+          designCamera = Camera.fromProperties(DesignCamera, properties, zoom, tilt, location);
 
     return designCamera;
   }

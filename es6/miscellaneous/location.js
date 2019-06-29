@@ -5,8 +5,8 @@ const constants = require('../constants'),
       offsetsUtilities = require('../utilities/offsets');
 
 const { relativeOffsetsFromAnglesAndDirections } = offsetsUtilities,
-      { add3, scale2, reflect2, scale3, subtract2 } = vectorMaths,
-      { DELTA_SCALAR, INVERT_SCALAR, OFFSET_SCALAR } = constants;
+      { DELTA_SCALAR, INVERT_SCALAR, OFFSET_SCALAR } = constants,
+      { zero2, add3, scale2, reflect2, scale3, subtract2 } = vectorMaths;
 
 class Location {
   constructor(offsets, mouseCoordinates, previousMouseCoordinates) {
@@ -27,12 +27,12 @@ class Location {
     this.previousMouseCoordinates = this.mouseCoordinates;
   }
 
-  updateXYOffset(mouseCoordinates, tilt) {
+  updateXYOffset(tilt) {
     const angles = tilt.getAngles(),
           scalar = OFFSET_SCALAR, ///
-          relativeMouseCoordinates = subtract2(mouseCoordinates, this.previousMouseCoordinates),
-          reflectedScaledRelativeMouseCoordinates = reflect2(scale2(relativeMouseCoordinates, scalar)),
-          directions = [ ...reflectedScaledRelativeMouseCoordinates, 0, 0],
+          relativeMouseCoordinates = subtract2(this.mouseCoordinates, this.previousMouseCoordinates),
+          scaledReflectedRelativeMouseCoordinates = reflect2(scale2(relativeMouseCoordinates, scalar)),
+          directions = [ ...scaledReflectedRelativeMouseCoordinates, 0, 0 ],
           relativeOffsets = relativeOffsetsFromAnglesAndDirections(angles, directions);
 
     this.offsets = add3(this.offsets, relativeOffsets);
@@ -46,6 +46,15 @@ class Location {
           relativeOffsets = relativeOffsetsFromAnglesAndDirections(angles, directions);
 
     this.offsets = add3(this.offsets, relativeOffsets);
+  }
+
+  static fromInitialOffsets(initialOffsets) {
+    const offsets = initialOffsets, ///
+          mouseCoordinates = zero2(),
+          previousMouseCoordinates = mouseCoordinates,  ///
+          location = new Location(offsets, mouseCoordinates, previousMouseCoordinates);
+
+    return location;
   }
 
   static fromInitialPosition(initialPosition) {

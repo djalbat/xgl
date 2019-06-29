@@ -52,7 +52,7 @@ class GamingCamera extends Camera {
 
     if (mouseDown) {
       if (shiftKeyDown) {
-        this.location.updateXYOffset(mouseCoordinates, this.tilt);
+        this.location.updateXYOffset(this.tilt);
       } else {
         this.tilt.updateAngles();
       }
