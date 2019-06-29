@@ -52,17 +52,15 @@ function positionMatrixFromPosition(position) {
   return positionMatrix;
 }
 
-function rotationsMatrixFromAngles(angles, reverseOrder) {
+function rotationsMatrixFromAngles(angles, reverseOrder = false) {
   let rotationsMatrix = identity4(); ///
 
   const firstAngle = first(angles),
         secondAngle = second(angles),
         thirdAngle = third(angles),
-
         xAngle = firstAngle,
         yAngle = secondAngle,
         zAngle = thirdAngle,
-
         xAxis = [ 1, 0, 0 ],
         yAxis = [ 0, 1, 0 ],
         zAxis = [ 0, 0, 1 ];
@@ -87,8 +85,7 @@ function rotationsMatrixFromAngles(angles, reverseOrder) {
 function rotationsMatrixFromRotations(rotations) {
   const scalar = DEGREES_TO_RADIANS_SCALAR,
         angles = scale3(rotations, scalar),
-        reverseOrder = false,
-        rotationsMatrix = rotationsMatrixFromAngles(angles, reverseOrder);
+        rotationsMatrix = rotationsMatrixFromAngles(angles);
 
   return rotationsMatrix;
 }

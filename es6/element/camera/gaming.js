@@ -70,8 +70,8 @@ class GamingCamera extends Camera {
   update(canvas) {
     const width = canvas.getWidth(),
           height = canvas.getHeight(),
-          offsets = this.location.getOffsets(),
           angles = this.tilt.getAngles(),
+          offsets = this.location.getOffsets(),
           offsetsMatrix = offsetsMatrixFromOffsets(offsets),
           positionMatrix = positionMatrixFromNothing(),
           rotationsMatrix = rotationsMatrixFromAngles(angles),
