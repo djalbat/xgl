@@ -69,26 +69,33 @@ class MouseEvents {
     mouseWheelHandlers.push(mouseWheelHandler);
   }
 
-  static fromNothing(canvas) {
-    const handlersMap = {};
+  initialise(canvas) {
+      const canvasDOMElement = canvas.getDOMElement(),
+            mouseUpEventListener = this.mouseUpEventListener.bind(this),
+            mouseDownEventListener = this.mouseDownEventListener.bind(this),
+            mouseMoveEventListener = this.mouseMoveEventListener.bind(this),
+            mouseWheelEventListener = this.mouseWheelEventListener.bind(this);
 
-    handlersMap[ MOUSE_UP ] = [];
-    handlersMap[ MOUSE_DOWN ] = [];
-    handlersMap[ MOUSE_MOVE ] = [];
-    handlersMap[ MOUSE_WHEEL ] = [];
-
-    const mouseDown = false,  ///
-					mouseEvents = new MouseEvents(handlersMap, mouseDown, canvas),
-          canvasDOMElement = canvas.getDOMElement(),
-					mouseUpEventListener = mouseEvents.mouseUpEventListener.bind(mouseEvents),
-					mouseDownEventListener = mouseEvents.mouseDownEventListener.bind(mouseEvents),
-					mouseMoveEventListener = mouseEvents.mouseMoveEventListener.bind(mouseEvents),
-					mouseWheelEventListener = mouseEvents.mouseWheelEventListener.bind(mouseEvents);
+    this.handlersMap[ MOUSE_UP ] = [];
+    this.handlersMap[ MOUSE_DOWN ] = [];
+    this.handlersMap[ MOUSE_MOVE ] = [];
+    this.handlersMap[ MOUSE_WHEEL ] = [];
 
     canvasDOMElement.addEventListener('mouseup', mouseUpEventListener);
+
     canvasDOMElement.addEventListener('mousedown', mouseDownEventListener);
+
     canvasDOMElement.addEventListener('mousemove', mouseMoveEventListener);
+
     canvasDOMElement.addEventListener('mousewheel', mouseWheelEventListener);
+  }
+
+  static fromNothing(canvas) {
+    const handlersMap = {},
+          mouseDown = false,  ///
+					mouseEvents = new MouseEvents(handlersMap, mouseDown, canvas);
+
+    mouseEvents.initialise(canvas);
 
     return mouseEvents;
   }

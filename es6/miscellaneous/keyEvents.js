@@ -5,9 +5,9 @@ const constants = require('../constants');
 const { SHIFT_KEY_CODE } = constants;
 
 class KeyEvents {
-  constructor(shiftKeyDown, shiftKeyHandlers) {
+  constructor(handlers, shiftKeyDown) {
+    this.handlers = handlers;
     this.shiftKeyDown = shiftKeyDown;
-    this.shiftKeyHandlers = shiftKeyHandlers;
   }
 
   isShiftKeyDown() {
@@ -20,7 +20,7 @@ class KeyEvents {
     if (keyCode === SHIFT_KEY_CODE) {
       this.shiftKeyDown = false;
 
-      this.shiftKeyHandlers.forEach((shiftKeyHandler) => shiftKeyHandler(this.shiftKeyDown));
+      this.handlers.forEach((handler) => handler(this.shiftKeyDown));
     }
   }
 
@@ -30,15 +30,17 @@ class KeyEvents {
     if (keyCode === SHIFT_KEY_CODE) {
       this.shiftKeyDown = true;
 
-      this.shiftKeyHandlers.forEach((shiftKeyHandler) => shiftKeyHandler(this.shiftKeyDown));
+      this.handlers.forEach((handler) => handler(this.shiftKeyDown));
     }
   }
 
   addShiftKeyHandler(shiftKeyHandler) {
-    this.shiftKeyHandlers.push(shiftKeyHandler);
+    const handler = shiftKeyHandler;  ///
+
+    this.handlers.push(handler);
   }
 
-  initialise() {
+  initialise(canvas) {
     const documentDOMElement = document.documentElement,  ///
           keyUpEventListener = this.keyUpEventListener.bind(this),
           keyDownEventListener = this.keyDownEventListener.bind(this);
@@ -49,11 +51,11 @@ class KeyEvents {
   }
 
   static fromNothing(canvas) {
-    const shiftKeyDown = false,  ///
-          shiftKeyHandlers = [],
-          keyEvents = new KeyEvents(shiftKeyDown, shiftKeyHandlers);
+    const handlers = [],
+          shiftKeyDown = false,  ///
+          keyEvents = new KeyEvents(handlers, shiftKeyDown);
 
-    keyEvents.initialise();
+    keyEvents.initialise(canvas);
 
     return keyEvents;
   }
