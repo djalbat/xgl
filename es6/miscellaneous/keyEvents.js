@@ -50,7 +50,7 @@ class KeyEvents {
   ctrlKeyUpEventListener() {
     this.ctrlKeyDown = false;
 
-    const ctrlKeyHandlers = this.handlersMap[CTRL_KEY_CODE];
+    const ctrlKeyHandlers = this.handlersMap[ CTRL_KEY_CODE ];
 
     ctrlKeyHandlers.forEach((ctrlKeyHandler) => ctrlKeyHandler(this.ctrlKeyDown));
   }
@@ -58,7 +58,7 @@ class KeyEvents {
   shiftKeyUpEventListener() {
     this.shiftKeyDown = false;
 
-    const shiftKeyHandlers = this.handlersMap[SHIFT_KEY_CODE];
+    const shiftKeyHandlers = this.handlersMap[ SHIFT_KEY_CODE ];
 
     shiftKeyHandlers.forEach((shiftKeyHandler) => shiftKeyHandler(this.shiftKeyDown));
   }
@@ -66,7 +66,7 @@ class KeyEvents {
   ctrlKeyDownEventListener() {
     this.ctrlKeyDown = true;
 
-    const ctrlKeyHandlers = this.handlersMap[CTRL_KEY_CODE];
+    const ctrlKeyHandlers = this.handlersMap[ CTRL_KEY_CODE ];
 
     ctrlKeyHandlers.forEach((ctrlKeyHandler) => ctrlKeyHandler(this.ctrlKeyDown));
   }
@@ -74,7 +74,7 @@ class KeyEvents {
   shiftKeyDownEventListener() {
     this.shiftKeyDown = true;
 
-    const shiftKeyHandlers = this.handlersMap[SHIFT_KEY_CODE];
+    const shiftKeyHandlers = this.handlersMap[ SHIFT_KEY_CODE ];
 
     shiftKeyHandlers.forEach((shiftKeyHandler) => shiftKeyHandler(this.shiftKeyDown));
   }

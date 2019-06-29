@@ -13,7 +13,6 @@ class Camera extends Element {
     this.updateHandler = updateHandler;
 
     this.pan = pan;
-
     this.tilt = tilt;
   }
 

@@ -103,11 +103,17 @@ function deltaFromEvent(event) {
 }
 
 function mouseCoordinatesFromEvent(event) {
-  const canvasDOMElement = event.target,  ///
-        domElementBoundingClientRect = canvasDOMElement.getBoundingClientRect(),
+  const { target, clientX, clientY } = event,
+        canvasDOMElement = target,  ///
+        boundingClientRect = canvasDOMElement.getBoundingClientRect(),
+        top = boundingClientRect.top,
+        left = boundingClientRect.left,
         mouseCoordinates = [
-          +(event.clientX - domElementBoundingClientRect.left),
-          -(event.clientY - domElementBoundingClientRect.top)
+
+          clientX - left,
+
+          top - clientY,
+
         ];
 
   return mouseCoordinates;
