@@ -22,7 +22,9 @@ class GamingCamera extends Camera {
   }
 
   mouseWheelHandler(delta, canvas) {
-    this.pan.updateZOffset(delta, this.tilt);
+    const tilt = this.getTilt();
+
+    this.pan.updateZOffset(delta, tilt);
 
     this.update(canvas);
   }

@@ -13,7 +13,16 @@ class Camera extends Element {
     this.updateHandler = updateHandler;
 
     this.pan = pan;
+
     this.tilt = tilt;
+  }
+
+  getPan() {
+    return this.pan;
+  }
+
+  getTilt() {
+    return this.tilt;
   }
 
   shiftKeyHandler(shiftKeyDown) {
