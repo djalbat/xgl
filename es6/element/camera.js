@@ -5,18 +5,55 @@ const Element = require('../element'),
       MouseEvents = require('../miscellaneous/mouseEvents');
 
 class Camera extends Element {
-  constructor(keyEvents, mouseEvents, updateHandler) {
+  constructor(keyEvents, mouseEvents, updateHandler, pan, tilt) {
     super();
 
     this.keyEvents = keyEvents;
-
     this.mouseEvents = mouseEvents;
-
     this.updateHandler = updateHandler;
+
+    this.pan = pan;
+    this.tilt = tilt;
   }
 
-  getUpdateHandler() {
-    return this.updateHandler;
+  shiftKeyHandler(shiftKeyDown) {
+    if (shiftKeyDown) {
+      this.pan.resetPreviousMouseCoordinates();
+    } else {
+      this.tilt.resetPreviousMouseCoordinates();
+
+      this.tilt.resetPreviousAngles();
+    }
+  }
+
+  mouseUpHandler(mouseCoordinates, mouseDown, canvas) {
+    this.tilt.resetPreviousAngles();
+  }
+
+  mouseDownHandler(mouseCoordinates, mouseDown, canvas) {
+    this.pan.resetPreviousMouseCoordinates();
+
+    this.tilt.resetPreviousMouseCoordinates();
+  }
+
+  mouseMoveHandler(mouseCoordinates, mouseDown, canvas) {
+    const shiftKeyDown = this.keyEvents.isShiftKeyDown();
+
+    this.pan.resetPreviousMouseCoordinates();
+
+    this.pan.setMouseCoordinates(mouseCoordinates);
+
+    this.tilt.setMouseCoordinates(mouseCoordinates);
+
+    if (mouseDown) {
+      if (shiftKeyDown) {
+        this.pan.updateXYOffset(this.tilt);
+      } else {
+        this.tilt.updateAngles();
+      }
+
+      this.update(canvas);
+    }
   }
 
   forceUpdate(canvas) {
@@ -25,6 +62,10 @@ class Camera extends Element {
 
   onUpdate(updateHandler) {
     this.updateHandler = updateHandler;
+  }
+
+  update(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix) {
+    this.updateHandler(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);
   }
 
   render(canvas, offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix) {

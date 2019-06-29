@@ -8,7 +8,7 @@ const { relativeOffsetsFromAnglesAndDirections } = offsetsUtilities,
       { DELTA_SCALAR, INVERT_SCALAR, OFFSET_SCALAR } = constants,
       { zero2, add3, scale2, reflect2, scale3, subtract2 } = vectorMaths;
 
-class Location {
+class Pan {
   constructor(offsets, mouseCoordinates, previousMouseCoordinates) {
     this.offsets = offsets;
     this.mouseCoordinates = mouseCoordinates;
@@ -52,9 +52,9 @@ class Location {
     const offsets = initialOffsets, ///
           mouseCoordinates = zero2(),
           previousMouseCoordinates = mouseCoordinates,  ///
-          location = new Location(offsets, mouseCoordinates, previousMouseCoordinates);
+          pan = new Pan(offsets, mouseCoordinates, previousMouseCoordinates);
 
-    return location;
+    return pan;
   }
 
   static fromInitialPosition(initialPosition) {
@@ -62,10 +62,10 @@ class Location {
           offsets = scale3(initialPosition, scalar),
           mouseCoordinates = null,  ///
           previousMouseCoordinates = null,  ///
-          location = new Location(offsets, mouseCoordinates, previousMouseCoordinates);
+          pan = new Pan(offsets, mouseCoordinates, previousMouseCoordinates);
     
-    return location;
+    return pan;
   }
 }
 
-module.exports = Location;
+module.exports = Pan;
