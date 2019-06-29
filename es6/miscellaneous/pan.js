@@ -2,11 +2,11 @@
 
 const constants = require('../constants'),
       vectorMaths = require('../maths/vector'),
-      matrixUtilities = require('../utilities/matrix');
+      offsetsUtilities = require('../utilities/offsets');
 
 const { OFFSET_SCALAR } = constants,
-      { rotationsMatrixFromAngles } = matrixUtilities,
-      { zero2, add3, scale2, reflect2, reflect3, subtract2, transform4 } = vectorMaths;
+      { relativeOffsetsFromAnglesAndDirections } = offsetsUtilities,
+      { zero2, add3, scale2, reflect2, subtract2 } = vectorMaths;
 
 class Pan {
   constructor(offsets, previousOffsets, mouseCoordinates, previousMouseCoordinates) {
@@ -35,12 +35,10 @@ class Pan {
   updateOffset(tilt) {
     const angles = tilt.getAngles(),
           scalar = OFFSET_SCALAR, ///
-          reverseOrder = true,
           relativeMouseCoordinates = subtract2(this.mouseCoordinates, this.previousMouseCoordinates),
           scaledReflectedRelativeMouseCoordinates = reflect2(scale2(relativeMouseCoordinates, scalar)),
-          reflectedAngles = reflect3(angles),
-          rotationsMatrix = rotationsMatrixFromAngles(reflectedAngles, reverseOrder),
-          relativeOffsets = transform4([ ...scaledReflectedRelativeMouseCoordinates, 0, 0 ], rotationsMatrix).slice(0, 3); ///
+          directions = [ ...scaledReflectedRelativeMouseCoordinates, 0, 0 ],
+          relativeOffsets = relativeOffsetsFromAnglesAndDirections(angles, directions);
 
     this.offsets = add3(this.previousOffsets, relativeOffsets);
   }

@@ -2,11 +2,11 @@
 
 const constants = require('../constants'),
       vectorMaths = require('../maths/vector'),
-      matrixUtilities = require('../utilities/matrix');
+      offsetsUtilities = require('../utilities/offsets');
 
-const { rotationsMatrixFromAngles } = matrixUtilities,
-      { DELTA_SCALAR, INVERT_SCALAR, OFFSET_SCALAR } = constants,
-      { add3, scale2, reflect2, scale3, reflect3, subtract2, transform4 } = vectorMaths;
+const { relativeOffsetsFromAnglesAndDirections } = offsetsUtilities,
+      { add3, scale2, reflect2, scale3, subtract2 } = vectorMaths,
+      { DELTA_SCALAR, INVERT_SCALAR, OFFSET_SCALAR } = constants;
 
 class Location {
   constructor(offsets, mouseCoordinates, previousMouseCoordinates) {
@@ -30,12 +30,10 @@ class Location {
   updateXYOffset(mouseCoordinates, tilt) {
     const angles = tilt.getAngles(),
           scalar = OFFSET_SCALAR, ///
-          reverseOrder = true,
           relativeMouseCoordinates = subtract2(mouseCoordinates, this.previousMouseCoordinates),
           reflectedScaledRelativeMouseCoordinates = reflect2(scale2(relativeMouseCoordinates, scalar)),
-          reflectedAngles = reflect3(angles),
-          rotationsMatrix = rotationsMatrixFromAngles(reflectedAngles, reverseOrder),
-          relativeOffsets = transform4([ ...reflectedScaledRelativeMouseCoordinates, 0, 0], rotationsMatrix).slice(0, 3); ///
+          directions = [ ...reflectedScaledRelativeMouseCoordinates, 0, 0],
+          relativeOffsets = relativeOffsetsFromAnglesAndDirections(angles, directions);
 
     this.offsets = add3(this.offsets, relativeOffsets);
   }
@@ -43,11 +41,9 @@ class Location {
   updateZOffset(delta, tilt) {
     const angles = tilt.getAngles(),
           scalar = DELTA_SCALAR, ///
-          reverseOrder = true,
           scaledDelta = delta * scalar,
-          reflectedAngles = reflect3(angles),
-          rotationsMatrix = rotationsMatrixFromAngles(reflectedAngles, reverseOrder),
-          relativeOffsets = transform4([ 0, 0, scaledDelta, 0 ], rotationsMatrix).slice(0, 3); ///
+          directions = [ 0, 0, scaledDelta, 0 ],
+          relativeOffsets = relativeOffsetsFromAnglesAndDirections(angles, directions);
 
     this.offsets = add3(this.offsets, relativeOffsets);
   }

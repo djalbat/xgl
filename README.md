@@ -179,7 +179,7 @@ const maskingExample = () => {
       <Part>
         <MediumCube />
       </Part>
-      <GamingCamera />
+      <DesignCamera />
     </Scene>
 
   );
