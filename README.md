@@ -445,7 +445,7 @@ The gaming camera allows you to freely move around around a scene. If you hold t
   <GamingCamera initialPosition={[ 0, 0, 10 ]} initialAngles={[ 45, 0 ]} />
 </Scene>
 ```
-You can create your own cameras by extending the `Camera` class, but doing so is not for neophytes.
+You can create your own cameras by extending the `Camera` class, with the source for the gaming and design cameras being a good place to start.
 
 ## Useful features
 

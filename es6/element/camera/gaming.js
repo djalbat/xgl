@@ -21,7 +21,7 @@ class GamingCamera extends Camera {
 
 
 
-  userInputUpdate(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, width, height, render) {
+  update(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, width, height, callback) {
     const pan = this.getPan(),
           tilt = this.getTilt();
 
@@ -35,13 +35,7 @@ class GamingCamera extends Camera {
       tilt.updateAngles(relativeMouseCoordinates);
     }
 
-    this.update(width, height, render);
-  }
-
-  update(width, height, render) {
-    const pan = this.getPan(),
-          tilt = this.getTilt(),
-          angles = tilt.getAngles(),
+    const angles = tilt.getAngles(),
           offsets = pan.getOffsets(),
 
           offsetsMatrix = offsetsMatrixFromOffsets(offsets),
@@ -50,7 +44,7 @@ class GamingCamera extends Camera {
           projectionMatrix = projectionMatrixFromWidthAndHeight(width, height),
           normalsMatrix = normalsMatrixFromRotationsMatrix(rotationsMatrix);
 
-    render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);
+    callback(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);
   }
 
   static fromProperties(properties) {

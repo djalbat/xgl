@@ -2,62 +2,69 @@
 
 const necessary = require('necessary');
 
-const Element = require('../element'),
-      UserInput = require('../miscellaneous/userInput');
+const Part = require('../element/part'),
+      Camera = require('../element/camera'),
+      Element = require('../element'),
+      UserInput = require('../miscellaneous/userInput'),
+      vectorMaths = require('../maths/vector');
 
 const { asynchronousUtilities } = necessary,
-      { forEach } = asynchronousUtilities;
+      { forEach } = asynchronousUtilities,
+      { zero2 } = vectorMaths;
 
 class Scene extends Element {
-  constructor(canvas) {
+  constructor(parts, camera, canvas) {
     super();
 
+    this.parts = parts;
+
+    this.camera = camera;
+
     this.canvas = canvas;
-  }
-
-  onResize(resizeHandler) {
-    window.onresize = resizeHandler;
-  }
-
-  resizeHandler() {
-    const clientWidth = this.canvas.getClientWidth(),
-          clientHeight = this.canvas.getClientHeight(),
-          width = clientWidth,  ///
-          height = clientHeight,  ///
-          render = this.render.bind(this);
-
-    this.canvas.resize(width, height);
-
-    this.forceUpdate(width, height, render);
-  }
-
-  render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix) {
-    this.canvas.clear();
-
-    this.childElements.forEach((childElement) => childElement.render(this.canvas, offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix));
   }
 
   userInputHandler(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown) {
     const width = this.canvas.getWidth(),
           height = this.canvas.getHeight(),
-          render = this.render.bind(this);
+          render = this.render.bind(this),
+          callback = render;  ///
 
-    this.userInputUpdate(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, width, height, render);
+    this.camera.update(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, width, height, callback);
+  }
+
+  windowResizeHandler() {
+    const clientWidth = this.canvas.getClientWidth(),
+          clientHeight = this.canvas.getClientHeight(),
+          width = clientWidth,  ///
+          height = clientHeight,  ///
+          render = this.render.bind(this),
+          callback = render;  ///
+
+    this.canvas.resize(width, height);
+
+    const relativeMouseCoordinates = zero2(), ///
+          mouseWheelDelta = 0,  ///
+          shiftKeyDown = false; ///
+
+    this.camera.update(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, width, height, callback);
+  }
+
+  render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix) {
+    this.canvas.clear();
+
+    this.parts.forEach((part) => part.render(this.canvas, offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix));
   }
 
   initialise(canvas, update, done) {
-    const childElements = this.getChildElements(),
-          resizeHandler = this.resizeHandler.bind(this);
+    const userInput = UserInput.fromNothing(canvas),
+          userInputHandler = this.userInputHandler.bind(this),
+          windowResizeHandler = this.windowResizeHandler.bind(this);
 
-    this.assignContext();
+    forEach(this.parts, (part, next, done, context, index) => {
+      const partsLength = this.parts.length,
+            progress = ( index + 1 ) / partsLength;
 
-    this.onResize(resizeHandler);
-
-    forEach(childElements, (childElement, next, done, context, index) => {
-      const childElementsLength = childElements.length,
-            progress = ( index + 1 ) / childElementsLength;
-
-      childElement.initialise(canvas);
+      part.initialise(canvas);
 
       defer(() => {
         update && update(progress); ///
@@ -65,20 +72,21 @@ class Scene extends Element {
         next();
       });
     }, () => {
-      this.resizeHandler(); ///
+      this.windowResizeHandler(); ///
 
       done && done(); ///
     });
 
-    const userInput = UserInput.fromNothing(canvas),
-          userInputHandler = this.userInputHandler.bind(this);
+    window.onresize = windowResizeHandler;
 
     userInput.addUserInputHandler(userInputHandler);
   }
 
   static fromProperties(properties) {
-    const { canvas, done, update } = properties,
-          scene = Element.fromProperties(Scene, properties, canvas);
+    const { canvas, done, update, childElements } = properties,
+          parts = partsFromChildElements(childElements),
+          camera = cameraFromChildElements(childElements),
+          scene = Element.fromProperties(Scene, properties, parts, camera, canvas);
 
     scene.initialise(canvas, update, done);
 
@@ -90,4 +98,31 @@ module.exports = Scene;
 
 function defer(callback) {
   setTimeout(callback, 0);
+}
+
+function partsFromChildElements(childElements) {
+  const parts = childElements.reduce((parts, childElement) => {
+    if (childElement instanceof Part) {
+      const part = childElement;  ///
+
+      parts.push(part);
+    }
+    return parts;
+  }, []);
+
+  return parts;
+}
+
+function cameraFromChildElements(childElements) {
+  const camera = childElements.reduce((camera, childElement) => {
+    if (camera === null) {
+      if (childElement instanceof Camera) {
+        camera = childElement;  ///
+      }
+    }
+
+    return camera;
+  }, null);
+
+  return camera;
 }
