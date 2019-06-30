@@ -13,8 +13,8 @@ class Zoom {
     return this.distance;
   }
 
-  updateDistance(delta) {
-    this.distance -= delta * DELTA_SCALAR;
+  updateDistance(mouseWheelDelta) {
+    this.distance -= mouseWheelDelta * DELTA_SCALAR;
 
     this.distance = Math.max(MINIMUM_DISTANCE, this.distance);
   }

@@ -15,11 +15,32 @@ const defaultInitialAngles = zero2(),
 
 
 class GamingCamera extends Camera {
-  update(canvas) {
+
+
+
+
+
+
+  userInputUpdate(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, width, height, render) {
+    const pan = this.getPan(),
+          tilt = this.getTilt();
+
+    if (false) {
+      ///
+    } else if (shiftKeyDown) {
+      pan.updateOffsets(relativeMouseCoordinates, mouseWheelDelta, tilt);
+    } else if (mouseWheelDelta !== 0) {
+      pan.updateOffsets(relativeMouseCoordinates, mouseWheelDelta, tilt);
+    } else {
+      tilt.updateAngles(relativeMouseCoordinates);
+    }
+
+    this.update(width, height, render);
+  }
+
+  update(width, height, render) {
     const pan = this.getPan(),
           tilt = this.getTilt(),
-          width = canvas.getWidth(),
-          height = canvas.getHeight(),
           angles = tilt.getAngles(),
           offsets = pan.getOffsets(),
 
@@ -27,10 +48,9 @@ class GamingCamera extends Camera {
           positionMatrix = positionMatrixFromNothing(),
           rotationsMatrix = rotationsMatrixFromAngles(angles),
           projectionMatrix = projectionMatrixFromWidthAndHeight(width, height),
-          normalsMatrix = normalsMatrixFromRotationsMatrix(rotationsMatrix),
-          updateHandler = this.getUpdateHandler();
+          normalsMatrix = normalsMatrixFromRotationsMatrix(rotationsMatrix);
 
-    updateHandler(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);
+    render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);
   }
 
   static fromProperties(properties) {

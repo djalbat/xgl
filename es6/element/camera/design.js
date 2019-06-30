@@ -15,25 +15,32 @@ const defaultInitialAngles = zero2(),
       defaultInitialDistance = 5;
 
 class DesignCamera extends Camera {
-  constructor(mouseEvents, updateHandler, pan, tilt, zoom) {
-    super(mouseEvents, updateHandler, pan, tilt);
+  constructor(pan, tilt, zoom) {
+    super(pan, tilt);
 
     this.zoom = zoom;
   }
 
-  mouseWheelHandler(delta, canvas) {
+  userInputUpdate(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, width, height, render) {
+    const pan = this.getPan(),
+          tilt = this.getTilt();
 
+    if (false) {
+      ///
+    } else if (shiftKeyDown) {
+      pan.updateOffsets(relativeMouseCoordinates, mouseWheelDelta, tilt);
+    } else if (mouseWheelDelta !== 0) {
+      this.zoom.updateDistance(mouseWheelDelta);
+    } else {
+      tilt.updateAngles(relativeMouseCoordinates);
+    }
 
-    this.zoom.updateDistance(delta);
-
-    this.update(canvas);
+    this.update(width, height, render);
   }
 
-  update(canvas) {
+  update(width, height, render) {
     const pan = this.getPan(),
           tilt = this.getTilt(),
-          width = canvas.getWidth(),
-          height = canvas.getHeight(),
           angles = tilt.getAngles(),
           offsets = pan.getOffsets(),
           distance = this.zoom.getDistance(),
@@ -43,7 +50,7 @@ class DesignCamera extends Camera {
           projectionMatrix = projectionMatrixFromWidthAndHeight(width, height),
           normalsMatrix = normalsMatrixFromRotationsMatrix(rotationsMatrix);
 
-    super.update(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);
+    render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);
   }
 
   static fromProperties(properties) {

@@ -23,15 +23,12 @@ class Scene extends Element {
     const clientWidth = this.canvas.getClientWidth(),
           clientHeight = this.canvas.getClientHeight(),
           width = clientWidth,  ///
-          height = clientHeight;  ///
+          height = clientHeight,  ///
+          render = this.render.bind(this);
 
     this.canvas.resize(width, height);
 
-    this.forceUpdate(this.canvas);
-  }
-
-  updateHandler(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix) {
-    this.render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);
+    this.forceUpdate(width, height, render);
   }
 
   render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix) {
@@ -41,19 +38,20 @@ class Scene extends Element {
   }
 
   userInputHandler(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown) {
-    this.userInputUpdate(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, this.canvas);
+    const width = this.canvas.getWidth(),
+          height = this.canvas.getHeight(),
+          render = this.render.bind(this);
+
+    this.userInputUpdate(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, width, height, render);
   }
 
   initialise(canvas, update, done) {
     const childElements = this.getChildElements(),
-          resizeHandler = this.resizeHandler.bind(this),
-          updateHandler = this.updateHandler.bind(this);
+          resizeHandler = this.resizeHandler.bind(this);
 
     this.assignContext();
 
     this.onResize(resizeHandler);
-
-    this.onUpdate(updateHandler);
 
     forEach(childElements, (childElement, next, done, context, index) => {
       const childElementsLength = childElements.length,
