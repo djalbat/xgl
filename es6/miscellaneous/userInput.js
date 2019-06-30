@@ -50,20 +50,22 @@ class UserInput {
     const mouseMoveHandler = this.mouseMoveHandler.bind(this),
           mouseWheelHandler = this.mouseWheelHandler.bind(this);
 
+    this.keyEvents.initialise(canvas);
+
+    this.mouseEvents.initialise(canvas);
+
     this.mouseEvents.addMouseMoveHandler(mouseMoveHandler);
 
     this.mouseEvents.addMouseWheelHandler(mouseWheelHandler);
   }
 
-  static fromNothing(canvas) {
+  static fromNothing() {
     const handlers = [],
-          keyEvents = KeyEvents.fromNothing(canvas),
-          mouseEvents = MouseEvents.fromNothing(canvas),
+          keyEvents = KeyEvents.fromNothing(),
+          mouseEvents = MouseEvents.fromNothing(),
           mouseCoordinates = null,  ///
           previousMouseCoordinates = null,  ///
           userInput = new UserInput(handlers, keyEvents, mouseEvents, mouseCoordinates, previousMouseCoordinates);
-
-    userInput.initialise(canvas);
 
     return userInput;
   }

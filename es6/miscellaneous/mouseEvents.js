@@ -89,12 +89,10 @@ class MouseEvents {
     canvasDOMElement.addEventListener('mousewheel', mouseWheelEventListener);
   }
 
-  static fromNothing(canvas) {
+  static fromNothing() {
     const handlersMap = {},
           mouseDown = false,  ///
 					mouseEvents = new MouseEvents(handlersMap, mouseDown);
-
-    mouseEvents.initialise(canvas);
 
     return mouseEvents;
   }

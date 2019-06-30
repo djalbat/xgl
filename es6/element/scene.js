@@ -23,15 +23,6 @@ class Scene extends Element {
     this.canvas = canvas;
   }
 
-  userInputHandler(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown) {
-    const width = this.canvas.getWidth(),
-          height = this.canvas.getHeight(),
-          render = this.render.bind(this),
-          callback = render;  ///
-
-    this.camera.update(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, width, height, callback);
-  }
-
   windowResizeHandler() {
     const clientWidth = this.canvas.getClientWidth(),
           clientHeight = this.canvas.getClientHeight(),
@@ -49,6 +40,15 @@ class Scene extends Element {
     this.camera.update(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, width, height, callback);
   }
 
+  userInputHandler(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown) {
+    const width = this.canvas.getWidth(),
+          height = this.canvas.getHeight(),
+          render = this.render.bind(this),
+          callback = render;  ///
+
+    this.camera.update(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, width, height, callback);
+  }
+
   render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix) {
     this.canvas.clear();
 
@@ -56,30 +56,21 @@ class Scene extends Element {
   }
 
   initialise(canvas, update, done) {
-    const userInput = UserInput.fromNothing(canvas),
+    const userInput = UserInput.fromNothing(),
           userInputHandler = this.userInputHandler.bind(this),
           windowResizeHandler = this.windowResizeHandler.bind(this);
 
-    forEach(this.parts, (part, next, done, context, index) => {
-      const partsLength = this.parts.length,
-            progress = ( index + 1 ) / partsLength;
+    userInput.initialise(canvas);
 
-      part.initialise(canvas);
+    initialiseParts(this.parts, update, canvas, () => {
+      window.onresize = windowResizeHandler;
 
-      defer(() => {
-        update && update(progress); ///
+      userInput.addUserInputHandler(userInputHandler);
 
-        next();
-      });
-    }, () => {
       this.windowResizeHandler(); ///
 
       done && done(); ///
     });
-
-    window.onresize = windowResizeHandler;
-
-    userInput.addUserInputHandler(userInputHandler);
   }
 
   static fromProperties(properties) {
@@ -98,6 +89,21 @@ module.exports = Scene;
 
 function defer(callback) {
   setTimeout(callback, 0);
+}
+
+function initialiseParts(parts, update, canvas, done) {
+  forEach(parts, (part, next, done, context, index) => {
+    const partsLength = parts.length,
+          progress = ( index + 1 ) / partsLength;
+
+    part.initialise(canvas);
+
+    defer(() => {
+      update && update(progress); ///
+
+      next();
+    });
+  }, done);
 }
 
 function partsFromChildElements(childElements) {

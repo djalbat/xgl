@@ -50,12 +50,10 @@ class KeyEvents {
     documentDOMElement.addEventListener('keydown', keyDownEventListener);
   }
 
-  static fromNothing(canvas) {
+  static fromNothing() {
     const handlers = [],
           shiftKeyDown = false,  ///
           keyEvents = new KeyEvents(handlers, shiftKeyDown);
-
-    keyEvents.initialise(canvas);
 
     return keyEvents;
   }
