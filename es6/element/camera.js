@@ -1,18 +1,15 @@
 'use strict';
 
-const Element = require('../element'),
-      KeyEvents = require('../miscellaneous/keyEvents'),
-      MouseEvents = require('../miscellaneous/mouseEvents');
+const Element = require('../element');
 
 class Camera extends Element {
-  constructor(keyEvents, mouseEvents, updateHandler, pan, tilt) {
+  constructor(updateHandler, pan, tilt) {
     super();
 
-    this.keyEvents = keyEvents;
-    this.mouseEvents = mouseEvents;
     this.updateHandler = updateHandler;
 
     this.pan = pan;
+
     this.tilt = tilt;
   }
 
@@ -24,56 +21,30 @@ class Camera extends Element {
     return this.tilt;
   }
 
-  shiftKeyHandler(shiftKeyDown) {
-    if (shiftKeyDown) {
-      this.pan.resetPreviousMouseCoordinates();
-    } else {
-      this.tilt.resetPreviousMouseCoordinates();
-
-      this.tilt.resetPreviousAngles();
-    }
-  }
-
-  mouseUpHandler(mouseCoordinates, mouseDown, canvas) {
-    this.tilt.resetPreviousAngles();
-  }
-
-  mouseDownHandler(mouseCoordinates, mouseDown, canvas) {
-    this.pan.resetPreviousMouseCoordinates();
-
-    this.tilt.resetPreviousMouseCoordinates();
-  }
-
-  mouseMoveHandler(mouseCoordinates, mouseDown, canvas) {
-    const shiftKeyDown = this.keyEvents.isShiftKeyDown();
-
-    this.pan.resetPreviousMouseCoordinates();
-
-    this.pan.setMouseCoordinates(mouseCoordinates);
-
-    this.tilt.setMouseCoordinates(mouseCoordinates);
-
-    if (mouseDown) {
-      if (shiftKeyDown) {
-        this.pan.updateXYOffset(this.tilt);
-      } else {
-        this.tilt.updateAngles();
-      }
-
-      this.update(canvas);
-    }
-  }
-
-  forceUpdate(canvas) {
-    this.update(canvas);
+  getUpdateHandler() {
+    return this.updateHandler;
   }
 
   onUpdate(updateHandler) {
     this.updateHandler = updateHandler;
   }
 
-  update(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix) {
-    this.updateHandler(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);
+  forceUpdate(canvas) {
+    this.update(canvas);
+  }
+
+  userInputUpdate(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, canvas) {
+    if (false) {
+      ///
+    } else if (shiftKeyDown) {
+      this.pan.updateOffsets(relativeMouseCoordinates, mouseWheelDelta, this.tilt);
+    } else if (mouseWheelDelta !== 0) {
+      this.pan.updateOffsets(relativeMouseCoordinates, mouseWheelDelta, this.tilt);
+    } else {
+      this.tilt.updateAngles(relativeMouseCoordinates);
+    }
+
+    this.update(canvas);
   }
 
   render(canvas, offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix) {
@@ -81,41 +52,24 @@ class Camera extends Element {
   }
 
   initialise(canvas) {
-    const keyEvents = KeyEvents.fromNothing(canvas),
-          mouseEvents = MouseEvents.fromNothing(canvas),
-          shiftKeyHandler = this.shiftKeyHandler.bind(this),
-          mouseUpHandler = this.mouseUpHandler.bind(this),
-          mouseDownHandler = this.mouseDownHandler.bind(this),
-          mouseMoveHandler = this.mouseMoveHandler.bind(this),
-          mouseWheelHandler = this.mouseWheelHandler.bind(this);
-
-    keyEvents.addShiftKeyHandler(shiftKeyHandler);
-
-    mouseEvents.addMouseUpHandler(mouseUpHandler);
-    mouseEvents.addMouseDownHandler(mouseDownHandler);
-    mouseEvents.addMouseMoveHandler(mouseMoveHandler);
-    mouseEvents.addMouseWheelHandler(mouseWheelHandler);
-
-    this.keyEvents = keyEvents;
-
-    this.mouseEvents = mouseEvents;
+    ///
   }
 
   parentContext() {
 	  const onUpdate = this.onUpdate.bind(this),
-				  forceUpdate = this.forceUpdate.bind(this);
+				  forceUpdate = this.forceUpdate.bind(this),
+          userInputUpdate = this.userInputUpdate.bind(this);
 
     return ({
       onUpdate,
-      forceUpdate
+      forceUpdate,
+      userInputUpdate
     });
   }
   
   static fromProperties(Class, properties, ...remainingArguments) {
-    const keyEvents = null, ///
-          mouseEvents = null, ///
-          updateHandler = null, ///
-          camera = Element.fromProperties(Class, properties, keyEvents, mouseEvents, updateHandler, ...remainingArguments);
+    const updateHandler = null, ///
+          camera = Element.fromProperties(Class, properties, updateHandler, ...remainingArguments);
 
     return camera;
   }

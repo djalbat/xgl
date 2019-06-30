@@ -2,7 +2,8 @@
 
 const necessary = require('necessary');
 
-const Element = require('../element');
+const Element = require('../element'),
+      UserInput = require('../miscellaneous/userInput');
 
 const { asynchronousUtilities } = necessary,
       { forEach } = asynchronousUtilities;
@@ -39,6 +40,10 @@ class Scene extends Element {
     this.childElements.forEach((childElement) => childElement.render(this.canvas, offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix));
   }
 
+  userInputHandler(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown) {
+    this.userInputUpdate(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, this.canvas);
+  }
+
   initialise(canvas, update, done) {
     const childElements = this.getChildElements(),
           resizeHandler = this.resizeHandler.bind(this),
@@ -66,10 +71,15 @@ class Scene extends Element {
 
       done && done(); ///
     });
+
+    const userInput = UserInput.fromNothing(canvas),
+          userInputHandler = this.userInputHandler.bind(this);
+
+    userInput.addUserInputHandler(userInputHandler);
   }
 
   static fromProperties(properties) {
-    const { canvas, update, done } = properties,
+    const { canvas, done, update } = properties,
           scene = Element.fromProperties(Scene, properties, canvas);
 
     scene.initialise(canvas, update, done);

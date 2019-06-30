@@ -15,8 +15,8 @@ const defaultInitialAngles = zero2(),
       defaultInitialDistance = 5;
 
 class DesignCamera extends Camera {
-  constructor(keyEvents, mouseEvents, updateHandler, pan, tilt, zoom) {
-    super(keyEvents, mouseEvents, updateHandler, pan, tilt);
+  constructor(mouseEvents, updateHandler, pan, tilt, zoom) {
+    super(mouseEvents, updateHandler, pan, tilt);
 
     this.zoom = zoom;
   }
@@ -30,10 +30,12 @@ class DesignCamera extends Camera {
   }
 
   update(canvas) {
-    const width = canvas.getWidth(),
+    const pan = this.getPan(),
+          tilt = this.getTilt(),
+          width = canvas.getWidth(),
           height = canvas.getHeight(),
-          angles = this.tilt.getAngles(),
-          offsets = this.pan.getOffsets(),
+          angles = tilt.getAngles(),
+          offsets = pan.getOffsets(),
           distance = this.zoom.getDistance(),
           offsetsMatrix = offsetsMatrixFromOffsets(offsets),
           positionMatrix = positionMatrixFromDistance(distance),

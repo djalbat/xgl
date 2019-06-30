@@ -5,16 +5,13 @@ const constants = require('../constants'),
       arrayUtilities = require('../utilities/array');
 
 const { first, second } = arrayUtilities,
-      { zero2, add3, subtract2, transform3 } = vectorMaths,
+      { add3, transform3 } = vectorMaths,
       { ANGLES_SCALAR, DEGREES_TO_RADIANS_SCALAR } = constants;
 
 class Tilt {
-  constructor(flipped, angles, previousAngles, mouseCoordinates, previousMouseCoordinates) {
-    this.flipped = flipped;
+  constructor(angles, flipped) {
     this.angles = angles;
-    this.previousAngles = previousAngles;
-    this.mouseCoordinates = mouseCoordinates;
-    this.previousMouseCoordinates = previousMouseCoordinates;
+    this.flipped = flipped;
   }
 
   getXAngle() {
@@ -41,19 +38,7 @@ class Tilt {
     return this.angles;
   }
   
-  setMouseCoordinates(mouseCoordinates) {
-    this.mouseCoordinates = mouseCoordinates;
-  }
-
-  resetPreviousMouseCoordinates() {
-    this.previousMouseCoordinates = this.mouseCoordinates;
-  }
-
-  resetPreviousAngles() {
-    this.previousAngles = this.angles;
-  }
-
-  updateAngles() {
+  updateAngles(relativeMouseCoordinates) {
     const scalar = this.flipped ?
                      +ANGLES_SCALAR :
                        -ANGLES_SCALAR,
@@ -64,10 +49,9 @@ class Tilt {
                   0,      0, 0,
 
           ],
-          relativeMouseCoordinates = subtract2(this.mouseCoordinates, this.previousMouseCoordinates),
           relativeAngles = transform3([ ...relativeMouseCoordinates, 0 ], matrix);  ///
 
-    this.angles = add3(this.previousAngles, relativeAngles);
+    this.angles = add3(this.angles, relativeAngles);
   }
 
   static fromInitialAnglesAndFlipped(initialAngles, flipped) {
@@ -82,10 +66,7 @@ class Tilt {
 
           ],
           angles = transform3([ ...initialAngles, 0 ], matrix), ///
-          previousAngles = angles,  ///
-          mouseCoordinates = zero2(),
-          previousMouseCoordinates = mouseCoordinates,  ///
-          tilt = new Tilt(flipped, angles, previousAngles, mouseCoordinates, previousMouseCoordinates);
+          tilt = new Tilt(angles, flipped);
 
     return tilt;
   }

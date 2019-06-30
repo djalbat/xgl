@@ -11,37 +11,26 @@ const { zero2 } = vectorMaths,
       { offsetsMatrixFromOffsets, rotationsMatrixFromAngles, positionMatrixFromNothing, projectionMatrixFromWidthAndHeight, normalsMatrixFromRotationsMatrix } = matrixUtilities;
 
 const defaultInitialAngles = zero2(),
-      defaultInitialPosition = [ 0, 0, 5];
+      defaultInitialPosition = [ 0, 0, 5 ];
 
 
 class GamingCamera extends Camera {
-  constructor(keyEvents, mouseEvents, updateHandler, pan, tilt) {
-    super(keyEvents, mouseEvents, updateHandler, pan, tilt);
-
-
-  }
-
-  mouseWheelHandler(delta, canvas) {
-    const tilt = this.getTilt();
-
-    this.pan.updateZOffset(delta, tilt);
-
-    this.update(canvas);
-  }
-
   update(canvas) {
-    const width = canvas.getWidth(),
+    const pan = this.getPan(),
+          tilt = this.getTilt(),
+          width = canvas.getWidth(),
           height = canvas.getHeight(),
-          angles = this.tilt.getAngles(),
-          offsets = this.pan.getOffsets(),
+          angles = tilt.getAngles(),
+          offsets = pan.getOffsets(),
 
           offsetsMatrix = offsetsMatrixFromOffsets(offsets),
           positionMatrix = positionMatrixFromNothing(),
           rotationsMatrix = rotationsMatrixFromAngles(angles),
           projectionMatrix = projectionMatrixFromWidthAndHeight(width, height),
-          normalsMatrix = normalsMatrixFromRotationsMatrix(rotationsMatrix);
+          normalsMatrix = normalsMatrixFromRotationsMatrix(rotationsMatrix),
+          updateHandler = this.getUpdateHandler();
 
-    super.update(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);
+    updateHandler(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);
   }
 
   static fromProperties(properties) {

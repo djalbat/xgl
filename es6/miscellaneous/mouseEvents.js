@@ -5,17 +5,16 @@ const constants = require('../constants');
 const { MOUSE_UP, MOUSE_DOWN, MOUSE_MOVE, MOUSE_WHEEL } = constants;
 
 class MouseEvents {
-  constructor(handlersMap, mouseDown, canvas) {
+  constructor(handlersMap, mouseDown) {
     this.handlersMap = handlersMap;
     this.mouseDown = mouseDown;
-    this.canvas = canvas;
   }
 
   mouseEventListener(event, eventType) {
     const handlers = this.handlersMap[eventType],
-          mouseCoordinates = mouseCoordinatesFromEvent(event, this.canvas);
+          mouseCoordinates = mouseCoordinatesFromEvent(event);
 
-    handlers.forEach((handler) => handler(mouseCoordinates, this.mouseDown, this.canvas));
+    handlers.forEach((handler) => handler(mouseCoordinates, this.mouseDown));
 
     event.preventDefault();
   }
@@ -37,10 +36,10 @@ class MouseEvents {
   }
 
   mouseWheelEventListener(event) {
-    const delta = deltaFromEvent(event),
-          handlers = this.handlersMap[ MOUSE_WHEEL ];
+    const handlers = this.handlersMap[ MOUSE_WHEEL ],
+          mouseWheelDelta = mouseWheelDeltaFromEvent(event);
 
-    handlers.forEach((handler) => handler(delta, this.canvas));
+    handlers.forEach((handler) => handler(mouseWheelDelta));
 
 		event.preventDefault();
   }
@@ -93,7 +92,7 @@ class MouseEvents {
   static fromNothing(canvas) {
     const handlersMap = {},
           mouseDown = false,  ///
-					mouseEvents = new MouseEvents(handlersMap, mouseDown, canvas);
+					mouseEvents = new MouseEvents(handlersMap, mouseDown);
 
     mouseEvents.initialise(canvas);
 
@@ -103,10 +102,10 @@ class MouseEvents {
 
 module.exports = MouseEvents;
 
-function deltaFromEvent(event) {
-  const delta = Math.max(-1, Math.min(1, event.wheelDelta)); ///
+function mouseWheelDeltaFromEvent(event) {
+  const mouseWheelDelta = Math.max(-1, Math.min(1, event.wheelDelta)); ///
 
-  return delta;
+  return mouseWheelDelta;
 }
 
 function mouseCoordinatesFromEvent(event) {
