@@ -7,30 +7,27 @@ const depthMixin = require('./mixin/depth'),
       matrixMixin = require('./mixin/matrix'),
       programMixin = require('./mixin/program'),
       textureMixin = require('./mixin/texture'),
-      blendingMixin = require('./mixin/blending');
+      blendingMixin = require('./mixin/blending'),
+      locationMixin = require('./mixin/location');
 
 class Canvas {
   constructor(selector = 'canvas') {
     const domElement = domElementFromSelector(selector),
-          context = domElement.getContext('webgl');
+          context = contextFromDOMElement(domElement);
 
-    if (!context) {
-      throw new Error(`Unable to initialise the context.`);
-    }
+    this.domElement = domElement;
 
     this.context = context;
-    
-    this.domElement = domElement;
 
     this.enableDepthTesting();  ///
   }
 
-  getContext() {
-    return this.context;
-  }
-
   getDOMElement() {
     return this.domElement;
+  }
+
+  getContext() {
+    return this.context;
   }
 
   getWidth() { return this.domElement.width; }
@@ -41,29 +38,29 @@ class Canvas {
 
   getClientHeight() { return this.domElement.clientHeight; }
 
-  getUniformLocation(program, name) { return this.context.getUniformLocation(program, name); }
-
-  getAttributeLocation(program, name) { return this.context.getAttribLocation(program, name); }
-
   setWidth(width) { this.domElement.setAttribute('width', width); }
 
   setHeight(height) { this.domElement.setAttribute('height', height); }
 
-  setViewport(x, y, width, height) { this.context.viewport(x, y, width, height); }
+  resize(width, height) {
+    const x = 0,
+          y = 0;
 
-  setUniformLocationIntegerValue(uniformLocation, integerValue) { this.context.uniform1i(uniformLocation, integerValue); }
+    this.setWidth(width);
+
+    this.setHeight(height);
+
+    this.context.viewport(x, y, width, height);
+  }
 
   clear() {
     this.clearDepth();
-    this.clearColour();
-    this.clearDepthBuffer();
-    this.clearColourBuffer();
-  }
 
-  resize(width, height) {
-    this.setWidth(width);
-    this.setHeight(height);
-    this.setViewport(0, 0, width, height);
+    this.clearColour();
+
+    this.clearDepthBuffer();
+
+    this.clearColourBuffer();
   }
 
   render(renderer, offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix) {
@@ -99,6 +96,7 @@ Object.assign(Canvas.prototype, matrixMixin);
 Object.assign(Canvas.prototype, programMixin);
 Object.assign(Canvas.prototype, textureMixin);
 Object.assign(Canvas.prototype, blendingMixin);
+Object.assign(Canvas.prototype, locationMixin);
 
 module.exports = Canvas;
 
@@ -108,4 +106,14 @@ function domElementFromSelector(selector) {
                          selector;  ///
 
   return domElement;
+}
+
+function contextFromDOMElement(domElement) {
+  const context = domElement.getContext('webgl');
+
+  if (!context) {
+    throw new Error(`Unable to get the WebGL context.`);
+  }
+
+  return context;
 }
