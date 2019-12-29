@@ -1,7 +1,7 @@
 {
   "name": "xgl",
   "author": "James Smith",
-  "version": "1.5.37",
+  "version": "1.5.38",
   "license": "MIT, Anti-996",
   "homepage": "https://github.com/djalbat/xgl",
   "description": "Makes use of JSX to leverage WebGL.",
@@ -10,19 +10,18 @@
     "url": "https://github.com/djalbat/xgl"
   },
   "dependencies": {
-    "necessary": "^2.6.4"
+    "express": "^4.16.4",
+    "necessary": "^2.6.4",
+    "xgl-server": "^1.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.4",
     "babel": "^6.5.2",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-react-jsx": "^6.7.5",
     "babel-preset-es2015": "^6.6.0",
     "babel-preset-react": "^6.5.0",
     "browserify": "^13.0.0",
-    "chokidar-cli": "^1.2.0",
-    "express": "^4.16.4",
-    "xgl-server": "^1.0.0"
+    "chokidar-cli": "^1.2.0"
   },
   "scripts": {
     "clean": "rm -rf ./lib",
