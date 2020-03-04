@@ -4,13 +4,13 @@ const express = require('express'),
       necessary = require('necessary');
 
 const routes = require('./routes'),
-			constants = require('./constants');
+      constants = require('./constants');
 
 const { miscellaneousUtilities } = necessary,
       { onETX, rc } = miscellaneousUtilities,
-			{ argv, exit } = process,
-			{ imageMap, indexPage, examplePage } = routes,
-			{ IMAGE_MAP_URI, INDEX_PAGE_URI, EXAMPLE_PAGE_URI } = constants;
+      { argv, exit } = process,
+      { imageMap, indexPage, examplePage } = routes,
+      { IMAGE_MAP_URI, INDEX_PAGE_URI, EXAMPLE_PAGE_URI } = constants;
 
 rc(argv);
 

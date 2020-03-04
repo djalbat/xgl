@@ -1,7 +1,7 @@
 {
   "name": "xgl",
   "author": "James Smith",
-  "version": "1.5.38",
+  "version": "1.5.39",
   "license": "MIT, Anti-996",
   "homepage": "https://github.com/djalbat/xgl",
   "description": "Makes use of JSX to leverage WebGL.",
@@ -15,23 +15,25 @@
     "xgl-server": "^1.0.0"
   },
   "devDependencies": {
-    "babel": "^6.5.2",
-    "babel-cli": "^6.26.0",
-    "babel-plugin-transform-react-jsx": "^6.7.5",
-    "babel-preset-es2015": "^6.6.0",
-    "babel-preset-react": "^6.5.0",
-    "browserify": "^13.0.0",
-    "chokidar-cli": "^1.2.0"
+    "@babel/core": "^7.8.6",
+    "@babel/plugin-transform-react-jsx": "^7.8.3",
+    "@babel/preset-env": "^7.8.6",
+    "browserify": "^16.5.0",
+    "concurrently": "^5.1.0",
+    "lively-cli": "^1.0.2",
+    "watchful-cli": "^1.0.10"
   },
   "scripts": {
     "clean": "rm -rf ./lib",
-    "babel": "babel ./es6 --presets=es2015,react --plugins transform-react-jsx --out-dir=./lib",
-    "babel-debug": "babel ./es6 --presets=es2015,react --plugins transform-react-jsx --source-maps inline --out-dir=./lib",
-    "browserify": "browserify ./lib/example.js > ./public/lib/example.js",
-    "browserify-debug": "browserify ./lib/example.js --debug > ./public/lib/example.js",
-    "build": "npm run clean && npm run babel && npm run browserify",
-    "build-debug": "npm run clean && npm run babel-debug && npm run browserify-debug",
-    "watch": "npm run build && chokidar './index.js' './es6/**/*.js' -c 'npm run build'",
-    "watch-debug": "npm run build-debug && chokidar './index.js' './es6/**/*.js' -c 'npm run build-debug'"
+    "lively": "lively --watch-pattern=./public/lib/example.js --allowed-origin=http://localhost:8000 --quietly",
+    "watchful": "watchful --source-directory=./es6 --temp-directory=./lib --entry-file=example.js --bundle-file=./public/lib/example.js",
+    "batch": "npm run watchful batch --",
+    "batch-debug": "npm run watchful batch -- --debug",
+    "incremental": "npm run watchful incremental --",
+    "incremental-debug": "npm run watchful incremental -- --debug",
+    "build": "npm run clean && npm run batch",
+    "build-debug": "npm run clean && npm run batch-debug",
+    "watch": "npm run clean && npm run batch && concurrently 'npm run incremental' 'npm run lively'",
+    "watch-debug": "npm run clean && npm run batch-debug && concurrently 'npm run incremental-debug' 'npm run lively'"
   }
 }

@@ -19,7 +19,7 @@ You can clone the repository with [Git](https://git-scm.com/)...
 The examples are available via a small [Express](https://expressjs.com/) application that makes use of [XGL Server](https://github.com/djalbat/xgl-server). Once the dependencies are installed, this can be launched with the following command from the root of the repository:
 
 ```
-node ./bin/main.js
+node ./bin/example/main.js
 ```
 
 The index page for the examples will then be available at http://localhost:8000. You can compile the examples yourself, see the section on compiling from source near to the end.
@@ -486,6 +486,8 @@ Automation is done with [npm scripts](https://docs.npmjs.com/misc/scripts), have
     npm run watch-debug
     
 As well as building the XGL library itself, this will build the examples. The source code for the examples can be found in the `es6/example.js` file and in the files and sub-directories of the `es6/example` directory.
+
+If you have an example running in a browser, it will be reloaded should make changes to the source code.
     
 ## Acknowledgements
 

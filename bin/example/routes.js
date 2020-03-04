@@ -1,22 +1,23 @@
 'use strict';
 
-const xglserver = require('xgl-server'),
+const xglServer = require('xgl-server'),
       necessary = require('necessary');
 
-const constants = require('./constants');
+const constants = require('./constants'),
+      liveReloadSnippet = require('./liveReloadSnippet');
 
 const { templateUtilities, miscellaneousUtilities } = necessary,
       { rc } = miscellaneousUtilities,
       { parseFile } = templateUtilities,
-      { imageMapPNG, imageMapJSON } = xglserver,
+      { imageMapPNG, imageMapJSON } = xglServer,
       { IMAGE_MAP_URI, OVERLAY_IMAGE_SIZE, INDEX_PAGE_FILE_NAME, EXAMPLE_PAGE_FILE_NAME } = constants;
 
 function imageMap(request, response) {
-	const { imageDirectoryPath } = rc,
-				names = [],
-				overlayImageSize = OVERLAY_IMAGE_SIZE;
+  const { imageDirectoryPath } = rc,
+        names = [],
+        overlayImageSize = OVERLAY_IMAGE_SIZE;
 
-	imageMapPNG(names, imageDirectoryPath, overlayImageSize, response);
+  imageMapPNG(names, imageDirectoryPath, overlayImageSize, response);
 }
 
 function indexPage(request, response) {
@@ -48,7 +49,8 @@ function examplePage(request, response) {
             imageNames,
             imageMapURI,
             imageMapJSON,
-            imageDirectoryURI
+            imageDirectoryURI,
+            liveReloadSnippet
           },
           html = parseFile(filePath, args);
 
@@ -59,7 +61,7 @@ function examplePage(request, response) {
 }
 
 module.exports = {
-	imageMap,
-	indexPage,
+  imageMap,
+  indexPage,
   examplePage
 };
