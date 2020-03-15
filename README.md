@@ -10,7 +10,7 @@ You can clone the repository with [Git](https://git-scm.com/)...
 
     git clone https://github.com/djalbat/xgl.git
 
-...and then install the necessary modules with [npm](https://www.npmjs.com/) from within the project's root directory:
+...and then install the dependencies with [npm](https://www.npmjs.com/) from within the project's root directory:
 
     npm install
 
