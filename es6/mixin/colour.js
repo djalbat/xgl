@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 const defaultR = 0.0,
       defaultG = 0.0,

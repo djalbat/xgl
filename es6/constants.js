@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 
 const Z_FAR = 1000,
       Z_NEAR = 1,
-      MOUSE_UP = 'MOUSE_UP',
-      MOUSE_DOWN = 'MOUSE_DOWN',
-      MOUSE_MOVE = 'MOUSE_MOVE',
-      MOUSE_WHEEL = 'MOUSE_WHEEL',
+      MOUSE_UP = "MOUSE_UP",
+      MOUSE_DOWN = "MOUSE_DOWN",
+      MOUSE_MOVE = "MOUSE_MOVE",
+      MOUSE_WHEEL = "MOUSE_WHEEL",
       DELTA_SCALAR = 1.25,
       INVERT_SCALAR = -1,
       ANGLES_SCALAR = 0.01,

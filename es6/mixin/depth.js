@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 const defaultDepth = 1.0;
 

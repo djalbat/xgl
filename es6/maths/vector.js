@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 function zero2() {
   return ([

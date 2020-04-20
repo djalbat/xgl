@@ -1,14 +1,14 @@
-'use strict';
+"use strict";
 
-const Edge = require('../edge'),
-      Facet = require('../facet'),
-      Normal = require('../normal'),
-      Vertex = require('../vertex'),
-      arrayUtilities = require('../../utilities/array'),
-      facetUtilities = require('../../utilities/facet'),
-      textureUtilities = require('../../utilities/texture'),
-      verticesUtilities = require('../../utilities/vertices'),
-      approximateUtilities = require('../../utilities/approximate');
+const Edge = require("../edge"),
+      Facet = require("../facet"),
+      Normal = require("../normal"),
+      Vertex = require("../vertex"),
+      arrayUtilities = require("../../utilities/array"),
+      facetUtilities = require("../../utilities/facet"),
+      textureUtilities = require("../../utilities/texture"),
+      verticesUtilities = require("../../utilities/vertices"),
+      approximateUtilities = require("../../utilities/approximate");
 
 const { permute } = arrayUtilities,
       { isApproximatelyEqualToZero } = approximateUtilities,

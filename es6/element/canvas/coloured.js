@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const ColouredFacet = require('../../primitive/facet/coloured'),
-      CanvasElement = require('../../element/canvas');
+const ColouredFacet = require("../../primitive/facet/coloured"),
+      CanvasElement = require("../../element/canvas");
 
 class ColouredCanvasElement extends CanvasElement {
   constructor(transform, facets, mask, hidden, coordinates, indexes, colour) {

@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const rotationUtilities = require('../utilities/rotation');
+const rotationUtilities = require("../utilities/rotation");
 
 const { rotatePosition } = rotationUtilities;
 

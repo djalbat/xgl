@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 function createTexture(image, index, repeat) {
 	const { RGBA, LINEAR, UNSIGNED_BYTE, TEXTURE0, TEXTURE_2D, TEXTURE_WRAP_S, TEXTURE_WRAP_T, UNPACK_FLIP_Y_WEBGL, CLAMP_TO_EDGE, NEAREST, REPEAT, TEXTURE_MIN_FILTER } = this.context,
@@ -32,9 +32,9 @@ function createTexture(image, index, repeat) {
 
 function enableAnisotropicFiltering() {
   const extension = (
-    this.context.getExtension('EXT_texture_filter_anisotropic') ||
-    this.context.getExtension('MOZ_EXT_texture_filter_anisotropic') ||
-    this.context.getExtension('WEBKIT_EXT_texture_filter_anisotropic')
+    this.context.getExtension("EXT_texture_filter_anisotropic") ||
+    this.context.getExtension("MOZ_EXT_texture_filter_anisotropic") ||
+    this.context.getExtension("WEBKIT_EXT_texture_filter_anisotropic")
   );
 
   if (extension) {

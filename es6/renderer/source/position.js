@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
-const offsetsMatrixName = 'uOffsetsMatrix',
-      positionMatrixName = 'uPositionMatrix',
-      rotationsMatrixName = 'uRotationsMatrix',
-      projectionMatrixName = 'uPerspectiveMatrix',
-      vertexPositionAttributeName = 'aVertexPosition';
+const offsetsMatrixName = "uOffsetsMatrix",
+      positionMatrixName = "uPositionMatrix",
+      rotationsMatrixName = "uRotationsMatrix",
+      projectionMatrixName = "uPerspectiveMatrix",
+      vertexPositionAttributeName = "aVertexPosition";
 
 const positionSource = new String(`
   

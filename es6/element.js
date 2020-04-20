@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 class Element {
   getChildElements() {
@@ -11,7 +11,7 @@ class Element {
 
   static fromProperties(Class, properties, ...remainingArguments) {
     const element = new Class(...remainingArguments),
-          childElements = (typeof element.childElements === 'function') ?
+          childElements = (typeof element.childElements === "function") ?
                             element.childElements(properties) :
                               properties.childElements || [];
 

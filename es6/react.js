@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
-const Element = require('./element'),
-      arrayUtilities = require('./utilities/array'),
-      FunctionCanvasElement = require('./element/canvas/function');
+const Element = require("./element"),
+      arrayUtilities = require("./utilities/array"),
+      FunctionCanvasElement = require("./element/canvas/function");
 
 const { flatten, guarantee } = arrayUtilities;
 
@@ -21,7 +21,7 @@ function createElement(firstArgument, properties, ...childElements) {
     });
 
     element = Class.fromProperties(properties);
-  } else if (typeof firstArgument === 'function') {
+  } else if (typeof firstArgument === "function") {
     const func = firstArgument,  ///
           childElements = guarantee(func(properties));
 

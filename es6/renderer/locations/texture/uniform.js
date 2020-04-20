@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const UniformLocations = require('../../locations/uniform'),
-      fragmentShaderSource = require('../../source/texture/fragmentShader');
+const UniformLocations = require("../../locations/uniform"),
+      fragmentShaderSource = require("../../source/texture/fragmentShader");
 
 const { samplerName } = fragmentShaderSource;
 

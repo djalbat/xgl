@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-const vectorMaths = require('../maths/vector'),
-      arrayUtilities = require('../utilities/array'),
-      angleUtilities = require('../utilities/angle'),
-      approximateUtilities = require('../utilities/approximate');
+const vectorMaths = require("../maths/vector"),
+      arrayUtilities = require("../utilities/array"),
+      angleUtilities = require("../utilities/angle"),
+      approximateUtilities = require("../utilities/approximate");
 
 const { dot3, cross3, normalise3 } = vectorMaths,
       { isApproximatelyEqualToOne } = approximateUtilities,

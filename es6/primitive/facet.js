@@ -1,13 +1,13 @@
-'use strict';
+"use strict";
 
-const Edge = require('./edge'),
-      Normal = require('./normal'),
-      Vertex = require('./vertex'),
-      constants = require('../constants'),
-      facetUtilities = require('../utilities/facet'),
-      arrayUtilities = require('../utilities/array'),
-      midPointUtilities = require('../utilities/midPoint'),
-      intersectionUtilities = require('../utilities/intersection');
+const Edge = require("./edge"),
+      Normal = require("./normal"),
+      Vertex = require("./vertex"),
+      constants = require("../constants"),
+      facetUtilities = require("../utilities/facet"),
+      arrayUtilities = require("../utilities/array"),
+      midPointUtilities = require("../utilities/midPoint"),
+      intersectionUtilities = require("../utilities/intersection");
 
 const { VERTICES_LENGTH } = constants,
       { push, permute } = arrayUtilities,

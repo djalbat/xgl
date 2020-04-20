@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const AttributeLocations = require('../../locations/attribute'),
-      vertexShaderSource = require('../../source/colour/vertexShader');
+const AttributeLocations = require("../../locations/attribute"),
+      vertexShaderSource = require("../../source/colour/vertexShader");
 
 const { vertexColourAttributeName } = vertexShaderSource;
 

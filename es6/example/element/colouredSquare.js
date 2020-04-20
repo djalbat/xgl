@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const xgl = require('../../../index');  ///
+const xgl = require("../../../index");  ///
 
 const { ColouredCanvasElement } = xgl;
 

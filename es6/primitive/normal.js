@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const vectorMaths = require('../maths/vector'),
-      arrayUtilities = require('../utilities/array');
+const vectorMaths = require("../maths/vector"),
+      arrayUtilities = require("../utilities/array");
 
 const { first, second, third } = arrayUtilities,
       { normalise3, subtract3, cross3 } = vectorMaths;

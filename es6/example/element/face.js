@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const ColouredSquare = require('./colouredSquare');
+const ColouredSquare = require("./colouredSquare");
 
 const Face = (properties) => {
   const { colour } = properties;

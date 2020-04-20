@@ -1,13 +1,13 @@
-'use strict';
+"use strict";
 
-const Renderer = require('../renderer'),
-      arrayUtilities = require('../utilities/array'),
-      ColourRendererData = require('../renderer/data/colour'),
-      vertexShaderSource = require('./source/colour/vertexShader'),
-      fragmentShaderSource = require('./source/colour/fragmentShader'),
-      ColourRendererBuffers = require('../renderer/buffers/colour'),
-      ColourUniformLocations = require('./locations/colour/uniform'),
-      ColourAttributeLocations = require('./locations/colour/attribute');
+const Renderer = require("../renderer"),
+      arrayUtilities = require("../utilities/array"),
+      ColourRendererData = require("../renderer/data/colour"),
+      vertexShaderSource = require("./source/colour/vertexShader"),
+      fragmentShaderSource = require("./source/colour/fragmentShader"),
+      ColourRendererBuffers = require("../renderer/buffers/colour"),
+      ColourUniformLocations = require("./locations/colour/uniform"),
+      ColourAttributeLocations = require("./locations/colour/attribute");
 
 const { push } = arrayUtilities,
       { createProgram } = Renderer;

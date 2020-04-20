@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-const lightingSource = require('../../source/lighting'),
-      positionSource = require('../../source/position');
+const lightingSource = require("../../source/lighting"),
+      positionSource = require("../../source/position");
 
-const vertexColourAttributeName = 'aVertexColour',
+const vertexColourAttributeName = "aVertexColour",
       vertexShaderSource = new String(`
     
         attribute vec4 ${vertexColourAttributeName};

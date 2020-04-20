@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 
-const xgl = require('../../index'), ///
-      necessary = require('necessary');
+const xgl = require("../../index"), ///
+      necessary = require("necessary");
 
-const configuration = require('../miscellaneous/configuration'),
-      ColouredSquare = require('./element/colouredSquare'),
-      TexturedQuadrangle = require('./element/texturedQuadrangle');
+const configuration = require("../miscellaneous/configuration"),
+      ColouredSquare = require("./element/colouredSquare"),
+      TexturedQuadrangle = require("./element/texturedQuadrangle");
 
 const { Canvas, Scene, Part, Mask, DesignCamera } = xgl,
       { asynchronousUtilities } = necessary,
@@ -28,8 +28,8 @@ const tilingExample = () => {
 
       <Scene canvas={canvas}>
         <Part images={images} imageNames={imageNames} imageTiling >
-          <TexturedQuadrangle position={[ 0, 0, 0 ]} imageName={'floorboards.jpg'} mask={mask} />
-          <TexturedQuadrangle position={[ -0.5, -0.5, -0.5 ]} imageName={'paving.jpg'} mask={mask} />
+          <TexturedQuadrangle position={[ 0, 0, 0 ]} imageName="floorboards.jpg" mask={mask} />
+          <TexturedQuadrangle position={[ -0.5, -0.5, -0.5 ]} imageName="paving.jpg" mask={mask} />
         </Part>
         <DesignCamera />
       </Scene>

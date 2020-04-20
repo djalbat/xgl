@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const lightingSource = require('../source/lighting'),
-      positionSource = require('../source/position');
+const lightingSource = require("../source/lighting"),
+      positionSource = require("../source/position");
 
 const { normalsMatrixName } = lightingSource,
       { offsetsMatrixName, rotationsMatrixName, positionMatrixName, projectionMatrixName } = positionSource;

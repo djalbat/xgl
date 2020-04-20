@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
-const Renderer = require('../renderer'),
-      vertexShaderSource = require('./source/texture/vertexShader'),
-      TextureRendererData = require('../renderer/data/texture'),
-      fragmentShaderSource = require('./source/texture/fragmentShader'),
-      TextureRendererBuffers = require('../renderer/buffers/texture'),
-      TextureUniformLocations = require('./locations/texture/uniform'),
-      TextureAttributeLocations = require('./locations/texture/attribute');
+const Renderer = require("../renderer"),
+      vertexShaderSource = require("./source/texture/vertexShader"),
+      TextureRendererData = require("../renderer/data/texture"),
+      fragmentShaderSource = require("./source/texture/fragmentShader"),
+      TextureRendererBuffers = require("../renderer/buffers/texture"),
+      TextureUniformLocations = require("./locations/texture/uniform"),
+      TextureAttributeLocations = require("./locations/texture/attribute");
 
 const { createProgram } = Renderer;
 

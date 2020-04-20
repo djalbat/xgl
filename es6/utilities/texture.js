@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
-const matrixMaths = require('../maths/matrix'),
-      vectorMaths = require('../maths/vector'),
-      arrayUtilities = require('../utilities/array'),
-      verticesUtilities = require('../utilities/vertices'),
-      quaternionUtilities = require('../utilities/quaternion');
+const matrixMaths = require("../maths/matrix"),
+      vectorMaths = require("../maths/vector"),
+      arrayUtilities = require("../utilities/array"),
+      verticesUtilities = require("../utilities/vertices"),
+      quaternionUtilities = require("../utilities/quaternion");
 
 const { rotateVertices } = verticesUtilities,
       { invert2, invert3 } = matrixMaths,

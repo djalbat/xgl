@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
-const xgl = require('../../index'); ///
+const xgl = require("../../index"); ///
 
-const ColouredSquare = require('./element/colouredSquare');
+const ColouredSquare = require("./element/colouredSquare");
 
 const { Canvas, Scene, Part, DesignCamera } = xgl;
 

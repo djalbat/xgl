@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const vectorMaths = require('../maths/vector');
+const vectorMaths = require("../maths/vector");
 
 const { subtract3 } = vectorMaths;
 

@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
-const React = require('./react');
+const React = require("./react");
 
-Object.defineProperty(window, 'React', {
+Object.defineProperty(window, "React", {
   get: function() {
     return React;
   }

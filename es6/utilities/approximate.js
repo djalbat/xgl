@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const constants = require('../constants');
+const constants = require("../constants");
 
 const { DEFAULT_MARGIN_OF_ERROR } = constants;
 

@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 function calculateHalfAngleSine(angleCosine) { return Math.sqrt((1 - angleCosine) / 2); }
 

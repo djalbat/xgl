@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-const Element = require('../element'),
-      ColourRenderer = require('../renderer/colour'),
-      ImagesTextureRenderer = require('../renderer/texture/images'),
-      ImageMapTextureRenderer = require('../renderer/texture/imageMap');
+const Element = require("../element"),
+      ColourRenderer = require("../renderer/colour"),
+      ImagesTextureRenderer = require("../renderer/texture/images"),
+      ImageMapTextureRenderer = require("../renderer/texture/imageMap");
 
 class Part extends Element {
   constructor(images, imageMap, imageNames, imageTiling, imageMapJSON, colourRenderer, textureRenderer, hidden) {

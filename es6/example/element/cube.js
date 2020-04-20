@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const Face = require('./face');
+const Face = require("./face");
 
 const defaultColour = [ 1, 1, 0 ];
 

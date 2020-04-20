@@ -1,17 +1,17 @@
-'use strict';
+"use strict";
 
-const depthMixin = require('./mixin/depth'),
-      colourMixin = require('./mixin/colour'),
-      shaderMixin = require('./mixin/shader'),
-      bufferMixin = require('./mixin/buffer'),
-      matrixMixin = require('./mixin/matrix'),
-      programMixin = require('./mixin/program'),
-      textureMixin = require('./mixin/texture'),
-      blendingMixin = require('./mixin/blending'),
-      locationMixin = require('./mixin/location');
+const depthMixin = require("./mixin/depth"),
+      colourMixin = require("./mixin/colour"),
+      shaderMixin = require("./mixin/shader"),
+      bufferMixin = require("./mixin/buffer"),
+      matrixMixin = require("./mixin/matrix"),
+      programMixin = require("./mixin/program"),
+      textureMixin = require("./mixin/texture"),
+      blendingMixin = require("./mixin/blending"),
+      locationMixin = require("./mixin/location");
 
 class Canvas {
-  constructor(selector = 'canvas') {
+  constructor(selector = "canvas") {
     const domElement = domElementFromSelector(selector),
           context = contextFromDOMElement(domElement);
 
@@ -38,9 +38,9 @@ class Canvas {
 
   getClientHeight() { return this.domElement.clientHeight; }
 
-  setWidth(width) { this.domElement.setAttribute('width', width); }
+  setWidth(width) { this.domElement.setAttribute("width", width); }
 
-  setHeight(height) { this.domElement.setAttribute('height', height); }
+  setHeight(height) { this.domElement.setAttribute("height", height); }
 
   resize(width, height) {
     const x = 0,
@@ -101,7 +101,7 @@ Object.assign(Canvas.prototype, locationMixin);
 module.exports = Canvas;
 
 function domElementFromSelector(selector) {
-  const domElement = (typeof selector === 'string') ?
+  const domElement = (typeof selector === "string") ?
                        document.querySelectorAll(selector)[0] :  ///
                          selector;  ///
 
@@ -109,7 +109,7 @@ function domElementFromSelector(selector) {
 }
 
 function contextFromDOMElement(domElement) {
-  const context = domElement.getContext('webgl');
+  const context = domElement.getContext("webgl");
 
   if (!context) {
     throw new Error(`Unable to get the WebGL context.`);

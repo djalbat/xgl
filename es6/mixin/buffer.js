@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 function createElementBuffer(data) {
   const { ELEMENT_ARRAY_BUFFER, STATIC_DRAW } = this.context,

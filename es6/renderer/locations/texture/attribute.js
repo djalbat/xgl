@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const AttributeLocations = require('../../locations/attribute'),
-      vertexShaderSource = require('../../source/texture/vertexShader');
+const AttributeLocations = require("../../locations/attribute"),
+      vertexShaderSource = require("../../source/texture/vertexShader");
 
 const { textureCoordinateAttributeName } = vertexShaderSource;
 

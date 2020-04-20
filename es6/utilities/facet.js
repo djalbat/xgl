@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
-const constants = require('../constants'),
-      vectorMaths = require('../maths/vector'),
-      arrayUtilities = require('../utilities/array');
+const constants = require("../constants"),
+      vectorMaths = require("../maths/vector"),
+      arrayUtilities = require("../utilities/array");
 
 const { VERTICES_LENGTH } = constants,
       { first, second, third } = arrayUtilities,

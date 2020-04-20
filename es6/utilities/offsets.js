@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const vectorMaths = require('../maths/vector'),
-      matrixUtilities = require('../utilities/matrix');
+const vectorMaths = require("../maths/vector"),
+      matrixUtilities = require("../utilities/matrix");
 
 const { reflect3, transform4 } = vectorMaths,
       { rotationsMatrixFromAngles } = matrixUtilities;

@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-const lightingSource = require('../../source/lighting'),
-      positionSource = require('../../source/position');
+const lightingSource = require("../../source/lighting"),
+      positionSource = require("../../source/position");
 
-const textureCoordinateAttributeName = 'aTextureCoordinate',
+const textureCoordinateAttributeName = "aTextureCoordinate",
       vertexShaderSource = new String(`
         
         attribute vec2 ${textureCoordinateAttributeName};

@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const constants = require('../constants');
+const constants = require("../constants");
 
 const { SHIFT_KEY_CODE } = constants;
 
@@ -45,9 +45,9 @@ class KeyEvents {
           keyUpEventListener = this.keyUpEventListener.bind(this),
           keyDownEventListener = this.keyDownEventListener.bind(this);
 
-    documentDOMElement.addEventListener('keyup', keyUpEventListener);
+    documentDOMElement.addEventListener("keyup", keyUpEventListener);
 
-    documentDOMElement.addEventListener('keydown', keyDownEventListener);
+    documentDOMElement.addEventListener("keydown", keyDownEventListener);
   }
 
   static fromNothing() {

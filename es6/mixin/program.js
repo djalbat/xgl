@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 function createProgram(vertexShader, fragmentShader) {
   const program = this.context.createProgram();

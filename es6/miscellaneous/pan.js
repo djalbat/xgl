@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
-const constants = require('../constants'),
-      vectorMaths = require('../maths/vector'),
-      offsetsUtilities = require('../utilities/offsets');
+const constants = require("../constants"),
+      vectorMaths = require("../maths/vector"),
+      offsetsUtilities = require("../utilities/offsets");
 
 const { add3, scale2, reflect2, scale3 } = vectorMaths,
       { relativeOffsetsFromAnglesAndDirections } = offsetsUtilities,

@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const quaternionUtilities = require('../utilities/quaternion');
+const quaternionUtilities = require("../utilities/quaternion");
 
 const { rotateImaginaryQuaternion, calculateInverseRotationQuaternion } = quaternionUtilities;
 

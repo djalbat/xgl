@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
-const Edge = require('../edge'),
-      Facet = require('../facet'),
-      Normal = require('../normal'),
-      Vertex = require('../vertex'),
-      facetUtilities = require('../../utilities/facet'),
-      verticesUtilities = require('../../utilities/vertices'),
-      approximateUtilities = require('../../utilities/approximate');
+const Edge = require("../edge"),
+      Facet = require("../facet"),
+      Normal = require("../normal"),
+      Vertex = require("../vertex"),
+      facetUtilities = require("../../utilities/facet"),
+      verticesUtilities = require("../../utilities/vertices"),
+      approximateUtilities = require("../../utilities/approximate");
 
 const { isApproximatelyEqualToZero } = approximateUtilities,
       { verticesFromCoordinateTuplesAndIndexTuple } = verticesUtilities,

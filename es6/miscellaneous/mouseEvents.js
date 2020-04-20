@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const constants = require('../constants');
+const constants = require("../constants");
 
 const { MOUSE_UP, MOUSE_DOWN, MOUSE_MOVE, MOUSE_WHEEL } = constants;
 
@@ -80,13 +80,13 @@ class MouseEvents {
     this.handlersMap[ MOUSE_MOVE ] = [];
     this.handlersMap[ MOUSE_WHEEL ] = [];
 
-    canvasDOMElement.addEventListener('mouseup', mouseUpEventListener);
+    canvasDOMElement.addEventListener("mouseup", mouseUpEventListener);
 
-    canvasDOMElement.addEventListener('mousedown', mouseDownEventListener);
+    canvasDOMElement.addEventListener("mousedown", mouseDownEventListener);
 
-    canvasDOMElement.addEventListener('mousemove', mouseMoveEventListener);
+    canvasDOMElement.addEventListener("mousemove", mouseMoveEventListener);
 
-    canvasDOMElement.addEventListener('mousewheel', mouseWheelEventListener);
+    canvasDOMElement.addEventListener("mousewheel", mouseWheelEventListener);
   }
 
   static fromNothing() {

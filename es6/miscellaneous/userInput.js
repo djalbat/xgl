@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
-const KeyEvents = require('./keyEvents'),
-      MouseEvents = require('./mouseEvents'),
-      vectorMaths = require('../maths/vector');
+const KeyEvents = require("./keyEvents"),
+      MouseEvents = require("./mouseEvents"),
+      vectorMaths = require("../maths/vector");
 
 const { zero2, subtract2 } = vectorMaths;
 

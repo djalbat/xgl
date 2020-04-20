@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 function applyMatrix(uniformLocation, matrix) {
   const transpose = false;  ///

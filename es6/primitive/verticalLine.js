@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-const arrayUtilities = require('../utilities/array'),
-      rotationUtilities = require('../utilities/rotation'),
-      quaternionUtilities = require('../utilities/quaternion'),
-      intersectionUtilities = require('../utilities/intersection');
+const arrayUtilities = require("../utilities/array"),
+      rotationUtilities = require("../utilities/rotation"),
+      quaternionUtilities = require("../utilities/quaternion"),
+      intersectionUtilities = require("../utilities/intersection");
 
 const { first } = arrayUtilities,
       { rotatePosition } = rotationUtilities,

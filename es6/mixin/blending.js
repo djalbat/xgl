@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 function enableBlending() {
   const { BLEND, SRC_ALPHA, ONE } = this.context,

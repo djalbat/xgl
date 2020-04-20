@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const lightingSource = require('../source/lighting'),
-      positionSource = require('../source/position');
+const lightingSource = require("../source/lighting"),
+      positionSource = require("../source/position");
 
 const { vertexNormalAttributeName } = lightingSource,
       { vertexPositionAttributeName } = positionSource;

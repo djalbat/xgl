@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const TexturedTriangle = require('./texturedTriangle');
+const TexturedTriangle = require("./texturedTriangle");
 
 const Side = (properties) =>
 

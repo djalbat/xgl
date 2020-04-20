@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
-const necessary = require('necessary');
+const necessary = require("necessary");
 
-const Part = require('../element/part'),
-      Camera = require('../element/camera'),
-      Element = require('../element'),
-      UserInput = require('../miscellaneous/userInput'),
-      vectorMaths = require('../maths/vector');
+const Part = require("../element/part"),
+      Camera = require("../element/camera"),
+      Element = require("../element"),
+      UserInput = require("../miscellaneous/userInput"),
+      vectorMaths = require("../maths/vector");
 
 const { asynchronousUtilities } = necessary,
       { forEach } = asynchronousUtilities,

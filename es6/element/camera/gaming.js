@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 
-const Pan = require('../../miscellaneous/pan'),
-      Tilt = require('../../miscellaneous/tilt'),
+const Pan = require("../../miscellaneous/pan"),
+      Tilt = require("../../miscellaneous/tilt"),
 
-      Camera = require('../camera'),
-      vectorMaths = require('../../maths/vector'),
-      matrixUtilities = require('../../utilities/matrix');
+      Camera = require("../camera"),
+      vectorMaths = require("../../maths/vector"),
+      matrixUtilities = require("../../utilities/matrix");
 
 const { zero2 } = vectorMaths,
       { offsetsMatrixFromOffsets, rotationsMatrixFromAngles, positionMatrixFromNothing, projectionMatrixFromWidthAndHeight, normalsMatrixFromRotationsMatrix } = matrixUtilities;

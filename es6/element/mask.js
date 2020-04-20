@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
-const Element = require('../element'),
-      MaskingFacet = require('../primitive/maskingFacet'),
-      arrayUtilities = require('../utilities/array');
+const Element = require("../element"),
+      MaskingFacet = require("../primitive/maskingFacet"),
+      arrayUtilities = require("../utilities/array");
 
 const { push } = arrayUtilities;
 

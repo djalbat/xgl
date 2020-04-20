@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const Element = require('../element'),
-      transformUtilities = require('../utilities/transform');
+const Element = require("../element"),
+      transformUtilities = require("../utilities/transform");
 
 const { composeTransform } = transformUtilities;
 

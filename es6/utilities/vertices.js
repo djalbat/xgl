@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 function rotateVertices(vertices, rotationQuaternion) {
   const rotatedVertices = vertices.map((vertex) => {

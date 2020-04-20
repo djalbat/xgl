@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 function getUniformLocation(program, name) {
   return this.context.getUniformLocation(program, name);

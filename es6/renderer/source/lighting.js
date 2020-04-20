@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const normalsMatrixName = 'uNormalsMatrix',
-      vertexNormalAttributeName = 'aVertexNormal';
+const normalsMatrixName = "uNormalsMatrix",
+      vertexNormalAttributeName = "aVertexNormal";
 
 const lightingSource = new String(`
   

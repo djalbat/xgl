@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-const xgl = require('../../index'); ///
+const xgl = require("../../index"); ///
 
-const Pyramid = require('./element/pyramid'),
-      configuration = require('../miscellaneous/configuration');
+const Pyramid = require("./element/pyramid"),
+      configuration = require("../miscellaneous/configuration");
 
 const { Canvas, Scene, Part, GamingCamera } = xgl;
 

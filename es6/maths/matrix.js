@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 function identity2() {
   return ([

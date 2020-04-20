@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const samplerName = 'uSampler',
+const samplerName = "uSampler",
       fragmentShaderSource = new String(`
         
         uniform sampler2D ${samplerName};
