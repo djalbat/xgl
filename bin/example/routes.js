@@ -6,22 +6,28 @@ const xglServer = require("xgl-server"),
 const constants = require("./constants"),
       liveReloadSnippet = require("./liveReloadSnippet");
 
-const { templateUtilities, miscellaneousUtilities } = necessary,
-      { rc } = miscellaneousUtilities,
+const { templateUtilities } = necessary,
       { parseFile } = templateUtilities,
       { imageMapPNG, imageMapJSON } = xglServer,
-      { IMAGE_MAP_URI, OVERLAY_IMAGE_SIZE, INDEX_PAGE_FILE_NAME, EXAMPLE_PAGE_FILE_NAME, TEXT_HTML_CHARSET_UTF8_CONTENT_TYPE } = constants;
+      { IMAGE_MAP_URI,
+        OVERLAY_IMAGE_SIZE,
+        INDEX_PAGE_FILE_NAME,
+        EXAMPLE_PAGE_FILE_NAME,
+        IMAGE_DIRECTORY_URI,
+        IMAGE_DIRECTORY_PATH,
+        TEMPLATE_DIRECTORY_PATH,
+        TEXT_HTML_CHARSET_UTF8_CONTENT_TYPE } = constants;
 
 function imageMap(request, response) {
-  const { imageDirectoryPath } = rc,
-        names = [],
-        overlayImageSize = OVERLAY_IMAGE_SIZE;
+  const names = [],
+        overlayImageSize = OVERLAY_IMAGE_SIZE,
+        imageDirectoryPath = IMAGE_DIRECTORY_PATH;
 
   imageMapPNG(names, imageDirectoryPath, overlayImageSize, response);
 }
 
 function indexPage(request, response) {
-  const { templateDirectoryPath } = rc,
+  const templateDirectoryPath = TEMPLATE_DIRECTORY_PATH,
         indexPageFileName = INDEX_PAGE_FILE_NAME,
         filePath = `${templateDirectoryPath}/${indexPageFileName}`, ///
         args = {},
@@ -34,10 +40,12 @@ function indexPage(request, response) {
 }
 
 function examplePage(request, response) {
-  const { imageDirectoryURI, imageDirectoryPath, templateDirectoryPath } = rc,
-        names = [],
+  const names = [],
         overlayImageSize = OVERLAY_IMAGE_SIZE,
-        examplePageFileName = EXAMPLE_PAGE_FILE_NAME;
+        examplePageFileName = EXAMPLE_PAGE_FILE_NAME,
+        imageDirectoryURI = IMAGE_DIRECTORY_URI,
+        imageDirectoryPath = IMAGE_DIRECTORY_PATH,
+        templateDirectoryPath = TEMPLATE_DIRECTORY_PATH;
 
   imageMapJSON(names, imageDirectoryPath, overlayImageSize, (imageMapJSON) => {
     const imageNames = JSON.stringify(Object.keys(imageMapJSON)); ///

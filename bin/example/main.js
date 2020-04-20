@@ -10,12 +10,13 @@ const { miscellaneousUtilities } = necessary,
       { onETX, rc } = miscellaneousUtilities,
       { argv, exit } = process,
       { imageMap, indexPage, examplePage } = routes,
-      { IMAGE_MAP_URI, INDEX_PAGE_URI, EXAMPLE_PAGE_URI } = constants;
+      { IMAGE_MAP_URI, INDEX_PAGE_URI, EXAMPLE_PAGE_URI, PUBLIC_DIRECTORY_PATH } = constants;
 
 rc(argv);
 
-const { port, publicDirectoryPath } = rc,
+const { port } = rc,
       server = express(), ///
+      publicDirectoryPath = PUBLIC_DIRECTORY_PATH,
       staticRouter = express.static(publicDirectoryPath),
       defaultRouter = express.Router();
 

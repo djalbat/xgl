@@ -6,6 +6,10 @@ const IMAGE_MAP_URI = "/imageMap",
       OVERLAY_IMAGE_SIZE = 128,
       INDEX_PAGE_FILE_NAME = "index.html",
       EXAMPLE_PAGE_FILE_NAME = "example.html",
+      IMAGE_DIRECTORY_URI = "image",
+      IMAGE_DIRECTORY_PATH = "public/image",
+      PUBLIC_DIRECTORY_PATH = "public",
+      TEMPLATE_DIRECTORY_PATH = "template",
       TEXT_HTML_CHARSET_UTF8_CONTENT_TYPE = "text/html; charset=utf-8";
 
 module.exports = {
@@ -15,5 +19,9 @@ module.exports = {
   OVERLAY_IMAGE_SIZE,
   INDEX_PAGE_FILE_NAME,
   EXAMPLE_PAGE_FILE_NAME,
+  IMAGE_DIRECTORY_URI,
+  IMAGE_DIRECTORY_PATH,
+  PUBLIC_DIRECTORY_PATH,
+  TEMPLATE_DIRECTORY_PATH,
   TEXT_HTML_CHARSET_UTF8_CONTENT_TYPE
 };
