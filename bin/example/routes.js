@@ -39,7 +39,7 @@ function examplePage(request, response) {
         overlayImageSize = OVERLAY_IMAGE_SIZE,
         examplePageFileName = EXAMPLE_PAGE_FILE_NAME;
 
-  imageMapJSON(names, imageDirectoryPath, overlayImageSize, function (imageMapJSON) {
+  imageMapJSON(names, imageDirectoryPath, overlayImageSize, (imageMapJSON) => {
     const imageNames = JSON.stringify(Object.keys(imageMapJSON)); ///
 
     imageMapJSON = JSON.stringify(imageMapJSON, null, "  "); ///
