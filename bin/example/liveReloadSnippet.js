@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 const liveReloadSnippet = `
 
@@ -14,7 +14,7 @@ const liveReloadSnippet = `
       }
     };
   
-    xmlHttpRequest.open('GET', 'http://localhost:3000');
+    xmlHttpRequest.open("GET", "http://localhost:3000");
   
     xmlHttpRequest.send();
   
