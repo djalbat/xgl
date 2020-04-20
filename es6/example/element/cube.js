@@ -1,6 +1,6 @@
 "use strict";
 
-const Face = require("./face");
+import Face from "./face";
 
 const defaultColour = [ 1, 1, 0 ];
 

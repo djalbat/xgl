@@ -1,7 +1,7 @@
 "use strict";
 
-const lightingSource = require("../../source/lighting"),
-      positionSource = require("../../source/position");
+import lightingSource from "../../source/lighting";
+import positionSource from "../../source/position";
 
 const vertexColourAttributeName = "aVertexColour",
       vertexShaderSource = new String(`

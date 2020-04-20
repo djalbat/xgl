@@ -1,16 +1,12 @@
 "use strict";
 
-const constants = require("../constants"),
-      MaskingEdge = require("./edge/masking"),
-      VerticalLine = require("./verticalLine"),
-      arrayUtilities = require("../utilities/array"),
-      verticesUtilities = require("../utilities/vertices"),
-      quaternionUtilities = require("../utilities/quaternion");
+import MaskingEdge from "./edge/masking";
+import VerticalLine from "./verticalLine";
 
-const { VERTICES_LENGTH } = constants,
-      { push, separate } = arrayUtilities,
-      { rotateVertices } = verticesUtilities,
-      { calculateArbitraryRotationQuaternion, calculateForwardsRotationQuaternion, calculateBackwardsRotationQuaternion } = quaternionUtilities;
+import { rotateVertices } from "../utilities/vertices";
+import { push, separate } from "../utilities/array";
+import { VERTICES_LENGTH } from "../constants";
+import { calculateForwardsRotationQuaternion, calculateArbitraryRotationQuaternion, calculateBackwardsRotationQuaternion } from "../utilities/quaternion";
 
 class MaskingFacet {
   constructor(maskingEdges, verticalLines, forwardsRotationQuaternion, backwardsRotationQuaternion) {

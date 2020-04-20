@@ -1,12 +1,8 @@
 "use strict";
 
-const constants = require("../constants"),
-      vectorMaths = require("../maths/vector"),
-      arrayUtilities = require("../utilities/array");
-
-const { VERTICES_LENGTH } = constants,
-      { first, second, third } = arrayUtilities,
-      { subtract3, cross3, length3 } = vectorMaths;
+import { VERTICES_LENGTH } from "../constants";
+import { first, second, third } from "../utilities/array";
+import { subtract3, cross3, length3 } from "../maths/vector";
 
 function cloneEdges(edges) {
   edges = edges.map((edge) => edge.clone());

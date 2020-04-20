@@ -1,8 +1,6 @@
 "use strict";
 
-const xgl = require("../../../index");  ///
-
-const { TexturedCanvasElement } = xgl;
+import { TexturedCanvasElement } from "../../../index"; ///
 
 const coordinates = [
 

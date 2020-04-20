@@ -1,9 +1,8 @@
 "use strict";
 
-const arrayUtilities = require("../utilities/array");
+import { flatten, merge } from "../utilities/array";
 
-const { flatten, merge } = arrayUtilities,
-      add = merge;  ///
+const add = merge;  ///
 
 class RendererData {
   constructor(vertexPositionsData, vertexNormalsData, vertexIndexesData) {

@@ -1,16 +1,15 @@
 "use strict";
 
-const Renderer = require("../renderer"),
-      arrayUtilities = require("../utilities/array"),
-      ColourRendererData = require("../renderer/data/colour"),
-      vertexShaderSource = require("./source/colour/vertexShader"),
-      fragmentShaderSource = require("./source/colour/fragmentShader"),
-      ColourRendererBuffers = require("../renderer/buffers/colour"),
-      ColourUniformLocations = require("./locations/colour/uniform"),
-      ColourAttributeLocations = require("./locations/colour/attribute");
+import Renderer from "../renderer";
+import ColourRendererData from "../renderer/data/colour";
+import vertexShaderSource from "./source/colour/vertexShader";
+import fragmentShaderSource from "./source/colour/fragmentShader";
+import ColourRendererBuffers from "../renderer/buffers/colour";
+import ColourUniformLocations from "./locations/colour/uniform";
+import ColourAttributeLocations from "./locations/colour/attribute";
 
-const { push } = arrayUtilities,
-      { createProgram } = Renderer;
+import { push } from "../utilities/array";
+import { createProgram } from "../renderer";
 
 const add = push; ///
 

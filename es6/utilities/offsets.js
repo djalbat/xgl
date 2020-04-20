@@ -1,10 +1,7 @@
 "use strict";
 
-const vectorMaths = require("../maths/vector"),
-      matrixUtilities = require("../utilities/matrix");
-
-const { reflect3, transform4 } = vectorMaths,
-      { rotationsMatrixFromAngles } = matrixUtilities;
+import { reflect3, transform4 } from "../maths/vector";
+import { rotationsMatrixFromAngles } from "../utilities/matrix";
 
 function relativeOffsetsFromAnglesAndDirections(angles, directions) {
   const reverseOrder = true,

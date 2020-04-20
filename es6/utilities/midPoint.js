@@ -1,8 +1,6 @@
 "use strict";
 
-const vectorMaths = require("../maths/vector");
-
-const { add3, scale3 } = vectorMaths;
+import { add3, scale3 } from "../maths/vector";
 
 function calculateMidPointPosition(vertices) {
   const midPointPosition = vertices.reduce((midPointPosition, vertex) => {

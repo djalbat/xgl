@@ -1,7 +1,7 @@
 "use strict";
 
-const CanvasElement = require("../../element/canvas"),
-      TexturedFacet = require("../../primitive/facet/textured");
+import CanvasElement from "../../element/canvas";
+import TexturedFacet from "../../primitive/facet/textured";
 
 class TexturedCanvasElement extends CanvasElement {
   constructor(transform, facets, mask, hidden, coordinates, indexes, imageName, textureCoordinates) {

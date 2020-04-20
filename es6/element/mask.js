@@ -1,10 +1,9 @@
 "use strict";
 
-const Element = require("../element"),
-      MaskingFacet = require("../primitive/maskingFacet"),
-      arrayUtilities = require("../utilities/array");
+import Element from "../element";
+import MaskingFacet from "../primitive/maskingFacet";
 
-const { push } = arrayUtilities;
+import { push } from "../utilities/array";
 
 class Mask extends Element {
   constructor(hidden) {

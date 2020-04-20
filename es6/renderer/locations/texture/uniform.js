@@ -1,9 +1,8 @@
 "use strict";
 
-const UniformLocations = require("../../locations/uniform"),
-      fragmentShaderSource = require("../../source/texture/fragmentShader");
+import UniformLocations from "../../locations/uniform";
 
-const { samplerName } = fragmentShaderSource;
+import { samplerName } from "../../source/texture/fragmentShader";
 
 class TextureUniformLocations extends UniformLocations {
   constructor(offsetsMatrixUniformLocation, normalsMatrixUniformLocation, positionMatrixUniformLocation, rotationsMatrixUniformLocation, projectionMatrixUniformLocation, samplerUniformLocation) {

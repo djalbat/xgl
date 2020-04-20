@@ -1,12 +1,8 @@
 "use strict";
 
-const constants = require("../constants"),
-      vectorMaths = require("../maths/vector"),
-      arrayUtilities = require("../utilities/array");
-
-const { first, second } = arrayUtilities,
-      { add3, transform3 } = vectorMaths,
-      { ANGLES_SCALAR, DEGREES_TO_RADIANS_SCALAR } = constants;
+import { first, second } from "../utilities/array";
+import { add3, transform3 } from "../maths/vector";
+import { ANGLES_SCALAR, DEGREES_TO_RADIANS_SCALAR } from "../constants";
 
 class Tilt {
   constructor(angles, flipped) {

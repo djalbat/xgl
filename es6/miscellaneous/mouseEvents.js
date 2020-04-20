@@ -1,8 +1,6 @@
 "use strict";
 
-const constants = require("../constants");
-
-const { MOUSE_UP, MOUSE_DOWN, MOUSE_MOVE, MOUSE_WHEEL } = constants;
+import { MOUSE_UP, MOUSE_DOWN, MOUSE_MOVE, MOUSE_WHEEL } from "../constants";
 
 class MouseEvents {
   constructor(handlersMap, mouseDown) {

@@ -1,8 +1,6 @@
 "use strict";
 
-const constants = require("../constants");
-
-const { SHIFT_KEY_CODE } = constants;
+import { SHIFT_KEY_CODE } from "../constants";
 
 class KeyEvents {
   constructor(handlers, shiftKeyDown) {

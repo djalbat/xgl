@@ -1,8 +1,6 @@
 "use strict";
 
-const constants = require("../constants");
-
-const { DELTA_SCALAR, MINIMUM_DISTANCE } = constants;
+import { DELTA_SCALAR, MINIMUM_DISTANCE } from "../constants";
 
 class Zoom {
   constructor(distance) {

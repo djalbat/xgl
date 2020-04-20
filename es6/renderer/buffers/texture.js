@@ -1,6 +1,6 @@
 "use strict";
 
-const RendererBuffers = require("../../renderer/buffers");
+import RendererBuffers from "../../renderer/buffers";
 
 const textureCoordinateComponents = 2;
 

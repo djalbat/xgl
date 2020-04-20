@@ -1,9 +1,8 @@
 "use strict";
 
-const AttributeLocations = require("../../locations/attribute"),
-      vertexShaderSource = require("../../source/colour/vertexShader");
+import AttributeLocations from "../../locations/attribute";
 
-const { vertexColourAttributeName } = vertexShaderSource;
+import { vertexColourAttributeName } from "../../source/colour/vertexShader";
 
 class ColourAttributeLocations extends AttributeLocations {
   constructor(vertexPositionAttributeLocation, vertexNormalAttributeLocation, vertexColourAttributeLocation) {

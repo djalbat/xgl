@@ -1,8 +1,6 @@
 "use strict";
 
-const xgl = require("../../../index");  ///
-
-const { ColouredCanvasElement } = xgl;
+import { ColouredCanvasElement } from "../../../index"; ///
 
 const coordinates = [
 

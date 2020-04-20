@@ -1,13 +1,10 @@
 "use strict";
 
-const Edge = require("../edge"),
-      vectorMaths = require("../../maths/vector"),
-      arrayUtilities = require("../../utilities/array"),
-      midPointUtilities = require("../../utilities/midPoint");
+import Edge from "../edge";
 
-const { third } = arrayUtilities,
-      { subtract3, cross3 } = vectorMaths,
-      { projectMidPointPositionOntoXYPlane } = midPointUtilities;
+import { third } from "../../utilities/array";
+import { subtract3, cross3 } from "../../maths/vector";
+import { projectMidPointPositionOntoXYPlane } from "../../utilities/midPoint";
 
 class MaskingEdge extends Edge {
   isMidPointPositionToTheLeft(midPointPosition) {

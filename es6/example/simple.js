@@ -1,10 +1,8 @@
 "use strict";
 
-const xgl = require("../../index"); ///
+import { Canvas, Scene, Part, DesignCamera } from "../../index";  ///
 
-const ColouredSquare = require("./element/colouredSquare");
-
-const { Canvas, Scene, Part, DesignCamera } = xgl;
+import ColouredSquare from "./element/colouredSquare";
 
 const canvas = new Canvas();
 

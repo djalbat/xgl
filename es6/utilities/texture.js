@@ -1,16 +1,10 @@
 "use strict";
 
-const matrixMaths = require("../maths/matrix"),
-      vectorMaths = require("../maths/vector"),
-      arrayUtilities = require("../utilities/array"),
-      verticesUtilities = require("../utilities/vertices"),
-      quaternionUtilities = require("../utilities/quaternion");
-
-const { rotateVertices } = verticesUtilities,
-      { invert2, invert3 } = matrixMaths,
-      { first, second, third } = arrayUtilities,
-      { calculateArbitraryRotationQuaternion } = quaternionUtilities,
-      { add2, multiply2, transform2, transform3 } = vectorMaths;
+import { rotateVertices } from "../utilities/vertices";
+import { invert2, invert3 } from "../maths/matrix";
+import { first, second, third } from "../utilities/array";
+import { calculateArbitraryRotationQuaternion } from "../utilities/quaternion";
+import { add2, multiply2, transform2, transform3 } from "../maths/vector";
 
 function cloneTextureCoordinateTuples(textureCoordinateTuples) {
   textureCoordinateTuples = textureCoordinateTuples.map((textureCoordinateTuple) => textureCoordinateTuple.slice());  ///

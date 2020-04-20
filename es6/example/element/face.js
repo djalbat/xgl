@@ -1,6 +1,6 @@
 "use strict";
 
-const ColouredSquare = require("./colouredSquare");
+import ColouredSquare from "./colouredSquare";
 
 const Face = (properties) => {
   const { colour } = properties;

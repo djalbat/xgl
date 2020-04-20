@@ -1,9 +1,8 @@
 "use strict";
 
-const arrayUtilities = require("../../utilities/array"),
-      TextureRenderer = require("../../renderer/texture");
+import TextureRenderer from "../../renderer/texture";
 
-const { push, first } = arrayUtilities;
+import { push, first } from "../../utilities/array";
 
 const add = push; ///
 

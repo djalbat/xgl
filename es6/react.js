@@ -1,10 +1,9 @@
 "use strict";
 
-const Element = require("./element"),
-      arrayUtilities = require("./utilities/array"),
-      FunctionCanvasElement = require("./element/canvas/function");
+import Element from "./element";
+import FunctionCanvasElement from "./element/canvas/function";
 
-const { flatten, guarantee } = arrayUtilities;
+import { flatten, guarantee } from "./utilities/array";
 
 function createElement(firstArgument, properties, ...childElements) {
   properties = properties || {};  ///

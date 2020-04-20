@@ -1,8 +1,6 @@
 "use strict";
 
-const arrayUtilities = require("./utilities/array");
-
-const { push } = arrayUtilities;
+import { push } from "./utilities/array";
 
 const add = push; ///
 

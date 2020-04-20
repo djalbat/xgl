@@ -1,10 +1,8 @@
 "use strict";
 
-const lightingSource = require("../source/lighting"),
-      positionSource = require("../source/position");
+import { normalsMatrixName } from "../source/lighting";
 
-const { normalsMatrixName } = lightingSource,
-      { offsetsMatrixName, rotationsMatrixName, positionMatrixName, projectionMatrixName } = positionSource;
+import { offsetsMatrixName, rotationsMatrixName, positionMatrixName, projectionMatrixName } from "../source/position";
 
 class UniformLocations {
   constructor(offsetsMatrixUniformLocation, normalsMatrixUniformLocation, positionMatrixUniformLocation, rotationsMatrixUniformLocation, projectionMatrixUniformLocation) {

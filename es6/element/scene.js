@@ -1,16 +1,15 @@
 "use strict";
 
-const necessary = require("necessary");
+import { asynchronousUtilities } from "necessary";
 
-const Part = require("../element/part"),
-      Camera = require("../element/camera"),
-      Element = require("../element"),
-      UserInput = require("../miscellaneous/userInput"),
-      vectorMaths = require("../maths/vector");
+import Part from "../element/part";
+import Camera from "../element/camera";
+import Element from "../element";
+import UserInput from "../miscellaneous/userInput";
 
-const { asynchronousUtilities } = necessary,
-      { forEach } = asynchronousUtilities,
-      { zero2 } = vectorMaths;
+import { zero2 } from "../maths/vector";
+
+const { forEach } = asynchronousUtilities;
 
 class Scene extends Element {
   constructor(parts, camera, canvas) {

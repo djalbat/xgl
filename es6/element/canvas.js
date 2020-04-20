@@ -1,9 +1,8 @@
 "use strict";
 
-const Element = require("../element"),
-      transformUtilities = require("../utilities/transform");
+import Element from "../element";
 
-const { composeTransform } = transformUtilities;
+import { composeTransform } from "../utilities/transform";
 
 class CanvasElement extends Element {
   constructor(transform, facets, mask, hidden) {

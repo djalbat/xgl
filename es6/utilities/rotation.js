@@ -1,8 +1,6 @@
 "use strict";
 
-const quaternionUtilities = require("../utilities/quaternion");
-
-const { rotateImaginaryQuaternion, calculateInverseRotationQuaternion } = quaternionUtilities;
+import { rotateImaginaryQuaternion, calculateInverseRotationQuaternion } from "../utilities/quaternion";
 
 function rotatePosition(position, rotationQuaternion) {
   const imaginaryQuaternion = imaginaryQuaternionFromPosition(position),

@@ -1,14 +1,9 @@
 "use strict";
 
-const constants = require("../constants"),
-      matrixMaths = require("../maths/matrix"),
-      vectorMaths = require("../maths/vector"),
-      arrayUtilities = require("../utilities/array");
-
-const { scale3 } = vectorMaths,
-      { first, second, third } = arrayUtilities,
-      { DEGREES_TO_RADIANS_SCALAR, FIELD_OF_VIEW, Z_NEAR, Z_FAR } = constants,
-      { identity4, scale4, invert4, rotate4, translate4, transpose4, perspective4 } = matrixMaths;
+import { scale3 } from "../maths/vector";
+import { first, second, third } from "../utilities/array";
+import { DEGREES_TO_RADIANS_SCALAR, FIELD_OF_VIEW, Z_NEAR, Z_FAR } from "../constants";
+import { identity4, scale4, invert4, rotate4, translate4, transpose4, perspective4 } from "../maths/matrix";
 
 function scaleMatrixFromScale(scale) {
   let scaleMatrix = identity4();

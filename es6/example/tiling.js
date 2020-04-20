@@ -1,15 +1,13 @@
 "use strict";
 
-const xgl = require("../../index"), ///
-      necessary = require("necessary");
+import { asynchronousUtilities } from "necessary";
+import { Canvas, Scene, Part, Mask, DesignCamera } from "../../index";  ///
 
-const configuration = require("../miscellaneous/configuration"),
-      ColouredSquare = require("./element/colouredSquare"),
-      TexturedQuadrangle = require("./element/texturedQuadrangle");
+import configuration from "../miscellaneous/configuration";
+import ColouredSquare from "./element/colouredSquare";
+import TexturedQuadrangle from "./element/texturedQuadrangle";
 
-const { Canvas, Scene, Part, Mask, DesignCamera } = xgl,
-      { asynchronousUtilities } = necessary,
-      { forEach } = asynchronousUtilities;
+const { forEach } = asynchronousUtilities;
 
 const canvas = new Canvas(),
       mask =

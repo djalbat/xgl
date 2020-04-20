@@ -1,8 +1,6 @@
 "use strict";
 
-const constants = require("../constants");
-
-const { DEFAULT_MARGIN_OF_ERROR } = constants;
+import { DEFAULT_MARGIN_OF_ERROR } from "../constants";
 
 function isApproximatelyEqualToOne(value, marginOfError = DEFAULT_MARGIN_OF_ERROR) { return isApproximatelyEqualTo(value, 1, marginOfError); }
 

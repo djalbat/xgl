@@ -1,12 +1,8 @@
 "use strict";
 
-const vectorMaths = require("../maths/vector"),
-      arrayUtilities = require("../utilities/array"),
-      approximateUtilities = require("../utilities/approximate");
-
-const { add3, subtract3, scale3 } = vectorMaths,
-      { first, second } = arrayUtilities,
-      { isApproximatelyEqualToZero } = approximateUtilities;
+import { first, second } from "../utilities/array";
+import { add3, subtract3, scale3 } from "../maths/vector";
+import { isApproximatelyEqualToZero } from "../utilities/approximate";
 
 function calculateIntersection(edge, firstPositionComponent) {
   let intersection = null;

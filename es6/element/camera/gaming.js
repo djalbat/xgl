@@ -1,14 +1,16 @@
 "use strict";
 
-const Pan = require("../../miscellaneous/pan"),
-      Tilt = require("../../miscellaneous/tilt"),
+import Pan from "../../miscellaneous/pan";
+import Tilt from "../../miscellaneous/tilt";
 
-      Camera = require("../camera"),
-      vectorMaths = require("../../maths/vector"),
-      matrixUtilities = require("../../utilities/matrix");
+import Camera from "../camera";
 
-const { zero2 } = vectorMaths,
-      { offsetsMatrixFromOffsets, rotationsMatrixFromAngles, positionMatrixFromNothing, projectionMatrixFromWidthAndHeight, normalsMatrixFromRotationsMatrix } = matrixUtilities;
+import { zero2 } from "../../maths/vector";
+import { offsetsMatrixFromOffsets,
+         rotationsMatrixFromAngles,
+         positionMatrixFromNothing,
+         normalsMatrixFromRotationsMatrix,
+         projectionMatrixFromWidthAndHeight } from "../../utilities/matrix";
 
 const defaultInitialAngles = zero2(),
       defaultInitialPosition = [ 0, 0, 5 ];

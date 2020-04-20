@@ -1,10 +1,9 @@
 "use strict";
 
-const KeyEvents = require("./keyEvents"),
-      MouseEvents = require("./mouseEvents"),
-      vectorMaths = require("../maths/vector");
+import KeyEvents from "./keyEvents";
+import MouseEvents from "./mouseEvents";
 
-const { zero2, subtract2 } = vectorMaths;
+import { zero2, subtract2 } from "../maths/vector";
 
 class UserInput {
   constructor(handlers, keyEvents, mouseEvents, mouseCoordinates, previousMouseCoordinates) {

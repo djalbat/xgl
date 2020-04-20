@@ -1,6 +1,6 @@
 "use strict";
 
-const Side = require("./side");
+import Side from "./side";
 
 const Pyramid = (properties) => [
 

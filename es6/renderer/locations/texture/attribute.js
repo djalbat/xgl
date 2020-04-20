@@ -1,9 +1,8 @@
 "use strict";
 
-const AttributeLocations = require("../../locations/attribute"),
-      vertexShaderSource = require("../../source/texture/vertexShader");
+import AttributeLocations from "../../locations/attribute";
 
-const { textureCoordinateAttributeName } = vertexShaderSource;
+import { textureCoordinateAttributeName } from "../../source/texture/vertexShader";
 
 class TextureAttributeLocations extends AttributeLocations {
   constructor(vertexPositionAttributeLocation, vertexNormalAttributeLocation, textureCoordinateAttributeLocation) {

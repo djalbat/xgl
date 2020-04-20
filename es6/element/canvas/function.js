@@ -1,6 +1,6 @@
 "use strict";
 
-const CanvasElement = require("../../element/canvas");
+import CanvasElement from "../../element/canvas";
 
 class FunctionCanvasElement extends CanvasElement {
   static fromProperties(properties) {

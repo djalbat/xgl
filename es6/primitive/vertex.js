@@ -1,8 +1,6 @@
 "use strict";
 
-const rotationUtilities = require("../utilities/rotation");
-
-const { rotatePosition } = rotationUtilities;
+import { rotatePosition } from "../utilities/rotation";
 
 class Vertex {
   constructor(position) {

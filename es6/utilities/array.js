@@ -1,8 +1,6 @@
 "use strict";
 
-const necessary = require("necessary");
-
-const { arrayUtilities } = necessary;
+import { arrayUtilities } from "necessary";
 
 function permute(array, places) {
   const length = array.length,

@@ -1,16 +1,13 @@
 "use strict";
 
-const Edge = require("../edge"),
-      Facet = require("../facet"),
-      Normal = require("../normal"),
-      Vertex = require("../vertex"),
-      facetUtilities = require("../../utilities/facet"),
-      verticesUtilities = require("../../utilities/vertices"),
-      approximateUtilities = require("../../utilities/approximate");
+import Edge from "../edge";
+import Facet from "../facet";
+import Normal from "../normal";
+import Vertex from "../vertex";
 
-const { isApproximatelyEqualToZero } = approximateUtilities,
-      { verticesFromCoordinateTuplesAndIndexTuple } = verticesUtilities,
-      { cloneEdges, cloneNormal, cloneVertices, calculateArea, calculateEdges, calculateNormal } = facetUtilities;
+import { isApproximatelyEqualToZero } from "../../utilities/approximate";
+import { verticesFromCoordinateTuplesAndIndexTuple } from "../../utilities/vertices";
+import { cloneEdges, cloneNormal, cloneVertices, calculateArea, calculateEdges, calculateNormal } from "../../utilities/facet";
 
 class ColouredFacet extends Facet {
   constructor(vertices, normal, edges, rgba) {

@@ -1,14 +1,14 @@
 "use strict";
 
-const depthMixin = require("./mixin/depth"),
-      colourMixin = require("./mixin/colour"),
-      shaderMixin = require("./mixin/shader"),
-      bufferMixin = require("./mixin/buffer"),
-      matrixMixin = require("./mixin/matrix"),
-      programMixin = require("./mixin/program"),
-      textureMixin = require("./mixin/texture"),
-      blendingMixin = require("./mixin/blending"),
-      locationMixin = require("./mixin/location");
+import depthMixin from "./mixin/depth";
+import colourMixin from "./mixin/colour";
+import shaderMixin from "./mixin/shader";
+import bufferMixin from "./mixin/buffer";
+import matrixMixin from "./mixin/matrix";
+import programMixin from "./mixin/program";
+import textureMixin from "./mixin/texture";
+import blendingMixin from "./mixin/blending";
+import locationMixin from "./mixin/location";
 
 class Canvas {
   constructor(selector = "canvas") {

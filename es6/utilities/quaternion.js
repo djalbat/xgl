@@ -1,14 +1,9 @@
 "use strict";
 
-const vectorMaths = require("../maths/vector"),
-      arrayUtilities = require("../utilities/array"),
-      angleUtilities = require("../utilities/angle"),
-      approximateUtilities = require("../utilities/approximate");
-
-const { dot3, cross3, normalise3 } = vectorMaths,
-      { isApproximatelyEqualToOne } = approximateUtilities,
-      { first, second, third, fourth } = arrayUtilities,
-      { calculateHalfAngleCosine, calculateHalfAngleSine } = angleUtilities;
+import { dot3, cross3, normalise3 } from "../maths/vector";
+import { isApproximatelyEqualToOne } from "../utilities/approximate";
+import { first, second, third, fourth } from "../utilities/array";
+import { calculateHalfAngleCosine, calculateHalfAngleSine } from "../utilities/angle";
 
 function rotateImaginaryQuaternion(imaginaryQuaternion, rotationQuaternion, inverseRotationQuaternion) { return hamiltonProduct(hamiltonProduct(rotationQuaternion, imaginaryQuaternion), inverseRotationQuaternion); }
 

@@ -1,19 +1,17 @@
 "use strict";
 
-const Edge = require("./edge"),
-      Normal = require("./normal"),
-      Vertex = require("./vertex"),
-      constants = require("../constants"),
-      facetUtilities = require("../utilities/facet"),
-      arrayUtilities = require("../utilities/array"),
-      midPointUtilities = require("../utilities/midPoint"),
-      intersectionUtilities = require("../utilities/intersection");
+import Edge from "./edge";
+import Normal from "./normal";
+import Vertex from "./vertex";
 
-const { VERTICES_LENGTH } = constants,
-      { push, permute } = arrayUtilities,
-      { calculateEdges, calculateNormal } = facetUtilities,
-      { calculateMidPointPosition, isMidPointPositionToOneSideOfMaskingEdges } = midPointUtilities,
-      { calculateIntermediateVertexPosition, calculateNonNullIntersections, calculateNullIntersectionIndex, calculateNonNullIntersectionIndex } = intersectionUtilities;
+import { push, permute } from "../utilities/array";
+import { VERTICES_LENGTH } from "../constants";
+import { calculateEdges, calculateNormal } from "../utilities/facet";
+import { calculateMidPointPosition, isMidPointPositionToOneSideOfMaskingEdges } from "../utilities/midPoint";
+import { calculateNonNullIntersections,
+         calculateNullIntersectionIndex,
+         calculateNonNullIntersectionIndex,
+         calculateIntermediateVertexPosition} from "../utilities/intersection";
 
 class Facet {
   constructor(vertices, normal, edges) {

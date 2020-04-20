@@ -1,12 +1,8 @@
 "use strict";
 
-const constants = require("../constants"),
-      vectorMaths = require("../maths/vector"),
-      offsetsUtilities = require("../utilities/offsets");
-
-const { add3, scale2, reflect2, scale3 } = vectorMaths,
-      { relativeOffsetsFromAnglesAndDirections } = offsetsUtilities,
-      { DELTA_SCALAR, INVERT_SCALAR, OFFSET_SCALAR } = constants;
+import { add3, scale2, reflect2, scale3 } from "../maths/vector";
+import { relativeOffsetsFromAnglesAndDirections } from "../utilities/offsets";
+import { DELTA_SCALAR, INVERT_SCALAR, OFFSET_SCALAR } from "../constants";
 
 class Pan {
   constructor(offsets) {

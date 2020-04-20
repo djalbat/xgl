@@ -1,20 +1,15 @@
 "use strict";
 
-const Edge = require("../edge"),
-      Facet = require("../facet"),
-      Normal = require("../normal"),
-      Vertex = require("../vertex"),
-      arrayUtilities = require("../../utilities/array"),
-      facetUtilities = require("../../utilities/facet"),
-      textureUtilities = require("../../utilities/texture"),
-      verticesUtilities = require("../../utilities/vertices"),
-      approximateUtilities = require("../../utilities/approximate");
+import Edge from "../edge";
+import Facet from "../facet";
+import Normal from "../normal";
+import Vertex from "../vertex";
 
-const { permute } = arrayUtilities,
-      { isApproximatelyEqualToZero } = approximateUtilities,
-      { verticesFromCoordinateTuplesAndIndexTuple } = verticesUtilities,
-      { cloneEdges, cloneNormal, cloneVertices, calculateArea, calculateEdges, calculateNormal } = facetUtilities,
-      { cloneTextureCoordinateTuples, calculateMappedTextureCoordinateTuples, calculateAdjustedTextureCoordinateTuples } = textureUtilities;
+import { permute } from "../../utilities/array";
+import { isApproximatelyEqualToZero } from "../../utilities/approximate";
+import { verticesFromCoordinateTuplesAndIndexTuple } from "../../utilities/vertices";
+import { cloneEdges, cloneNormal, cloneVertices, calculateArea, calculateEdges, calculateNormal } from "../../utilities/facet";
+import { cloneTextureCoordinateTuples, calculateMappedTextureCoordinateTuples, calculateAdjustedTextureCoordinateTuples } from "../../utilities/texture";
 
 class TexturedFacet extends Facet {
   constructor(vertices, normal, edges, imageName, textureCoordinateTuples) {

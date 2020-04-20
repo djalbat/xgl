@@ -1,7 +1,7 @@
 "use strict";
 
-const ColouredFacet = require("../../primitive/facet/coloured"),
-      CanvasElement = require("../../element/canvas");
+import CanvasElement from "../../element/canvas";
+import ColouredFacet from "../../primitive/facet/coloured";
 
 class ColouredCanvasElement extends CanvasElement {
   constructor(transform, facets, mask, hidden, coordinates, indexes, colour) {

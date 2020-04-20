@@ -1,11 +1,9 @@
 "use strict";
 
-const xgl = require("../../index"); ///
+import { Canvas, Scene, Part, GamingCamera } from "../../index";  ///
 
-const Pyramid = require("./element/pyramid"),
-      configuration = require("../miscellaneous/configuration");
-
-const { Canvas, Scene, Part, GamingCamera } = xgl;
+import Pyramid from "./element/pyramid";
+import configuration from "../miscellaneous/configuration";
 
 const canvas = new Canvas();
 

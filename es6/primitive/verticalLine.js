@@ -1,14 +1,9 @@
 "use strict";
 
-const arrayUtilities = require("../utilities/array"),
-      rotationUtilities = require("../utilities/rotation"),
-      quaternionUtilities = require("../utilities/quaternion"),
-      intersectionUtilities = require("../utilities/intersection");
-
-const { first } = arrayUtilities,
-      { rotatePosition } = rotationUtilities,
-      { calculateIntersection } = intersectionUtilities,
-      { calculateRotationAboutZAxisQuaternion, calculateForwardsRotationQuaternion, calculateBackwardsRotationQuaternion } = quaternionUtilities;
+import { first } from "../utilities/array";
+import { rotatePosition } from "../utilities/rotation";
+import { calculateIntersection } from "../utilities/intersection";
+import { calculateRotationAboutZAxisQuaternion, calculateForwardsRotationQuaternion, calculateBackwardsRotationQuaternion } from "../utilities/quaternion";
 
 class VerticalLine {
   constructor(firstPositionComponent, forwardsRotationQuaternion, backwardsRotationQuaternion) {

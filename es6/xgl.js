@@ -1,6 +1,6 @@
 "use strict";
 
-const React = require("./react");
+import React from "./react";
 
 Object.defineProperty(window, "React", {
   get: function() {
