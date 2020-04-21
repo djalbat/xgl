@@ -2,7 +2,7 @@
 
 import { DELTA_SCALAR, MINIMUM_DISTANCE } from "../constants";
 
-class Zoom {
+export default class Zoom {
   constructor(distance) {
     this.distance = distance;
   }
@@ -24,5 +24,3 @@ class Zoom {
     return zoom;
   }
 }
-
-module.exports = Zoom;

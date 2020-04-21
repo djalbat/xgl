@@ -5,7 +5,7 @@ import MaskingFacet from "../primitive/maskingFacet";
 
 import { push } from "../utilities/array";
 
-class Mask extends Element {
+export default class Mask extends Element {
   constructor(hidden) {
     super();
 
@@ -50,8 +50,6 @@ class Mask extends Element {
     return mask;
   }
 }
-
-module.exports = Mask;
 
 function retrieveFacets(childElements, facets = []) {
   childElements.forEach((childElement) => {

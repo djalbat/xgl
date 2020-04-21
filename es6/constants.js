@@ -1,37 +1,18 @@
 "use strict";
 
-const Z_FAR = 1000,
-      Z_NEAR = 1,
-      MOUSE_UP = "MOUSE_UP",
-      MOUSE_DOWN = "MOUSE_DOWN",
-      MOUSE_MOVE = "MOUSE_MOVE",
-      MOUSE_WHEEL = "MOUSE_WHEEL",
-      DELTA_SCALAR = 1.25,
-      INVERT_SCALAR = -1,
-      ANGLES_SCALAR = 0.01,
-      OFFSET_SCALAR = 0.25,
-      SHIFT_KEY_CODE = 16,
-      VERTICES_LENGTH = 3,
-      MINIMUM_DISTANCE = 1,
-      DEFAULT_MARGIN_OF_ERROR = 0.0000001,
-      DEGREES_TO_RADIANS_SCALAR = Math.PI / 180,
-      FIELD_OF_VIEW = 45 * DEGREES_TO_RADIANS_SCALAR;
-
-module.exports = {
-  Z_FAR,
-  Z_NEAR,
-  MOUSE_UP,
-  MOUSE_DOWN,
-  MOUSE_MOVE,
-  MOUSE_WHEEL,
-  DELTA_SCALAR,
-  INVERT_SCALAR,
-  ANGLES_SCALAR,
-  OFFSET_SCALAR,
-  SHIFT_KEY_CODE,
-  VERTICES_LENGTH,
-  MINIMUM_DISTANCE,
-  DEFAULT_MARGIN_OF_ERROR,
-  DEGREES_TO_RADIANS_SCALAR,
-  FIELD_OF_VIEW
-};
+export const Z_FAR = 1000;
+export const Z_NEAR = 1;
+export const MOUSE_UP = "MOUSE_UP";
+export const MOUSE_DOWN = "MOUSE_DOWN";
+export const MOUSE_MOVE = "MOUSE_MOVE";
+export const MOUSE_WHEEL = "MOUSE_WHEEL";
+export const DELTA_SCALAR = 1.25;
+export const INVERT_SCALAR = -1;
+export const ANGLES_SCALAR = 0.01;
+export const OFFSET_SCALAR = 0.25;
+export const SHIFT_KEY_CODE = 16;
+export const VERTICES_LENGTH = 3;
+export const MINIMUM_DISTANCE = 1;
+export const DEFAULT_MARGIN_OF_ERROR = 0.0000001;
+export const DEGREES_TO_RADIANS_SCALAR = Math.PI / 180;
+export const FIELD_OF_VIEW = 45 * DEGREES_TO_RADIANS_SCALAR;

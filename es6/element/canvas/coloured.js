@@ -3,7 +3,7 @@
 import CanvasElement from "../../element/canvas";
 import ColouredFacet from "../../primitive/facet/coloured";
 
-class ColouredCanvasElement extends CanvasElement {
+export default class ColouredCanvasElement extends CanvasElement {
   constructor(transform, facets, mask, hidden, coordinates, indexes, colour) {
     super(transform, facets, mask, hidden);
 
@@ -41,5 +41,3 @@ class ColouredCanvasElement extends CanvasElement {
 
   static fromProperties(Class, properties, coordinates, indexes, colour, ...remainingArguments) { return CanvasElement.fromProperties(Class, properties, coordinates, indexes, colour, ...remainingArguments); }
 }
-
-module.exports = ColouredCanvasElement;

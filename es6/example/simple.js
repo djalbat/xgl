@@ -1,6 +1,6 @@
 "use strict";
 
-import { Canvas, Scene, Part, DesignCamera } from "../../index";  ///
+import { Canvas, Scene, Part, DesignCamera } from "../index";  ///
 
 import ColouredSquare from "./element/colouredSquare";
 
@@ -17,4 +17,4 @@ const simpleExample = () =>
 
 ;
 
-module.exports = simpleExample;
+export default simpleExample;

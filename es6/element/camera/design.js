@@ -16,7 +16,7 @@ const defaultInitialAngles = zero2(),
       defaultInitialOffsets = zero3(),
       defaultInitialDistance = 5;
 
-class DesignCamera extends Camera {
+export default class DesignCamera extends Camera {
   constructor(pan, tilt, zoom) {
     super(pan, tilt);
 
@@ -60,5 +60,3 @@ class DesignCamera extends Camera {
     return designCamera;
   }
 }
-
-module.exports = DesignCamera;

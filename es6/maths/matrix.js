@@ -1,6 +1,6 @@
 "use strict";
 
-function identity2() {
+export function identity2() {
   return ([
 
     1, 0,
@@ -9,7 +9,7 @@ function identity2() {
   ]);
 }
 
-function identity3() {
+export function identity3() {
   return ([
 
     1, 0, 0,
@@ -19,7 +19,7 @@ function identity3() {
   ]);
 }
 
-function identity4() {
+export function identity4() {
   return ([
 
     1, 0, 0, 0,
@@ -30,7 +30,7 @@ function identity4() {
   ]);
 }
 
-function multiply2(matrixA, matrixB) {
+export function multiply2(matrixA, matrixB) {
   const a0 = matrixA[0],
         a1 = matrixA[1],
         a2 = matrixA[2],
@@ -52,7 +52,7 @@ function multiply2(matrixA, matrixB) {
   ]);
 }
 
-function multiply3(matrixA, matrixB) {
+export function multiply3(matrixA, matrixB) {
   const a0 = matrixA[0],
         a1 = matrixA[1],
         a2 = matrixA[2],
@@ -90,7 +90,7 @@ function multiply3(matrixA, matrixB) {
   ]);
 }
 
-function multiply4(matrixA, matrixB) {
+export function multiply4(matrixA, matrixB) {
   const  a0 = matrixA[ 0],
          a1 = matrixA[ 1],
          a2 = matrixA[ 2],
@@ -150,7 +150,7 @@ function multiply4(matrixA, matrixB) {
   ]);
 }
 
-function invert2(matrix) {
+export function invert2(matrix) {
   const m0 = matrix[0],
         m1 = matrix[1],
         m2 = matrix[2],
@@ -168,7 +168,7 @@ function invert2(matrix) {
   }
 }
 
-function invert3(matrix) {
+export function invert3(matrix) {
   const m00 = matrix[0], m01 = matrix[1], m02 = matrix[2],
         m10 = matrix[3], m11 = matrix[4], m12 = matrix[5],
         m20 = matrix[6], m21 = matrix[7], m22 = matrix[8],
@@ -190,7 +190,7 @@ function invert3(matrix) {
   }
 }
 
-function invert4(matrix) {
+export function invert4(matrix) {
   const m00 = matrix[ 0], m01 = matrix[ 1], m02 = matrix[ 2], m03 = matrix[ 3],
         m10 = matrix[ 4], m11 = matrix[ 5], m12 = matrix[ 6], m13 = matrix[ 7],
         m20 = matrix[ 8], m21 = matrix[ 9], m22 = matrix[10], m23 = matrix[11],
@@ -223,7 +223,7 @@ function invert4(matrix) {
   }
 }
 
-function transpose2(matrix) {
+export function transpose2(matrix) {
   return ([
 
     matrix[0], matrix[2],
@@ -232,7 +232,7 @@ function transpose2(matrix) {
   ]);
 }
 
-function transpose3(matrix) {
+export function transpose3(matrix) {
   return ([
 
     matrix[0], matrix[3], matrix[6],
@@ -242,7 +242,7 @@ function transpose3(matrix) {
   ]);
 }
 
-function transpose4(matrix) {
+export function transpose4(matrix) {
   return ([
 
     matrix[ 0], matrix[ 4], matrix[ 8], matrix[12],
@@ -253,7 +253,7 @@ function transpose4(matrix) {
   ]);
 }
 
-function scale4(matrix, vector) {
+export function scale4(matrix, vector) {
   const x = vector[0],
         y = vector[1],
         z = vector[2];
@@ -268,7 +268,7 @@ function scale4(matrix, vector) {
   ]);
 }
 
-function rotate4(matrix, angle, vector) {
+export function rotate4(matrix, angle, vector) {
   let x = vector[0],
       y = vector[1],
       z = vector[2];
@@ -318,7 +318,7 @@ function rotate4(matrix, angle, vector) {
   }
 }
 
-function translate4(matrix, vector) {
+export function translate4(matrix, vector) {
   const x = vector[0],
         y = vector[1],
         z = vector[2],
@@ -346,7 +346,7 @@ function translate4(matrix, vector) {
   ]);
 }
 
-function perspective4(fieldOfView, aspectRatio, zNear, zFar) {
+export function perspective4(fieldOfView, aspectRatio, zNear, zFar) {
   const f = 1.0 / Math.tan(fieldOfView / 2),
         nf = 1 / (zNear - zFar);
 
@@ -359,22 +359,3 @@ function perspective4(fieldOfView, aspectRatio, zNear, zFar) {
 
   ]);
 }
-
-module.exports = {
-  identity2,
-  identity3,
-  identity4,
-  multiply2,
-  multiply3,
-  multiply4,
-  invert2,
-  invert3,
-  invert4,
-  scale4,
-  rotate4,
-  transpose2,
-  transpose3,
-  transpose4,
-  translate4,
-  perspective4
-};

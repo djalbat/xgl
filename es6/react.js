@@ -34,11 +34,9 @@ function createElement(firstArgument, properties, ...childElements) {
   return element;
 }
 
-const React = {
-  createElement: createElement
+export default {
+  createElement
 };
-
-module.exports = React;
 
 function isSubclassOf(argument, Class) {
   let typeOf = false;

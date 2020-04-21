@@ -1,6 +1,6 @@
 "use strict";
 
-import { ColouredCanvasElement } from "../../../index"; ///
+import { ColouredCanvasElement } from "../../index"; ///
 
 const coordinates = [
 
@@ -18,7 +18,7 @@ const coordinates = [
       ],
       defaultColour = [ 1, 0, 0 ];
 
-class ColouredSquare extends ColouredCanvasElement {
+export default class ColouredSquare extends ColouredCanvasElement {
   static fromProperties(properties) {
   	const { colour = defaultColour } = properties,
 			    colouredSquare = ColouredCanvasElement.fromProperties(ColouredSquare, properties, coordinates, indexes, colour);
@@ -26,5 +26,3 @@ class ColouredSquare extends ColouredCanvasElement {
   	return colouredSquare;
   }
 }
-
-module.exports = ColouredSquare;

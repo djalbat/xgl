@@ -1,6 +1,6 @@
 "use strict";
 
-import { TexturedCanvasElement } from "../../../index"; ///
+import { TexturedCanvasElement } from "../../index"; ///
 
 const coordinates = [
 
@@ -24,7 +24,7 @@ const coordinates = [
 
       ];
 
-class TexturedQuadrangle extends TexturedCanvasElement {
+export default class TexturedQuadrangle extends TexturedCanvasElement {
   static fromProperties(properties) {
     const { imageName = defaultImageName, textureCoordinates = defaultTextureCoordinates } = properties,
           texturedQuadrangle = TexturedCanvasElement.fromProperties(TexturedQuadrangle, properties, coordinates, indexes, imageName, textureCoordinates);
@@ -32,5 +32,3 @@ class TexturedQuadrangle extends TexturedCanvasElement {
     return texturedQuadrangle;
   }
 }
-
-module.exports = TexturedQuadrangle;

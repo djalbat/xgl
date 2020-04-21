@@ -1,7 +1,7 @@
 "use strict";
 
 import { asynchronousUtilities } from "necessary";
-import { Canvas, Scene, Part, Mask, DesignCamera } from "../../index";  ///
+import { Canvas, Scene, Part, Mask, DesignCamera } from "../index";  ///
 
 import configuration from "../miscellaneous/configuration";
 import ColouredSquare from "./element/colouredSquare";
@@ -36,7 +36,7 @@ const tilingExample = () => {
   });
 };
 
-module.exports = tilingExample;
+export default tilingExample;
 
 function preloadImages(imageNames, imageDirectoryURI, callback) {
   const images = [],

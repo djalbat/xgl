@@ -4,7 +4,7 @@ import Element from "../element";
 
 import { composeTransform } from "../utilities/transform";
 
-class CanvasElement extends Element {
+export default class CanvasElement extends Element {
   constructor(transform, facets, mask, hidden) {
     super();
 
@@ -82,5 +82,3 @@ class CanvasElement extends Element {
     return canvasElement;
   }
 }
-
-module.exports = CanvasElement;

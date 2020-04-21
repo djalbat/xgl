@@ -2,7 +2,7 @@
 
 import { SHIFT_KEY_CODE } from "../constants";
 
-class KeyEvents {
+export default class KeyEvents {
   constructor(handlers, shiftKeyDown) {
     this.handlers = handlers;
     this.shiftKeyDown = shiftKeyDown;
@@ -56,5 +56,3 @@ class KeyEvents {
     return keyEvents;
   }
 }
-
-module.exports = KeyEvents;

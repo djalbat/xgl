@@ -3,7 +3,7 @@
 import CanvasElement from "../../element/canvas";
 import TexturedFacet from "../../primitive/facet/textured";
 
-class TexturedCanvasElement extends CanvasElement {
+export default class TexturedCanvasElement extends CanvasElement {
   constructor(transform, facets, mask, hidden, coordinates, indexes, imageName, textureCoordinates) {
     super(transform, facets, mask, hidden);
 
@@ -44,5 +44,3 @@ class TexturedCanvasElement extends CanvasElement {
 
   static fromProperties(Class, properties, coordinates, indexes, imageName, textureCoordinates, ...remainingArguments) { return CanvasElement.fromProperties(Class, properties, coordinates, indexes, imageName, textureCoordinates, ...remainingArguments); }
 }
-
-module.exports = TexturedCanvasElement;

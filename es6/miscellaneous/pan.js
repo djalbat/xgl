@@ -4,7 +4,7 @@ import { add3, scale2, reflect2, scale3 } from "../maths/vector";
 import { relativeOffsetsFromAnglesAndDirections } from "../utilities/offsets";
 import { DELTA_SCALAR, INVERT_SCALAR, OFFSET_SCALAR } from "../constants";
 
-class Pan {
+export default class Pan {
   constructor(offsets) {
     this.offsets = offsets;
   }
@@ -37,5 +37,3 @@ class Pan {
     return pan;
   }
 }
-
-module.exports = Pan;

@@ -8,4 +8,4 @@ const Side = (properties) =>
 
 ;
 
-module.exports = Side;
+export default Side;

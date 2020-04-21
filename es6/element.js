@@ -1,6 +1,6 @@
 "use strict";
 
-class Element {
+export default class Element {
   getChildElements() {
     return this.childElements;
   }
@@ -20,5 +20,3 @@ class Element {
     return element;
   }
 }
-
-module.exports = Element;

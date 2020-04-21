@@ -5,7 +5,7 @@ import ColourRenderer from "../renderer/colour";
 import ImagesTextureRenderer from "../renderer/texture/images";
 import ImageMapTextureRenderer from "../renderer/texture/imageMap";
 
-class Part extends Element {
+export default class Part extends Element {
   constructor(images, imageMap, imageNames, imageTiling, imageMapJSON, colourRenderer, textureRenderer, hidden) {
     super();
 
@@ -69,5 +69,3 @@ class Part extends Element {
     return part;
   }
 }
-
-module.exports = Part;

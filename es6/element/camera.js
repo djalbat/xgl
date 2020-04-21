@@ -2,7 +2,7 @@
 
 import Element from "../element";
 
-class Camera extends Element {
+export default class Camera extends Element {
   constructor(pan, tilt) {
     super();
 
@@ -21,5 +21,3 @@ class Camera extends Element {
 
   static fromProperties(Class, properties, ...remainingArguments) { return Element.fromProperties(Class, properties, ...remainingArguments); }
 }
-
-module.exports = Camera;

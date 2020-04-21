@@ -1,6 +1,6 @@
 "use strict";
 
-function createTexture(image, index, repeat) {
+export function createTexture(image, index, repeat) {
 	const { RGBA, LINEAR, UNSIGNED_BYTE, TEXTURE0, TEXTURE_2D, TEXTURE_WRAP_S, TEXTURE_WRAP_T, UNPACK_FLIP_Y_WEBGL, CLAMP_TO_EDGE, NEAREST, REPEAT, TEXTURE_MIN_FILTER } = this.context,
 				target = TEXTURE0 + index,
 				level = 0,
@@ -30,7 +30,7 @@ function createTexture(image, index, repeat) {
 	return texture;
 }
 
-function enableAnisotropicFiltering() {
+export function enableAnisotropicFiltering() {
   const extension = (
     this.context.getExtension("EXT_texture_filter_anisotropic") ||
     this.context.getExtension("MOZ_EXT_texture_filter_anisotropic") ||
@@ -45,8 +45,3 @@ function enableAnisotropicFiltering() {
     this.context.texParameterf(TEXTURE_2D, TEXTURE_MAX_ANISOTROPY_EXT, maximum);
   }
 }
-
-module.exports = {
-  createTexture,
-  enableAnisotropicFiltering
-};

@@ -1,6 +1,6 @@
 "use strict";
 
-function createShader(type, shaderSource) {
+export function createShader(type, shaderSource) {
   const { COMPILE_STATUS } = this.context,
         pname = COMPILE_STATUS,
         shader = this.context.createShader(type);
@@ -18,7 +18,7 @@ function createShader(type, shaderSource) {
   return shader;
 }
 
-function createVertexShader(vertexShaderSource, canvas) {
+export function createVertexShader(vertexShaderSource, canvas) {
   const { VERTEX_SHADER } = this.context,
         type = VERTEX_SHADER,
         vertexShader = this.createShader(type, vertexShaderSource);
@@ -26,16 +26,10 @@ function createVertexShader(vertexShaderSource, canvas) {
   return vertexShader;
 }
 
-function createFragmentShader(fragmentShaderSource, canvas) {
+export function createFragmentShader(fragmentShaderSource, canvas) {
   const { FRAGMENT_SHADER } = this.context,
         type = FRAGMENT_SHADER,
         fragmentShader = this.createShader(type, fragmentShaderSource);
 
   return fragmentShader;
 }
-
-module.exports = {
-  createShader,
-  createVertexShader,
-  createFragmentShader
-};

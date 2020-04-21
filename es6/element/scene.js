@@ -11,7 +11,7 @@ import { zero2 } from "../maths/vector";
 
 const { forEach } = asynchronousUtilities;
 
-class Scene extends Element {
+export default class Scene extends Element {
   constructor(parts, camera, canvas) {
     super();
 
@@ -83,8 +83,6 @@ class Scene extends Element {
     return scene;
   }
 }
-
-module.exports = Scene;
 
 function defer(callback) {
   setTimeout(callback, 0);

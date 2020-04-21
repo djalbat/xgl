@@ -1,3 +1,5 @@
 "use strict";
 
-module.exports = window.__configuration__; ///
+const configuration = window.__configuration__; ///
+
+export default configuration;

@@ -12,4 +12,4 @@ const Face = (properties) => {
   );
 };
 
-module.exports = Face;
+export default Face;

@@ -20,4 +20,4 @@ const Cube = (properties) => {
   ]);
 };
 
-module.exports = Cube;
+export default Cube;

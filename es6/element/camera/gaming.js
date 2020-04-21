@@ -16,7 +16,7 @@ const defaultInitialAngles = zero2(),
       defaultInitialPosition = [ 0, 0, 5 ];
 
 
-class GamingCamera extends Camera {
+export default class GamingCamera extends Camera {
 
 
 
@@ -60,5 +60,3 @@ class GamingCamera extends Camera {
     return gamingCamera;
   }
 }
-
-module.exports = GamingCamera;

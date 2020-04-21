@@ -2,7 +2,7 @@
 
 import { MOUSE_UP, MOUSE_DOWN, MOUSE_MOVE, MOUSE_WHEEL } from "../constants";
 
-class MouseEvents {
+export default class MouseEvents {
   constructor(handlersMap, mouseDown) {
     this.handlersMap = handlersMap;
     this.mouseDown = mouseDown;
@@ -95,8 +95,6 @@ class MouseEvents {
     return mouseEvents;
   }
 }
-
-module.exports = MouseEvents;
 
 function mouseWheelDeltaFromEvent(event) {
   const mouseWheelDelta = Math.max(-1, Math.min(1, event.wheelDelta)); ///

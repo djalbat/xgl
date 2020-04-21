@@ -4,7 +4,7 @@ import { first, second } from "../utilities/array";
 import { add3, transform3 } from "../maths/vector";
 import { ANGLES_SCALAR, DEGREES_TO_RADIANS_SCALAR } from "../constants";
 
-class Tilt {
+export default class Tilt {
   constructor(angles, flipped) {
     this.angles = angles;
     this.flipped = flipped;
@@ -67,5 +67,3 @@ class Tilt {
     return tilt;
   }
 }
-
-module.exports = Tilt;

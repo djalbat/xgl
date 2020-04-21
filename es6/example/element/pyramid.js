@@ -11,4 +11,4 @@ const Pyramid = (properties) => [
 
 ];
 
-module.exports = Pyramid;
+export default Pyramid;

@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-transform-react-jsx": "^7.8.3",
     "@babel/preset-env": "^7.8.6",
     "browserify": "^16.5.0",
@@ -35,5 +36,6 @@
     "build-debug": "npm run clean && npm run batch-debug",
     "watch": "npm run clean && npm run batch && concurrently 'npm run incremental' 'npm run lively'",
     "watch-debug": "npm run clean && npm run batch-debug && concurrently 'npm run incremental-debug' 'npm run lively'"
-  }
+  },
+  "main": "./lib/index.js"
 }

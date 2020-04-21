@@ -1,16 +1,46 @@
 "use strict";
 
-import depthMixin from "./mixin/depth";
-import colourMixin from "./mixin/colour";
-import shaderMixin from "./mixin/shader";
-import bufferMixin from "./mixin/buffer";
-import matrixMixin from "./mixin/matrix";
-import programMixin from "./mixin/program";
-import textureMixin from "./mixin/texture";
-import blendingMixin from "./mixin/blending";
-import locationMixin from "./mixin/location";
+import { applyMatrix } from "./mixin/matrix";
+import { enableBlending } from "./mixin/blending";
+import { createProgram, useProgram } from "./mixin/program";
+import { clearColour, clearColourBuffer } from "./mixin/colour";
+import { createTexture, enableAnisotropicFiltering } from "./mixin/texture";
+import { clearDepth, clearDepthBuffer, enableDepthTesting } from "./mixin/depth";
+import { createShader, createVertexShader, createFragmentShader } from "./mixin/shader";
+import { bindBuffer, bindElementBuffer, createBuffer, createElementBuffer } from "./mixin/buffer";
+import { getAttributeLocation, getUniformLocation, setUniformLocationIntegerValue } from "./mixin/location";
 
-class Canvas {
+export default class Canvas {
+  applyMatrix = applyMatrix;
+
+  enableBlending = enableBlending;
+
+  createProgram = createProgram;
+  useProgram = useProgram;
+
+  clearColour = clearColour;
+  clearColourBuffer = clearColourBuffer;
+
+  createTexture = createTexture;
+  enableAnisotropicFiltering = enableAnisotropicFiltering;
+
+  clearDepth = clearDepth;
+  clearDepthBuffer = clearDepthBuffer;
+  enableDepthTesting = enableDepthTesting;
+
+  createShader = createShader;
+  createVertexShader = createVertexShader;
+  createFragmentShader = createFragmentShader;
+
+  createElementBuffer = createElementBuffer;
+  bindElementBuffer = bindElementBuffer;
+  createBuffer = createBuffer;
+  bindBuffer = bindBuffer;
+
+  getUniformLocation = getUniformLocation;
+  getAttributeLocation = getAttributeLocation;
+  setUniformLocationIntegerValue = setUniformLocationIntegerValue;
+
   constructor(selector = "canvas") {
     const domElement = domElementFromSelector(selector),
           context = contextFromDOMElement(domElement);
@@ -87,18 +117,6 @@ class Canvas {
     this.context.drawElements(mode, count, type, offset)
   }
 }
-
-Object.assign(Canvas.prototype, depthMixin);
-Object.assign(Canvas.prototype, colourMixin);
-Object.assign(Canvas.prototype, shaderMixin);
-Object.assign(Canvas.prototype, bufferMixin);
-Object.assign(Canvas.prototype, matrixMixin);
-Object.assign(Canvas.prototype, programMixin);
-Object.assign(Canvas.prototype, textureMixin);
-Object.assign(Canvas.prototype, blendingMixin);
-Object.assign(Canvas.prototype, locationMixin);
-
-module.exports = Canvas;
 
 function domElementFromSelector(selector) {
   const domElement = (typeof selector === "string") ?

@@ -1,6 +1,6 @@
 "use strict";
 
-import { Canvas, Scene, Part, GamingCamera } from "../../index";  ///
+import { Canvas, Scene, Part, GamingCamera } from "../index";  ///
 
 import Pyramid from "./element/pyramid";
 import configuration from "../miscellaneous/configuration";
@@ -24,7 +24,7 @@ const pyramidExample = () => {
   });
 };
 
-module.exports = pyramidExample;
+export default pyramidExample;
 
 function preloadImageMap(callback) {
   const { imageMapURI } = configuration,

@@ -5,7 +5,7 @@ import MouseEvents from "./mouseEvents";
 
 import { zero2, subtract2 } from "../maths/vector";
 
-class UserInput {
+export default class UserInput {
   constructor(handlers, keyEvents, mouseEvents, mouseCoordinates, previousMouseCoordinates) {
     this.handlers = handlers;
     this.keyEvents = keyEvents;
@@ -69,5 +69,3 @@ class UserInput {
     return userInput;
   }
 }
-
-module.exports = UserInput;

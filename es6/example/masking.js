@@ -1,6 +1,6 @@
 "use strict";
 
-import { Canvas, Scene, Mask, Part, DesignCamera } from "../../index";  ///
+import { Canvas, Scene, Mask, Part, DesignCamera } from "../index";  ///
 
 import Cube from "./element/cube";
 
@@ -49,4 +49,4 @@ const maskingExample = () => {
   );
 };
 
-module.exports = maskingExample;
+export default maskingExample;

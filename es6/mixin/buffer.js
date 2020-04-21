@@ -1,6 +1,6 @@
 "use strict";
 
-function createElementBuffer(data) {
+export function createElementBuffer(data) {
   const { ELEMENT_ARRAY_BUFFER, STATIC_DRAW } = this.context,
         target = ELEMENT_ARRAY_BUFFER,
         usage = STATIC_DRAW,
@@ -14,14 +14,14 @@ function createElementBuffer(data) {
   return elementBuffer;
 }
 
-function bindElementBuffer(elementBuffer) {
+export function bindElementBuffer(elementBuffer) {
   const { ELEMENT_ARRAY_BUFFER } = this.context,
         target = ELEMENT_ARRAY_BUFFER;
 
   this.context.bindBuffer(target, elementBuffer);
 }
 
-function createBuffer(data) {
+export function createBuffer(data) {
   const { ARRAY_BUFFER, STATIC_DRAW } = this.context,
         target = ARRAY_BUFFER,
         usage = STATIC_DRAW,
@@ -35,7 +35,7 @@ function createBuffer(data) {
   return buffer;
 }
 
-function bindBuffer(buffer, attributeLocation, components) {
+export function bindBuffer(buffer, attributeLocation, components) {
   const { ARRAY_BUFFER, FLOAT } = this.context,
         target = ARRAY_BUFFER,
         type = FLOAT,
@@ -49,10 +49,3 @@ function bindBuffer(buffer, attributeLocation, components) {
 
   this.context.enableVertexAttribArray(attributeLocation);
 }
-
-module.exports = {
-  createElementBuffer,
-  bindElementBuffer,
-  createBuffer,
-  bindBuffer
-};
