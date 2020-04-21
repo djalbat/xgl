@@ -28,7 +28,7 @@ The index page for the examples will then be available at http://localhost:8000.
 
 In order to create a scene you need a `canvas` HTML element:
 
-```html
+```
 <html>
   <head>
     <link href="css/example.css" rel="stylesheet" type="text/css" media="all">
@@ -42,7 +42,7 @@ In order to create a scene you need a `canvas` HTML element:
 
 You could style the `canvas` HTML element to take up the entire viewport, at least to begin with:
 
-```css
+```
 canvas {
   height: 100vh;
   width: 100vw;
@@ -53,7 +53,7 @@ Note that in what follows most of the boilerplate code has been left out of the 
 
 To continue, the `canvas` HTML element is encapsulated by an instance of the `Canvas` class and passed as an attribute to the outermost `Scene` JSX element, which itself contains a `Camera` JSX element together with one or more `Part` JSX elements. The `Part` JSX elements contain the JSX elements that are actually rendered on the canvas, called canvas elements, in this case a single `ColouredSquare` element:
 
-```js
+```
 const canvas = new Canvas();
 
 const simpleExample = () =>
@@ -69,7 +69,7 @@ const simpleExample = () =>
 ```
 Whilst the `Scene`, `Camera` and `Part` JSX elements are built in, you have to create the canvas elements:
 
-```js
+```
 const coordinates = [
 
         [ 0, 0, 0 ],
@@ -105,7 +105,7 @@ Before moving on it is worth a moment to study XGL's coordinate system. Obviousl
 
 Because creating more than a handful of facets can be problematic, it is recommended that you create complex canvas elements as composites of simpler ones rather than increasing the number of coordinates and indexes. There is effectively no overhead when creating composite elements, in particular the rendered scene will not run any more slowly. In this example a `Cube` element is created which is composed of six child `Face` elements rather than a dozen facets. A pure function is used, so there is no need to use a class:
 
-```js
+```
 const defaultC0lour = [ 1, 1, 0 ];
 
 const Cube = (properties) => {
@@ -126,7 +126,7 @@ const Cube = (properties) => {
 ```
 The `Face` elements themselves also result from a pure function. Here the coordinates of the `ColouredSquare` element are adjusted to make it simpler to rotate:
 
-```js
+```
 const Face = (properties) => {
   const { colour } = properties;
 
@@ -149,7 +149,7 @@ Masking is something specific to XGL, it is not part of WebGL. A screenshot of t
 
 Here a cube has been masked by a cube that it contains, that has itself been masked by a cube that it contains. The listing below is an abridged version of the example, with only two nested cubes rather than three:
 
-```js
+```
 const { Canvas, Scene, Mask, Part, Camera } = xgl;
 
 const canvas = new Canvas();
@@ -217,7 +217,7 @@ This example utilities the image map provided by the small Express application, 
 ```
 As explained in the XGL Server tutorial, assigning a `__configuration__` property to the global `window` object makes its values accessible to the bundled application running in the browser. With the image map URI and corresponding JSON to hand, the pyramid example can load the image map and pass both that and the JSON to any `Part` element that uses textures:
 
-```js
+```
 const pyramidExample = () => {
   preloadImageMap((imageMap) => {
     const { imageMapJSON } = configuration;
@@ -254,7 +254,7 @@ function preloadImageMap(callback) {
 ```
 The `Pyramid` element is a compound element consisting of four sides, three of which are rotated around the y-axis as you would expect:
 
-```js
+```
 const Pyramid = (properties) => [
 
   <Side />,
@@ -266,7 +266,7 @@ const Pyramid = (properties) => [
 ```
 Each side consists of a textured triangle:
 
-```js
+```
 const coordinates = [
 
         [   0, 0, 0 ],
@@ -322,7 +322,7 @@ On the other hand, if we alter the texture coordinates thus...
 
 The textured triangles themselves are adjusted to make the sides...
 
-```js
+```
 const Side = (properties) =>
 
   <TexturedTriangle scale={[ 1, 1/Math.sqrt(2), 1 ]} position={[ -0.5, 0, 0.5 ]} rotations={[ -45, 0, 0 ]} />
@@ -335,11 +335,10 @@ const Side = (properties) =>
 
 This example also makes use of images, but there are loaded individually rather than being parts of an image map. The `imageNames` and `imageDirectoryURI` variables are again made available by way of the configuration, allowing the images to be loaded sequentially:
 
-```js
-const necessary = require('necessary');
+```
+import { asynchronousUtilities } from "necessary";
 
-const { asynchronousUtilities } = necessary,
-      { forEach } = asynchronousUtilities;
+const { forEach } = asynchronousUtilities;
 
 function preloadImages(imageNames, imageDirectoryURI, callback) {
   const images = [],
@@ -372,7 +371,7 @@ function preloadImages(imageNames, imageDirectoryURI, callback) {
 ```
 Now the resultant `images` and `imageNames` are passed to the `Part` element and otherwise, nothing else effectively has to change from the previous example:
 
-```js
+```
 const tilingExample = () => {
   const { imageNames, imageDirectoryURI } = configuration;
 
@@ -395,7 +394,7 @@ One advantage of loading images individually is that since whole images are mapp
 
 In order to tile textures, you simply have to extend the texture coordinates past the usual [ 0, 1 ] range, for example:
 
-```js
+```
 const coordinates = ...,
       indexes = ...,
       defaultImageName = ...,
@@ -429,7 +428,7 @@ Two cameras come as standard, the design camera and the gaming camera.
 
 The design camera points at the same place, with mouse movements moving it toward, away from or around that place when the mouse button is held down. If you hold the shift key down as well, you can alter the offset, namely the place at which it points. You can set the initial distance, angles and offsets by way of attributes:
 
-```js
+```
 <Scene ... >
   ...
   <DesignCamera initialDistance={10} initialAngles={[ 225, 22.5 ]} initialOffsets={[ -10, 0, 10 ]} />
@@ -439,7 +438,7 @@ Here the initial angles are chosen so each of the three axes points away from th
 
 The gaming camera allows you to freely move around around a scene. If you hold the mouse down you can look around with mouse movements. Holding the shift key down at the same time allows you to pan, whilst the mouse wheel allows you to move backwards and forwards. You can set the initial position and angles by way of attributes:
 
-```js
+```
 <Scene ... >
   ...
   <GamingCamera initialPosition={[ 0, 0, 10 ]} initialAngles={[ 45, 0 ]} />
@@ -450,7 +449,7 @@ You can create your own cameras by extending the `Camera` class, with the source
 ## Useful features
 
 You can hide any elements bar `Scene` elements , including masks and parts, by adding a `hidden` attribute. This saves commenting out or removing elements during development. For example:
-```js
+```
 <Scene canvas={canvas}>
   <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
     <Pyramid hidden />
@@ -460,7 +459,7 @@ You can hide any elements bar `Scene` elements , including masks and parts, by a
 ```
 
 You can pass callbacks to `Scene` elements to keep an eye on rendering progress by way of `update` and `done` attributes. For example:
-```js
+```
 <Scene canvas={canvas} update={update} done={done}>
   <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
     <Pyramid />
