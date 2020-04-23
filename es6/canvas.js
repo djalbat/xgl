@@ -15,8 +15,8 @@ export default class Canvas {
 
   enableBlending = enableBlending;
 
-  createProgram = createProgram;
   useProgram = useProgram;
+  createProgram = createProgram;
 
   clearColour = clearColour;
   clearColourBuffer = clearColourBuffer;
@@ -32,10 +32,10 @@ export default class Canvas {
   createVertexShader = createVertexShader;
   createFragmentShader = createFragmentShader;
 
-  createElementBuffer = createElementBuffer;
-  bindElementBuffer = bindElementBuffer;
-  createBuffer = createBuffer;
   bindBuffer = bindBuffer;
+  createBuffer = createBuffer;
+  bindElementBuffer = bindElementBuffer;
+  createElementBuffer = createElementBuffer;
 
   getUniformLocation = getUniformLocation;
   getAttributeLocation = getAttributeLocation;
