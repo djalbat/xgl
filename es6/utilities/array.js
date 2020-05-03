@@ -2,7 +2,9 @@
 
 import { arrayUtilities } from "necessary";
 
-function permute(array, places) {
+export const { first, second, third, fourth, push, merge, separate } = arrayUtilities;
+
+export function permute(array, places) {
   const length = array.length,
         cut = length - places,
         leadingElements = array.slice(0, cut),
@@ -13,20 +15,14 @@ function permute(array, places) {
   return array;
 }
 
-function flatten(arrays) {
+export function flatten(arrays) {
   return arrays.reduce((elements, array) => elements.concat(array), []);
 }
 
-function guarantee(arrayOrElement) {
+export function guarantee(arrayOrElement) {
   arrayOrElement = arrayOrElement || [];
 
   return (arrayOrElement instanceof Array) ?
            arrayOrElement :
             [arrayOrElement];
 }
-
-module.exports = Object.assign(arrayUtilities, {
-  permute,
-  flatten,
-  guarantee
-});
