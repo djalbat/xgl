@@ -3,7 +3,7 @@
 const vertexNormalComponents = 3,
       vertexPositionComponents = 3;
 
-class RendererBuffers {
+export default class RendererBuffers {
   constructor(vertexPositionsBuffer, vertexNormalsBuffer, vertexIndexesElementBuffer) {
     this.vertexPositionsBuffer = vertexPositionsBuffer;
     this.vertexNormalsBuffer = vertexNormalsBuffer;
@@ -55,5 +55,3 @@ class RendererBuffers {
     return rendererBuffers;
   }
 }
-
-module.exports = RendererBuffers;

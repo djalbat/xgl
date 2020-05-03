@@ -5,7 +5,7 @@ import { first, second, third } from "../utilities/array";
 import { DEGREES_TO_RADIANS_SCALAR, FIELD_OF_VIEW, Z_NEAR, Z_FAR } from "../constants";
 import { identity4, scale4, invert4, rotate4, translate4, transpose4, perspective4 } from "../maths/matrix";
 
-function scaleMatrixFromScale(scale) {
+export function scaleMatrixFromScale(scale) {
   let scaleMatrix = identity4();
 
   scaleMatrix = scale4(scaleMatrix, scale);
@@ -13,7 +13,7 @@ function scaleMatrixFromScale(scale) {
   return scaleMatrix;
 }
 
-function offsetsMatrixFromOffsets(offsets) {
+export function offsetsMatrixFromOffsets(offsets) {
   let offsetsMatrix = identity4(); ///
 
   offsetsMatrix = translate4(offsetsMatrix, offsets);
@@ -21,13 +21,13 @@ function offsetsMatrixFromOffsets(offsets) {
   return offsetsMatrix;
 }
 
-function positionMatrixFromNothing() {
+export function positionMatrixFromNothing() {
   let positionMatrix = identity4(); ///
 
   return positionMatrix;
 }
 
-function positionMatrixFromDistance(distance) {
+export function positionMatrixFromDistance(distance) {
   let positionMatrix = identity4(); ///
 
   const x = 0,
@@ -39,7 +39,7 @@ function positionMatrixFromDistance(distance) {
   return positionMatrix;
 }
 
-function positionMatrixFromPosition(position) {
+export function positionMatrixFromPosition(position) {
   let positionMatrix = identity4(); ///
 
   positionMatrix = translate4(positionMatrix, position);
@@ -47,7 +47,7 @@ function positionMatrixFromPosition(position) {
   return positionMatrix;
 }
 
-function rotationsMatrixFromAngles(angles, reverseOrder = false) {
+export function rotationsMatrixFromAngles(angles, reverseOrder = false) {
   let rotationsMatrix = identity4(); ///
 
   const firstAngle = first(angles),
@@ -77,7 +77,7 @@ function rotationsMatrixFromAngles(angles, reverseOrder = false) {
   return rotationsMatrix;
 }
 
-function rotationsMatrixFromRotations(rotations) {
+export function rotationsMatrixFromRotations(rotations) {
   const scalar = DEGREES_TO_RADIANS_SCALAR,
         angles = scale3(rotations, scalar),
         rotationsMatrix = rotationsMatrixFromAngles(angles);
@@ -85,7 +85,7 @@ function rotationsMatrixFromRotations(rotations) {
   return rotationsMatrix;
 }
 
-function normalsMatrixFromRotationsMatrix(rotationsMatrix) {
+export function normalsMatrixFromRotationsMatrix(rotationsMatrix) {
   let normalsMatrix = invert4(rotationsMatrix);
 
   normalsMatrix = transpose4(normalsMatrix);
@@ -93,7 +93,7 @@ function normalsMatrixFromRotationsMatrix(rotationsMatrix) {
   return normalsMatrix;
 }
 
-function projectionMatrixFromWidthAndHeight(width, height) {
+export function projectionMatrixFromWidthAndHeight(width, height) {
   const fieldOfView = FIELD_OF_VIEW,  ///
         aspectRatio = width / height,
         zNear = Z_NEAR, ///
@@ -102,15 +102,3 @@ function projectionMatrixFromWidthAndHeight(width, height) {
 
   return projectionMatrix;
 }
-
-module.exports = {
-  scaleMatrixFromScale,
-  offsetsMatrixFromOffsets,
-  positionMatrixFromNothing,
-  positionMatrixFromDistance,
-  positionMatrixFromPosition,
-  rotationsMatrixFromAngles,
-  rotationsMatrixFromRotations,
-  normalsMatrixFromRotationsMatrix,
-  projectionMatrixFromWidthAndHeight
-};

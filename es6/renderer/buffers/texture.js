@@ -4,7 +4,7 @@ import RendererBuffers from "../../renderer/buffers";
 
 const textureCoordinateComponents = 2;
 
-class TextureRendererBuffers extends RendererBuffers {
+export default class TextureRendererBuffers extends RendererBuffers {
   constructor(vertexPositionsBuffer, vertexNormalsBuffer, vertexIndexesElementBuffer, textureCoordinatesBuffer) {
     super(vertexPositionsBuffer, vertexNormalsBuffer, vertexIndexesElementBuffer);
 
@@ -38,5 +38,3 @@ class TextureRendererBuffers extends RendererBuffers {
     return textureRendererBuffers;
   }
 }
-
-module.exports = TextureRendererBuffers;

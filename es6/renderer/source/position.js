@@ -1,10 +1,10 @@
 "use strict";
 
-const offsetsMatrixName = "uOffsetsMatrix",
-      positionMatrixName = "uPositionMatrix",
-      rotationsMatrixName = "uRotationsMatrix",
-      projectionMatrixName = "uPerspectiveMatrix",
-      vertexPositionAttributeName = "aVertexPosition";
+export const offsetsMatrixName = "uOffsetsMatrix";
+export const positionMatrixName = "uPositionMatrix";
+export const rotationsMatrixName = "uRotationsMatrix";
+export const projectionMatrixName = "uPerspectiveMatrix";
+export const vertexPositionAttributeName = "aVertexPosition";
 
 const positionSource = new String(`
   
@@ -23,12 +23,4 @@ const positionSource = new String(`
         
       `);
 
-Object.assign(positionSource, {
-  offsetsMatrixName,
-  positionMatrixName,
-  rotationsMatrixName,
-  projectionMatrixName,
-  vertexPositionAttributeName
-});
-    
-module.exports = positionSource;
+export default positionSource;

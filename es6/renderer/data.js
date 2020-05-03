@@ -4,7 +4,7 @@ import { flatten, merge } from "../utilities/array";
 
 const add = merge;  ///
 
-class RendererData {
+export default class RendererData {
   constructor(vertexPositionsData, vertexNormalsData, vertexIndexesData) {
     this.vertexPositionsData = vertexPositionsData;
     this.vertexNormalsData = vertexNormalsData;
@@ -57,5 +57,3 @@ class RendererData {
     return rendererData;
   }
 }
-
-module.exports = RendererData;

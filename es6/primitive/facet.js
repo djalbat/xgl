@@ -13,7 +13,7 @@ import { calculateNonNullIntersections,
          calculateNonNullIntersectionIndex,
          calculateIntermediateVertexPosition} from "../utilities/intersection";
 
-class Facet {
+export default class Facet {
   constructor(vertices, normal, edges) {
     this.vertices = vertices;
     this.normal = normal;
@@ -190,8 +190,6 @@ class Facet {
     });
   }
 }
-
-module.exports = Facet;
 
 function smallerFacetFromPositionsIndexesAndFacet(positions, indexes, facet) {
   const vertices = indexes.map((index) => {

@@ -3,8 +3,9 @@
 import lightingSource from "../../source/lighting";
 import positionSource from "../../source/position";
 
-const vertexColourAttributeName = "aVertexColour",
-      vertexShaderSource = new String(`
+export const vertexColourAttributeName = "aVertexColour"
+
+const vertexShaderSource = new String(`
     
         attribute vec4 ${vertexColourAttributeName};
 
@@ -26,8 +27,4 @@ const vertexColourAttributeName = "aVertexColour",
         
       `);
 
-Object.assign(vertexShaderSource, {
-  vertexColourAttributeName
-});
-
-module.exports = vertexShaderSource;
+export default vertexShaderSource;

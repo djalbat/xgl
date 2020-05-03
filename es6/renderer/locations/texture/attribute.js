@@ -4,7 +4,7 @@ import AttributeLocations from "../../locations/attribute";
 
 import { textureCoordinateAttributeName } from "../../source/texture/vertexShader";
 
-class TextureAttributeLocations extends AttributeLocations {
+export default class TextureAttributeLocations extends AttributeLocations {
   constructor(vertexPositionAttributeLocation, vertexNormalAttributeLocation, textureCoordinateAttributeLocation) {
     super(vertexPositionAttributeLocation, vertexNormalAttributeLocation);
     
@@ -22,5 +22,3 @@ class TextureAttributeLocations extends AttributeLocations {
     return textureAttributeLocations;
   }  
 }
-
-module.exports = TextureAttributeLocations;

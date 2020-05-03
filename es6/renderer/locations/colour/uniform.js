@@ -2,8 +2,6 @@
 
 import UniformLocations from "../../locations/uniform";
 
-class ColourUniformLocations extends UniformLocations {
+export default class ColourUniformLocations extends UniformLocations {
   static fromProgram(program, canvas) { return UniformLocations.fromProgram(ColourUniformLocations, program, canvas); }
 }
-
-module.exports = ColourUniformLocations;

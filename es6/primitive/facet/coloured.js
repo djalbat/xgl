@@ -9,7 +9,7 @@ import { isApproximatelyEqualToZero } from "../../utilities/approximate";
 import { verticesFromCoordinateTuplesAndIndexTuple } from "../../utilities/vertices";
 import { cloneEdges, cloneNormal, cloneVertices, calculateArea, calculateEdges, calculateNormal } from "../../utilities/facet";
 
-class ColouredFacet extends Facet {
+export default class ColouredFacet extends Facet {
   constructor(vertices, normal, edges, rgba) {
     super(vertices, normal, edges);
     
@@ -79,5 +79,3 @@ class ColouredFacet extends Facet {
     return colouredFacet;
   }
 }
-
-module.exports = ColouredFacet;

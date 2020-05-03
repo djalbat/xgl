@@ -2,14 +2,9 @@
 
 import { DEFAULT_MARGIN_OF_ERROR } from "../constants";
 
-function isApproximatelyEqualToOne(value, marginOfError = DEFAULT_MARGIN_OF_ERROR) { return isApproximatelyEqualTo(value, 1, marginOfError); }
+export function isApproximatelyEqualToOne(value, marginOfError = DEFAULT_MARGIN_OF_ERROR) { return isApproximatelyEqualTo(value, 1, marginOfError); }
 
-function isApproximatelyEqualToZero(value, marginOfError = DEFAULT_MARGIN_OF_ERROR) { return isApproximatelyEqualTo(value, 0, marginOfError); }
-
-module.exports = {
-  isApproximatelyEqualToOne,
-  isApproximatelyEqualToZero
-};
+export function isApproximatelyEqualToZero(value, marginOfError = DEFAULT_MARGIN_OF_ERROR) { return isApproximatelyEqualTo(value, 0, marginOfError); }
 
 function isApproximatelyEqualTo(valueA, valueB, marginOfError = DEFAULT_MARGIN_OF_ERROR) {
   const difference = valueA - valueB,

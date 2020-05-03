@@ -1,6 +1,6 @@
 "use strict";
 
-function rotateVertices(vertices, rotationQuaternion) {
+export function rotateVertices(vertices, rotationQuaternion) {
   const rotatedVertices = vertices.map((vertex) => {
     const rotatedVertex = vertex.clone();  ///
 
@@ -12,7 +12,7 @@ function rotateVertices(vertices, rotationQuaternion) {
   return rotatedVertices;
 }
 
-function verticesFromCoordinateTuplesAndIndexTuple(coordinateTuples, indexTuple, Vertex) {  ///
+export function verticesFromCoordinateTuplesAndIndexTuple(coordinateTuples, indexTuple, Vertex) {  ///
   const indexes = indexTuple, ///
         vertices = indexes.map((index) => {
           const coordinateTuple = coordinateTuples[index],
@@ -23,8 +23,3 @@ function verticesFromCoordinateTuplesAndIndexTuple(coordinateTuples, indexTuple,
 
   return vertices;
 }
-
-module.exports = {
-  rotateVertices,
-  verticesFromCoordinateTuplesAndIndexTuple
-};

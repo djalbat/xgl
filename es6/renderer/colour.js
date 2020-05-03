@@ -13,7 +13,7 @@ import { createProgram } from "../renderer";
 
 const add = push; ///
 
-class ColourRenderer extends Renderer {
+export default class ColourRenderer extends Renderer {
   getVertexColourAttributeLocation() {
     const attributeLocations = this.getAttributeLocations(),
           vertexColourAttributeLocation = attributeLocations.getVertexColourAttributeLocation();
@@ -100,5 +100,3 @@ class ColourRenderer extends Renderer {
     return colourRenderer;
   }
 }
-
-module.exports = ColourRenderer;

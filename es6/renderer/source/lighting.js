@@ -1,7 +1,7 @@
 "use strict";
 
-const normalsMatrixName = "uNormalsMatrix",
-      vertexNormalAttributeName = "aVertexNormal";
+export const normalsMatrixName = "uNormalsMatrix";
+export const vertexNormalAttributeName = "aVertexNormal";
 
 const lightingSource = new String(`
   
@@ -24,9 +24,4 @@ const lightingSource = new String(`
 
       `);
 
-Object.assign(lightingSource, {
-  normalsMatrixName,
-  vertexNormalAttributeName
-});
-
-module.exports = lightingSource;
+export default lightingSource;

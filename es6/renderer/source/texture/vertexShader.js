@@ -3,8 +3,9 @@
 import lightingSource from "../../source/lighting";
 import positionSource from "../../source/position";
 
-const textureCoordinateAttributeName = "aTextureCoordinate",
-      vertexShaderSource = new String(`
+export const textureCoordinateAttributeName = "aTextureCoordinate";
+
+const vertexShaderSource = new String(`
         
         attribute vec2 ${textureCoordinateAttributeName};
         
@@ -26,8 +27,4 @@ const textureCoordinateAttributeName = "aTextureCoordinate",
         
       `);
 
-Object.assign(vertexShaderSource, {
-  textureCoordinateAttributeName
-});
-
-module.exports = vertexShaderSource;
+export default vertexShaderSource;

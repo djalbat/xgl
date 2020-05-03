@@ -3,7 +3,7 @@
 import { first, second, third } from "../utilities/array";
 import { normalise3, subtract3, cross3 } from "../maths/vector";
 
-class Normal {
+export default class Normal {
   constructor(extent) {
     this.extent = extent;
   }
@@ -34,7 +34,5 @@ class Normal {
     return normal;
   }
 }
-
-module.exports = Normal;
 
 function cloneExtent(extent) { return extent.slice(); }

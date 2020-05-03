@@ -2,7 +2,7 @@
 
 import { add3, scale3 } from "../maths/vector";
 
-function calculateMidPointPosition(vertices) {
+export function calculateMidPointPosition(vertices) {
   const midPointPosition = vertices.reduce((midPointPosition, vertex) => {
     const vertexPosition = vertex.getPosition(),
           scaledVertexPosition = scale3(vertexPosition, 1/3);
@@ -15,25 +15,19 @@ function calculateMidPointPosition(vertices) {
   return midPointPosition;
 }
 
-function projectMidPointPositionOntoXYPlane(midPointPosition) {
+export function projectMidPointPositionOntoXYPlane(midPointPosition) {
   midPointPosition = [ ...midPointPosition.slice(0, 2), 0 ];  ///
 
   return midPointPosition;
 }
 
-function isMidPointPositionToOneSideOfMaskingEdges(midPointPosition, maskingEdges) {
+export function isMidPointPositionToOneSideOfMaskingEdges(midPointPosition, maskingEdges) {
   const midPointPositionToTheLeftOfMaskingEdges = isMidPointPositionToTheLeftOfMaskingEdges(midPointPosition, maskingEdges),
         midPointPositionToTheRightOfMaskingEdges = isMidPointPositionToTheRightOfMaskingEdges(midPointPosition, maskingEdges),
         midPointPositionToOneSideOfMaskingEdges = midPointPositionToTheLeftOfMaskingEdges || midPointPositionToTheRightOfMaskingEdges; ///
 
   return midPointPositionToOneSideOfMaskingEdges;
 }
-
-module.exports = module.exports = {
-  calculateMidPointPosition,
-  projectMidPointPositionOntoXYPlane,
-  isMidPointPositionToOneSideOfMaskingEdges
-};
 
 function isMidPointPositionToTheLeftOfMaskingEdges(midPointPosition, maskingEdges) {
   const midPointPositionToTheLeftOfMaskingEdges = maskingEdges.reduce((midPointPositionToTheLeftOfMaskingEdges, maskingEdge) => {

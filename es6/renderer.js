@@ -4,7 +4,7 @@ import { push } from "./utilities/array";
 
 const add = push; ///
 
-class Renderer {
+export default class Renderer {
   constructor(facets, program, rendererData, rendererBuffers, uniformLocations, attributeLocations) {
     this.facets = facets;
     this.program = program;
@@ -59,16 +59,10 @@ class Renderer {
   }
 }
 
-function createProgram(vertexShaderSource, fragmentShaderSource, canvas) {
+export function createProgram(vertexShaderSource, fragmentShaderSource, canvas) {
   const vertexShader = canvas.createVertexShader(vertexShaderSource),
         fragmentShader = canvas.createFragmentShader(fragmentShaderSource),
         program = canvas.createProgram(vertexShader, fragmentShader);
   
   return program;
 }
-
-Object.assign(Renderer, {
-  createProgram
-});
-
-module.exports = Renderer;

@@ -11,7 +11,7 @@ import { verticesFromCoordinateTuplesAndIndexTuple } from "../../utilities/verti
 import { cloneEdges, cloneNormal, cloneVertices, calculateArea, calculateEdges, calculateNormal } from "../../utilities/facet";
 import { cloneTextureCoordinateTuples, calculateMappedTextureCoordinateTuples, calculateAdjustedTextureCoordinateTuples } from "../../utilities/texture";
 
-class TexturedFacet extends Facet {
+export default class TexturedFacet extends Facet {
   constructor(vertices, normal, edges, imageName, textureCoordinateTuples) {
     super(vertices, normal, edges);
 
@@ -97,5 +97,3 @@ class TexturedFacet extends Facet {
     return texturedFacet;
   }
 }
-
-module.exports = TexturedFacet;

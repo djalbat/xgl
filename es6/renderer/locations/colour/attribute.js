@@ -4,7 +4,7 @@ import AttributeLocations from "../../locations/attribute";
 
 import { vertexColourAttributeName } from "../../source/colour/vertexShader";
 
-class ColourAttributeLocations extends AttributeLocations {
+export default class ColourAttributeLocations extends AttributeLocations {
   constructor(vertexPositionAttributeLocation, vertexNormalAttributeLocation, vertexColourAttributeLocation) {
     super(vertexPositionAttributeLocation, vertexNormalAttributeLocation);
 
@@ -22,5 +22,3 @@ class ColourAttributeLocations extends AttributeLocations {
     return colourAttributeLocations;
   }
 }
-
-module.exports = ColourAttributeLocations;

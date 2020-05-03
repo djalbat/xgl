@@ -6,7 +6,7 @@ import { merge, flatten } from "../../utilities/array";
 
 const add = merge;  ///
 
-class TextureRendererData extends RendererData {
+export default class TextureRendererData extends RendererData {
   constructor(vertexPositionsData, vertexNormalsData, vertexIndexesData, vertexTextureCoordinatesData) {
     super(vertexPositionsData, vertexNormalsData, vertexIndexesData);
 
@@ -30,5 +30,3 @@ class TextureRendererData extends RendererData {
     return textureRendererData;
   }
 }
-
-module.exports = TextureRendererData;

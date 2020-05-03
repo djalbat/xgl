@@ -2,7 +2,7 @@
 
 import { rotatePosition } from "../utilities/rotation";
 
-class Vertex {
+export default class Vertex {
   constructor(position) {
     this.position = position;
   }
@@ -39,5 +39,3 @@ class Vertex {
     return vertex;
   }
 }
-
-module.exports = Vertex;

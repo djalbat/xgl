@@ -4,7 +4,7 @@ import RendererBuffers from "../../renderer/buffers";
 
 const vertexColourComponents = 4;
 
-class ColourRendererBuffers extends RendererBuffers {
+export default class ColourRendererBuffers extends RendererBuffers {
   constructor(vertexPositionsBuffer, vertexNormalsBuffer, vertexIndexesElementBuffer, vertexColoursBuffer) {
     super(vertexPositionsBuffer, vertexNormalsBuffer, vertexIndexesElementBuffer);
 
@@ -38,5 +38,3 @@ class ColourRendererBuffers extends RendererBuffers {
     return colourRendererBuffers;
   }
 }
-
-module.exports = ColourRendererBuffers;

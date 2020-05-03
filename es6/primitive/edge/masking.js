@@ -6,7 +6,7 @@ import { third } from "../../utilities/array";
 import { subtract3, cross3 } from "../../maths/vector";
 import { projectMidPointPositionOntoXYPlane } from "../../utilities/midPoint";
 
-class MaskingEdge extends Edge {
+export default class MaskingEdge extends Edge {
   isMidPointPositionToTheLeft(midPointPosition) {
     midPointPosition = projectMidPointPositionOntoXYPlane(midPointPosition);  ///
 
@@ -29,5 +29,3 @@ class MaskingEdge extends Edge {
   
   static fromStartVertexAndEndVertex(startVertex, endVertex) { return Edge.fromStartVertexAndEndVertex(MaskingEdge, startVertex, endVertex); }
 }
-
-module.exports = MaskingEdge;

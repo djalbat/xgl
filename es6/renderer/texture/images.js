@@ -6,7 +6,7 @@ import { push, first } from "../../utilities/array";
 
 const add = push; ///
 
-class ImagesTextureRenderer extends TextureRenderer {
+export default class ImagesTextureRenderer extends TextureRenderer {
 	constructor(facets, program, rendererData, rendererBuffers, uniformLocations, attributeLocations, imageNames, facetsMap, offsets) {
 		super(facets, program, rendererData, rendererBuffers, uniformLocations, attributeLocations);
 
@@ -117,5 +117,3 @@ class ImagesTextureRenderer extends TextureRenderer {
     return imagesTextureRenderer;
   }
 }
-
-module.exports = ImagesTextureRenderer;

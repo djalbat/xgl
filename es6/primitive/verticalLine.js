@@ -5,7 +5,7 @@ import { rotatePosition } from "../utilities/rotation";
 import { calculateIntersection } from "../utilities/intersection";
 import { calculateRotationAboutZAxisQuaternion, calculateForwardsRotationQuaternion, calculateBackwardsRotationQuaternion } from "../utilities/quaternion";
 
-class VerticalLine {
+export default class VerticalLine {
   constructor(firstPositionComponent, forwardsRotationQuaternion, backwardsRotationQuaternion) {
     this.firstPositionComponent = firstPositionComponent;
     this.forwardsRotationQuaternion = forwardsRotationQuaternion;
@@ -63,5 +63,3 @@ class VerticalLine {
     return verticalLine;
   }
 }
-
-module.exports = VerticalLine;

@@ -4,7 +4,7 @@ import { normalsMatrixName } from "../source/lighting";
 
 import { offsetsMatrixName, rotationsMatrixName, positionMatrixName, projectionMatrixName } from "../source/position";
 
-class UniformLocations {
+export default class UniformLocations {
   constructor(offsetsMatrixUniformLocation, normalsMatrixUniformLocation, positionMatrixUniformLocation, rotationsMatrixUniformLocation, projectionMatrixUniformLocation) {
     this.offsetsMatrixUniformLocation = offsetsMatrixUniformLocation;
     this.normalsMatrixUniformLocation = normalsMatrixUniformLocation;
@@ -44,5 +44,3 @@ class UniformLocations {
     return uniformLocations;       
   }
 }
-
-module.exports = UniformLocations;

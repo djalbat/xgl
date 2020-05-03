@@ -4,7 +4,7 @@ import UniformLocations from "../../locations/uniform";
 
 import { samplerName } from "../../source/texture/fragmentShader";
 
-class TextureUniformLocations extends UniformLocations {
+export default class TextureUniformLocations extends UniformLocations {
   constructor(offsetsMatrixUniformLocation, normalsMatrixUniformLocation, positionMatrixUniformLocation, rotationsMatrixUniformLocation, projectionMatrixUniformLocation, samplerUniformLocation) {
     super(offsetsMatrixUniformLocation, normalsMatrixUniformLocation, positionMatrixUniformLocation, rotationsMatrixUniformLocation, projectionMatrixUniformLocation);
     
@@ -22,5 +22,3 @@ class TextureUniformLocations extends UniformLocations {
     return textureUniformLocations;
   }
 }
-
-module.exports = TextureUniformLocations;

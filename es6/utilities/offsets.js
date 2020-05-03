@@ -3,7 +3,7 @@
 import { reflect3, transform4 } from "../maths/vector";
 import { rotationsMatrixFromAngles } from "../utilities/matrix";
 
-function relativeOffsetsFromAnglesAndDirections(angles, directions) {
+export function relativeOffsetsFromAnglesAndDirections(angles, directions) {
   const reverseOrder = true,
         reflectedAngles = reflect3(angles),
         rotationsMatrix = rotationsMatrixFromAngles(reflectedAngles, reverseOrder),
@@ -11,7 +11,3 @@ function relativeOffsetsFromAnglesAndDirections(angles, directions) {
 
   return relativeOffsets;
 }
-
-module.exports = {
-  relativeOffsetsFromAnglesAndDirections
-};

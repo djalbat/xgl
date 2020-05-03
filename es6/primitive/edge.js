@@ -2,7 +2,7 @@
 
 import { subtract3 } from "../maths/vector";
 
-class Edge {
+export default class Edge {
   constructor(position, extent) {
     this.position = position;
     this.extent = extent;
@@ -40,5 +40,3 @@ class Edge {
     return edge;
   }
 }
-
-module.exports = Edge;

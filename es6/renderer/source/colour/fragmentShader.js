@@ -12,4 +12,4 @@ const fragmentShaderSource = new String(`
         
       `);
 
-module.exports = fragmentShaderSource;
+export default fragmentShaderSource;

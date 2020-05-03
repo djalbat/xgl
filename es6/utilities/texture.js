@@ -6,20 +6,20 @@ import { first, second, third } from "../utilities/array";
 import { calculateArbitraryRotationQuaternion } from "../utilities/quaternion";
 import { add2, multiply2, transform2, transform3 } from "../maths/vector";
 
-function cloneTextureCoordinateTuples(textureCoordinateTuples) {
+export function cloneTextureCoordinateTuples(textureCoordinateTuples) {
   textureCoordinateTuples = textureCoordinateTuples.map((textureCoordinateTuple) => textureCoordinateTuple.slice());  ///
 
   return textureCoordinateTuples;
 }
 
-function calculateMappedTextureCoordinateTuples(textureCoordinateTuples, extent) {
+export function calculateMappedTextureCoordinateTuples(textureCoordinateTuples, extent) {
   const { left, bottom, width, height } = extent,
         mappedTextureCoordinateTuples = textureCoordinateTuples.map((textureCoordinateTuple) => add2(multiply2(textureCoordinateTuple, [ width, height ] ), [ left, bottom ])); ///
 
   return mappedTextureCoordinateTuples;
 }
 
-function calculateAdjustedTextureCoordinateTuples(vertices, normal, parentVertices, textureCoordinateTuples) {
+export function calculateAdjustedTextureCoordinateTuples(vertices, normal, parentVertices, textureCoordinateTuples) {
   const arbitraryRotationQuaternion = calculateArbitraryRotationQuaternion(normal),
         rotationQuaternion = arbitraryRotationQuaternion; ///
 
@@ -83,9 +83,3 @@ function calculateAdjustedTextureCoordinateTuples(vertices, normal, parentVertic
 
   return adjustedTextureCoordinateTuple;
 }
-
-module.exports = {
-  cloneTextureCoordinateTuples,
-  calculateMappedTextureCoordinateTuples,
-  calculateAdjustedTextureCoordinateTuples
-};

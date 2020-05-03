@@ -10,7 +10,7 @@ import TextureAttributeLocations from "./locations/texture/attribute";
 
 import { createProgram } from "../renderer";
 
-class TextureRenderer extends Renderer {
+export default class TextureRenderer extends Renderer {
   getTextureCoordinateAttributeLocation() {
     const attributeLocations = this.getAttributeLocations(),
           textureCoordinateAttributeLocation = attributeLocations.getTextureCoordinateAttributeLocation();
@@ -64,5 +64,3 @@ class TextureRenderer extends Renderer {
     return textureRenderer;
   }
 }
-
-module.exports = TextureRenderer;

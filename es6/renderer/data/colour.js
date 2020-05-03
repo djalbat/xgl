@@ -6,7 +6,7 @@ import { merge, flatten } from "../../utilities/array";
 
 const add = merge;  ///
 
-class ColourRendererData extends RendererData {
+export default class ColourRendererData extends RendererData {
   constructor(vertexPositionsData, vertexNormalsData, vertexIndexesData, vertexColoursData) {
     super(vertexPositionsData, vertexNormalsData, vertexIndexesData);
 
@@ -30,5 +30,3 @@ class ColourRendererData extends RendererData {
     return colourRendererData;
   }
 }
-
-module.exports = ColourRendererData;

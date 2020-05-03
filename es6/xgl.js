@@ -2,8 +2,6 @@
 
 import React from "./react";
 
-Object.defineProperty(window, "React", {
-  get: function() {
-    return React;
-  }
+Object.assign(window, {
+  React
 });

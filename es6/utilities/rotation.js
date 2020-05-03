@@ -2,7 +2,7 @@
 
 import { rotateImaginaryQuaternion, calculateInverseRotationQuaternion } from "../utilities/quaternion";
 
-function rotatePosition(position, rotationQuaternion) {
+export function rotatePosition(position, rotationQuaternion) {
   const imaginaryQuaternion = imaginaryQuaternionFromPosition(position),
         inverseRotationQuaternion = calculateInverseRotationQuaternion(rotationQuaternion),
         rotatedImaginaryQuaternion = rotateImaginaryQuaternion(imaginaryQuaternion, rotationQuaternion, inverseRotationQuaternion);
@@ -11,10 +11,6 @@ function rotatePosition(position, rotationQuaternion) {
 
   return position;
 }
-
-module.exports = {
-  rotatePosition
-};
 
 function imaginaryQuaternionFromPosition(position) { return [0, ...position]; }  ///
 

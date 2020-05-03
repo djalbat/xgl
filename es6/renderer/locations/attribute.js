@@ -3,7 +3,7 @@
 import { vertexNormalAttributeName } from "../source/lighting";
 import { vertexPositionAttributeName } from "../source/position";
 
-class AttributeLocations {
+export default class AttributeLocations {
   constructor(vertexPositionAttributeLocation, vertexNormalAttributeLocation) {
     this.vertexPositionAttributeLocation = vertexPositionAttributeLocation;
     this.vertexNormalAttributeLocation = vertexNormalAttributeLocation;
@@ -25,5 +25,3 @@ class AttributeLocations {
     return attributeLocations;
   }  
 }
-
-module.exports = AttributeLocations;

@@ -4,25 +4,25 @@ import { VERTICES_LENGTH } from "../constants";
 import { first, second, third } from "../utilities/array";
 import { subtract3, cross3, length3 } from "../maths/vector";
 
-function cloneEdges(edges) {
+export function cloneEdges(edges) {
   edges = edges.map((edge) => edge.clone());
 
   return edges;
 }
 
-function cloneNormal(normal) {
+export function cloneNormal(normal) {
   normal = normal.clone();
   
   return normal;
 }
 
-function cloneVertices(vertices) {
+export function cloneVertices(vertices) {
   vertices = vertices.map((vertex) => vertex.clone());
 
   return vertices;
 }
 
-function calculateEdges(vertices, Edge) {
+export function calculateEdges(vertices, Edge) {
   const edges = vertices.map((vertex, index) => {
     const startIndex = index, ///
           endIndex = (startIndex + 1) % VERTICES_LENGTH,
@@ -36,13 +36,13 @@ function calculateEdges(vertices, Edge) {
   return edges;
 }
 
-function calculateNormal(vertices, Normal) {
+export function calculateNormal(vertices, Normal) {
   const normal = Normal.fromVertices(vertices);
 
   return normal;
 }
 
-function calculateArea(vertices) {
+export function calculateArea(vertices) {
   const firstVertex = first(vertices),
         secondVertex = second(vertices),
         thirdVertex = third(vertices),
@@ -55,12 +55,3 @@ function calculateArea(vertices) {
 
   return area;
 }
-
-module.exports = {
-  cloneEdges,
-  cloneNormal,
-  cloneVertices,
-  calculateEdges,
-  calculateNormal,
-  calculateArea
-};

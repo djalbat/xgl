@@ -4,7 +4,7 @@ import { first, second } from "../utilities/array";
 import { add3, subtract3, scale3 } from "../maths/vector";
 import { isApproximatelyEqualToZero } from "../utilities/approximate";
 
-function calculateIntersection(edge, firstPositionComponent) {
+export function calculateIntersection(edge, firstPositionComponent) {
   let intersection = null;
 
   const edgeNonParallel = isEdgeNonParallel(edge);
@@ -21,7 +21,7 @@ function calculateIntersection(edge, firstPositionComponent) {
   return intersection;
 }
 
-function calculateNonNullIntersections(intersections) {
+export function calculateNonNullIntersections(intersections) {
   const nonNullIntersections = intersections.reduce((nonNullIntersections, intersection) => {
     if (intersection !== null) {
       const nonNullIntersection = intersection; ///
@@ -35,7 +35,7 @@ function calculateNonNullIntersections(intersections) {
   return nonNullIntersections;
 }
 
-function calculateNullIntersectionIndex(intersections) {
+export function calculateNullIntersectionIndex(intersections) {
   const nullIntersectionIndex = intersections.reduce((nullIntersectionIndex, intersection, index) => {
     if (nullIntersectionIndex === null) {
       if (intersection === null) {
@@ -49,7 +49,7 @@ function calculateNullIntersectionIndex(intersections) {
   return nullIntersectionIndex;
 }
 
-function calculateNonNullIntersectionIndex(intersections) {
+export function calculateNonNullIntersectionIndex(intersections) {
   const nullIntersectionIndex = intersections.reduce((nullIntersectionIndex, intersection, index) => {
     if (nullIntersectionIndex === null) {
       if (intersection !== null) {
@@ -63,21 +63,13 @@ function calculateNonNullIntersectionIndex(intersections) {
   return nullIntersectionIndex;
 }
 
-function calculateIntermediateVertexPosition(startVertexPosition, endVertexPosition, intersection) {
+export function calculateIntermediateVertexPosition(startVertexPosition, endVertexPosition, intersection) {
   const extent = subtract3(endVertexPosition, startVertexPosition),
         offset = scale3(extent, intersection),
         intermediateVertexPosition = add3(startVertexPosition, offset);
 
   return intermediateVertexPosition;
 }
-
-module.exports = module.exports = {
-  calculateIntersection,
-  calculateNonNullIntersections,
-  calculateNullIntersectionIndex,
-  calculateNonNullIntersectionIndex,
-  calculateIntermediateVertexPosition
-};
 
 function isEdgeNonParallel(edge) {
   const edgeExtent = edge.getExtent(),

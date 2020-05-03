@@ -1,7 +1,8 @@
 "use strict";
 
-const samplerName = "uSampler",
-      fragmentShaderSource = new String(`
+export const samplerName = "uSampler";
+
+const fragmentShaderSource = new String(`
         
         uniform sampler2D ${samplerName};
 
@@ -17,8 +18,4 @@ const samplerName = "uSampler",
         
       `);
 
-Object.assign(fragmentShaderSource, {
-  samplerName
-});
-
-module.exports = fragmentShaderSource;
+export default fragmentShaderSource;

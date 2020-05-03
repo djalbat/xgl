@@ -5,9 +5,9 @@ import { isApproximatelyEqualToOne } from "../utilities/approximate";
 import { first, second, third, fourth } from "../utilities/array";
 import { calculateHalfAngleCosine, calculateHalfAngleSine } from "../utilities/angle";
 
-function rotateImaginaryQuaternion(imaginaryQuaternion, rotationQuaternion, inverseRotationQuaternion) { return hamiltonProduct(hamiltonProduct(rotationQuaternion, imaginaryQuaternion), inverseRotationQuaternion); }
+export function rotateImaginaryQuaternion(imaginaryQuaternion, rotationQuaternion, inverseRotationQuaternion) { return hamiltonProduct(hamiltonProduct(rotationQuaternion, imaginaryQuaternion), inverseRotationQuaternion); }
 
-function calculateInverseRotationQuaternion(rotationQuaternion) {
+export function calculateInverseRotationQuaternion(rotationQuaternion) {
   const rotationQuaternionComponents = rotationQuaternion,  ///
         firstRotationQuaternionComponent = first(rotationQuaternionComponents),
         secondRotationQuaternionComponent = second(rotationQuaternionComponents),
@@ -23,13 +23,13 @@ function calculateInverseRotationQuaternion(rotationQuaternion) {
   return inverseRotationQuaternion;
 }
 
-function calculateForwardsRotationQuaternion(rotationQuaternion) {
+export function calculateForwardsRotationQuaternion(rotationQuaternion) {
   const forwardsRotationQuaternion = rotationQuaternion;  ///
 
   return forwardsRotationQuaternion;
 }
 
-function calculateBackwardsRotationQuaternion(rotationQuaternion) {
+export function calculateBackwardsRotationQuaternion(rotationQuaternion) {
   const inverseRotationQuaternion = calculateInverseRotationQuaternion(rotationQuaternion),
         backwardsRotationQuaternion = inverseRotationQuaternion;  ///
 
@@ -37,7 +37,7 @@ function calculateBackwardsRotationQuaternion(rotationQuaternion) {
 
 }
 
-function calculateArbitraryRotationQuaternion(normal) {
+export function calculateArbitraryRotationQuaternion(normal) {
   const extent = normal.getExtent(),
         unitNormal = extent,  ///
         zAxis = [ 0, 0, 1 ],
@@ -66,7 +66,7 @@ function calculateArbitraryRotationQuaternion(normal) {
   return arbitraryRotationQuaternion;
 }
 
-function calculateRotationAboutZAxisQuaternion(maskingEdge) {
+export function calculateRotationAboutZAxisQuaternion(maskingEdge) {
   const maskingEdgeExtent = maskingEdge.getExtent(),
         unitMaskingEdgeExtent = normalise3(maskingEdgeExtent),
         unitMaskingEdgeExtentComponents = unitMaskingEdgeExtent,  ///
@@ -87,15 +87,6 @@ function calculateRotationAboutZAxisQuaternion(maskingEdge) {
 
   return rotationAboutZAxisQuaternion;
 }
-
-module.exports = {
-  rotateImaginaryQuaternion,
-  calculateInverseRotationQuaternion,
-  calculateForwardsRotationQuaternion,
-  calculateBackwardsRotationQuaternion,
-  calculateArbitraryRotationQuaternion,
-  calculateRotationAboutZAxisQuaternion
-};
 
 function hamiltonProduct(quaternionA, quaternionB) {
   const a1 = quaternionA[0],

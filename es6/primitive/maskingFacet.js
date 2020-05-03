@@ -8,7 +8,7 @@ import { push, separate } from "../utilities/array";
 import { VERTICES_LENGTH } from "../constants";
 import { calculateForwardsRotationQuaternion, calculateArbitraryRotationQuaternion, calculateBackwardsRotationQuaternion } from "../utilities/quaternion";
 
-class MaskingFacet {
+export default class MaskingFacet {
   constructor(maskingEdges, verticalLines, forwardsRotationQuaternion, backwardsRotationQuaternion) {
     this.maskingEdges = maskingEdges;
     this.verticalLines = verticalLines;
@@ -96,8 +96,6 @@ class MaskingFacet {
     return maskingFacet;
   }
 }
-
-module.exports = MaskingFacet;
 
 function calculateMaskingEdges(vertices) {
   const maskingEdges = vertices.map((vertex, index) => {
