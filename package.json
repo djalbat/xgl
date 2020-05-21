@@ -1,7 +1,7 @@
 {
   "name": "xgl",
   "author": "James Smith",
-  "version": "1.5.51",
+  "version": "1.5.52",
   "license": "MIT, Anti-996",
   "homepage": "https://github.com/djalbat/xgl",
   "description": "Makes use of JSX to leverage WebGL.",
@@ -34,8 +34,8 @@
     "incremental-debug": "npm run watchful incremental -- --debug",
     "build": "npm run clean && npm run batch",
     "build-debug": "npm run clean && npm run batch-debug",
-    "watch": "npm run clean && npm run batch && concurrently 'npm run incremental' 'npm run lively'",
-    "watch-debug": "npm run clean && npm run batch-debug && concurrently 'npm run incremental-debug' 'npm run lively'"
+    "watch": "npm run clean && npm run batch && concurrently -k 'npm run incremental' 'npm run lively'",
+    "watch-debug": "npm run clean && npm run batch-debug && concurrently -k 'npm run incremental-debug' 'npm run lively'"
   },
   "main": "./lib/index.js"
 }
