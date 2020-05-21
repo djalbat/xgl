@@ -235,7 +235,7 @@ const pyramidExample = () => {
   });
 };
 
-module.exports = pyramidExample;
+export default pyramidExample;
 
 function preloadImageMap(callback) {
   const { imageMapURI } = configuration,
@@ -418,7 +418,7 @@ A mask has also been included in this example. Masking works with tiling without
 
 <img src="https://github.com/djalbat/XGL/blob/master/assets/tiling_example.png" width="480" height="auto">
 
-Note that the floorboards texture works well whereas the edges of paving texture are out of alignment. To find textures that are suitable for tiling, type something like 'seamless floorboards texture' into Google images, rather than just 'paving texture'.
+Note that the floorboards texture works well whereas the edges of paving texture are out of alignment. To find textures that are suitable for tiling, type something like "seamless floorboards texture" into Google images, rather than just "paving texture".
 
 It is reasonable to ask, if loading images directly allows them to be tiled and at the same time does away with the need for an image map, why choose the latter? The reason is that there is limit on the number images that can be passed to a `Part` element. This is not a drawback of XGL but WebGL, or rather OpenGL. The number of images that texture renderers must support is only 8, although admittedly on modern systems this number is likely to be in the region of hundreds. Also bear in mind that individual images all have to be loaded over a network and this may become problematic for large numbers of them. Since the work of creating image maps is done for you, image maps are recommended unless you need tiling.
 
