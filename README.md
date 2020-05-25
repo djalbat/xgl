@@ -14,7 +14,7 @@ You can clone the repository with [Git](https://git-scm.com/)...
 
     npm install
 
-## Tutorial
+## Usage
 
 The examples are available via a small [Express](https://expressjs.com/) application that makes use of [XGL Server](https://github.com/djalbat/xgl-server). Once the dependencies are installed, this can be launched with the following command from the root of the repository:
 
@@ -215,7 +215,7 @@ This example utilities the image map provided by the small Express application, 
 
 </script>
 ```
-As explained in the XGL Server tutorial, assigning a `__configuration__` property to the global `window` object makes its values accessible to the bundled application running in the browser. With the image map URI and corresponding JSON to hand, the pyramid example can load the image map and pass both that and the JSON to any `Part` element that uses textures:
+As explained in the XGL Server usage section, assigning a `__configuration__` property to the global `window` object makes its values accessible to the bundled application running in the browser. With the image map URI and corresponding JSON to hand, the pyramid example can load the image map and pass both that and the JSON to any `Part` element that uses textures:
 
 ```
 const pyramidExample = () => {
