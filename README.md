@@ -22,7 +22,7 @@ The examples are available via a small [Express](https://expressjs.com/) applica
 node ./bin/example/main.js
 ```
 
-The index page for the examples will then be available at http://localhost:8000. You can compile the examples yourself, see the section on compiling from source near to the end.
+The index page for the examples will then be available at http://localhost:8000. You can compile the examples yourself, see the section on building near to the end.
 
 ### The simple example
 
@@ -422,7 +422,7 @@ Note that the floorboards texture works well whereas the edges of paving texture
 
 It is reasonable to ask, if loading images directly allows them to be tiled and at the same time does away with the need for an image map, why choose the latter? The reason is that there is limit on the number images that can be passed to a `Part` element. This is not a drawback of XGL but WebGL, or rather OpenGL. The number of images that texture renderers must support is only 8, although admittedly on modern systems this number is likely to be in the region of hundreds. Also bear in mind that individual images all have to be loaded over a network and this may become problematic for large numbers of them. Since the work of creating image maps is done for you, image maps are recommended unless you need tiling.
 
-## Cameras
+### Cameras
 
 Two cameras come as standard, the design camera and the gaming camera.
 
@@ -446,7 +446,7 @@ The gaming camera allows you to freely move around around a scene. If you hold t
 ```
 You can create your own cameras by extending the `Camera` class, with the source for the gaming and design cameras being a good place to start.
 
-## Useful features
+### Useful features
 
 You can hide any elements bar `Scene` elements , including masks and parts, by adding a `hidden` attribute. This saves commenting out or removing elements during development. For example:
 ```
