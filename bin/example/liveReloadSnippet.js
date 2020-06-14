@@ -14,7 +14,7 @@ const liveReloadSnippet = `
       }
     };
   
-    xmlHttpRequest.open("GET", "http://localhost:3000");
+    xmlHttpRequest.open("GET", "http://localhost:3333");
   
     xmlHttpRequest.send();
   

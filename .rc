@@ -2,7 +2,7 @@
   "environments": [
     {
       "name": "development",
-      "port": 8000
+      "port": 8888
     }
   ]
 }
