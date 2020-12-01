@@ -1,7 +1,7 @@
 {
   "name": "xgl",
   "author": "James Smith",
-  "version": "1.5.58",
+  "version": "1.5.59",
   "license": "MIT, Anti-996",
   "homepage": "https://github.com/djalbat/xgl",
   "description": "Makes use of JSX to leverage WebGL.",
@@ -19,15 +19,13 @@
     "@babel/core": "^7.8.6",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-transform-react-jsx": "^7.8.3",
-    "@babel/preset-env": "^7.8.6",
+    "@babel/preset-env": "^7.12.7",
     "browserify": "^16.5.0",
-    "concurrently": "^5.1.0",
     "lively-cli": "^1.0.2",
     "watchful-cli": "^1.4.1"
   },
   "scripts": {
     "clean": "rm -rf ./lib",
-    "lively": "lively --port=3333 --watch-pattern=./public/lib/example.js --allowed-origin=http://localhost:8888",
     "watchful": "watchful --source-directory=./es6 --temp-directory=./lib --entry-file=example.js --bundle-file=./public/lib/example.js --pause=100",
     "batch": "npm run watchful batch --",
     "batch-debug": "npm run watchful batch -- --debug",
@@ -35,8 +33,8 @@
     "incremental-debug": "npm run watchful incremental -- --debug",
     "build": "npm run clean && npm run batch",
     "build-debug": "npm run clean && npm run batch-debug",
-    "watch": "npm run clean && npm run batch && concurrently -k 'npm run incremental' 'npm run lively'",
-    "watch-debug": "npm run clean && npm run batch-debug && concurrently -k 'npm run incremental-debug' 'npm run lively'"
+    "watch": "npm run clean && npm run batch && npm run incremental",
+    "watch-debug": "npm run clean && npm run batch-debug && npm run incremental-debug"
   },
   "main": "./lib/index.js"
 }

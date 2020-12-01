@@ -1,6 +1,7 @@
 "use strict";
 
-const express = require("express"),
+const lively = require("lively-cli"), ///
+      express = require("express"),
       necessary = require("necessary");
 
 const routes = require("./routes"),
@@ -8,17 +9,19 @@ const routes = require("./routes"),
 
 const { miscellaneousUtilities } = necessary,
       { onETX, rc } = miscellaneousUtilities,
-      { argv, exit } = process,
+      { createReloadHandler } = lively,
       { imageMap, indexPage, examplePage } = routes,
-      { IMAGE_MAP_URI, INDEX_PAGE_URI, EXAMPLE_PAGE_URI, PUBLIC_DIRECTORY_PATH } = constants;
+      { RELOAD_PATH, WATCH_PATTERN, IMAGE_MAP_URI, INDEX_PAGE_URI, EXAMPLE_PAGE_URI, PUBLIC_DIRECTORY_PATH } = constants;
 
-rc(argv);
+rc(process.argv);
 
 const { port } = rc,
       server = express(), ///
-      publicDirectoryPath = PUBLIC_DIRECTORY_PATH,
-      staticRouter = express.static(publicDirectoryPath),
-      defaultRouter = express.Router();
+      staticRouter = express.static(PUBLIC_DIRECTORY_PATH),
+      defaultRouter = express.Router(),
+      reloadHandler = createReloadHandler(WATCH_PATTERN);
+
+defaultRouter.get(RELOAD_PATH, reloadHandler);
 
 defaultRouter.get(IMAGE_MAP_URI, imageMap);
 
@@ -26,10 +29,10 @@ defaultRouter.get(INDEX_PAGE_URI, indexPage);
 
 defaultRouter.get(EXAMPLE_PAGE_URI, examplePage);
 
-server.use(defaultRouter);
-
 server.use(staticRouter);
+
+server.use(defaultRouter);
 
 server.listen(port);
 
-onETX(exit);
+onETX(process.exit);
