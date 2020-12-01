@@ -1,6 +1,6 @@
 "use strict";
 
-const xglServer = require("xgl-server"),
+const server = require("xgl-server"), ///
       necessary = require("necessary");
 
 const constants = require("./constants"),
@@ -8,7 +8,7 @@ const constants = require("./constants"),
 
 const { templateUtilities } = necessary,
       { parseFile } = templateUtilities,
-      { imageMapPNG, imageMapJSON } = xglServer,
+      { imageMapPNG, imageMapJSON } = server,
       { IMAGE_MAP_URI,
         OVERLAY_IMAGE_SIZE,
         INDEX_PAGE_FILE_NAME,
