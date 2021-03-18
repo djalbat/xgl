@@ -495,4 +495,3 @@ If you have an example running in a browser, it will be reloaded should make cha
 ## Contact
 
 - james.smith@djalbat.com
-- http://djalbat.com
