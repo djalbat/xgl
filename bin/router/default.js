@@ -1,24 +1,22 @@
 "use strict";
 
-const lively = require("lively-cli"), ///
-      express = require("express");
+const express = require("express");
 
-const routes = require("../routes"),
-      constants = require("../constants");
+const { createLiveReloadHandler } = require("lively-cli");
 
-const { createReloadHandler } = lively,
-      { imageMap, indexPage, examplePage } = routes,
-      { RELOAD_PATH, WATCH_PATTERN, IMAGE_MAP_URI, INDEX_PAGE_URI, EXAMPLE_PAGE_URI } = constants;
+const { WATCH_PATTERN } = require("../constants"),
+      { imageMap, indexPage, examplePage } = require("../routes"),
+      { LIVE_RELOAD_PATH, IMAGE_MAP_PATH, INDEX_PAGE_PATH, EXAMPLE_PAGE_PATH } = require("../paths");
 
 const defaultRouter = express.Router(),
-      reloadHandler = createReloadHandler(WATCH_PATTERN);
+      liveReloadHandler = createLiveReloadHandler(WATCH_PATTERN);
 
-defaultRouter.get(RELOAD_PATH, reloadHandler);
+defaultRouter.get(LIVE_RELOAD_PATH, liveReloadHandler);
 
-defaultRouter.get(IMAGE_MAP_URI, imageMap);
+defaultRouter.get(IMAGE_MAP_PATH, imageMap);
 
-defaultRouter.get(INDEX_PAGE_URI, indexPage);
+defaultRouter.get(INDEX_PAGE_PATH, indexPage);
 
-defaultRouter.get(EXAMPLE_PAGE_URI, examplePage);
+defaultRouter.get(EXAMPLE_PAGE_PATH, examplePage);
 
 module.exports = defaultRouter;

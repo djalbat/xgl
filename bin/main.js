@@ -1,13 +1,13 @@
 "use strict";
 
-const express = require("express"),
-      necessary = require("necessary");
+const express = require("express");
+
+const { configurationUtilities } = require("necessary");
 
 const staticRouter = require("./router/static"),
       defaultRouter = require("./router/default");
 
-const { miscellaneousUtilities } = necessary,
-      { onETX, rc } = miscellaneousUtilities;
+const { rc } = configurationUtilities;
 
 rc(process.argv);
 
@@ -19,5 +19,3 @@ server.use(staticRouter);
 server.use(defaultRouter);
 
 server.listen(port);
-
-onETX(process.exit);
