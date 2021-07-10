@@ -1,5 +1,7 @@
 "use strict";
 
+import "./xgl";
+
 import cubeExample from "./example/cube";
 import simpleExample from "./example/simple";
 import maskingExample from "./example/masking";

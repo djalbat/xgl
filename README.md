@@ -152,7 +152,7 @@ Masking is something specific to XGL, it is not part of WebGL. A screenshot of t
 Here a cube has been masked by a cube that it contains, that has itself been masked by a cube that it contains. The listing below is an abridged version of the example, with only two nested cubes rather than three:
 
 ```
-const { Canvas, Scene, Mask, Part, Camera } = xgl;
+const { React, Canvas, Scene, Mask, Part, Camera } = xgl;
 
 const canvas = new Canvas();
 

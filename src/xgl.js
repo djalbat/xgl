@@ -1,6 +1,6 @@
 "use strict";
 
-import React from "./react";
+import { React } from "./index"; ////
 
 Object.assign(window, {
   React

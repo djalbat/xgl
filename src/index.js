@@ -1,7 +1,6 @@
 'use strict';
 
-import "./xgl";
-
+export { default as React } from "./react";
 export { default as Canvas } from "./canvas";
 export { default as Mask } from "./element/mask";
 export { default as Part } from "./element/part";

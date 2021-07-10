@@ -14,7 +14,7 @@ const { imageMapPNG, imageMapJSON } = require("xgl-server"),
 
 const { parseFile } = templateUtilities;
 
-function imageMap(request, response) {
+function imageMapHandler(request, response) {
   const names = [],
         overlayImageSize = OVERLAY_IMAGE_SIZE,  ///
         imageDirectoryPath = IMAGE_DIRECTORY_PATH;  ///
@@ -22,7 +22,7 @@ function imageMap(request, response) {
   imageMapPNG(names, imageDirectoryPath, overlayImageSize, response);
 }
 
-function indexPage(request, response) {
+function indexPageHandler(request, response) {
   const templateDirectoryPath = TEMPLATE_DIRECTORY_PATH,  ///
         indexPageFileName = INDEX_PAGE_FILE_NAME, ///
         filePath = `${templateDirectoryPath}/${indexPageFileName}`,
@@ -35,7 +35,7 @@ function indexPage(request, response) {
   response.end(html);
 }
 
-function examplePage(request, response) {
+function examplePageHandler(request, response) {
   const names = [],
         overlayImageSize = OVERLAY_IMAGE_SIZE,  ///
         examplePageFileName = EXAMPLE_PAGE_FILE_NAME, ///
@@ -66,7 +66,7 @@ function examplePage(request, response) {
 }
 
 module.exports = {
-  imageMap,
-  indexPage,
-  examplePage
+  imageMapHandler,
+  indexPageHandler,
+  examplePageHandler
 };
