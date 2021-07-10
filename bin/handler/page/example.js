@@ -2,45 +2,23 @@
 
 const { templateUtilities } = require("necessary");
 
-const { imageMapPNG, imageMapJSON } = require("xgl-server"),
-      { IMAGE_MAP_PATH } = require("./paths"),
+const { imageMapJSON } = require("xgl-server"),
+      { IMAGE_MAP_PATH } = require("../../paths"),
       { OVERLAY_IMAGE_SIZE,
-        INDEX_PAGE_FILE_NAME,
-        EXAMPLE_PAGE_FILE_NAME,
         IMAGE_DIRECTORY_URI,
         IMAGE_DIRECTORY_PATH,
+        EXAMPLE_PAGE_FILE_NAME,
         TEMPLATE_DIRECTORY_PATH,
-        TEXT_HTML_CHARSET_UTF8_CONTENT_TYPE } = require("./constants");
+        TEXT_HTML_CHARSET_UTF8_CONTENT_TYPE } = require("../../constants");
 
 const { parseFile } = templateUtilities;
-
-function imageMapHandler(request, response) {
-  const names = [],
-        overlayImageSize = OVERLAY_IMAGE_SIZE,  ///
-        imageDirectoryPath = IMAGE_DIRECTORY_PATH;  ///
-
-  imageMapPNG(names, imageDirectoryPath, overlayImageSize, response);
-}
-
-function indexPageHandler(request, response) {
-  const templateDirectoryPath = TEMPLATE_DIRECTORY_PATH,  ///
-        indexPageFileName = INDEX_PAGE_FILE_NAME, ///
-        filePath = `${templateDirectoryPath}/${indexPageFileName}`,
-        args = {},
-        html = parseFile(filePath, args),
-        contentType = TEXT_HTML_CHARSET_UTF8_CONTENT_TYPE;
-
-  response.writeHead(200, { "Content-Type": contentType });
-
-  response.end(html);
-}
 
 function examplePageHandler(request, response) {
   const names = [],
         overlayImageSize = OVERLAY_IMAGE_SIZE,  ///
-        examplePageFileName = EXAMPLE_PAGE_FILE_NAME, ///
         imageDirectoryURI = IMAGE_DIRECTORY_URI, ///
         imageDirectoryPath = IMAGE_DIRECTORY_PATH,  ///
+        examplePageFileName = EXAMPLE_PAGE_FILE_NAME, ///
         templateDirectoryPath = TEMPLATE_DIRECTORY_PATH;  ///
 
   imageMapJSON(names, imageDirectoryPath, overlayImageSize, (imageMapJSON) => {
@@ -65,8 +43,4 @@ function examplePageHandler(request, response) {
   });
 }
 
-module.exports = {
-  imageMapHandler,
-  indexPageHandler,
-  examplePageHandler
-};
+module.exports = examplePageHandler;

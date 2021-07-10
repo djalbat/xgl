@@ -4,8 +4,11 @@ const express = require("express");
 
 const { createLiveReloadHandler } = require("lively-cli");
 
+const imageMapHandler = require("../handler/imageMap"),
+      indexPageHandler = require("../handler/page/index"),
+      examplePageHandler = require("../handler/page/example");
+
 const { WATCH_PATTERN } = require("../constants"),
-      { imageMapHandler, indexPageHandler, examplePageHandler } = require("../handlers"),
       { LIVE_RELOAD_PATH, IMAGE_MAP_PATH, INDEX_PAGE_PATH, EXAMPLE_PAGE_PATH } = require("../paths");
 
 const defaultRouter = express.Router(),
