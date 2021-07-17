@@ -1,7 +1,7 @@
 {
   "name": "xgl",
   "author": "James Smith",
-  "version": "1.6.6",
+  "version": "2.0.0",
   "license": "MIT, Anti-996",
   "homepage": "https://github.com/djalbat/xgl",
   "description": "Makes use of JSX to leverage WebGL.",
@@ -12,7 +12,7 @@
   "dependencies": {
     "express": "^4.16.4",
     "necessary": "^7.1.10",
-    "xgl-server": "^2.0.13"
+    "xgl-server": "^4.0.0"
   },
   "devDependencies": {
     "@swc/core": "^1.2.52",
