@@ -1,12 +1,12 @@
 "use strict";
 
-const WATCH_PATTERN = "./static/lib/example.js",
+const WATCH_PATTERN = "./example.js",
       OVERLAY_IMAGE_SIZE = 128,
       INDEX_PAGE_FILE_NAME = "index.html",
       EXAMPLE_PAGE_FILE_NAME = "example.html",
       IMAGE_DIRECTORY_URI = "image",
-      IMAGE_DIRECTORY_PATH = "static/image",
-      STATIC_DIRECTORY_PATH = "static",
+      IMAGE_DIRECTORY_PATH = "image",
+      STATIC_DIRECTORY_PATH = ".",
       TEMPLATE_DIRECTORY_PATH = "template",
       TEXT_HTML_CHARSET_UTF8_CONTENT_TYPE = "text/html; charset=utf-8";
 

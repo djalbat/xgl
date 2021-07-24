@@ -15,9 +15,9 @@ const pyramidExample = () => {
 
       <Scene canvas={canvas}>
         <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
-          <Pyramid />
+          <Pyramid/>
         </Part>
-        <GamingCamera />
+        <GamingCamera/>
       </Scene>
 
     );

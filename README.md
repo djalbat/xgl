@@ -64,7 +64,7 @@ const simpleExample = () =>
     <Part>
       <ColouredSquare colour={[ 0, 0, 1 ]} />
     </Part>
-    <DesignCamera />
+    <DesignCamera/>
   </Scene>
 
 ;
@@ -165,7 +165,7 @@ const maskingExample = () => {
         smallCubeMask =
 
           <Mask>
-            <SmallCube />
+            <SmallCube/>
           </Mask>
 
         ,
@@ -179,9 +179,9 @@ const maskingExample = () => {
 
     <Scene canvas={canvas}>
       <Part>
-        <MediumCube />
+        <MediumCube/>
       </Part>
-      <DesignCamera />
+      <DesignCamera/>
     </Scene>
 
   );
@@ -228,9 +228,9 @@ const pyramidExample = () => {
 
       <Scene canvas={canvas}>
         <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
-          <Pyramid />
+          <Pyramid/>
         </Part>
-        <DesignCamera />
+        <DesignCamera/>
       </Scene>
 
     );
@@ -259,7 +259,7 @@ The `Pyramid` element is a compound element consisting of four sides, three of w
 ```
 const Pyramid = (properties) => [
 
-  <Side />,
+  <Side/>,
   <Side rotations={[ 0,  90, 0 ]} />,
   <Side rotations={[ 0, 180, 0 ]} />,
   <Side rotations={[ 0, 270, 0 ]} />,
@@ -385,7 +385,7 @@ const tilingExample = () => {
           <TexturedQuadrangle position={[ 0, 0, 0 ]} imageName={"floorboards.jpg"} mask={mask} />
           <TexturedQuadrangle position={[ -0.5, -0.5, -0.5 ]} imageName={"paving.jpg"} mask={mask} />
         </Part>
-        <DesignCamera />
+        <DesignCamera/>
       </Scene>
 
     );
@@ -424,7 +424,7 @@ Note that the floorboards texture works well whereas the edges of paving texture
 
 It is reasonable to ask, if loading images directly allows them to be tiled and at the same time does away with the need for an image map, why choose the latter? The reason is that there is limit on the number images that can be passed to a `Part` element. This is not a drawback of XGL but WebGL, or rather OpenGL. The number of images that texture renderers must support is only 8, although admittedly on modern systems this number is likely to be in the region of hundreds. Also bear in mind that individual images all have to be loaded over a network and this may become problematic for large numbers of them. Since the work of creating image maps is done for you, image maps are recommended unless you need tiling.
 
-### Cameras
+## Cameras
 
 Two cameras come as standard, the design camera and the gaming camera.
 
@@ -448,15 +448,15 @@ The gaming camera allows you to freely move around around a scene. If you hold t
 ```
 You can create your own cameras by extending the `Camera` class, with the source for the gaming and design cameras being a good place to start.
 
-### Useful features
+## Useful features
 
 You can hide any elements bar `Scene` elements , including masks and parts, by adding a `hidden` attribute. This saves commenting out or removing elements during development. For example:
 ```
 <Scene canvas={canvas}>
   <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
-    <Pyramid hidden />
+    <Pyramid hidden/>
   </Part>
-  <DesignCamera />
+  <DesignCamera/>
 </Scene>
 ```
 
@@ -464,9 +464,9 @@ You can pass callbacks to `Scene` elements to keep an eye on rendering progress 
 ```
 <Scene canvas={canvas} update={update} done={done}>
   <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
-    <Pyramid />
+    <Pyramid/>
   </Part>
-  <DesignCamera />
+  <DesignCamera/>
 </Scene>
 
 function update(progress) {

@@ -15,7 +15,7 @@ const maskingExample = () => {
         smallCubeMask =
 
           <Mask>
-            <SmallCube />
+            <SmallCube/>
           </Mask>
 
         ,
@@ -27,7 +27,7 @@ const maskingExample = () => {
         mediumCubeMask =
 
           <Mask>
-            <MediumCube />
+            <MediumCube/>
           </Mask>
 
         ,
@@ -41,9 +41,9 @@ const maskingExample = () => {
 
     <Scene canvas={canvas}>
       <Part>
-        <LargeCube />
+        <LargeCube/>
       </Part>
-      <DesignCamera />
+      <DesignCamera/>
     </Scene>
 
   );

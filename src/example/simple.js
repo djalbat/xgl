@@ -12,7 +12,7 @@ const simpleExample = () =>
     <Part>
       <ColouredSquare colour={[ 0, 0, 1 ]} />
     </Part>
-    <DesignCamera />
+    <DesignCamera/>
   </Scene>
 
 ;
