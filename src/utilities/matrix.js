@@ -2,7 +2,7 @@
 
 import { scale3 } from "../maths/vector";
 import { first, second, third } from "../utilities/array";
-import { DEGREES_TO_RADIANS_SCALAR, FIELD_OF_VIEW, Z_NEAR, Z_FAR } from "../constants";
+import { DEGREES_TO_RADIANS_MULTIPLIER, FIELD_OF_VIEW, Z_NEAR, Z_FAR } from "../constants";
 import { identity4, scale4, invert4, rotate4, translate4, transpose4, perspective4 } from "../maths/matrix";
 
 export function scaleMatrixFromScale(scale) {
@@ -78,7 +78,7 @@ export function rotationsMatrixFromAngles(angles, reverseOrder = false) {
 }
 
 export function rotationsMatrixFromRotations(rotations) {
-  const scalar = DEGREES_TO_RADIANS_SCALAR,
+  const scalar = DEGREES_TO_RADIANS_MULTIPLIER,
         angles = scale3(rotations, scalar),
         rotationsMatrix = rotationsMatrixFromAngles(angles);
 

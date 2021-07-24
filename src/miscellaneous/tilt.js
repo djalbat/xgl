@@ -2,7 +2,7 @@
 
 import { first, second } from "../utilities/array";
 import { add3, transform3 } from "../maths/vector";
-import { ANGLES_SCALAR, DEGREES_TO_RADIANS_SCALAR } from "../constants";
+import { ANGLES_MULTIPLIER, DEGREES_TO_RADIANS_MULTIPLIER } from "../constants";
 
 export default class Tilt {
   constructor(angles, flipped) {
@@ -36,8 +36,8 @@ export default class Tilt {
   
   updateAngles(relativeMouseCoordinates) {
     const scalar = this.flipped ?
-                     +ANGLES_SCALAR :
-                       -ANGLES_SCALAR,
+                     +ANGLES_MULTIPLIER :
+                       -ANGLES_MULTIPLIER,
           matrix = [
 
                   0, scalar, 0,
@@ -52,8 +52,8 @@ export default class Tilt {
 
   static fromInitialAnglesAndFlipped(initialAngles, flipped) {
     const scalar = flipped ?
-                     +DEGREES_TO_RADIANS_SCALAR :
-                       -DEGREES_TO_RADIANS_SCALAR,
+                     +DEGREES_TO_RADIANS_MULTIPLIER :
+                       -DEGREES_TO_RADIANS_MULTIPLIER,
           matrix = [
 
                   0, scalar, 0,

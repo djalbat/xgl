@@ -6,6 +6,7 @@ import Zoom from "../../miscellaneous/zoom";
 import Camera from "../camera";
 
 import { zero2, zero3 } from "../../maths/vector";
+import { DEFAULT_DELTA_MULTIPLIER } from "../../constants";
 import { offsetsMatrixFromOffsets,
          rotationsMatrixFromAngles,
          positionMatrixFromDistance,
@@ -14,7 +15,8 @@ import { offsetsMatrixFromOffsets,
 
 const defaultInitialAngles = zero2(),
       defaultInitialOffsets = zero3(),
-      defaultInitialDistance = 5;
+      defaultInitialDistance = 5,
+      defaultDeltaMultiplier = DEFAULT_DELTA_MULTIPLIER;
 
 export default class DesignCamera extends Camera {
   constructor(pan, tilt, zoom) {
@@ -50,11 +52,11 @@ export default class DesignCamera extends Camera {
   }
 
   static fromProperties(properties) {
-    const { initialAngles = defaultInitialAngles, initialOffsets = defaultInitialOffsets, initialDistance = defaultInitialDistance } = properties,
+    const { initialAngles = defaultInitialAngles, initialOffsets = defaultInitialOffsets, initialDistance = defaultInitialDistance, deltaMultiplier = defaultDeltaMultiplier } = properties,
           flipped = false,
-          pan = Pan.fromInitialOffsets(initialOffsets),
+          pan = Pan.fromInitialOffsetsAndDeltaMultiplier(initialOffsets, deltaMultiplier),
           tilt = Tilt.fromInitialAnglesAndFlipped(initialAngles, flipped),
-          zoom = Zoom.fromInitialDistance(initialDistance),
+          zoom = Zoom.fromInitialDistanceAndDeltaMultiplier(initialDistance, deltaMultiplier),
           designCamera = Camera.fromProperties(DesignCamera, properties, pan, tilt, zoom);
 
     return designCamera;

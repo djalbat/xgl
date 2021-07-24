@@ -1,25 +1,30 @@
 "use strict";
 
-import { DELTA_SCALAR, MINIMUM_DISTANCE } from "../constants";
+import { MINIMUM_DISTANCE } from "../constants";
 
 export default class Zoom {
-  constructor(distance) {
+  constructor(distance, deltaMultiplier) {
     this.distance = distance;
+    this.deltaMultiplier = deltaMultiplier;
   }
 
   getDistance() {
     return this.distance;
   }
 
+  getDeltaMultiplier() {
+    return this.deltaMultiplier;
+  }
+
   updateDistance(mouseWheelDelta) {
-    this.distance -= mouseWheelDelta * DELTA_SCALAR;
+    this.distance -= mouseWheelDelta * this.deltaMultiplier;
 
     this.distance = Math.max(MINIMUM_DISTANCE, this.distance);
   }
   
-  static fromInitialDistance(initialDistance) {
+  static fromInitialDistanceAndDeltaMultiplier(initialDistance, deltaMultiplier) {
     const distance = initialDistance, ///
-          zoom = new Zoom(distance);
+          zoom = new Zoom(distance, deltaMultiplier);
     
     return zoom;
   }

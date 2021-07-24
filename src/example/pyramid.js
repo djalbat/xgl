@@ -1,6 +1,6 @@
 "use strict";
 
-import { Canvas, Scene, Part, GamingCamera } from "../index";  ///
+import {Canvas, Scene, Part, GamingCamera, DesignCamera} from "../index";  ///
 
 import Pyramid from "./element/pyramid";
 import configuration from "../miscellaneous/configuration";
