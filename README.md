@@ -68,18 +68,20 @@ Note that in what follows most of the boilerplate code has been left out of the 
 To continue, the `canvas` HTML element is encapsulated by an instance of the `Canvas` class and passed as an attribute to the outermost `Scene` JSX element, which itself contains a `Camera` JSX element together with one or more `Part` JSX elements. The `Part` JSX elements contain the JSX elements that are actually rendered on the canvas, called canvas elements, in this case a single `ColouredSquare` element:
 
 ```
-const canvas = new Canvas();
+const simpleExample = () => {
+  const canvas = new Canvas();
 
-const simpleExample = () =>
+  return (
 
-  <Scene canvas={canvas}>
-    <Part>
-      <ColouredSquare colour={[ 0, 0, 1 ]} />
-    </Part>
-    <DesignCamera/>
-  </Scene>
+    <Scene canvas={canvas}>
+      <Part>
+        <ColouredSquare colour={[ 0, 0, 1 ]} />
+      </Part>
+      <DesignCamera/>
+    </Scene>
 
-;
+  );
+};
 ```
 Whilst the `Scene`, `Camera` and `Part` JSX elements are built in, you have to create the canvas elements:
 
@@ -157,41 +159,27 @@ Rotations are specified as triples giving three rotations around the x, y and z 
 
 ### The masking example
 
-Masking is something specific to XGL, it is not part of WebGL. A screenshot of the masking example is better than words:
+Masking is something specific to XGL, it is not part of WebGL.
 
 ![Masked cube](https://github.com/djalbat/XGL/blob/master/assets/masked_cube.jpg)
 
-Here a cube has been masked by a cube that it contains, that has itself been masked by a cube that it contains. The listing below is an abridged version of the example, with only two nested cubes rather than three:
+Here a cube has been masked by a cube that has itself been masked:
 
 ```
-const { React, Canvas, Scene, Mask, Part, Camera } = xgl;
-
-const canvas = new Canvas();
-
 const maskingExample = () => {
-  const SmallCube = (properties) =>
-
-          <Cube scale={[ 1/4, 1/4, 1/4 ]} />
-
-        ,
-        smallCubeMask =
-
-          <Mask>
-            <SmallCube/>
-          </Mask>
-
-        ,
-        MediumCube = (properties) =>
-
-          <Cube scale={[ 1/2, 1/2, 1/2 ]} mask={smallCubeMask} />
-
-        ;
+  const canvas = new Canvas();
 
   return (
 
     <Scene canvas={canvas}>
+      <Mask reference="quarterCube">
+        <Cube scale={[ 1/4, 1/4, 1/4 ]} />
+      </Mask>
+      <Mask reference="halfCube">
+        <Cube scale={[ 1/2, 1/2, 1/2 ]} maskReference="quarterCube"/>
+      </Mask>
       <Part>
-        <MediumCube/>
+        <Cube maskReference="halfCube" />
       </Part>
       <DesignCamera/>
     </Scene>
@@ -199,11 +187,12 @@ const maskingExample = () => {
   );
 };
 ```
+
 Here is the scene that results, with the facets coloured randomly so that each is visible:
 
 ![Masked cube facets](https://github.com/djalbat/XGL/blob/master/assets/masked_cube_facets.jpg)
 
-The small-sized cube is used to make the mask for the medium-sized cube. Each facet of the small-sized cube forms a prism that cuts through each facet of the medium-sized cube. In practice, however, most of the prisms formed from the masking element do not intersect any prism in the masked element and are quickly discarded. Nonetheless masking is computationally expensive and less than optimal. Masking the original two facets of the masked cube results in sixteen facets when half that number would be optimal. It is a cube of this form, with each face already masked, that masks the large-sized cube in the full example.
+The quarter sized cube is used to make the mask for the half sized cube which is in turn used to mask the unit-sized cube. Each facet of the small-sized cube forms a prism that cuts through each facet of the medium-sized cube. In practice, however, most of the prisms formed from the masking element do not intersect any prism in the masked element and are quickly discarded. Nonetheless masking is computationally expensive and less than optimal. Masking the original two facets of the masked cube results in sixteen facets when half that number would be optimal. It is a cube of this form, with each face already masked, that masks the large-sized cube in the full example.
 
 ### The pyramid example
 
@@ -234,7 +223,8 @@ As explained in the XGL Server usage section, assigning a `__configuration__` pr
 ```
 const pyramidExample = () => {
   preloadImageMap((imageMap) => {
-    const { imageMapJSON } = configuration;
+    const { imageMapJSON } = configuration,
+          canvas = new Canvas();
 
     return (
 
@@ -242,7 +232,7 @@ const pyramidExample = () => {
         <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
           <Pyramid/>
         </Part>
-        <DesignCamera/>
+        <GamingCamera/>
       </Scene>
 
     );
@@ -390,12 +380,17 @@ const tilingExample = () => {
   const { imageNames, imageDirectoryURI } = configuration;
 
   preloadImages(imageNames, imageDirectoryURI, (images) => {
+    const canvas = new Canvas();
+
     return (
 
-      <Scene canvas={canvas} ... >
+      <Scene canvas={canvas}>
+        <Mask reference="mask">
+          <ColouredSquare scale={[ 0.25, 0.25, 1 ]} position={[ 0.125, 0.125, 0 ]} />
+        </Mask>
         <Part images={images} imageNames={imageNames} imageTiling >
-          <TexturedQuadrangle position={[ 0, 0, 0 ]} imageName={"floorboards.jpg"} mask={mask} />
-          <TexturedQuadrangle position={[ -0.5, -0.5, -0.5 ]} imageName={"paving.jpg"} mask={mask} />
+          <TexturedQuadrangle position={[ 0, 0, 0 ]} imageName="floorboards.jpg" maskReference="mask" />
+          <TexturedQuadrangle position={[ -0.5, -0.5, -0.5 ]} imageName="paving.jpg" maskReference="mask" />
         </Part>
         <DesignCamera/>
       </Scene>

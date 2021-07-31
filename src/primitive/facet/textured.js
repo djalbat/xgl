@@ -7,7 +7,7 @@ import Vertex from "../vertex";
 
 import { permute } from "../../utilities/array";
 import { isApproximatelyEqualToZero } from "../../utilities/approximate";
-import { verticesFromCoordinateTuplesAndIndexTuple } from "../../utilities/vertices";
+import { verticesFromCoordinateTuplesIndexTupleAndMagnification } from "../../utilities/vertices";
 import { cloneEdges, cloneNormal, cloneVertices, calculateArea, calculateEdges, calculateNormal } from "../../utilities/facet";
 import { cloneTextureCoordinateTuples, calculateMappedTextureCoordinateTuples, calculateAdjustedTextureCoordinateTuples } from "../../utilities/texture";
 
@@ -18,22 +18,6 @@ export default class TexturedFacet extends Facet {
     this.imageName = imageName;
 
     this.textureCoordinateTuples = textureCoordinateTuples;
-  }
-
-  clone() {
-    let vertices = this.getVertices(),
-        normal = this.getNormal(),
-        edges = this.getEdges();
-
-    vertices = cloneVertices(vertices);
-    normal = cloneNormal(normal);
-    edges = cloneEdges(edges);
-
-    const imageName = this.imageName, ///
-          textureCoordinateTuples = cloneTextureCoordinateTuples(this.textureCoordinateTuples),
-          texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinateTuples);
-
-    return texturedFacet;
   }
 
   getImageName() {
@@ -79,10 +63,26 @@ export default class TexturedFacet extends Facet {
     return texturedFacet;
   }
 
-  static fromTextureCoordinateTuplesCoordinatesTuplesIndexTupleAndImageName(textureCoordinateTuples, coordinateTuples, indexTuple, imageName) {
+  clone() {
+    let vertices = this.getVertices(),
+        normal = this.getNormal(),
+        edges = this.getEdges();
+
+    vertices = cloneVertices(vertices);
+    normal = cloneNormal(normal);
+    edges = cloneEdges(edges);
+
+    const imageName = this.imageName, ///
+          textureCoordinateTuples = cloneTextureCoordinateTuples(this.textureCoordinateTuples),
+          texturedFacet = new TexturedFacet(vertices, normal, edges, imageName, textureCoordinateTuples);
+
+    return texturedFacet;
+  }
+
+  static fromTextureCoordinateTuplesCoordinatesTuplesIndexTupleImageNameAndMagnification(textureCoordinateTuples, coordinateTuples, indexTuple, imageName, magnification) {
     let texturedFacet = null;
 
-    const vertices = verticesFromCoordinateTuplesAndIndexTuple(coordinateTuples, indexTuple, Vertex),
+    const vertices = verticesFromCoordinateTuplesIndexTupleAndMagnification(coordinateTuples, indexTuple, magnification, Vertex),
           area = calculateArea(vertices),
           areaApproximatelyEqualToZero = isApproximatelyEqualToZero(area),
           largeEnough = !areaApproximatelyEqualToZero;  ///

@@ -4,12 +4,22 @@ import Element from "../element";
 import MaskingFacet from "../primitive/maskingFacet";
 
 import { push } from "../utilities/array";
+import { DEFAULT_HIDDEN } from "../constants";
 
 export default class Mask extends Element {
-  constructor(hidden) {
+  constructor(hidden, reference) {
     super();
 
     this.hidden = hidden;
+    this.reference = reference;
+  }
+
+  getHidden() {
+    return this.hidden;
+  }
+
+  getReference() {
+    return this.reference;
   }
 
   retrieveMaskingFacets() {
@@ -33,19 +43,17 @@ export default class Mask extends Element {
     childElements.forEach((childElement) => maskElement(childElement, maskingFacets));
   }
 
-  initialise() {
+  initialise(magnification, masks) {
     const childElements = this.getChildElements();
 
-    childElements.forEach((childElement) => childElement.createFacets(this.hidden));
+    childElements.forEach((childElement) => childElement.createFacets(this.hidden, magnification));
 
-    childElements.forEach((childElement) => childElement.amendFacets());
+    childElements.forEach((childElement) => childElement.amendFacets(masks));
   }
 
   static fromProperties(properties) {
-    const { hidden = false } = properties,
-          mask = Element.fromProperties(Mask, properties, hidden);
-
-    mask.initialise();
+    const { reference, hidden = DEFAULT_HIDDEN } = properties,
+          mask = Element.fromProperties(Mask, properties, hidden, reference);
 
     return mask;
   }

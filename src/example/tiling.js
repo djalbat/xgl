@@ -9,25 +9,21 @@ import TexturedQuadrangle from "./element/texturedQuadrangle";
 
 const { forEach } = asynchronousUtilities;
 
-const canvas = new Canvas(),
-      mask =
-
-        <Mask>
-          <ColouredSquare scale={[ 0.25, 0.25, 1 ]} position={[ 0.125, 0.125, 0 ]} />
-        </Mask>
-
-      ;
-
 const tilingExample = () => {
   const { imageNames, imageDirectoryURI } = configuration;
 
   preloadImages(imageNames, imageDirectoryURI, (images) => {
+    const canvas = new Canvas();
+
     return (
 
       <Scene canvas={canvas}>
+        <Mask reference="mask">
+          <ColouredSquare scale={[ 0.25, 0.25, 1 ]} position={[ 0.125, 0.125, 0 ]} />
+        </Mask>
         <Part images={images} imageNames={imageNames} imageTiling >
-          <TexturedQuadrangle position={[ 0, 0, 0 ]} imageName="floorboards.jpg" mask={mask} />
-          <TexturedQuadrangle position={[ -0.5, -0.5, -0.5 ]} imageName="paving.jpg" mask={mask} />
+          <TexturedQuadrangle position={[ 0, 0, 0 ]} imageName="floorboards.jpg" maskReference="mask" />
+          <TexturedQuadrangle position={[ -0.5, -0.5, -0.5 ]} imageName="paving.jpg" maskReference="mask" />
         </Part>
         <DesignCamera/>
       </Scene>
