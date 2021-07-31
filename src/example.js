@@ -8,6 +8,8 @@ import maskingExample from "./example/masking";
 import pyramidExample from "./example/pyramid";
 import tilingExample from "./example/tiling";
 
+import houseExample from "./example/house";
+
 const example = window.location.search.substring(1);  ///
 
 switch (example) {
@@ -29,5 +31,9 @@ switch (example) {
 
   case "tiling":
     tilingExample();
+    break;
+
+  case "house":
+    houseExample();
     break;
 }
