@@ -11,8 +11,8 @@ XGL provides the *programmatic* means to create 3D scenes. It puts an almost opa
   * [The masking example](#the-masking-example)
   * [The pyramid example](#the-pyramid-example)
   * [The tiling example](#the-tiling-example)
-* [Cameras](#cameras)
 * [Useful features](#useful-features)
+* [Cameras](#cameras)
 * [Building](#building)
 * [Acknowledgements](#acknowledgements)
 
@@ -431,30 +431,6 @@ Note that the floorboards texture works well whereas the edges of paving texture
 
 It is reasonable to ask, if loading images directly allows them to be tiled and at the same time does away with the need for an image map, why choose the latter? The reason is that there is limit on the number images that can be passed to a `Part` element. This is not a drawback of XGL but WebGL, or rather OpenGL. The number of images that texture renderers must support is only 8, although admittedly on modern systems this number is likely to be in the region of hundreds. Also bear in mind that individual images all have to be loaded over a network and this may become problematic for large numbers of them. Since the work of creating image maps is done for you, image maps are recommended unless you need tiling.
 
-## Cameras
-
-Two cameras come as standard, the design camera and the gaming camera.
-
-The design camera points at the same place, with mouse movements moving it toward, away from or around that place when the mouse button is held down. If you hold the shift key down as well, you can alter the offset, namely the place at which it points. You can set the initial distance, angles and offsets by way of attributes:
-
-```
-<Scene ... >
-  ...
-  <DesignCamera initialDistance={10} initialAngles={[ 225, 22.5 ]} initialOffsets={[ -10, 0, 10 ]} />
-</Scene>
-```
-Here the initial angles are chosen so each of the three axes points away from the camera. The offsets re-position the scene as a whole.
-
-The gaming camera allows you to freely move around around a scene. If you hold the mouse down you can look around with mouse movements. Holding the shift key down at the same time allows you to pan, whilst the mouse wheel allows you to move backwards and forwards. You can set the initial position and angles by way of attributes:
-
-```
-<Scene ... >
-  ...
-  <GamingCamera initialPosition={[ 0, 0, 10 ]} initialAngles={[ 45, 0 ]} />
-</Scene>
-```
-You can create your own cameras by extending the `Camera` class, with the source for the gaming and design cameras being a good place to start.
-
 ## Useful features
 
 You can hide any elements bar `Scene` elements , including masks and parts, by adding a `hidden` attribute. This saves commenting out or removing elements during development. For example:
@@ -485,6 +461,30 @@ function done() {
 }
 ```
 The `update` callback will be called as each child element of a scene is initialised, in other words all of its facets have been added to the rendering buffers. The `progress` argument returns a number between zero and one which is the fraction of the number of child elements initialised over the total number. Cameras are included and take practically no time to initialise. The `done()` callback will be called immediately after the scene has appeared on the canvas.
+
+## Cameras
+
+Two cameras come as standard, the design camera and the gaming camera.
+
+The design camera points at the same place, with mouse movements moving it toward, away from or around that place when the mouse button is held down. If you hold the shift key down as well, you can alter the offset, namely the place at which it points. You can set the initial distance, angles and offsets by way of attributes:
+
+```
+<Scene ... >
+  ...
+  <DesignCamera initialDistance={10} initialAngles={[ 225, 22.5 ]} initialOffsets={[ -10, 0, 10 ]} />
+</Scene>
+```
+Here the initial angles are chosen so each of the three axes points away from the camera. The offsets re-position the scene as a whole.
+
+The gaming camera allows you to freely move around around a scene. If you hold the mouse down you can look around with mouse movements. Holding the shift key down at the same time allows you to pan, whilst the mouse wheel allows you to move backwards and forwards. You can set the initial position and angles by way of attributes:
+
+```
+<Scene ... >
+  ...
+  <GamingCamera initialPosition={[ 0, 0, 10 ]} initialAngles={[ 45, 0 ]} />
+</Scene>
+```
+You can create your own cameras by extending the `Camera` class, with the source for the gaming and design cameras being a good place to start.
 
 ## Building
 
