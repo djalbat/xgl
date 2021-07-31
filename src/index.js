@@ -9,5 +9,6 @@ export { default as Camera } from "./element/camera";
 export { default as GamingCamera } from "./element/camera/gaming";
 export { default as DesignCamera } from "./element/camera/design";
 export { default as CanvasElement } from "./element/canvas";
+export { default as preloadUtilities } from "./utilities/preload";
 export { default as ColouredCanvasElement } from "./element/canvas/coloured";
 export { default as TexturedCanvasElement } from "./element/canvas/textured";

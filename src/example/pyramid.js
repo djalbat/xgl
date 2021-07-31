@@ -1,14 +1,14 @@
 "use strict";
 
-import {Canvas, Scene, Part, GamingCamera, DesignCamera} from "../index";  ///
+import { Canvas, Scene, Part, GamingCamera, preloadUtilities } from "../index";  ///
 
 import Pyramid from "./element/pyramid";
-import configuration from "../miscellaneous/configuration";
+
+const { preloadImageMap } = preloadUtilities;
 
 const pyramidExample = () => {
-  preloadImageMap((imageMap) => {
-    const { imageMapJSON } = configuration,
-          canvas = new Canvas();
+  preloadImageMap((imageMap, imageMapJSON) => {
+    const canvas = new Canvas();
 
     return (
 
@@ -24,18 +24,3 @@ const pyramidExample = () => {
 };
 
 export default pyramidExample;
-
-function preloadImageMap(callback) {
-  const { imageMapURI } = configuration,
-        imageMap = new Image(),	///
-        src = imageMapURI;  ///
-
-  Object.assign(imageMap, {
-    src,
-    onload
-  });
-
-  function onload(event) {
-    callback(imageMap);
-  }
-}

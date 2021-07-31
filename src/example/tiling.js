@@ -1,18 +1,14 @@
 "use strict";
 
-import { asynchronousUtilities } from "necessary";
-import { Canvas, Scene, Part, Mask, DesignCamera } from "../index";  ///
+import { Canvas, Scene, Part, Mask, DesignCamera, preloadUtilities } from "../index";  ///
 
-import configuration from "../miscellaneous/configuration";
 import ColouredSquare from "./element/colouredSquare";
 import TexturedQuadrangle from "./element/texturedQuadrangle";
 
-const { forEach } = asynchronousUtilities;
+const { preloadImages } = preloadUtilities;
 
 const tilingExample = () => {
-  const { imageNames, imageDirectoryURI } = configuration;
-
-  preloadImages(imageNames, imageDirectoryURI, (images) => {
+  preloadImages((images, imageNames) => {
     const canvas = new Canvas();
 
     return (
@@ -33,32 +29,3 @@ const tilingExample = () => {
 };
 
 export default tilingExample;
-
-function preloadImages(imageNames, imageDirectoryURI, callback) {
-  const images = [],
-        context = {
-          images
-        };
-
-  forEach(imageNames, (imageName, next, done, context) => {
-    const image = new Image(),
-          src = `${imageDirectoryURI}/${imageName}`;
-
-    Object.assign(image, {
-      src,
-      onload
-    });
-
-    function onload() {
-      images.push(image);
-
-      next();
-    }
-  }, done, context);
-
-  function done() {
-    const { images } = context;
-
-    callback(images);
-  }
-}
