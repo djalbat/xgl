@@ -6,7 +6,7 @@ import Normal from "../normal";
 import Vertex from "../vertex";
 
 import { isApproximatelyEqualToZero } from "../../utilities/approximate";
-import { verticesFromCoordinateTuplesAndIndexTuple } from "../../utilities/vertices";
+import { verticesFromCoordinateTuplesIndexTupleAndMagnification } from "../../utilities/vertices";
 import { cloneEdges, cloneNormal, cloneVertices, calculateArea, calculateEdges, calculateNormal } from "../../utilities/facet";
 
 export default class ColouredFacet extends Facet {
@@ -14,21 +14,6 @@ export default class ColouredFacet extends Facet {
     super(vertices, normal, edges);
     
     this.rgba = rgba;
-  }
-
-  clone() {
-    let vertices = this.getVertices(),
-        normal = this.getNormal(),
-        edges = this.getEdges();
-
-    vertices = cloneVertices(vertices);
-    normal = cloneNormal(normal);
-    edges = cloneEdges(edges);
-
-    const rgba = this.rgba,
-          colouredFacet = new ColouredFacet(vertices, normal, edges, rgba);
-
-    return colouredFacet;
   }
 
   getVertexColours() {
@@ -60,10 +45,25 @@ export default class ColouredFacet extends Facet {
     return colouredFacet;
   }
 
-  static fromCoordinateTuplesIndexTupleAndColour(coordinateTuples, indexTuple, colour) {
+  clone() {
+    let vertices = this.getVertices(),
+        normal = this.getNormal(),
+        edges = this.getEdges();
+
+    vertices = cloneVertices(vertices);
+    normal = cloneNormal(normal);
+    edges = cloneEdges(edges);
+
+    const rgba = this.rgba,
+          colouredFacet = new ColouredFacet(vertices, normal, edges, rgba);
+
+    return colouredFacet;
+  }
+
+  static fromCoordinateTuplesIndexTupleColourAndMagnification(coordinateTuples, indexTuple, colour, magnification) {
     let colouredFacet = null;
 
-    const vertices = verticesFromCoordinateTuplesAndIndexTuple(coordinateTuples, indexTuple, Vertex),
+    const vertices = verticesFromCoordinateTuplesIndexTupleAndMagnification(coordinateTuples, indexTuple, magnification, Vertex),
           area = calculateArea(vertices),
           areaApproximatelyEqualToZero = isApproximatelyEqualToZero(area),
           largeEnough = !areaApproximatelyEqualToZero;  ///

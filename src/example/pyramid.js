@@ -1,23 +1,22 @@
 "use strict";
 
-import { Canvas, Scene, Part, GamingCamera } from "../index";  ///
+import {Canvas, Scene, Part, GamingCamera, DesignCamera} from "../index";  ///
 
 import Pyramid from "./element/pyramid";
 import configuration from "../miscellaneous/configuration";
 
-const canvas = new Canvas();
-
 const pyramidExample = () => {
   preloadImageMap((imageMap) => {
-    const { imageMapJSON } = configuration;
+    const { imageMapJSON } = configuration,
+          canvas = new Canvas();
 
     return (
 
       <Scene canvas={canvas}>
         <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
-          <Pyramid />
+          <Pyramid/>
         </Part>
-        <GamingCamera />
+        <GamingCamera/>
       </Scene>
 
     );

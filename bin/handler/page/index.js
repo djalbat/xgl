@@ -2,14 +2,13 @@
 
 const { templateUtilities } = require("necessary");
 
-const { INDEX_PAGE_FILE_NAME, TEMPLATE_DIRECTORY_PATH, TEXT_HTML_CHARSET_UTF8_CONTENT_TYPE } = require("../../constants");
+const { INDEX_PAGE_FILE_NAME, TEXT_HTML_CHARSET_UTF8_CONTENT_TYPE } = require("../../constants");
 
 const { parseFile } = templateUtilities;
 
 function indexPageHandler(request, response) {
-  const templateDirectoryPath = TEMPLATE_DIRECTORY_PATH,  ///
-        indexPageFileName = INDEX_PAGE_FILE_NAME, ///
-        filePath = `${templateDirectoryPath}/${indexPageFileName}`,
+  const indexPageFileName = INDEX_PAGE_FILE_NAME, ///
+        filePath = indexPageFileName, ///
         args = {},
         html = parseFile(filePath, args),
         contentType = TEXT_HTML_CHARSET_UTF8_CONTENT_TYPE;

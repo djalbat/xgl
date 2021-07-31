@@ -16,15 +16,15 @@ export default class TexturedCanvasElement extends CanvasElement {
     this.textureCoordinates = textureCoordinates;
   }
 
-  createFacets(hidden) {
-    hidden = super.createFacets(hidden);  ///
+  createFacets(hidden, magnification) {
+    hidden = super.createFacets(hidden, magnification);  ///
 
     if (!hidden) {
       const indexTuples = this.indexes,  ///
             facets = indexTuples.map((indexTuple, index) => {
               const vertexTextureCoordinateTuples = this.textureCoordinates[index], ///
                     coordinateTuples = this.coordinates, ///
-                    texturedFacet = TexturedFacet.fromTextureCoordinateTuplesCoordinatesTuplesIndexTupleAndImageName(vertexTextureCoordinateTuples, coordinateTuples, indexTuple, this.imageName),
+                    texturedFacet = TexturedFacet.fromTextureCoordinateTuplesCoordinatesTuplesIndexTupleImageNameAndMagnification(vertexTextureCoordinateTuples, coordinateTuples, indexTuple, this.imageName, magnification),
                     facet = texturedFacet;  ///
 
               return facet;

@@ -4,46 +4,22 @@ import { Canvas, Scene, Mask, Part, DesignCamera } from "../index";  ///
 
 import Cube from "./element/cube";
 
-const canvas = new Canvas();
-
 const maskingExample = () => {
-  const SmallCube = (properties) =>
-
-          <Cube scale={[ 1/4, 1/4, 1/4 ]} />
-
-        ,
-        smallCubeMask =
-
-          <Mask>
-            <SmallCube />
-          </Mask>
-
-        ,
-        MediumCube = (properties) =>
-
-          <Cube scale={[ 1/2, 1/2, 1/2 ]} mask={smallCubeMask} />
-
-        ,
-        mediumCubeMask =
-
-          <Mask>
-            <MediumCube />
-          </Mask>
-
-        ,
-        LargeCube = (properties) =>
-
-          <Cube mask={mediumCubeMask} />
-
-        ;
+  const canvas = new Canvas();
 
   return (
 
     <Scene canvas={canvas}>
+      <Mask reference="quarter-sized-cube">
+        <Cube scale={[ 1/4, 1/4, 1/4 ]} />
+      </Mask>
+      <Mask reference="half-sized-cube">
+        <Cube scale={[ 1/2, 1/2, 1/2 ]} maskReference="quarter-sized-cube"/>
+      </Mask>
       <Part>
-        <LargeCube />
+        <Cube maskReference="half-sized-cube" />
       </Part>
-      <DesignCamera />
+      <DesignCamera/>
     </Scene>
 
   );

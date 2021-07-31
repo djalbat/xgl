@@ -1,5 +1,6 @@
 "use strict";
 
+import { scale3 } from "../maths/vector";
 import { rotatePosition } from "../utilities/rotation";
 
 export default class Vertex {
@@ -11,13 +12,6 @@ export default class Vertex {
     return this.position;
   }
 
-  clone() {
-    const position = this.position.slice(), ///
-          vertex = new Vertex(position);
-
-    return vertex;
-  }
-
   rotate(rotationQuaternion) {
     this.position = rotatePosition(this.position, rotationQuaternion);
   }
@@ -26,14 +20,21 @@ export default class Vertex {
     this.position = transform(this.position);
   }
 
+  clone() {
+    const position = this.position.slice(), ///
+          vertex = new Vertex(position);
+
+    return vertex;
+  }
+
   static fromPosition(position) {
     const vertex = new Vertex(position);
     
     return vertex;
   }
   
-  static fromCoordinateTuple(coordinateTuple) {
-    const position = coordinateTuple.slice(), ///
+  static fromCoordinateTupleAndMagnification(coordinateTuple, magnification) {
+    const position = scale3(coordinateTuple, magnification),
           vertex = new Vertex(position);
 
     return vertex;

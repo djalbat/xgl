@@ -8,6 +8,10 @@ export default class Normal {
     this.extent = extent;
   }
 
+  getExtent() {
+    return this.extent;
+  }
+
   clone() {
     const extent = cloneExtent(this.extent),
           normal = new Normal(extent);
@@ -15,10 +19,6 @@ export default class Normal {
     return normal;
   }
 
-  getExtent() {
-    return this.extent;
-  }
-  
   static fromVertices(vertices) {
     const firstVertex = first(vertices),
           secondVertex = second(vertices),

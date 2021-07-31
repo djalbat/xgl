@@ -5,12 +5,12 @@ import Element from "../element";
 import { composeTransform } from "../utilities/transform";
 
 export default class CanvasElement extends Element {
-  constructor(transform, facets, mask, hidden) {
+  constructor(maskReference, transform, facets, hidden) {
     super();
 
+    this.maskReference = maskReference;
     this.transform = transform;
     this.facets = facets;
-    this.mask = mask;
 
     this.hidden = hidden;
   }
@@ -31,8 +31,16 @@ export default class CanvasElement extends Element {
     this.facets = facets;
   }
 
-  applyMask(mask) {
-    if (mask) {
+  applyMask(maskReference, masks) {
+    const mask = masks.find((mask) => {
+      const reference = mask.getReference();
+
+      if (reference === maskReference) {
+        return true;
+      }
+    }) || null; ///
+
+    if (mask !== null) {
       const element = this; ///
 
       mask.maskElement(element);
@@ -47,24 +55,24 @@ export default class CanvasElement extends Element {
     childElements.forEach((childElement) => childElement.applyTransform(transform));
   }
 
-  createFacets(hidden) {
+  createFacets(hidden, magnification) {
     const childElements = this.getChildElements();
 
     hidden = hidden || this.hidden; ///
 
-    childElements.forEach((childElement) => childElement.createFacets(hidden));
+    childElements.forEach((childElement) => childElement.createFacets(hidden, magnification));
 
     return hidden;
   }
 
-  amendFacets() {
+  amendFacets(masks) {
     const childElements = this.getChildElements();
 
-    childElements.forEach((childElement) => childElement.amendFacets());
+    childElements.forEach((childElement) => childElement.amendFacets(masks));
 
     this.applyTransform(this.transform);
 
-    this.applyMask(this.mask);
+    this.applyMask(this.maskReference, masks);
   }
 
   addFacets(colourRenderer, textureRenderer) {
@@ -74,10 +82,10 @@ export default class CanvasElement extends Element {
   }
 
   static fromProperties(Class, properties, ...remainingArguments) {
-    const { scale = null, rotations = null, position = null, mask = null, hidden = false } = properties,
+    const { scale = null, rotations = null, position = null, maskReference = null, hidden = false } = properties,
           transform = composeTransform(scale, rotations, position),
           facets = [],
-          canvasElement = Element.fromProperties(Class, properties, transform, facets, mask, hidden, ...remainingArguments);
+          canvasElement = Element.fromProperties(Class, properties, maskReference, transform, facets, hidden, ...remainingArguments);
 
     return canvasElement;
   }

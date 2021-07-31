@@ -3,22 +3,23 @@
 import { asynchronousUtilities } from "necessary";
 
 import Part from "../element/part";
+import Mask from "../element/mask";
 import Camera from "../element/camera";
 import Element from "../element";
 import UserInput from "../miscellaneous/userInput";
 
 import { zero2 } from "../maths/vector";
+import { DEFAULT_MAGNIFICATION } from "../constants";
 
 const { forEach } = asynchronousUtilities;
 
 export default class Scene extends Element {
-  constructor(parts, camera, canvas) {
+  constructor(parts, masks, camera, canvas) {
     super();
 
     this.parts = parts;
-
+    this.masks = masks;
     this.camera = camera;
-
     this.canvas = canvas;
   }
 
@@ -54,14 +55,16 @@ export default class Scene extends Element {
     this.parts.forEach((part) => part.render(this.canvas, offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix));
   }
 
-  initialise(canvas, update, done) {
+  initialise(canvas, update, done, magnification) {
     const userInput = UserInput.fromNothing(),
           userInputHandler = this.userInputHandler.bind(this),
           windowResizeHandler = this.windowResizeHandler.bind(this);
 
     userInput.initialise(canvas);
 
-    initialiseParts(this.parts, update, canvas, () => {
+    initialiseMasks(this.masks, magnification);
+
+    initialiseParts(this.parts, this.masks, update, canvas, magnification, () => {
       window.onresize = windowResizeHandler;
 
       userInput.addUserInputHandler(userInputHandler);
@@ -73,12 +76,13 @@ export default class Scene extends Element {
   }
 
   static fromProperties(properties) {
-    const { canvas, done, update, childElements } = properties,
+    const { canvas, update, done, magnification = DEFAULT_MAGNIFICATION, childElements } = properties,
+          masks = masksFromChildElements(childElements),
           parts = partsFromChildElements(childElements),
           camera = cameraFromChildElements(childElements),
-          scene = Element.fromProperties(Scene, properties, parts, camera, canvas);
+          scene = Element.fromProperties(Scene, properties, parts, masks, camera, canvas);
 
-    scene.initialise(canvas, update, done);
+    scene.initialise(canvas, update, done, magnification);
 
     return scene;
   }
@@ -88,12 +92,16 @@ function defer(callback) {
   setTimeout(callback, 0);
 }
 
-function initialiseParts(parts, update, canvas, done) {
+function initialiseMasks(masks, magnification) {
+  masks.forEach((mask) => mask.initialise(magnification, masks));
+}
+
+function initialiseParts(parts, masks, update, canvas, magnification, done) {
   forEach(parts, (part, next, done, context, index) => {
     const partsLength = parts.length,
           progress = ( index + 1 ) / partsLength;
 
-    part.initialise(canvas);
+    part.initialise(canvas, masks, magnification);
 
     defer(() => {
       update && update(progress); ///
@@ -101,6 +109,19 @@ function initialiseParts(parts, update, canvas, done) {
       next();
     });
   }, done);
+}
+
+function masksFromChildElements(childElements) {
+  const masks = childElements.reduce((masks, childElement) => {
+    if (childElement instanceof Mask) {
+      const mask = childElement;  ///
+
+      masks.push(mask);
+    }
+    return masks;
+  }, []);
+
+  return masks;
 }
 
 function partsFromChildElements(childElements) {

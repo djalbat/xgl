@@ -6,6 +6,7 @@ import Tilt from "../../miscellaneous/tilt";
 import Camera from "../camera";
 
 import { zero2 } from "../../maths/vector";
+import { DEFAULT_DELTA_MULTIPLIER } from "../../constants";
 import { offsetsMatrixFromOffsets,
          rotationsMatrixFromAngles,
          positionMatrixFromNothing,
@@ -13,7 +14,8 @@ import { offsetsMatrixFromOffsets,
          projectionMatrixFromWidthAndHeight } from "../../utilities/matrix";
 
 const defaultInitialAngles = zero2(),
-      defaultInitialPosition = [ 0, 0, 5 ];
+      defaultInitialPosition = [ 0, 0, 5 ],
+      defaultDeltaMultiplier = DEFAULT_DELTA_MULTIPLIER;
 
 
 export default class GamingCamera extends Camera {
@@ -50,9 +52,9 @@ export default class GamingCamera extends Camera {
   }
 
   static fromProperties(properties) {
-    const { initialAngles = defaultInitialAngles, initialPosition = defaultInitialPosition } = properties,
+    const { initialAngles = defaultInitialAngles, initialPosition = defaultInitialPosition, deltaMultiplier = defaultDeltaMultiplier } = properties,
           flipped = true,
-          pan = Pan.fromInitialPosition(initialPosition),
+          pan = Pan.fromInitialPositionAndDeltaMultiplier(initialPosition, deltaMultiplier),
           tilt = Tilt.fromInitialAnglesAndFlipped(initialAngles, flipped),
 
           gamingCamera = Camera.fromProperties(GamingCamera, properties, pan, tilt);
