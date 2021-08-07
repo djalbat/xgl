@@ -3,6 +3,7 @@
 export const Z_FAR = 1000;
 export const Z_NEAR = 1;
 export const MOUSE_UP = "MOUSE_UP";
+export const ANONYMOUS = "anonymous";
 export const MOUSE_DOWN = "MOUSE_DOWN";
 export const MOUSE_MOVE = "MOUSE_MOVE";
 export const MOUSE_WHEEL = "MOUSE_WHEEL";

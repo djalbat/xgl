@@ -2,6 +2,8 @@
 
 import { asynchronousUtilities } from "necessary";
 
+import { ANONYMOUS } from "../constants";
+
 const { forEach } = asynchronousUtilities;
 
 export function preloadImages(callback, configuration = window.__configuration__) { ///
@@ -12,12 +14,14 @@ export function preloadImages(callback, configuration = window.__configuration__
         };
 
   forEach(imageNames, (imageName, next, done, context) => {
-    const image = new Image(),
-          src = `${imageDirectoryURI}/${imageName}`;
+    const src = `${imageDirectoryURI}/${imageName}`,
+          image = new Image(),
+          crossOrigin = ANONYMOUS;
 
-    Object.assign(image, {
+  Object.assign(image, {
       src,
-      onload
+      onload,
+      crossOrigin
     });
 
     function onload() {
@@ -36,12 +40,14 @@ export function preloadImages(callback, configuration = window.__configuration__
 
 export function preloadImageMap(callback, configuration = window.__configuration__) { ///
   const { imageMapURI, imageMapJSON } = configuration,
+        src = imageMapURI,
         imageMap = new Image(),	///
-        src = imageMapURI;  ///
+        crossOrigin = ANONYMOUS;  ///
 
   Object.assign(imageMap, {
     src,
-    onload
+    onload,
+    crossOrigin
   });
 
   function onload(event) {
