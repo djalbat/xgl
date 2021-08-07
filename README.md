@@ -196,7 +196,7 @@ The quarter sized cube is used to make the mask for the half sized cube which is
 
 ### The pyramid example
 
-This example utilities the image map provided by the small Express application, available at http://localhost:8000/imageMap. If you inspect the example HTML, you will also see that the JSON describing the image map has been embedded within:
+This example utilities the image map provided by XGL server. If you inspect the example HTML, you will also see that the JSON describing the image map has been embedded within:
 
 ```
 <script>
@@ -222,9 +222,8 @@ As explained in the XGL Server usage section, assigning a `__configuration__` pr
 
 ```
 const pyramidExample = () => {
-  preloadImageMap((imageMap) => {
-    const { imageMapJSON } = configuration,
-          canvas = new Canvas();
+  preloadImageMap((imageMap, imageMapJSON) => {
+    const canvas = new Canvas();
 
     return (
 
@@ -238,23 +237,6 @@ const pyramidExample = () => {
     );
   });
 };
-
-export default pyramidExample;
-
-function preloadImageMap(callback) {
-  const { imageMapURI } = configuration,
-        imageMap = new Image(),	///
-        src = imageMapURI;  ///
-
-  Object.assign(imageMap, {
-    src,
-    onload
-  });
-
-  function onload(event) {
-    callback(imageMap);
-  }
-}
 ```
 The `Pyramid` element is a compound element consisting of four sides, three of which are rotated around the y-axis as you would expect:
 
@@ -395,7 +377,7 @@ It is reasonable to ask, if loading images directly allows them to be tiled and 
 
 ## Preload utilities
 
-Two functions are made available to help you preload images for use by the texture renderers. The first, `preloadImages()`, preloads images one at a time and provides them, along with their names, via a callback. The images and image names can then be passed to parts, the child elements elements of which can make use of the images by specifying image names:
+Two functions are made available to help you preload images for use by the texture renderers. The first, `preloadImages()`, preloads images one at a time and provides them, along with their names, via a callback. The images and image names can then be passed to parts, the child elements elements of which can make use of the images by specifying image names, as in the tiling example explained above:
 
 ```
 preloadImages((images, imageNames) => {
@@ -404,8 +386,8 @@ preloadImages((images, imageNames) => {
   return (
     <Scene canvas={canvas}>
       <Part images={images} imageNames={imageNames} imageTiling >
-        <TexturedQuadrangle position={[ 0, 0, 0 ]} imageName="floorboards.jpg" maskReference="mask" />
-        <TexturedQuadrangle position={[ -0.5, -0.5, -0.5 ]} imageName="paving.jpg" maskReference="mask" />
+        <TexturedQuadrangle ... imageName="paving.jpg" />
+        <TexturedQuadrangle ... imageName="floorboards.jpg" />
       </Part>
       <DesignCamera/>
     </Scene>
@@ -434,8 +416,26 @@ If you define such an element with the `__configuration__` property set in this 
 
 It was mentioned in the tiling example but is worth repeating here that if you wish to tile textures then you have load the images individually. Tiling images extract from an image map leads to unsatisfactory results.
 
-The `preloadImageImageMap() function` works in tandem with XGL server...
+The `preloadImageImageMap() function` works in tandem with XGL server, as explained in the pyramid example explained above. Again an optional `host` can be provided in an optional `configuration` argument that must include `imageMapURI` and `imageMapJSON` arguments. The `imageMap` and `imageMapJSON` arguments passed by way of the callback function are then passed to any part that needs to make use of them.
 
+```
+const pyramidExample = () => {
+  preloadImageMap((imageMap, imageMapJSON) => {
+    const canvas = new Canvas();
+
+    return (
+
+      <Scene canvas={canvas}>
+        <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
+          <Pyramid/>
+        </Part>
+        <GamingCamera/>
+      </Scene>
+
+    );
+  });
+};
+```
 
 ## Cameras
 
