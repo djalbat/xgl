@@ -33,8 +33,8 @@ export default class Vertex {
     return vertex;
   }
   
-  static fromCoordinateTupleAndMagnification(coordinateTuple, magnification) {
-    const position = scale3(coordinateTuple, magnification),
+  static fromCoordinateTuple(coordinateTuple) {
+    const position = coordinateTuple.slice(), ///
           vertex = new Vertex(position);
 
     return vertex;

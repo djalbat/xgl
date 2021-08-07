@@ -14,14 +14,14 @@ export default class ColouredCanvasElement extends CanvasElement {
     this.colour = colour;
   }
 
-  createFacets(hidden, magnification) {
-    hidden = super.createFacets(hidden, magnification);  ///
+  createFacets(hidden) {
+    hidden = super.createFacets(hidden);  ///
 
     if (!hidden) {
       const indexTuples = this.indexes,  ///
             facets = indexTuples.map((indexTuple) => {
               const coordinateTuples = this.coordinates, ///
-                    colouredFacet = ColouredFacet.fromCoordinateTuplesIndexTupleColourAndMagnification(coordinateTuples, indexTuple, this.colour, magnification),
+                    colouredFacet = ColouredFacet.fromCoordinateTuplesIndexTupleAndColour(coordinateTuples, indexTuple, this.colour),
                     facet = colouredFacet;  ///
 
               return facet;

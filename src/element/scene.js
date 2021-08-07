@@ -52,14 +52,20 @@ export default class Scene extends Element {
     this.parts.forEach((part) => part.render(this.canvas, offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix));
   }
 
+  magnifiy(magnification) {
+    debugger
+  }
+
   initialise(canvas, magnification) {
     const userInput = UserInput.fromNothing(),
           userInputHandler = this.userInputHandler.bind(this),
           windowResizeHandler = this.windowResizeHandler.bind(this);
 
-    this.masks.forEach((mask) => mask.initialise(this.masks, magnification));
+    this.magnifiy(magnification);
 
-    this.parts.forEach((part) => part.initialise(canvas, this.masks, magnification));
+    this.masks.forEach((mask) => mask.initialise(this.masks));
+
+    this.parts.forEach((part) => part.initialise(canvas, this.masks));
 
     userInput.initialise(canvas);
 

@@ -6,7 +6,7 @@ import Normal from "../normal";
 import Vertex from "../vertex";
 
 import { isApproximatelyEqualToZero } from "../../utilities/approximate";
-import { verticesFromCoordinateTuplesIndexTupleAndMagnification } from "../../utilities/vertices";
+import { verticesFromCoordinateTuplesAndIndexTuple } from "../../utilities/vertices";
 import { cloneEdges, cloneNormal, cloneVertices, calculateArea, calculateEdges, calculateNormal } from "../../utilities/facet";
 
 export default class ColouredFacet extends Facet {
@@ -60,10 +60,10 @@ export default class ColouredFacet extends Facet {
     return colouredFacet;
   }
 
-  static fromCoordinateTuplesIndexTupleColourAndMagnification(coordinateTuples, indexTuple, colour, magnification) {
+  static fromCoordinateTuplesIndexTupleAndColour(coordinateTuples, indexTuple, colour) {
     let colouredFacet = null;
 
-    const vertices = verticesFromCoordinateTuplesIndexTupleAndMagnification(coordinateTuples, indexTuple, magnification, Vertex),
+    const vertices = verticesFromCoordinateTuplesAndIndexTuple(coordinateTuples, indexTuple, Vertex),
           area = calculateArea(vertices),
           areaApproximatelyEqualToZero = isApproximatelyEqualToZero(area),
           largeEnough = !areaApproximatelyEqualToZero;  ///

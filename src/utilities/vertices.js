@@ -12,11 +12,11 @@ export function rotateVertices(vertices, rotationQuaternion) {
   return rotatedVertices;
 }
 
-export function verticesFromCoordinateTuplesIndexTupleAndMagnification(coordinateTuples, indexTuple, magnification, Vertex) {  ///
+export function verticesFromCoordinateTuplesAndIndexTuple(coordinateTuples, indexTuple, Vertex) {  ///
   const indexes = indexTuple, ///
         vertices = indexes.map((index) => {
           const coordinateTuple = coordinateTuples[index],
-                vertex = Vertex.fromCoordinateTupleAndMagnification(coordinateTuple, magnification);
+                vertex = Vertex.fromCoordinateTuple(coordinateTuple);
 
           return vertex;
         });

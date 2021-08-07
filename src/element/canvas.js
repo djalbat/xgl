@@ -55,12 +55,12 @@ export default class CanvasElement extends Element {
     childElements.forEach((childElement) => childElement.applyTransform(transform));
   }
 
-  createFacets(hidden, magnification) {
+  createFacets(hidden) {
     const childElements = this.getChildElements();
 
     hidden = hidden || this.hidden; ///
 
-    childElements.forEach((childElement) => childElement.createFacets(hidden, magnification));
+    childElements.forEach((childElement) => childElement.createFacets(hidden));
 
     return hidden;
   }

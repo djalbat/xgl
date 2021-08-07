@@ -7,7 +7,7 @@ import Vertex from "../vertex";
 
 import { permute } from "../../utilities/array";
 import { isApproximatelyEqualToZero } from "../../utilities/approximate";
-import { verticesFromCoordinateTuplesIndexTupleAndMagnification } from "../../utilities/vertices";
+import { verticesFromCoordinateTuplesAndIndexTuple } from "../../utilities/vertices";
 import { cloneEdges, cloneNormal, cloneVertices, calculateArea, calculateEdges, calculateNormal } from "../../utilities/facet";
 import { cloneTextureCoordinateTuples, calculateMappedTextureCoordinateTuples, calculateAdjustedTextureCoordinateTuples } from "../../utilities/texture";
 
@@ -79,10 +79,10 @@ export default class TexturedFacet extends Facet {
     return texturedFacet;
   }
 
-  static fromTextureCoordinateTuplesCoordinatesTuplesIndexTupleImageNameAndMagnification(textureCoordinateTuples, coordinateTuples, indexTuple, imageName, magnification) {
+  static fromTextureCoordinateTuplesCoordinatesTuplesIndexTupleAndImageName(textureCoordinateTuples, coordinateTuples, indexTuple, imageName) {
     let texturedFacet = null;
 
-    const vertices = verticesFromCoordinateTuplesIndexTupleAndMagnification(coordinateTuples, indexTuple, magnification, Vertex),
+    const vertices = verticesFromCoordinateTuplesAndIndexTuple(coordinateTuples, indexTuple, Vertex),
           area = calculateArea(vertices),
           areaApproximatelyEqualToZero = isApproximatelyEqualToZero(area),
           largeEnough = !areaApproximatelyEqualToZero;  ///
