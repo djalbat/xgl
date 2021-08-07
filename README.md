@@ -11,6 +11,7 @@ XGL provides the *programmatic* means to create 3D scenes. It puts an almost opa
   * [The masking example](#the-masking-example)
   * [The pyramid example](#the-pyramid-example)
   * [The tiling example](#the-tiling-example)
+* [Preload utilities](#preload-utilities)
 * [Cameras](#cameras)
 * [Building](#building)
 * [Acknowledgements](#acknowledgements)
@@ -336,49 +337,11 @@ const Side = (properties) =>
 
 ### The tiling example
 
-This example also makes use of images, but there are loaded individually rather than being parts of an image map. The `imageNames` and `imageDirectoryURI` variables are again made available by way of the configuration, allowing the images to be loaded sequentially:
-
-```
-import { asynchronousUtilities } from "necessary";
-
-const { forEach } = asynchronousUtilities;
-
-function preloadImages(imageNames, imageDirectoryURI, callback) {
-  const images = [],
-        context = {
-          images
-        };
-
-  forEach(imageNames, (imageName, next, done, context) => {
-    const image = new Image(),
-          src = `${imageDirectoryURI}/${imageName}`;
-
-    Object.assign(image, {
-      src,
-      onload
-    });
-
-    function onload() {
-      images.push(image);
-
-      next();
-    }
-  }, done, context);
-
-  function done() {
-    const { images } = context;
-
-    callback(images);
-  }
-}
-```
-Now the resultant `images` and `imageNames` are passed to the `Part` element and otherwise, nothing else effectively has to change from the previous example:
+This example also makes use of images, but there are loaded individually rather than being parts of an image map. See the preload utilities section below for more details. Nothing else effectively has to change from the previous example:
 
 ```
 const tilingExample = () => {
-  const { imageNames, imageDirectoryURI } = configuration;
-
-  preloadImages(imageNames, imageDirectoryURI, (images) => {
+  preloadImages((images, imageNames) => {
     const canvas = new Canvas();
 
     return (
@@ -429,6 +392,50 @@ A mask has also been included in this example. Masking works with tiling without
 Note that the floorboards texture works well whereas the edges of paving texture are out of alignment. To find textures that are suitable for tiling, type something like "seamless floorboards texture" into Google images, rather than just "paving texture".
 
 It is reasonable to ask, if loading images directly allows them to be tiled and at the same time does away with the need for an image map, why choose the latter? The reason is that there is limit on the number images that can be passed to a `Part` element. This is not a drawback of XGL but WebGL, or rather OpenGL. The number of images that texture renderers must support is only 8, although admittedly on modern systems this number is likely to be in the region of hundreds. Also bear in mind that individual images all have to be loaded over a network and this may become problematic for large numbers of them. Since the work of creating image maps is done for you, image maps are recommended unless you need tiling.
+
+## Preload utilities
+
+Two functions are made available to help you preload images for use by the texture renderers. The first, `preloadImages()`, preloads images one at a time and provides them, along with their names, via a callback. The images and image names can then be passed to parts, the child elements elements of which can make use of the images by specifying image names:
+
+```
+preloadImages((images, imageNames) => {
+  const canvas = new Canvas();
+
+  return (
+    <Scene canvas={canvas}>
+      <Part images={images} imageNames={imageNames} imageTiling >
+        <TexturedQuadrangle position={[ 0, 0, 0 ]} imageName="floorboards.jpg" maskReference="mask" />
+        <TexturedQuadrangle position={[ -0.5, -0.5, -0.5 ]} imageName="paving.jpg" maskReference="mask" />
+      </Part>
+      <DesignCamera/>
+    </Scene>
+  );
+
+});
+```
+
+In fact the array of image names must be passed to the function by was of an optional `configuration` argument coming after the callback argument, in a similar fashion to the `preloadImageImageMap()` function explained next. This can also optionally supply a `host` argument and must supply an `imageDirectoryURI` argument. Ordinarily these would be supplied from the server side by way of a `script` element, thus:
+
+```
+<script>
+
+  window.__configuration__ = {
+
+    host: "...",
+    imageNames: [ ...],
+    imageDirectoryURI: "..."
+
+  }
+
+</script>
+```
+
+If you define such an element with the `__configuration__` property set in this way then there is no need to pass any further arguments to the function.
+
+It was mentioned in the tiling example but is worth repeating here that if you wish to tile textures then you have load the images individually. Tiling images extract from an image map leads to unsatisfactory results.
+
+The `preloadImageImageMap() function` works in tandem with XGL server...
+
 
 ## Cameras
 
