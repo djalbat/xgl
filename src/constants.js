@@ -7,6 +7,7 @@ export const ANONYMOUS = "anonymous";
 export const MOUSE_DOWN = "MOUSE_DOWN";
 export const MOUSE_MOVE = "MOUSE_MOVE";
 export const MOUSE_WHEEL = "MOUSE_WHEEL";
+export const DEFAULT_HOST = "";
 export const DEFAULT_HIDDEN = false;
 export const SHIFT_KEY_CODE = 16;
 export const VERTICES_LENGTH = 3;

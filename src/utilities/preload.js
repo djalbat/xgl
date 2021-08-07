@@ -2,19 +2,19 @@
 
 import { asynchronousUtilities } from "necessary";
 
-import { ANONYMOUS } from "../constants";
+import { ANONYMOUS, DEFAULT_HOST } from "../constants";
 
 const { forEach } = asynchronousUtilities;
 
 export function preloadImages(callback, configuration = window.__configuration__) { ///
-  const { imageNames, imageDirectoryURI } = configuration,
+  const { host = DEFAULT_HOST, imageNames, imageDirectoryURI } = configuration,
         images = [],
         context = {
           images
         };
 
   forEach(imageNames, (imageName, next, done, context) => {
-    const src = `${imageDirectoryURI}/${imageName}`,
+    const src = `${host}${imageDirectoryURI}/${imageName}`,
           image = new Image(),
           crossOrigin = ANONYMOUS;
 
@@ -39,8 +39,8 @@ export function preloadImages(callback, configuration = window.__configuration__
 }
 
 export function preloadImageMap(callback, configuration = window.__configuration__) { ///
-  const { imageMapURI, imageMapJSON } = configuration,
-        src = imageMapURI,
+  const { host = DEFAULT_HOST, imageMapURI, imageMapJSON } = configuration,
+        src = `${host}${imageMapURI}`,
         imageMap = new Image(),	///
         crossOrigin = ANONYMOUS;  ///
 
