@@ -377,7 +377,12 @@ It is reasonable to ask, if loading images directly allows them to be tiled and 
 
 ## Preload utilities
 
-Two functions are made available to help you preload images for use by the texture renderers. The first, `preloadImages()`, preloads images one at a time and provides them, along with their names, via a callback. The images and image names can then be passed to parts, the child elements elements of which can make use of the images by specifying image names, as in the tiling example explained above:
+Two functions are made available to help you preload images for use by the texture renderers:
+
+* `preloadImages()`
+* `preloadImageMap()`
+
+The first, `preloadImages()`, preloads images sequentially and provides them, along with their names, via a callback function. The images and image names can then be passed to parts, the child elements of which can make use of them by specifying image names, as in the tiling example explained above:
 
 ```
 preloadImages((images, imageNames) => {
@@ -396,7 +401,7 @@ preloadImages((images, imageNames) => {
 });
 ```
 
-In fact the array of image names must be passed to the function by was of an optional `configuration` argument coming after the callback argument, in a similar fashion to the `preloadImageImageMap()` function explained next. This can also optionally supply a `host` argument and must supply an `imageDirectoryURI` argument. Ordinarily these would be supplied from the server side by way of a `script` element, thus:
+In fact the array of image names must be passed to the function by way of an optional `configuration` argument coming after the callback argument, in a similar fashion to the `preloadImageImageMap()` function explained next. This can also optionally supply a `host` property and must supply `imageNames` and imageDirectoryURI` properties. Ordinarily these would be supplied from the server side by way of a `script` element, thus:
 
 ```
 <script>
@@ -412,11 +417,11 @@ In fact the array of image names must be passed to the function by was of an opt
 </script>
 ```
 
-If you define such an element with the `__configuration__` property set in this way then there is no need to pass any further arguments to the function.
+If you define such an element with the `__configuration__` property set in this way then there is no need to pass the optional `configuration` argument to the function.
 
-It was mentioned in the tiling example but is worth repeating here that if you wish to tile textures then you have load the images individually. Tiling images extract from an image map leads to unsatisfactory results.
+It was mentioned in the tiling example but is worth repeating here that if you wish to tile textures then you have load images individually in this way. Tiling images extracted from an image map leads to unsatisfactory results.
 
-The `preloadImageImageMap() function` works in tandem with XGL server, as explained in the pyramid example explained above. Again an optional `host` can be provided in an optional `configuration` argument that must include `imageMapURI` and `imageMapJSON` arguments. The `imageMap` and `imageMapJSON` arguments passed by way of the callback function are then passed to any part that needs to make use of them.
+The `preloadImageImageMap() function` works in tandem with XGL server, as in the pyramid example explained above. Again the host can be provided in an optional `configuration` argument that must include `imageMapURI` and `imageMapJSON` properties. The `imageMap` and `imageMapJSON` arguments passed by way of the callback function are then passed on to any part that needs to make use of the image map:
 
 ```
 const pyramidExample = () => {
@@ -436,6 +441,7 @@ const pyramidExample = () => {
   });
 };
 ```
+Any child elements of these parts can make use of images in the image map by providing the requisite texture coordinates.
 
 ## Cameras
 
