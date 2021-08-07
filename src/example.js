@@ -3,21 +3,24 @@
 import "./xgl";
 
 import cubeExample from "./example/cube";
+import tilingExample from "./example/tiling";
 import simpleExample from "./example/simple";
 import maskingExample from "./example/masking";
 import pyramidExample from "./example/pyramid";
-import tilingExample from "./example/tiling";
-import houseExample from "./example/house";
 
 const example = window.location.search.substring(1);  ///
 
 switch (example) {
-  case "simple":
-    simpleExample();
-    break;
-
   case "cube":
     cubeExample();
+    break;
+
+  case "tiling":
+    tilingExample();
+    break;
+
+  case "simple":
+    simpleExample();
     break;
 
   case "masking":
@@ -26,13 +29,5 @@ switch (example) {
 
   case "pyramid":
     pyramidExample();
-    break;
-
-  case "tiling":
-    tilingExample();
-    break;
-
-  case "house":
-    houseExample();
     break;
 }

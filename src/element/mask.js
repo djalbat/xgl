@@ -43,7 +43,7 @@ export default class Mask extends Element {
     childElements.forEach((childElement) => maskElement(childElement, maskingFacets));
   }
 
-  initialise(magnification, masks) {
+  initialise(masks, magnification) {
     const childElements = this.getChildElements();
 
     childElements.forEach((childElement) => childElement.createFacets(this.hidden, magnification));

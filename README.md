@@ -11,7 +11,6 @@ XGL provides the *programmatic* means to create 3D scenes. It puts an almost opa
   * [The masking example](#the-masking-example)
   * [The pyramid example](#the-pyramid-example)
   * [The tiling example](#the-tiling-example)
-* [Useful features](#useful-features)
 * [Cameras](#cameras)
 * [Building](#building)
 * [Acknowledgements](#acknowledgements)
@@ -430,37 +429,6 @@ A mask has also been included in this example. Masking works with tiling without
 Note that the floorboards texture works well whereas the edges of paving texture are out of alignment. To find textures that are suitable for tiling, type something like "seamless floorboards texture" into Google images, rather than just "paving texture".
 
 It is reasonable to ask, if loading images directly allows them to be tiled and at the same time does away with the need for an image map, why choose the latter? The reason is that there is limit on the number images that can be passed to a `Part` element. This is not a drawback of XGL but WebGL, or rather OpenGL. The number of images that texture renderers must support is only 8, although admittedly on modern systems this number is likely to be in the region of hundreds. Also bear in mind that individual images all have to be loaded over a network and this may become problematic for large numbers of them. Since the work of creating image maps is done for you, image maps are recommended unless you need tiling.
-
-## Useful features
-
-You can hide any elements bar `Scene` elements , including masks and parts, by adding a `hidden` attribute. This saves commenting out or removing elements during development. For example:
-```
-<Scene canvas={canvas}>
-  <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
-    <Pyramid hidden/>
-  </Part>
-  <DesignCamera/>
-</Scene>
-```
-
-You can pass callbacks to `Scene` elements to keep an eye on rendering progress by way of `update` and `done` attributes. For example:
-```
-<Scene canvas={canvas} update={update} done={done}>
-  <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
-    <Pyramid/>
-  </Part>
-  <DesignCamera/>
-</Scene>
-
-function update(progress) {
-  ...
-}
-
-function done() {
-  ...
-}
-```
-The `update` callback will be called as each child element of a scene is initialised, in other words all of its facets have been added to the rendering buffers. The `progress` argument returns a number between zero and one which is the fraction of the number of child elements initialised over the total number. Cameras are included and take practically no time to initialise. The `done()` callback will be called immediately after the scene has appeared on the canvas.
 
 ## Cameras
 
