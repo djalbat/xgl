@@ -26,6 +26,10 @@ export default class Part extends Element {
     this.textureRenderer && this.textureRenderer.render(canvas, offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);  ///
   }
 
+  magnify(magnification) {
+
+  }
+
   initialise(canvas, masks) {
     let textureRenderer = null;
 

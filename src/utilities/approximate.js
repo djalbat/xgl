@@ -1,6 +1,6 @@
 "use strict";
 
-import { DEFAULT_MARGIN_OF_ERROR } from "../constants";
+import { DEFAULT_MARGIN_OF_ERROR } from "../defaults";
 
 export function isApproximatelyEqualToOne(value, marginOfError = DEFAULT_MARGIN_OF_ERROR) { return isApproximatelyEqualTo(value, 1, marginOfError); }
 

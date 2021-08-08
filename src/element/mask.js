@@ -4,7 +4,7 @@ import Element from "../element";
 import MaskingFacet from "../primitive/maskingFacet";
 
 import { push } from "../utilities/array";
-import { DEFAULT_HIDDEN } from "../constants";
+import { DEFAULT_HIDDEN } from "../defaults";
 
 export default class Mask extends Element {
   constructor(hidden, reference) {
@@ -41,6 +41,10 @@ export default class Mask extends Element {
     maskElement(element, maskingFacets);
 
     childElements.forEach((childElement) => maskElement(childElement, maskingFacets));
+  }
+
+  magnify(magnification) {
+
   }
 
   initialise(masks) {

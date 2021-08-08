@@ -7,7 +7,7 @@ import Element from "../element";
 import UserInput from "../miscellaneous/userInput";
 
 import { zero2 } from "../maths/vector";
-import { DEFAULT_MAGNIFICATION } from "../constants";
+import { DEFAULT_MAGNIFICATION } from "../defaults";
 import { elementFromChildElements, elementsFromChildElements } from "../utilities/element";
 
 export default class Scene extends Element {
@@ -52,8 +52,12 @@ export default class Scene extends Element {
     this.parts.forEach((part) => part.render(this.canvas, offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix));
   }
 
-  magnifiy(magnification) {
-    debugger
+  magnify(magnification) {
+    this.masks.forEach((mask) => mask.magnify(magnification));
+
+    this.parts.forEach((part) => part.magnify(magnification));
+
+    this.camera.magnify(magnification);
   }
 
   initialise(canvas, magnification) {
@@ -61,7 +65,7 @@ export default class Scene extends Element {
           userInputHandler = this.userInputHandler.bind(this),
           windowResizeHandler = this.windowResizeHandler.bind(this);
 
-    this.magnifiy(magnification);
+    this.magnify(magnification);
 
     this.masks.forEach((mask) => mask.initialise(this.masks));
 

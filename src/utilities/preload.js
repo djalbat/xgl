@@ -2,7 +2,8 @@
 
 import { asynchronousUtilities } from "necessary";
 
-import { ANONYMOUS, DEFAULT_HOST } from "../constants";
+import { ANONYMOUS } from "../constants";
+import { DEFAULT_HOST } from "../defaults";
 
 const { forEach } = asynchronousUtilities;
 
