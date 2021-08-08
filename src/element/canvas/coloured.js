@@ -3,6 +3,8 @@
 import CanvasElement from "../../element/canvas";
 import ColouredFacet from "../../primitive/facet/coloured";
 
+import { scale3 } from "../../maths/vector";
+
 export default class ColouredCanvasElement extends CanvasElement {
   constructor(transform, facets, mask, hidden, coordinates, indexes, colour) {
     super(transform, facets, mask, hidden);
@@ -12,6 +14,20 @@ export default class ColouredCanvasElement extends CanvasElement {
     this.indexes = indexes;
 
     this.colour = colour;
+  }
+
+  magnify(magnification) {
+    let coordinateTuples = this.coordinates; ///
+
+    coordinateTuples = coordinateTuples.map((coordinateTuple) => {
+      coordinateTuple = scale3(coordinateTuple, magnification);
+
+      return coordinateTuple;
+    });
+
+    this.coordinates = coordinateTuples;  ///
+
+    super.magnify(magnification);
   }
 
   createFacets(hidden) {

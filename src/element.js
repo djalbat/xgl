@@ -1,8 +1,16 @@
 "use strict";
 
 export default class Element {
+  getProperties() {
+    return this.properties;
+  }
+
   getChildElements() {
     return this.childElements;
+  }
+
+  setProperties(properties) {
+    this.properties = properties;
   }
 
   setChildElements(childElements) {
@@ -14,6 +22,8 @@ export default class Element {
           childElements = (typeof element.childElements === "function") ?
                             element.childElements(properties) :
                               properties.childElements || [];
+
+    element.setProperties(properties);
 
     element.setChildElements(childElements);
 

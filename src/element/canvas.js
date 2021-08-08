@@ -2,6 +2,7 @@
 
 import Element from "../element";
 
+import { scale3 } from "../maths/vector";
 import { composeTransform } from "../utilities/transform";
 
 export default class CanvasElement extends Element {
@@ -11,8 +12,11 @@ export default class CanvasElement extends Element {
     this.maskReference = maskReference;
     this.transform = transform;
     this.facets = facets;
-
     this.hidden = hidden;
+  }
+
+  getMaskReference() {
+    return this.maskReference;
   }
 
   getTransform() {
@@ -23,8 +27,8 @@ export default class CanvasElement extends Element {
     return this.facets;
   }
 
-  getMask() {
-    return this.mask;
+  isHidden() {
+    return this.hidden;
   }
 
   setFacets(facets) {
@@ -81,9 +85,25 @@ export default class CanvasElement extends Element {
     childElements.forEach((childElement) => childElement.addFacets(colourRenderer, textureRenderer));
   }
 
+  magnify(magnification) {
+    const properties = this.getProperties(),
+          childElements = this.getChildElements(),
+          { scale = null, rotations = null } = properties;
+
+    let { position = null } = properties;
+
+    if (position !== null) {
+      position = scale3(position, magnification);
+    }
+
+    this.transform = composeTransform(scale, rotations, position);
+
+    childElements.forEach((childElement) => childElement.magnify(magnification));
+  }
+
   static fromProperties(Class, properties, ...remainingArguments) {
-    const { scale = null, rotations = null, position = null, maskReference = null, hidden = false } = properties,
-          transform = composeTransform(scale, rotations, position),
+    const { maskReference = null, hidden = false } = properties,
+          transform = null, ///
           facets = [],
           canvasElement = Element.fromProperties(Class, properties, maskReference, transform, facets, hidden, ...remainingArguments);
 

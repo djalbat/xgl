@@ -27,7 +27,9 @@ export default class Part extends Element {
   }
 
   magnify(magnification) {
+    const childElements = this.getChildElements();
 
+    childElements.forEach((childElement) => childElement.magnify(magnification));
   }
 
   initialise(canvas, masks) {

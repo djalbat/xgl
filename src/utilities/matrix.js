@@ -2,8 +2,8 @@
 
 import { scale3 } from "../maths/vector";
 import { first, second, third } from "../utilities/array";
-import { DEGREES_TO_RADIANS_MULTIPLIER, FIELD_OF_VIEW, Z_NEAR, Z_FAR } from "../constants";
 import { identity4, scale4, invert4, rotate4, translate4, transpose4, perspective4 } from "../maths/matrix";
+import { Z_FAR, Z_NEAR, DEGREES_TO_RADIANS_MULTIPLIER, FORTY_FIVE_DEGREES_FIELD_OF_VIEW } from "../constants";
 
 export function scaleMatrixFromScale(scale) {
   let scaleMatrix = identity4();
@@ -53,24 +53,20 @@ export function rotationsMatrixFromAngles(angles, reverseOrder = false) {
   const firstAngle = first(angles),
         secondAngle = second(angles),
         thirdAngle = third(angles),
-        xAngle = firstAngle,
-        yAngle = secondAngle,
-        zAngle = thirdAngle,
+        xAngle = firstAngle,  ////
+        yAngle = secondAngle, ///
+        zAngle = thirdAngle,  ///
         xAxis = [ 1, 0, 0 ],
         yAxis = [ 0, 1, 0 ],
         zAxis = [ 0, 0, 1 ];
 
   if (reverseOrder) {
     rotationsMatrix = rotate4(rotationsMatrix, zAngle, zAxis);
-
     rotationsMatrix = rotate4(rotationsMatrix, yAngle, yAxis);
-
     rotationsMatrix = rotate4(rotationsMatrix, xAngle, xAxis);
   } else {
     rotationsMatrix = rotate4(rotationsMatrix, xAngle, xAxis);
-
     rotationsMatrix = rotate4(rotationsMatrix, yAngle, yAxis);
-
     rotationsMatrix = rotate4(rotationsMatrix, zAngle, zAxis);
   }
 
@@ -86,7 +82,7 @@ export function rotationsMatrixFromRotations(rotations) {
 }
 
 export function normalsMatrixFromRotationsMatrix(rotationsMatrix) {
-  let normalsMatrix = invert4(rotationsMatrix);
+  let normalsMatrix = invert4(rotationsMatrix); ///
 
   normalsMatrix = transpose4(normalsMatrix);
 
@@ -94,10 +90,10 @@ export function normalsMatrixFromRotationsMatrix(rotationsMatrix) {
 }
 
 export function projectionMatrixFromWidthAndHeight(width, height) {
-  const fieldOfView = FIELD_OF_VIEW,  ///
-        aspectRatio = width / height,
+  const zFar = Z_FAR, ///
         zNear = Z_NEAR, ///
-        zFar = Z_FAR, ///
+        aspectRatio = width / height,
+        fieldOfView = FORTY_FIVE_DEGREES_FIELD_OF_VIEW,  ///
         projectionMatrix = perspective4(fieldOfView, aspectRatio, zNear, zFar);
 
   return projectionMatrix;

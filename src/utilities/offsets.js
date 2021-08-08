@@ -1,13 +1,19 @@
 "use strict";
 
-import { reflect3, transform4 } from "../maths/vector";
 import { rotationsMatrixFromAngles } from "../utilities/matrix";
+import { scale3, reflect3, truncate4, transform4 } from "../maths/vector";
 
-export function relativeOffsetsFromAnglesAndDirections(angles, directions) {
+export function relativeOffsetsFromAnglesDirectionsAndMagnification(angles, directions, magnification) {
+  angles = reflect3(angles);  ///
+
   const reverseOrder = true,
-        reflectedAngles = reflect3(angles),
-        rotationsMatrix = rotationsMatrixFromAngles(reflectedAngles, reverseOrder),
-        relativeOffsets = transform4(directions, rotationsMatrix).slice(0, 3); ///
+        rotationsMatrix = rotationsMatrixFromAngles(angles, reverseOrder);
+
+  let relativeOffsets = transform4(directions, rotationsMatrix);
+
+  relativeOffsets = truncate4(relativeOffsets);
+
+  relativeOffsets = scale3(relativeOffsets, magnification);
 
   return relativeOffsets;
 }

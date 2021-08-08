@@ -3,6 +3,8 @@
 import CanvasElement from "../../element/canvas";
 import TexturedFacet from "../../primitive/facet/textured";
 
+import { scale3 } from "../../maths/vector";
+
 export default class TexturedCanvasElement extends CanvasElement {
   constructor(transform, facets, mask, hidden, coordinates, indexes, imageName, textureCoordinates) {
     super(transform, facets, mask, hidden);
@@ -14,6 +16,20 @@ export default class TexturedCanvasElement extends CanvasElement {
     this.imageName = imageName;
 
     this.textureCoordinates = textureCoordinates;
+  }
+
+  magnify(magnification) {
+    let coordinateTuples = this.coordinates; ///
+
+    coordinateTuples = coordinateTuples.map((coordinateTuple) => {
+      coordinateTuple = scale3(coordinateTuple, magnification);
+
+      return coordinateTuple;
+    });
+
+    this.coordinates = coordinateTuples;  ///
+
+    super.magnify(magnification);
   }
 
   createFacets(hidden) {

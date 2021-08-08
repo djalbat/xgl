@@ -154,6 +154,16 @@ export function reflect4(vector) {
   ]);
 }
 
+export function truncate4(vector) {
+  return ([
+
+    vector[0],
+    vector[1],
+    vector[2]
+
+  ]);
+}
+
 export function scale2(vector, scalar) {
   return ([
 

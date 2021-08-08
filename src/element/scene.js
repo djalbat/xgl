@@ -60,12 +60,10 @@ export default class Scene extends Element {
     this.camera.magnify(magnification);
   }
 
-  initialise(canvas, magnification) {
+  initialise(canvas) {
     const userInput = UserInput.fromNothing(),
           userInputHandler = this.userInputHandler.bind(this),
           windowResizeHandler = this.windowResizeHandler.bind(this);
-
-    this.magnify(magnification);
 
     this.masks.forEach((mask) => mask.initialise(this.masks));
 
@@ -87,7 +85,9 @@ export default class Scene extends Element {
           camera = elementFromChildElements(childElements, Camera),
           scene = Element.fromProperties(Scene, properties, parts, masks, camera, canvas);
 
-    scene.initialise(canvas, magnification);
+    scene.magnify(magnification);
+
+    scene.initialise(canvas);
 
     return scene;
   }

@@ -13,12 +13,6 @@ import { offsetsMatrixFromOffsets,
          projectionMatrixFromWidthAndHeight } from "../../utilities/matrix";
 
 export default class GamingCamera extends Camera {
-
-
-
-
-
-
   update(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, width, height, callback) {
     const pan = this.getPan(),
           tilt = this.getTilt();
@@ -35,7 +29,6 @@ export default class GamingCamera extends Camera {
 
     const angles = tilt.getAngles(),
           offsets = pan.getOffsets(),
-
           offsetsMatrix = offsetsMatrixFromOffsets(offsets),
           positionMatrix = positionMatrixFromNothing(),
           rotationsMatrix = rotationsMatrixFromAngles(angles),
@@ -46,7 +39,7 @@ export default class GamingCamera extends Camera {
   }
 
   magnify(magnification) {
-
+    this.pan.magnify(magnification);
   }
 
   static fromProperties(properties) {
@@ -54,7 +47,6 @@ export default class GamingCamera extends Camera {
           flipped = true,
           pan = Pan.fromInitialPositionAndDeltaMultiplier(initialPosition, deltaMultiplier),
           tilt = Tilt.fromInitialAnglesAndFlipped(initialAngles, flipped),
-
           gamingCamera = Camera.fromProperties(GamingCamera, properties, pan, tilt);
 
     return gamingCamera;
