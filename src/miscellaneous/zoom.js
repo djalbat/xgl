@@ -22,7 +22,7 @@ export default class Zoom {
   }
 
   updateDistance(mouseWheelDelta) {
-    this.distance - this.distance - (mouseWheelDelta * this.deltaMultiplier);
+    this.distance = this.distance - (mouseWheelDelta * this.deltaMultiplier);
 
     this.distance = Math.max(this.minimumDistance, this.distance);
   }
