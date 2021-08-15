@@ -10,39 +10,51 @@ import { offsetsMatrixFromOffsets,
          rotationsMatrixFromAngles,
          positionMatrixFromDistance,
          normalsMatrixFromRotationsMatrix,
-         projectionMatrixFromWidthAndHeight } from "../../utilities/matrix";
+        projectionMatrixFromCameraAndCanvas } from "../../utilities/matrix";
 
 export default class DesignCamera extends Camera {
-  constructor(pan, tilt, zoom) {
-    super(pan, tilt);
+  constructor(zFar, zNear, fieldOfView, pan, tilt, zoom) {
+    super(zFar, zNear, fieldOfView);
 
+    this.pan = pan;
+    this.tilt = tilt;
     this.zoom = zoom;
   }
 
-  update(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, width, height, callback) {
-    const pan = this.getPan(),
-          tilt = this.getTilt();
+  getPan() {
+    return this.pan;
+  }
 
+  getTilt() {
+    return this.tilt;
+  }
+
+  getZoom() {
+    return this.zoom;
+  }
+
+  update(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, canvas, render) {
     if (false) {
       ///
     } else if (shiftKeyDown) {
-      pan.updateOffsets(relativeMouseCoordinates, mouseWheelDelta, tilt);
+      this.pan.updateOffsets(relativeMouseCoordinates, mouseWheelDelta, this.tilt);
     } else if (mouseWheelDelta !== 0) {
       this.zoom.updateDistance(mouseWheelDelta);
     } else {
-      tilt.updateAngles(relativeMouseCoordinates);
+      this.tilt.updateAngles(relativeMouseCoordinates);
     }
 
-    const angles = tilt.getAngles(),
-          offsets = pan.getOffsets(),
+    const camera = this,  ///
+          angles = this.tilt.getAngles(),
+          offsets = this.pan.getOffsets(),
           distance = this.zoom.getDistance(),
           offsetsMatrix = offsetsMatrixFromOffsets(offsets),
           positionMatrix = positionMatrixFromDistance(distance),
           rotationsMatrix = rotationsMatrixFromAngles(angles),
-          projectionMatrix = projectionMatrixFromWidthAndHeight(width, height),
+          projectionMatrix = projectionMatrixFromCameraAndCanvas(camera, canvas),
           normalsMatrix = normalsMatrixFromRotationsMatrix(rotationsMatrix);
 
-    callback(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);
+    render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);
   }
 
   magnify(magnification) {

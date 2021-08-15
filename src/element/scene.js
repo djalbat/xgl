@@ -21,21 +21,16 @@ export default class Scene extends Element {
   }
 
   userInputHandler(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown) {
-    const width = this.canvas.getWidth(),
-          height = this.canvas.getHeight(),
-          render = this.render.bind(this),
-          callback = render;  ///
+    const render = this.render.bind(this);
 
-    this.camera.update(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, width, height, callback);
+    this.camera.update(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, this.canvas, render);
   }
 
   windowResizeHandler() {
     const clientWidth = this.canvas.getClientWidth(),
           clientHeight = this.canvas.getClientHeight(),
           width = clientWidth,  ///
-          height = clientHeight,  ///
-          render = this.render.bind(this),
-          callback = render;  ///
+          height = clientHeight;
 
     this.canvas.resize(width, height);
 
@@ -43,7 +38,7 @@ export default class Scene extends Element {
           mouseWheelDelta = 0,  ///
           shiftKeyDown = false; ///
 
-    this.camera.update(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, width, height, callback);
+    this.userInputHandler(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown);
   }
 
   render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix) {

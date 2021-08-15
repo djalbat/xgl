@@ -3,7 +3,10 @@
 import { zero2, zero3 } from "./maths/vector";
 
 export const DEFAULT_HOST = "";
+export const DEFAULT_Z_FAR = 1000;
+export const DEFAULT_Z_NEAR = 1;
 export const DEFAULT_HIDDEN = false;
+export const DEFAULT_FIELD_OF_VIEW = 45;
 export const DEFAULT_MAGNIFICATION = 1;
 export const DEFAULT_INITIAL_ANGLES = zero2();
 export const DEFAULT_INITIAL_OFFSETS = zero3();

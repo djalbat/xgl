@@ -10,32 +10,45 @@ import { offsetsMatrixFromOffsets,
          rotationsMatrixFromAngles,
          positionMatrixFromNothing,
          normalsMatrixFromRotationsMatrix,
-         projectionMatrixFromWidthAndHeight } from "../../utilities/matrix";
+         projectionMatrixFromCameraAndCanvas } from "../../utilities/matrix";
 
 export default class GamingCamera extends Camera {
-  update(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, width, height, callback) {
-    const pan = this.getPan(),
-          tilt = this.getTilt();
+  constructor(zFar, zNear, fieldOfView, pan, tilt) {
+    super(zFar, zNear, fieldOfView, pan, tilt);
 
+    this.pan = pan;
+    this.tilt = tilt;
+  }
+
+  getPan() {
+    return this.pan;
+  }
+
+  getTilt() {
+    return this.tilt;
+  }
+
+  update(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, canvas, render) {
     if (false) {
       ///
     } else if (shiftKeyDown) {
-      pan.updateOffsets(relativeMouseCoordinates, mouseWheelDelta, tilt);
+      this.pan.updateOffsets(relativeMouseCoordinates, mouseWheelDelta, this.tilt);
     } else if (mouseWheelDelta !== 0) {
-      pan.updateOffsets(relativeMouseCoordinates, mouseWheelDelta, tilt);
+      this.pan.updateOffsets(relativeMouseCoordinates, mouseWheelDelta, this.tilt);
     } else {
-      tilt.updateAngles(relativeMouseCoordinates);
+      this.tilt.updateAngles(relativeMouseCoordinates);
     }
 
-    const angles = tilt.getAngles(),
-          offsets = pan.getOffsets(),
+    const camera = this,  ///
+          angles = this.tilt.getAngles(),
+          offsets = this.pan.getOffsets(),
           offsetsMatrix = offsetsMatrixFromOffsets(offsets),
           positionMatrix = positionMatrixFromNothing(),
           rotationsMatrix = rotationsMatrixFromAngles(angles),
-          projectionMatrix = projectionMatrixFromWidthAndHeight(width, height),
+          projectionMatrix = projectionMatrixFromCameraAndCanvas(camera, canvas),
           normalsMatrix = normalsMatrixFromRotationsMatrix(rotationsMatrix);
 
-    callback(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);
+    render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);
   }
 
   magnify(magnification) {
