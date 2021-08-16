@@ -1,5 +1,7 @@
 "use strict";
 
+import { SHADER_ERROR } from "../errors";
+
 export function createShader(type, shaderSource) {
   const { COMPILE_STATUS } = this.context,
         pname = COMPILE_STATUS,
@@ -12,7 +14,7 @@ export function createShader(type, shaderSource) {
   const compileStatus = this.context.getShaderParameter(shader, pname);
 
   if (!compileStatus) {
-    throw new Error("Unable to create the shader.");
+    throw new Error(SHADER_ERROR);
   }
 
   return shader;

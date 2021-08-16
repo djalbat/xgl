@@ -2,6 +2,7 @@
 
 import { applyMatrix } from "./mixin/matrix";
 import { enableBlending } from "./mixin/blending";
+import { WEB_GL_CONTEXT_ERROR } from "./errors";
 import { createProgram, useProgram } from "./mixin/program";
 import { clearColour, clearColourBuffer } from "./mixin/colour";
 import { createTexture, enableAnisotropicFiltering } from "./mixin/texture";
@@ -130,7 +131,7 @@ function contextFromDOMElement(domElement) {
   const context = domElement.getContext("webgl");
 
   if (!context) {
-    throw new Error(`Unable to get the WebGL context.`);
+    throw new Error(WEB_GL_CONTEXT_ERROR);
   }
 
   return context;

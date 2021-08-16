@@ -56,7 +56,9 @@ export default class GamingCamera extends Camera {
   }
 
   static fromProperties(properties) {
-    const { initialAngles = DEFAULT_INITIAL_ANGLES, initialPosition = DEFAULT_INITIAL_POSITION, deltaMultiplier = DEFAULT_DELTA_MULTIPLIER } = properties,
+    const { initialAngles = DEFAULT_INITIAL_ANGLES,
+            initialPosition = DEFAULT_INITIAL_POSITION,
+            deltaMultiplier = DEFAULT_DELTA_MULTIPLIER } = properties,
           flipped = true,
           pan = Pan.fromInitialPositionAndDeltaMultiplier(initialPosition, deltaMultiplier),
           tilt = Tilt.fromInitialAnglesAndFlipped(initialAngles, flipped),

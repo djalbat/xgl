@@ -1,8 +1,8 @@
 "use strict";
 
-const defaultDepth = 1.0;
+import { DEFAULT_DEPTH } from "../defaults";
 
-export function clearDepth(depth = defaultDepth) {
+export function clearDepth(depth = DEFAULT_DEPTH) {
   this.context.clearDepth(depth); 
 }
 

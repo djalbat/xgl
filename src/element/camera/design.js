@@ -63,7 +63,10 @@ export default class DesignCamera extends Camera {
   }
 
   static fromProperties(properties) {
-    const { initialAngles = DEFAULT_INITIAL_ANGLES, initialOffsets = DEFAULT_INITIAL_OFFSETS, initialDistance = DEFAULT_INITIAL_DISTANCE, deltaMultiplier = DEFAULT_DELTA_MULTIPLIER } = properties,
+    const { initialAngles = DEFAULT_INITIAL_ANGLES,
+            initialOffsets = DEFAULT_INITIAL_OFFSETS,
+            initialDistance = DEFAULT_INITIAL_DISTANCE,
+            deltaMultiplier = DEFAULT_DELTA_MULTIPLIER } = properties,
           flipped = false,
           pan = Pan.fromInitialOffsetsAndDeltaMultiplier(initialOffsets, deltaMultiplier),
           tilt = Tilt.fromInitialAnglesAndFlipped(initialAngles, flipped),

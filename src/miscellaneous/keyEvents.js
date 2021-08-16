@@ -1,6 +1,7 @@
 "use strict";
 
-import { SHIFT_KEY_CODE } from "../constants";
+import { SHIFT_KEY_CODE } from "../keyCodes";
+import { KEYUP_EVENT_TYPE, KEYDOWN_EVENT_TYPE } from "../eventTypes";
 
 export default class KeyEvents {
   constructor(handlers, shiftKeyDown) {
@@ -43,9 +44,9 @@ export default class KeyEvents {
           keyUpEventListener = this.keyUpEventListener.bind(this),
           keyDownEventListener = this.keyDownEventListener.bind(this);
 
-    documentDOMElement.addEventListener("keyup", keyUpEventListener);
+    documentDOMElement.addEventListener(KEYUP_EVENT_TYPE, keyUpEventListener);
 
-    documentDOMElement.addEventListener("keydown", keyDownEventListener);
+    documentDOMElement.addEventListener(KEYDOWN_EVENT_TYPE, keyDownEventListener);
   }
 
   static fromNothing() {

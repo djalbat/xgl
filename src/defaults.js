@@ -2,7 +2,12 @@
 
 import { zero2, zero3 } from "./maths/vector";
 
+export const DEFAULT_R = 0;
+export const DEFAULT_G = 0;
+export const DEFAULT_B = 0;
+export const DEFAULT_A = 0;
 export const DEFAULT_HOST = "";
+export const DEFAULT_DEPTH = 1.0;
 export const DEFAULT_Z_FAR = 1000;
 export const DEFAULT_Z_NEAR = 1;
 export const DEFAULT_HIDDEN = false;

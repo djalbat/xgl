@@ -1,6 +1,6 @@
 "use strict";
 
-import { MOUSE_UP, MOUSE_DOWN, MOUSE_MOVE, MOUSE_WHEEL } from "../constants";
+import { MOUSEUP_EVENT_TYPE, MOUSEDOWN_EVENT_TYPE, MOUSEMOVE_EVENT_TYPE, MOUSEWHEEL_EVENT_TYPE } from "../eventTypes";
 
 export default class MouseEvents {
   constructor(handlersMap, mouseDown) {
@@ -20,21 +20,21 @@ export default class MouseEvents {
   mouseUpEventListener(event) {
     this.mouseDown = false;
 
-    this.mouseEventListener(event, MOUSE_UP);
+    this.mouseEventListener(event, MOUSEUP_EVENT_TYPE);
   }
 
 	mouseDownEventListener(event) {
     this.mouseDown = true;
 
-    this.mouseEventListener(event, MOUSE_DOWN);
+    this.mouseEventListener(event, MOUSEDOWN_EVENT_TYPE);
   }
 
 	mouseMoveEventListener(event) {
-    this.mouseEventListener(event, MOUSE_MOVE);
+    this.mouseEventListener(event, MOUSEMOVE_EVENT_TYPE);
   }
 
   mouseWheelEventListener(event) {
-    const handlers = this.handlersMap[ MOUSE_WHEEL ],
+    const handlers = this.handlersMap[ MOUSEWHEEL_EVENT_TYPE ],
           mouseWheelDelta = mouseWheelDeltaFromEvent(event);
 
     handlers.forEach((handler) => handler(mouseWheelDelta));
@@ -43,25 +43,25 @@ export default class MouseEvents {
   }
 
   addMouseUpHandler(mouseUpHandler) {
-    const mouseUpHandlers = this.handlersMap[ MOUSE_UP ];
+    const mouseUpHandlers = this.handlersMap[ MOUSEUP_EVENT_TYPE ];
 
     mouseUpHandlers.push(mouseUpHandler);
   }
 
   addMouseDownHandler(mouseDownHandler) {
-    const mouseDownHandlers = this.handlersMap[ MOUSE_DOWN ];
+    const mouseDownHandlers = this.handlersMap[ MOUSEDOWN_EVENT_TYPE ];
 
     mouseDownHandlers.push(mouseDownHandler);
   }
 
   addMouseMoveHandler(mouseMoveHandler) {
-    const mouseMoveHandlers = this.handlersMap[ MOUSE_MOVE ];
+    const mouseMoveHandlers = this.handlersMap[ MOUSEMOVE_EVENT_TYPE ];
 
     mouseMoveHandlers.push(mouseMoveHandler);
   }
 
   addMouseWheelHandler(mouseWheelHandler) {
-    const mouseWheelHandlers = this.handlersMap[ MOUSE_WHEEL ];
+    const mouseWheelHandlers = this.handlersMap[ MOUSEWHEEL_EVENT_TYPE ];
 
     mouseWheelHandlers.push(mouseWheelHandler);
   }
@@ -73,18 +73,18 @@ export default class MouseEvents {
             mouseMoveEventListener = this.mouseMoveEventListener.bind(this),
             mouseWheelEventListener = this.mouseWheelEventListener.bind(this);
 
-    this.handlersMap[ MOUSE_UP ] = [];
-    this.handlersMap[ MOUSE_DOWN ] = [];
-    this.handlersMap[ MOUSE_MOVE ] = [];
-    this.handlersMap[ MOUSE_WHEEL ] = [];
+    this.handlersMap[ MOUSEUP_EVENT_TYPE ] = [];
+    this.handlersMap[ MOUSEDOWN_EVENT_TYPE ] = [];
+    this.handlersMap[ MOUSEMOVE_EVENT_TYPE ] = [];
+    this.handlersMap[ MOUSEWHEEL_EVENT_TYPE ] = [];
 
-    canvasDOMElement.addEventListener("mouseup", mouseUpEventListener);
+    canvasDOMElement.addEventListener(MOUSEUP_EVENT_TYPE, mouseUpEventListener);
 
-    canvasDOMElement.addEventListener("mousedown", mouseDownEventListener);
+    canvasDOMElement.addEventListener(MOUSEDOWN_EVENT_TYPE, mouseDownEventListener);
 
-    canvasDOMElement.addEventListener("mousemove", mouseMoveEventListener);
+    canvasDOMElement.addEventListener(MOUSEMOVE_EVENT_TYPE, mouseMoveEventListener);
 
-    canvasDOMElement.addEventListener("mousewheel", mouseWheelEventListener);
+    canvasDOMElement.addEventListener(MOUSEWHEEL_EVENT_TYPE, mouseWheelEventListener);
   }
 
   static fromNothing() {
@@ -97,7 +97,8 @@ export default class MouseEvents {
 }
 
 function mouseWheelDeltaFromEvent(event) {
-  const mouseWheelDelta = Math.max(-1, Math.min(1, event.wheelDelta)); ///
+  const { wheelDelta } = event,
+        mouseWheelDelta = Math.max(-1, Math.min(1, wheelDelta)); ///
 
   return mouseWheelDelta;
 }
@@ -106,14 +107,10 @@ function mouseCoordinatesFromEvent(event) {
   const { target, clientX, clientY } = event,
         canvasDOMElement = target,  ///
         boundingClientRect = canvasDOMElement.getBoundingClientRect(),
-        top = boundingClientRect.top,
-        left = boundingClientRect.left,
+        { top, left } = boundingClientRect,
         mouseCoordinates = [
-
           clientX - left,
-
-          top - clientY,
-
+          top - clientY
         ];
 
   return mouseCoordinates;

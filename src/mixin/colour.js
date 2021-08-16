@@ -1,11 +1,8 @@
 "use strict";
 
-const defaultR = 0.0,
-      defaultG = 0.0,
-      defaultB = 0.0,
-      defaultA = 1.0;
+import { DEFAULT_R, DEFAULT_G, DEFAULT_B, DEFAULT_A } from "../defaults";
 
-export function clearColour(r = defaultR, g = defaultG, b = defaultB, a = defaultA) { this.context.clearColor(r, g, b, a); }
+export function clearColour(r = DEFAULT_R, g = DEFAULT_G, b = DEFAULT_B, a = DEFAULT_A) { this.context.clearColor(r, g, b, a); }
 
 export function clearColourBuffer() {
   const { COLOR_BUFFER_BIT } = this.context,

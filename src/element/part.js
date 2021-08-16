@@ -37,13 +37,13 @@ export default class Part extends Element {
 
     const colourRenderer = ColourRenderer.fromNothing(canvas);
 
-    if (this.images) {
+    if (this.images !== null) {
       const imagesTextureRenderer = ImagesTextureRenderer.fromImagesImageNamesAndImageTiling(this.images, this.imageNames, this.imageTiling, canvas);
 
       textureRenderer = imagesTextureRenderer;  ///
     }
 
-    if (this.imageMap) {
+    if (this.imageMap !== null) {
       const imageMapTextureRenderer = ImageMapTextureRenderer.fromImageMapAndImageMapJSON(this.imageMap, this.imageMapJSON, canvas);
 
       textureRenderer = imageMapTextureRenderer;  ///
