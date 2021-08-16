@@ -1,16 +1,19 @@
 "use strict";
 
-const WATCH_PATTERN = "./example.js",
+const TWO_SPACES = "  ",
+      CONTENT_TYPE = "content-type",
+      WATCH_PATTERN = "./example.js",
       OVERLAY_IMAGE_SIZE = 128,
       INDEX_PAGE_FILE_NAME = "index.html",
       EXAMPLE_PAGE_FILE_NAME = "example.html",
       IMAGE_DIRECTORY_URI = "image",
       IMAGE_DIRECTORY_PATH = "image",
       STATIC_DIRECTORY_PATH = ".",
-      TEMPLATE_DIRECTORY_PATH = "template",
-      TEXT_HTML_CHARSET_UTF8_CONTENT_TYPE = "text/html; charset=utf-8";
+      TEMPLATE_DIRECTORY_PATH = "template";
 
 module.exports = {
+  TWO_SPACES,
+  CONTENT_TYPE,
   WATCH_PATTERN,
   OVERLAY_IMAGE_SIZE,
   INDEX_PAGE_FILE_NAME,
@@ -18,6 +21,5 @@ module.exports = {
   IMAGE_DIRECTORY_URI,
   IMAGE_DIRECTORY_PATH,
   STATIC_DIRECTORY_PATH,
-  TEMPLATE_DIRECTORY_PATH,
-  TEXT_HTML_CHARSET_UTF8_CONTENT_TYPE
+  TEMPLATE_DIRECTORY_PATH
 };

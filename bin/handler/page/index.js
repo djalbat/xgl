@@ -2,7 +2,9 @@
 
 const { templateUtilities } = require("necessary");
 
-const { INDEX_PAGE_FILE_NAME, TEXT_HTML_CHARSET_UTF8_CONTENT_TYPE } = require("../../constants");
+const { OK_200_STATUS_CODE } = require("../../statusCodes"),
+      { CONTENT_TYPE, INDEX_PAGE_FILE_NAME } = require("../../constants"),
+      { TEXT_HTML_CHARSET_UTF_8_CONTENT_TYPE } = require("../../contentTypes");
 
 const { parseFile } = templateUtilities;
 
@@ -11,9 +13,13 @@ function indexPageHandler(request, response) {
         filePath = indexPageFileName, ///
         args = {},
         html = parseFile(filePath, args),
-        contentType = TEXT_HTML_CHARSET_UTF8_CONTENT_TYPE;
+        headers = {},
+        statusCode = OK_200_STATUS_CODE,
+        contentType = TEXT_HTML_CHARSET_UTF_8_CONTENT_TYPE;
 
-  response.writeHead(200, { "Content-Type": contentType });
+  headers[CONTENT_TYPE] = contentType;
+
+  response.writeHead(statusCode, headers);
 
   response.end(html);
 }
