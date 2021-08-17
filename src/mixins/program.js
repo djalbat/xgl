@@ -1,6 +1,6 @@
 "use strict";
 
-export function createProgram(vertexShader, fragmentShader) {
+function createProgram(vertexShader, fragmentShader) {
   const program = this.context.createProgram();
 
   this.context.attachShader(program, vertexShader);
@@ -12,6 +12,13 @@ export function createProgram(vertexShader, fragmentShader) {
   return program;
 }
 
-export function useProgram(program) {
+function useProgram(program) {
   this.context.useProgram(program);
 }
+
+const programMixins = {
+  createProgram,
+  useProgram
+};
+
+export default programMixins;

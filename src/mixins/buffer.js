@@ -1,6 +1,6 @@
 "use strict";
 
-export function createElementBuffer(data) {
+function createElementBuffer(data) {
   const { ELEMENT_ARRAY_BUFFER, STATIC_DRAW } = this.context,
         target = ELEMENT_ARRAY_BUFFER,
         usage = STATIC_DRAW,
@@ -14,14 +14,14 @@ export function createElementBuffer(data) {
   return elementBuffer;
 }
 
-export function bindElementBuffer(elementBuffer) {
+function bindElementBuffer(elementBuffer) {
   const { ELEMENT_ARRAY_BUFFER } = this.context,
         target = ELEMENT_ARRAY_BUFFER;
 
   this.context.bindBuffer(target, elementBuffer);
 }
 
-export function createBuffer(data) {
+function createBuffer(data) {
   const { ARRAY_BUFFER, STATIC_DRAW } = this.context,
         target = ARRAY_BUFFER,
         usage = STATIC_DRAW,
@@ -35,7 +35,7 @@ export function createBuffer(data) {
   return buffer;
 }
 
-export function bindBuffer(buffer, attributeLocation, components) {
+function bindBuffer(buffer, attributeLocation, components) {
   const { ARRAY_BUFFER, FLOAT } = this.context,
         target = ARRAY_BUFFER,
         type = FLOAT,
@@ -49,3 +49,12 @@ export function bindBuffer(buffer, attributeLocation, components) {
 
   this.context.enableVertexAttribArray(attributeLocation);
 }
+
+const bufferMixins = {
+  createElementBuffer,
+  bindElementBuffer,
+  createBuffer,
+  bindBuffer
+};
+
+export default bufferMixins;

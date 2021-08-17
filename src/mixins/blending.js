@@ -1,6 +1,6 @@
 "use strict";
 
-export function enableBlending() {
+function enableBlending() {
   const { BLEND, SRC_ALPHA, ONE } = this.context,
         capacity = BLEND,
         sourceFactor = SRC_ALPHA,
@@ -11,3 +11,8 @@ export function enableBlending() {
   this.context.blendFunc(sourceFactor, destinationFactor);
 }
 
+const blendingMixins = {
+  enableBlending
+};
+
+export default blendingMixins;

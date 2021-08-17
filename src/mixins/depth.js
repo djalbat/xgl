@@ -2,18 +2,18 @@
 
 import { DEFAULT_DEPTH } from "../defaults";
 
-export function clearDepth(depth = DEFAULT_DEPTH) {
+function clearDepth(depth = DEFAULT_DEPTH) {
   this.context.clearDepth(depth); 
 }
 
-export function clearDepthBuffer() {
+function clearDepthBuffer() {
   const { DEPTH_BUFFER_BIT } = this.context,
         mask = DEPTH_BUFFER_BIT;
 
   this.context.clear(mask);
 }
 
-export function enableDepthTesting() {
+function enableDepthTesting() {
   const { DEPTH_TEST, LEQUAL } = this.context,
         capacity = DEPTH_TEST,
         depthComparisonFunction = LEQUAL;
@@ -22,3 +22,11 @@ export function enableDepthTesting() {
 
   this.context.depthFunc(depthComparisonFunction);
 }
+
+const depthMixins = {
+  clearDepth,
+  clearDepthBuffer,
+  enableDepthTesting
+};
+
+export default depthMixins;

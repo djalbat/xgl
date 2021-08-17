@@ -1,47 +1,18 @@
 "use strict";
 
-import { applyMatrix } from "./mixin/matrix";
-import { enableBlending } from "./mixin/blending";
+import depthMixins from "./mixins/depth";
+import shaderMixins from "./mixins/shader";
+import bufferMixins from "./mixins/buffer";
+import colourMixins from "./mixins/colour";
+import matrixMixins from "./mixins/matrix";
+import textureMixins from "./mixins/texture";
+import programMixins from "./mixins/program";
+import blendingMixins from "./mixins/blending";
+import locationMixins from "./mixins/location";
+
 import { WEB_GL_CONTEXT_ERROR } from "./errors";
-import { createProgram, useProgram } from "./mixin/program";
-import { clearColour, clearColourBuffer } from "./mixin/colour";
-import { createTexture, enableAnisotropicFiltering } from "./mixin/texture";
-import { clearDepth, clearDepthBuffer, enableDepthTesting } from "./mixin/depth";
-import { createShader, createVertexShader, createFragmentShader } from "./mixin/shader";
-import { bindBuffer, bindElementBuffer, createBuffer, createElementBuffer } from "./mixin/buffer";
-import { getAttributeLocation, getUniformLocation, setUniformLocationIntegerValue } from "./mixin/location";
 
 export default class Canvas {
-  applyMatrix = applyMatrix;
-
-  enableBlending = enableBlending;
-
-  useProgram = useProgram;
-  createProgram = createProgram;
-
-  clearColour = clearColour;
-  clearColourBuffer = clearColourBuffer;
-
-  createTexture = createTexture;
-  enableAnisotropicFiltering = enableAnisotropicFiltering;
-
-  clearDepth = clearDepth;
-  clearDepthBuffer = clearDepthBuffer;
-  enableDepthTesting = enableDepthTesting;
-
-  createShader = createShader;
-  createVertexShader = createVertexShader;
-  createFragmentShader = createFragmentShader;
-
-  bindBuffer = bindBuffer;
-  createBuffer = createBuffer;
-  bindElementBuffer = bindElementBuffer;
-  createElementBuffer = createElementBuffer;
-
-  getUniformLocation = getUniformLocation;
-  getAttributeLocation = getAttributeLocation;
-  setUniformLocationIntegerValue = setUniformLocationIntegerValue;
-
   constructor(selector = "canvas") {
     const domElement = domElementFromSelector(selector),
           context = contextFromDOMElement(domElement);
@@ -118,6 +89,16 @@ export default class Canvas {
     this.context.drawElements(mode, count, type, offset)
   }
 }
+
+Object.assign(Canvas.prototype, depthMixins);
+Object.assign(Canvas.prototype, shaderMixins);
+Object.assign(Canvas.prototype, bufferMixins);
+Object.assign(Canvas.prototype, colourMixins);
+Object.assign(Canvas.prototype, matrixMixins);
+Object.assign(Canvas.prototype, textureMixins);
+Object.assign(Canvas.prototype, programMixins);
+Object.assign(Canvas.prototype, blendingMixins);
+Object.assign(Canvas.prototype, locationMixins);
 
 function domElementFromSelector(selector) {
   const domElement = (typeof selector === "string") ?

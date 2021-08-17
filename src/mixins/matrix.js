@@ -1,8 +1,13 @@
 "use strict";
 
-export function applyMatrix(uniformLocation, matrix) {
+function applyMatrix(uniformLocation, matrix) {
   const transpose = false;  ///
 
   this.context.uniformMatrix4fv(uniformLocation, transpose, matrix);
 }
 
+const matrixMixins = {
+  applyMatrix
+};
+
+export default matrixMixins;

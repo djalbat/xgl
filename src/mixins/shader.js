@@ -2,7 +2,7 @@
 
 import { SHADER_ERROR } from "../errors";
 
-export function createShader(type, shaderSource) {
+function createShader(type, shaderSource) {
   const { COMPILE_STATUS } = this.context,
         pname = COMPILE_STATUS,
         shader = this.context.createShader(type);
@@ -20,7 +20,7 @@ export function createShader(type, shaderSource) {
   return shader;
 }
 
-export function createVertexShader(vertexShaderSource, canvas) {
+function createVertexShader(vertexShaderSource, canvas) {
   const { VERTEX_SHADER } = this.context,
         type = VERTEX_SHADER,
         vertexShader = this.createShader(type, vertexShaderSource);
@@ -28,10 +28,18 @@ export function createVertexShader(vertexShaderSource, canvas) {
   return vertexShader;
 }
 
-export function createFragmentShader(fragmentShaderSource, canvas) {
+function createFragmentShader(fragmentShaderSource, canvas) {
   const { FRAGMENT_SHADER } = this.context,
         type = FRAGMENT_SHADER,
         fragmentShader = this.createShader(type, fragmentShaderSource);
 
   return fragmentShader;
 }
+
+const shaderMixins = {
+  createShader,
+  createVertexShader,
+  createFragmentShader
+};
+
+export default shaderMixins;

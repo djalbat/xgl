@@ -1,6 +1,10 @@
 "use strict";
 
-export function createTexture(image, index, repeat) {
+import { EXT_TEXTURE_FILTER_ANISOTROPIC,
+         MOZ_EXT_TEXTURE_FILTER_ANISOTROPIC,
+         WEBKIT_EXT_TEXTURE_FILTER_ANISOTROPIC } from "../constants";
+
+function createTexture(image, index, repeat) {
 	const { RGBA, LINEAR, UNSIGNED_BYTE, TEXTURE0, TEXTURE_2D, TEXTURE_WRAP_S, TEXTURE_WRAP_T, UNPACK_FLIP_Y_WEBGL, CLAMP_TO_EDGE, NEAREST, REPEAT, TEXTURE_MIN_FILTER } = this.context,
 				target = TEXTURE0 + index,
 				level = 0,
@@ -30,11 +34,11 @@ export function createTexture(image, index, repeat) {
 	return texture;
 }
 
-export function enableAnisotropicFiltering() {
+function enableAnisotropicFiltering() {
   const extension = (
-    this.context.getExtension("EXT_texture_filter_anisotropic") ||
-    this.context.getExtension("MOZ_EXT_texture_filter_anisotropic") ||
-    this.context.getExtension("WEBKIT_EXT_texture_filter_anisotropic")
+    this.context.getExtension(EXT_TEXTURE_FILTER_ANISOTROPIC) ||
+    this.context.getExtension(MOZ_EXT_TEXTURE_FILTER_ANISOTROPIC) ||
+    this.context.getExtension(WEBKIT_EXT_TEXTURE_FILTER_ANISOTROPIC)
   );
 
   if (extension) {
@@ -45,3 +49,10 @@ export function enableAnisotropicFiltering() {
     this.context.texParameterf(TEXTURE_2D, TEXTURE_MAX_ANISOTROPY_EXT, maximum);
   }
 }
+
+const textureMixins = {
+  createTexture,
+  enableAnisotropicFiltering
+};
+
+export default textureMixins;
