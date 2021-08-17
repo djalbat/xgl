@@ -26,9 +26,9 @@ export default class Edge {
 
   static fromStartVertexAndEndVertex(Class, startVertex, endVertex) {
     if (endVertex === undefined) {
-      endVertex = startVertex;
-      startVertex = Class;
-      Class = Edge;
+      endVertex = startVertex;  ///
+      startVertex = Class;  ///
+      Class = Edge; ///
     }
     
     const startPosition = startVertex.getPosition(),

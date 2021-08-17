@@ -1,5 +1,7 @@
 "use strict";
 
+import { FUNCTION } from "./constants";
+
 export default class Element {
   getProperties() {
     return this.properties;
@@ -19,7 +21,7 @@ export default class Element {
 
   static fromProperties(Class, properties, ...remainingArguments) {
     const element = new Class(...remainingArguments),
-          childElements = (typeof element.childElements === "function") ?
+          childElements = (typeof element.childElements === FUNCTION) ?
                             element.childElements(properties) :
                               properties.childElements || [];
 

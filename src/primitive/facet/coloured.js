@@ -35,11 +35,10 @@ export default class ColouredFacet extends Facet {
           largeEnough = !areaApproximatelyEqualToZero;  ///
 
     if (largeEnough) {
-      const rgba = this.rgba,
-            normal = calculateNormal(vertices, Normal),
+      const normal = calculateNormal(vertices, Normal),
             edges = calculateEdges(vertices, Edge);
 
-      colouredFacet = new ColouredFacet(vertices, normal, edges, rgba);
+      colouredFacet = new ColouredFacet(vertices, normal, edges, this.rgba);
     }
 
     return colouredFacet;
@@ -54,8 +53,7 @@ export default class ColouredFacet extends Facet {
     normal = cloneNormal(normal);
     edges = cloneEdges(edges);
 
-    const rgba = this.rgba,
-          colouredFacet = new ColouredFacet(vertices, normal, edges, rgba);
+    const colouredFacet = new ColouredFacet(vertices, normal, edges, this.rgba);
 
     return colouredFacet;
   }

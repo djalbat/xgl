@@ -11,9 +11,10 @@ import blendingMixins from "./mixins/blending";
 import locationMixins from "./mixins/location";
 
 import { WEB_GL_CONTEXT_ERROR } from "./errors";
+import { WIDTH, HEIGHT, CANVAS } from "./constants";
 
 export default class Canvas {
-  constructor(selector = "canvas") {
+  constructor(selector = CANVAS) {
     const domElement = domElementFromSelector(selector),
           context = contextFromDOMElement(domElement);
 
@@ -40,9 +41,9 @@ export default class Canvas {
 
   getClientHeight() { return this.domElement.clientHeight; }
 
-  setWidth(width) { this.domElement.setAttribute("width", width); }
+  setWidth(width) { this.domElement.setAttribute(WIDTH, width); }
 
-  setHeight(height) { this.domElement.setAttribute("height", height); }
+  setHeight(height) { this.domElement.setAttribute(HEIGHT, height); }
 
   resize(width, height) {
     const x = 0,
@@ -57,11 +58,8 @@ export default class Canvas {
 
   clear() {
     this.clearDepth();
-
     this.clearColour();
-
     this.clearDepthBuffer();
-
     this.clearColourBuffer();
   }
 

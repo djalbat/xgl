@@ -1,6 +1,5 @@
 "use strict";
 
-import { scale3 } from "../maths/vector";
 import { rotatePosition } from "../utilities/rotation";
 
 export default class Vertex {

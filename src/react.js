@@ -3,6 +3,7 @@
 import Element from "./element";
 import FunctionCanvasElement from "./element/canvas/function";
 
+import { FUNCTION } from "./constants";
 import { flatten, guarantee } from "./utilities/array";
 
 function createElement(firstArgument, properties, ...childElements) {
@@ -20,7 +21,7 @@ function createElement(firstArgument, properties, ...childElements) {
     });
 
     element = Class.fromProperties(properties);
-  } else if (typeof firstArgument === "function") {
+  } else if (typeof firstArgument === FUNCTION) {
     const func = firstArgument,  ///
           childElements = guarantee(func(properties));
 

@@ -23,6 +23,6 @@ export function guarantee(arrayOrElement) {
   arrayOrElement = arrayOrElement || [];
 
   return (arrayOrElement instanceof Array) ?
-           arrayOrElement :
-            [arrayOrElement];
+            arrayOrElement :
+             [ arrayOrElement ];
 }
