@@ -4,6 +4,10 @@ import { arrayUtilities } from "necessary";
 
 export const { first, second, third, fourth, push, merge, separate } = arrayUtilities;
 
+export function add(array, element) {
+  array.push(element);
+}
+
 export function permute(array, places) {
   const length = array.length,
         cut = length - places,

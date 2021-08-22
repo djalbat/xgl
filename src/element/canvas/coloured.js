@@ -3,6 +3,7 @@
 import CanvasElement from "../../element/canvas";
 import ColouredFacet from "../../primitive/facet/coloured";
 
+import { add } from "../../utilities/array";
 import { scale3 } from "../../maths/vector";
 
 export default class ColouredCanvasElement extends CanvasElement {
@@ -35,13 +36,17 @@ export default class ColouredCanvasElement extends CanvasElement {
 
     if (!hidden) {
       const indexTuples = this.indexes,  ///
-            facets = indexTuples.map((indexTuple) => {
+            facets = indexTuples.reduce((facets, indexTuple) => {
               const coordinateTuples = this.coordinates, ///
                     colouredFacet = ColouredFacet.fromCoordinateTuplesIndexTupleAndColour(coordinateTuples, indexTuple, this.colour),
                     facet = colouredFacet;  ///
 
-              return facet;
-            });
+              if (facet !== null) {
+                add(facets, facet);
+              }
+
+              return facets;
+            }, []);
 
       this.setFacets(facets);
     }

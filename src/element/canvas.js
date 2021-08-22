@@ -36,6 +36,16 @@ export default class CanvasElement extends Element {
   }
 
   applyMask(maskReference, masks) {
+    const mask = this.findMask(maskReference, masks);
+
+    if (mask !== null) {
+      const element = this; ///
+
+      mask.maskElement(element);
+    }
+  }
+
+  findMask(maskReference, masks) {
     const mask = masks.find((mask) => {
       const reference = mask.getReference();
 
@@ -44,11 +54,7 @@ export default class CanvasElement extends Element {
       }
     }) || null; ///
 
-    if (mask !== null) {
-      const element = this; ///
-
-      mask.maskElement(element);
-    }
+    return mask;
   }
 
   applyTransform(transform) {

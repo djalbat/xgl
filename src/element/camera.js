@@ -26,6 +26,11 @@ export default class Camera extends Element {
     return this.fieldOfView;
   }
 
+  magnify(magnification) {
+    this.zFar = this.zFar * magnification;
+    this.zNear = this.zNear * magnification;
+  }
+
   static fromProperties(Class, properties, ...remainingArguments) {
     let { fieldOfView = DEFAULT_FIELD_OF_VIEW } = properties;
 

@@ -58,6 +58,8 @@ export default class DesignCamera extends Camera {
   }
 
   magnify(magnification) {
+    super.magnify(magnification);
+
     this.pan.magnify(magnification);
     this.zoom.magnify(magnification);
   }

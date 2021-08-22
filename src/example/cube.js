@@ -9,7 +9,7 @@ const cubeExample = () => {
 
   return (
 
-    <Scene canvas={canvas} magnification={1}>
+    <Scene canvas={canvas}>
       <Part>
         <Cube colour={[ 0, 1, 0 ]} />
       </Part>

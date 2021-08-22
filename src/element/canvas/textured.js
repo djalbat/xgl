@@ -3,6 +3,7 @@
 import CanvasElement from "../../element/canvas";
 import TexturedFacet from "../../primitive/facet/textured";
 
+import { add } from "../../utilities/array";
 import { scale3 } from "../../maths/vector";
 
 export default class TexturedCanvasElement extends CanvasElement {
@@ -37,14 +38,18 @@ export default class TexturedCanvasElement extends CanvasElement {
 
     if (!hidden) {
       const indexTuples = this.indexes,  ///
-            facets = indexTuples.map((indexTuple, index) => {
+          facets = indexTuples.reduce((facets, indexTuple, index) => {
               const vertexTextureCoordinateTuples = this.textureCoordinates[index], ///
                     coordinateTuples = this.coordinates, ///
                     texturedFacet = TexturedFacet.fromTextureCoordinateTuplesCoordinatesTuplesIndexTupleAndImageName(vertexTextureCoordinateTuples, coordinateTuples, indexTuple, this.imageName),
                     facet = texturedFacet;  ///
 
-              return facet;
-            });
+            if (facet !== null) {
+              add(facets, facet);
+            }
+
+            return facets;
+          }, []);
 
       this.setFacets(facets);
     }
