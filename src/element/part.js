@@ -32,7 +32,7 @@ export default class Part extends Element {
     childElements.forEach((childElement) => childElement.magnify(magnification));
   }
 
-  initialise(canvas, masks) {
+  initialise(canvas, masks, marginOfError) {
     let textureRenderer = null;
 
     const colourRenderer = ColourRenderer.fromNothing(canvas);
@@ -51,9 +51,9 @@ export default class Part extends Element {
 
     const childElements = this.getChildElements();
 
-    childElements.forEach((childElement) => childElement.createFacets(this.hidden));
+    childElements.forEach((childElement) => childElement.createFacets(this.hidden, marginOfError));
 
-    childElements.forEach((childElement) => childElement.amendFacets(masks));
+    childElements.forEach((childElement) => childElement.amendFacets(masks, marginOfError));
 
     childElements.forEach((childElement) => childElement.addFacets(colourRenderer, textureRenderer));
 

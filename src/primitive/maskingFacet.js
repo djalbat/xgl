@@ -32,13 +32,13 @@ export default class MaskingFacet {
     return this.backwardsRotationQuaternion;
   }
 
-  maskFacet(facet, unmaskedFacets) {
+  maskFacet(facet, unmaskedFacets, marginOfError) {
     const unmaskedFacet = facet.clone();  ///
 
     facet.rotate(this.forwardsRotationQuaternion);
 
     const maskingFacet = this,  ///
-          smallerFacets = this.splitFacet(facet),
+          smallerFacets = this.splitFacet(facet, marginOfError),
           maskedSmallerFacets = [],
           unmaskedSmallerFacets = [];
 
@@ -61,14 +61,14 @@ export default class MaskingFacet {
     }
   }
   
-  splitFacet(facet) {
+  splitFacet(facet, marginOfError) {
     let facets = [
           facet
         ],
         smallerFacets = facets; ///
 
     this.verticalLines.forEach((verticalLine) => {
-      smallerFacets = verticalLine.splitFacets(facets);
+      smallerFacets = verticalLine.splitFacets(facets, marginOfError);
 
       facets = smallerFacets; ///
     });

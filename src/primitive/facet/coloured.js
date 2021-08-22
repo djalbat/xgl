@@ -27,14 +27,13 @@ export default class ColouredFacet extends Facet {
     return vertexColours;
   }
 
-  fromVertices(vertices) {
+  fromVerticesAndMarginOfError(vertices, marginOfError) {
     let colouredFacet = null;
 
     const area = calculateArea(vertices),
-          areaApproximatelyEqualToZero = isApproximatelyEqualToZero(area),
-          largeEnough = !areaApproximatelyEqualToZero;  ///
+          areaApproximatelyEqualToZero = isApproximatelyEqualToZero(area, marginOfError);
 
-    if (largeEnough) {
+    if (!areaApproximatelyEqualToZero) {
       const normal = calculateNormal(vertices, Normal),
             edges = calculateEdges(vertices, Edge);
 
@@ -58,15 +57,14 @@ export default class ColouredFacet extends Facet {
     return colouredFacet;
   }
 
-  static fromCoordinateTuplesIndexTupleAndColour(coordinateTuples, indexTuple, colour) {
+  static fromCoordinateTuplesIndexTupleColourAndMarginOfError(coordinateTuples, indexTuple, colour, marginOfError) {
     let colouredFacet = null;
 
     const vertices = verticesFromCoordinateTuplesAndIndexTuple(coordinateTuples, indexTuple, Vertex),
           area = calculateArea(vertices),
-          areaApproximatelyEqualToZero = isApproximatelyEqualToZero(area),
-          largeEnough = !areaApproximatelyEqualToZero;  ///
+          areaApproximatelyEqualToZero = isApproximatelyEqualToZero(area, marginOfError);
 
-    if (largeEnough) {
+    if (!areaApproximatelyEqualToZero) {
       const normal = calculateNormal(vertices, Normal),
             edges = calculateEdges(vertices, Edge),
             rgba = [ ...colour, 1 ];  ///

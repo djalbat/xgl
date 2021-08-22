@@ -35,13 +35,13 @@ export default class CanvasElement extends Element {
     this.facets = facets;
   }
 
-  applyMask(maskReference, masks) {
+  applyMask(maskReference, masks, marginOfError) {
     const mask = this.findMask(maskReference, masks);
 
     if (mask !== null) {
       const element = this; ///
 
-      mask.maskElement(element);
+      mask.maskElement(element, marginOfError);
     }
   }
 
@@ -65,24 +65,24 @@ export default class CanvasElement extends Element {
     childElements.forEach((childElement) => childElement.applyTransform(transform));
   }
 
-  createFacets(hidden) {
+  createFacets(hidden, marginOfError) {
     const childElements = this.getChildElements();
 
     hidden = hidden || this.hidden; ///
 
-    childElements.forEach((childElement) => childElement.createFacets(hidden));
+    childElements.forEach((childElement) => childElement.createFacets(hidden, marginOfError));
 
     return hidden;
   }
 
-  amendFacets(masks) {
+  amendFacets(masks, marginOfError) {
     const childElements = this.getChildElements();
 
-    childElements.forEach((childElement) => childElement.amendFacets(masks));
+    childElements.forEach((childElement) => childElement.amendFacets(masks, marginOfError));
 
     this.applyTransform(this.transform);
 
-    this.applyMask(this.maskReference, masks);
+    this.applyMask(this.maskReference, masks, marginOfError);
   }
 
   addFacets(colourRenderer, textureRenderer) {

@@ -7,7 +7,7 @@ import Element from "../element";
 import UserInput from "../miscellaneous/userInput";
 
 import { zero2 } from "../maths/vector";
-import { DEFAULT_MAGNIFICATION } from "../defaults";
+import { DEFAULT_MAGNIFICATION, DEFAULT_MARGIN_OF_ERROR } from "../defaults";
 import { elementFromChildElements, elementsFromChildElements } from "../utilities/element";
 
 export default class Scene extends Element {
@@ -55,14 +55,14 @@ export default class Scene extends Element {
     this.camera.magnify(magnification);
   }
 
-  initialise(canvas) {
+  initialise(canvas, marginOfError) {
     const userInput = UserInput.fromNothing(),
           userInputHandler = this.userInputHandler.bind(this),
           windowResizeHandler = this.windowResizeHandler.bind(this);
 
-    this.masks.forEach((mask) => mask.initialise(this.masks));
+    this.masks.forEach((mask) => mask.initialise(this.masks, marginOfError));
 
-    this.parts.forEach((part) => part.initialise(canvas, this.masks));
+    this.parts.forEach((part) => part.initialise(canvas, this.masks, marginOfError));
 
     userInput.initialise(canvas);
 
@@ -78,11 +78,12 @@ export default class Scene extends Element {
           masks = elementsFromChildElements(childElements, Mask),
           parts = elementsFromChildElements(childElements, Part),
           camera = elementFromChildElements(childElements, Camera),
-          scene = Element.fromProperties(Scene, properties, parts, masks, camera, canvas);
+          scene = Element.fromProperties(Scene, properties, parts, masks, camera, canvas),
+          marginOfError = DEFAULT_MARGIN_OF_ERROR * magnification * magnification;
 
     scene.magnify(magnification);
 
-    scene.initialise(canvas);
+    scene.initialise(canvas, marginOfError);
 
     return scene;
   }

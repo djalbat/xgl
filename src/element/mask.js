@@ -34,13 +34,13 @@ export default class Mask extends Element {
     return maskingFacets;          
   }
 
-  maskElement(element) {
+  maskElement(element, marginOfError) {
     const maskingFacets = this.retrieveMaskingFacets(),
           childElements = element.getChildElements();
 
-    maskElement(element, maskingFacets);
+    maskElement(element, maskingFacets, marginOfError);
 
-    childElements.forEach((childElement) => maskElement(childElement, maskingFacets));
+    childElements.forEach((childElement) => maskElement(childElement, maskingFacets, marginOfError));
   }
 
   magnify(magnification) {
@@ -49,12 +49,12 @@ export default class Mask extends Element {
     childElements.forEach((childElement) => childElement.magnify(magnification));
   }
 
-  initialise(masks) {
+  initialise(masks, marginOfError) {
     const childElements = this.getChildElements();
 
-    childElements.forEach((childElement) => childElement.createFacets(this.hidden));
+    childElements.forEach((childElement) => childElement.createFacets(this.hidden, marginOfError));
 
-    childElements.forEach((childElement) => childElement.amendFacets(masks));
+    childElements.forEach((childElement) => childElement.amendFacets(masks, marginOfError));
   }
 
   static fromProperties(properties) {
@@ -79,13 +79,13 @@ function retrieveFacets(childElements, facets = []) {
   return facets;
 }
 
-function maskElement(element, maskingFacets) {
+function maskElement(element, maskingFacets, marginOfError) {
   let facets = element.getFacets();
 
   maskingFacets.forEach((maskingFacet) => {
     const unmaskedFacets = [];
 
-    facets.forEach((facet) => maskingFacet.maskFacet(facet, unmaskedFacets));
+    facets.forEach((facet) => maskingFacet.maskFacet(facet, unmaskedFacets, marginOfError));
 
     facets = unmaskedFacets;  ///
   });
@@ -97,6 +97,6 @@ function maskElement(element, maskingFacets) {
   childElements.forEach((childElement) => {
     const element = childElement; ///
 
-    maskElement(element, maskingFacets);
+    maskElement(element, maskingFacets, marginOfError);
   });
 }

@@ -9,7 +9,7 @@ const maskingExample = () => {
 
   return (
 
-    <Scene canvas={canvas} magnification={10}>
+    <Scene canvas={canvas}>
       <Mask reference="quarter-sized-cube">
         <Cube scale={[ 1/4, 1/4, 1/4 ]} />
       </Mask>

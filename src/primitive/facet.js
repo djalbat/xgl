@@ -94,26 +94,26 @@ export default class Facet {
     this.edges = calculateEdges(this.vertices, Edge);
   }
 
-  splitWithIntersections(intersections, smallerFacets) {
+  splitWithIntersections(intersections, smallerFacets, marginOfError) {
     const nonNullIntersections = calculateNonNullIntersections(intersections),
           nonNullIntersectionsLength = nonNullIntersections.length;
 
     switch (nonNullIntersectionsLength) {
       case 2 :
-        this.splitWithTwoNonNullIntersections(intersections, smallerFacets);
+        this.splitWithTwoNonNullIntersections(intersections, smallerFacets, marginOfError);
         break;
 
       case 1 :
-        this.splitWithOneNonNullIntersection(intersections, smallerFacets);
+        this.splitWithOneNonNullIntersection(intersections, smallerFacets, marginOfError);
         break;
 
       case 0 :
-        this.splitWithNoNonNullIntersections(intersections, smallerFacets);
+        this.splitWithNoNonNullIntersections(intersections, smallerFacets, marginOfError);
         break;
     }
   }
   
-  splitWithTwoNonNullIntersections(intersections, smallerFacets) {
+  splitWithTwoNonNullIntersections(intersections, smallerFacets, marginOfError) {
     const nullIntersectionIndex = calculateNullIntersectionIndex(intersections),
           places = (VERTICES_LENGTH - nullIntersectionIndex) % VERTICES_LENGTH;
 
@@ -133,10 +133,10 @@ export default class Facet {
 
           ];
 
-    this.splitWithIndexTuplesAndIntersections(startVertexPositionIndexes, endVertexPositionIndexes, indexTuples, intersections, smallerFacets);
+    this.splitWithIndexTuplesAndIntersections(startVertexPositionIndexes, endVertexPositionIndexes, indexTuples, intersections, smallerFacets, marginOfError);
   }
 
-  splitWithOneNonNullIntersection(intersections, smallerFacets) {
+  splitWithOneNonNullIntersection(intersections, smallerFacets, marginOfError) {
     const nonNullIntersectionIndex = calculateNonNullIntersectionIndex(intersections),
           places = (VERTICES_LENGTH - nonNullIntersectionIndex) % VERTICES_LENGTH;
 
@@ -155,16 +155,16 @@ export default class Facet {
 
           ];
 
-    this.splitWithIndexTuplesAndIntersections(startVertexPositionIndexes, endVertexPositionIndexes, indexTuples, intersections, smallerFacets);
+    this.splitWithIndexTuplesAndIntersections(startVertexPositionIndexes, endVertexPositionIndexes, indexTuples, intersections, smallerFacets, marginOfError);
   }
 
-  splitWithNoNonNullIntersections(intersections, smallerFacets) {
-    const smallerFacet = this.fromVertices(this.vertices);  ///
+  splitWithNoNonNullIntersections(intersections, smallerFacets, marginOfError) {
+    const smallerFacet = this.fromVerticesAndMarginOfError(this.vertices, marginOfError);  ///
 
     smallerFacets.push(smallerFacet);
   }
 
-  splitWithIndexTuplesAndIntersections(startVertexPositionIndexes, endVertexPositionIndexes, indexTuples, intersections, smallerFacets) {
+  splitWithIndexTuplesAndIntersections(startVertexPositionIndexes, endVertexPositionIndexes, indexTuples, intersections, smallerFacets, marginOfError) {
     const vertexPositions = this.getVertexPositions(),
           intermediateVertexPositions = intersections.map((intersection, index) => {
             const startVertexPositionIndex = startVertexPositionIndexes[index],
@@ -182,7 +182,7 @@ export default class Facet {
       const positions = vertexPositions,  ///
             indexes = indexTuple,  ///
             facet = this, 
-            smallerFacet = smallerFacetFromPositionsIndexesAndFacet(positions, indexes, facet);
+            smallerFacet = smallerFacetFromPositionsIndexesFacetAndMarginOfError(positions, indexes, facet, marginOfError);
 
       if (smallerFacet !== null) {
         smallerFacets.push(smallerFacet);
@@ -191,7 +191,7 @@ export default class Facet {
   }
 }
 
-function smallerFacetFromPositionsIndexesAndFacet(positions, indexes, facet) {
+function smallerFacetFromPositionsIndexesFacetAndMarginOfError(positions, indexes, facet, marginOfError) {
   const vertices = indexes.map((index) => {
           let position = positions[index];
     
@@ -201,7 +201,7 @@ function smallerFacetFromPositionsIndexesAndFacet(positions, indexes, facet) {
 
           return vertex;
         }),
-        smallerFacet = facet.fromVertices(vertices);
+        smallerFacet = facet.fromVerticesAndMarginOfError(vertices, marginOfError);
 
   return smallerFacet;
 }

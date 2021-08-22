@@ -24,7 +24,7 @@ export default class VerticalLine {
     return this.backwardsRotationQuaternion;
   }
 
-  splitFacet(facet, smallerFacets) {
+  splitFacet(facet, smallerFacets, marginOfError) {
     const edges = facet.getEdges(),
           intersections = edges.map((edge) => {
             const intersection = calculateIntersection(edge, this.firstPositionComponent);
@@ -32,16 +32,16 @@ export default class VerticalLine {
             return intersection;
           });
 
-    facet.splitWithIntersections(intersections, smallerFacets);
+    facet.splitWithIntersections(intersections, smallerFacets, marginOfError);
   }
 
-  splitFacets(facets) {
+  splitFacets(facets, marginOfError) {
     const smallerFacets = [];
 
     facets.forEach((facet) => {
       facet.rotate(this.forwardsRotationQuaternion);
 
-      this.splitFacet(facet, smallerFacets);
+      this.splitFacet(facet, smallerFacets, marginOfError);
     });
 
     smallerFacets.forEach((smallerFacet) => smallerFacet.rotate(this.backwardsRotationQuaternion));

@@ -42,14 +42,13 @@ export default class TexturedFacet extends Facet {
     this.textureCoordinateTuples = permute(this.textureCoordinateTuples, places);
   }
 
-  fromVertices(vertices) {
+  fromVerticesAndMarginOfError(vertices, marginOfError) {
     let texturedFacet = null;
 
     const area = calculateArea(vertices),
-          areaApproximatelyEqualToZero = isApproximatelyEqualToZero(area),
-          largeEnough = !areaApproximatelyEqualToZero;  ///
+          areaApproximatelyEqualToZero = isApproximatelyEqualToZero(area, marginOfError);
 
-    if (largeEnough) {
+    if (!areaApproximatelyEqualToZero) {
       const normal = calculateNormal(vertices, Normal),
             parentVertices = this.vertices, ///
             adjustedTextureCoordinateTuple = calculateAdjustedTextureCoordinateTuples(vertices, normal, parentVertices, this.textureCoordinateTuples),
@@ -79,15 +78,14 @@ export default class TexturedFacet extends Facet {
     return texturedFacet;
   }
 
-  static fromTextureCoordinateTuplesCoordinatesTuplesIndexTupleAndImageName(textureCoordinateTuples, coordinateTuples, indexTuple, imageName) {
+  static fromTextureCoordinateTuplesCoordinatesTuplesIndexTupleImageNameAndMarginOfError(textureCoordinateTuples, coordinateTuples, indexTuple, imageName, marginOfError) {
     let texturedFacet = null;
 
     const vertices = verticesFromCoordinateTuplesAndIndexTuple(coordinateTuples, indexTuple, Vertex),
           area = calculateArea(vertices),
-          areaApproximatelyEqualToZero = isApproximatelyEqualToZero(area),
-          largeEnough = !areaApproximatelyEqualToZero;  ///
+          areaApproximatelyEqualToZero = isApproximatelyEqualToZero(area, marginOfError);
 
-    if (largeEnough) {
+    if (!areaApproximatelyEqualToZero) {
       const normal = calculateNormal(vertices, Normal),
             edges = calculateEdges(vertices, Edge);
 
