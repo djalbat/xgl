@@ -12,3 +12,6 @@ export { default as CanvasElement } from "./element/canvas";
 export { default as preloadUtilities } from "./utilities/preload";
 export { default as ColouredCanvasElement } from "./element/canvas/coloured";
 export { default as TexturedCanvasElement } from "./element/canvas/textured";
+
+export { default as vectorMaths } from "./maths/vector";
+export { default as matrixMaths } from "./maths/matrix";

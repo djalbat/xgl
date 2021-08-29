@@ -325,3 +325,38 @@ export function transform4(vector, matrix) {
 
   ]);
 }
+
+export default {
+  zero2,
+  zero3,
+  zero4,
+  length2,
+  length3,
+  length4,
+  dot2,
+  dot3,
+  dot4,
+  cross3,
+  normalise2,
+  normalise3,
+  normalise4,
+  reflect2,
+  reflect3,
+  reflect4,
+  truncate4,
+  scale2,
+  scale3,
+  scale4,
+  add2,
+  add3,
+  add4,
+  subtract2,
+  subtract3,
+  subtract4,
+  multiply2,
+  multiply3,
+  multiply4,
+  transform2,
+  transform3,
+  transform4
+};

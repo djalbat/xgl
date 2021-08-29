@@ -359,3 +359,22 @@ export function perspective4(fieldOfView, aspectRatio, zNear, zFar) {
 
   ]);
 }
+
+export default {
+  identity2,
+  identity3,
+  identity4,
+  multiply2,
+  multiply3,
+  multiply4,
+  invert2,
+  invert3,
+  invert4,
+  transpose2,
+  transpose3,
+  transpose4,
+  scale4,
+  rotate4,
+  translate4,
+  perspective4
+};
