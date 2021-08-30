@@ -5,7 +5,10 @@ import Tilt from "../../miscellaneous/tilt";
 
 import Camera from "../camera";
 
-import { DEFAULT_DELTA_MULTIPLIER, DEFAULT_INITIAL_ANGLES, DEFAULT_INITIAL_POSITION } from "../../defaults";
+import { DEFAULT_INITIAL_ANGLES,
+         DEFAULT_INITIAL_POSITION,
+         DEFAULT_MOUSE_WHEEL_DELTA_MULTIPLIER,
+         DEFAULT_RELATIVE_MOUSE_COORDINATES_MULTIPLIER } from "../../defaults";
 import { offsetsMatrixFromOffsets,
          rotationsMatrixFromAngles,
          positionMatrixFromNothing,
@@ -58,9 +61,10 @@ export default class GamingCamera extends Camera {
   static fromProperties(properties) {
     const { initialAngles = DEFAULT_INITIAL_ANGLES,
             initialPosition = DEFAULT_INITIAL_POSITION,
-            deltaMultiplier = DEFAULT_DELTA_MULTIPLIER } = properties,
+            mouseWheelDeltaMultiplier = DEFAULT_MOUSE_WHEEL_DELTA_MULTIPLIER,
+            relativeMouseCoordinatesMultiplier = DEFAULT_RELATIVE_MOUSE_COORDINATES_MULTIPLIER } = properties,
           flipped = true,
-          pan = Pan.fromInitialPositionAndDeltaMultiplier(initialPosition, deltaMultiplier),
+          pan = Pan.fromInitialPositionMouseWheelDeltaMultiplierAndRelativeMouseCoordinatesMultiplier(initialPosition, mouseWheelDeltaMultiplier, relativeMouseCoordinatesMultiplier),
           tilt = Tilt.fromInitialAnglesAndFlipped(initialAngles, flipped),
           gamingCamera = Camera.fromProperties(GamingCamera, properties, pan, tilt);
 

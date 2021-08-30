@@ -3,10 +3,10 @@
 import { MINIMUM_DISTANCE } from "../constants";
 
 export default class Zoom {
-  constructor(distance, minimumDistance, deltaMultiplier) {
+  constructor(distance, minimumDistance, mouseWheelDeltaMultiplier) {
     this.distance = distance;
     this.minimumDistance = minimumDistance;
-    this.deltaMultiplier = deltaMultiplier;
+    this.mouseWheelDeltaMultiplier = mouseWheelDeltaMultiplier;
   }
 
   getDistance() {
@@ -18,11 +18,13 @@ export default class Zoom {
   }
 
   getDeltaMultiplier() {
-    return this.deltaMultiplier;
+    return this.mouseWheelDeltaMultiplier;
   }
 
   updateDistance(mouseWheelDelta) {
-    this.distance = this.distance - (mouseWheelDelta * this.deltaMultiplier);
+    mouseWheelDelta = mouseWheelDelta * this.mouseWheelDeltaMultiplier; ///
+
+    this.distance = this.distance - mouseWheelDelta;
 
     this.distance = Math.max(this.minimumDistance, this.distance);
   }
@@ -30,13 +32,13 @@ export default class Zoom {
   magnify(magnification) {
     this.distance = this.distance * magnification;
     this.minimumDistance = this.minimumDistance * magnification;
-    this.deltaMultiplier = this.deltaMultiplier * magnification;
+    this.mouseWheelDeltaMultiplier = this.mouseWheelDeltaMultiplier * magnification;
   }
 
-  static fromInitialDistanceAndDeltaMultiplier(initialDistance, deltaMultiplier) {
+  static fromInitialDistanceAndMouseWheelDeltaMultiplier(initialDistance, mouseWheelDeltaMultiplier) {
     const distance = initialDistance, ///
           minimumDistance = MINIMUM_DISTANCE,
-          zoom = new Zoom(distance, minimumDistance, deltaMultiplier);
+          zoom = new Zoom(distance, minimumDistance, mouseWheelDeltaMultiplier);
     
     return zoom;
   }

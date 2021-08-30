@@ -127,8 +127,8 @@ export function normalise4(vector) {
 export function reflect2(vector) {
   return ([
 
-    vector[0] * -1,
-    vector[1] * -1,
+    -vector[0],
+    -vector[1],
 
   ]);
 }
@@ -136,9 +136,9 @@ export function reflect2(vector) {
 export function reflect3(vector) {
   return ([
 
-    vector[0] * -1,
-    vector[1] * -1,
-    vector[2] * -1,
+    -vector[0],
+    -vector[1],
+    -vector[2],
 
   ]);
 }
@@ -146,10 +146,10 @@ export function reflect3(vector) {
 export function reflect4(vector) {
   return ([
 
-    vector[0] * -1,
-    vector[1] * -1,
-    vector[2] * -1,
-    vector[3] * -1,
+    -vector[0],
+    -vector[1],
+    -vector[2],
+    -vector[3],
 
   ]);
 }

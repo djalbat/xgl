@@ -5,12 +5,16 @@ import Tilt from "../../miscellaneous/tilt";
 import Zoom from "../../miscellaneous/zoom";
 import Camera from "../camera";
 
-import { DEFAULT_INITIAL_ANGLES, DEFAULT_INITIAL_OFFSETS, DEFAULT_INITIAL_DISTANCE, DEFAULT_DELTA_MULTIPLIER } from "../../defaults";
+import { DEFAULT_INITIAL_ANGLES,
+         DEFAULT_INITIAL_OFFSETS,
+         DEFAULT_INITIAL_DISTANCE,
+         DEFAULT_MOUSE_WHEEL_DELTA_MULTIPLIER,
+         DEFAULT_RELATIVE_MOUSE_COORDINATES_MULTIPLIER } from "../../defaults";
 import { offsetsMatrixFromOffsets,
          rotationsMatrixFromAngles,
          positionMatrixFromDistance,
          normalsMatrixFromRotationsMatrix,
-        projectionMatrixFromCameraAndCanvas } from "../../utilities/matrix";
+         projectionMatrixFromCameraAndCanvas } from "../../utilities/matrix";
 
 export default class DesignCamera extends Camera {
   constructor(zFar, zNear, fieldOfView, pan, tilt, zoom) {
@@ -68,11 +72,12 @@ export default class DesignCamera extends Camera {
     const { initialAngles = DEFAULT_INITIAL_ANGLES,
             initialOffsets = DEFAULT_INITIAL_OFFSETS,
             initialDistance = DEFAULT_INITIAL_DISTANCE,
-            deltaMultiplier = DEFAULT_DELTA_MULTIPLIER } = properties,
+            mouseWheelDeltaMultiplier = DEFAULT_MOUSE_WHEEL_DELTA_MULTIPLIER,
+            relativeMouseCoordinatesMultiplier = DEFAULT_RELATIVE_MOUSE_COORDINATES_MULTIPLIER } = properties,
           flipped = false,
-          pan = Pan.fromInitialOffsetsAndDeltaMultiplier(initialOffsets, deltaMultiplier),
+          pan = Pan.fromInitialOffsetsMouseWheelDeltaMultiplierAndRelativeMouseCoordinatesMultiplier(initialOffsets, mouseWheelDeltaMultiplier, relativeMouseCoordinatesMultiplier),
           tilt = Tilt.fromInitialAnglesAndFlipped(initialAngles, flipped),
-          zoom = Zoom.fromInitialDistanceAndDeltaMultiplier(initialDistance, deltaMultiplier),
+          zoom = Zoom.fromInitialDistanceAndMouseWheelDeltaMultiplier(initialDistance, mouseWheelDeltaMultiplier),
           designCamera = Camera.fromProperties(DesignCamera, properties, pan, tilt, zoom);
 
     return designCamera;

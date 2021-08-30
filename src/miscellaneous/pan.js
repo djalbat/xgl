@@ -1,57 +1,57 @@
 "use strict";
 
+import { INVERT_MULTIPLIER } from "../constants";
 import { add3, scale2, reflect2, scale3 } from "../maths/vector";
-import { INVERT_MULTIPLIER, OFFSET_MULTIPLIER } from "../constants";
-import { relativeOffsetsFromAnglesDirectionsAndMagnification } from "../utilities/offsets";
+import { relativeOffsetsFromAnglesAndDirections } from "../utilities/offsets";
 
 export default class Pan {
-  constructor(offsets, magnification, deltaMultiplier) {
+  constructor(offsets, mouseWheelDeltaMultiplier, relativeMouseCoordinatesMultiplier) {
     this.offsets = offsets;
-    this.magnification = magnification;
-    this.deltaMultiplier = deltaMultiplier;
+    this.mouseWheelDeltaMultiplier = mouseWheelDeltaMultiplier;
+    this.relativeMouseCoordinatesMultiplier = relativeMouseCoordinatesMultiplier;
   }
 
   getOffsets() {
     return this.offsets;
   }
 
-  getMagnification() {
-    return this.magnification();
+  getDeltaMultiplier() {
+    return this.mouseWheelDeltaMultiplier;
   }
 
-  getDeltaMultiplier() {
-    return this.deltaMultiplier;
+  getRelativeMouseCoordinatesMultiplier() {
+    return this.relativeMouseCoordinatesMultiplier;
   }
 
   updateOffsets(relativeMouseCoordinates, mouseWheelDelta, tilt) {
+    mouseWheelDelta = mouseWheelDelta * this.mouseWheelDeltaMultiplier; ///
+
+    relativeMouseCoordinates = scale2(relativeMouseCoordinates, this.relativeMouseCoordinatesMultiplier); ///
+
     const angles = tilt.getAngles(),
-          magnification = this.magnification,
-          scaledMouseWheelDelta = mouseWheelDelta * this.deltaMultiplier,
-          scaledReflectedRelativeMouseCoordinates = reflect2(scale2(relativeMouseCoordinates, OFFSET_MULTIPLIER)),
-          directions = [ ...scaledReflectedRelativeMouseCoordinates, scaledMouseWheelDelta, 0 ],
-          relativeOffsets = relativeOffsetsFromAnglesDirectionsAndMagnification(angles, directions, magnification);
+          scaledReflectedRelativeMouseCoordinates = reflect2(scale2(relativeMouseCoordinates, 1)),
+          directions = [ ...scaledReflectedRelativeMouseCoordinates, mouseWheelDelta, 0 ],
+          relativeOffsets = relativeOffsetsFromAnglesAndDirections(angles, directions, 1);
 
     this.offsets = add3(this.offsets, relativeOffsets);
   }
 
   magnify(magnification) {
-    this.magnification = magnification;
-
-    this.offsets = scale3(this.offsets, magnification);
+    this.offsets = this.offsets * magnification;
+    this.mouseWheelDeltaMultiplier = this.mouseWheelDeltaMultiplier * magnification;
+    this.relativeMouseCoordinatesMultiplier = this.relativeMouseCoordinatesMultiplier * magnification;
   }
 
-  static fromInitialOffsetsAndDeltaMultiplier(initialOffsets, deltaMultiplier) {
+  static fromInitialOffsetsMouseWheelDeltaMultiplierAndRelativeMouseCoordinatesMultiplier(initialOffsets, mouseWheelDeltaMultiplier, relativeMouseCoordinatesMultiplier) {
     const offsets = initialOffsets, ///
-          magnification = null, //
-          pan = new Pan(offsets, magnification, deltaMultiplier);
+          pan = new Pan(offsets, mouseWheelDeltaMultiplier, relativeMouseCoordinatesMultiplier);
 
     return pan;
   }
 
-  static fromInitialPositionAndDeltaMultiplier(initialPosition, deltaMultiplier) {
+  static fromInitialPositionMouseWheelDeltaMultiplierAndRelativeMouseCoordinatesMultiplier(initialPosition, mouseWheelDeltaMultiplier, relativeMouseCoordinatesMultiplier) {
     const offsets = scale3(initialPosition, INVERT_MULTIPLIER),
-          magnification = null, //
-          pan = new Pan(offsets, magnification, deltaMultiplier);
+          pan = new Pan(offsets, mouseWheelDeltaMultiplier, relativeMouseCoordinatesMultiplier);
     
     return pan;
   }
