@@ -1,7 +1,7 @@
 "use strict";
 
 import { INVERT_MULTIPLIER } from "../constants";
-import { add3, scale2, reflect2, scale3 } from "../maths/vector";
+import { add3, scale2, scale3, reflect2 } from "../maths/vector";
 import { relativeOffsetsFromAnglesAndDirections } from "../utilities/offsets";
 
 export default class Pan {
@@ -37,7 +37,7 @@ export default class Pan {
   }
 
   magnify(magnification) {
-    this.offsets = this.offsets * magnification;
+    this.offsets = scale3(this.offsets,magnification);
     this.mouseWheelDeltaMultiplier = this.mouseWheelDeltaMultiplier * magnification;
     this.relativeMouseCoordinatesMultiplier = this.relativeMouseCoordinatesMultiplier * magnification;
   }
