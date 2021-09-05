@@ -5,7 +5,11 @@ import Tilt from "../../miscellaneous/tilt";
 import Zoom from "../../miscellaneous/zoom";
 import Camera from "../camera";
 
-import { DEFAULT_INITIAL_ANGLES,
+import { scale2 } from "../../maths/vector";
+import { getJSON, setJSON, removeJSON } from "../../utilities/localStorage";
+import { DESIGN_CAMERA, DEGREES_TO_RADIANS_MULTIPLIER } from "../../constants";
+import { DEFAULT_PERSIST,
+         DEFAULT_INITIAL_ANGLES,
          DEFAULT_INITIAL_OFFSETS,
          DEFAULT_INITIAL_DISTANCE,
          DEFAULT_MOUSE_WHEEL_DELTA_MULTIPLIER,
@@ -15,14 +19,16 @@ import { offsetsMatrixFromOffsets,
          positionMatrixFromDistance,
          normalsMatrixFromRotationsMatrix,
          projectionMatrixFromCameraAndCanvas } from "../../utilities/matrix";
+import {projectMidPointPositionOntoXYPlane} from "../../utilities/midPoint";
 
 export default class DesignCamera extends Camera {
-  constructor(zFar, zNear, fieldOfView, pan, tilt, zoom) {
+  constructor(zFar, zNear, fieldOfView, pan, tilt, zoom, persist) {
     super(zFar, zNear, fieldOfView);
 
     this.pan = pan;
     this.tilt = tilt;
     this.zoom = zoom;
+    this.persist = persist;
   }
 
   getPan() {
@@ -37,6 +43,20 @@ export default class DesignCamera extends Camera {
     return this.zoom;
   }
 
+  doesPersist() {
+    return this.persist;
+  }
+
+  reset() {
+    const key = DESIGN_CAMERA;  ///
+
+    removeJSON(key);
+
+    this.pan = panFromProperties(this.properties);
+    this.tilt = tiltFromProperties(this.properties);
+    this.zoom = zoomFromProperties(this.properties);
+  }
+
   update(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, canvas, render) {
     if (false) {
       ///
@@ -49,10 +69,26 @@ export default class DesignCamera extends Camera {
     }
 
     const camera = this,  ///
-          angles = this.tilt.getAngles(),
+          persist = this.doesPersist(),
           offsets = this.pan.getOffsets(),
           distance = this.zoom.getDistance(),
-          offsetsMatrix = offsetsMatrixFromOffsets(offsets),
+          clockwise = false,
+          rotatedAngles = this.tilt.getRotatedAngles(clockwise),
+          angles = rotatedAngles; ///
+
+    if (persist) {
+      const key = DESIGN_CAMERA,
+            angles = this.tilt.getAngles(),
+            json = {
+              angles,
+              offsets,
+              distance
+            };
+
+      setJSON(key, json);
+    }
+
+    const offsetsMatrix = offsetsMatrixFromOffsets(offsets),
           positionMatrix = positionMatrixFromDistance(distance),
           rotationsMatrix = rotationsMatrixFromAngles(angles),
           projectionMatrix = projectionMatrixFromCameraAndCanvas(camera, canvas),
@@ -69,17 +105,79 @@ export default class DesignCamera extends Camera {
   }
 
   static fromProperties(properties) {
-    const { initialAngles = DEFAULT_INITIAL_ANGLES,
-            initialOffsets = DEFAULT_INITIAL_OFFSETS,
-            initialDistance = DEFAULT_INITIAL_DISTANCE,
-            mouseWheelDeltaMultiplier = DEFAULT_MOUSE_WHEEL_DELTA_MULTIPLIER,
-            relativeMouseCoordinatesMultiplier = DEFAULT_RELATIVE_MOUSE_COORDINATES_MULTIPLIER } = properties,
-          flipped = false,
-          pan = Pan.fromInitialOffsetsMouseWheelDeltaMultiplierAndRelativeMouseCoordinatesMultiplier(initialOffsets, mouseWheelDeltaMultiplier, relativeMouseCoordinatesMultiplier),
-          tilt = Tilt.fromInitialAnglesAndFlipped(initialAngles, flipped),
-          zoom = Zoom.fromInitialDistanceAndMouseWheelDeltaMultiplier(initialDistance, mouseWheelDeltaMultiplier),
-          designCamera = Camera.fromProperties(DesignCamera, properties, pan, tilt, zoom);
+    const { persist = DEFAULT_PERSIST } = properties,
+          pan = panFromProperties(properties),
+          tilt = tiltFromProperties(properties),
+          zoom = zoomFromProperties(properties),
+          designCamera = Camera.fromProperties(DesignCamera, properties, pan, tilt, zoom, persist);
 
     return designCamera;
   }
+}
+
+function panFromProperties(properties) {
+  const { persist = DEFAULT_PERSIST,
+          mouseWheelDeltaMultiplier = DEFAULT_MOUSE_WHEEL_DELTA_MULTIPLIER,
+          relativeMouseCoordinatesMultiplier = DEFAULT_RELATIVE_MOUSE_COORDINATES_MULTIPLIER } = properties;
+
+  let { initialOffsets = DEFAULT_INITIAL_OFFSETS } = properties;
+
+  if (persist) {
+    const key = DESIGN_CAMERA,  ///
+          json = getJSON(key);
+
+    if (json !== null) {
+      const { offsets } = json;
+
+      initialOffsets = offsets; ///
+    }
+  }
+
+  const pan = Pan.fromInitialOffsetsMouseWheelDeltaMultiplierAndRelativeMouseCoordinatesMultiplier(initialOffsets, mouseWheelDeltaMultiplier, relativeMouseCoordinatesMultiplier);
+
+  return pan;
+}
+
+function tiltFromProperties(properties) {
+  const { persist = DEFAULT_PERSIST } = properties;
+
+  let { initialAngles = DEFAULT_INITIAL_ANGLES } = properties;
+
+  initialAngles = scale2(initialAngles, DEGREES_TO_RADIANS_MULTIPLIER); ///
+
+  if (persist) {
+    const key = DESIGN_CAMERA,  ///
+          json = getJSON(key);
+
+    if (json !== null) {
+      const { angles } = json;
+
+      initialAngles = angles; ///
+    }
+  }
+
+  const tilt = Tilt.fromInitialAngles(initialAngles);
+
+  return tilt;
+}
+
+function zoomFromProperties(properties) {
+  const { persist = DEFAULT_PERSIST, mouseWheelDeltaMultiplier = DEFAULT_MOUSE_WHEEL_DELTA_MULTIPLIER } = properties;
+
+  let { initialDistance = DEFAULT_INITIAL_DISTANCE } = properties;
+
+  if (persist) {
+    const key = DESIGN_CAMERA,  ///
+          json = getJSON(key);
+
+    if (json !== null) {
+      const { distance } = json;
+
+      initialDistance = distance; ///
+    }
+  }
+
+  const zoom = Zoom.fromInitialDistanceAndMouseWheelDeltaMultiplier(initialDistance, mouseWheelDeltaMultiplier);
+
+  return zoom;
 }

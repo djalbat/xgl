@@ -45,11 +45,13 @@ export default class UserInput {
     this.handlers.push(handler);
   }
 
+  addEscapeKeyDownHandler(escapeKeyDownHandler) { this.keyEvents.addEscapeKeyDownHandler(escapeKeyDownHandler); }
+
   initialise(canvas) {
     const mouseMoveHandler = this.mouseMoveHandler.bind(this),
           mouseWheelHandler = this.mouseWheelHandler.bind(this);
 
-    this.keyEvents.initialise(canvas);
+    this.keyEvents.initialise();
 
     this.mouseEvents.initialise(canvas);
 

@@ -1,10 +1,10 @@
 "use strict";
 
 import { rotationsMatrixFromAngles } from "../utilities/matrix";
-import { reflect3, truncate4, transform4 } from "../maths/vector";
+import { reflect2, truncate4, transform4 } from "../maths/vector";
 
 export function relativeOffsetsFromAnglesAndDirections(angles, directions) {
-  angles = reflect3(angles);  ///
+  angles = reflect2(angles);  ///
 
   const reverseOrder = true,
         rotationsMatrix = rotationsMatrixFromAngles(angles, reverseOrder);

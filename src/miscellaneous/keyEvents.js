@@ -1,6 +1,6 @@
 "use strict";
 
-import { SHIFT_KEY_CODE } from "../keyCodes";
+import { ESCAPE_KEY_CODE, SHIFT_KEY_CODE } from "../keyCodes";
 import { KEYUP_EVENT_TYPE, KEYDOWN_EVENT_TYPE } from "../eventTypes";
 
 export default class KeyEvents {
@@ -39,7 +39,19 @@ export default class KeyEvents {
     this.handlers.push(handler);
   }
 
-  initialise(canvas) {
+  addEscapeKeyDownHandler(escapeKeyDownHandler) {
+    const documentDOMElement = document.documentElement;  ///
+
+    documentDOMElement.addEventListener(KEYDOWN_EVENT_TYPE, (event) => {
+      const { keyCode } = event;
+
+      if (keyCode === ESCAPE_KEY_CODE) {
+        escapeKeyDownHandler();
+      }
+    });
+  }
+
+  initialise() {
     const documentDOMElement = document.documentElement,  ///
           keyUpEventListener = this.keyUpEventListener.bind(this),
           keyDownEventListener = this.keyDownEventListener.bind(this);

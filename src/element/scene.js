@@ -26,6 +26,12 @@ export default class Scene extends Element {
     this.camera.update(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, this.canvas, render);
   }
 
+  escapeKeyDownHandler() {
+    this.camera.reset();
+
+    this.windowResizeHandler(); ///
+  }
+
   windowResizeHandler() {
     const clientWidth = this.canvas.getClientWidth(),
           clientHeight = this.canvas.getClientHeight(),
@@ -58,7 +64,8 @@ export default class Scene extends Element {
   initialise(canvas, marginOfError) {
     const userInput = UserInput.fromNothing(),
           userInputHandler = this.userInputHandler.bind(this),
-          windowResizeHandler = this.windowResizeHandler.bind(this);
+          windowResizeHandler = this.windowResizeHandler.bind(this),
+          escapeKeyDownHandler = this.escapeKeyDownHandler.bind(this);
 
     this.masks.forEach((mask) => mask.initialise(this.masks, marginOfError));
 
@@ -67,6 +74,8 @@ export default class Scene extends Element {
     userInput.initialise(canvas);
 
     userInput.addUserInputHandler(userInputHandler);
+
+    userInput.addEscapeKeyDownHandler(escapeKeyDownHandler);
 
     window.onresize = windowResizeHandler;
 

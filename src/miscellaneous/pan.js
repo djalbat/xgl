@@ -1,6 +1,5 @@
 "use strict";
 
-import { INVERT_MULTIPLIER } from "../constants";
 import { add3, scale2, scale3, reflect2 } from "../maths/vector";
 import { relativeOffsetsFromAnglesAndDirections } from "../utilities/offsets";
 
@@ -46,13 +45,6 @@ export default class Pan {
     const offsets = initialOffsets, ///
           pan = new Pan(offsets, mouseWheelDeltaMultiplier, relativeMouseCoordinatesMultiplier);
 
-    return pan;
-  }
-
-  static fromInitialPositionMouseWheelDeltaMultiplierAndRelativeMouseCoordinatesMultiplier(initialPosition, mouseWheelDeltaMultiplier, relativeMouseCoordinatesMultiplier) {
-    const offsets = scale3(initialPosition, INVERT_MULTIPLIER),
-          pan = new Pan(offsets, mouseWheelDeltaMultiplier, relativeMouseCoordinatesMultiplier);
-    
     return pan;
   }
 }
