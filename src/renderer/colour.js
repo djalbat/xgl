@@ -66,7 +66,7 @@ export default class ColourRenderer extends Renderer {
     rendererBuffers.bindBuffers(vertexNormalAttributeLocation, vertexPositionAttributeLocation, vertexColourAttributeLocation, canvas);
   }
 
-  render(canvas, offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix) {
+  render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix, canvas) {
     const program = this.getProgram();
 
     canvas.useProgram(program);

@@ -61,7 +61,7 @@ export default class ImageMapTextureRenderer extends TextureRenderer {
     canvas.setUniformLocationIntegerValue(samplerUniformLocation, samplerUniformLocationIntegerValue);
   }
 
-  render(canvas, offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix) {
+  render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix, canvas) {
     const program = this.getProgram();
 
     canvas.useProgram(program);

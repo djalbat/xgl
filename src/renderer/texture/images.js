@@ -73,7 +73,7 @@ export default class ImagesTextureRenderer extends TextureRenderer {
     super.createBuffers(canvas);
   }
 
-  render(canvas, offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix) {
+  render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix, canvas) {
     const program = this.getProgram();
 
     canvas.useProgram(program);

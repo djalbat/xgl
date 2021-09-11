@@ -95,7 +95,7 @@ export function projectionMatrixFromCameraAndCanvas(camera, canvas) {
         width = canvas.getWidth(),
         height = canvas.getHeight(),
         fieldOfView = camera.getFieldOfView(),
-        aspectRatio = width / height,
+        aspectRatio = ( width / height ),
         projectionMatrix = perspective4(fieldOfView, aspectRatio, zNear, zFar);
 
   return projectionMatrix;
