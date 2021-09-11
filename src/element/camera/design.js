@@ -19,7 +19,6 @@ import { offsetsMatrixFromOffsets,
          positionMatrixFromDistance,
          normalsMatrixFromRotationsMatrix,
          projectionMatrixFromCameraAndCanvas } from "../../utilities/matrix";
-import {projectMidPointPositionOntoXYPlane} from "../../utilities/midPoint";
 
 export default class DesignCamera extends Camera {
   constructor(zFar, zNear, fieldOfView, pan, tilt, zoom, persist) {
