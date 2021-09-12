@@ -57,11 +57,15 @@ export default class DesignCamera extends Camera {
   }
 
   update(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, canvas, render) {
+    const mouseWheelMoved = (mouseWheelDelta !== 0);
+
     if (false) {
       ///
     } else if (shiftKeyDown) {
-      this.pan.updateOffsets(relativeMouseCoordinates, mouseWheelDelta, this.tilt);
-    } else if (mouseWheelDelta !== 0) {
+      const angles = this.tilt.getAngles();
+
+      this.pan.updateOffsets(relativeMouseCoordinates, mouseWheelDelta, angles);
+    } else if (mouseWheelMoved) {
       this.zoom.updateDistance(mouseWheelDelta);
     } else {
       this.tilt.updateAngles(relativeMouseCoordinates);

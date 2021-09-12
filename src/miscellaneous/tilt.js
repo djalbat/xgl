@@ -12,7 +12,7 @@ export default class Tilt {
     return this.angles;
   }
 
-  getRotatedAngles(clockwise) {
+  getRotatedAngles(clockwise = true) {
     const multiplier = clockwise ?
                          +1 :
                            -1,

@@ -22,13 +22,12 @@ export default class Pan {
     return this.relativeMouseCoordinatesMultiplier;
   }
 
-  updateOffsets(relativeMouseCoordinates, mouseWheelDelta, tilt) {
+  updateOffsets(relativeMouseCoordinates, mouseWheelDelta, angles) {
     mouseWheelDelta = mouseWheelDelta * this.mouseWheelDeltaMultiplier; ///
 
     relativeMouseCoordinates = scale2(relativeMouseCoordinates, this.relativeMouseCoordinatesMultiplier); ///
 
-    const angles = tilt.getAngles(),
-          scaledReflectedRelativeMouseCoordinates = reflect2(scale2(relativeMouseCoordinates, 1)),
+    const scaledReflectedRelativeMouseCoordinates = reflect2(scale2(relativeMouseCoordinates, 1)),
           directions = [ ...scaledReflectedRelativeMouseCoordinates, mouseWheelDelta, 0 ],
           relativeOffsets = relativeOffsetsFromAnglesAndDirections(angles, directions, 1);
 
