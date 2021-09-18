@@ -72,16 +72,13 @@ export default class DesignCamera extends Camera {
     }
 
     const camera = this,  ///
+          angles = this.tilt.getAngles(),
           persist = this.doesPersist(),
           offsets = this.pan.getOffsets(),
-          distance = this.zoom.getDistance(),
-          clockwise = false,
-          rotatedAngles = this.tilt.getRotatedAngles(clockwise),
-          angles = rotatedAngles; ///
+          distance = this.zoom.getDistance();
 
     if (persist) {
       const key = DESIGN_CAMERA,
-            angles = this.tilt.getAngles(),
             json = {
               angles,
               offsets,

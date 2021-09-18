@@ -63,11 +63,9 @@ export default class GamingCamera extends Camera {
     }
 
     const camera = this,  ///
+          angles = this.tilt.getAngles(),
           persist = this.doesPersist(),
-          offsets = this.pan.getOffsets(),
-          clockwise = true,
-          rotatedAngles = this.tilt.getRotatedAngles(clockwise),
-          angles = rotatedAngles; ///
+          offsets = this.pan.getOffsets();
 
     if (persist) {
       const key = GAMING_CAMERA,  ///
@@ -146,7 +144,8 @@ function tiltFromProperties(properties) {
     }
   }
 
-  const tilt = Tilt.fromInitialAngles(initialAngles);
+  const clockwise = true,
+        tilt = Tilt.fromInitialAnglesAndClockwise(initialAngles, clockwise);
 
   return tilt;
 }

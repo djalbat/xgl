@@ -13,7 +13,7 @@ const cubeExample = () => {
       <Part>
         <Cube colour={[ 0, 1, 0 ]} />
       </Part>
-      <DesignCamera persist />
+      <DesignCamera/>
     </Scene>
 
   );
