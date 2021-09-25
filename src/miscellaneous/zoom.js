@@ -29,12 +29,6 @@ export default class Zoom {
     this.distance = Math.max(this.minimumDistance, this.distance);
   }
 
-  magnify(magnification) {
-    this.distance = this.distance * magnification;
-    this.minimumDistance = this.minimumDistance * magnification;
-    this.mouseWheelDeltaMultiplier = this.mouseWheelDeltaMultiplier * magnification;
-  }
-
   static fromInitialDistanceAndMouseWheelDeltaMultiplier(initialDistance, mouseWheelDeltaMultiplier) {
     const distance = initialDistance, ///
           minimumDistance = MINIMUM_DISTANCE,

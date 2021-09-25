@@ -5,7 +5,7 @@ import Tilt from "../../miscellaneous/tilt";
 import Zoom from "../../miscellaneous/zoom";
 import Camera from "../camera";
 
-import { scale2, scale3 } from "../../maths/vector";
+import { scale2 } from "../../maths/vector";
 import { getJSON, setJSON, removeJSON } from "../../utilities/localStorage";
 import { DESIGN_CAMERA, DEGREES_TO_RADIANS_MULTIPLIER } from "../../constants";
 import { DEFAULT_PERSIST,
@@ -21,8 +21,8 @@ import { offsetsMatrixFromOffsets,
          projectionMatrixFromCameraAndCanvas } from "../../utilities/matrix";
 
 export default class DesignCamera extends Camera {
-  constructor(zFar, zNear, fieldOfView, magnification, pan, tilt, zoom, persist) {
-    super(zFar, zNear, fieldOfView, magnification);
+  constructor(zFar, zNear, fieldOfView, pan, tilt, zoom, persist) {
+    super(zFar, zNear, fieldOfView);
 
     this.pan = pan;
     this.tilt = tilt;
@@ -75,16 +75,14 @@ export default class DesignCamera extends Camera {
           angles = this.tilt.getAngles(),
           persist = this.doesPersist(),
           offsets = this.pan.getOffsets(),
-          distance = this.zoom.getDistance(),
-          magnification = this.getMagnification();
+          distance = this.zoom.getDistance();
 
     if (persist) {
       const key = DESIGN_CAMERA,
             json = {
               angles,
               offsets,
-              distance,
-              magnification
+              distance
             };
 
       setJSON(key, json);
@@ -97,13 +95,6 @@ export default class DesignCamera extends Camera {
           normalsMatrix = normalsMatrixFromRotationsMatrix(rotationsMatrix);
 
     render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);
-  }
-
-  magnify(magnification) {
-    super.magnify(magnification);
-
-    this.pan.magnify(magnification);
-    this.zoom.magnify(magnification);
   }
 
   static fromProperties(properties) {
@@ -129,9 +120,9 @@ function panFromProperties(properties) {
           json = getJSON(key);
 
     if (json !== null) {
-      const { offsets, magnification } = json;
+      const { offsets } = json;
 
-      initialOffsets = scale3(offsets, 1/ magnification);
+      initialOffsets = offsets; ///
     }
   }
 
@@ -173,9 +164,9 @@ function zoomFromProperties(properties) {
           json = getJSON(key);
 
     if (json !== null) {
-      const { distance, magnification } = json;
+      const { distance } = json;
 
-      initialDistance = distance / magnification;
+      initialDistance = distance; ///
     }
   }
 

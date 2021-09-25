@@ -20,8 +20,8 @@ import { offsetsMatrixFromOffsets,
          projectionMatrixFromCameraAndCanvas } from "../../utilities/matrix";
 
 export default class GamingCamera extends Camera {
-  constructor(zFar, zNear, fieldOfView, magnification, pan, tilt, persist) {
-    super(zFar, zNear, fieldOfView, magnification);
+  constructor(zFar, zNear, fieldOfView, pan, tilt, persist) {
+    super(zFar, zNear, fieldOfView);
 
     this.pan = pan;
     this.tilt = tilt;
@@ -65,16 +65,14 @@ export default class GamingCamera extends Camera {
     const camera = this,  ///
           angles = this.tilt.getAngles(),
           persist = this.doesPersist(),
-          offsets = this.pan.getOffsets(),
-          magnification = this.getMagnification()
+          offsets = this.pan.getOffsets();
 
     if (persist) {
       const key = GAMING_CAMERA,  ///
             angles = this.tilt.getAngles(),
             json = {
               angles,
-              offsets,
-              magnification
+              offsets
             };
 
       setJSON(key, json);
@@ -87,10 +85,6 @@ export default class GamingCamera extends Camera {
           normalsMatrix = normalsMatrixFromRotationsMatrix(rotationsMatrix);
 
     render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix);
-  }
-
-  magnify(magnification) {
-    this.pan.magnify(magnification);
   }
 
   static fromProperties(properties) {
@@ -117,9 +111,9 @@ function panFromProperties(properties) {
           json = getJSON(key);
 
     if (json !== null) {
-      const { offsets, magnification } = json;
+      const { offsets } = json;
 
-      initialOffsets = scale3(offsets, 1 / magnification);
+      initialOffsets = offsets; ///
     }
   }
 

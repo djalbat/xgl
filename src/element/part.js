@@ -26,10 +26,10 @@ export default class Part extends Element {
     this.textureRenderer && this.textureRenderer.render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix, canvas);  ///
   }
 
-  magnify(magnification) {
+  prepare() {
     const childElements = this.getChildElements();
 
-    childElements.forEach((childElement) => childElement.magnify(magnification));
+    childElements.forEach((childElement) => childElement.prepare());
   }
 
   initialise(canvas, masks, marginOfError) {

@@ -43,10 +43,10 @@ export default class Mask extends Element {
     childElements.forEach((childElement) => maskElement(childElement, maskingFacets, marginOfError));
   }
 
-  magnify(magnification) {
+  prepare() {
     const childElements = this.getChildElements();
 
-    childElements.forEach((childElement) => childElement.magnify(magnification));
+    childElements.forEach((childElement) => childElement.prepare());
   }
 
   initialise(masks, marginOfError) {

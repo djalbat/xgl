@@ -17,20 +17,6 @@ export default class ColouredCanvasElement extends CanvasElement {
     this.colour = colour;
   }
 
-  magnify(magnification) {
-    let coordinateTuples = this.coordinates; ///
-
-    coordinateTuples = coordinateTuples.map((coordinateTuple) => {
-      coordinateTuple = scale3(coordinateTuple, magnification);
-
-      return coordinateTuple;
-    });
-
-    this.coordinates = coordinateTuples;  ///
-
-    super.magnify(magnification);
-  }
-
   createFacets(hidden, marginOfError) {
     hidden = super.createFacets(hidden, marginOfError);  ///
 

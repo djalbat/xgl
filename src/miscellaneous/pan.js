@@ -34,12 +34,6 @@ export default class Pan {
     this.offsets = add3(this.offsets, relativeOffsets);
   }
 
-  magnify(magnification) {
-    this.offsets = scale3(this.offsets,magnification);
-    this.mouseWheelDeltaMultiplier = this.mouseWheelDeltaMultiplier * magnification;
-    this.relativeMouseCoordinatesMultiplier = this.relativeMouseCoordinatesMultiplier * magnification;
-  }
-
   static fromInitialOffsetsMouseWheelDeltaMultiplierAndRelativeMouseCoordinatesMultiplier(initialOffsets, mouseWheelDeltaMultiplier, relativeMouseCoordinatesMultiplier) {
     const offsets = initialOffsets, ///
           pan = new Pan(offsets, mouseWheelDeltaMultiplier, relativeMouseCoordinatesMultiplier);

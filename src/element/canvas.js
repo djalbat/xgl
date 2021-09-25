@@ -91,20 +91,16 @@ export default class CanvasElement extends Element {
     childElements.forEach((childElement) => childElement.addFacets(colourRenderer, textureRenderer));
   }
 
-  magnify(magnification) {
+  prepare() {
     const properties = this.getProperties(),
           childElements = this.getChildElements(),
           { scale = null, rotations = null } = properties;
 
     let { position = null } = properties;
 
-    if (position !== null) {
-      position = scale3(position, magnification);
-    }
-
     this.transform = composeTransform(scale, rotations, position);
 
-    childElements.forEach((childElement) => childElement.magnify(magnification));
+    childElements.forEach((childElement) => childElement.prepare());
   }
 
   static fromProperties(Class, properties, ...remainingArguments) {
