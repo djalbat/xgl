@@ -9,11 +9,11 @@ const cubeExample = () => {
 
   return (
 
-    <Scene canvas={canvas}>
+    <Scene canvas={canvas} >
       <Part>
         <Cube colour={[ 0, 1, 0 ]} />
       </Part>
-      <DesignCamera/>
+      <DesignCamera persist />
     </Scene>
 
   );

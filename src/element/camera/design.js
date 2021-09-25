@@ -5,7 +5,7 @@ import Tilt from "../../miscellaneous/tilt";
 import Zoom from "../../miscellaneous/zoom";
 import Camera from "../camera";
 
-import { scale2 } from "../../maths/vector";
+import { scale2, scale3 } from "../../maths/vector";
 import { getJSON, setJSON, removeJSON } from "../../utilities/localStorage";
 import { DESIGN_CAMERA, DEGREES_TO_RADIANS_MULTIPLIER } from "../../constants";
 import { DEFAULT_PERSIST,
@@ -21,8 +21,8 @@ import { offsetsMatrixFromOffsets,
          projectionMatrixFromCameraAndCanvas } from "../../utilities/matrix";
 
 export default class DesignCamera extends Camera {
-  constructor(zFar, zNear, fieldOfView, pan, tilt, zoom, persist) {
-    super(zFar, zNear, fieldOfView);
+  constructor(zFar, zNear, fieldOfView, magnification, pan, tilt, zoom, persist) {
+    super(zFar, zNear, fieldOfView, magnification);
 
     this.pan = pan;
     this.tilt = tilt;
@@ -75,14 +75,16 @@ export default class DesignCamera extends Camera {
           angles = this.tilt.getAngles(),
           persist = this.doesPersist(),
           offsets = this.pan.getOffsets(),
-          distance = this.zoom.getDistance();
+          distance = this.zoom.getDistance(),
+          magnification = this.getMagnification();
 
     if (persist) {
       const key = DESIGN_CAMERA,
             json = {
               angles,
               offsets,
-              distance
+              distance,
+              magnification
             };
 
       setJSON(key, json);
@@ -127,9 +129,9 @@ function panFromProperties(properties) {
           json = getJSON(key);
 
     if (json !== null) {
-      const { offsets } = json;
+      const { offsets, magnification } = json;
 
-      initialOffsets = offsets; ///
+      initialOffsets = scale3(offsets, 1/ magnification);
     }
   }
 
@@ -171,9 +173,9 @@ function zoomFromProperties(properties) {
           json = getJSON(key);
 
     if (json !== null) {
-      const { distance } = json;
+      const { distance, magnification } = json;
 
-      initialDistance = distance; ///
+      initialDistance = distance / magnification;
     }
   }
 
