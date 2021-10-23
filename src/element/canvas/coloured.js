@@ -4,38 +4,33 @@ import CanvasElement from "../../element/canvas";
 import ColouredFacet from "../../primitive/facet/coloured";
 
 import { add } from "../../utilities/array";
-import { scale3 } from "../../maths/vector";
 
 export default class ColouredCanvasElement extends CanvasElement {
-  constructor(transform, facets, mask, hidden, coordinates, indexes, colour) {
-    super(transform, facets, mask, hidden);
+  constructor(maskReference, transform, facets, masks, coordinates, indexes, colour) {
+    super(maskReference, transform, facets, masks);
 
     this.coordinates = coordinates;
-
     this.indexes = indexes;
-
     this.colour = colour;
   }
 
-  createFacets(hidden, marginOfError) {
-    hidden = super.createFacets(hidden, marginOfError);  ///
+  createFacets(marginOfError) {
+    super.createFacets(marginOfError);
 
-    if (!hidden) {
-      const indexTuples = this.indexes,  ///
-            facets = indexTuples.reduce((facets, indexTuple) => {
-              const coordinateTuples = this.coordinates, ///
-                    colouredFacet = ColouredFacet.fromCoordinateTuplesIndexTupleColourAndMarginOfError(coordinateTuples, indexTuple, this.colour, marginOfError),
-                    facet = colouredFacet;  ///
+    const indexTuples = this.indexes,  ///
+          facets = indexTuples.reduce((facets, indexTuple) => {
+            const coordinateTuples = this.coordinates, ///
+                  colouredFacet = ColouredFacet.fromCoordinateTuplesIndexTupleColourAndMarginOfError(coordinateTuples, indexTuple, this.colour, marginOfError),
+                  facet = colouredFacet;  ///
 
-              if (facet !== null) {
-                add(facets, facet);
-              }
+            if (facet !== null) {
+              add(facets, facet);
+            }
 
-              return facets;
-            }, []);
+            return facets;
+          }, []);
 
-      this.setFacets(facets);
-    }
+    this.setFacets(facets);
   }
 
   addFacets(colourRenderer, textureRenderer) {

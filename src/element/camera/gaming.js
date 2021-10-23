@@ -117,8 +117,6 @@ function panFromProperties(properties) {
     }
   }
 
-  debugger
-
   const pan = Pan.fromInitialOffsetsMouseWheelDeltaMultiplierAndRelativeMouseCoordinatesMultiplier(initialOffsets, mouseWheelDeltaMultiplier, relativeMouseCoordinatesMultiplier);
 
   return pan;

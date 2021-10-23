@@ -2,17 +2,19 @@
 
 import Element from "../element";
 
-import { scale3 } from "../maths/vector";
+import Mask from "./mask";
+
 import { composeTransform } from "../utilities/transform";
+import { elementsFromChildElements } from "../utilities/element";
 
 export default class CanvasElement extends Element {
-  constructor(maskReference, transform, facets, hidden) {
+  constructor(maskReference, transform, facets, masks) {
     super();
 
     this.maskReference = maskReference;
     this.transform = transform;
     this.facets = facets;
-    this.hidden = hidden;
+    this.masks = masks;
   }
 
   getMaskReference() {
@@ -27,34 +29,30 @@ export default class CanvasElement extends Element {
     return this.facets;
   }
 
-  isHidden() {
-    return this.hidden;
+  getMasks() {
+    return this.masks;
   }
 
   setFacets(facets) {
     this.facets = facets;
   }
 
-  applyMask(maskReference, masks, marginOfError) {
-    const mask = this.findMask(maskReference, masks);
+  applyMask(masks, marginOfError) {
+    if (this.maskReference !== null) {
+      const mask = masks.find((mask) => {
+        const reference = mask.getReference();
 
-    if (mask !== null) {
-      const element = this; ///
+        if (reference === this.maskReference) {
+          return true;
+        }
+      }) || null; ///
 
-      mask.maskElement(element, marginOfError);
-    }
-  }
+      if (mask !== null) {
+        const element = this; ///
 
-  findMask(maskReference, masks) {
-    const mask = masks.find((mask) => {
-      const reference = mask.getReference();
-
-      if (reference === maskReference) {
-        return true;
+        mask.maskElement(element, marginOfError);
       }
-    }) || null; ///
-
-    return mask;
+    }
   }
 
   applyTransform(transform) {
@@ -65,24 +63,22 @@ export default class CanvasElement extends Element {
     childElements.forEach((childElement) => childElement.applyTransform(transform));
   }
 
-  createFacets(hidden, marginOfError) {
+  createFacets(marginOfError) {
     const childElements = this.getChildElements();
 
-    hidden = hidden || this.hidden; ///
-
-    childElements.forEach((childElement) => childElement.createFacets(hidden, marginOfError));
-
-    return hidden;
+    childElements.forEach((childElement) => childElement.createFacets(marginOfError));
   }
 
-  amendFacets(masks, marginOfError) {
+  maskFacets(masks, marginOfError) {
+    masks = [ ...masks, ...this.masks ]; ///
+
     const childElements = this.getChildElements();
 
-    childElements.forEach((childElement) => childElement.amendFacets(masks, marginOfError));
+    childElements.forEach((childElement) => childElement.maskFacets(masks, marginOfError));
 
-    this.applyTransform(this.transform);
+    this.applyTransform(this.transform);  ///
 
-    this.applyMask(this.maskReference, masks, marginOfError);
+    this.applyMask(masks, marginOfError);
   }
 
   addFacets(colourRenderer, textureRenderer) {
@@ -91,23 +87,12 @@ export default class CanvasElement extends Element {
     childElements.forEach((childElement) => childElement.addFacets(colourRenderer, textureRenderer));
   }
 
-  prepare() {
-    const properties = this.getProperties(),
-          childElements = this.getChildElements(),
-          { scale = null, rotations = null } = properties;
-
-    let { position = null } = properties;
-
-    this.transform = composeTransform(scale, rotations, position);
-
-    childElements.forEach((childElement) => childElement.prepare());
-  }
-
   static fromProperties(Class, properties, ...remainingArguments) {
-    const { maskReference = null, hidden = false } = properties,
-          transform = null, ///
+    const { childElements, maskReference = null, scale = null, rotations = null, position = null } = properties,
+          transform = composeTransform(scale, rotations, position),
           facets = [],
-          canvasElement = Element.fromProperties(Class, properties, maskReference, transform, facets, hidden, ...remainingArguments);
+          masks = elementsFromChildElements(childElements, Mask),
+          canvasElement = Element.fromProperties(Class, properties, maskReference, transform, facets, masks, ...remainingArguments);
 
     return canvasElement;
   }

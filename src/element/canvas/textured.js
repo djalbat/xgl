@@ -4,41 +4,35 @@ import CanvasElement from "../../element/canvas";
 import TexturedFacet from "../../primitive/facet/textured";
 
 import { add } from "../../utilities/array";
-import { scale3 } from "../../maths/vector";
 
 export default class TexturedCanvasElement extends CanvasElement {
-  constructor(transform, facets, mask, hidden, coordinates, indexes, imageName, textureCoordinates) {
-    super(transform, facets, mask, hidden);
+  constructor(maskReference, transform, facets, masks, coordinates, indexes, imageName, textureCoordinates) {
+    super(maskReference, transform, facets, masks);
 
     this.coordinates = coordinates;
-
     this.indexes = indexes;
-
     this.imageName = imageName;
-
     this.textureCoordinates = textureCoordinates;
   }
 
-  createFacets(hidden, marginOfError) {
-    hidden = super.createFacets(hidden, marginOfError);  ///
+  createFacets(marginOfError) {
+    super.createFacets(marginOfError);
 
-    if (!hidden) {
-      const indexTuples = this.indexes,  ///
-          facets = indexTuples.reduce((facets, indexTuple, index) => {
-              const vertexTextureCoordinateTuples = this.textureCoordinates[index], ///
-                    coordinateTuples = this.coordinates, ///
-                    texturedFacet = TexturedFacet.fromTextureCoordinateTuplesCoordinatesTuplesIndexTupleImageNameAndMarginOfError(vertexTextureCoordinateTuples, coordinateTuples, indexTuple, this.imageName, marginOfError),
-                    facet = texturedFacet;  ///
+    const indexTuples = this.indexes,  ///
+        facets = indexTuples.reduce((facets, indexTuple, index) => {
+            const vertexTextureCoordinateTuples = this.textureCoordinates[index], ///
+                  coordinateTuples = this.coordinates, ///
+                  texturedFacet = TexturedFacet.fromTextureCoordinateTuplesCoordinatesTuplesIndexTupleImageNameAndMarginOfError(vertexTextureCoordinateTuples, coordinateTuples, indexTuple, this.imageName, marginOfError),
+                  facet = texturedFacet;  ///
 
-            if (facet !== null) {
-              add(facets, facet);
-            }
+          if (facet !== null) {
+            add(facets, facet);
+          }
 
-            return facets;
-          }, []);
+          return facets;
+        }, []);
 
-      this.setFacets(facets);
-    }
+    this.setFacets(facets);
   }
 
   addFacets(colourRenderer, textureRenderer) {

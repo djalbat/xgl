@@ -172,13 +172,13 @@ const maskingExample = () => {
   return (
 
     <Scene canvas={canvas}>
-      <Mask reference="quarterCube">
-        <Cube scale={[ 1/4, 1/4, 1/4 ]} />
-      </Mask>
-      <Mask reference="halfCube">
-        <Cube scale={[ 1/2, 1/2, 1/2 ]} maskReference="quarterCube"/>
-      </Mask>
       <Part>
+        <Mask reference="quarterCube">
+          <Cube scale={[ 1/4, 1/4, 1/4 ]} />
+        </Mask>
+        <Mask reference="halfCube">
+          <Cube scale={[ 1/2, 1/2, 1/2 ]} maskReference="quarterCube"/>
+        </Mask>
         <Cube maskReference="halfCube" />
       </Part>
       <DesignCamera/>
@@ -329,10 +329,10 @@ const tilingExample = () => {
     return (
 
       <Scene canvas={canvas}>
-        <Mask reference="mask">
-          <ColouredSquare scale={[ 0.25, 0.25, 1 ]} position={[ 0.125, 0.125, 0 ]} />
-        </Mask>
         <Part images={images} imageNames={imageNames} imageTiling >
+          <Mask reference="mask">
+            <ColouredSquare scale={[ 0.25, 0.25, 1 ]} position={[ 0.125, 0.125, 0 ]} />
+          </Mask>
           <TexturedQuadrangle position={[ 0, 0, 0 ]} imageName="floorboards.jpg" maskReference="mask" />
           <TexturedQuadrangle position={[ -0.5, -0.5, -0.5 ]} imageName="paving.jpg" maskReference="mask" />
         </Part>

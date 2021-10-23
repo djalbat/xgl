@@ -4,22 +4,22 @@ import Element from "../element";
 import MaskingFacet from "../primitive/maskingFacet";
 
 import { push } from "../utilities/array";
-import { DEFAULT_HIDDEN } from "../defaults";
+import {composeTransform} from "../utilities/transform";
 
 export default class Mask extends Element {
-  constructor(hidden, reference) {
+  constructor(reference, transform) {
     super();
 
-    this.hidden = hidden;
     this.reference = reference;
-  }
-
-  getHidden() {
-    return this.hidden;
+    this.transform = transform;
   }
 
   getReference() {
     return this.reference;
+  }
+
+  getTransform() {
+    return this.transform;
   }
 
   retrieveMaskingFacets() {
@@ -43,23 +43,32 @@ export default class Mask extends Element {
     childElements.forEach((childElement) => maskElement(childElement, maskingFacets, marginOfError));
   }
 
-  prepare() {
+  applyTransform(transform) {
     const childElements = this.getChildElements();
 
-    childElements.forEach((childElement) => childElement.prepare());
+    childElements.forEach((childElement) => childElement.applyTransform(transform));
   }
 
-  initialise(masks, marginOfError) {
+  createFacets(marginOfError) {
     const childElements = this.getChildElements();
 
-    childElements.forEach((childElement) => childElement.createFacets(this.hidden, marginOfError));
-
-    childElements.forEach((childElement) => childElement.amendFacets(masks, marginOfError));
+    childElements.forEach((childElement) => childElement.createFacets(marginOfError));
   }
+
+  maskFacets(masks, marginOfError) {
+    const childElements = this.getChildElements();
+
+    childElements.forEach((childElement) => childElement.maskFacets(masks, marginOfError));
+
+    this.applyTransform(this.transform);  ///
+  }
+
+  addFacets(colourRenderer, textureRenderer) {}
 
   static fromProperties(properties) {
-    const { reference, hidden = DEFAULT_HIDDEN } = properties,
-          mask = Element.fromProperties(Mask, properties, hidden, reference);
+    const { reference, scale = null, rotations = null, position = null } = properties,
+          transform = composeTransform(scale, rotations, position),
+          mask = Element.fromProperties(Mask, properties, reference, transform);
 
     return mask;
   }

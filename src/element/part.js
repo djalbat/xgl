@@ -1,12 +1,15 @@
 "use strict";
 
+import Mask from "./mask";
 import Element from "../element";
 import ColourRenderer from "../renderer/colour";
 import ImagesTextureRenderer from "../renderer/texture/images";
 import ImageMapTextureRenderer from "../renderer/texture/imageMap";
 
+import { elementsFromChildElements } from "../utilities/element";
+
 export default class Part extends Element {
-  constructor(images, imageMap, imageNames, imageTiling, imageMapJSON, colourRenderer, textureRenderer, hidden) {
+  constructor(images, imageMap, imageNames, imageTiling, imageMapJSON, colourRenderer, textureRenderer) {
     super();
 
     this.images = images;
@@ -16,8 +19,6 @@ export default class Part extends Element {
     this.imageMapJSON = imageMapJSON;
     this.colourRenderer = colourRenderer;
     this.textureRenderer = textureRenderer;
-
-    this.hidden = hidden;
   }
   
   render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix, canvas) {
@@ -26,16 +27,12 @@ export default class Part extends Element {
     this.textureRenderer && this.textureRenderer.render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix, canvas);  ///
   }
 
-  prepare() {
-    const childElements = this.getChildElements();
+  initialise(canvas, marginOfError) {
+    const colourRenderer = ColourRenderer.fromNothing(canvas),
+          childElements = this.getChildElements(),
+          masks = elementsFromChildElements(childElements, Mask);
 
-    childElements.forEach((childElement) => childElement.prepare());
-  }
-
-  initialise(canvas, masks, marginOfError) {
     let textureRenderer = null;
-
-    const colourRenderer = ColourRenderer.fromNothing(canvas);
 
     if (this.images !== null) {
       const imagesTextureRenderer = ImagesTextureRenderer.fromImagesImageNamesAndImageTiling(this.images, this.imageNames, this.imageTiling, canvas);
@@ -49,17 +46,19 @@ export default class Part extends Element {
       textureRenderer = imageMapTextureRenderer;  ///
     }
 
-    const childElements = this.getChildElements();
+    childElements.forEach((childElement) => childElement.createFacets(marginOfError));
 
-    childElements.forEach((childElement) => childElement.createFacets(this.hidden, marginOfError));
-
-    childElements.forEach((childElement) => childElement.amendFacets(masks, marginOfError));
+    childElements.forEach((childElement) => childElement.maskFacets(masks, marginOfError));
 
     childElements.forEach((childElement) => childElement.addFacets(colourRenderer, textureRenderer));
 
-    colourRenderer && colourRenderer.createBuffers(canvas); ///
+    if (colourRenderer !== null) {
+      colourRenderer.createBuffers(canvas);
+    }
 
-    textureRenderer && textureRenderer.createBuffers(canvas); ///
+    if (textureRenderer !== null) {
+      textureRenderer.createBuffers(canvas);
+    }
 
     this.colourRenderer = colourRenderer;
 
@@ -67,10 +66,10 @@ export default class Part extends Element {
   }
 
   static fromProperties(properties) {
-    const { images = null, imageMap = null, imageNames = null, imageTiling = false, imageMapJSON = null, hidden = false } = properties,
+    const { images = null, imageMap = null, imageNames = null, imageTiling = false, imageMapJSON = null } = properties,
           colourRenderer = null,  ///
           textureRenderer = null, ///
-          part = Element.fromProperties(Part, properties, images, imageMap, imageNames, imageTiling, imageMapJSON, colourRenderer, textureRenderer, hidden);
+          part = Element.fromProperties(Part, properties, images, imageMap, imageNames, imageTiling, imageMapJSON, colourRenderer, textureRenderer);
 
     return part;
   }
