@@ -1,7 +1,7 @@
 "use strict";
 
 import { ANGLES_MULTIPLIER } from "../constants";
-import { add2, scale2, transform2 } from "../maths/vector";
+import { add3, scale2, transform3 } from "../maths/vector";
 
 export default class Tilt {
   constructor(angles, clockwise) {
@@ -25,17 +25,18 @@ export default class Tilt {
                           -1,
           matrix = [
 
-            0,           +multiplier,
-            -multiplier,           0,
+                      0, +multiplier, 0,
+            -multiplier,           0, 0,
+                      0,           0, 0
 
           ],
-          relativeAngles = transform2(relativeMouseCoordinates, matrix);
+          relativeAngles = transform3([ ...relativeMouseCoordinates, 0 ], matrix);
 
-    this.angles = add2(this.angles, relativeAngles);
+    this.angles = add3(this.angles, relativeAngles);
   }
 
   static fromInitialAngles(initialAngles) {
-    const angles = initialAngles, ///
+    const angles = [ ...initialAngles, 0 ],
           clockwise = false,
           tilt = new Tilt(angles, clockwise);
 
@@ -43,7 +44,7 @@ export default class Tilt {
   }
 
   static fromInitialAnglesAndClockwise(initialAngles, clockwise) {
-    const angles = initialAngles, ///
+    const angles = [ ...initialAngles, 0 ],
           tilt = new Tilt(angles, clockwise);
 
     return tilt;
