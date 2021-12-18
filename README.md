@@ -278,7 +278,8 @@ const coordinates = [
 
 class TexturedTriangle extends TexturedCanvasElement {
   static fromProperties(properties) {
-    const { imageName = defaultImageName, textureCoordinates = defaultTextureCoordinates } = properties,
+    const { imageName = defaultImageName,
+            textureCoordinates = defaultTextureCoordinates } = properties,
           texturedTriangle = TexturedCanvasElement.fromProperties(TexturedTriangle,
                                                                   properties,
                                                                   coordinates,
@@ -318,9 +319,12 @@ On the other hand, if we alter the texture coordinates thus...
 The textured triangles themselves are adjusted to make the sides...
 
 ```
-const Side = (properties) =>
+const scale = [ 1, 1/Math.sqrt(2), 1 ],
+      position = [ -0.5, 0, 0.5 ],
+      rotations = [ -45, 0, 0 ]
+      Side = (properties) =>
 
-  <TexturedTriangle scale={[ 1, 1/Math.sqrt(2), 1 ]} position={[ -0.5, 0, 0.5 ]} rotations={[ -45, 0, 0 ]} />
+        <TexturedTriangle scale={scale} position={position} rotations={rotations} />
 
 ;
 ```
@@ -342,8 +346,12 @@ const tilingExample = () => {
           <Mask reference="mask">
             <ColouredSquare scale={[ 0.25, 0.25, 1 ]} position={[ 0.125, 0.125, 0 ]} />
           </Mask>
-          <TexturedQuadrangle position={[ 0, 0, 0 ]} imageName="floorboards.jpg" maskReference="mask" />
-          <TexturedQuadrangle position={[ -0.5, -0.5, -0.5 ]} imageName="paving.jpg" maskReference="mask" />
+          <TexturedQuadrangle position={[ 0, 0, 0 ]}
+                              imageName="floorboards.jpg"
+                              maskReference="mask" />
+          <TexturedQuadrangle position={[ -0.5, -0.5, -0.5 ]}
+                              imageName="paving.jpg"
+                              maskReference="mask" />
         </Part>
         <DesignCamera/>
       </Scene>
@@ -369,8 +377,14 @@ const coordinates = ...,
 
 class TexturedQuadrangle extends TexturedCanvasElement {
   static fromProperties(properties) {
-    const { imageName = defaultImageName, textureCoordinates = defaultTextureCoordinates } = properties,
-          texturedQuadrangle = TexturedCanvasElement.fromProperties(TexturedQuadrangle, properties, coordinates, indexes, imageName, textureCoordinates);
+    const { imageName = defaultImageName,
+            textureCoordinates = defaultTextureCoordinates } = properties,
+          texturedQuadrangle = TexturedCanvasElement.fromProperties(TexturedQuadrangle,
+                                                                    properties,
+                                                                    coordinates,
+                                                                    indexes,
+                                                                    imageName,
+                                                                    textureCoordinates);
 
     return texturedQuadrangle;
   }
