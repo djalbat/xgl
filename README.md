@@ -475,7 +475,9 @@ The design camera points at the same place, with mouse movements moving it towar
 ```
 <Scene ... >
   ...
-  <DesignCamera initialDistance={10} initialAngles={[ 225, 22.5 ]} initialOffsets={[ -10, 0, 10 ]} />
+  <DesignCamera initialDistance={10}
+                initialAngles={[ 225, 22.5 ]}
+                initialOffsets={[ -10, 0, 10 ]} />
 </Scene>
 ```
 Here the initial angles are chosen so each of the three axes points away from the camera. The offsets re-position the scene as a whole.
@@ -485,9 +487,12 @@ The gaming camera allows you to freely move around around a scene. If you hold t
 ```
 <Scene ... >
   ...
-  <GamingCamera initialPosition={[ 0, 0, 10 ]} initialAngles={[ 45, 0 ]} />
+  <GamingCamera initialPosition={[ 0, 0, 10 ]}
+                initialAngles={[ 45, 0 ]} />
 </Scene>
 ```
+You can set the mouse sensitivity and mouse wheel sensitivity for both cameras with the `mouseSensitivity` and `mouseWheelSensitivity` attributes, respectively. Their defaults are unity and a good rule of thumb is to set the values to be roughly the same as the sizes of the elements in the scene.
+
 You can create your own cameras by extending the `Camera` class, with the source for the gaming and design cameras being a good place to start.
 
 ## Building
