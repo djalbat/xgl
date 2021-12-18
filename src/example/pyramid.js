@@ -1,6 +1,6 @@
 "use strict";
 
-import { Canvas, Scene, Part, GamingCamera, preloadUtilities } from "../index";  ///
+import { Part, Scene, Canvas, GamingCamera, preloadUtilities } from "../index";  ///
 
 import Pyramid from "./element/pyramid";
 
@@ -16,7 +16,7 @@ const pyramidExample = () => {
         <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
           <Pyramid/>
         </Part>
-        <GamingCamera/>
+        <GamingCamera mouseSensitivity={10} />
       </Scene>
 
     );

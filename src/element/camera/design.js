@@ -12,8 +12,8 @@ import { DEFAULT_PERSIST,
          DEFAULT_INITIAL_ANGLES,
          DEFAULT_INITIAL_OFFSETS,
          DEFAULT_INITIAL_DISTANCE,
-         DEFAULT_MOUSE_WHEEL_DELTA_MULTIPLIER,
-         DEFAULT_RELATIVE_MOUSE_COORDINATES_MULTIPLIER } from "../../defaults";
+         DEFAULT_MOUSE_SENSITIVITY,
+         DEFAULT_MOUSE_WHEEL_SENSITIVITY } from "../../defaults";
 import { offsetsMatrixFromOffsets,
          rotationsMatrixFromAngles,
          positionMatrixFromDistance,
@@ -110,8 +110,8 @@ export default class DesignCamera extends Camera {
 
 function panFromProperties(properties) {
   const { persist = DEFAULT_PERSIST,
-          mouseWheelDeltaMultiplier = DEFAULT_MOUSE_WHEEL_DELTA_MULTIPLIER,
-          relativeMouseCoordinatesMultiplier = DEFAULT_RELATIVE_MOUSE_COORDINATES_MULTIPLIER } = properties;
+          mouseSensitivity = DEFAULT_MOUSE_SENSITIVITY,
+          mouseWheelSensitivity = DEFAULT_MOUSE_WHEEL_SENSITIVITY } = properties;
 
   let { initialOffsets = DEFAULT_INITIAL_OFFSETS } = properties;
 
@@ -126,7 +126,7 @@ function panFromProperties(properties) {
     }
   }
 
-  const pan = Pan.fromInitialOffsetsMouseWheelDeltaMultiplierAndRelativeMouseCoordinatesMultiplier(initialOffsets, mouseWheelDeltaMultiplier, relativeMouseCoordinatesMultiplier);
+  const pan = Pan.fromInitialOffsetsMouseSensitivityAndMouseWheelSensitivity(initialOffsets, mouseSensitivity, mouseWheelSensitivity);
 
   return pan;
 }
@@ -155,7 +155,7 @@ function tiltFromProperties(properties) {
 }
 
 function zoomFromProperties(properties) {
-  const { persist = DEFAULT_PERSIST, mouseWheelDeltaMultiplier = DEFAULT_MOUSE_WHEEL_DELTA_MULTIPLIER } = properties;
+  const { persist = DEFAULT_PERSIST, mouseWheelSensitivity = DEFAULT_MOUSE_WHEEL_SENSITIVITY } = properties;
 
   let { initialDistance = DEFAULT_INITIAL_DISTANCE } = properties;
 
@@ -170,7 +170,7 @@ function zoomFromProperties(properties) {
     }
   }
 
-  const zoom = Zoom.fromInitialDistanceAndMouseWheelDeltaMultiplier(initialDistance, mouseWheelDeltaMultiplier);
+  const zoom = Zoom.fromInitialDistanceAndMouseWheelSensitivity(initialDistance, mouseWheelSensitivity);
 
   return zoom;
 }

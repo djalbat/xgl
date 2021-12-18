@@ -11,8 +11,8 @@ import { GAMING_CAMERA, INVERT_MULTIPLIER, DEGREES_TO_RADIANS_MULTIPLIER } from 
 import { DEFAULT_PERSIST,
          DEFAULT_INITIAL_ANGLES,
          DEFAULT_INITIAL_POSITION,
-         DEFAULT_MOUSE_WHEEL_DELTA_MULTIPLIER,
-         DEFAULT_RELATIVE_MOUSE_COORDINATES_MULTIPLIER } from "../../defaults";
+         DEFAULT_MOUSE_SENSITIVITY,
+         DEFAULT_MOUSE_WHEEL_SENSITIVITY } from "../../defaults";
 import { offsetsMatrixFromOffsets,
          rotationsMatrixFromAngles,
          positionMatrixFromNothing,
@@ -99,8 +99,8 @@ export default class GamingCamera extends Camera {
 
 function panFromProperties(properties) {
   const { persist = DEFAULT_PERSIST,
-          mouseWheelDeltaMultiplier = DEFAULT_MOUSE_WHEEL_DELTA_MULTIPLIER,
-          relativeMouseCoordinatesMultiplier = DEFAULT_RELATIVE_MOUSE_COORDINATES_MULTIPLIER } = properties;
+          mouseSensitivity = DEFAULT_MOUSE_SENSITIVITY,
+          mouseWheelSensitivity = DEFAULT_MOUSE_WHEEL_SENSITIVITY } = properties;
 
   let  { initialPosition = DEFAULT_INITIAL_POSITION } = properties;
 
@@ -117,7 +117,7 @@ function panFromProperties(properties) {
     }
   }
 
-  const pan = Pan.fromInitialOffsetsMouseWheelDeltaMultiplierAndRelativeMouseCoordinatesMultiplier(initialOffsets, mouseWheelDeltaMultiplier, relativeMouseCoordinatesMultiplier);
+  const pan = Pan.fromInitialOffsetsMouseSensitivityAndMouseWheelSensitivity(initialOffsets, mouseSensitivity, mouseWheelSensitivity);
 
   return pan;
 }

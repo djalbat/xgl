@@ -1,7 +1,8 @@
 "use strict";
 
-import { add3, scale2, scale3, reflect2 } from "../maths/vector";
+import { add3, scale2, reflect2 } from "../maths/vector";
 import { relativeOffsetsFromAnglesAndDirections } from "../utilities/offsets";
+import { MOUSE_WHEEL_DELTA_MULTIPLIER, RELATIVE_MOUSE_COORDINATES_MULTIPLIER } from "../constants";
 
 export default class Pan {
   constructor(offsets, mouseWheelDeltaMultiplier, relativeMouseCoordinatesMultiplier) {
@@ -34,8 +35,10 @@ export default class Pan {
     this.offsets = add3(this.offsets, relativeOffsets);
   }
 
-  static fromInitialOffsetsMouseWheelDeltaMultiplierAndRelativeMouseCoordinatesMultiplier(initialOffsets, mouseWheelDeltaMultiplier, relativeMouseCoordinatesMultiplier) {
+  static fromInitialOffsetsMouseSensitivityAndMouseWheelSensitivity(initialOffsets, mouseSensitivity, mouseWheelSensitivity) {
     const offsets = initialOffsets, ///
+          mouseWheelDeltaMultiplier = MOUSE_WHEEL_DELTA_MULTIPLIER * mouseWheelSensitivity,
+          relativeMouseCoordinatesMultiplier = RELATIVE_MOUSE_COORDINATES_MULTIPLIER * mouseSensitivity,
           pan = new Pan(offsets, mouseWheelDeltaMultiplier, relativeMouseCoordinatesMultiplier);
 
     return pan;

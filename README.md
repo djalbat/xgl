@@ -105,7 +105,11 @@ const coordinates = [
 class ColouredSquare extends ColouredCanvasElement {
   static fromProperties(properties) {
     const { colour = defaultColour } = properties,
-          colouredSquare = ColouredCanvasElement.fromProperties(ColouredSquare, properties, coordinates, indexes, colour);
+          colouredSquare = ColouredCanvasElement.fromProperties(ColouredSquare,
+                                                                properties,
+                                                                coordinates,
+                                                                indexes,
+                                                                colour);
 
     return colouredSquare;
   }
@@ -275,7 +279,12 @@ const coordinates = [
 class TexturedTriangle extends TexturedCanvasElement {
   static fromProperties(properties) {
     const { imageName = defaultImageName, textureCoordinates = defaultTextureCoordinates } = properties,
-          texturedTriangle = TexturedCanvasElement.fromProperties(TexturedTriangle, properties, coordinates, indexes, imageName, textureCoordinates);
+          texturedTriangle = TexturedCanvasElement.fromProperties(TexturedTriangle,
+                                                                  properties,
+                                                                  coordinates,
+                                                                  indexes,
+                                                                  imageName,
+                                                                  textureCoordinates);
 
     return texturedTriangle;
   }
