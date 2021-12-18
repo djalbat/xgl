@@ -6,7 +6,7 @@ import Tilt from "../../miscellaneous/tilt";
 import Camera from "../camera";
 
 import { scale2, scale3 } from "../../maths/vector";
-import { getJSON, removeJSON, setJSON } from "../../utilities/localStorage";
+import { getJSON, setJSON, removeJSON } from "../../utilities/localStorage";
 import { GAMING_CAMERA, INVERT_MULTIPLIER, DEGREES_TO_RADIANS_MULTIPLIER } from "../../constants";
 import { DEFAULT_PERSIST,
          DEFAULT_INITIAL_ANGLES,
