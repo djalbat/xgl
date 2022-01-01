@@ -1,11 +1,20 @@
 "use strict";
 
-import { MOUSEUP_EVENT_TYPE, MOUSEDOWN_EVENT_TYPE, MOUSEMOVE_EVENT_TYPE, MOUSEWHEEL_EVENT_TYPE } from "../eventTypes";
+import { WHEEL_EVENT_TYPE, MOUSEUP_EVENT_TYPE, MOUSEDOWN_EVENT_TYPE, MOUSEMOVE_EVENT_TYPE } from "../eventTypes";
 
 export default class MouseEvents {
   constructor(handlersMap, mouseDown) {
     this.handlersMap = handlersMap;
     this.mouseDown = mouseDown;
+  }
+
+  wheelEventListener(event) {
+    const handlers = this.handlersMap[ WHEEL_EVENT_TYPE ],
+          mouseWheelDelta = mouseWheelDeltaFromEvent(event);
+
+    handlers.forEach((handler) => handler(mouseWheelDelta));
+
+    event.preventDefault();
   }
 
   mouseEventListener(event, eventType) {
@@ -33,15 +42,6 @@ export default class MouseEvents {
     this.mouseEventListener(event, MOUSEMOVE_EVENT_TYPE);
   }
 
-  mouseWheelEventListener(event) {
-    const handlers = this.handlersMap[ MOUSEWHEEL_EVENT_TYPE ],
-          mouseWheelDelta = mouseWheelDeltaFromEvent(event);
-
-    handlers.forEach((handler) => handler(mouseWheelDelta));
-
-		event.preventDefault();
-  }
-
   addMouseUpHandler(mouseUpHandler) {
     const mouseUpHandlers = this.handlersMap[ MOUSEUP_EVENT_TYPE ];
 
@@ -61,30 +61,27 @@ export default class MouseEvents {
   }
 
   addMouseWheelHandler(mouseWheelHandler) {
-    const mouseWheelHandlers = this.handlersMap[ MOUSEWHEEL_EVENT_TYPE ];
+    const mouseWheelHandlers = this.handlersMap[ WHEEL_EVENT_TYPE ];
 
     mouseWheelHandlers.push(mouseWheelHandler);
   }
 
   initialise(canvas) {
       const canvasDOMElement = canvas.getDOMElement(),
+            wheelEventListener = this.wheelEventListener.bind(this),
             mouseUpEventListener = this.mouseUpEventListener.bind(this),
             mouseDownEventListener = this.mouseDownEventListener.bind(this),
-            mouseMoveEventListener = this.mouseMoveEventListener.bind(this),
-            mouseWheelEventListener = this.mouseWheelEventListener.bind(this);
+            mouseMoveEventListener = this.mouseMoveEventListener.bind(this);
 
+    this.handlersMap[ WHEEL_EVENT_TYPE ] = [];
     this.handlersMap[ MOUSEUP_EVENT_TYPE ] = [];
     this.handlersMap[ MOUSEDOWN_EVENT_TYPE ] = [];
     this.handlersMap[ MOUSEMOVE_EVENT_TYPE ] = [];
-    this.handlersMap[ MOUSEWHEEL_EVENT_TYPE ] = [];
 
+    canvasDOMElement.addEventListener(WHEEL_EVENT_TYPE, wheelEventListener);
     canvasDOMElement.addEventListener(MOUSEUP_EVENT_TYPE, mouseUpEventListener);
-
     canvasDOMElement.addEventListener(MOUSEDOWN_EVENT_TYPE, mouseDownEventListener);
-
     canvasDOMElement.addEventListener(MOUSEMOVE_EVENT_TYPE, mouseMoveEventListener);
-
-    canvasDOMElement.addEventListener(MOUSEWHEEL_EVENT_TYPE, mouseWheelEventListener);
   }
 
   static fromNothing() {
@@ -96,9 +93,13 @@ export default class MouseEvents {
   }
 }
 
+let count = 0;
+
 function mouseWheelDeltaFromEvent(event) {
   const { wheelDelta } = event,
         mouseWheelDelta = Math.max(-1, Math.min(1, wheelDelta)); ///
+
+  console.log(count++)
 
   return mouseWheelDelta;
 }
