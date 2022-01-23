@@ -21,12 +21,6 @@ export default class Part extends Element {
     this.textureRenderer = textureRenderer;
   }
   
-  render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix, canvas) {
-    this.colourRenderer && this.colourRenderer.render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix, canvas);  ///
-
-    this.textureRenderer && this.textureRenderer.render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix, canvas);  ///
-  }
-
   initialise(canvas, marginOfError) {
     const colourRenderer = ColourRenderer.fromNothing(canvas),
           childElements = this.getChildElements(),
@@ -63,6 +57,12 @@ export default class Part extends Element {
     this.colourRenderer = colourRenderer;
 
     this.textureRenderer = textureRenderer;
+  }
+
+  render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix, canvas) {
+    this.colourRenderer && this.colourRenderer.render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix, canvas);  ///
+
+    this.textureRenderer && this.textureRenderer.render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix, canvas);  ///
   }
 
   static fromProperties(properties) {

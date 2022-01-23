@@ -4,7 +4,7 @@ import { multiply4 } from "../maths/matrix";
 import { transform4 } from "../maths/vector";
 import { scaleMatrixFromScale, positionMatrixFromPosition, rotationsMatrixFromRotations } from "../utilities/matrix";
 
-export function composeTransform(scale, rotations, position) {
+export function composeTransform(scale, position, rotations) {
   let matrix = null;
 
   if (scale !== null) {

@@ -2,6 +2,8 @@
 
 import { FUNCTION } from "./constants";
 
+import { guarantee } from "./utilities/array";
+
 export default class Element {
   getProperties() {
     return this.properties;
@@ -22,7 +24,7 @@ export default class Element {
   static fromProperties(Class, properties, ...remainingArguments) {
     const element = new Class(...remainingArguments),
           childElements = (typeof element.childElements === FUNCTION) ?
-                            element.childElements(properties) :
+                            guarantee(element.childElements(properties)) :
                               properties.childElements || [];
 
     element.setProperties(properties);

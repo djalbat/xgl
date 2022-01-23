@@ -88,8 +88,8 @@ export default class CanvasElement extends Element {
   }
 
   static fromProperties(Class, properties, ...remainingArguments) {
-    const { childElements, maskReference = null, scale = null, rotations = null, position = null } = properties,
-          transform = composeTransform(scale, rotations, position),
+    const { childElements, scale = null, position = null, rotations = null, maskReference = null } = properties,
+          transform = composeTransform(scale, position, rotations),
           facets = [],
           masks = elementsFromChildElements(childElements, Mask),
           canvasElement = Element.fromProperties(Class, properties, maskReference, transform, facets, masks, ...remainingArguments);

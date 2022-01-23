@@ -66,8 +66,8 @@ export default class Mask extends Element {
   addFacets(colourRenderer, textureRenderer) {}
 
   static fromProperties(properties) {
-    const { reference, scale = null, rotations = null, position = null } = properties,
-          transform = composeTransform(scale, rotations, position),
+    const { reference, scale = null, position = null, rotations = null } = properties,
+          transform = composeTransform(scale, position, rotations),
           mask = Element.fromProperties(Mask, properties, reference, transform);
 
     return mask;

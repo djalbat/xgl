@@ -18,12 +18,6 @@ export default class Scene extends Element {
     this.canvas = canvas;
   }
 
-  userInputHandler(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown) {
-    const render = this.render.bind(this);
-
-    this.camera.update(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, this.canvas, render);
-  }
-
   escapeKeyDownHandler() {
     this.camera.reset();
 
@@ -45,10 +39,10 @@ export default class Scene extends Element {
     this.userInputHandler(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown);
   }
 
-  render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix) {
-    this.canvas.clear();
+  userInputHandler(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown) {
+    const render = this.render.bind(this);
 
-    this.parts.forEach((part) => part.render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix, this.canvas));
+    this.camera.update(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, this.canvas, render);
   }
 
   initialise(canvas, marginOfError) {
@@ -70,8 +64,14 @@ export default class Scene extends Element {
     this.windowResizeHandler(); ///
   }
 
+  render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix) {
+    this.canvas.clear();
+
+    this.parts.forEach((part) => part.render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix, this.canvas));
+  }
+
   static fromProperties(properties) {
-    const { canvas, childElements } = properties,
+    const { canvas, context, childElements } = properties,
           parts = elementsFromChildElements(childElements, Part),
           camera = elementFromChildElements(childElements, Camera),
           scene = Element.fromProperties(Scene, properties, parts, camera, canvas),
