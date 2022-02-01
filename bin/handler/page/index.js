@@ -1,12 +1,13 @@
 "use strict";
 
-const { templateUtilities } = require("necessary");
+const { headers, statusCodes, contentTypes, templateUtilities } = require("necessary");
 
-const { OK_200_STATUS_CODE } = require("../../statusCodes"),
-      { CONTENT_TYPE, INDEX_PAGE_FILE_NAME } = require("../../constants"),
-      { TEXT_HTML_CHARSET_UTF_8_CONTENT_TYPE } = require("../../contentTypes");
+const { INDEX_PAGE_FILE_NAME } = require("../../constants");
 
-const { parseFile } = templateUtilities;
+const { parseFile } = templateUtilities,
+      { OK_200_STATUS_CODE } = statusCodes,
+      { CONTENT_TYPE_HEADERS } = headers,
+      { TEXT_HTML_CHARSET_UTF_8_CONTENT_TYPE } = contentTypes;
 
 function indexPageHandler(request, response) {
   const indexPageFileName = INDEX_PAGE_FILE_NAME, ///
@@ -17,7 +18,7 @@ function indexPageHandler(request, response) {
         statusCode = OK_200_STATUS_CODE,
         contentType = TEXT_HTML_CHARSET_UTF_8_CONTENT_TYPE;
 
-  headers[CONTENT_TYPE] = contentType;
+  headers[CONTENT_TYPE_HEADERS] = contentType;
 
   response.writeHead(statusCode, headers);
 

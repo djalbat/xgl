@@ -1,7 +1,10 @@
 "use strict";
 
-import { ESCAPE_KEY_CODE, SHIFT_KEY_CODE } from "../keyCodes";
+import { keyCodes } from "necessary";
+
 import { KEYUP_EVENT_TYPE, KEYDOWN_EVENT_TYPE } from "../eventTypes";
+
+const { ESCAPE_KEY_CODE, SHIFT_KEY_CODE } = keyCodes;
 
 export default class KeyEvents {
   constructor(handlers, shiftKeyDown) {

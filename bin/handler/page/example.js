@@ -1,19 +1,19 @@
 "use strict";
 
-const { templateUtilities } = require("necessary");
+const { headers, statusCodes, contentTypes, templateUtilities } = require("necessary");
 
 const { imageMapJSON } = require("xgl-server"),
       { IMAGE_MAP_PATH } = require("../../paths"),
-      { OK_200_STATUS_CODE } = require("../../statusCodes"),
-      { TEXT_HTML_CHARSET_UTF_8_CONTENT_TYPE } = require("../../contentTypes"),
       { TWO_SPACES,
-        CONTENT_TYPE,
         OVERLAY_IMAGE_SIZE,
         IMAGE_DIRECTORY_URI,
         IMAGE_DIRECTORY_PATH,
         EXAMPLE_PAGE_FILE_NAME } = require("../../constants");
 
-const { parseFile } = templateUtilities;
+const { parseFile } = templateUtilities,
+      { OK_200_STATUS_CODE } = statusCodes,
+      { CONTENT_TYPE_HEADER } = headers,
+      { TEXT_HTML_CHARSET_UTF_8_CONTENT_TYPE } = contentTypes;
 
 function examplePageHandler(request, response) {
   const names = [],
@@ -40,7 +40,7 @@ function examplePageHandler(request, response) {
           statusCode = OK_200_STATUS_CODE,
           contentType = TEXT_HTML_CHARSET_UTF_8_CONTENT_TYPE;
 
-    headers[CONTENT_TYPE] = contentType;
+    headers[CONTENT_TYPE_HEADER] = contentType;
 
     response.writeHead(statusCode, headers);
 

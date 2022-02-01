@@ -1,7 +1,6 @@
 "use strict";
 
 const TWO_SPACES = "  ",
-      CONTENT_TYPE = "content-type",
       WATCH_PATTERN = "./example.js",
       OVERLAY_IMAGE_SIZE = 128,
       INDEX_PAGE_FILE_NAME = "index.html",
@@ -13,7 +12,6 @@ const TWO_SPACES = "  ",
 
 module.exports = {
   TWO_SPACES,
-  CONTENT_TYPE,
   WATCH_PATTERN,
   OVERLAY_IMAGE_SIZE,
   INDEX_PAGE_FILE_NAME,
