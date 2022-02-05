@@ -11,7 +11,7 @@ const simpleExample = () => {
 
     <Scene canvas={canvas}>
       <Part>
-        { false && <ColouredSquare colour={[ 0, 0, 1 ]} /> }
+        <ColouredSquare colour={[ 0, 0, 1 ]} />
       </Part>
       <DesignCamera/>
     </Scene>
