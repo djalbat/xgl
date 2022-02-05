@@ -5,11 +5,12 @@ import FunctionCanvasElement from "./element/canvas/function";
 
 import { FUNCTION } from "./constants";
 import { flatten, guarantee } from "./utilities/array";
+import { removeFalseyElements } from "./utilities/elements";
 
 function createElement(firstArgument, properties, ...childElements) {
   properties = properties || {};  ///
 
-  childElements = flatten(childElements); ///
+  childElements = sanitiseChildElements(childElements); ///
 
   let element;
 
@@ -55,4 +56,12 @@ function isSubclassOf(argument, Class) {
   }
 
   return typeOf;
+}
+
+function sanitiseChildElements(childElements) {
+  childElements = flatten(childElements);
+
+  childElements = removeFalseyElements(childElements);
+
+  return childElements;
 }
