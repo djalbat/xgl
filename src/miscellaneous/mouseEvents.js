@@ -93,13 +93,9 @@ export default class MouseEvents {
   }
 }
 
-let count = 0;
-
 function mouseWheelDeltaFromEvent(event) {
   const { wheelDelta } = event,
         mouseWheelDelta = Math.max(-1, Math.min(1, wheelDelta)); ///
-
-  console.log(count++)
 
   return mouseWheelDelta;
 }
