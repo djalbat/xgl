@@ -105,11 +105,7 @@ const coordinates = [
 class ColouredSquare extends ColouredCanvasElement {
   static fromProperties(properties) {
     const { colour = defaultColour } = properties,
-          colouredSquare = ColouredCanvasElement.fromProperties(ColouredSquare,
-                                                                properties,
-                                                                coordinates,
-                                                                indexes,
-                                                                colour);
+          colouredSquare = ColouredCanvasElement.fromProperties(ColouredSquare, properties, coordinates, indexes, colour);
 
     return colouredSquare;
   }
