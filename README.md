@@ -273,12 +273,7 @@ class TexturedTriangle extends TexturedCanvasElement {
   static fromProperties(properties) {
     const { imageName = defaultImageName,
             textureCoordinates = defaultTextureCoordinates } = properties,
-          texturedTriangle = TexturedCanvasElement.fromProperties(TexturedTriangle,
-                                                                  properties,
-                                                                  coordinates,
-                                                                  indexes,
-                                                                  imageName,
-                                                                  textureCoordinates);
+            texturedTriangle = TexturedCanvasElement.fromProperties(TexturedTriangle, properties, coordinates, indexes, imageName, textureCoordinates);
 
     return texturedTriangle;
   }
