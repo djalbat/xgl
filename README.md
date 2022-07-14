@@ -359,12 +359,7 @@ class TexturedQuadrangle extends TexturedCanvasElement {
   static fromProperties(properties) {
     const { imageName = defaultImageName,
             textureCoordinates = defaultTextureCoordinates } = properties,
-          texturedQuadrangle = TexturedCanvasElement.fromProperties(TexturedQuadrangle,
-                                                                    properties,
-                                                                    coordinates,
-                                                                    indexes,
-                                                                    imageName,
-                                                                    textureCoordinates);
+            texturedQuadrangle = TexturedCanvasElement.fromProperties(TexturedQuadrangle, properties, coordinates, indexes, imageName, textureCoordinates);
 
     return texturedQuadrangle;
   }
