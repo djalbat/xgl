@@ -71,7 +71,7 @@ export default class Scene extends Element {
   }
 
   static fromProperties(properties) {
-    const { canvas, context, childElements } = properties,
+    const { canvas, childElements } = properties,
           parts = elementsFromChildElements(childElements, Part),
           camera = elementFromChildElements(childElements, Camera),
           scene = Element.fromProperties(Scene, properties, parts, camera, canvas),

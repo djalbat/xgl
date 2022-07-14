@@ -200,33 +200,26 @@ The quarter sized cube is used to make the mask for the half sized cube which is
 
 ### The pyramid example
 
-This example utilities the image map provided by XGL server. If you inspect the example HTML, you will also see that the JSON describing the image map has been embedded within:
+This example utilities the image map provided by XGL server. If you inspect the example HTML, you will also see that the JSON describing the image map has been embedded within it, along with other values that are needed for the preload utilities:
 
 ```
 <script>
 
-  window.__configuration__ = {
-    imageMapURI: "/imageMap",
-    imageMapJSON: {
-
-      ...
-
-      "stripes.jpg": {
-        "left": 0.501953125,
-        "bottom": 0.501953125,
-        "width": 0.49609375,
-        "height": 0.49609375
-      }
-    }
-  };
+  var host = "${host}",
+      imageNames = ${imageNames},
+      imageMapURI = "${imageMapURI}",
+      imageMapJSON = ${imageMapJSON},
+      imageDirectoryURI = "${imageDirectoryURI}";
 
 </script>
 ```
-As explained in the XGL Server usage section, assigning a `__configuration__` property to the global `window` object makes its values accessible to the bundled application running in the browser. With the image map URI and corresponding JSON to hand, the pyramid example can load the image map and pass both that and the JSON to any `Part` element that uses textures:
+For more information, see the relevant section below.
+
+To continue, with the image map URI and corresponding JSON to hand, the pyramid example can load the image map and pass both that and the JSON to any `Part` element that uses textures:
 
 ```
 const pyramidExample = () => {
-  preloadImageMap((imageMap, imageMapJSON) => {
+  preloadImageMap(host, imageMapURI, imageMapJSON, (imageMap, imageMapJSON) => {
     const canvas = new Canvas();
 
     return (
@@ -235,7 +228,7 @@ const pyramidExample = () => {
         <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
           <Pyramid/>
         </Part>
-        <GamingCamera/>
+        <GamingCamera mouseSensitivity={10} />
       </Scene>
 
     );
@@ -336,22 +329,18 @@ This example also makes use of images, but there are loaded individually rather 
 
 ```
 const tilingExample = () => {
-  preloadImages((images, imageNames) => {
+  preloadImages(host, imageNames, imageDirectoryURI, (images, imageNames) => {
     const canvas = new Canvas();
 
     return (
 
-      <Scene canvas={canvas}>
+      <Scene canvas={canvas} >
         <Part images={images} imageNames={imageNames} imageTiling >
           <Mask reference="mask">
-            <ColouredSquare scale={[ 0.25, 0.25, 1 ]} position={[ 0.125, 0.125, 0 ]} />
+            <ColouredSquare scale={[ 0.25, 0.25, 1 ]} position={[ 0.125, 0.125, 0.125 ]} />
           </Mask>
-          <TexturedQuadrangle position={[ 0, 0, 0 ]}
-                              imageName="floorboards.jpg"
-                              maskReference="mask" />
-          <TexturedQuadrangle position={[ -0.5, -0.5, -0.5 ]}
-                              imageName="paving.jpg"
-                              maskReference="mask" />
+          <TexturedQuadrangle position={[ 0, 0, 0 ]} imageName="floorboards.jpg" maskReference="mask" />
+          <TexturedQuadrangle position={[ -0.5, -0.5, -0.5 ]} imageName="paving.jpg" maskReference="mask" />
         </Part>
         <DesignCamera/>
       </Scene>
@@ -408,56 +397,45 @@ Two functions are made available to help you preload images for use by the textu
 The first, `preloadImages()`, preloads images sequentially and provides them, along with their names, via a callback function. The images and image names can then be passed to parts, the child elements of which can make use of them by specifying image names, as in the tiling example explained above:
 
 ```
-preloadImages((images, imageNames) => {
-  const canvas = new Canvas();
+const { host, imageNames, imageDirectoryURI } = window;
 
-  return (
-    <Scene canvas={canvas}>
-      <Part images={images} imageNames={imageNames} imageTiling >
-        <TexturedQuadrangle ... imageName="paving.jpg" />
-        <TexturedQuadrangle ... imageName="floorboards.jpg" />
-      </Part>
-      <DesignCamera/>
-    </Scene>
-  );
+const tilingExample = () => {
+  preloadImages(host, imageNames, imageDirectoryURI, (images, imageNames) => {
+    const canvas = new Canvas();
 
-});
+    return (
+
+      <Scene canvas={canvas} >
+        <Part images={images} imageNames={imageNames} imageTiling >
+          ...
+        </Part>
+        <DesignCamera/>
+      </Scene>
+
+    );
+  });
+};
 ```
-
-In fact the array of image names must be passed to the function by way of an optional `configuration` argument coming after the callback argument, in a similar fashion to the `preloadImageImageMap()` function explained next. This can also optionally supply a `host` property and must supply `imageNames` and imageDirectoryURI` properties. Ordinarily these would be supplied from the server side by way of a `script` element, thus:
-
-```
-<script>
-
-  window.__configuration__ = {
-
-    host: "...",
-    imageNames: [ ...],
-    imageDirectoryURI: "..."
-
-  }
-
-</script>
-```
-
-If you define such an element with the `__configuration__` property set in this way then there is no need to pass the optional `configuration` argument to the function.
+Note that the `host`, `imageNames` and `imageDirectoryURI` arguments are retrieved from the global `window` object, having previously been embedded in the HTML.
 
 It was mentioned in the tiling example but is worth repeating here that if you wish to tile textures then you have load images individually in this way. Tiling images extracted from an image map leads to unsatisfactory results.
 
-The `preloadImageImageMap() function` works in tandem with XGL server, as in the pyramid example explained above. Again the host can be provided in an optional `configuration` argument that must include `imageMapURI` and `imageMapJSON` properties. The `imageMap` and `imageMapJSON` arguments passed by way of the callback function are then passed on to any part that needs to make use of the image map:
+The `preloadImageImageMap() function` works in tandem with XGL server, as in the pyramid example explained above. The image map and image map JSON are provided by way of a callback function and can then be passed to the parts as required.
 
 ```
+const { host, imageMapURI, imageMapJSON } = window;
+
 const pyramidExample = () => {
-  preloadImageMap((imageMap, imageMapJSON) => {
+  preloadImageMap(host, imageMapURI, imageMapJSON, (imageMap, imageMapJSON) => {
     const canvas = new Canvas();
 
     return (
 
       <Scene canvas={canvas}>
         <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
-          <Pyramid/>
+          ...
         </Part>
-        <GamingCamera/>
+        <GamingCamera mouseSensitivity={10} />
       </Scene>
 
     );
@@ -465,6 +443,8 @@ const pyramidExample = () => {
 };
 ```
 Any child elements of these parts can make use of images in the image map by providing the requisite texture coordinates.
+
+Note again that the `host`, `imageMapURI` and `imageMapJSON` arguments are retrieved from the global `window` object, having previously been embedded in the HTML.
 
 ## Cameras
 
