@@ -43,19 +43,9 @@ const React = {
 export default React;
 
 function isSubclassOf(argument, Class) {
-  let typeOf = false;
+  const subclassOf = (argument.prototype instanceof Class);
 
-  if (argument.name === Class.name) { ///
-    typeOf = true;
-  } else {
-    argument = Object.getPrototypeOf(argument); ///
-
-    if (argument) {
-      typeOf = isSubclassOf(argument, Class);
-    }
-  }
-
-  return typeOf;
+  return subclassOf;
 }
 
 function sanitiseChildElements(childElements) {

@@ -11,7 +11,7 @@ import blendingMixins from "./mixins/blending";
 import locationMixins from "./mixins/location";
 
 import { WEB_GL_CONTEXT_ERROR } from "./errors";
-import { WIDTH, HEIGHT, CANVAS } from "./constants";
+import { WEBGL, WIDTH, HEIGHT, CANVAS, STRING } from "./constants";
 
 export default class Canvas {
   constructor(selector = CANVAS) {
@@ -99,7 +99,7 @@ Object.assign(Canvas.prototype, blendingMixins);
 Object.assign(Canvas.prototype, locationMixins);
 
 function domElementFromSelector(selector) {
-  const domElement = (typeof selector === "string") ?
+  const domElement = (typeof selector === STRING) ?
                        document.querySelectorAll(selector)[0] :  ///
                          selector;  ///
 
@@ -107,7 +107,7 @@ function domElementFromSelector(selector) {
 }
 
 function contextFromDOMElement(domElement) {
-  const context = domElement.getContext("webgl");
+  const context = domElement.getContext(WEBGL);
 
   if (!context) {
     throw new Error(WEB_GL_CONTEXT_ERROR);

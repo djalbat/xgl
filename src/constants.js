@@ -1,8 +1,10 @@
 "use strict";
 
+export const WEBGL = "webgl";
 export const WIDTH = "width";
 export const HEIGHT = "height";
 export const CANVAS = "canvas";
+export const STRING = "string";
 export const FUNCTION = "function";
 export const ANONYMOUS = "anonymous";
 export const GAMING_CAMERA = "gaming_camera";
