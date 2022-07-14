@@ -5,10 +5,11 @@ import { Canvas, Scene, Part, Mask, DesignCamera, preloadUtilities } from "../in
 import ColouredSquare from "./element/colouredSquare";
 import TexturedQuadrangle from "./element/texturedQuadrangle";
 
-const { preloadImages } = preloadUtilities;
+const { preloadImages } = preloadUtilities,
+      { host, imageNames, imageDirectoryURI } = window;
 
 const tilingExample = () => {
-  preloadImages((images, imageNames) => {
+  preloadImages(host, imageNames, imageDirectoryURI, (images, imageNames) => {
     const canvas = new Canvas(),
           context = {};
 

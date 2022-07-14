@@ -3,13 +3,11 @@
 import { asynchronousUtilities } from "necessary";
 
 import { ANONYMOUS } from "../constants";
-import { DEFAULT_HOST } from "../defaults";
 
 const { forEach } = asynchronousUtilities;
 
-export function preloadImages(callback, configuration = window.__configuration__) { ///
-  const { host = DEFAULT_HOST, imageNames, imageDirectoryURI } = configuration,
-        images = [],
+export function preloadImages(host, imageNames, imageDirectoryURI, callback) {
+  const images = [],
         context = {
           images
         };
@@ -39,9 +37,8 @@ export function preloadImages(callback, configuration = window.__configuration__
   }
 }
 
-export function preloadImageMap(callback, configuration = window.__configuration__) { ///
-  const { host = DEFAULT_HOST, imageMapURI, imageMapJSON } = configuration,
-        src = `${host}${imageMapURI}`,
+export function preloadImageMap(host, imageMapURI, imageMapJSON, callback) {
+  const src = `${host}${imageMapURI}`,
         imageMap = new Image(),	///
         crossOrigin = ANONYMOUS;  ///
 
