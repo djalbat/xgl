@@ -406,7 +406,7 @@ Note that the `host`, `imageNames` and `imageDirectoryURI` arguments are retriev
 
 It was mentioned in the tiling example but is worth repeating here that if you wish to tile textures then you have load images individually in this way. Tiling images extracted from an image map leads to unsatisfactory results.
 
-The `preloadImageImageMap() function` works in tandem with XGL server, as in the pyramid example explained above. The image map and image map JSON are provided by way of a callback function and can then be passed to the parts as required.
+The second, `preloadImageImageMap()`, works in tandem with XGL server, as in the pyramid example explained above. The image map and image map JSON are provided by way of a callback function and can then be passed to the parts as required.
 
 ```
 const { host, imageMapURI, imageMapJSON } = window;
