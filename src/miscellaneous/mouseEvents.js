@@ -8,7 +8,7 @@ export default class MouseEvents {
     this.mouseDown = mouseDown;
   }
 
-  wheelEventListener(event) {
+  wheelEventListener = (event) => {
     const handlers = this.handlersMap[ WHEEL_EVENT_TYPE ],
           mouseWheelDelta = mouseWheelDeltaFromEvent(event);
 
@@ -17,7 +17,7 @@ export default class MouseEvents {
     event.preventDefault();
   }
 
-  mouseEventListener(event, eventType) {
+  mouseEventListener = (event, eventType) => {
     const handlers = this.handlersMap[eventType],
           mouseCoordinates = mouseCoordinatesFromEvent(event);
 
@@ -26,19 +26,19 @@ export default class MouseEvents {
     event.preventDefault();
   }
 
-  mouseUpEventListener(event) {
+  mouseUpEventListener = (event) => {
     this.mouseDown = false;
 
     this.mouseEventListener(event, MOUSEUP_EVENT_TYPE);
   }
 
-	mouseDownEventListener(event) {
+	mouseDownEventListener = (event) => {
     this.mouseDown = true;
 
     this.mouseEventListener(event, MOUSEDOWN_EVENT_TYPE);
   }
 
-	mouseMoveEventListener(event) {
+	mouseMoveEventListener = (event) => {
     this.mouseEventListener(event, MOUSEMOVE_EVENT_TYPE);
   }
 
@@ -67,21 +67,17 @@ export default class MouseEvents {
   }
 
   initialise(canvas) {
-      const canvasDOMElement = canvas.getDOMElement(),
-            wheelEventListener = this.wheelEventListener.bind(this),
-            mouseUpEventListener = this.mouseUpEventListener.bind(this),
-            mouseDownEventListener = this.mouseDownEventListener.bind(this),
-            mouseMoveEventListener = this.mouseMoveEventListener.bind(this);
+      const canvasDOMElement = canvas.getDOMElement();
 
     this.handlersMap[ WHEEL_EVENT_TYPE ] = [];
     this.handlersMap[ MOUSEUP_EVENT_TYPE ] = [];
     this.handlersMap[ MOUSEDOWN_EVENT_TYPE ] = [];
     this.handlersMap[ MOUSEMOVE_EVENT_TYPE ] = [];
 
-    canvasDOMElement.addEventListener(WHEEL_EVENT_TYPE, wheelEventListener);
-    canvasDOMElement.addEventListener(MOUSEUP_EVENT_TYPE, mouseUpEventListener);
-    canvasDOMElement.addEventListener(MOUSEDOWN_EVENT_TYPE, mouseDownEventListener);
-    canvasDOMElement.addEventListener(MOUSEMOVE_EVENT_TYPE, mouseMoveEventListener);
+    canvasDOMElement.addEventListener(WHEEL_EVENT_TYPE, this.wheelEventListener);
+    canvasDOMElement.addEventListener(MOUSEUP_EVENT_TYPE, this.mouseUpEventListener);
+    canvasDOMElement.addEventListener(MOUSEDOWN_EVENT_TYPE, this.mouseDownEventListener);
+    canvasDOMElement.addEventListener(MOUSEMOVE_EVENT_TYPE, this.mouseMoveEventListener);
   }
 
   static fromNothing() {

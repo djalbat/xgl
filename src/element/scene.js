@@ -18,13 +18,13 @@ export default class Scene extends Element {
     this.canvas = canvas;
   }
 
-  escapeKeyDownHandler() {
+  escapeKeyDownHandler = () => {
     this.camera.reset();
 
     this.windowResizeHandler(); ///
   }
 
-  windowResizeHandler() {
+  windowResizeHandler = () => {
     const clientWidth = this.canvas.getClientWidth(),
           clientHeight = this.canvas.getClientHeight(),
           width = clientWidth,  ///
@@ -39,27 +39,24 @@ export default class Scene extends Element {
     this.userInputHandler(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown);
   }
 
-  userInputHandler(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown) {
+  userInputHandler = (relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown) => {
     const render = this.render.bind(this);
 
     this.camera.update(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown, this.canvas, render);
   }
 
   initialise(canvas, marginOfError) {
-    const userInput = UserInput.fromNothing(),
-          userInputHandler = this.userInputHandler.bind(this),
-          windowResizeHandler = this.windowResizeHandler.bind(this),
-          escapeKeyDownHandler = this.escapeKeyDownHandler.bind(this);
+    const userInput = UserInput.fromNothing();
 
     this.parts.forEach((part) => part.initialise(canvas, marginOfError));
 
     userInput.initialise(canvas);
 
-    userInput.addUserInputHandler(userInputHandler);
+    userInput.addUserInputHandler(this.userInputHandler);
 
-    userInput.addEscapeKeyDownHandler(escapeKeyDownHandler);
+    userInput.addEscapeKeyDownHandler(this.escapeKeyDownHandler);
 
-    window.onresize = windowResizeHandler;
+    window.onresize = this.windowResizeHandler;
 
     this.windowResizeHandler(); ///
   }

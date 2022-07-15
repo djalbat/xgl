@@ -12,11 +12,15 @@ export default class KeyEvents {
     this.shiftKeyDown = shiftKeyDown;
   }
 
+  getHandlers() {
+    return this.handlers;
+  }
+
   isShiftKeyDown() {
     return this.shiftKeyDown;
   }
 
-  keyUpEventListener(event) {
+  keyUpEventListener = (event) => {
     const { keyCode } = event;
 
     if (keyCode === SHIFT_KEY_CODE) {
@@ -26,7 +30,7 @@ export default class KeyEvents {
     }
   }
 
-  keyDownEventListener(event) {
+  keyDownEventListener = (event) => {
     const { keyCode } = event;
 
     if (keyCode === SHIFT_KEY_CODE) {
@@ -55,13 +59,11 @@ export default class KeyEvents {
   }
 
   initialise() {
-    const documentDOMElement = document.documentElement,  ///
-          keyUpEventListener = this.keyUpEventListener.bind(this),
-          keyDownEventListener = this.keyDownEventListener.bind(this);
+    const documentDOMElement = document.documentElement;  ///
 
-    documentDOMElement.addEventListener(KEYUP_EVENT_TYPE, keyUpEventListener);
+    documentDOMElement.addEventListener(KEYUP_EVENT_TYPE, this.keyUpEventListener);
 
-    documentDOMElement.addEventListener(KEYDOWN_EVENT_TYPE, keyDownEventListener);
+    documentDOMElement.addEventListener(KEYDOWN_EVENT_TYPE, this.keyDownEventListener);
   }
 
   static fromNothing() {
