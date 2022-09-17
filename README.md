@@ -2,19 +2,24 @@
 
 Makes use of [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) to leverage [WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API).
 
-XGL provides the *programmatic* means to create 3D scenes. It puts an almost opaque layer of abstraction over WebGL so that little or no experience of WebGL is needed. You create scenes declaratively using JSX, adding imperative code as and when.
+## Contents
 
+* [Introduction](#introduction)
 * [Installation](#installation)
 * [Examples](#examples)
-  * [The simple example](#the-simple-example)
-  * [The cube example](#the-cube-example)
-  * [The masking example](#the-masking-example)
-  * [The pyramid example](#the-pyramid-example)
-  * [The tiling example](#the-tiling-example)
+    * [The simple example](#the-simple-example)
+    * [The cube example](#the-cube-example)
+    * [The masking example](#the-masking-example)
+    * [The pyramid example](#the-pyramid-example)
+    * [The tiling example](#the-tiling-example)
 * [Preload utilities](#preload-utilities)
 * [Cameras](#cameras)
 * [Building](#building)
 * [Acknowledgements](#acknowledgements)
+
+## Introduction
+
+XGL provides the *programmatic* means to create 3D scenes. It puts an almost opaque layer of abstraction over WebGL so that little or no experience of WebGL is needed. You create scenes declaratively using JSX, adding imperative code as and when.
 
 ## Installation
 
