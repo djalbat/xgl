@@ -33,7 +33,11 @@ export default class Facet {
   }
   
   getVertexPositions() {
-    const vertexPositions = this.vertices.map((vertex) => vertex.getPosition());
+    const vertexPositions = this.vertices.map((vertex) => {
+      const vertexPosition = vertex.getPosition();
+
+      return vertexPosition;
+    });
     
     return vertexPositions;
   }
@@ -79,7 +83,9 @@ export default class Facet {
   }
 
   rotate(rotationQuaternion) {
-    this.vertices.forEach((vertex) => vertex.rotate(rotationQuaternion));
+    this.vertices.forEach((vertex) => {
+      vertex.rotate(rotationQuaternion);
+    });
 
     this.normal = calculateNormal(this.vertices, Normal);
 
@@ -87,7 +93,9 @@ export default class Facet {
   }
 
   applyTransform(transform) {
-    this.vertices.forEach((vertex) => vertex.applyTransform(transform));
+    this.vertices.forEach((vertex) => {
+      vertex.applyTransform(transform);
+    });
 
     this.normal = calculateNormal(this.vertices, Normal);
 

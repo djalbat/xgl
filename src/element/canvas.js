@@ -58,15 +58,21 @@ export default class CanvasElement extends Element {
   applyTransform(transform) {
     const childElements = this.getChildElements();
 
-    this.facets.forEach((facet) => facet.applyTransform(transform));
+    this.facets.forEach((facet) => {
+      facet.applyTransform(transform);
+    });
 
-    childElements.forEach((childElement) => childElement.applyTransform(transform));
+    childElements.forEach((childElement) => {
+      childElement.applyTransform(transform);
+    });
   }
 
   createFacets(marginOfError) {
     const childElements = this.getChildElements();
 
-    childElements.forEach((childElement) => childElement.createFacets(marginOfError));
+    childElements.forEach((childElement) => {
+      childElement.createFacets(marginOfError);
+    });
   }
 
   maskFacets(masks, marginOfError) {
@@ -74,7 +80,9 @@ export default class CanvasElement extends Element {
 
     const childElements = this.getChildElements();
 
-    childElements.forEach((childElement) => childElement.maskFacets(masks, marginOfError));
+    childElements.forEach((childElement) => {
+      childElement.maskFacets(masks, marginOfError);
+    });
 
     this.applyTransform(this.transform);  ///
 
@@ -84,7 +92,9 @@ export default class CanvasElement extends Element {
   addFacets(colourRenderer, textureRenderer) {
     const childElements = this.getChildElements();
 
-    childElements.forEach((childElement) => childElement.addFacets(colourRenderer, textureRenderer));
+    childElements.forEach((childElement) => {
+      childElement.addFacets(colourRenderer, textureRenderer);
+    });
   }
 
   static fromProperties(Class, properties, ...remainingArguments) {

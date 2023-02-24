@@ -48,7 +48,9 @@ export default class Scene extends Element {
   initialise(canvas, marginOfError) {
     const userInput = UserInput.fromNothing();
 
-    this.parts.forEach((part) => part.initialise(canvas, marginOfError));
+    this.parts.forEach((part) => {
+      part.initialise(canvas, marginOfError);
+    });
 
     userInput.initialise(canvas);
 
@@ -64,7 +66,9 @@ export default class Scene extends Element {
   render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix) {
     this.canvas.clear();
 
-    this.parts.forEach((part) => part.render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix, this.canvas));
+    this.parts.forEach((part) => {
+      part.render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix, this.canvas);
+    });
   }
 
   static fromProperties(properties) {

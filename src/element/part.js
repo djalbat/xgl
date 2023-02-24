@@ -40,11 +40,17 @@ export default class Part extends Element {
       textureRenderer = imageMapTextureRenderer;  ///
     }
 
-    childElements.forEach((childElement) => childElement.createFacets(marginOfError));
+    childElements.forEach((childElement) => {
+      childElement.createFacets(marginOfError);
+    });
 
-    childElements.forEach((childElement) => childElement.maskFacets(masks, marginOfError));
+    childElements.forEach((childElement) => {
+      childElement.maskFacets(masks, marginOfError);
+    });
 
-    childElements.forEach((childElement) => childElement.addFacets(colourRenderer, textureRenderer));
+    childElements.forEach((childElement) => {
+      childElement.addFacets(colourRenderer, textureRenderer);
+    });
 
     if (colourRenderer !== null) {
       colourRenderer.createBuffers(canvas);

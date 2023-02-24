@@ -40,25 +40,33 @@ export default class Mask extends Element {
 
     maskElement(element, maskingFacets, marginOfError);
 
-    childElements.forEach((childElement) => maskElement(childElement, maskingFacets, marginOfError));
+    childElements.forEach((childElement) => {
+      maskElement(childElement, maskingFacets, marginOfError);
+    });
   }
 
   applyTransform(transform) {
     const childElements = this.getChildElements();
 
-    childElements.forEach((childElement) => childElement.applyTransform(transform));
+    childElements.forEach((childElement) => {
+      childElement.applyTransform(transform);
+    });
   }
 
   createFacets(marginOfError) {
     const childElements = this.getChildElements();
 
-    childElements.forEach((childElement) => childElement.createFacets(marginOfError));
+    childElements.forEach((childElement) => {
+      childElement.createFacets(marginOfError);
+    });
   }
 
   maskFacets(masks, marginOfError) {
     const childElements = this.getChildElements();
 
-    childElements.forEach((childElement) => childElement.maskFacets(masks, marginOfError));
+    childElements.forEach((childElement) => {
+      childElement.maskFacets(masks, marginOfError);
+    });
 
     this.applyTransform(this.transform);  ///
   }
@@ -94,7 +102,9 @@ function maskElement(element, maskingFacets, marginOfError) {
   maskingFacets.forEach((maskingFacet) => {
     const unmaskedFacets = [];
 
-    facets.forEach((facet) => maskingFacet.maskFacet(facet, unmaskedFacets, marginOfError));
+    facets.forEach((facet) => {
+      maskingFacet.maskFacet(facet, unmaskedFacets, marginOfError);
+    });
 
     facets = unmaskedFacets;  ///
   });

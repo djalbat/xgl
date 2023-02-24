@@ -7,12 +7,17 @@ import { KEYUP_EVENT_TYPE, KEYDOWN_EVENT_TYPE } from "../eventTypes";
 const { ESCAPE_KEY_CODE, SHIFT_KEY_CODE } = keyCodes;
 
 export default class KeyEvents {
-  constructor(handlers) {
+  constructor(handlers, shiftKeyDown) {
     this.handlers = handlers;
+    this.shiftKeyDown = shiftKeyDown;
   }
 
   getHandlers() {
     return this.handlers;
+  }
+
+  isShiftKeyDown() {
+    return this.shiftKeyDown;
   }
 
   keyUpEventListener = (event) => {
@@ -21,7 +26,9 @@ export default class KeyEvents {
     if (keyCode === SHIFT_KEY_CODE) {
       this.shiftKeyDown = false;
 
-      this.handlers.forEach((handler) => handler(this.shiftKeyDown));
+      this.handlers.forEach((handler) => {
+        handler(this.shiftKeyDown);
+      });
     }
   }
 
@@ -31,7 +38,9 @@ export default class KeyEvents {
     if (keyCode === SHIFT_KEY_CODE) {
       this.shiftKeyDown = true;
 
-      this.handlers.forEach((handler) => handler(this.shiftKeyDown));
+      this.handlers.forEach((handler) => {
+        handler(this.shiftKeyDown);
+      });
     }
   }
 

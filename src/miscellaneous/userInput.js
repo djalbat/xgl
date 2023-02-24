@@ -28,7 +28,9 @@ export default class UserInput {
             shiftKeyDown = this.keyEvents.isShiftKeyDown(),
             relativeMouseCoordinates = subtract2(this.mouseCoordinates, this.previousMouseCoordinates);
 
-      this.handlers.forEach((handler) => handler(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown));
+      this.handlers.forEach((handler) => {
+        handler(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown);
+      });
     }
   }
 
@@ -36,7 +38,9 @@ export default class UserInput {
     const shiftKeyDown = this.keyEvents.isShiftKeyDown(),
           relativeMouseCoordinates = zero2();
 
-    this.handlers.forEach((handler) => handler(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown));
+    this.handlers.forEach((handler) => {
+      handler(relativeMouseCoordinates, mouseWheelDelta, shiftKeyDown);
+    });
   }
 
   addUserInputHandler(userInputHandler) {

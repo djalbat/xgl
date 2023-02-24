@@ -12,7 +12,9 @@ export default class MouseEvents {
     const handlers = this.handlersMap[ WHEEL_EVENT_TYPE ],
           mouseWheelDelta = mouseWheelDeltaFromEvent(event);
 
-    handlers.forEach((handler) => handler(mouseWheelDelta));
+    handlers.forEach((handler) => {
+      handler(mouseWheelDelta);
+    });
 
     event.preventDefault();
   }
@@ -21,7 +23,9 @@ export default class MouseEvents {
     const handlers = this.handlersMap[eventType],
           mouseCoordinates = mouseCoordinatesFromEvent(event);
 
-    handlers.forEach((handler) => handler(mouseCoordinates, this.mouseDown));
+    handlers.forEach((handler) => {
+      handler(mouseCoordinates, this.mouseDown);
+    });
 
     event.preventDefault();
   }

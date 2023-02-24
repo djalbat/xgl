@@ -7,14 +7,22 @@ import { calculateArbitraryRotationQuaternion } from "../utilities/quaternion";
 import { add2, multiply2, transform2, transform3 } from "../maths/vector";
 
 export function cloneTextureCoordinateTuples(textureCoordinateTuples) {
-  textureCoordinateTuples = textureCoordinateTuples.map((textureCoordinateTuple) => textureCoordinateTuple.slice());  ///
+  textureCoordinateTuples = textureCoordinateTuples.map((textureCoordinateTuple) => {
+    textureCoordinateTuple = textureCoordinateTuple.slice();  ///
+
+    return textureCoordinateTuple;
+  });
 
   return textureCoordinateTuples;
 }
 
 export function calculateMappedTextureCoordinateTuples(textureCoordinateTuples, extent) {
   const { left, bottom, width, height } = extent,
-        mappedTextureCoordinateTuples = textureCoordinateTuples.map((textureCoordinateTuple) => add2(multiply2(textureCoordinateTuple, [ width, height ] ), [ left, bottom ])); ///
+        mappedTextureCoordinateTuples = textureCoordinateTuples.map((textureCoordinateTuple) => {
+          const mappedTextureCoordinateTuple = add2(multiply2(textureCoordinateTuple, [ width, height ] ), [ left, bottom ]);
+
+          return mappedTextureCoordinateTuple;
+        }); ///
 
   return mappedTextureCoordinateTuples;
 }

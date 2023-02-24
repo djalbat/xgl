@@ -44,7 +44,9 @@ export default class VerticalLine {
       this.splitFacet(facet, smallerFacets, marginOfError);
     });
 
-    smallerFacets.forEach((smallerFacet) => smallerFacet.rotate(this.backwardsRotationQuaternion));
+    smallerFacets.forEach((smallerFacet) => {
+      smallerFacet.rotate(this.backwardsRotationQuaternion);
+    });
 
     return smallerFacets;
   }

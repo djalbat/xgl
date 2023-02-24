@@ -5,7 +5,11 @@ import { first, second, third } from "../utilities/array";
 import { subtract3, cross3, length3 } from "../maths/vector";
 
 export function cloneEdges(edges) {
-  edges = edges.map((edge) => edge.clone());
+  edges = edges.map((edge) => {
+    edge = edge.clone();  ///
+
+    return edge;
+  });
 
   return edges;
 }
@@ -17,7 +21,11 @@ export function cloneNormal(normal) {
 }
 
 export function cloneVertices(vertices) {
-  vertices = vertices.map((vertex) => vertex.clone());
+  vertices = vertices.map((vertex) => {
+    vertex = vertex.clone();  ///
+
+    return vertex;
+  });
 
   return vertices;
 }
