@@ -31,25 +31,19 @@ export function zero4() {
 }
 
 export function length2(vector) {
-  const x = vector[0],
-        y = vector[1];
+  const [ x, y ] = vector;
 
   return Math.sqrt(x*x + y*y);
 }
 
 export function length3(vector) {
-  const x = vector[0],
-        y = vector[1],
-        z = vector[2];
+  const [ x, y, z ] = vector;
 
   return Math.sqrt(x*x + y*y + z*z);
 }
 
 export function length4(vector) {
-  const x = vector[0],
-        y = vector[1],
-        z = vector[2],
-        w = vector[3];
+  const [ x, y, z, w ] = vector;
 
   return Math.sqrt(x*x + y*y + z*z + w*w);
 }
@@ -74,18 +68,15 @@ export function cross3(vectorA, vectorB) {
 }
 
 export function normalise2(vector) {
-  const x = vector[0],
-        y = vector[1],
+  const [ x, y ] = vector,
         length = Math.sqrt(x*x + y*y);
 
-  if (length > 0) {
-    return ([
+  return ([
 
-      x / length,
-      y / length,
+    x / length,
+    y / length,
 
-    ]);
-  }
+  ]);
 }
 
 export function normalise3(vector) {
@@ -94,15 +85,13 @@ export function normalise3(vector) {
         z = vector[2],
         length = Math.sqrt(x*x + y*y + z*z);
 
-  if (length > 0) {
-    return ([
+  return ([
 
-      x / length,
-      y / length,
-      z / length,
+    x / length,
+    y / length,
+    z / length,
 
-    ]);
-  }
+  ]);
 }
 
 export function normalise4(vector) {
@@ -112,16 +101,14 @@ export function normalise4(vector) {
         w = vector[3],
         length = Math.sqrt(x*x + y*y + z*z + w*w);
 
-  if (length > 0) {
-    return ([
+  return ([
 
-      x / length,
-      y / length,
-      z / length,
-      w / length,
+    x / length,
+    y / length,
+    z / length,
+    w / length,
 
-    ]);
-  }
+  ]);
 }
 
 export function reflect2(vector) {
