@@ -1,7 +1,7 @@
 "use strict";
 
-import { React } from "./index"; ////
+import { React } from "./index";  ///
 
-Object.assign(window, {
+Object.assign(globalThis, {
   React
 });
