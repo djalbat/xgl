@@ -27,11 +27,19 @@
 
     <script>
 
-      var host = "${host}",
-          imageNames = ${imageNames},
-          imageMapURI = "${imageMapURI}",
-          imageMapJSON = ${imageMapJSON},
-          imageDirectoryURI = "${imageDirectoryURI}";
+      const host = "${host}",
+            imageNames = ${imageNames},
+            imageMapURI = "${imageMapURI}",
+            imageMapJSON = ${imageMapJSON},
+            imageDirectoryURI = "${imageDirectoryURI}";
+
+      Object.assign(globalThis, {
+        host,
+        imageNames,
+        imageMapURI,
+        imageMapJSON,
+        imageDirectoryURI
+      });
 
     </script>
 

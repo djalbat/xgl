@@ -5,7 +5,7 @@ import { Part, Scene, Canvas, GamingCamera, preloadUtilities } from "../index"; 
 import Pyramid from "./element/pyramid";
 
 const { preloadImageMap } = preloadUtilities,
-      { host, imageMapURI, imageMapJSON } = window;
+      { host, imageMapURI, imageMapJSON } = globalThis;
 
 const pyramidExample = () => {
   preloadImageMap(host, imageMapURI, imageMapJSON, (imageMap, imageMapJSON) => {

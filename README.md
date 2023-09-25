@@ -206,14 +206,23 @@ This example utilities the image map provided by XGL server. If you inspect the 
 ```
 <script>
 
-  var host = "${host}",
-      imageNames = ${imageNames},
-      imageMapURI = "${imageMapURI}",
-      imageMapJSON = ${imageMapJSON},
-      imageDirectoryURI = "${imageDirectoryURI}";
+  const host = "${host}",
+        imageNames = ${imageNames},
+        imageMapURI = "${imageMapURI}",
+        imageMapJSON = ${imageMapJSON},
+        imageDirectoryURI = "${imageDirectoryURI}";
+
+  Object.assign(globalThis, {
+    host,
+    imageNames,
+    imageMapURI,
+    imageMapJSON,
+    imageDirectoryURI
+  });
 
 </script>
 ```
+
 For more information, see the relevant section below.
 
 To continue, with the image map URI and corresponding JSON to hand, the pyramid example can load the image map and pass both that and the JSON to any `Part` element that uses textures:
@@ -236,6 +245,7 @@ const pyramidExample = () => {
   });
 };
 ```
+
 The `Pyramid` element is a compound element consisting of four sides, three of which are rotated around the y-axis as you would expect:
 
 ```
@@ -248,6 +258,7 @@ const Pyramid = (properties) => [
 
 ];
 ```
+
 Each side consists of a textured triangle:
 
 ```
@@ -388,7 +399,7 @@ Two functions are made available to help you preload images for use by the textu
 The first, `preloadImages()`, preloads images sequentially and provides them, along with their names, via a callback function. The images and image names can then be passed to parts, the child elements of which can make use of them by specifying image names, as in the tiling example explained above:
 
 ```
-const { host, imageNames, imageDirectoryURI } = window;
+const { host, imageNames, imageDirectoryURI } = globalThis;
 
 const tilingExample = () => {
   preloadImages(host, imageNames, imageDirectoryURI, (images, imageNames) => {
@@ -407,14 +418,14 @@ const tilingExample = () => {
   });
 };
 ```
-Note that the `host`, `imageNames` and `imageDirectoryURI` arguments are retrieved from the global `window` object, having previously been embedded in the HTML.
+Note that the `host`, `imageNames` and `imageDirectoryURI` arguments are retrieved from the `globalThis` object, having previously been embedded in the HTML.
 
 It was mentioned in the tiling example but is worth repeating here that if you wish to tile textures then you have load images individually in this way. Tiling images extracted from an image map leads to unsatisfactory results.
 
 The second, `preloadImageImageMap()`, works in tandem with XGL server, as in the pyramid example explained above. The image map and image map JSON are provided by way of a callback function and can then be passed to the parts as required.
 
 ```
-const { host, imageMapURI, imageMapJSON } = window;
+const { host, imageMapURI, imageMapJSON } = globalThis;
 
 const pyramidExample = () => {
   preloadImageMap(host, imageMapURI, imageMapJSON, (imageMap, imageMapJSON) => {
@@ -435,7 +446,7 @@ const pyramidExample = () => {
 ```
 Any child elements of these parts can make use of images in the image map by providing the requisite texture coordinates.
 
-Note again that the `host`, `imageMapURI` and `imageMapJSON` arguments are retrieved from the global `window` object, having previously been embedded in the HTML.
+Note again that the `host`, `imageMapURI` and `imageMapJSON` arguments are retrieved from the global `globalThis` object, having previously been embedded in the HTML.
 
 ## Cameras
 

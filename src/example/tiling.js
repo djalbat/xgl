@@ -6,7 +6,7 @@ import ColouredSquare from "./element/colouredSquare";
 import TexturedQuadrangle from "./element/texturedQuadrangle";
 
 const { preloadImages } = preloadUtilities,
-      { host, imageNames, imageDirectoryURI } = window;
+      { host, imageNames, imageDirectoryURI } = globalThis;
 
 const tilingExample = () => {
   preloadImages(host, imageNames, imageDirectoryURI, (images, imageNames) => {
