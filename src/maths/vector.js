@@ -172,42 +172,6 @@ export function truncate4(vector) {
   ]);
 }
 
-export function scale2(vector, scalar) {
-  const [ x, y ] = vector;
-
-  return ([
-
-    x * scalar,
-    y * scalar,
-
-  ]);
-}
-
-export function scale3(vector, scalar) {
-  const [ x, y, z ] = vector;
-
-  return ([
-
-    x * scalar,
-    y * scalar,
-    z * scalar,
-
-  ]);
-}
-
-export function scale4(vector, scalar) {
-  const [ x, y, z, w ] = vector;
-
-  return ([
-
-    x * scalar,
-    y * scalar,
-    z * scalar,
-    w * scalar,
-
-  ]);
-}
-
 export function add2(vectorA, vectorB) {
   const [ a0, a1 ] = vectorA,
         [ b0, b1 ] = vectorB;
@@ -286,6 +250,114 @@ export function subtract4(vectorA, vectorB) {
   ]);
 }
 
+export function multiply2(vector, multiplier) {
+  const [ x, y ] = vector;
+
+  return ([
+
+    x * multiplier,
+    y * multiplier,
+
+  ]);
+}
+
+export function multiply3(vector, multiplier) {
+  const [ x, y, z ] = vector;
+
+  return ([
+
+    x * multiplier,
+    y * multiplier,
+    z * multiplier,
+
+  ]);
+}
+
+export function multiply4(vector, multiplier) {
+  const [ x, y, z, w ] = vector;
+
+  return ([
+
+    x * multiplier,
+    y * multiplier,
+    z * multiplier,
+    w * multiplier,
+
+  ]);
+}
+
+export function divide2(vector, divisor) {
+  const [ x, y ] = vector;
+
+  return ([
+
+    x / divisor,
+    y / divisor,
+
+  ]);
+}
+
+export function divide3(vector, divisor) {
+  const [ x, y, z ] = vector;
+
+  return ([
+
+    x / divisor,
+    y / divisor,
+    z / divisor,
+
+  ]);
+}
+
+export function divide4(vector, divisor) {
+  const [ x, y, z, w ] = vector;
+
+  return ([
+
+    x / divisor,
+    y / divisor,
+    z / divisor,
+    w / divisor,
+
+  ]);
+}
+
+export function scale2(vector, scalar) {
+  const [ x, y ] = vector;
+
+  return ([
+
+    x * scalar,
+    y * scalar,
+
+  ]);
+}
+
+export function scale3(vector, scalar) {
+  const [ x, y, z ] = vector;
+
+  return ([
+
+    x * scalar,
+    y * scalar,
+    z * scalar,
+
+  ]);
+}
+
+export function scale4(vector, scalar) {
+  const [ x, y, z, w ] = vector;
+
+  return ([
+
+    x * scalar,
+    y * scalar,
+    z * scalar,
+    w * scalar,
+
+  ]);
+}
+
 export function transform2(vector, matrix) {
   const [ x, y ] = vector,
 
@@ -329,6 +401,63 @@ export function transform4(vector, matrix) {
   ]);
 }
 
+export function total2(...vectors) {
+  const zero = zero2(),
+        total = vectors.reduce((total, vector) => {
+          total = add2(total, vector);
+
+          return total;
+        }, zero);
+
+  return total;
+}
+
+export function total3(...vectors) {
+  const zero = zero3(),
+        total = vectors.reduce((total, vector) => {
+          total = add3(total, vector);
+
+          return total;
+        }, zero);
+
+  return total;
+}
+
+export function total4(...vectors) {
+  const zero = zero4(),
+        total = vectors.reduce((total, vector) => {
+          total = add4(total, vector);
+
+          return total;
+        }, zero);
+
+  return total;
+}
+
+export function mean2(...vectors) {
+  const length = vectors.length,
+        total = total2(...vectors),
+        mean = divide2(total, length);
+
+  return mean;
+}
+
+export function mean3(...vectors) {
+  const length = vectors.length,
+        total = total3(...vectors),
+        mean = divide3(total, length);
+
+  return mean;
+}
+
+export function mean4(...vectors) {
+  const length = vectors.length,
+        total = total4(...vectors),
+        mean = divide4(total, length);
+
+  return mean;
+}
+
 export default {
   zero2,
   zero3,
@@ -347,16 +476,28 @@ export default {
   reflect3,
   reflect4,
   truncate4,
-  scale2,
-  scale3,
-  scale4,
   add2,
   add3,
   add4,
   subtract2,
   subtract3,
   subtract4,
+  multiply2,
+  multiply3,
+  multiply4,
+  divide2,
+  divide3,
+  divide4,
+  scale2,
+  scale3,
+  scale4,
   transform2,
   transform3,
-  transform4
+  transform4,
+  total2,
+  total3,
+  total4,
+  mean2,
+  mean3,
+  mean4
 };
