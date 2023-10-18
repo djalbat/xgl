@@ -401,59 +401,59 @@ export function transform4(vector, matrix) {
   ]);
 }
 
-export function total2(...vectors) {
+export function sum2(...vectors) {
   const zero = zero2(),
-        total = vectors.reduce((total, vector) => {
-          total = add2(total, vector);
+        sum = vectors.reduce((sum, vector) => {
+          sum = add2(sum, vector);
 
-          return total;
+          return sum;
         }, zero);
 
-  return total;
+  return sum;
 }
 
-export function total3(...vectors) {
+export function sum3(...vectors) {
   const zero = zero3(),
-        total = vectors.reduce((total, vector) => {
-          total = add3(total, vector);
+        sum = vectors.reduce((sum, vector) => {
+          sum = add3(sum, vector);
 
-          return total;
+          return sum;
         }, zero);
 
-  return total;
+  return sum;
 }
 
-export function total4(...vectors) {
+export function sum4(...vectors) {
   const zero = zero4(),
-        total = vectors.reduce((total, vector) => {
-          total = add4(total, vector);
+        sum = vectors.reduce((sum, vector) => {
+          sum = add4(sum, vector);
 
-          return total;
+          return sum;
         }, zero);
 
-  return total;
+  return sum;
 }
 
 export function mean2(...vectors) {
   const length = vectors.length,
-        total = total2(...vectors),
-        mean = divide2(total, length);
+        sum = sum2(...vectors),
+        mean = divide2(sum, length);
 
   return mean;
 }
 
 export function mean3(...vectors) {
   const length = vectors.length,
-        total = total3(...vectors),
-        mean = divide3(total, length);
+        sum = sum3(...vectors),
+        mean = divide3(sum, length);
 
   return mean;
 }
 
 export function mean4(...vectors) {
   const length = vectors.length,
-        total = total4(...vectors),
-        mean = divide4(total, length);
+        sum = sum4(...vectors),
+        mean = divide4(sum, length);
 
   return mean;
 }
@@ -494,9 +494,9 @@ export default {
   transform2,
   transform3,
   transform4,
-  total2,
-  total3,
-  total4,
+  sum2,
+  sum3,
+  sum4,
   mean2,
   mean3,
   mean4
