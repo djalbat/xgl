@@ -1,8 +1,13 @@
 "use strict";
 
-import { DEFAULT_R, DEFAULT_G, DEFAULT_B, DEFAULT_A } from "../defaults";
+function clearColour(colour) {
+  const r = ((colour & 0xff0000) >> 16) / 256,
+        g = ((colour & 0x00ff00) >> 8) / 256,
+        b = ((colour & 0x0000ff) >> 0) / 256,
+        a = 1;  ///
 
-function clearColour(r = DEFAULT_R, g = DEFAULT_G, b = DEFAULT_B, a = DEFAULT_A) { this.context.clearColor(r, g, b, a); }
+  this.context.clearColor(r, g, b, a);
+}
 
 function clearColourBuffer() {
   const { COLOR_BUFFER_BIT } = this.context,

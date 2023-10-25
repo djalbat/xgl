@@ -1,8 +1,7 @@
 "use strict";
 
-import Element from "../element";
-
 import Mask from "./mask";
+import Element from "../element";
 
 import { composeTransform } from "../utilities/transform";
 import { elementsFromChildElements } from "../utilities/element";

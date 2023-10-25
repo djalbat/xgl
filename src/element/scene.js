@@ -6,16 +6,33 @@ import Element from "../element";
 import UserInput from "../miscellaneous/userInput";
 
 import { zero2 } from "../maths/vector";
-import { DEFAULT_MARGIN_OF_ERROR } from "../defaults";
+import { DEFAULT_MARGIN_OF_ERROR, DEFAULT_BACKGROUND_COLOUR } from "../defaults";
 import { elementFromChildElements, elementsFromChildElements } from "../utilities/element";
 
 export default class Scene extends Element {
-  constructor(parts, camera, canvas) {
+  constructor(parts, camera, canvas, colour) {
     super();
 
     this.parts = parts;
     this.camera = camera;
     this.canvas = canvas;
+    this.colour = colour;
+  }
+
+  getParts() {
+    return this.parts;
+  }
+
+  getCamera() {
+    return this.camera;
+  }
+
+  getCanvas() {
+    return this.canvas;
+  }
+
+  getColour() {
+    return this.colour;
   }
 
   escapeKeyDownHandler = () => {
@@ -64,7 +81,7 @@ export default class Scene extends Element {
   }
 
   render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix) {
-    this.canvas.clear();
+    this.canvas.clear(this.colour);
 
     this.parts.forEach((part) => {
       part.render(offsetsMatrix, normalsMatrix, positionMatrix, rotationsMatrix, projectionMatrix, this.canvas);
@@ -72,10 +89,11 @@ export default class Scene extends Element {
   }
 
   static fromProperties(properties) {
-    const { canvas, childElements } = properties,
+    const { canvas, childElements, backgroundColour = DEFAULT_BACKGROUND_COLOUR } = properties,
           parts = elementsFromChildElements(childElements, Part),
           camera = elementFromChildElements(childElements, Camera),
-          scene = Element.fromProperties(Scene, properties, parts, camera, canvas),
+          colour = backgroundColour,  //
+          scene = Element.fromProperties(Scene, properties, parts, camera, canvas, colour),
           marginOfError = DEFAULT_MARGIN_OF_ERROR;
 
     scene.initialise(canvas, marginOfError);

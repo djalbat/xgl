@@ -56,9 +56,9 @@ export default class Canvas {
     this.context.viewport(x, y, width, height);
   }
 
-  clear() {
+  clear(colour) {
+    this.clearColour(colour);
     this.clearDepth();
-    this.clearColour();
     this.clearDepthBuffer();
     this.clearColourBuffer();
   }
