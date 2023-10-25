@@ -1,10 +1,7 @@
 "use strict";
 
 function clearColour(colour) {
-  const r = ((colour & 0xff0000) >> 16) / 256,
-        g = ((colour & 0x00ff00) >> 8) / 256,
-        b = ((colour & 0x0000ff) >> 0) / 256,
-        a = 1;  ///
+  const [ r, g, b, a = 1 ] =  colour;
 
   this.context.clearColor(r, g, b, a);
 }
