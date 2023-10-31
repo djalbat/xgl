@@ -17,7 +17,7 @@ const pyramidExample = () => {
         <Part imageMap={imageMap} imageMapJSON={imageMapJSON}>
           <Pyramid/>
         </Part>
-        <GamingCamera mouseSensitivity={10} />
+        <GamingCamera/>
       </Scene>
 
     );

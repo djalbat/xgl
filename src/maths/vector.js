@@ -250,38 +250,41 @@ export function subtract4(vectorA, vectorB) {
   ]);
 }
 
-export function multiply2(vector, multiplier) {
-  const [ x, y ] = vector;
+export function multiply2(vectorA, vectorB) {
+  const [ x0, y0 ] = vectorA,
+        [ x1, y1 ] = vectorB;
 
   return ([
 
-    x * multiplier,
-    y * multiplier,
+    x0 * x1,
+    y0 * y1,
 
   ]);
 }
 
-export function multiply3(vector, multiplier) {
-  const [ x, y, z ] = vector;
+export function multiply3(vectorA, vectorB) {
+  const [ x0, y0, z0 ] = vectorA,
+        [ x1, y1, z1 ] = vectorB;
 
   return ([
 
-    x * multiplier,
-    y * multiplier,
-    z * multiplier,
+    x0 * x1,
+    y0 * y1,
+    z0 * z1,
 
   ]);
 }
 
-export function multiply4(vector, multiplier) {
-  const [ x, y, z, w ] = vector;
+export function multiply4(vectorA, vectorB) {
+  const [ x0, y0, z0, w0 ] = vectorA,
+        [ x1, y1, z1, w1 ] = vectorB;
 
   return ([
 
-    x * multiplier,
-    y * multiplier,
-    z * multiplier,
-    w * multiplier,
+    x0 * x1,
+    y0 * y1,
+    z0 * z1,
+    w0 * w1,
 
   ]);
 }

@@ -12,3 +12,4 @@ const Pyramid = (properties) => [
 ];
 
 export default Pyramid;
+

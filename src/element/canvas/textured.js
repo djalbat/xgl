@@ -17,18 +17,18 @@ export default class TexturedCanvasElement extends CanvasElement {
     super.createFacets(marginOfError);
 
     const indexTuples = this.indexes,  ///
-        facets = indexTuples.reduce((facets, indexTuple, index) => {
-            const vertexTextureCoordinateTuples = this.textureCoordinates[index], ///
-                  coordinateTuples = this.coordinates, ///
-                  texturedFacet = TexturedFacet.fromTextureCoordinateTuplesCoordinatesTuplesIndexTupleImageNameAndMarginOfError(vertexTextureCoordinateTuples, coordinateTuples, indexTuple, this.imageName, marginOfError),
-                  facet = texturedFacet;  ///
+          facets = indexTuples.reduce((facets, indexTuple, index) => {
+              const vertexTextureCoordinateTuples = this.textureCoordinates[index], ///
+                    coordinateTuples = this.coordinates, ///
+                    texturedFacet = TexturedFacet.fromTextureCoordinateTuplesCoordinatesTuplesIndexTupleImageNameAndMarginOfError(vertexTextureCoordinateTuples, coordinateTuples, indexTuple, this.imageName, marginOfError),
+                    facet = texturedFacet;  ///
 
-          if (facet !== null) {
-            facets.push(facet);
-          }
+            if (facet !== null) {
+              facets.push(facet);
+            }
 
-          return facets;
-        }, []);
+            return facets;
+          }, []);
 
     this.setFacets(facets);
   }
