@@ -3,8 +3,8 @@
 import MaskingEdge from "./edge/masking";
 import VerticalLine from "./verticalLine";
 
+import { add, separate } from "../utilities/array";
 import { rotateVertices } from "../utilities/vertices";
-import { push, separate } from "../utilities/array";
 import { VERTICES_LENGTH } from "../constants";
 import { calculateForwardsRotationQuaternion, calculateArbitraryRotationQuaternion, calculateBackwardsRotationQuaternion } from "../utilities/quaternion";
 
@@ -57,7 +57,7 @@ export default class MaskingFacet {
         unmaskedSmallerFacet.rotate(this.backwardsRotationQuaternion);
       });
 
-      push(unmaskedFacets, unmaskedSmallerFacets);
+      add(unmaskedFacets, unmaskedSmallerFacets);
     }
   }
   

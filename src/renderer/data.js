@@ -1,6 +1,6 @@
 "use strict";
 
-import { push, flatten } from "../utilities/array";
+import { add, flatten } from "../utilities/array";
 
 export default class RendererData {
   constructor(vertexPositionsData, vertexNormalsData, vertexIndexesData) {
@@ -31,19 +31,19 @@ export default class RendererData {
   addVertexPositions(vertexPositions) {
     const vertexPositionsData = flatten(vertexPositions);
 
-    push(this.vertexPositionsData, vertexPositionsData);
+    add(this.vertexPositionsData, vertexPositionsData);
   }
 
   addVertexNormals(vertexNormals) {
     const vertexNormalsData = flatten(vertexNormals);
 
-    push(this.vertexNormalsData, vertexNormalsData);
+    add(this.vertexNormalsData, vertexNormalsData);
   }
 
   addVertexIndexes(vertexIndexes) {
     const vertexIndexesData = vertexIndexes;  ///
 
-    push(this.vertexIndexesData, vertexIndexesData);
+    add(this.vertexIndexesData, vertexIndexesData);
   }
 
   static fromNothing(Class, ...remainingArguments) {

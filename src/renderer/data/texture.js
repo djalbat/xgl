@@ -2,7 +2,7 @@
 
 import RendererData from "../../renderer/data";
 
-import { push, flatten } from "../../utilities/array";
+import { add, flatten } from "../../utilities/array";
 
 export default class TextureRendererData extends RendererData {
   constructor(vertexPositionsData, vertexNormalsData, vertexIndexesData, vertexTextureCoordinatesData) {
@@ -18,7 +18,7 @@ export default class TextureRendererData extends RendererData {
   addVertexTextureCoordinateTuples(vertexTextureCoordinateTuples) {
     const vertexTextureCoordinatesData = flatten(vertexTextureCoordinateTuples);
 
-    push(this.vertexTextureCoordinatesData, vertexTextureCoordinatesData);
+    add(this.vertexTextureCoordinatesData, vertexTextureCoordinatesData);
   }
 
   static fromNothing() { 

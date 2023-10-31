@@ -1,6 +1,6 @@
 "use strict";
 
-import { push } from "./utilities/array";
+import { add } from "./utilities/array";
 
 export default class Renderer {
   constructor(facets, program, rendererData, rendererBuffers, uniformLocations, attributeLocations) {
@@ -53,7 +53,7 @@ export default class Renderer {
   getVertexNormalAttributeLocation() { return this.attributeLocations.getVertexNormalAttributeLocation(); }
 
   addFacets(facets) {
-    push(this.facets, facets);
+    add(this.facets, facets);
   }
 }
 

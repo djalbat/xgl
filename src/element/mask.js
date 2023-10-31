@@ -3,7 +3,7 @@
 import Element from "../element";
 import MaskingFacet from "../primitive/maskingFacet";
 
-import { push } from "../utilities/array";
+import { add } from "../utilities/array";
 import {composeTransform} from "../utilities/transform";
 
 export default class Mask extends Element {
@@ -88,7 +88,7 @@ function retrieveFacets(childElements, facets = []) {
           elementFacets = element.getFacets(),
           childElements = element.getChildElements();
 
-    push(facets, elementFacets);
+    add(facets, elementFacets);
 
     retrieveFacets(childElements, facets);
   });

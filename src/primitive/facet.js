@@ -4,7 +4,7 @@ import Edge from "./edge";
 import Normal from "./normal";
 import Vertex from "./vertex";
 
-import { push, permute } from "../utilities/array";
+import { add, permute } from "../utilities/array";
 import { VERTICES_LENGTH } from "../constants";
 import { calculateEdges, calculateNormal } from "../utilities/facet";
 import { calculateMidPointPosition, isMidPointPositionToOneSideOfMaskingEdges } from "../utilities/midPoint";
@@ -184,7 +184,7 @@ export default class Facet {
             return intermediateVertexPosition;
           });
 
-    push(vertexPositions, intermediateVertexPositions);
+    add(vertexPositions, intermediateVertexPositions);
 
     indexTuples.forEach((indexTuple) => {
       const positions = vertexPositions,  ///

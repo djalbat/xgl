@@ -8,7 +8,7 @@ import ColourRendererBuffers from "../renderer/buffers/colour";
 import ColourUniformLocations from "./locations/colour/uniform";
 import ColourAttributeLocations from "./locations/colour/attribute";
 
-import { push } from "../utilities/array";
+import { add } from "../utilities/array";
 import { createProgram } from "../renderer";
 
 export default class ColourRenderer extends Renderer {
@@ -33,10 +33,10 @@ export default class ColourRenderer extends Renderer {
             facetVertexPositions = facet.getVertexPositions(),
             colouredFacetVertexColours = colouredFacet.getVertexColours();
 
-      push(vertexIndexes, facetVertexIndexes);
-      push(vertexNormals, facetVertexNormals);
-      push(vertexPositions, facetVertexPositions);
-      push(vertexColours, colouredFacetVertexColours);
+      add(vertexIndexes, facetVertexIndexes);
+      add(vertexNormals, facetVertexNormals);
+      add(vertexPositions, facetVertexPositions);
+      add(vertexColours, colouredFacetVertexColours);
     });
 
     const rendererData = this.getRendererData();
