@@ -4,8 +4,6 @@ import TextureRenderer from "../../renderer/texture";
 
 import { push, first } from "../../utilities/array";
 
-const add = push; ///
-
 export default class ImagesTextureRenderer extends TextureRenderer {
 	constructor(facets, program, rendererData, rendererBuffers, uniformLocations, attributeLocations, imageNames, facetsMap, offsets) {
 		super(facets, program, rendererData, rendererBuffers, uniformLocations, attributeLocations);
@@ -27,7 +25,7 @@ export default class ImagesTextureRenderer extends TextureRenderer {
             imageName = texturedFacet.getImageName(),
             facets = this.facetsMap[imageName];
 
-	    add(facets, texturedFacets)
+	    push(facets, texturedFacets)
     }
   }
 
@@ -50,10 +48,10 @@ export default class ImagesTextureRenderer extends TextureRenderer {
               texturedFacetTextureCoordinateTuples = texturedFacet.getTextureCoordinateTuples(),
               texturedFacetVertexTextureCoordinateTuples = texturedFacetTextureCoordinateTuples;  ///
 
-        add(vertexIndexes, facetVertexIndexes);
-        add(vertexNormals, facetVertexNormals);
-        add(vertexPositions, facetVertexPositions);
-        add(vertexTextureCoordinateTuples, texturedFacetVertexTextureCoordinateTuples);
+        push(vertexIndexes, facetVertexIndexes);
+        push(vertexNormals, facetVertexNormals);
+        push(vertexPositions, facetVertexPositions);
+        push(vertexTextureCoordinateTuples, texturedFacetVertexTextureCoordinateTuples);
 
         index++;
       });

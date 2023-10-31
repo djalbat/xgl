@@ -4,8 +4,6 @@ import TextureRenderer from "../../renderer/texture";
 
 import { push } from "../../utilities/array";
 
-const add = push; ///
-
 export default class ImageMapTextureRenderer extends TextureRenderer {
 	constructor(facets, program, rendererData, rendererBuffers, uniformLocations, attributeLocations, imageMapJSON) {
 		super(facets, program, rendererData, rendererBuffers, uniformLocations, attributeLocations);
@@ -28,10 +26,10 @@ export default class ImageMapTextureRenderer extends TextureRenderer {
             mappedTextureCoordinateTuples = texturedFacet.getMappedTextureCoordinateTuples(this.imageMapJSON),
             texturedFacetVertexTextureCoordinateTuples = mappedTextureCoordinateTuples; ///
 
-      add(vertexIndexes, facetVertexIndexes);
-      add(vertexNormals, facetVertexNormals);
-      add(vertexPositions, facetVertexPositions);
-      add(vertexTextureCoordinateTuples, texturedFacetVertexTextureCoordinateTuples);
+      push(vertexIndexes, facetVertexIndexes);
+      push(vertexNormals, facetVertexNormals);
+      push(vertexPositions, facetVertexPositions);
+      push(vertexTextureCoordinateTuples, texturedFacetVertexTextureCoordinateTuples);
     });
 
     const rendererData = this.getRendererData();

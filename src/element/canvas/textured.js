@@ -3,8 +3,6 @@
 import CanvasElement from "../../element/canvas";
 import TexturedFacet from "../../primitive/facet/textured";
 
-import { add } from "../../utilities/array";
-
 export default class TexturedCanvasElement extends CanvasElement {
   constructor(maskReference, transform, facets, masks, coordinates, indexes, imageName, textureCoordinates) {
     super(maskReference, transform, facets, masks);
@@ -26,7 +24,7 @@ export default class TexturedCanvasElement extends CanvasElement {
                   facet = texturedFacet;  ///
 
           if (facet !== null) {
-            add(facets, facet);
+            facets.push(facet);
           }
 
           return facets;

@@ -2,9 +2,7 @@
 
 import RendererData from "../../renderer/data";
 
-import { merge, flatten } from "../../utilities/array";
-
-const add = merge;  ///
+import { push, flatten } from "../../utilities/array";
 
 export default class ColourRendererData extends RendererData {
   constructor(vertexPositionsData, vertexNormalsData, vertexIndexesData, vertexColoursData) {
@@ -20,7 +18,7 @@ export default class ColourRendererData extends RendererData {
   addVertexColours(vertexColours) {
     const vertexColoursData = flatten(vertexColours);
 
-    add(this.vertexColoursData, vertexColoursData);
+    push(this.vertexColoursData, vertexColoursData);
   }
 
   static fromNothing() { 

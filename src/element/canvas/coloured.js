@@ -3,8 +3,6 @@
 import CanvasElement from "../../element/canvas";
 import ColouredFacet from "../../primitive/facet/coloured";
 
-import { add } from "../../utilities/array";
-
 export default class ColouredCanvasElement extends CanvasElement {
   constructor(maskReference, transform, facets, masks, coordinates, indexes, colour) {
     super(maskReference, transform, facets, masks);
@@ -24,7 +22,7 @@ export default class ColouredCanvasElement extends CanvasElement {
                   facet = colouredFacet;  ///
 
             if (facet !== null) {
-              add(facets, facet);
+              facets.push(facet);
             }
 
             return facets;

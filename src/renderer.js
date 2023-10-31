@@ -2,8 +2,6 @@
 
 import { push } from "./utilities/array";
 
-const add = push; ///
-
 export default class Renderer {
   constructor(facets, program, rendererData, rendererBuffers, uniformLocations, attributeLocations) {
     this.facets = facets;
@@ -55,7 +53,7 @@ export default class Renderer {
   getVertexNormalAttributeLocation() { return this.attributeLocations.getVertexNormalAttributeLocation(); }
 
   addFacets(facets) {
-    add(this.facets, facets);
+    push(this.facets, facets);
   }
 }
 
