@@ -35,13 +35,21 @@ You can also run a development server, see the section on building later on.
 
 ## Examples
 
-The examples are available via a small [Express](https://expressjs.com/) application that makes use of [XGL Server](https://github.com/djalbat/xgl-server). Once the dependencies are installed, this can be launched with the following command from the root of the repository:
+There is a small development server that can be run from within the project's directory with the following command:
 
-```
-npm start
-```
+    npm start
 
-The index page for the examples will then be available at http://localhost:8888. You can compile the examples yourself, see the section on building near to the end.
+The examples will then be available at the following URL:
+
+http://localhost:8888
+
+The source for the examples can be found in the `src/example.js` file and corresponding `src/example` folder. You are encouraged to try the examples whilst reading what follows. You can rebuild them on the fly with the following command:
+
+    npm run watch-debug
+
+The development server will reload the page whenever you make changes.
+
+One last thing to bear in mind is that this package is included by way of a relative rather than a package import. If you are importing it into your own application, however, you should use the standard package import.
 
 ### The simple example
 
