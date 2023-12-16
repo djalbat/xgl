@@ -491,9 +491,7 @@ Automation is done with [npm scripts](https://docs.npmjs.com/misc/scripts), have
 
     npm run build-debug
     npm run watch-debug
-    
-If you have an example running in a browser, it will be reloaded should make changes to the source code.
-    
+     
 ## Acknowledgements
 
 * The primitive vector and matrix functions are taken from Brandon Jones' [gl-matrix](https://github.com/toji/gl-matrix).
