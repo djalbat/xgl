@@ -1,6 +1,6 @@
 # XGL
 
-Makes use of [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) to leverage [WebGL](https://en.wikipedia.org/wiki/JSX_(JavaScript)).
+Makes use of [JSX](https://en.wikipedia.org/wiki/JSX_(JavaScript)) to leverage [WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API).
 
 ## Contents
 
