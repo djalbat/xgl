@@ -1,6 +1,6 @@
 "use strict";
 
-import { React } from "./index";  ///
+import React from "./react";
 
 Object.assign(globalThis, {
   React
