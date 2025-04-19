@@ -22,7 +22,11 @@ export function permute(array, places) {
 }
 
 export function flatten(arrays) {
-  return arrays.reduce((elements, array) => elements.concat(array), []);
+  return arrays.reduce((elements, array) => {
+    elements = elements.concat(array);
+
+    return elements;
+  }, []);
 }
 
 export function guarantee(arrayOrElement) {
