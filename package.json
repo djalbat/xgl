@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@swc/core": "1.13.20",
-    "esbuild": "0.11.14",
+    "esbuild": "0.25.0",
     "lively-cli": "^2.0.77",
     "watchful-cli": "^1.7.63"
   },
