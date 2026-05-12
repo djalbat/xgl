@@ -1,7 +1,6 @@
 "use strict";
 
 const HOST = "",
-      TWO_SPACES = "  ",
       WATCH_PATTERN = "./example.js",
       OVERLAY_IMAGE_SIZE = 128,
       INDEX_PAGE_FILE_NAME = "index.html",
@@ -13,7 +12,6 @@ const HOST = "",
 
 module.exports = {
   HOST,
-  TWO_SPACES,
   WATCH_PATTERN,
   OVERLAY_IMAGE_SIZE,
   INDEX_PAGE_FILE_NAME,

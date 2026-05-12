@@ -5,7 +5,6 @@ const { headers, statusCodes, contentTypes, templateUtilities } = require("neces
 const { imageMapJSON } = require("xgl-server"),
       { IMAGE_MAP_PATH } = require("../../paths"),
       { HOST,
-        TWO_SPACES,
         OVERLAY_IMAGE_SIZE,
         IMAGE_DIRECTORY_URI,
         IMAGE_DIRECTORY_PATH,
@@ -24,9 +23,22 @@ function examplePageHandler(request, response) {
         examplePageFileName = EXAMPLE_PAGE_FILE_NAME;
 
   imageMapJSON(names, imageDirectoryPath, overlayImageSize, (imageMapJSON) => {
-    const imageNames = JSON.stringify(Object.keys(imageMapJSON));
+    let json,
+        jsonString;
 
-    imageMapJSON = JSON.stringify(imageMapJSON, null, TWO_SPACES);
+    const keys = Object.keys(imageMapJSON);
+
+    json = keys;  ///
+
+    jsonString = JSON.stringify(json);
+
+    const imageNames = jsonString;  ///
+
+    json = imageMapJSON;  ///
+
+    jsonString = JSON.stringify(json, null, 2);
+
+    imageMapJSON = jsonString;  ///
 
     const host = HOST,
           imageMapURI = IMAGE_MAP_PATH,

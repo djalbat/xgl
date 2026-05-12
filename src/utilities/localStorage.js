@@ -6,14 +6,17 @@ export function getJSON(key) {
   const value = get(key);
 
   if (value !== null) {
-    json = JSON.parse(value);
+    const jsonString = value; ///
+
+    json = JSON.parse(jsonString);
   }
 
   return json;
 }
 
 export function setJSON(key, json) {
-  const value = JSON.stringify(json);
+  const jsonString = JSON.stringify(json),
+        value = jsonString; ///
 
   set(key, value);
 }
