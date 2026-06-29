@@ -5,9 +5,13 @@ import { arrayUtilities } from "necessary";
 export const { first, second, third, fourth, push, separate } = arrayUtilities;
 
 export function add(arrayA, arrayB) {
-  arrayB.forEach((elementB) => {
+  const length = arrayB.length;
+
+  for (let index = 0; index < length; index++) {
+    const elementB = arrayB[index];
+
     arrayA.push(elementB);
-  });
+  }
 }
 
 export function permute(array, places) {

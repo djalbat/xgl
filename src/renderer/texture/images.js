@@ -9,9 +9,7 @@ export default class ImagesTextureRenderer extends TextureRenderer {
 		super(facets, program, rendererData, rendererBuffers, uniformLocations, attributeLocations);
 
 		this.imageNames = imageNames;
-
 		this.facetsMap = facetsMap;
-
 		this.offsets = offsets;
 	}
 

@@ -19,7 +19,9 @@ Makes use of [JSX](https://en.wikipedia.org/wiki/JSX_(JavaScript)) to leverage [
 
 ## Introduction
 
-XGL provides the *programmatic* means to create 3D scenes. It puts an almost opaque layer of abstraction over WebGL so that little or no experience of WebGL is needed. You create scenes declaratively using JSX, adding imperative code as and when.
+XGL provides the *programmatic* means to create 3D scenes. 
+It puts an almost opaque layer of abstraction over WebGL so that little or no experience of WebGL is needed. 
+You create scenes declaratively using JSX, adding imperative code as and when.
 
 ## Installation
 
@@ -43,13 +45,16 @@ The examples will then be available at the following URL:
 
 http://localhost:8888
 
-The source for the examples can be found in the `src/example.js` file and corresponding `src/example` folder. You are encouraged to try the examples whilst reading what follows. You can rebuild them on the fly with the following command:
+The source for the examples can be found in the `src/example.js` file and corresponding `src/example` folder. 
+You are encouraged to try the examples whilst reading what follows. 
+You can rebuild them on the fly with the following command:
 
     npm run watch-debug
 
 The development server will reload the page whenever you make changes.
 
-One last thing to bear in mind is that this package is included by way of a relative rather than a package import. If you are importing it into your own application, however, you should use the standard package import.
+One last thing to bear in mind is that this package is included by way of a relative rather than a package import. 
+If you are importing it into your own application, however, then you should use the standard package import.
 
 ### The simple example
 
@@ -76,9 +81,14 @@ canvas {
   display: block;
 }
 ```
-Note that in what follows most of the boilerplate code has been left out of the listings. Also note that if you are compiling the examples from within the cloned repository, it is correct to use the relative require. Normally you would require the package itself, however.
 
-To continue, the `canvas` HTML element is encapsulated by an instance of the `Canvas` class and passed as an attribute to the outermost `Scene` JSX element, which itself contains a `Camera` JSX element together with one or more `Part` JSX elements. The `Part` JSX elements contain the JSX elements that are actually rendered on the canvas, called canvas elements, in this case a single `ColouredSquare` element:
+Note that in what follows most of the boilerplate code has been left out of the listings. 
+Also note that if you are compiling the examples from within the cloned repository then it is correct to use the relative require. 
+Normally you would require the package itself, however.
+
+To continue, the `canvas` HTML element is encapsulated by an instance of the `Canvas` class and passed as an attribute to the outermost `Scene` JSX element, 
+which itself contains a `Camera` JSX element together with one or more `Part` JSX elements. 
+The `Part` JSX elements contain the JSX elements that are actually rendered on the canvas, called canvas elements, in this case a single `ColouredSquare` element:
 
 ```
 const simpleExample = () => {
@@ -96,6 +106,7 @@ const simpleExample = () => {
   );
 };
 ```
+
 Whilst the `Scene`, `Camera` and `Part` JSX elements are built in, you have to create the canvas elements:
 
 ```
@@ -124,15 +135,33 @@ class ColouredSquare extends ColouredCanvasElement {
   }
 }
 ```
-The `ColouredCanvasElement` class is provided and all you have to do is to extend it, adding your own `fromProperties()` static method and passing the requisite coordinates, indexes and colour variables along with the `properties` argument to the `fromProperties()` static method of the parent class. Note that the `ColouredSquare` class itself is also passed as the first argument. Also note that a `colour` variable is extracted from the `properties` argument, allowing a `colour` attribute on the corresponding JSX elements. If none is provided, a default is used.
 
-The `coordinates` and `indexes` arguments are the important ones. Underneath the hood, XGL works with facets, which are essentially triangles with a colour or texture together with a normal. Facets are defined by triples of indexes that refer to specific coordinates. In this case there are four coordinates, one for each corner of the square. Two facets have been created in order to make the square. Note that the first and last coordinates are re-used. It is essential that you get the coordinates and indexes right for any canvas element. They are used to populate the WebGL rendering buffers and if they are wrong, inscrutable WebGL errors will likely result.
+The `ColouredCanvasElement` class is provided and all you have to do is to extend it, 
+adding your own `fromProperties()` static method and passing the requisite coordinates, indexes and colour variables along with the `properties` argument to the `fromProperties()` static method of the parent class. 
+Note that the `ColouredSquare` class itself is also passed as the first argument. 
+Also note that a `colour` variable is extracted from the `properties` argument, allowing a `colour` attribute on the corresponding JSX elements. 
+If none is provided then a default is used.
 
-Before moving on it is worth a moment to study XGL's coordinate system. Obviously there are three dimensions, with the first, second and third coordinates of coordinate triples specifying signed distances along the x, y and z axes. The axes are right-handed, meaning that if you let the thumb and first finger of your right hand represent the x and y axes, your second finger will point in the direction of the z axis. Facets are also right handed, which means that if you let the fingers of your right hand curl around to represent the coordinates of each facet, your thumb will point in the direction of its normal. In this case your thumb will point back towards the camera. Note that the indexes for the two facets of the square are chosen so that the normals of each point in the same direction.
+The `coordinates` and `indexes` arguments are the important ones. Underneath the hood, XGL works with facets, which are essentially triangles with a colour or texture together with a normal. 
+Facets are defined by triples of indexes that refer to specific coordinates. 
+In this case there are four coordinates, one for each corner of the square. 
+Two facets have been created in order to make the square. 
+Note that the first and last coordinates are re-used. 
+It is essential that you get the coordinates and indexes right for any canvas element. 
+They are used to populate the WebGL rendering buffers and if they are wrong, inscrutable WebGL errors will likely result.
+
+Before moving on it is worth a moment to study XGL's coordinate system. 
+Obviously there are three dimensions, with the first, second and third coordinates of coordinate triples specifying signed distances along the x, y and z axes. 
+The axes are right-handed, meaning that if you let the thumb and first finger of your right hand represent the x and y axes then your second finger will point in the direction of the z axis. 
+Facets are also right handed, which means that if you let the fingers of your right hand curl around to represent the coordinates of each facet then your thumb will point in the direction of its normal. 
+In this case your thumb will point back towards the camera. Note that the indexes for the two facets of the square are chosen so that the normals of each point in the same direction.
 
 ### The cube example
 
-Because creating more than a handful of facets can be problematic, it is recommended that you create complex canvas elements as composites of simpler ones rather than increasing the number of coordinates and indexes. There is effectively no overhead when creating composite elements, in particular the rendered scene will not run any more slowly. In this example a `Cube` element is created which is composed of six child `Face` elements rather than a dozen facets. A pure function is used, so there is no need to use a class:
+Because creating more than a handful of facets can be problematic, it is recommended that you create complex canvas elements as composites of simpler ones rather than increasing the number of coordinates and indexes. 
+There is effectively no overhead when creating composite elements, in particular the rendered scene will not run any more slowly. 
+In this example a `Cube` element is created which is composed of six child `Face` elements rather than a dozen facets. 
+A pure function is used, so there is no need to use a class:
 
 ```
 const defaultC0lour = [ 1, 1, 0 ];
@@ -153,7 +182,9 @@ const Cube = (properties) => {
   ]);
 };
 ```
-The `Face` elements themselves also result from a pure function. Here the coordinates of the `ColouredSquare` element are adjusted to make it simpler to rotate:
+
+The `Face` elements themselves also result from a pure function. 
+Here the coordinates of the `ColouredSquare` element are adjusted to make it simpler to rotate:
 
 ```
 const Face = (properties) => {
@@ -166,9 +197,14 @@ const Face = (properties) => {
   );
 };
 ```
-Note that the previous `Cube()` function returned an array of child elements whereas the `Face{}` function returns just one. In the latter cases, single elements are coerced into arrays automatically.
 
-Rotations are specified as triples giving three rotations around the x, y and z axes, respectively. Rotations are right handed, which means that if you point the thumb of your right hand in the direction of the chosen axis, your curled fingers give the direction of the rotation about it. Rotations can be hard to work out, particularly when they are compounded. Note that the rotations here are chosen so that the normals of each face of the cube are directed outwards.
+Note that the previous `Cube()` function returned an array of child elements whereas the `Face{}` function returns just one. 
+In the latter cases, single elements are coerced into arrays automatically.
+
+Rotations are specified as triples giving three rotations around the x, y and z axes, respectively. 
+Rotations are right handed, which means that if you point the thumb of your right hand in the direction of the chosen axis then your curled fingers give the direction of the rotation about it. 
+Rotations can be hard to work out, particularly when they are compounded. 
+Note that the rotations here are chosen so that the normals of each face of the cube are directed outwards.
 
 ### The masking example
 
@@ -205,11 +241,17 @@ Here is the scene that results, with the facets coloured randomly so that each i
 
 ![Masked cube facets](https://github.com/djalbat/XGL/blob/master/assets/masked_cube_facets.jpg)
 
-The quarter sized cube is used to make the mask for the half sized cube which is in turn used to mask the unit-sized cube. Each facet of the small-sized cube forms a prism that cuts through each facet of the medium-sized cube. In practice, however, most of the prisms formed from the masking element do not intersect any prism in the masked element and are quickly discarded. Nonetheless masking is computationally expensive and less than optimal. Masking the original two facets of the masked cube results in sixteen facets when half that number would be optimal. It is a cube of this form, with each face already masked, that masks the large-sized cube in the full example.
+The quarter sized cube is used to make the mask for the half sized cube which is in turn used to mask the unit-sized cube. 
+Each facet of the small-sized cube forms a prism that cuts through each facet of the medium-sized cube. 
+In practice, however, most of the prisms formed from the masking element do not intersect any prism in the masked element and are quickly discarded. 
+Nonetheless masking is computationally expensive and less than optimal. 
+Masking the original two facets of the masked cube results in sixteen facets when half that number would be optimal. 
+It is a cube of this form, with each face already masked, that masks the large-sized cube in the full example.
 
 ### The pyramid example
 
-This example utilities the image map provided by XGL server. If you inspect the example HTML, you will also see that the JSON describing the image map has been embedded within it, along with other values that are needed for the preload utilities:
+This example utilities the image map provided by XGL server. 
+If you inspect the example HTML then you will also see that the JSON describing the image map has been embedded within it, along with other values that are needed for the preload utilities:
 
 ```
 <script>
@@ -299,9 +341,11 @@ class TexturedTriangle extends TexturedCanvasElement {
   }
 }
 ```
+
 This extends the `TexturedCanvasElement` class, which takes an image name and texture coordinates rather than a colour.
 
-The coordinates and indexes define a triangle with the third vertex horizontally half way between the first and second. Therefore the part of the square texture that is utilised should match this:
+The coordinates and indexes define a triangle with the third vertex horizontally half way between the first and second. 
+Therefore the part of the square texture that is utilised should match this:
 
 <img src="https://github.com/djalbat/XGL/blob/master/assets/texture_map_centre.png" width="320" height="160">
 
@@ -336,11 +380,14 @@ const scale = [ 1, 1/Math.sqrt(2), 1 ],
 
 ;
 ```
+
 ...meaning that the sides themselves need only be rotated about the y axis to form the pyramid, as already shown.
 
 ### The tiling example
 
-This example also makes use of images, but there are loaded individually rather than being parts of an image map. See the preload utilities section below for more details. Nothing else effectively has to change from the previous example:
+This example also makes use of images, but there are loaded individually rather than being parts of an image map. 
+See the preload utilities section below for more details. 
+Nothing else effectively has to change from the previous example:
 
 ```
 const tilingExample = () => {
@@ -364,7 +411,9 @@ const tilingExample = () => {
   });
 };
 ```
-One advantage of loading images individually is that since whole images are mapped to textures rather than just part of an image, you can tile the textures. If you wish to do so, you must add a boolean `imageTiling` attribute to the `Part` element. Additionally, you **must** ensure that the length of the sides of the images are powers fo two.
+
+One advantage of loading images individually is that since whole images are mapped to textures rather than just part of an image, you can tile the textures. 
+If you wish to do so then you must add a boolean `imageTiling` attribute to the `Part` element. Additionally, you **must** ensure that the length of the sides of the images are powers fo two.
 
 In order to tile textures, you simply have to extend the texture coordinates past the usual [ 0, 1 ] range, for example:
 
@@ -389,13 +438,21 @@ class TexturedQuadrangle extends TexturedCanvasElement {
   }
 }
 ```
-A mask has also been included in this example. Masking works with tiling without fuss:
+
+A mask has also been included in this example. 
+Masking works with tiling without fuss:
 
 <img src="https://github.com/djalbat/XGL/blob/master/assets/tiling_example.png" width="480" height="auto">
 
-Note that the floorboards texture works well whereas the edges of paving texture are out of alignment. To find textures that are suitable for tiling, type something like "seamless floorboards texture" into Google images, rather than just "paving texture".
+Note that the floorboards texture works well whereas the edges of paving texture are out of alignment. 
+To find textures that are suitable for tiling, type something like "seamless floorboards texture" into Google images, rather than just "paving texture".
 
-It is reasonable to ask, if loading images directly allows them to be tiled and at the same time does away with the need for an image map, why choose the latter? The reason is that there is limit on the number images that can be passed to a `Part` element. This is not a drawback of XGL but WebGL, or rather OpenGL. The number of images that texture renderers must support is only 8, although admittedly on modern systems this number is likely to be in the region of hundreds. Also bear in mind that individual images all have to be loaded over a network and this may become problematic for large numbers of them. Since the work of creating image maps is done for you, image maps are recommended unless you need tiling.
+It is reasonable to ask, if loading images directly allows them to be tiled and at the same time does away with the need for an image map, why choose the latter? 
+The reason is that there is limit on the number images that can be passed to a `Part` element. 
+This is not a drawback of XGL but WebGL, or rather OpenGL. 
+The number of images that texture renderers must support is only 8, although admittedly on modern systems this number is likely to be in the region of hundreds. 
+Also bear in mind that individual images all have to be loaded over a network and this may become problematic for large numbers of them. 
+Since the work of creating image maps is done for you, image maps are recommended unless you need tiling.
 
 ## Preload utilities
 
@@ -404,7 +461,8 @@ Two functions are made available to help you preload images for use by the textu
 * `preloadImages()`
 * `preloadImageMap()`
 
-The first, `preloadImages()`, preloads images sequentially and provides them, along with their names, via a callback function. The images and image names can then be passed to parts, the child elements of which can make use of them by specifying image names, as in the tiling example explained above:
+The first, `preloadImages()`, preloads images sequentially and provides them, along with their names, via a callback function. 
+The images and image names can then be passed to parts, the child elements of which can make use of them by specifying image names, as in the tiling example explained above:
 
 ```
 const { host, imageNames, imageDirectoryURI } = globalThis;
@@ -426,11 +484,14 @@ const tilingExample = () => {
   });
 };
 ```
+
 Note that the `host`, `imageNames` and `imageDirectoryURI` arguments are retrieved from the `globalThis` object, having previously been embedded in the HTML.
 
-It was mentioned in the tiling example but is worth repeating here that if you wish to tile textures then you have load images individually in this way. Tiling images extracted from an image map leads to unsatisfactory results.
+It was mentioned in the tiling example but is worth repeating here that if you wish to tile textures then you have load images individually in this way. 
+Tiling images extracted from an image map leads to unsatisfactory results.
 
-The second, `preloadImageImageMap()`, works in tandem with XGL server, as in the pyramid example explained above. The image map and image map JSON are provided by way of a callback function and can then be passed to the parts as required.
+The second, `preloadImageImageMap()`, works in tandem with XGL server, as in the pyramid example explained above. 
+The image map and image map JSON are provided by way of a callback function and can then be passed to the parts as required.
 
 ```
 const { host, imageMapURI, imageMapJSON } = globalThis;
@@ -452,6 +513,7 @@ const pyramidExample = () => {
   });
 };
 ```
+
 Any child elements of these parts can make use of images in the image map by providing the requisite texture coordinates.
 
 Note again that the `host`, `imageMapURI` and `imageMapJSON` arguments are retrieved from the global `globalThis` object, having previously been embedded in the HTML.
@@ -460,7 +522,9 @@ Note again that the `host`, `imageMapURI` and `imageMapJSON` arguments are retri
 
 Two cameras come as standard, the design camera and the gaming camera.
 
-The design camera points at the same place, with mouse movements moving it toward, away from or around that place when the mouse button is held down. If you hold the shift key down as well, you can alter the offset, namely the place at which it points. You can set the initial distance, angles and offsets by way of attributes:
+The design camera points at the same place, with mouse movements moving it toward, away from or around that place when the mouse button is held down. 
+If you hold the shift key down as well then you can alter the offset, namely the place at which it points. 
+You can set the initial distance, angles and offsets by way of attributes:
 
 ```
 <Scene ... >
@@ -470,9 +534,14 @@ The design camera points at the same place, with mouse movements moving it towar
                 initialOffsets={[ -10, 0, 10 ]} />
 </Scene>
 ```
-Here the initial angles are chosen so each of the three axes points away from the camera. The offsets re-position the scene as a whole.
 
-The gaming camera allows you to freely move around around a scene. If you hold the mouse down you can look around with mouse movements. Holding the shift key down at the same time allows you to pan, whilst the mouse wheel allows you to move backwards and forwards. You can set the initial position and angles by way of attributes:
+Here the initial angles are chosen so each of the three axes points away from the camera. 
+The offsets re-position the scene as a whole.
+
+The gaming camera allows you to freely move around around a scene. 
+If you hold the mouse down then you can look around with mouse movements. 
+Holding the shift key down at the same time allows you to pan, whilst the mouse wheel allows you to move backwards and forwards. 
+You can set the initial position and angles by way of attributes:
 
 ```
 <Scene ... >
@@ -481,7 +550,9 @@ The gaming camera allows you to freely move around around a scene. If you hold t
                 initialAngles={[ 45, 0 ]} />
 </Scene>
 ```
-You can set the mouse sensitivity and mouse wheel sensitivity for both cameras with the `mouseSensitivity` and `mouseWheelSensitivity` attributes, respectively. Their defaults are unity and a good rule of thumb is to set the values to be roughly the same as the sizes of the elements in the scene.
+
+You can set the mouse sensitivity and mouse wheel sensitivity for both cameras with the `mouseSensitivity` and `mouseWheelSensitivity` attributes, respectively. 
+Their defaults are unity and a good rule of thumb is to set the values to be roughly the same as the sizes of the elements in the scene.
 
 You can create your own cameras by extending the `Camera` class, with the source for the gaming and design cameras being a good place to start.
 
