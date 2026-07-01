@@ -1,7 +1,7 @@
 {
   "name": "xgl",
   "author": "James Smith",
-  "version": "4.4.72",
+  "version": "4.4.73",
   "license": "MIT, Anti-996",
   "homepage": "https://github.com/djalbat/xgl",
   "description": "Makes use of JSX to leverage WebGL.",
@@ -16,7 +16,7 @@
     "esbuild": "0.11.14",
     "lively-cli": "^3.0.3",
     "necessary": "^17.5.2",
-    "watchful-cli": "^1.7.98",
+    "watchful-cli": "^1.7.102",
     "xgl-server": "^4.1.59"
   },
   "scripts": {
