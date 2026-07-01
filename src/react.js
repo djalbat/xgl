@@ -14,7 +14,7 @@ function createElement(firstArgument, properties, ...childElements) {
 
   let element;
 
-  if (isSubclassOf(firstArgument, Element)) {
+  if (Element.isPrototypeOf(firstArgument)) {
     const Class = firstArgument;  ///
 
     Object.assign(properties, {
@@ -41,12 +41,6 @@ const React = {
 };
 
 export default React;
-
-function isSubclassOf(argument, Class) {
-  const subclassOf = (argument.prototype instanceof Class);
-
-  return subclassOf;
-}
 
 function sanitiseChildElements(childElements) {
   childElements = flatten(childElements);

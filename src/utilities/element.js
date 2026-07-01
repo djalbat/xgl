@@ -2,7 +2,7 @@
 
 export function elementsFromChildElements(childElements, Class) {
   const elements = childElements.reduce((elements, childElement) => {
-    if (childElement instanceof Class) {
+    if (Class.prototype.isPrototypeOf(childElement)) {
       const element = childElement;  ///
 
       elements.push(element);
@@ -16,7 +16,7 @@ export function elementsFromChildElements(childElements, Class) {
 export function elementFromChildElements(childElements, Class) {
   const element = childElements.reduce((element, childElement) => {
     if (element === null) {
-      if (childElement instanceof Class) {
+      if (Class.prototype.isPrototypeOf(childElement)) {
         element = childElement;  ///
       }
     }
